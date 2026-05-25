@@ -776,14 +776,15 @@
     padding-top: 48px;
     position: relative;
     overflow: hidden;
+    background: var(--black); /* explicit bg so overlay blend composites against true black */
   }
-  /* Single light beam sweeping left→right across the whole row */
+  /* Single light beam sweeping left→right — class-triggered on scroll */
   @keyframes rowGlint {
     0%   { transform: translateX(-100%); }
     35%  { transform: translateX(433%); }
     100% { transform: translateX(433%); }
   }
-  .awards-grid::after {
+  .awards-grid.glint-active::after {
     content: '';
     position: absolute;
     top: -10%; left: 0;
@@ -792,7 +793,7 @@
     background: linear-gradient(
       105deg,
       transparent 15%,
-      rgba(255,255,255,0.65) 50%,
+      rgba(255,255,255,0.7) 50%,
       transparent 85%
     );
     mix-blend-mode: overlay;
@@ -806,8 +807,10 @@
     align-items: center;
     justify-content: center;
   }
-  .awards-grid .award:nth-child(1) { justify-content: flex-start; }
-  .awards-grid .award:nth-child(3) { justify-content: flex-start; }
+  /* DD flush with stat-text left edge; NSA centered; DDOD flush with stat-text right edge */
+  .awards-grid .award:nth-child(1) { justify-content: flex-start; padding-left: 56px; }
+  .awards-grid .award:nth-child(2) { justify-content: center; }
+  .awards-grid .award:nth-child(3) { justify-content: flex-end; padding-right: 56px; }
   .award.award-has-img::before { display: none; }
   .award-img {
     display: block;
@@ -1411,7 +1414,7 @@
       onDone: () => { const s = document.querySelector('.stat-suffix'); if (s) s.style.opacity = '1'; } },
     { sel: '.stat:nth-child(3) .stat-num', end: 350,   dur: 700,  fmt: v => Math.round(v) + 'K+' },
     { sel: '.stat:nth-child(4) .stat-num', end: 1.6,   dur: 1100, fmt: v => v.toFixed(1) + 'B',
-      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) { el.style.willChange = 'transform, filter'; el.classList.add('pulse'); } } },
+      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) { el.style.willChange = 'transform, filter'; el.classList.add('pulse'); } setTimeout(() => { window.__glintCountDone = true; if (window.__glintCheck) window.__glintCheck(); }, 1600); } },
   ];
   const ease = t => 1 - Math.pow(1 - t, 3); // ease-out cubic — decelerates into final value
 
@@ -1439,6 +1442,28 @@
     if (entries[0].isIntersecting) { runAll(); statsObs.disconnect(); }
   }, { threshold: 0.25 });
   statsObs.observe(statsEl);
+})();
+
+// ── Awards glint — fires after 1.6B pulse AND awards are scrolled into view ──
+window.__glintCountDone = false;
+window.__glintViewReady  = false;
+window.__glintCheck = function () {
+  if (window.__glintCountDone && window.__glintViewReady) {
+    const g = document.querySelector('.awards-grid');
+    if (g && !g.classList.contains('glint-active')) g.classList.add('glint-active');
+  }
+};
+(function () {
+  const awardsGridEl = document.querySelector('.awards-grid');
+  if (!awardsGridEl) return;
+  const awardsObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      window.__glintViewReady = true;
+      window.__glintCheck();
+      awardsObs.disconnect();
+    }
+  }, { threshold: 0.4 });
+  awardsObs.observe(awardsGridEl);
 })();
 
 // ── Declarations scroll reveal ──
