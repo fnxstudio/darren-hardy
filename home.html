@@ -1220,19 +1220,19 @@
   <div class="container">
     <div class="stats-grid">
       <div class="stat">
-        <div class="stat-num">11,738</div>
+        <div class="stat-num">—</div>
         <div class="stat-label">CEOs and<br>Business Leaders Mentored</div>
       </div>
       <div class="stat">
-        <div class="stat-num"><span class="n">9.98</span><span style="font-size:0.5em;color:var(--silver);">/10</span></div>
+        <div class="stat-num"><span class="n">—</span><span class="stat-suffix" style="font-size:0.5em;color:var(--silver);opacity:0;transition:opacity 0.4s ease;">/10</span></div>
         <div class="stat-label">Average CEO Rating</div>
       </div>
       <div class="stat">
-        <div class="stat-num">350K+</div>
+        <div class="stat-num">—</div>
         <div class="stat-label">Daily Mentees<br>Worldwide</div>
       </div>
       <div class="stat">
-        <div class="stat-num" id="sc-4">1.6B</div>
+        <div class="stat-num" id="sc-4">—</div>
         <div class="stat-label">Lives Impacted Annually*</div>
       </div>
     </div>
@@ -1360,7 +1360,8 @@
 (function () {
   const configs = [
     { sel: '.stat:nth-child(1) .stat-num', end: 11738, dur: 900,  fmt: v => Math.round(v).toLocaleString() },
-    { sel: '.stat:nth-child(2) .n',        end: 9.98,  dur: 700,  fmt: v => v.toFixed(2) },
+    { sel: '.stat:nth-child(2) .n',        end: 9.98,  dur: 700,  fmt: v => v.toFixed(2),
+      onDone: () => { const s = document.querySelector('.stat-suffix'); if (s) s.style.opacity = '1'; } },
     { sel: '.stat:nth-child(3) .stat-num', end: 350,   dur: 700,  fmt: v => Math.round(v) + 'K+' },
     { sel: '.stat:nth-child(4) .stat-num', end: 1.6,   dur: 1100, fmt: v => v.toFixed(1) + 'B' },
   ];
@@ -1375,7 +1376,8 @@
       (function tick(now) {
         const p = Math.min((now - t0) / cfg.dur, 1);
         el.textContent = cfg.fmt(ease(p) * cfg.end);
-        p < 1 ? requestAnimationFrame(tick) : setTimeout(resolve, 240);
+        if (p < 1) { requestAnimationFrame(tick); }
+        else { cfg.onDone && cfg.onDone(); setTimeout(resolve, 240); }
       })(t0);
     });
   }
