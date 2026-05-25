@@ -793,10 +793,11 @@
   .awards-grid.awards-visible .award:nth-child(1) { animation: awardFadeIn 0.7s ease-out 0s    forwards; }
   .awards-grid.awards-visible .award:nth-child(2) { animation: awardFadeIn 0.7s ease-out 0.5s  forwards; }
   .awards-grid.awards-visible .award:nth-child(3) { animation: awardFadeIn 0.7s ease-out 1.0s  forwards; }
-  /* DD: flush-left with stat-text edge. NSA: compensate 64px left so it sits at the
-     true visual midpoint between DD and DDOD (not the geometric grid center).
-     DDOD: default center — left edge lands ≈ end of "members." on desktop. */
-  .awards-grid .award:nth-child(1) { justify-content: flex-start; padding-left: 56px; }
+  /* DD: margin-left on the image (not cell padding) so 37.5% resolves against
+     full 384px cell width → same rendered size as DDOD. NSA: padding-left:64px
+     shifts it to visual midpoint. DDOD: default center. */
+  .awards-grid .award:nth-child(1) { justify-content: flex-start; }
+  .awards-grid .award:nth-child(1) .award-img--sm { margin-left: 56px; }
   .awards-grid .award:nth-child(2) { justify-content: flex-start; padding-left: 64px; }
   .award.award-has-img::before { display: none; }
   /* Mobile: awards sit as a left-aligned flex row matching stat-text indent */
@@ -812,8 +813,8 @@
     .award.award-has-img { flex: 0 0 auto; width: auto; }
     .award-img     { width: 26vw; }
     .award-img--sm { width: 26vw; }
-    /* reset per-cell padding on mobile — flex row handles spacing */
-    .awards-grid .award:nth-child(1) { padding-left: 0; }
+    /* reset per-cell offsets on mobile — flex row handles spacing */
+    .awards-grid .award:nth-child(1) .award-img--sm { margin-left: 0; }
     .awards-grid .award:nth-child(2) { padding-left: 0; }
   }
   .award-img {
@@ -1414,7 +1415,7 @@
       onDone: () => { const s = document.querySelector('.stat-suffix'); if (s) s.style.opacity = '1'; } },
     { sel: '.stat:nth-child(3) .stat-num', end: 350,   dur: 700,  fmt: v => Math.round(v) + 'K+' },
     { sel: '.stat:nth-child(4) .stat-num', end: 1.6,   dur: 1100, fmt: v => v.toFixed(1) + 'B',
-      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) { el.style.willChange = 'transform, filter'; el.classList.add('pulse'); } } },
+      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) { el.style.willChange = 'transform, filter'; el.classList.add('pulse'); } setTimeout(() => { window.__awardsCountDone = true; if (window.__awardsCheck) window.__awardsCheck(); }, 1600); } },
   ];
   const ease = t => 1 - Math.pow(1 - t, 3); // ease-out cubic — decelerates into final value
 
@@ -1444,12 +1445,20 @@
   statsObs.observe(statsEl);
 })();
 
-// ── Awards sequential fade-in on scroll ──
+// ── Awards fade-in — fires after 1.6B pulse AND awards are scrolled into view ──
+window.__awardsCountDone = false;
+window.__awardsViewReady = false;
+window.__awardsCheck = function () {
+  if (window.__awardsCountDone && window.__awardsViewReady) {
+    const g = document.querySelector('.awards-grid');
+    if (g) g.classList.add('awards-visible');
+  }
+};
 (function () {
   const g = document.querySelector('.awards-grid');
   if (!g) return;
   const obs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { g.classList.add('awards-visible'); obs.disconnect(); }
+    if (entries[0].isIntersecting) { window.__awardsViewReady = true; window.__awardsCheck(); obs.disconnect(); }
   }, { threshold: 0.35 });
   obs.observe(g);
 })();
