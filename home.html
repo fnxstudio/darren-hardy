@@ -225,21 +225,19 @@
      so mix-blend-mode composites cleanly against the background image */
   .hero-portrait {
     position: absolute;
-    bottom: 0; right: 0;
-    width: 54%;
+    top: 0; bottom: 0; right: 0;
+    width: 56%;
     z-index: 3;
     pointer-events: none;
-    display: flex;
-    align-items: flex-end;
   }
 
   .hero-portrait img {
     display: block;
     width: 100%;
-    height: auto;
-    vertical-align: bottom;
+    height: 100%;
+    object-fit: contain;
+    object-position: bottom right;
     mix-blend-mode: multiply;
-    filter: drop-shadow(-18px 0 48px rgba(0,0,0,0.9));
     opacity: 0;
     animation: fadeIn 1.8s ease forwards;
     animation-delay: 0.4s;
@@ -249,9 +247,12 @@
 
   @media (max-width: 960px) {
     .hero-content { max-width: 100%; }
-    /* DH on mobile: narrower, faint — text layer sits above it in the stage */
-    .hero-portrait { width: 62%; }
-    .hero-portrait img { animation-name: fadeInFaint; }
+    /* DH on mobile: same panel height, faint so text stays readable */
+    .hero-portrait { width: 80%; }
+    .hero-portrait img {
+      object-position: bottom center;
+      animation-name: fadeInFaint;
+    }
     br.mob-br { display: inline; }
     /* Strengthen left-side gradient on mobile to keep text readable */
     .hero::after {
