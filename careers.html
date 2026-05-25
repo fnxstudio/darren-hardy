@@ -765,6 +765,50 @@
     padding-bottom: 4px;
   }
 
+  /* ============ MOTION ============ */
+  /* Universal scroll-reveal — fade up on enter */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Photo tiles get a scale-up instead of a translate */
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.94);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+  /* Subhero — on-load cascade */
+  .subhero .crumb,
+  .subhero-title,
+  .subhero-sub {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: subheroIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .subhero .crumb     { animation-delay: 0.15s; }
+  .subhero-title      { animation-delay: 0.45s; }
+  .subhero-sub        { animation-delay: 0.85s; }
+  @keyframes subheroIn { to { opacity: 1; transform: translateY(0); } }
+
+  /* Honor user OS-level motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
+    .subhero .crumb, .subhero-title, .subhero-sub {
+      opacity: 1; transform: none; animation: none;
+    }
+  }
+
   /* ============ CLOSING CTA ============ */
   .closing {
     background: var(--black);
@@ -1010,16 +1054,16 @@
 <section class="collage">
   <div class="container">
     <div class="collage-grid">
-      <div class="collage-copy">
+      <div class="collage-copy reveal">
         <div class="eyebrow"><span class="pip"></span>Inside The A-Team</div>
         <h2 class="collage-title">A Hand-Selected, Battle-Tested Team Of Extraordinary Human Beings.</h2>
         <p class="collage-body">When you join the A-Team you get to work alongside a <strong>passionately engaged team</strong> on a real mission to influence the lives of more than a billion people.</p>
         <p class="collage-body">We retreat. We sweat. We ship. We celebrate. We hold each other to a standard that the rest of the world calls unreasonable — and we call Tuesday.</p>
       </div>
       <div class="collage-mosaic">
-        <div class="photo tall"><img src="team-photos/retreat-1.jpg" alt="A-Team retreat" loading="lazy" /></div>
-        <div class="photo"><img src="team-photos/team-group.jpg" alt="A-Team group photo" loading="lazy" /></div>
-        <div class="photo"><img src="team-photos/retreat-2.png" alt="A-Team retreat" loading="lazy" /></div>
+        <div class="photo tall reveal-scale"><img src="team-photos/retreat-1.jpg" alt="A-Team retreat" loading="lazy" /></div>
+        <div class="photo reveal-scale"><img src="team-photos/team-group.jpg" alt="A-Team group photo" loading="lazy" /></div>
+        <div class="photo reveal-scale"><img src="team-photos/retreat-2.png" alt="A-Team retreat" loading="lazy" /></div>
       </div>
     </div>
   </div>
@@ -1028,32 +1072,32 @@
 <!-- CREED -->
 <section class="creed">
   <div class="container">
-    <h2 class="creed-quote">Playing Small Is A Sin Against Your Nature.</h2>
-    <div class="creed-attribution">— Darren Hardy</div>
+    <h2 class="creed-quote reveal">Playing Small Is A Sin Against Your Nature.</h2>
+    <div class="creed-attribution reveal">— Darren Hardy</div>
   </div>
 </section>
 
 <!-- THE STANDARD — unified panel, not stark split -->
 <section class="standard">
   <div class="container">
-    <div class="standard-head">
+    <div class="standard-head reveal">
       <div class="eyebrow"><span class="pip"></span>The Standard</div>
       <h2 class="standard-title">What We Hold Each Other To.</h2>
       <p class="standard-sub">Ten non-negotiables that define how the A-Team shows up — every day, on every project, with every member we serve.</p>
     </div>
     <div class="standard-grid">
-      <div class="std"><span class="std-num">01</span><span class="std-word">Audacity</span></div>
-      <div class="std"><span class="std-num">02</span><span class="std-word">Action</span></div>
-      <div class="std"><span class="std-num">03</span><span class="std-word">Excellence</span></div>
-      <div class="std"><span class="std-num">04</span><span class="std-word">On Time</span></div>
-      <div class="std"><span class="std-num">05</span><span class="std-word">Being Real</span></div>
-      <div class="std"><span class="std-num">06</span><span class="std-word">Obsession</span></div>
-      <div class="std"><span class="std-num">07</span><span class="std-word">Growth</span></div>
-      <div class="std"><span class="std-num">08</span><span class="std-word">Courage</span></div>
-      <div class="std"><span class="std-num">09</span><span class="std-word">Impact</span></div>
-      <div class="std"><span class="std-num">10</span><span class="std-word">Accountability</span></div>
+      <div class="std reveal"><span class="std-num">01</span><span class="std-word">Audacity</span></div>
+      <div class="std reveal"><span class="std-num">02</span><span class="std-word">Action</span></div>
+      <div class="std reveal"><span class="std-num">03</span><span class="std-word">Excellence</span></div>
+      <div class="std reveal"><span class="std-num">04</span><span class="std-word">On Time</span></div>
+      <div class="std reveal"><span class="std-num">05</span><span class="std-word">Being Real</span></div>
+      <div class="std reveal"><span class="std-num">06</span><span class="std-word">Obsession</span></div>
+      <div class="std reveal"><span class="std-num">07</span><span class="std-word">Growth</span></div>
+      <div class="std reveal"><span class="std-num">08</span><span class="std-word">Courage</span></div>
+      <div class="std reveal"><span class="std-num">09</span><span class="std-word">Impact</span></div>
+      <div class="std reveal"><span class="std-num">10</span><span class="std-word">Accountability</span></div>
     </div>
-    <div class="standard-footnote">
+    <div class="standard-footnote reveal">
       <span class="standard-footnote-label">And What We Don't Tolerate:</span>
       <span class="standard-footnote-item">Excuses</span>
       <span class="standard-footnote-item">Whining</span>
@@ -1073,11 +1117,11 @@
 <section class="team">
   <div class="container">
     <div class="team-head">
-      <div>
+      <div class="reveal">
         <div class="eyebrow"><span class="pip"></span>Meet The A-Team</div>
         <h2 class="team-title">15 Humans.<br>One Mission.</h2>
       </div>
-      <p class="team-body">Relentlessly committed to becoming <strong>#BetterEveryDay</strong>. Zero tolerance for mediocrity. Total ownership. Constant growth.</p>
+      <p class="team-body reveal">Relentlessly committed to becoming <strong>#BetterEveryDay</strong>. Zero tolerance for mediocrity. Total ownership. Constant growth.</p>
     </div>
     <div class="team-grid" id="teamGrid"></div>
   </div>
@@ -1086,21 +1130,21 @@
 <!-- HIRING PROCESS -->
 <section class="process">
   <div class="container">
-    <div class="eyebrow"><span class="pip"></span>How Hiring Works</div>
-    <h2 class="process-title">Three Steps. No Shortcuts.</h2>
-    <p class="process-intro">Want to hear what the hiring process actually feels like — straight from the person who runs it? <a href="#darami-video">Hear it directly from Darami, our Chief of Staff <span class="arrow">↗</span></a></p>
+    <div class="eyebrow reveal"><span class="pip"></span>How Hiring Works</div>
+    <h2 class="process-title reveal">Three Steps. No Shortcuts.</h2>
+    <p class="process-intro reveal">Want to hear what the hiring process actually feels like — straight from the person who runs it? <a href="#darami-video">Hear it directly from Darami, our Chief of Staff <span class="arrow">↗</span></a></p>
     <div class="step-stack">
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">Step 01</div>
         <div class="step-title">Apply</div>
         <div class="step-body">Select an open role or submit your superstar talent through our open form. Tell us your story. Show us the work. Make it impossible to ignore.</div>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">Step 02</div>
         <div class="step-title">Prove It</div>
         <div class="step-body">Expect a real conversation, a real challenge, and a real test of how you think, decide, and execute. We hire for evidence — not promises.</div>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <div class="step-num">Step 03</div>
         <div class="step-title">Join The Mission</div>
         <div class="step-body">When you're in, you're in. You join a hand-selected team building something that matters — at the highest standard you've ever been held to.</div>
@@ -1112,29 +1156,29 @@
 <!-- OPEN ROLES -->
 <section class="roles" id="open-roles">
   <div class="container">
-    <div class="eyebrow"><span class="pip"></span>Open Positions</div>
-    <h2 class="roles-header">Three Open Seats.<br>None Are Easy.</h2>
+    <div class="eyebrow reveal"><span class="pip"></span>Open Positions</div>
+    <h2 class="roles-header reveal">Three Open Seats.<br>None Are Easy.</h2>
     <div class="role-grid">
-      <div class="role">
+      <div class="role reveal">
         <div class="role-meta">Virtual Remote · Full Time</div>
         <h3 class="role-title">Marketing Campaign Manager</h3>
         <p class="role-body">Drive the strategy behind ideas that move people to action. Turn Darren's content into high-performing campaigns that generate engagement, drive conversions, and expand our global impact.</p>
         <a class="role-cta" href="#">Apply <span class="arrow">→</span></a>
       </div>
-      <div class="role">
+      <div class="role reveal">
         <div class="role-meta">Virtual Remote · Full Time</div>
         <h3 class="role-title">Content Marketer</h3>
         <p class="role-body">Help turn powerful ideas into world-class content experiences. Curate, repurpose, and strategically distribute Darren's content to drive engagement and fuel marketing campaigns.</p>
         <a class="role-cta" href="#">Apply <span class="arrow">→</span></a>
       </div>
-      <div class="role">
+      <div class="role reveal">
         <div class="role-meta">Virtual Remote · Full Time</div>
         <h3 class="role-title">Member Experience Specialist</h3>
         <p class="role-body">Own the moment after someone says yes. Turn new members into confident, committed participants by creating early wins and removing friction at every step.</p>
         <a class="role-cta" href="#">Apply <span class="arrow">→</span></a>
       </div>
     </div>
-    <div class="roles-fallback">
+    <div class="roles-fallback reveal">
       <p>Don't see your role? <strong>If you're a superstar talent certain you'd contribute to our mission</strong>, tell us about it.</p>
       <a href="#">Submit Your Story <span class="arrow">→</span></a>
     </div>
@@ -1144,9 +1188,9 @@
 <!-- CLOSING CTA -->
 <section class="closing">
   <div class="container">
-    <h2 class="closing-headline">Does This Have You Saying<br>"Hell Yeah"?</h2>
-    <p class="closing-body">Most don't. We understand that. Most people are built for average — and average is what they get. If something in you refuses that, answer the call. Step up. Join us on the heroic journey.</p>
-    <a class="closing-cta" href="#open-roles">See Open Roles <span class="arrow">→</span></a>
+    <h2 class="closing-headline reveal">Does This Have You Saying<br>"Hell Yeah"?</h2>
+    <p class="closing-body reveal">Most don't. We understand that. Most people are built for average — and average is what they get. If something in you refuses that, answer the call. Step up. Join us on the heroic journey.</p>
+    <a class="closing-cta reveal" href="#open-roles">See Open Roles <span class="arrow">→</span></a>
   </div>
 </section>
 
@@ -1247,7 +1291,7 @@ const silhouetteSVG = `<svg viewBox="0 0 64 64" fill="currentColor" xmlns="http:
 
 team.forEach(m => {
   const el = document.createElement('div');
-  el.className = 'person' + (m.lead ? ' lead' : '');
+  el.className = 'person reveal-scale' + (m.lead ? ' lead' : '');
   if (m.photo) {
     el.innerHTML = `<img src="${m.photo}" alt="${m.name}" />
       <div class="person-caption">
@@ -1263,6 +1307,38 @@ team.forEach(m => {
   }
   teamGrid.appendChild(el);
 });
+
+// ── Scroll-reveal: fade-up/scale-in for any .reveal or .reveal-scale element ──
+(function () {
+  // Apply stagger delays BEFORE observing — each tile in a group enters slightly after the previous
+  function stagger(selector, step = 0.06, cap = 0.6) {
+    document.querySelectorAll(selector).forEach((el, i) => {
+      el.style.transitionDelay = Math.min(i * step, cap) + 's';
+    });
+  }
+  stagger('.collage-mosaic .reveal-scale', 0.12);
+  stagger('.standard-grid .reveal',        0.05);
+  stagger('.team-grid .reveal-scale',      0.04);
+  stagger('.step-stack .reveal',           0.15);
+  stagger('.role-grid .reveal',            0.12);
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    // Skip the observer entirely — let CSS @media rule keep things visible
+    return;
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
+})();
 
 // Mobile tap-to-color
 document.querySelectorAll('.person').forEach(p => {
