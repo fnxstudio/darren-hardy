@@ -285,18 +285,14 @@
       min-height: 72dvh;       /* push tagline lower on mobile */
       justify-content: space-between;
     }
-    .hero-pivot {
-      font-size: 10px;         /* -20% from 12px — keeps "..." within BE THE EXCEPTION. width */
-      margin-bottom: 5px;      /* half of previous 10px — tighten gap between the two lines */
-    }
     /* Fade gradient out sooner so DH's area is cleaner — less stone texture mixing in */
     .hero::after {
       background: linear-gradient(
         90deg,
-        rgba(13,11,9,0.97) 0%,
-        rgba(13,11,9,0.90) 26%,
-        rgba(13,11,9,0.40) 48%,
-        transparent 66%
+        rgba(13,11,9,0.90) 0%,
+        rgba(13,11,9,0.78) 26%,
+        rgba(13,11,9,0.30) 48%,
+        transparent 64%
       );
     }
     /* Make DH more opaque so stone texture doesn't bleed through his face */
@@ -388,6 +384,14 @@
     animation-delay: 2.8s;
   }
   @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Phone: hero-pivot overrides MUST come after the base rule to win cascade ── */
+  @media (max-width: 600px) {
+    .hero-pivot {
+      font-size: 10px;         /* smaller so "..." stays within BE THE EXCEPTION. width */
+      margin: 0 0 5px;         /* tighten gap between the two lines (base is 20px) */
+    }
+  }
 
   .scroll-cue {
     position: absolute;
