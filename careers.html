@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Careers · Darren Hardy</title>
+<link rel="icon" type="image/png" href="dh_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --ink: #141414;
+    --ink-soft: #1c1c1c;
+    --white: #ffffff;
+    --bone: #f5f5f5;
+    --silver: #b8b8b8;
+    --grey: #888888;
+    --grey-soft: #6a6a6a;
+    --muted: #444444;
+    --rule: rgba(255, 255, 255, 0.08);
+    --rule-strong: rgba(255, 255, 255, 0.15);
+    --rule-dark: rgba(10, 10, 10, 0.1);
+    --rule-dark-strong: rgba(10, 10, 10, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* ============ TOP NAVIGATION ============ */
+  nav.top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 20px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 40px;
+    background: rgba(10, 10, 10, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-left, .nav-right {
+    display: flex;
+    gap: 36px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .nav-left { justify-content: flex-end; }
+  .nav-right { justify-content: flex-start; }
+
+  .nav-left a, .nav-right a {
+    color: var(--silver);
+    text-decoration: none;
+    transition: color 0.18s;
+  }
+  .nav-left a:hover, .nav-right a:hover { color: var(--white); }
+
+  .nav-brand {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.32em;
+    color: var(--white);
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .nav-burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .nav-burger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--white);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .nav-mobile {
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: rgba(10, 10, 10, 0.97);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+    display: none;
+    flex-direction: column;
+  }
+  .nav-mobile.open { display: flex; }
+  .nav-mobile a {
+    color: var(--silver);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--rule);
+    transition: color 0.18s;
+  }
+  .nav-mobile a:last-child { border-bottom: none; }
+  .nav-mobile a:active { color: var(--white); }
+
+  @media (max-width: 960px) {
+    nav.top { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .nav-left, .nav-right { display: none; }
+    .nav-burger { display: flex; }
+  }
+
+  /* ============ SECTION DEFAULTS ============ */
+  section { position: relative; }
+  .container { max-width: 1380px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .container { padding: 0 24px; } }
+
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--silver);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .eyebrow .pip {
+    display: inline-block;
+    width: 28px; height: 1px;
+    background: var(--silver);
+  }
+
+  /* ============ SUBPAGE HEADER ============ */
+  .subhero {
+    background: #0d0b09;
+    overflow: hidden;
+    padding: 168px 0 88px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .subhero-bkgd {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+    opacity: 0.5;
+    filter: grayscale(35%);
+  }
+  .subhero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.014) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .subhero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.65) 45%, rgba(10,10,10,0.45) 100%),
+      linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.55) 60%, rgba(10,10,10,0.95) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .subhero .container { position: relative; z-index: 3; }
+
+  .crumb {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .crumb a {
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .crumb a:hover { color: var(--white); }
+  .crumb .sep { opacity: 0.5; }
+  .crumb .current { color: var(--white); }
+
+  .subhero-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(48px, 6.8vw, 108px);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    max-width: 1100px;
+  }
+  .subhero-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(18px, 1.55vw, 24px);
+    line-height: 1.5;
+    color: var(--silver);
+    max-width: 720px;
+  }
+  .subhero-sub strong { color: var(--white); font-weight: 600; }
+
+  /* ============ THE STANDARD ============ */
+  .standard {
+    background: var(--black);
+    padding: 140px 0 120px;
+    border-top: 1px solid var(--rule);
+  }
+  .standard-head {
+    max-width: 900px;
+    margin-bottom: 72px;
+  }
+  .standard-head .eyebrow { margin-bottom: 28px; }
+  .standard-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .standard-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.55;
+    color: var(--silver);
+    max-width: 640px;
+  }
+
+  .standard-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 880px) { .standard-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 520px) { .standard-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .std {
+    background: var(--black);
+    padding: 36px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    aspect-ratio: 1.05 / 1;
+    transition: background 0.3s ease;
+  }
+  .std:hover { background: var(--ink-soft); }
+  .std-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: var(--grey);
+    text-transform: uppercase;
+  }
+  .std-word {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(20px, 1.8vw, 26px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .standard-footnote {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 20px;
+    align-items: center;
+  }
+  .standard-footnote-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: var(--grey);
+    text-transform: uppercase;
+  }
+  .standard-footnote-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--grey-soft);
+    text-decoration: line-through;
+    text-decoration-color: rgba(255,255,255,0.25);
+    text-decoration-thickness: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ============ CREED ============ */
+  .creed {
+    background: var(--bone);
+    color: var(--black);
+    padding: 96px 0;
+    border-top: 1px solid var(--rule-dark);
+    text-align: center;
+  }
+  .creed-quote {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--black);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .creed-attribution {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    margin-top: 32px;
+  }
+
+  /* ============ COLLAGE ============ */
+  .collage {
+    background: var(--black);
+    padding: 140px 0;
+    border-top: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .collage-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (max-width: 960px) {
+    .collage-grid { grid-template-columns: 1fr; gap: 48px; }
+  }
+  .collage-copy .eyebrow { margin-bottom: 28px; }
+  .collage-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .collage-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.6;
+    color: var(--silver);
+    margin-bottom: 24px;
+    max-width: 520px;
+  }
+  .collage-body strong { color: var(--white); font-weight: 600; }
+
+  .collage-mosaic {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+    aspect-ratio: 1.15 / 1;
+  }
+  .collage-mosaic .photo {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink-soft);
+  }
+  .collage-mosaic .photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(15%);
+    transition: filter 0.4s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .collage-mosaic .photo:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.04);
+  }
+  .collage-mosaic .photo.tall {
+    grid-row: span 2;
+  }
+
+  /* ============ TEAM ============ */
+  .team {
+    background: var(--black);
+    padding: 120px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .team-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 72px;
+  }
+  @media (max-width: 880px) {
+    .team-head { grid-template-columns: 1fr; gap: 32px; align-items: start; }
+  }
+  .team-head .eyebrow { margin-bottom: 24px; }
+  .team-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    max-width: 580px;
+  }
+  .team-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.2vw, 18px);
+    line-height: 1.55;
+    color: var(--silver);
+    max-width: 480px;
+  }
+  .team-body strong { color: var(--white); font-weight: 600; }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  @media (max-width: 1080px) { .team-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 720px)  { .team-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 480px)  { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .person {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  /* Placeholder portrait — gradient + silhouette glyph so the grid reads as people-sized tiles */
+  .person-placeholder {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.05), transparent 60%),
+      linear-gradient(160deg, #2a2a2a 0%, #161616 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: grayscale(100%);
+    transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .person-placeholder svg {
+    width: 50%; height: auto;
+    color: rgba(255,255,255,0.18);
+    transition: color 0.3s;
+  }
+  .person:hover .person-placeholder, .person.tapped .person-placeholder {
+    filter: grayscale(0%);
+    transform: scale(1.04);
+  }
+  .person:hover .person-placeholder svg, .person.tapped .person-placeholder svg {
+    color: rgba(255,255,255,0.32);
+  }
+
+  /* When a real photo is provided */
+  .person img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    filter: grayscale(100%);
+    transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 1;
+  }
+  .person:hover img, .person.tapped img {
+    filter: grayscale(0%);
+    transform: scale(1.04);
+  }
+
+  .person-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 32px 16px 14px;
+    background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.55) 60%, transparent);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .person-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-transform: uppercase;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .person-role {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: var(--silver);
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  /* ============ HIRING PROCESS ============ */
+  .process {
+    background:
+      radial-gradient(ellipse at 20% 40%, rgba(255,255,255,0.05), transparent 55%),
+      radial-gradient(ellipse at 80% 60%, rgba(255,255,255,0.03), transparent 55%),
+      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
+    padding: 120px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .process .eyebrow { margin-bottom: 24px; }
+  .process-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.2vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    max-width: 900px;
+  }
+  .process-intro {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.6;
+    color: var(--silver);
+    max-width: 720px;
+    margin-bottom: 72px;
+  }
+  .process-intro a {
+    color: var(--white);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.45);
+    padding-bottom: 2px;
+    transition: border-color 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .process-intro a:hover {
+    border-bottom-color: var(--white);
+  }
+  .process-intro a .arrow {
+    font-weight: 400;
+    margin-left: 4px;
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+  .process-intro a:hover .arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .step-stack {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+  @media (max-width: 880px) {
+    .step-stack { grid-template-columns: 1fr; gap: 56px; }
+  }
+  .step {
+    padding-top: 32px;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .step-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.32em;
+    color: var(--silver);
+    margin-bottom: 24px;
+  }
+  .step-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(24px, 2.2vw, 34px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .step-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--silver);
+  }
+
+  /* ============ OPEN ROLES ============ */
+  .roles {
+    background: var(--bone);
+    padding: 120px 0;
+  }
+  .roles .eyebrow { color: var(--grey-soft); margin-bottom: 24px; }
+  .roles .eyebrow .pip { background: var(--grey-soft); }
+  .roles-header {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.4vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 64px;
+    max-width: 1000px;
+  }
+
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule-dark);
+    border-bottom: 1px solid var(--rule-dark);
+  }
+  @media (max-width: 880px) {
+    .role-grid { grid-template-columns: 1fr; }
+  }
+  .role {
+    padding: 48px 36px;
+    border-right: 1px solid var(--rule-dark);
+    background: var(--bone);
+    transition: background 0.25s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .role:last-child { border-right: none; }
+  @media (max-width: 880px) {
+    .role { border-right: none; border-bottom: 1px solid var(--rule-dark); }
+    .role:last-child { border-bottom: none; }
+  }
+  .role:hover { background: #ececec; }
+  .role-meta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    margin-bottom: 24px;
+  }
+  .role-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(22px, 1.8vw, 28px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .role-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin-bottom: 32px;
+    flex-grow: 1;
+  }
+  .role-cta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--black);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 6px;
+    transition: gap 0.2s;
+  }
+  .role-cta:hover { gap: 14px; }
+  .role-cta .arrow { font-weight: 400; }
+
+  .roles-fallback {
+    margin-top: 48px;
+    padding: 32px;
+    background: var(--white);
+    border: 1px solid var(--rule-dark);
+    text-align: center;
+  }
+  .roles-fallback p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 640px;
+    margin: 0 auto 16px;
+  }
+  .roles-fallback p strong { color: var(--black); font-weight: 700; }
+  .roles-fallback a {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--black);
+    text-decoration: none;
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 4px;
+  }
+
+  /* ============ CLOSING CTA ============ */
+  .closing {
+    background: var(--black);
+    padding: 120px 0;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .closing::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .closing .container { position: relative; z-index: 2; }
+  .closing-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(40px, 5.4vw, 84px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    max-width: 1100px;
+    margin-left: auto; margin-right: auto;
+  }
+  .closing-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.6;
+    color: var(--silver);
+    max-width: 680px;
+    margin: 0 auto 40px;
+  }
+  .closing-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--white);
+    color: var(--black);
+    padding: 22px 44px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid var(--white);
+  }
+  .closing-cta:hover { background: transparent; color: var(--white); }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--rule);
+    padding: 80px 0 40px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 0.8fr 1.4fr;
+    gap: 56px;
+    margin-bottom: 60px;
+  }
+  @media (max-width: 1080px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 48px; } }
+  @media (max-width: 640px)  { .footer-grid { grid-template-columns: 1fr; } }
+
+  .dh-brand-mark { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .dh-brand-mark img { width: 48px; height: 48px; display: block; flex-shrink: 0; }
+  .dh-brand-mark .dh-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.28em;
+    color: var(--white);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .footer-brand .tag {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--silver);
+    max-width: 360px;
+    margin-bottom: 32px;
+  }
+  .footer-brand .socials { display: flex; gap: 21px; flex-wrap: wrap; }
+  .footer-brand .socials a {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--silver);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-brand .socials a svg { width: 18px; height: 18px; fill: currentColor; display: block; }
+  .footer-brand .socials a:hover { color: var(--white); }
+
+  .footer-col h4 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 24px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li {
+    margin-bottom: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .footer-col li a { color: var(--silver); text-decoration: none; transition: color 0.2s; }
+  .footer-col li a:hover { color: var(--white); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .footer-bottom .legal-links { display: flex; gap: 24px; }
+  .footer-bottom a { color: var(--grey); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--white); }
+
+  .bmc-corner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    color: var(--silver);
+    text-decoration: none;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+  .bmc-corner:hover { color: var(--white); }
+  .bmc-corner img {
+    width: 56px; height: 56px;
+    display: block;
+    filter: brightness(0) invert(1) opacity(0.85);
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .bmc-corner:hover img { filter: brightness(0) invert(1) opacity(1); }
+  .bmc-corner-text { display: flex; flex-direction: column; gap: 8px; }
+  .bmc-corner-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--silver);
+    line-height: 1;
+  }
+  .bmc-corner-tag {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .bmc-corner-cta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--silver);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+    transition: color 0.2s;
+  }
+  .bmc-corner-cta .arrow { font-weight: 400; transition: transform 0.2s; }
+  .bmc-corner:hover .bmc-corner-cta { color: var(--white); }
+  .bmc-corner:hover .bmc-corner-cta .arrow { transform: translate(2px, -2px); }
+
+  @media (max-width: 640px) {
+    .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top">
+  <div class="nav-left">
+    <a href="home.html#about">About</a>
+    <a href="home.html#start-here">Resources</a>
+    <a href="https://hardyclub.com/">Community</a>
+  </div>
+  <a class="nav-brand" href="home.html">Darren Hardy</a>
+  <div class="nav-right">
+    <a href="https://darrendaily.com/">Daily Mentoring</a>
+    <a href="home.html#start-here">Free Audio Book</a>
+    <a href="https://darrendaily.com/">Mailing List</a>
+  </div>
+  <button class="nav-burger" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('navMobile').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-mobile" id="navMobile">
+    <a href="home.html#about">About</a>
+    <a href="home.html#start-here">Resources</a>
+    <a href="https://hardyclub.com/">Community</a>
+    <a href="https://darrendaily.com/">Daily Mentoring</a>
+    <a href="home.html#start-here">Free Audio Book</a>
+    <a href="https://darrendaily.com/">Mailing List</a>
+  </div>
+</nav>
+
+<!-- SUBPAGE HEADER (compact, not a hero) -->
+<section class="subhero">
+  <img class="subhero-bkgd" src="team-photos/team-group.jpg" alt="" aria-hidden="true" />
+  <div class="container">
+    <div class="crumb">
+      <a href="home.html">Darren Hardy</a>
+      <span class="sep">/</span>
+      <span class="current">Careers</span>
+    </div>
+    <h1 class="subhero-title">Join The A-Team.</h1>
+    <p class="subhero-sub">Our work can positively influence the lives of <strong>1.6 billion people</strong>. Wake up inspired to grow, be excellent, and make an impact. That's what we do — and we need your help.</p>
+  </div>
+</section>
+
+<!-- COLLAGE — who you'd be joining (moved right after hero) -->
+<section class="collage">
+  <div class="container">
+    <div class="collage-grid">
+      <div class="collage-copy">
+        <div class="eyebrow"><span class="pip"></span>Inside The A-Team</div>
+        <h2 class="collage-title">A Hand-Selected, Battle-Tested Team Of Extraordinary Human Beings.</h2>
+        <p class="collage-body">When you join the A-Team you get to work alongside a <strong>passionately engaged team</strong> on a real mission to influence the lives of more than a billion people.</p>
+        <p class="collage-body">We retreat. We sweat. We ship. We celebrate. We hold each other to a standard that the rest of the world calls unreasonable — and we call Tuesday.</p>
+      </div>
+      <div class="collage-mosaic">
+        <div class="photo tall"><img src="team-photos/retreat-1.jpg" alt="A-Team retreat" loading="lazy" /></div>
+        <div class="photo"><img src="team-photos/team-group.jpg" alt="A-Team group photo" loading="lazy" /></div>
+        <div class="photo"><img src="team-photos/retreat-2.png" alt="A-Team retreat" loading="lazy" /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREED -->
+<section class="creed">
+  <div class="container">
+    <h2 class="creed-quote">Playing Small Is A Sin Against Your Nature.</h2>
+    <div class="creed-attribution">— Darren Hardy</div>
+  </div>
+</section>
+
+<!-- THE STANDARD — unified panel, not stark split -->
+<section class="standard">
+  <div class="container">
+    <div class="standard-head">
+      <div class="eyebrow"><span class="pip"></span>The Standard</div>
+      <h2 class="standard-title">What We Hold Each Other To.</h2>
+      <p class="standard-sub">Ten non-negotiables that define how the A-Team shows up — every day, on every project, with every member we serve.</p>
+    </div>
+    <div class="standard-grid">
+      <div class="std"><span class="std-num">01</span><span class="std-word">Audacity</span></div>
+      <div class="std"><span class="std-num">02</span><span class="std-word">Action</span></div>
+      <div class="std"><span class="std-num">03</span><span class="std-word">Excellence</span></div>
+      <div class="std"><span class="std-num">04</span><span class="std-word">On Time</span></div>
+      <div class="std"><span class="std-num">05</span><span class="std-word">Being Real</span></div>
+      <div class="std"><span class="std-num">06</span><span class="std-word">Obsession</span></div>
+      <div class="std"><span class="std-num">07</span><span class="std-word">Growth</span></div>
+      <div class="std"><span class="std-num">08</span><span class="std-word">Courage</span></div>
+      <div class="std"><span class="std-num">09</span><span class="std-word">Impact</span></div>
+      <div class="std"><span class="std-num">10</span><span class="std-word">Accountability</span></div>
+    </div>
+    <div class="standard-footnote">
+      <span class="standard-footnote-label">And What We Don't Tolerate:</span>
+      <span class="standard-footnote-item">Excuses</span>
+      <span class="standard-footnote-item">Whining</span>
+      <span class="standard-footnote-item">"Good"</span>
+      <span class="standard-footnote-item">Dreaming</span>
+      <span class="standard-footnote-item">Blaming</span>
+      <span class="standard-footnote-item">Regrets</span>
+      <span class="standard-footnote-item">Motivation</span>
+      <span class="standard-footnote-item">Talent</span>
+      <span class="standard-footnote-item">What's Popular</span>
+      <span class="standard-footnote-item">High-Fives</span>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team">
+  <div class="container">
+    <div class="team-head">
+      <div>
+        <div class="eyebrow"><span class="pip"></span>Meet The A-Team</div>
+        <h2 class="team-title">15 Humans. One Mission.</h2>
+      </div>
+      <p class="team-body">Relentlessly committed to becoming <strong>#BetterEveryDay</strong>. Zero tolerance for mediocrity. Total ownership. Constant growth.</p>
+    </div>
+    <div class="team-grid" id="teamGrid"></div>
+  </div>
+</section>
+
+<!-- HIRING PROCESS -->
+<section class="process">
+  <div class="container">
+    <div class="eyebrow"><span class="pip"></span>How Hiring Works</div>
+    <h2 class="process-title">Three Steps. No Shortcuts.</h2>
+    <p class="process-intro">Want to hear what the hiring process actually feels like — straight from the person who runs it? <a href="#darami-video">Hear it directly from Darami, our Chief of Staff <span class="arrow">↗</span></a></p>
+    <div class="step-stack">
+      <div class="step">
+        <div class="step-num">Step 01</div>
+        <div class="step-title">Apply</div>
+        <div class="step-body">Select an open role or submit your superstar talent through our open form. Tell us your story. Show us the work. Make it impossible to ignore.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 02</div>
+        <div class="step-title">Prove It</div>
+        <div class="step-body">Expect a real conversation, a real challenge, and a real test of how you think, decide, and execute. We hire for evidence — not promises.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 03</div>
+        <div class="step-title">Join The Mission</div>
+        <div class="step-body">When you're in, you're in. You join a hand-selected team building something that matters — at the highest standard you've ever been held to.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPEN ROLES -->
+<section class="roles" id="open-roles">
+  <div class="container">
+    <div class="eyebrow"><span class="pip"></span>Open Positions</div>
+    <h2 class="roles-header">Three Open Seats.<br>None Are Easy.</h2>
+    <div class="role-grid">
+      <div class="role">
+        <div class="role-meta">Virtual Remote · Full Time</div>
+        <h3 class="role-title">Marketing Campaign Manager</h3>
+        <p class="role-body">Drive the strategy behind ideas that move people to action. Turn Darren's content into high-performing campaigns that generate engagement, drive conversions, and expand our global impact.</p>
+        <a class="role-cta" href="#">Apply <span class="arrow">→</span></a>
+      </div>
+      <div class="role">
+        <div class="role-meta">Virtual Remote · Full Time</div>
+        <h3 class="role-title">Content Marketer</h3>
+        <p class="role-body">Help turn powerful ideas into world-class content experiences. Curate, repurpose, and strategically distribute Darren's content to drive engagement and fuel marketing campaigns.</p>
+        <a class="role-cta" href="#">Apply <span class="arrow">→</span></a>
+      </div>
+      <div class="role">
+        <div class="role-meta">Virtual Remote · Full Time</div>
+        <h3 class="role-title">Member Experience Specialist</h3>
+        <p class="role-body">Own the moment after someone says yes. Turn new members into confident, committed participants by creating early wins and removing friction at every step.</p>
+        <a class="role-cta" href="#">Apply <span class="arrow">→</span></a>
+      </div>
+    </div>
+    <div class="roles-fallback">
+      <p>Don't see your role? <strong>If you're a superstar talent certain you'd contribute to our mission</strong>, tell us about it.</p>
+      <a href="#">Submit Your Story <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="closing">
+  <div class="container">
+    <h2 class="closing-headline">Does This Have You Saying<br>"Hell Yeah"?</h2>
+    <p class="closing-body">Most don't. We understand that. Most people are built for average — and average is what they get. If something in you refuses that, answer the call. Step up. Join us on the heroic journey.</p>
+    <a class="closing-cta" href="#open-roles">See Open Roles <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="dh-brand-mark">
+          <img src="dh_logo.png" alt="Darren Hardy" />
+          <span class="dh-name">Darren Hardy</span>
+        </div>
+        <p class="tag">Darren Hardy is the unfair advantage for unusually driven business leaders building something that matters.</p>
+        <div class="socials">
+          <a href="https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ" title="YouTube" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/darrenhardy/" title="LinkedIn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/DarrenHardyFan/" title="Facebook" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/darrenhardy/" title="Instagram" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+          <a href="https://twitter.com/DARRENHARDY" title="X" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="home.html#about">About</a></li>
+          <li><a href="https://store.darrenhardy.com/">Books</a></li>
+          <li><a href="home.html#start-here">Resources</a></li>
+          <li><a href="https://hardyclub.com/">Community</a></li>
+          <li><a href="https://dhbmc.com">AI Systems</a></li>
+          <li><a href="https://darrendaily.com/">Daily Mentoring</a></li>
+          <li><a href="https://darrendailyondemand.com/">Daily Podcast</a></li>
+          <li><a href="home.html#start-here">Free Audio Book</a></li>
+          <li><a href="https://darrendaily.com/">Mailing List</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="https://helpme.darrenhardy.com/">Help Center</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="https://helpme.darrenhardy.com/">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <a class="bmc-corner" href="https://dhbmc.com">
+          <img src="BMC_Logo.png" alt="BMC" />
+          <div class="bmc-corner-text">
+            <span class="bmc-corner-title">Business Master Class</span>
+            <span class="bmc-corner-tag">Build a High-Growth,<br>High-Impact Business</span>
+            <span class="bmc-corner-cta">Explore Business Master Class <span class="arrow">↗</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Darren Hardy, LLC. All Rights Reserved.</span>
+      <div class="legal-links">
+        <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
+        <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Team grid build — Darren first as 2×2 lead, then 16 placeholders ──
+// When real photos arrive, set member.photo = 'filename.jpg' on each.
+const team = [
+  { name: 'Darren Hardy', role: 'Founder',                       photo: 'team-photos/darren.jpg' },
+  { name: 'Georgia',  role: 'CFO',                               photo: 'team-photos/georgia.png' },
+  { name: 'Darami',   role: 'Chief of Staff',                    photo: 'team-photos/darami.png' },
+  { name: 'Jon',      role: 'CMO',                               photo: 'team-photos/jon.png' },
+  { name: 'Brenda',   role: 'VP Member Experience',              photo: 'team-photos/brenda.png' },
+  { name: 'Mariana',  role: 'Director of Productions',           photo: 'team-photos/mariana.png' },
+  { name: 'Lesli',    role: 'Marketing Campaign Manager',        photo: 'team-photos/lesli.png' },
+  { name: 'Ali',      role: 'Director of Communications',        photo: 'team-photos/ali.png' },
+  { name: 'Emerald',  role: 'Member Success Coordinator',        photo: 'team-photos/emerald.png' },
+  { name: 'Laila',    role: 'Senior Operations Manager',         photo: 'team-photos/laila.png' },
+  { name: 'Jake',     role: 'Marketing Operations Specialist',   photo: 'team-photos/jake.png' },
+  { name: 'Ashlee',   role: 'VIP Member Coordinator',            photo: 'team-photos/ashlee.png' },
+  { name: 'Stuart',   role: 'AI Integrator',                     photo: 'team-photos/stuart.png' },
+  { name: 'Sara',     role: 'Treasury Director',                 photo: 'team-photos/sara.png' },
+  { name: 'Josh',     role: 'Member Enrollment Specialist',      photo: 'team-photos/josh.png' },
+];
+
+const teamGrid = document.getElementById('teamGrid');
+const silhouetteSVG = `<svg viewBox="0 0 64 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="22" r="11"/><path d="M12 58c0-11 9-20 20-20s20 9 20 20"/></svg>`;
+
+team.forEach(m => {
+  const el = document.createElement('div');
+  el.className = 'person' + (m.lead ? ' lead' : '');
+  if (m.photo) {
+    el.innerHTML = `<img src="${m.photo}" alt="${m.name}" />
+      <div class="person-caption">
+        <div class="person-name">${m.name}</div>
+        <div class="person-role">${m.role}</div>
+      </div>`;
+  } else {
+    el.innerHTML = `<div class="person-placeholder">${silhouetteSVG}</div>
+      <div class="person-caption">
+        <div class="person-name">${m.name}</div>
+        <div class="person-role">${m.role}</div>
+      </div>`;
+  }
+  teamGrid.appendChild(el);
+});
+
+// Mobile tap-to-color
+document.querySelectorAll('.person').forEach(p => {
+  let ty, tx;
+  p.addEventListener('touchstart', e => {
+    ty = e.touches[0].clientY;
+    tx = e.touches[0].clientX;
+  }, { passive: true });
+  p.addEventListener('touchend', e => {
+    if (Math.abs(e.changedTouches[0].clientY - ty) > 8 ||
+        Math.abs(e.changedTouches[0].clientX - tx) > 8) return;
+    const active = p.classList.contains('tapped');
+    document.querySelectorAll('.person.tapped').forEach(t => t.classList.remove('tapped'));
+    if (!active) p.classList.add('tapped');
+  });
+});
+</script>
+</body>
+</html>
