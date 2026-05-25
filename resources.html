@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resources · Darren Hardy</title>
+<link rel="icon" type="image/png" href="dh_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --ink: #141414;
+    --ink-soft: #1c1c1c;
+    --white: #ffffff;
+    --bone: #f5f5f5;
+    --silver: #b8b8b8;
+    --grey: #888888;
+    --grey-soft: #6a6a6a;
+    --muted: #444444;
+    --rule: rgba(255, 255, 255, 0.08);
+    --rule-strong: rgba(255, 255, 255, 0.15);
+    --rule-dark: rgba(10, 10, 10, 0.1);
+    --rule-dark-strong: rgba(10, 10, 10, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* ============ TOP NAVIGATION ============ */
+  nav.top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 20px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 40px;
+    background: rgba(10, 10, 10, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-left, .nav-right {
+    display: flex;
+    gap: 36px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .nav-left { justify-content: flex-end; }
+  .nav-right { justify-content: flex-start; }
+
+  .nav-left a, .nav-right a {
+    color: var(--silver);
+    text-decoration: none;
+    transition: color 0.18s;
+  }
+  .nav-left a:hover, .nav-right a:hover { color: var(--white); }
+
+  .nav-brand {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.32em;
+    color: var(--white);
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .nav-burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .nav-burger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--white);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .nav-mobile {
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: rgba(10, 10, 10, 0.97);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+    display: none;
+    flex-direction: column;
+  }
+  .nav-mobile.open { display: flex; }
+  .nav-mobile a {
+    color: var(--silver);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--rule);
+    transition: color 0.18s;
+  }
+  .nav-mobile a:last-child { border-bottom: none; }
+  .nav-mobile a:active { color: var(--white); }
+
+  @media (max-width: 960px) {
+    nav.top { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .nav-left, .nav-right { display: none; }
+    .nav-burger { display: flex; }
+  }
+
+  /* ============ SECTION DEFAULTS ============ */
+  section { position: relative; }
+  .container { max-width: 1380px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .container { padding: 0 24px; } }
+
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--silver);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .eyebrow .pip {
+    display: inline-block;
+    width: 28px; height: 1px;
+    background: var(--silver);
+  }
+
+  /* ============ SUBPAGE HEADER ============ */
+  .subhero {
+    background: #0d0b09;
+    overflow: hidden;
+    padding: 168px 0 88px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .subhero-bkgd {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+    opacity: 0.55;
+    filter: grayscale(35%);
+  }
+  .subhero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.014) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .subhero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.65) 45%, rgba(10,10,10,0.45) 100%),
+      linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.55) 60%, rgba(10,10,10,0.95) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .subhero .container { position: relative; z-index: 3; }
+
+  .crumb {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .crumb a {
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .crumb a:hover { color: var(--white); }
+  .crumb .sep { opacity: 0.5; }
+  .crumb .current { color: var(--white); }
+
+  .subhero-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(48px, 6.8vw, 108px);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    max-width: 1100px;
+  }
+  .subhero-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(18px, 1.55vw, 24px);
+    line-height: 1.5;
+    color: var(--silver);
+    max-width: 780px;
+  }
+  .subhero-sub strong { color: var(--white); font-weight: 600; }
+
+  /* ============ FRAMING / PILLARS ============ */
+  .pillars {
+    background: var(--black);
+    padding: 120px 0 100px;
+    border-top: 1px solid var(--rule);
+  }
+  .pillars-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 72px;
+  }
+  @media (max-width: 880px) {
+    .pillars-head { grid-template-columns: 1fr; gap: 32px; align-items: start; }
+  }
+  .pillars-head .eyebrow { margin-bottom: 24px; }
+  .pillars-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    max-width: 620px;
+  }
+  .pillars-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.2vw, 18px);
+    line-height: 1.6;
+    color: var(--silver);
+    max-width: 520px;
+  }
+  .pillars-body strong { color: var(--white); font-weight: 600; }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 720px) { .pillars-grid { grid-template-columns: 1fr; } }
+
+  .pillar {
+    background: var(--black);
+    padding: 48px 36px;
+    transition: background 0.3s ease;
+  }
+  .pillar:hover { background: var(--ink-soft); }
+  .pillar-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: var(--grey);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .pillar-word {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 2.6vw, 42px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .pillar-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--silver);
+  }
+
+  /* ============ INNER CIRCLE (FEATURED) ============ */
+  .featured {
+    background:
+      radial-gradient(ellipse at 20% 40%, rgba(255,255,255,0.05), transparent 55%),
+      radial-gradient(ellipse at 80% 60%, rgba(255,255,255,0.03), transparent 55%),
+      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
+    padding: 140px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .featured-head {
+    max-width: 900px;
+    margin-bottom: 72px;
+  }
+  .featured-head .eyebrow { margin-bottom: 28px; }
+  .featured-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .featured-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.55;
+    color: var(--silver);
+    max-width: 640px;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 880px) { .featured-grid { grid-template-columns: 1fr; } }
+
+  .feature-card {
+    background: rgba(20, 20, 20, 0.65);
+    border: 1px solid var(--rule-strong);
+    padding: 56px 48px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 460px;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+  .feature-card:hover {
+    background: rgba(28, 28, 28, 0.85);
+    border-color: rgba(255,255,255,0.28);
+    transform: translateY(-4px);
+  }
+  @media (max-width: 720px) { .feature-card { padding: 40px 32px 36px; min-height: auto; } }
+
+  .feature-card .eyebrow { margin-bottom: 32px; color: var(--silver); }
+  .feature-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .feature-tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 32px;
+  }
+  .feature-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: 1.6;
+    color: var(--silver);
+    margin-bottom: 40px;
+    flex-grow: 1;
+  }
+  .feature-body strong { color: var(--white); font-weight: 600; }
+
+  .feature-cta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    align-self: flex-start;
+    border-bottom: 1px solid var(--white);
+    padding-bottom: 8px;
+    transition: gap 0.2s;
+  }
+  .feature-cta:hover { gap: 18px; }
+  .feature-cta .arrow { font-weight: 400; }
+
+  /* ============ SYSTEMS GRID ============ */
+  .systems {
+    background: var(--black);
+    padding: 140px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .systems-head {
+    max-width: 900px;
+    margin-bottom: 72px;
+  }
+  .systems-head .eyebrow { margin-bottom: 28px; }
+  .systems-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .systems-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.55;
+    color: var(--silver);
+    max-width: 640px;
+  }
+
+  .system-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule-strong);
+    border: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 880px) { .system-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .system-grid { grid-template-columns: 1fr; } }
+
+  .system {
+    background: var(--black);
+    padding: 44px 36px 40px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s ease;
+    min-height: 320px;
+  }
+  .system:hover { background: var(--ink-soft); }
+
+  .system-meta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 24px;
+  }
+  .system-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(24px, 2.2vw, 32px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .system-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--silver);
+    margin-bottom: 32px;
+    flex-grow: 1;
+  }
+  .system-cta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    border-bottom: 1px solid rgba(255,255,255,0.45);
+    padding-bottom: 6px;
+    transition: gap 0.2s, border-color 0.2s;
+  }
+  .system-cta:hover { gap: 16px; border-bottom-color: var(--white); }
+  .system-cta .arrow { font-weight: 400; }
+
+  /* ============ LIBRARY ============ */
+  .library {
+    background: var(--bone);
+    padding: 140px 0;
+    color: var(--black);
+    border-top: 1px solid var(--rule-dark);
+  }
+  .library-head {
+    max-width: 900px;
+    margin-bottom: 72px;
+  }
+  .library .eyebrow { color: var(--grey-soft); margin-bottom: 28px; }
+  .library .eyebrow .pip { background: var(--grey-soft); }
+  .library-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--black);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .library-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 640px;
+  }
+  .library-sub strong { color: var(--black); font-weight: 600; }
+
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule-dark);
+    border-bottom: 1px solid var(--rule-dark);
+  }
+  @media (max-width: 720px) { .book-grid { grid-template-columns: 1fr; } }
+
+  .book {
+    padding: 52px 40px;
+    border-right: 1px solid var(--rule-dark);
+    border-bottom: 1px solid var(--rule-dark);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s ease;
+  }
+  .book:nth-child(2n) { border-right: none; }
+  .book:nth-last-child(-n+2) { border-bottom: none; }
+  @media (max-width: 720px) {
+    .book { border-right: none; border-bottom: 1px solid var(--rule-dark); }
+    .book:last-child { border-bottom: none; }
+    .book:nth-last-child(-n+2) { border-bottom: 1px solid var(--rule-dark); }
+    .book:last-child { border-bottom: none; }
+  }
+  .book:hover { background: #ececec; }
+  .book-meta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    margin-bottom: 24px;
+  }
+  .book-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(26px, 2.6vw, 38px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .book-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    margin-bottom: 28px;
+  }
+  .book-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 36px;
+    flex-grow: 1;
+    max-width: 520px;
+  }
+  .book-cta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--black);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 6px;
+    transition: gap 0.2s;
+  }
+  .book-cta:hover { gap: 16px; }
+  .book-cta .arrow { font-weight: 400; }
+
+  /* ============ DAILY MENTORING (FREE ON-RAMP) ============ */
+  .daily {
+    background:
+      radial-gradient(ellipse at 80% 30%, rgba(255,255,255,0.05), transparent 55%),
+      radial-gradient(ellipse at 10% 70%, rgba(255,255,255,0.03), transparent 55%),
+      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
+    padding: 140px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .daily-head {
+    max-width: 900px;
+    margin-bottom: 72px;
+  }
+  .daily-head .eyebrow { margin-bottom: 28px; }
+  .daily-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .daily-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.55;
+    color: var(--silver);
+    max-width: 720px;
+  }
+  .daily-sub strong { color: var(--white); font-weight: 600; }
+
+  .daily-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 880px) { .daily-grid { grid-template-columns: 1fr; } }
+
+  .daily-card {
+    background: rgba(20, 20, 20, 0.5);
+    border: 1px solid var(--rule-strong);
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+  .daily-card:hover {
+    background: rgba(28, 28, 28, 0.75);
+    border-color: rgba(255,255,255,0.28);
+    transform: translateY(-4px);
+  }
+  .daily-card .eyebrow { color: var(--white); margin-bottom: 28px; }
+  .daily-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(26px, 2.6vw, 38px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .daily-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: 1.6;
+    color: var(--silver);
+    margin-bottom: 36px;
+    flex-grow: 1;
+  }
+  .daily-body strong { color: var(--white); font-weight: 600; }
+  .daily-cta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    align-self: flex-start;
+    border-bottom: 1px solid var(--white);
+    padding-bottom: 8px;
+    transition: gap 0.2s;
+  }
+  .daily-cta:hover { gap: 18px; }
+  .daily-cta .arrow { font-weight: 400; }
+
+  /* ============ CLOSING CTA ============ */
+  .closing {
+    background: var(--black);
+    padding: 120px 0;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .closing::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .closing .container { position: relative; z-index: 2; }
+  .closing-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(40px, 5.4vw, 84px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    max-width: 1100px;
+    margin-left: auto; margin-right: auto;
+  }
+  .closing-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.6;
+    color: var(--silver);
+    max-width: 720px;
+    margin: 0 auto 40px;
+  }
+  .closing-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--white);
+    color: var(--black);
+    padding: 22px 44px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid var(--white);
+  }
+  .closing-cta:hover { background: transparent; color: var(--white); }
+
+  /* ============ MOTION ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.96);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+  .subhero .crumb,
+  .subhero-title,
+  .subhero-sub {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: subheroIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .subhero .crumb     { animation-delay: 0.15s; }
+  .subhero-title      { animation-delay: 0.45s; }
+  .subhero-sub        { animation-delay: 0.85s; }
+  @keyframes subheroIn { to { opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
+    .subhero .crumb, .subhero-title, .subhero-sub {
+      opacity: 1; transform: none; animation: none;
+    }
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--rule);
+    padding: 80px 0 40px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 0.8fr 1.4fr;
+    gap: 56px;
+    margin-bottom: 60px;
+  }
+  @media (max-width: 1080px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 48px; } }
+  @media (max-width: 640px)  { .footer-grid { grid-template-columns: 1fr; } }
+
+  .dh-brand-mark { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .dh-brand-mark img { width: 48px; height: 48px; display: block; flex-shrink: 0; }
+  .dh-brand-mark .dh-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.28em;
+    color: var(--white);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .footer-brand .tag {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--silver);
+    max-width: 360px;
+    margin-bottom: 32px;
+  }
+  .footer-brand .socials { display: flex; gap: 21px; flex-wrap: wrap; }
+  .footer-brand .socials a {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--silver);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-brand .socials a svg { width: 18px; height: 18px; fill: currentColor; display: block; }
+  .footer-brand .socials a:hover { color: var(--white); }
+
+  .footer-col h4 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 24px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li {
+    margin-bottom: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .footer-col li a { color: var(--silver); text-decoration: none; transition: color 0.2s; }
+  .footer-col li a:hover { color: var(--white); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .footer-bottom .legal-links { display: flex; gap: 24px; }
+  .footer-bottom a { color: var(--grey); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--white); }
+
+  .bmc-corner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    color: var(--silver);
+    text-decoration: none;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+  .bmc-corner:hover { color: var(--white); }
+  .bmc-corner img {
+    width: 56px; height: 56px;
+    display: block;
+    filter: brightness(0) invert(1) opacity(0.85);
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .bmc-corner:hover img { filter: brightness(0) invert(1) opacity(1); }
+  .bmc-corner-text { display: flex; flex-direction: column; gap: 8px; }
+  .bmc-corner-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--silver);
+    line-height: 1;
+  }
+  .bmc-corner-tag {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .bmc-corner-cta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--silver);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+    transition: color 0.2s;
+  }
+  .bmc-corner-cta .arrow { font-weight: 400; transition: transform 0.2s; }
+  .bmc-corner:hover .bmc-corner-cta { color: var(--white); }
+  .bmc-corner:hover .bmc-corner-cta .arrow { transform: translate(2px, -2px); }
+
+  @media (max-width: 640px) {
+    .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top">
+  <div class="nav-left">
+    <a href="home.html#about">About</a>
+    <a href="resources.html">Resources</a>
+    <a href="https://hardyclub.com/">Community</a>
+  </div>
+  <a class="nav-brand" href="home.html">Darren Hardy</a>
+  <div class="nav-right">
+    <a href="https://darrendaily.com/">Daily Mentoring</a>
+    <a href="home.html#start-here">Free Audio Book</a>
+    <a href="https://darrendaily.com/">Mailing List</a>
+  </div>
+  <button class="nav-burger" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('navMobile').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-mobile" id="navMobile">
+    <a href="home.html#about">About</a>
+    <a href="resources.html">Resources</a>
+    <a href="https://hardyclub.com/">Community</a>
+    <a href="https://darrendaily.com/">Daily Mentoring</a>
+    <a href="home.html#start-here">Free Audio Book</a>
+    <a href="https://darrendaily.com/">Mailing List</a>
+  </div>
+</nav>
+
+<!-- SUBPAGE HEADER -->
+<section class="subhero">
+  <img class="subhero-bkgd" src="Hero-Bkgd.png" alt="" aria-hidden="true" />
+  <div class="container">
+    <div class="crumb">
+      <a href="home.html">Darren Hardy</a>
+      <span class="sep">/</span>
+      <span class="current">Resources</span>
+    </div>
+    <h1 class="subhero-title">The Operating Systems For The Exception.</h1>
+    <p class="subhero-sub">Closely-guarded intelligence, AI-powered execution, and inner-circle associations — the rare access elite business builders use to <strong>dominate markets, reshape industries, and impact the world.</strong></p>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars">
+  <div class="container">
+    <div class="pillars-head">
+      <div class="reveal">
+        <div class="eyebrow"><span class="pip"></span>Choose Your Edge</div>
+        <h2 class="pillars-title">Three Forces.<br>One Standard.</h2>
+      </div>
+      <p class="pillars-body reveal">Every tool below is built around <strong>three forces</strong> that separate exceptional business builders from the rest. Pick the edge your business needs next.</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar reveal">
+        <div class="pillar-num">01</div>
+        <div class="pillar-word">Advantage</div>
+        <p class="pillar-body">Insider strategy drawn from 35 years of proximity to industry titans, market makers, and the world's top business builders.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-num">02</div>
+        <div class="pillar-word">Application</div>
+        <p class="pillar-body">AI-powered execution engines and proven frameworks built to compress time, accelerate implementation, and convert strategy into measurable growth.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-num">03</div>
+        <div class="pillar-word">Association</div>
+        <p class="pillar-body">Private access to a global network of elite leaders and extreme achievers who raise your standards and hold you to bigger goals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INNER CIRCLE (FLAGSHIP) -->
+<section class="featured">
+  <div class="container">
+    <div class="featured-head reveal">
+      <div class="eyebrow"><span class="pip"></span>Inner Circle</div>
+      <h2 class="featured-title">The Flagships.</h2>
+      <p class="featured-sub">Hand-selected rooms. Closed-door playbooks. The two environments where Darren works directly with the world's most driven business leaders.</p>
+    </div>
+    <div class="featured-grid">
+      <div class="feature-card reveal">
+        <div class="eyebrow"><span class="pip"></span>Flagship · 3-Day Intensive</div>
+        <h3 class="feature-name">Business Master Class</h3>
+        <div class="feature-tagline">3-Day MBA · Mastery In Business Acceleration</div>
+        <p class="feature-body">Three days inside the closed-door playbook Darren has built across 35 years of proximity to industry titans. <strong>500+ specific moves</strong> on branding, marketing, packaging, positioning, and growth — engineered to be installed in your business the week you walk out.</p>
+        <a class="feature-cta" href="https://hardybmc.com/" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+      <div class="feature-card reveal">
+        <div class="eyebrow"><span class="pip"></span>Flagship · Private Association</div>
+        <h3 class="feature-name">Hardy Club</h3>
+        <div class="feature-tagline">Where The Achievers Meet</div>
+        <p class="feature-body">A private virtual clubhouse for elite operators. <strong>The room where founders, CEOs, and market makers</strong> exchange the moves they don't post online — and pull each other up to bigger goals, greater success, and meaningful impact.</p>
+        <a class="feature-cta" href="https://hardyclub.com/" target="_blank" rel="noopener">Join The Club <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MASTERY SYSTEMS -->
+<section class="systems">
+  <div class="container">
+    <div class="systems-head reveal">
+      <div class="eyebrow"><span class="pip"></span>Mastery Systems</div>
+      <h2 class="systems-title">Self-Paced.<br>Self-Demanding.</h2>
+      <p class="systems-sub">Digital training systems built around Darren's proven frameworks — installable, repeatable, and engineered for operators who don't have time to relearn what works.</p>
+    </div>
+    <div class="system-grid">
+      <div class="system reveal">
+        <div class="system-meta">Self-Mastery System · 12 Weeks</div>
+        <h3 class="system-name">Insane Productivity</h3>
+        <p class="system-body">The award-winning training system used by elite achievers to 10X output without 10X hours. The productivity methods, tools, and strategies of the most ambitious operators alive. <strong>35,000+ alumni.</strong></p>
+        <a class="system-cta" href="https://insaneproductivity.com/" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+      <div class="system reveal">
+        <div class="system-meta">Persuasive Communication</div>
+        <h3 class="system-name">RIVETING</h3>
+        <p class="system-body">Move rooms. Move money. Move markets. A neuroscience-backed influence system paired with an AI-powered speech-writing engine — six stages of training that convert your message into the moment people act on.</p>
+        <a class="system-cta" href="https://RIVETINGspeaker.com" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+      <div class="system reveal">
+        <div class="system-meta">Modern Leadership</div>
+        <h3 class="system-name">Hero's Journey</h3>
+        <p class="system-body">Built in collaboration with the world's most admired and influential leaders. The development framework for becoming the modern leader your team, your market, and your industry actually need.</p>
+        <a class="system-cta" href="https://HerosJourney.com" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+      <div class="system reveal">
+        <div class="system-meta">Entrepreneurial Foundation · 12 Weeks</div>
+        <h3 class="system-name">eFASTPASS</h3>
+        <p class="system-body">The four-skill foundation every founder must own to thrive: <strong>Sales, Recruiting, Leadership, Productivity.</strong> The essential start-up and growth strategies — compressed, sequenced, and built to execute.</p>
+        <a class="system-cta" href="https://efastpass.com/" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+      <div class="system reveal">
+        <div class="system-meta">Operating System · 6 Weeks</div>
+        <h3 class="system-name">Jumpstart</h3>
+        <p class="system-body">Six weeks to install the Compound Effect operating system into your <strong>CHOICES, BEHAVIOR, and HABITS</strong> — the daily inputs that compound into industry-shaping outcomes.</p>
+        <a class="system-cta" href="https://jumpstartmysuccess.com/" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+      <div class="system reveal" style="background: rgba(20,20,20,0.6); border-left: 1px solid var(--rule-strong);">
+        <div class="system-meta">Want To See It All?</div>
+        <h3 class="system-name">The Full Store</h3>
+        <p class="system-body">Every training, every guide, every system — in one place. Browse the full catalog of Darren's books, programs, and digital tools at the official store.</p>
+        <a class="system-cta" href="https://store.darrenhardy.com/" target="_blank" rel="noopener">Visit Store <span class="arrow">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE LIBRARY -->
+<section class="library">
+  <div class="container">
+    <div class="library-head reveal">
+      <div class="eyebrow"><span class="pip"></span>The Library</div>
+      <h2 class="library-title">The Books On Their Desks.</h2>
+      <p class="library-sub">International bestsellers translated into more than 35 languages. The frameworks elite business builders <strong>return to year after year</strong> — and quietly hand to the next leader they're investing in.</p>
+    </div>
+    <div class="book-grid">
+      <div class="book reveal">
+        <div class="book-meta">International Bestseller · 1M+ Lives Impacted</div>
+        <h3 class="book-title">The Compound Effect</h3>
+        <div class="book-sub">Jumpstart Your Income, Your Life, Your Success</div>
+        <p class="book-body">The book that has reshaped over a million lives. The fundamental principles — and the step-by-step operating system — that govern outcome at scale. Read by founders, taught in boardrooms, gifted to the next generation of leaders.</p>
+        <a class="book-cta" href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+      <div class="book reveal">
+        <div class="book-meta">Bestseller · For Founders</div>
+        <h3 class="book-title">The Entrepreneur Roller Coaster</h3>
+        <div class="book-sub">It's Your Turn To #JoinTheRide</div>
+        <p class="book-body">The honest playbook for thriving as an entrepreneur. The emotional terrain no one warns you about — and the four essential skills (Sales, Recruiting, Leadership, Productivity) that decide whether you stay in the game long enough to win it.</p>
+        <a class="book-cta" href="https://store.darrenhardy.com/collections/frontpage/products/the-entrepreneur-roller-coaster" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+      <div class="book reveal">
+        <div class="book-meta">Achievement System · 25+ Years Refined</div>
+        <h3 class="book-title">Living Your Best Year Ever</h3>
+        <div class="book-sub">A Proven System To Achieve Big Goals</div>
+        <p class="book-body">More than two decades of refinement. The complete goal-designing program and proprietary Achievement Management System™ used by elite leaders to engineer their year — before it happens.</p>
+        <a class="book-cta" href="https://store.darrenhardy.com/collections/merchandise/products/living-your-best-year-ever" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+      <div class="book reveal">
+        <div class="book-meta">Daily Practice · 260 Pages</div>
+        <h3 class="book-title">DarrenDaily Journal</h3>
+        <div class="book-sub">Your Daybook To Massive Transformation</div>
+        <p class="book-body">260 pages for the 260 workdays of your year. The daily action and review companion serious operators use to compound <strong>#BetterEveryDay</strong> into measurable transformation.</p>
+        <a class="book-cta" href="https://store.darrenhardy.com/products/darrendaily-journal" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DAILY MENTORING (FREE ON-RAMP) -->
+<section class="daily">
+  <div class="container">
+    <div class="daily-head reveal">
+      <div class="eyebrow"><span class="pip"></span>Free Daily Mentoring</div>
+      <h2 class="daily-title">The On-Ramp.</h2>
+      <p class="daily-sub">Five minutes. 260 mornings a year. The free daily inputs <strong>350,000+ global high-achievers</strong> use to start the day on the right side of the slight edge.</p>
+    </div>
+    <div class="daily-grid">
+      <div class="daily-card reveal">
+        <div class="eyebrow"><span class="pip"></span>Free · Daily Video</div>
+        <h3 class="daily-name">DarrenDaily</h3>
+        <p class="daily-body">A specially-created video mentoring session delivered in <strong>under 5 minutes, 260 days a year</strong>. The same daily input used by founders, CEOs, and elite operators around the world to kick-start their day.</p>
+        <a class="daily-cta" href="https://darrendaily.com/" target="_blank" rel="noopener">Subscribe Free <span class="arrow">→</span></a>
+      </div>
+      <div class="daily-card reveal">
+        <div class="eyebrow"><span class="pip"></span>Free · Podcast</div>
+        <h3 class="daily-name">DarrenDaily On-Demand</h3>
+        <p class="daily-body">The podcast companion to DarrenDaily morning mentoring. <strong>Revisit, retain, and install</strong> the small daily improvements that compound into industry-shaping outcomes.</p>
+        <a class="daily-cta" href="https://darrendailyondemand.com/" target="_blank" rel="noopener">Listen Free <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="closing">
+  <div class="container">
+    <h2 class="closing-headline reveal">Start Where You Are.<br>Move Where You're Going.</h2>
+    <p class="closing-body reveal">Every resource here is built for those committed to becoming the exception. If you're ready, the on-ramp is free.</p>
+    <a class="closing-cta reveal" href="https://darrendaily.com/" target="_blank" rel="noopener">Begin With Daily Mentoring <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="dh-brand-mark">
+          <img src="dh_logo.png" alt="Darren Hardy" />
+          <span class="dh-name">Darren Hardy</span>
+        </div>
+        <p class="tag">Darren Hardy is the unfair advantage for unusually driven business leaders building something that matters.</p>
+        <div class="socials">
+          <a href="https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ" title="YouTube" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/darrenhardy/" title="LinkedIn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/DarrenHardyFan/" title="Facebook" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/darrenhardy/" title="Instagram" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+          <a href="https://twitter.com/DARRENHARDY" title="X" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="home.html#about">About</a></li>
+          <li><a href="https://store.darrenhardy.com/">Books</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="https://hardyclub.com/">Community</a></li>
+          <li><a href="https://dhbmc.com">AI Systems</a></li>
+          <li><a href="https://darrendaily.com/">Daily Mentoring</a></li>
+          <li><a href="https://darrendailyondemand.com/">Daily Podcast</a></li>
+          <li><a href="home.html#start-here">Free Audio Book</a></li>
+          <li><a href="https://darrendaily.com/">Mailing List</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="https://helpme.darrenhardy.com/">Help Center</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="https://helpme.darrenhardy.com/">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <a class="bmc-corner" href="https://dhbmc.com">
+          <img src="BMC_Logo.png" alt="BMC" />
+          <div class="bmc-corner-text">
+            <span class="bmc-corner-title">Business Master Class</span>
+            <span class="bmc-corner-tag">Build a High-Growth,<br>High-Impact Business</span>
+            <span class="bmc-corner-cta">Explore Business Master Class <span class="arrow">↗</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Darren Hardy, LLC. All Rights Reserved.</span>
+      <div class="legal-links">
+        <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
+        <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Scroll-reveal: fade-up/scale-in for any .reveal or .reveal-scale element ──
+(function () {
+  function stagger(selector, step = 0.06, cap = 0.6) {
+    document.querySelectorAll(selector).forEach((el, i) => {
+      el.style.transitionDelay = Math.min(i * step, cap) + 's';
+    });
+  }
+  stagger('.pillars-grid .reveal',  0.08);
+  stagger('.featured-grid .reveal', 0.14);
+  stagger('.system-grid .reveal',   0.07);
+  stagger('.book-grid .reveal',     0.10);
+  stagger('.daily-grid .reveal',    0.14);
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
+})();
+</script>
+</body>
+</html>
