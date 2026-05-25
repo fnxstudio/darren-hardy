@@ -778,21 +778,12 @@
     overflow: hidden;
     background: var(--black); /* explicit bg so overlay blend composites against true black */
   }
-  /* Sequential fade-in — awards come in from nothing one at a time on scroll */
-  @keyframes awardFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
   .award.award-has-img {
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0; /* hidden until .awards-visible fires */
   }
-  .awards-grid.awards-visible .award:nth-child(1) { animation: awardFadeIn 0.7s ease-out 0s    forwards; }
-  .awards-grid.awards-visible .award:nth-child(2) { animation: awardFadeIn 0.7s ease-out 0.5s  forwards; }
-  .awards-grid.awards-visible .award:nth-child(3) { animation: awardFadeIn 0.7s ease-out 1.0s  forwards; }
   /* DD: margin-left on the image (not cell padding) so 37.5% resolves against
      full 384px cell width → same rendered size as DDOD. NSA: padding-left:64px
      shifts it to visual midpoint. DDOD: default center. */
@@ -1415,7 +1406,7 @@
       onDone: () => { const s = document.querySelector('.stat-suffix'); if (s) s.style.opacity = '1'; } },
     { sel: '.stat:nth-child(3) .stat-num', end: 350,   dur: 700,  fmt: v => Math.round(v) + 'K+' },
     { sel: '.stat:nth-child(4) .stat-num', end: 1.6,   dur: 1100, fmt: v => v.toFixed(1) + 'B',
-      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) { el.style.willChange = 'transform, filter'; el.classList.add('pulse'); } setTimeout(() => { window.__awardsCountDone = true; if (window.__awardsCheck) window.__awardsCheck(); }, 1600); } },
+      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) { el.style.willChange = 'transform, filter'; el.classList.add('pulse'); } } },
   ];
   const ease = t => 1 - Math.pow(1 - t, 3); // ease-out cubic — decelerates into final value
 
@@ -1443,24 +1434,6 @@
     if (entries[0].isIntersecting) { runAll(); statsObs.disconnect(); }
   }, { threshold: 0.25 });
   statsObs.observe(statsEl);
-})();
-
-// ── Awards fade-in — fires after 1.6B pulse AND awards are scrolled into view ──
-window.__awardsCountDone = false;
-window.__awardsViewReady = false;
-window.__awardsCheck = function () {
-  if (window.__awardsCountDone && window.__awardsViewReady) {
-    const g = document.querySelector('.awards-grid');
-    if (g) g.classList.add('awards-visible');
-  }
-};
-(function () {
-  const g = document.querySelector('.awards-grid');
-  if (!g) return;
-  const obs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { window.__awardsViewReady = true; window.__awardsCheck(); obs.disconnect(); }
-  }, { threshold: 0.35 });
-  obs.observe(g);
 })();
 
 // ── Declarations scroll reveal ──
