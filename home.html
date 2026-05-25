@@ -201,7 +201,8 @@
 
   .hero-portrait {
     position: absolute;
-    inset: 0;
+    top: 0; right: 0; bottom: 0;
+    width: 56%;
     overflow: hidden;
     z-index: 1;
     pointer-events: none;
@@ -225,12 +226,12 @@
     background: linear-gradient(
       90deg,
       #0d0b09 0%,
-      rgba(13,11,9,0.95) 14%,
-      rgba(13,11,9,0.65) 30%,
-      rgba(13,11,9,0.18) 52%,
-      transparent 66%,
-      rgba(10,10,10,0.35) 82%,
-      rgba(10,10,10,0.75) 100%
+      rgba(13,11,9,0.93) 12%,
+      rgba(13,11,9,0.55) 28%,
+      rgba(13,11,9,0.15) 52%,
+      transparent 68%,
+      rgba(13,11,9,0.35) 84%,
+      rgba(13,11,9,0.75) 100%
     );
     z-index: 2;
     pointer-events: none;
@@ -684,12 +685,6 @@
     color: var(--grey-soft);
   }
 
-  #sc-4 {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.65, 0.3, 0.95);
-  }
-  #sc-4.rolled-in { opacity: 1; transform: translateY(0); }
 
   /* ============ AWARDS ============ */
   .awards {
@@ -764,7 +759,7 @@
 
   /* ============ LEAD MAGNET ============ */
   .magnet {
-    background: linear-gradient(160deg, #1e2836 0%, #141414 100%);
+    background: linear-gradient(180deg, #141414 0%, #1e2836 50%, #141414 100%);
     padding: 140px 0;
     border-top: 1px solid rgba(255,255,255,0.07);
     text-align: center;
@@ -1408,16 +1403,6 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     if (!active) tile.classList.add('tapped');
   });
 });
-
-// ── 1.6B roll-in ──
-(function () {
-  const el = document.getElementById('sc-4');
-  if (!el) return;
-  new IntersectionObserver(([e]) => {
-    if (!e.isIntersecting) return;
-    setTimeout(() => el.classList.add('rolled-in'), 280);
-  }, { threshold: 0.5 }).observe(el.closest('.stat'));
-})();
 
 // Parallax: trigger relative to section position so it works mid-page
 window.addEventListener('scroll', () => {
