@@ -778,48 +778,31 @@
     overflow: hidden;
     background: var(--black); /* explicit bg so overlay blend composites against true black */
   }
-  /* Per-award glint — each logo takes turns, beam clipped inside its own cell */
-  @keyframes cellGlint {
-    0%     { transform: translateX(-200%); }
-    15%    { transform: translateX(200%);  }
-    15.01% { transform: translateX(-200%); } /* instant off-screen snap */
-    100%   { transform: translateX(-200%); }
-  }
   .award.award-has-img {
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden; /* clips the glint beam to this cell only */
   }
-  /* DD flush with stat-text left edge; NSA centered; DDOD flush-right (no padding) */
+  /* DD flush with stat-text left edge (56px); NSA centered; DDOD centered in
+     its column — on desktop this puts the DDOD left edge ≈ end of "members." */
   .awards-grid .award:nth-child(1) { justify-content: flex-start; padding-left: 56px; }
-  .awards-grid .award:nth-child(2) { justify-content: center; }
-  .awards-grid .award:nth-child(3) { justify-content: flex-end; }
   .award.award-has-img::before { display: none; }
-  /* Glint beam — only active after scroll trigger adds .glint-active to grid */
-  .awards-grid.glint-active .award.award-has-img::after {
-    content: '';
-    position: absolute;
-    top: -10%; left: 0;
-    width: 55%;
-    height: 120%;
-    background: linear-gradient(
-      105deg,
-      transparent 15%,
-      rgba(255,255,255,0.65) 50%,
-      transparent 85%
-    );
-    mix-blend-mode: overlay;
-    animation: cellGlint 9s ease-in-out infinite;
-    pointer-events: none;
-    will-change: transform;
+  /* Mobile: awards sit as a left-aligned flex row matching stat-text indent */
+  @media (max-width: 720px) {
+    .awards-grid {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      padding-left: 32px;
+      gap: 20px;
+    }
+    .award.award-has-img { flex: 0 0 auto; width: auto; }
+    .award-img     { width: 26vw; }
+    .award-img--sm { width: 26vw; }
+    .awards-grid .award:nth-child(1) { padding-left: 0; }
   }
-  /* Stagger: DD → NSA → DDOD, each 3 s apart, full round every 9 s */
-  .awards-grid.glint-active .award:nth-child(1)::after { animation-delay: 0s; }
-  .awards-grid.glint-active .award:nth-child(2)::after { animation-delay: 3s; }
-  .awards-grid.glint-active .award:nth-child(3)::after { animation-delay: 6s; }
   .award-img {
     display: block;
     width: 50%;
@@ -831,10 +814,6 @@
     width: 37.5%;
     height: auto;
     filter: invert(1) brightness(0.58);
-  }
-  @media (max-width: 600px) {
-    .award-img     { width: 100%; }
-    .award-img--sm { width: 100%; }
   }
 
   /* ============ THREE A's ============ */
@@ -1422,7 +1401,7 @@
       onDone: () => { const s = document.querySelector('.stat-suffix'); if (s) s.style.opacity = '1'; } },
     { sel: '.stat:nth-child(3) .stat-num', end: 350,   dur: 700,  fmt: v => Math.round(v) + 'K+' },
     { sel: '.stat:nth-child(4) .stat-num', end: 1.6,   dur: 1100, fmt: v => v.toFixed(1) + 'B',
-      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) { el.style.willChange = 'transform, filter'; el.classList.add('pulse'); } setTimeout(() => { window.__glintCountDone = true; if (window.__glintCheck) window.__glintCheck(); }, 1600); } },
+      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) { el.style.willChange = 'transform, filter'; el.classList.add('pulse'); } } },
   ];
   const ease = t => 1 - Math.pow(1 - t, 3); // ease-out cubic — decelerates into final value
 
@@ -1450,28 +1429,6 @@
     if (entries[0].isIntersecting) { runAll(); statsObs.disconnect(); }
   }, { threshold: 0.25 });
   statsObs.observe(statsEl);
-})();
-
-// ── Awards glint — fires after 1.6B pulse AND awards are scrolled into view ──
-window.__glintCountDone = false;
-window.__glintViewReady  = false;
-window.__glintCheck = function () {
-  if (window.__glintCountDone && window.__glintViewReady) {
-    const g = document.querySelector('.awards-grid');
-    if (g && !g.classList.contains('glint-active')) g.classList.add('glint-active');
-  }
-};
-(function () {
-  const awardsGridEl = document.querySelector('.awards-grid');
-  if (!awardsGridEl) return;
-  const awardsObs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      window.__glintViewReady = true;
-      window.__glintCheck();
-      awardsObs.disconnect();
-    }
-  }, { threshold: 0.4 });
-  awardsObs.observe(awardsGridEl);
 })();
 
 // ── Declarations scroll reveal ──
