@@ -565,6 +565,7 @@
     grid-auto-rows: 144px;
     grid-auto-flow: dense;
     gap: 2px;
+    will-change: transform;   /* promote to own GPU layer for smooth parallax */
   }
 
   .c-tile {
@@ -1436,12 +1437,18 @@ covers.forEach((cover, i) => {
 });
 
 // Staggered entrance — only when section is in view
+// Use CSS transition-delay + single rAF batch instead of individual setTimeouts,
+// which burst-paint on mobile and cause choppiness.
 const introWall = document.querySelector('.intro-wall');
 const wallObserver = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting) {
-    document.querySelectorAll('.c-tile').forEach((tile, i) =>
-      setTimeout(() => tile.classList.add('visible'), i * 60)
-    );
+    const tiles = document.querySelectorAll('.c-tile');
+    tiles.forEach((tile, i) => {
+      tile.style.transitionDelay = `${i * 55}ms`;
+    });
+    requestAnimationFrame(() => {
+      tiles.forEach(tile => tile.classList.add('visible'));
+    });
     wallObserver.disconnect();
   }
 }, { threshold: 0.1 });
@@ -1463,12 +1470,18 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   });
 });
 
-// Parallax: trigger relative to section position so it works mid-page
+// Parallax: rAF-throttled so it runs at most once per frame, not on every scroll tick
+let rafPending = false;
 window.addEventListener('scroll', () => {
-  const rect = introWall.getBoundingClientRect();
-  const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-  const offset = Math.max(0, progress * 500);
-  coversGrid.style.transform = `translateY(-${offset}px)`;
+  if (rafPending) return;
+  rafPending = true;
+  requestAnimationFrame(() => {
+    const rect = introWall.getBoundingClientRect();
+    const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+    const offset = Math.max(0, progress * 500);
+    coversGrid.style.transform = `translateY(-${offset}px)`;
+    rafPending = false;
+  });
 }, { passive: true });
 </script>
 </body>
