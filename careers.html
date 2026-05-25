@@ -765,6 +765,89 @@
     padding-bottom: 4px;
   }
 
+  /* ============ VIDEO MODAL ============ */
+  body.modal-open { overflow: hidden; }
+
+  .video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 48px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.28s ease, visibility 0.28s ease;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .video-modal.open { opacity: 1; visibility: visible; }
+  @media (max-width: 720px) {
+    .video-modal { padding: 48px 16px; }
+  }
+
+  .video-modal-stage {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    transform: translateY(14px);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .video-modal.open .video-modal-stage { transform: translateY(0); }
+
+  .video-modal-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .video-modal-caption {
+    margin-top: 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--silver);
+    text-align: center;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: -52px;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: 1px solid var(--rule-strong);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .video-modal-close:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.45);
+    transform: rotate(90deg);
+  }
+  @media (max-width: 720px) {
+    .video-modal-close { top: -42px; width: 36px; height: 36px; font-size: 16px; }
+  }
+
   /* ============ MOTION ============ */
   /* Universal scroll-reveal — fade up on enter */
   .reveal {
@@ -1163,24 +1246,24 @@
         <div class="role-meta">Virtual Remote · Full Time</div>
         <h3 class="role-title">Marketing Campaign Manager</h3>
         <p class="role-body">Drive the strategy behind ideas that move people to action. Turn Darren's content into high-performing campaigns that generate engagement, drive conversions, and expand our global impact.</p>
-        <a class="role-cta" href="#">Apply <span class="arrow">→</span></a>
+        <a class="role-cta" href="https://dh.darrenhardy.com/marketing-campaign-manager" target="_blank" rel="noopener">Apply <span class="arrow">→</span></a>
       </div>
       <div class="role reveal">
         <div class="role-meta">Virtual Remote · Full Time</div>
         <h3 class="role-title">Content Marketer</h3>
         <p class="role-body">Help turn powerful ideas into world-class content experiences. Curate, repurpose, and strategically distribute Darren's content to drive engagement and fuel marketing campaigns.</p>
-        <a class="role-cta" href="#">Apply <span class="arrow">→</span></a>
+        <a class="role-cta" href="https://dh.darrenhardy.com/a-team-content-marketer" target="_blank" rel="noopener">Apply <span class="arrow">→</span></a>
       </div>
       <div class="role reveal">
         <div class="role-meta">Virtual Remote · Full Time</div>
         <h3 class="role-title">Member Experience Specialist</h3>
         <p class="role-body">Own the moment after someone says yes. Turn new members into confident, committed participants by creating early wins and removing friction at every step.</p>
-        <a class="role-cta" href="#">Apply <span class="arrow">→</span></a>
+        <a class="role-cta" href="https://dh.darrenhardy.com/a-team-member-experience-manager" target="_blank" rel="noopener">Apply <span class="arrow">→</span></a>
       </div>
     </div>
     <div class="roles-fallback reveal">
       <p>Don't see your role? <strong>If you're a superstar talent certain you'd contribute to our mission</strong>, tell us about it.</p>
-      <a href="#">Submit Your Story <span class="arrow">→</span></a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdiWtz2l2h5Bb1EVX7WQgmE4Bthfoz_QBayOdNwxlhsI2KRCg/viewform" target="_blank" rel="noopener">Submit Your Story <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
@@ -1265,6 +1348,20 @@
   </div>
 </footer>
 
+<!-- VIDEO MODAL — Darami's hiring process explainer -->
+<div class="video-modal" id="daramiModal" role="dialog" aria-modal="true" aria-label="Darami on our unique hiring process" aria-hidden="true">
+  <div class="video-modal-stage">
+    <button class="video-modal-close" id="daramiClose" type="button" aria-label="Close video">✕</button>
+    <div class="video-modal-frame">
+      <video id="daramiVideo" controls preload="metadata" playsinline>
+        <source src="https://stream.mux.com/YeQEf18D1fKQ2u4JLUYOnP02aBgQqbXMXN6lrGTjGg1I/capped-1080p.mp4" type="video/mp4">
+        Your browser doesn't support embedded video.
+      </video>
+    </div>
+    <div class="video-modal-caption">Darami · Chief Of Staff · Our Unique Hiring Process</div>
+  </div>
+</div>
+
 <script>
 // ── Team grid build — Darren first as 2×2 lead, then 16 placeholders ──
 // When real photos arrive, set member.photo = 'filename.jpg' on each.
@@ -1338,6 +1435,43 @@ team.forEach(m => {
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
   document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
+})();
+
+// ── Darami hiring-process video modal ──
+(function () {
+  const modal = document.getElementById('daramiModal');
+  const video = document.getElementById('daramiVideo');
+  const closeBtn = document.getElementById('daramiClose');
+  if (!modal || !video || !closeBtn) return;
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    // Slight delay so the fade-in completes before play starts
+    setTimeout(() => { video.play().catch(() => {}); }, 220);
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    video.pause();
+    video.currentTime = 0;
+  }
+
+  // Any in-page link pointing at #darami-video opens the modal
+  document.querySelectorAll('a[href="#darami-video"]').forEach(a => {
+    a.addEventListener('click', openModal);
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  // Click on the backdrop (outside the stage) closes too
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  // Escape key closes
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
 })();
 
 // Mobile tap-to-color
