@@ -281,8 +281,8 @@
       min-height: auto;        /* let content height drive, not forced vh calc */
     }
     .hero-content {
-      min-height: 72vh;        /* fallback */
-      min-height: 72dvh;       /* push tagline lower on mobile */
+      min-height: 80vh;        /* fallback */
+      min-height: 80dvh;       /* push tagline closer to scroll arrows */
       justify-content: space-between;
     }
     /* Fade gradient out sooner so DH's area is cleaner — less stone texture mixing in */
@@ -297,7 +297,7 @@
     }
     /* Make DH more opaque so stone texture doesn't bleed through his face */
     .hero-portrait img { animation-name: fadeInFaintPhone; }
-    @keyframes fadeInFaintPhone { to { opacity: 0.68; } }
+    @keyframes fadeInFaintPhone { to { opacity: 0.92; } }
     .scroll-cue {
       /* push arrows above iOS safe-area / home-bar zone */
       bottom: max(24px, env(safe-area-inset-bottom) + 12px);
@@ -388,8 +388,8 @@
   /* ── Phone: hero-pivot overrides MUST come after the base rule to win cascade ── */
   @media (max-width: 600px) {
     .hero-pivot {
-      font-size: 10px;         /* smaller so "..." stays within BE THE EXCEPTION. width */
-      margin: 0 0 5px;         /* tighten gap between the two lines (base is 20px) */
+      font-size: 12px;         /* +20% from 10px */
+      margin: 0 0 5px;         /* keep tight gap — don't let spacing increase with font */
     }
   }
 
