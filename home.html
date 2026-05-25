@@ -340,19 +340,27 @@
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 14px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 0.36em;
-    text-transform: uppercase;
     color: var(--grey-soft);
     opacity: 0;
     animation: fadeIn 1s ease forwards;
     animation-delay: 4.6s;
     z-index: 3;
   }
-  .scroll-cue .rule { width: 50px; height: 1px; background: var(--grey-soft); }
+  .scroll-icon {
+    width: 30px;
+    height: 30px;
+    animation: scrollBob 2.2s ease-in-out infinite;
+  }
+  .sc-a1 { animation: chevFade 2.2s ease-in-out infinite 0s; }
+  .sc-a2 { animation: chevFade 2.2s ease-in-out infinite 0.38s; }
+  @keyframes scrollBob {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(7px); }
+  }
+  @keyframes chevFade {
+    0%, 55%, 100% { opacity: 0.22; }
+    28%           { opacity: 0.9; }
+  }
   @keyframes fadeIn { to { opacity: 1; } }
 
   /* ============ DECLARATIONS ============ */
@@ -1022,7 +1030,7 @@
         <div class="hero-identity">
           <p class="identity i1">The<br class="mob-br"> Intensely<br class="mob-br"> Ambitious.</p>
           <p class="identity i2">The<br class="mob-br"> Obsessively<br class="mob-br"> Committed.</p>
-          <p class="identity i3">The<br class="mob-br"> Few Seeking<br class="mob-br"> Greatness.</p>
+          <p class="identity i3">The Few<br class="mob-br"> Seeking<br class="mob-br"> Greatness.</p>
         </div>
       </div>
       <div class="hero-finish">
@@ -1036,7 +1044,10 @@
     </div>
   </div>
   <div class="scroll-cue">
-    <span class="rule"></span>Scroll<span class="rule"></span>
+    <svg class="scroll-icon" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+      <polyline class="sc-a1" points="4 4 12 11 20 4"/>
+      <polyline class="sc-a2" points="4 14 12 21 20 14"/>
+    </svg>
   </div>
 </section>
 
