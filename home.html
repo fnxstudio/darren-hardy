@@ -709,7 +709,7 @@
   .ribbon.light .marquee-item { color: var(--muted); }
 
   /* ============ STATS ============ */
-  .stats { background: var(--black); padding: 120px 0 0; }
+  .stats { background: var(--black); padding: 120px 0 64px; }
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -767,46 +767,13 @@
 
 
   /* ============ AWARDS ============ */
-  .awards {
-    background:
-      radial-gradient(ellipse at 20% 40%, rgba(255,255,255,0.05), transparent 55%),
-      radial-gradient(ellipse at 80% 60%, rgba(255,255,255,0.03), transparent 55%),
-      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
-    padding: 32px 0 32px;
-    border-top: 1px solid var(--rule);
-    margin-top: -1px;
-  }
   .awards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     text-align: center;
     align-items: center;
-  }
-
-  .award {
-    padding: 32px 24px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--silver);
-  }
-  .award::before {
-    content: "AWARD-WINNING";
-    display: block;
-    font-size: 9px;
-    letter-spacing: 0.42em;
-    color: var(--muted);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-  .award-img {
-    display: block;
-    width: 50%;
-    height: auto;
-    filter: invert(1) brightness(0.72);
+    padding-top: 48px;
   }
   .award.award-has-img {
     padding: 0;
@@ -815,20 +782,46 @@
     justify-content: center;
   }
   .award.award-has-img::before { display: none; }
-  @media (max-width: 600px) {
-    .award-img     { width: 100%; }
-    .award-img--sm { width: 100%; }
+
+  /* ---- glimmer animation ---- */
+  @keyframes glimmerMain {
+    0%, 55%, 100% { filter: invert(1) brightness(0.72); }
+    65%  { filter: invert(1) brightness(1.15) contrast(1.06); }
+    72%  { filter: invert(1) brightness(0.72); }
+    80%  { filter: invert(1) brightness(1.0); }
+    87%  { filter: invert(1) brightness(0.72); }
+  }
+  @keyframes glimmerSm {
+    0%, 55%, 100% { filter: invert(1) brightness(0.58); }
+    65%  { filter: invert(1) brightness(0.95) contrast(1.06); }
+    72%  { filter: invert(1) brightness(0.58); }
+    80%  { filter: invert(1) brightness(0.82); }
+    87%  { filter: invert(1) brightness(0.58); }
+  }
+  .award-img {
+    display: block;
+    width: 50%;
+    height: auto;
+    animation: glimmerMain 5s ease-in-out 1.7s infinite;
   }
   .award-img--sm {
     display: block;
     width: 37.5%;
     height: auto;
-    filter: invert(1) brightness(0.58);
+  }
+  .awards-grid .award:nth-child(1) .award-img--sm { animation: glimmerSm 5s ease-in-out 0s   infinite; }
+  .awards-grid .award:nth-child(3) .award-img--sm { animation: glimmerSm 5s ease-in-out 3.4s infinite; }
+  @media (max-width: 600px) {
+    .award-img     { width: 100%; }
+    .award-img--sm { width: 100%; }
   }
 
   /* ============ THREE A's ============ */
   .triple-a {
-    background: var(--black);
+    background:
+      radial-gradient(ellipse at 20% 40%, rgba(255,255,255,0.05), transparent 55%),
+      radial-gradient(ellipse at 80% 60%, rgba(255,255,255,0.03), transparent 55%),
+      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
     padding: 160px 0 140px;
     border-top: 1px solid var(--rule);
   }
@@ -1281,12 +1274,6 @@
         <div class="stats-footnote">*Reach across all media and active members.</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- AWARDS -->
-<section class="awards">
-  <div class="container">
     <div class="awards-grid">
       <div class="award award-has-img">
         <img class="award-img--sm" src="dd-award-flat.webp" alt="DarrenDaily Award" />
