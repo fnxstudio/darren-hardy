@@ -683,6 +683,13 @@
     color: var(--grey-soft);
   }
 
+  @keyframes statPunch {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.07); }
+    100% { transform: scale(1); }
+  }
+  .stat-num.punching { animation: statPunch 0.6s cubic-bezier(0.15, 0, 0.35, 1); }
+
   /* ============ AWARDS ============ */
   .awards {
     background: var(--black);
@@ -1143,19 +1150,19 @@
   <div class="container">
     <div class="stats-grid">
       <div class="stat">
-        <div class="stat-num">11,738</div>
+        <div class="stat-num" id="sc-1">11,738</div>
         <div class="stat-label">CEOs and<br>Business Leaders Mentored</div>
       </div>
       <div class="stat">
-        <div class="stat-num">9.98<span style="font-size:0.5em;color:var(--silver);">/10</span></div>
+        <div class="stat-num"><span id="sc-2">9.98</span><span style="font-size:0.5em;color:var(--silver);">/10</span></div>
         <div class="stat-label">Average CEO Rating</div>
       </div>
       <div class="stat">
-        <div class="stat-num">350K+</div>
+        <div class="stat-num" id="sc-3">350K+</div>
         <div class="stat-label">Daily Mentees<br>Worldwide</div>
       </div>
       <div class="stat">
-        <div class="stat-num">1.6B</div>
+        <div class="stat-num" id="sc-4">1.6B</div>
         <div class="stat-label">Lives Impacted Annually*</div>
       </div>
     </div>
@@ -1400,6 +1407,51 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     if (!active) tile.classList.add('tapped');
   });
 });
+
+// ── Stats count-up ──
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function run(el, end, fmt, suffix, dur, onDone) {
+    const t0 = performance.now();
+    function fv(v) {
+      if (fmt === 'comma') return Math.round(v).toLocaleString('en-US');
+      if (fmt === 'dec1')  return v.toFixed(1);
+      if (fmt === 'dec2')  return v.toFixed(2);
+      return Math.floor(v).toString();
+    }
+    el.textContent = fv(0) + suffix;
+    function tick(t) {
+      const p = Math.min((t - t0) / dur, 1);
+      el.textContent = fv(ease(p) * end) + suffix;
+      p < 1 ? requestAnimationFrame(tick)
+             : (el.textContent = fv(end) + suffix, onDone && onDone());
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const grid = document.querySelector('.stats-grid');
+  if (!grid) return;
+  let fired = false;
+  new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting || fired) return;
+    fired = true;
+    [
+      { id: 'sc-1', end: 11738, fmt: 'comma', suffix: '',   delay: 0,   dur: 1600 },
+      { id: 'sc-2', end: 9.98,  fmt: 'dec2',  suffix: '',   delay: 220, dur: 1600 },
+      { id: 'sc-3', end: 350,   fmt: 'int',   suffix: 'K+', delay: 440, dur: 1600 },
+      { id: 'sc-4', end: 1.6,   fmt: 'dec1',  suffix: 'B',  delay: 660, dur: 2100, key: true },
+    ].forEach(({ id, end, fmt, suffix, delay, dur, key }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      setTimeout(() => run(el, end, fmt, suffix, dur, key ? () => {
+        el.classList.add('punching');
+      } : null), delay);
+    });
+  }, { threshold: 0.4 }).observe(grid);
+})();
 
 // Parallax: trigger relative to section position so it works mid-page
 window.addEventListener('scroll', () => {
