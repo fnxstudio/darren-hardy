@@ -774,6 +774,30 @@
     text-align: center;
     align-items: center;
     padding-top: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Single light beam sweeping left→right across the whole row */
+  @keyframes rowGlint {
+    0%   { transform: translateX(-100%); }
+    35%  { transform: translateX(433%); }
+    100% { transform: translateX(433%); }
+  }
+  .awards-grid::after {
+    content: '';
+    position: absolute;
+    top: -10%; left: 0;
+    width: 28%;
+    height: 120%;
+    background: linear-gradient(
+      105deg,
+      transparent 15%,
+      rgba(255,255,255,0.13) 50%,
+      transparent 85%
+    );
+    animation: rowGlint 9s ease-in-out infinite;
+    pointer-events: none;
+    will-change: transform;
   }
   .award.award-has-img {
     padding: 0;
@@ -782,35 +806,18 @@
     justify-content: center;
   }
   .award.award-has-img::before { display: none; }
-
-  /* ---- glimmer animation ---- */
-  @keyframes glimmerMain {
-    0%, 55%, 100% { filter: invert(1) brightness(0.72); }
-    65%  { filter: invert(1) brightness(1.15) contrast(1.06); }
-    72%  { filter: invert(1) brightness(0.72); }
-    80%  { filter: invert(1) brightness(1.0); }
-    87%  { filter: invert(1) brightness(0.72); }
-  }
-  @keyframes glimmerSm {
-    0%, 55%, 100% { filter: invert(1) brightness(0.58); }
-    65%  { filter: invert(1) brightness(0.95) contrast(1.06); }
-    72%  { filter: invert(1) brightness(0.58); }
-    80%  { filter: invert(1) brightness(0.82); }
-    87%  { filter: invert(1) brightness(0.58); }
-  }
   .award-img {
     display: block;
     width: 50%;
     height: auto;
-    animation: glimmerMain 5s ease-in-out 1.7s infinite;
+    filter: invert(1) brightness(0.72);
   }
   .award-img--sm {
     display: block;
     width: 37.5%;
     height: auto;
+    filter: invert(1) brightness(0.58);
   }
-  .awards-grid .award:nth-child(1) .award-img--sm { animation: glimmerSm 5s ease-in-out 0s   infinite; }
-  .awards-grid .award:nth-child(3) .award-img--sm { animation: glimmerSm 5s ease-in-out 3.4s infinite; }
   @media (max-width: 600px) {
     .award-img     { width: 100%; }
     .award-img--sm { width: 100%; }
