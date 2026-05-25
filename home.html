@@ -778,40 +778,48 @@
     overflow: hidden;
     background: var(--black); /* explicit bg so overlay blend composites against true black */
   }
-  /* Single light beam sweeping left→right — class-triggered on scroll */
-  @keyframes rowGlint {
-    0%   { transform: translateX(-100%); }
-    35%  { transform: translateX(433%); }
-    100% { transform: translateX(433%); }
-  }
-  .awards-grid.glint-active::after {
-    content: '';
-    position: absolute;
-    top: -10%; left: 0;
-    width: 28%;
-    height: 120%;
-    background: linear-gradient(
-      105deg,
-      transparent 15%,
-      rgba(255,255,255,0.7) 50%,
-      transparent 85%
-    );
-    mix-blend-mode: overlay;
-    animation: rowGlint 9s ease-in-out infinite;
-    pointer-events: none;
-    will-change: transform;
+  /* Per-award glint — each logo takes turns, beam clipped inside its own cell */
+  @keyframes cellGlint {
+    0%     { transform: translateX(-200%); }
+    15%    { transform: translateX(200%);  }
+    15.01% { transform: translateX(-200%); } /* instant off-screen snap */
+    100%   { transform: translateX(-200%); }
   }
   .award.award-has-img {
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden; /* clips the glint beam to this cell only */
   }
-  /* DD flush with stat-text left edge; NSA centered; DDOD flush with stat-text right edge */
+  /* DD flush with stat-text left edge; NSA centered; DDOD flush-right (no padding) */
   .awards-grid .award:nth-child(1) { justify-content: flex-start; padding-left: 56px; }
   .awards-grid .award:nth-child(2) { justify-content: center; }
-  .awards-grid .award:nth-child(3) { justify-content: flex-end; padding-right: 56px; }
+  .awards-grid .award:nth-child(3) { justify-content: flex-end; }
   .award.award-has-img::before { display: none; }
+  /* Glint beam — only active after scroll trigger adds .glint-active to grid */
+  .awards-grid.glint-active .award.award-has-img::after {
+    content: '';
+    position: absolute;
+    top: -10%; left: 0;
+    width: 55%;
+    height: 120%;
+    background: linear-gradient(
+      105deg,
+      transparent 15%,
+      rgba(255,255,255,0.65) 50%,
+      transparent 85%
+    );
+    mix-blend-mode: overlay;
+    animation: cellGlint 9s ease-in-out infinite;
+    pointer-events: none;
+    will-change: transform;
+  }
+  /* Stagger: DD → NSA → DDOD, each 3 s apart, full round every 9 s */
+  .awards-grid.glint-active .award:nth-child(1)::after { animation-delay: 0s; }
+  .awards-grid.glint-active .award:nth-child(2)::after { animation-delay: 3s; }
+  .awards-grid.glint-active .award:nth-child(3)::after { animation-delay: 6s; }
   .award-img {
     display: block;
     width: 50%;
