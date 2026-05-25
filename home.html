@@ -286,9 +286,22 @@
       justify-content: space-between;
     }
     .hero-pivot {
-      font-size: 12px;         /* smaller so "..." stays within BE THE EXCEPTION. width */
-      margin-bottom: 10px;     /* half of desktop 20px — tighten gap between the two lines */
+      font-size: 10px;         /* -20% from 12px — keeps "..." within BE THE EXCEPTION. width */
+      margin-bottom: 5px;      /* half of previous 10px — tighten gap between the two lines */
     }
+    /* Fade gradient out sooner so DH's area is cleaner — less stone texture mixing in */
+    .hero::after {
+      background: linear-gradient(
+        90deg,
+        rgba(13,11,9,0.97) 0%,
+        rgba(13,11,9,0.90) 26%,
+        rgba(13,11,9,0.40) 48%,
+        transparent 66%
+      );
+    }
+    /* Make DH more opaque so stone texture doesn't bleed through his face */
+    .hero-portrait img { animation-name: fadeInFaintPhone; }
+    @keyframes fadeInFaintPhone { to { opacity: 0.68; } }
     .scroll-cue {
       /* push arrows above iOS safe-area / home-bar zone */
       bottom: max(24px, env(safe-area-inset-bottom) + 12px);
