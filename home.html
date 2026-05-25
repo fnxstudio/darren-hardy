@@ -247,6 +247,8 @@
 
   @media (max-width: 960px) {
     .hero-content { max-width: 100%; }
+    /* Reduce the gap between cycling text and tagline on tablet/mobile */
+    .hero-identity { margin-bottom: 28px; }
     /* DH on mobile: same panel height, faint so text stays readable */
     .hero-portrait { width: 80%; }
     .hero-portrait img {
@@ -267,6 +269,26 @@
     }
   }
   @keyframes fadeInFaint { to { opacity: 0.45; } }
+
+  /* ── Phone: compress hero so everything fits within the real visible viewport ── */
+  @media (max-width: 600px) {
+    .hero {
+      min-height: 100vh;       /* fallback */
+      min-height: 100dvh;      /* dvh = dynamic viewport, excludes iOS browser chrome */
+    }
+    .hero-stage {
+      padding: 16px 24px 32px;
+      min-height: auto;        /* let content height drive, not forced vh calc */
+    }
+    .hero-content {
+      min-height: auto;
+      justify-content: flex-start;  /* stack naturally, no forced gap */
+    }
+    .scroll-cue {
+      /* push arrows above iOS safe-area / home-bar zone */
+      bottom: max(24px, env(safe-area-inset-bottom) + 12px);
+    }
+  }
 
   .hero .eyebrow {
     margin-bottom: 28px;
