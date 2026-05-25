@@ -737,14 +737,14 @@
     font-weight: 300;
     opacity: 0.28;
   }
-  /* 1.6B landing pulse — grows, lingers at peak, settles */
+  /* 1.6B landing pulse — GPU-only properties (transform + filter) for smooth animation */
   @keyframes statPulse {
-    0%   { transform: scale(1);    text-shadow: none; }
-    30%  { transform: scale(1.22); text-shadow: 0 0 60px rgba(255,255,255,0.55); }
-    60%  { transform: scale(1.18); text-shadow: 0 0 30px rgba(255,255,255,0.25); }
-    100% { transform: scale(1);    text-shadow: none; }
+    0%   { transform: scale(1);    filter: brightness(1); }
+    40%  { transform: scale(1.12); filter: brightness(1.45); }
+    65%  { transform: scale(1.12); filter: brightness(1.2); }
+    100% { transform: scale(1);    filter: brightness(1); }
   }
-  .stat-num.pulse { animation: statPulse 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .stat-num.pulse { animation: statPulse 1.4s ease-in-out forwards; }
   .stat-label {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
@@ -1377,7 +1377,7 @@
       onDone: () => { const s = document.querySelector('.stat-suffix'); if (s) s.style.opacity = '1'; } },
     { sel: '.stat:nth-child(3) .stat-num', end: 350,   dur: 700,  fmt: v => Math.round(v) + 'K+' },
     { sel: '.stat:nth-child(4) .stat-num', end: 1.6,   dur: 1100, fmt: v => v.toFixed(1) + 'B',
-      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) el.classList.add('pulse'); } },
+      onDone: () => { const el = document.querySelector('.stat:nth-child(4) .stat-num'); if (el) { el.style.willChange = 'transform, filter'; el.classList.add('pulse'); } } },
   ];
   const ease = t => 1 - Math.pow(1 - t, 3); // ease-out cubic — decelerates into final value
 
