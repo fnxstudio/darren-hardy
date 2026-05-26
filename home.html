@@ -823,13 +823,40 @@
 
   /* ============ THREE A's ============ */
   .triple-a {
-    background:
-      radial-gradient(ellipse at 20% 40%, rgba(255,255,255,0.05), transparent 55%),
-      radial-gradient(ellipse at 80% 60%, rgba(255,255,255,0.03), transparent 55%),
-      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
     padding: 160px 0 140px;
     border-top: 1px solid var(--rule);
   }
+  /* Video background */
+  .triple-a-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.28;
+    z-index: 0;
+    pointer-events: none;
+  }
+  /* Darkening overlay — heavier at top/bottom, lighter in middle */
+  .triple-a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom,
+        rgba(10,10,10,0.72) 0%,
+        rgba(10,10,10,0.40) 35%,
+        rgba(10,10,10,0.40) 65%,
+        rgba(10,10,10,0.72) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  /* Content above both layers */
+  .triple-a .container { position: relative; z-index: 2; }
   .triple-a .eyebrow { margin-bottom: 100px; }
 
   .aaa-stack { display: grid; gap: 80px; }
@@ -1295,6 +1322,9 @@
 
 <!-- THREE A's -->
 <section class="triple-a">
+  <video class="triple-a-video" autoplay muted loop playsinline>
+    <source src="stage-reel.mp4" type="video/mp4">
+  </video>
   <div class="container">
     <div class="eyebrow"><span class="pip"></span>The Ecosystem</div>
     <div class="aaa-stack">
