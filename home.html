@@ -42,27 +42,32 @@
 {
   "@context": "https://schema.org",
   "@graph": [
+
     {
       "@type": "Person",
       "@id": "https://darrenhardy.com/#darren-hardy",
       "name": "Darren Hardy",
       "url": "https://darrenhardy.com",
-      "image": "https://fnxstudio.github.io/darren-hardy/og-image.jpg",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://fnxstudio.github.io/darren-hardy/og-image.jpg",
+        "width": 1376,
+        "height": 768
+      },
       "jobTitle": "Business Advisor, Mentor & Bestselling Author",
       "description": "Darren Hardy is a business advisor and mentor who has spent 35 years at the centerpiece of the success media industry, in close counsel with the world's leading CEOs, founders, and industry titans. Founding publisher of SUCCESS magazine. Creator of DarrenDaily. Advisor to 11,000+ CEOs worldwide.",
       "slogan": "Be The Exception.",
+      "nationality": { "@type": "Country", "name": "United States" },
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Business Advisor",
+        "description": "Advises CEOs, founders, and business leaders on strategy, leadership, scaling, and growth through insider systems drawn from 35 years of proximity to the world's top builders"
+      },
       "knowsAbout": [
-        "Business Strategy",
-        "Leadership Development",
-        "Entrepreneurship",
-        "CEO Mentoring",
-        "The Compound Effect",
-        "Productivity Systems",
-        "Sales",
-        "Recruiting",
-        "Business Scaling",
-        "Persuasion and Influence",
-        "AI and Human Judgment"
+        "Business Strategy", "Leadership Development", "Entrepreneurship",
+        "CEO Mentoring", "The Compound Effect", "Productivity Systems",
+        "Sales", "Recruiting", "Business Scaling",
+        "Persuasion and Influence", "AI and Human Judgment"
       ],
       "award": [
         "NSA Master of Influence Award, shared with Zig Ziglar, Jim Rohn, and Deepak Chopra",
@@ -72,26 +77,13 @@
         "Amazon Bestselling Author"
       ],
       "author": [
-        {
-          "@type": "Book",
-          "name": "The Compound Effect",
-          "description": "The foundational principles governing outcome at scale, with more than 1 million copies in print"
-        },
-        {
-          "@type": "Book",
-          "name": "The Entrepreneur Roller Coaster",
-          "description": "A playbook for the emotional and practical realities of entrepreneurship, covering the four essential skills: sales, recruiting, leadership, and productivity"
-        },
-        {
-          "@type": "Book",
-          "name": "Living Your Best Year Ever",
-          "description": "A proven goal-achievement system refined over 25+ years, including the Achievement Management System"
-        },
-        {
-          "@type": "Book",
-          "name": "The DarrenDaily Journal",
-          "description": "A 260-page daybook designed as the companion to DarrenDaily"
-        }
+        { "@id": "https://darrenhardy.com/#book-compound-effect" },
+        { "@id": "https://darrenhardy.com/#book-entrepreneur-roller-coaster" },
+        { "@id": "https://darrenhardy.com/#book-living-your-best-year" },
+        { "@id": "https://darrenhardy.com/#book-darrендaily-journal" }
+      ],
+      "founder": [
+        { "@type": "Organization", "name": "DarrenDaily", "url": "https://darrendaily.com" }
       ],
       "sameAs": [
         "https://www.linkedin.com/in/darrenhardy/",
@@ -103,14 +95,150 @@
         "https://en.wikipedia.org/wiki/Darren_Hardy"
       ]
     },
+
+    {
+      "@type": "Organization",
+      "@id": "https://darrenhardy.com/#organization",
+      "name": "Darren Hardy",
+      "url": "https://darrenhardy.com",
+      "founder": { "@id": "https://darrenhardy.com/#darren-hardy" },
+      "slogan": "Be The Exception.",
+      "description": "Business advisory, mentoring, and education company serving CEOs, founders, and unusually driven business leaders worldwide.",
+      "sameAs": [
+        "https://www.linkedin.com/in/darrenhardy/",
+        "https://twitter.com/DARRENHARDY",
+        "https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ"
+      ]
+    },
+
+    {
+      "@type": "Book",
+      "@id": "https://darrenhardy.com/#book-compound-effect",
+      "name": "The Compound Effect",
+      "author": { "@id": "https://darrenhardy.com/#darren-hardy" },
+      "description": "The foundational principles governing outcome at scale. Small, consistent actions compounding over time into massive results. More than 1 million copies in print. Read by founders, taught in boardrooms, gifted to the next generation of leaders.",
+      "inLanguage": "en",
+      "url": "https://store.darrenhardy.com"
+    },
+
+    {
+      "@type": "Book",
+      "@id": "https://darrenhardy.com/#book-entrepreneur-roller-coaster",
+      "name": "The Entrepreneur Roller Coaster",
+      "author": { "@id": "https://darrenhardy.com/#darren-hardy" },
+      "description": "The honest playbook for thriving as an entrepreneur — the emotional terrain no one warns you about, and the four essential skills that decide whether you stay in the game long enough to win: sales, recruiting, leadership, and productivity.",
+      "inLanguage": "en",
+      "url": "https://store.darrenhardy.com"
+    },
+
+    {
+      "@type": "Book",
+      "@id": "https://darrenhardy.com/#book-living-your-best-year",
+      "name": "Living Your Best Year Ever",
+      "author": { "@id": "https://darrenhardy.com/#darren-hardy" },
+      "description": "More than 25 years of refinement. The complete goal-designing program and proprietary Achievement Management System used by elite leaders to engineer their year before it happens.",
+      "inLanguage": "en",
+      "url": "https://store.darrenhardy.com"
+    },
+
+    {
+      "@type": "Book",
+      "@id": "https://darrenhardy.com/#book-darrендaily-journal",
+      "name": "The DarrenDaily Journal",
+      "author": { "@id": "https://darrenhardy.com/#darren-hardy" },
+      "description": "A 260-page daybook designed as the companion to DarrenDaily, for high-achievers who want to convert daily mentoring into daily action.",
+      "inLanguage": "en",
+      "url": "https://store.darrenhardy.com"
+    },
+
+    {
+      "@type": "FAQPage",
+      "@id": "https://darrenhardy.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Who is Darren Hardy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Darren Hardy is a business advisor and mentor who has spent 35 years at the centerpiece of the success media industry, in close counsel with the world's leading CEOs, founders, and industry titans. He is the former founding publisher of SUCCESS magazine, creator of DarrenDaily, and trusted advisor to 11,000+ CEOs and business leaders worldwide. His brand line is Be The Exception."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Darren Hardy a motivational speaker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Darren Hardy is not a motivational speaker. He is a business advisor and mentor who delivers insider strategy drawn from 35 years of close proximity to the world's most admired business builders — distilled into installable systems for unusually driven business leaders."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is The Compound Effect?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Compound Effect is Darren Hardy's foundational book and core principle: small, consistent actions compounding over time into massive results. With more than 1 million copies in print, it is the operating system behind all of Darren's work — read by founders, taught in boardrooms, and gifted to the next generation of leaders."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is DarrenDaily?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "DarrenDaily is a free daily mentoring video series delivered to 350,000+ global high-achievers in under 5 minutes, 260 days a year. Available at darrendaily.com."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Business Master Class?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Business Master Class (BMC) is Darren Hardy's flagship 3-day live virtual intensive, delivered Spring and Fall. It installs the systems that produce sales velocity, market dominance, A-team performance, and category-defining growth. 11,738+ founders, CEOs, and global leaders have been trained inside BMC with a 9.8 out of 10 satisfaction rating. Every seat includes a full year inside THE COLLECTIVE. Available at dhbmc.com."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Darren Hardy's position on AI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Darren Hardy is a champion of AI for capability and leverage, and a bigger champion of human beings. His position: use the tools, master the tools — but don't disappear behind them or surrender what's miraculous about you to them. He introduced the Think > AI > Think protocol: human judgment frames the question, AI executes, human judgment validates the output."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who does Darren Hardy work with?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Darren Hardy's flagship advisory work serves CEOs, founders, owners, and business leaders running scaling enterprises — specifically those who are already successful and unfinished, driven by aspiration and expansion, and who expect rigor, not reassurance. His foundational works serve a wider audience of high-achievers and emerging business builders."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Darren Hardy's category positioning?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Darren Hardy occupies a category of one. His work sits above generic business education, motivational events, tactical workshops, and influencer-led masterminds — and adjacent to elite executive education, private advisory, and owner-level strategic calibration. He is not a coach. He is an advisor and mentor to business leaders who already know how to win and want to win cleaner, faster, and longer."
+          }
+        }
+      ]
+    },
+
     {
       "@type": "WebSite",
       "@id": "https://darrenhardy.com/#website",
       "name": "Darren Hardy · Be The Exception",
       "url": "https://darrenhardy.com",
       "description": "Darren Hardy is the unfair advantage for unusually driven business leaders. Advisor to the world's top CEOs, founders, and industry builders for 35 years.",
-      "author": { "@id": "https://darrenhardy.com/#darren-hardy" }
+      "author": { "@id": "https://darrenhardy.com/#darren-hardy" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://darrenhardy.com/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
     }
+
   ]
 }
 </script>
