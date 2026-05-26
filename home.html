@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Darren Hardy · Be The Exception</title>
 <link rel="icon" type="image/png" href="dh_logo.png">
+<!-- Preload LCP images so browser fetches them immediately -->
+<link rel="preload" as="image" href="Hero-Bkgd.webp" type="image/webp">
+<link rel="preload" as="image" href="Hero-DH.webp" type="image/webp" media="(min-width: 961px)">
+<link rel="preload" as="image" href="Hero-DH-mobile.webp" type="image/webp" media="(max-width: 960px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
@@ -1185,7 +1189,10 @@
 <!-- HERO -->
 <section class="hero">
   <!-- Background stone image — z-index 0 -->
-  <img class="hero-bkgd" src="Hero-Bkgd.png" alt="" aria-hidden="true" />
+  <picture>
+    <source type="image/webp" srcset="Hero-Bkgd.webp">
+    <img class="hero-bkgd" src="Hero-Bkgd.png" alt="" aria-hidden="true" width="2752" height="1536" fetchpriority="high">
+  </picture>
   <!-- Text content — z-index 4 (above everything) -->
   <div class="hero-stage">
     <div class="hero-content">
@@ -1209,7 +1216,8 @@
     <picture>
       <source media="(max-width: 960px)" type="image/webp" srcset="Hero-DH-mobile.webp">
       <source media="(max-width: 960px)" srcset="Hero-DH-mobile.png">
-      <img src="Hero-DH.png" alt="Darren Hardy" />
+      <source type="image/webp" srcset="Hero-DH.webp">
+      <img src="Hero-DH.png" alt="Darren Hardy" width="2752" height="1536" fetchpriority="high">
     </picture>
   </div>
   <div class="scroll-cue">
@@ -1222,7 +1230,7 @@
 
 <!-- DECLARATIONS -->
 <section class="declarations">
-  <video class="decl-video" autoplay muted loop playsinline>
+  <video class="decl-video" autoplay muted loop playsinline preload="none">
     <source src="stage-reel.mp4" type="video/mp4">
   </video>
   <div class="bg"></div>
@@ -1272,7 +1280,10 @@
   <div class="intro-wall">
     <div id="covers-grid"></div>
     <div class="dh-wrap">
-      <img src="Wall-DH.png" alt="Darren Hardy" />
+      <picture>
+        <source type="image/webp" srcset="Wall-DH.webp">
+        <img src="Wall-DH.png" alt="Darren Hardy" width="2752" height="1536" loading="lazy">
+      </picture>
     </div>
   </div>
 
@@ -1294,16 +1305,16 @@
   <div class="ribbon-label">International Bestselling Author</div>
   <div class="marquee">
     <div class="marquee-track">
-      <span class="marquee-item"><img src="amazon-bestseller.png" alt="Amazon – 21,177 Five-Star Reviews" class="bestseller-badge"></span>
-      <span class="marquee-item"><img src="nyt-bestseller.png" alt="New York Times Bestseller" class="bestseller-badge bestseller-badge--nyt"></span>
-      <span class="marquee-item"><img src="BnN_bestseller.png" alt="Barnes & Noble Bestseller" class="bestseller-badge"></span>
-      <span class="marquee-item"><img src="wsj-bestseller.png?v=2" alt="Wall Street Journal Bestseller" class="bestseller-badge"></span>
-      <span class="marquee-item"><img src="usatoday-bestseller.png" alt="USA Today Bestseller" class="bestseller-badge bestseller-badge--invert"></span>
-      <span class="marquee-item"><img src="amazon-bestseller.png" alt="Amazon – 21,177 Five-Star Reviews" class="bestseller-badge"></span>
-      <span class="marquee-item"><img src="nyt-bestseller.png" alt="New York Times Bestseller" class="bestseller-badge bestseller-badge--nyt"></span>
-      <span class="marquee-item"><img src="BnN_bestseller.png" alt="Barnes & Noble Bestseller" class="bestseller-badge"></span>
-      <span class="marquee-item"><img src="wsj-bestseller.png?v=2" alt="Wall Street Journal Bestseller" class="bestseller-badge"></span>
-      <span class="marquee-item"><img src="usatoday-bestseller.png" alt="USA Today Bestseller" class="bestseller-badge bestseller-badge--invert"></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="amazon-bestseller.webp"><img src="amazon-bestseller.png" alt="Amazon – 21,177 Five-Star Reviews" class="bestseller-badge" loading="lazy"></picture></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="nyt-bestseller.webp"><img src="nyt-bestseller.png" alt="New York Times Bestseller" class="bestseller-badge bestseller-badge--nyt" loading="lazy"></picture></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="BnN_bestseller.webp"><img src="BnN_bestseller.png" alt="Barnes &amp; Noble Bestseller" class="bestseller-badge" loading="lazy"></picture></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="wsj-bestseller.webp"><img src="wsj-bestseller.png" alt="Wall Street Journal Bestseller" class="bestseller-badge" loading="lazy"></picture></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="usatoday-bestseller.webp"><img src="usatoday-bestseller.png" alt="USA Today Bestseller" class="bestseller-badge bestseller-badge--invert" loading="lazy"></picture></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="amazon-bestseller.webp"><img src="amazon-bestseller.png" alt="Amazon – 21,177 Five-Star Reviews" class="bestseller-badge" loading="lazy"></picture></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="nyt-bestseller.webp"><img src="nyt-bestseller.png" alt="New York Times Bestseller" class="bestseller-badge bestseller-badge--nyt" loading="lazy"></picture></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="BnN_bestseller.webp"><img src="BnN_bestseller.png" alt="Barnes &amp; Noble Bestseller" class="bestseller-badge" loading="lazy"></picture></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="wsj-bestseller.webp"><img src="wsj-bestseller.png" alt="Wall Street Journal Bestseller" class="bestseller-badge" loading="lazy"></picture></span>
+      <span class="marquee-item"><picture><source type="image/webp" srcset="usatoday-bestseller.webp"><img src="usatoday-bestseller.png" alt="USA Today Bestseller" class="bestseller-badge bestseller-badge--invert" loading="lazy"></picture></span>
     </div>
   </div>
 </div>
@@ -1383,7 +1394,10 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="dh-brand-mark">
-          <img src="dh_logo.png" alt="Darren Hardy" />
+          <picture>
+            <source type="image/webp" srcset="dh_logo.webp">
+            <img src="dh_logo.png" alt="Darren Hardy" width="200" height="200" loading="lazy">
+          </picture>
           <span class="dh-name">Darren Hardy</span>
         </div>
         <p class="tag">Darren Hardy is the unfair advantage for unusually driven business leaders building something that matters.</p>
