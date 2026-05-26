@@ -805,11 +805,14 @@
       padding-left: 32px;
       gap: 16px;
     }
-    /* Explicit cell width — prevents percentage images from resolving against auto */
-    .award.award-has-img { flex: 0 0 22vw; width: 22vw; overflow: visible; }
-    /* Higher-specificity selectors beat the desktop rules regardless of order */
+    /* Explicit cell width so % images have a real containing block */
+    .award.award-has-img { flex: 0 0 22vw; width: 22vw; }
+    /* [0,2,0] beats desktop [0,1,0] — fixes width */
     .awards-grid .award-img,
-    .awards-grid .award-img--sm { width: 100%; margin-left: 0; }
+    .awards-grid .award-img--sm { width: 100%; }
+    /* Must match desktop specificity [0,4,0] to beat margin-left:56px */
+    .awards-grid .award:nth-child(1) .award-img--sm { margin-left: 0; }
+    /* [0,3,0] same as desktop, later in file so wins — fixes padding-left:64px */
     .awards-grid .award:nth-child(2) { padding-left: 0; }
   }
   .award-img {
