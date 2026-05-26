@@ -511,9 +511,10 @@
   .marquee { overflow: hidden; white-space: nowrap; }
   .marquee-track {
     display: inline-flex;
-    gap: 140px;
+    flex-wrap: nowrap;
+    gap: 80px;
     animation: marquee 32s linear infinite;
-    padding-left: 140px;
+    padding-left: 80px;
   }
   .marquee-item {
     font-family: 'Inter', sans-serif;
@@ -711,7 +712,9 @@
   }
   .ribbon.light .ribbon-label { color: var(--grey-soft); }
   .ribbon.light .marquee-item { color: var(--muted); }
-  /* Amazon badge: white bg × bone = invisible; grey/dark content remains */
+  /* Bestseller ribbon gets its own wider gap */
+  .ribbon.light .marquee-track { gap: 120px; padding-left: 120px; }
+  /* Badge treatment: white bg × bone = invisible; grey/dark content remains */
   .bestseller-badge {
     height: 104px;
     width: auto;
@@ -722,6 +725,12 @@
   }
   /* NYT badge is square — needs more height to read at the same visual size */
   .bestseller-badge--nyt { height: 152px; }
+
+  @media (max-width: 720px) {
+    .ribbon.light .marquee-track { gap: 56px; padding-left: 56px; }
+    .bestseller-badge { height: 64px; }
+    .bestseller-badge--nyt { height: 90px; }
+  }
 
   /* ============ STATS ============ */
   .stats { background: var(--black); padding: 120px 0 64px; }
