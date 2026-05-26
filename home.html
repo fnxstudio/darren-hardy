@@ -434,23 +434,27 @@
     padding: 120px 0;
   }
 
+  /* Video background for declarations */
+  .decl-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.28;
+    z-index: 0;
+    pointer-events: none;
+  }
+  /* Dark overlay — heavier at top/bottom, lighter in middle */
   .declarations .bg {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.06), transparent 50%),
-      radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.04), transparent 50%),
-      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
-    animation: slowDrift 24s ease-in-out infinite alternate;
-  }
-  .declarations .bg::after {
-    content: "";
-    position: absolute; inset: 0;
-    background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 3px 3px;
-  }
-  @keyframes slowDrift {
-    0% { transform: scale(1) translateX(0); }
-    100% { transform: scale(1.05) translateX(-2%); }
+      linear-gradient(to bottom,
+        rgba(10,10,10,0.80) 0%,
+        rgba(10,10,10,0.45) 35%,
+        rgba(10,10,10,0.45) 65%,
+        rgba(10,10,10,0.80) 100%);
+    z-index: 1;
+    pointer-events: none;
   }
 
   .video-label {
@@ -823,40 +827,13 @@
 
   /* ============ THREE A's ============ */
   .triple-a {
-    position: relative;
-    overflow: hidden;
-    background: var(--black);
+    background:
+      radial-gradient(ellipse at 20% 40%, rgba(255,255,255,0.05), transparent 55%),
+      radial-gradient(ellipse at 80% 60%, rgba(255,255,255,0.03), transparent 55%),
+      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
     padding: 160px 0 140px;
     border-top: 1px solid var(--rule);
   }
-  /* Video background */
-  .triple-a-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    opacity: 0.28;
-    z-index: 0;
-    pointer-events: none;
-  }
-  /* Darkening overlay — heavier at top/bottom, lighter in middle */
-  .triple-a::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to bottom,
-        rgba(10,10,10,0.72) 0%,
-        rgba(10,10,10,0.40) 35%,
-        rgba(10,10,10,0.40) 65%,
-        rgba(10,10,10,0.72) 100%);
-    z-index: 1;
-    pointer-events: none;
-  }
-  /* Content above both layers */
-  .triple-a .container { position: relative; z-index: 2; }
   .triple-a .eyebrow { margin-bottom: 100px; }
 
   .aaa-stack { display: grid; gap: 80px; }
@@ -1201,6 +1178,9 @@
 
 <!-- DECLARATIONS -->
 <section class="declarations">
+  <video class="decl-video" autoplay muted loop playsinline>
+    <source src="stage-reel.mp4" type="video/mp4">
+  </video>
   <div class="bg"></div>
 <div class="container">
     <div class="decl-stack">
@@ -1322,9 +1302,6 @@
 
 <!-- THREE A's -->
 <section class="triple-a">
-  <video class="triple-a-video" autoplay muted loop playsinline>
-    <source src="stage-reel.mp4" type="video/mp4">
-  </video>
   <div class="container">
     <div class="eyebrow"><span class="pip"></span>The Ecosystem</div>
     <div class="aaa-stack">
