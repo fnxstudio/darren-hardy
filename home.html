@@ -449,10 +449,10 @@
     position: absolute; inset: 0;
     background:
       linear-gradient(to bottom,
-        rgba(10,10,10,0.80) 0%,
-        rgba(10,10,10,0.45) 35%,
-        rgba(10,10,10,0.45) 65%,
-        rgba(10,10,10,0.80) 100%);
+        rgba(10,10,10,0.65) 0%,
+        rgba(10,10,10,0.30) 35%,
+        rgba(10,10,10,0.30) 65%,
+        rgba(10,10,10,0.65) 100%);
     z-index: 1;
     pointer-events: none;
   }
@@ -888,6 +888,22 @@
     line-height: 1.55;
     color: var(--silver);
     max-width: 920px;
+  }
+
+  /* ── Ecosystem entrance animations ── */
+  .triple-a .eyebrow,
+  .aaa-title,
+  .aaa-body {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .triple-a .eyebrow.aaa-visible,
+  .aaa-title.aaa-visible,
+  .aaa-body.aaa-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   /* ============ LEAD MAGNET ============ */
@@ -1596,6 +1612,31 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     if (!active) tile.classList.add('tapped');
   });
 });
+
+// ── Ecosystem (triple-a) entrance animations ──
+(function () {
+  const eyebrow = document.querySelector('.triple-a .eyebrow');
+  const aaas    = document.querySelectorAll('.aaa');
+
+  const tripleObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      if (el === eyebrow) {
+        el.classList.add('aaa-visible');
+      } else {
+        const title = el.querySelector('.aaa-title');
+        const body  = el.querySelector('.aaa-body');
+        if (title) title.classList.add('aaa-visible');
+        setTimeout(() => { if (body) body.classList.add('aaa-visible'); }, 200);
+      }
+      tripleObs.unobserve(el);
+    });
+  }, { threshold: 0.2 });
+
+  if (eyebrow) tripleObs.observe(eyebrow);
+  aaas.forEach(a => tripleObs.observe(a));
+})();
 
 // Parallax: rAF-throttled so it runs at most once per frame, not on every scroll tick
 let rafPending = false;
