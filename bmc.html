@@ -242,10 +242,12 @@
     --rule-strong: rgba(255, 255, 255, 0.15);
     --rule-dark: rgba(10, 10, 10, 0.1);
     --rule-dark-strong: rgba(10, 10, 10, 0.18);
-    /* BMC accents — used like HC's gold: very subtle behind-the-black washes
-       (purple) and a quiet keyword highlight (cyan). */
-    --bmc-purple: #9c27ac;
-    --bmc-cyan:   #78e4ef;
+    /* BMC accent — used like HC's gold: a quiet, restrained cyan applied
+       at points of emphasis (eyebrows, keyword ems, CTA hover states,
+       pricing badge, FAQ chevron, "for you" markers). */
+    --bmc-cyan:     #78e4ef;
+    --bmc-cyan-soft: rgba(120, 228, 239, 0.85);
+    --rule-cyan:    rgba(120, 228, 239, 0.32);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -265,29 +267,13 @@
   .container { max-width: 1380px; margin: 0 auto; padding: 0 48px; }
   @media (max-width: 720px) { .container { padding: 0 24px; } }
 
-  /* Keyword emphasis — applied via <em class="key">word</em> inside headlines.
-     Cyan, normalized font-style, inherits weight + scale from the headline. */
+  /* Keyword emphasis — <em class="key">word</em> inside headlines.
+     Normalized font-style, inherits weight + scale from the parent. */
   em.key { font-style: normal; color: var(--bmc-cyan); }
 
-  /* Subtle purple wash behind the black — added to key dark sections to
-     give the page a quiet identity without competing with the typography. */
-  .bmc-wash::before {
-    content: "";
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse at 22% 30%, rgba(156, 39, 172, 0.10), transparent 55%),
-      radial-gradient(ellipse at 80% 75%, rgba(156, 39, 172, 0.06), transparent 60%);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .bmc-wash--center::before {
-    background: radial-gradient(ellipse at 50% 30%, rgba(156, 39, 172, 0.10), transparent 60%);
-  }
-  .bmc-wash--low::before {
-    background: radial-gradient(ellipse at 50% 50%, rgba(156, 39, 172, 0.07), transparent 65%);
-  }
-  /* Anything direct inside a washed section sits above the overlay */
-  .bmc-wash > * { position: relative; z-index: 1; }
+  /* Eyebrow accent variant — applied sparingly to flag identity moments. */
+  .eyebrow.eyebrow--accent { color: var(--bmc-cyan); }
+  .eyebrow.eyebrow--accent .pip { background: var(--bmc-cyan); }
 
   /* ============ ETERNAL EYEBROW PATTERN ============ */
   .eyebrow {
@@ -374,7 +360,7 @@
     transition: background 0.2s, color 0.2s;
     white-space: nowrap;
   }
-  .sticky-cta:hover { background: transparent; color: var(--white); }
+  .sticky-cta:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
   .sticky-cta .cta-mobile { display: none; }
 
   @media (max-width: 960px) {
@@ -399,9 +385,7 @@
   .hero::before {
     content: "";
     position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse at 22% 32%, rgba(156, 39, 172, 0.12), transparent 55%),
-      radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.03) 0%, transparent 60%);
+    background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.04) 0%, transparent 60%);
     z-index: 1;
     pointer-events: none;
   }
@@ -466,7 +450,7 @@
     transition: background 0.2s, color 0.2s;
     display: inline-flex; align-items: center; gap: 10px;
   }
-  .btn-primary:hover { background: transparent; color: var(--white); }
+  .btn-primary:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
   .btn-large { padding: 22px 44px; }
   .hero-cta {
     opacity: 0; transform: translateY(14px);
@@ -803,7 +787,7 @@
     line-height: 1.3;
     color: var(--white);
     padding-left: 28px;
-    border-left: 2px solid var(--silver);
+    border-left: 2px solid var(--bmc-cyan);
     margin: 48px 0;
     max-width: 800px;
   }
@@ -1125,7 +1109,9 @@
     left: 0; top: 18px;
     font-weight: 500;
   }
-  .filter-col.col-for .marker { color: var(--white); }
+  .filter-col.col-for .marker { color: var(--bmc-cyan); }
+  .filter-col.col-for .filter-sublabel { color: var(--bmc-cyan); }
+  .filter-col.col-for .filter-sublabel::before { background: var(--bmc-cyan); }
   .filter-col.col-not .filter-item { color: var(--grey); }
   .filter-col.col-not .marker { color: var(--grey-soft); }
 
@@ -1265,7 +1251,7 @@
     transition: border-color 0.25s, background 0.25s;
   }
   .price-card:hover {
-    border-color: var(--silver);
+    border-color: var(--rule-cyan);
     background: rgba(255,255,255,0.04);
   }
   .price-badge {
@@ -1273,7 +1259,7 @@
     top: -12px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--white);
+    background: var(--bmc-cyan);
     color: var(--black);
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -1331,7 +1317,7 @@
     margin-top: 32px;
     transition: background 0.2s, color 0.2s;
   }
-  .price-cta:hover { background: transparent; color: var(--white); }
+  .price-cta:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
   .invest-footnote {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -1455,7 +1441,8 @@
     color: var(--silver);
     transition: transform 0.3s ease;
   }
-  .faq-q[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .faq-q[aria-expanded="true"] { color: var(--bmc-cyan); }
+  .faq-q[aria-expanded="true"] .chev { transform: rotate(180deg); color: var(--bmc-cyan); }
   .faq-a {
     max-height: 0;
     overflow: hidden;
@@ -1702,7 +1689,7 @@
   <div class="container">
     <div class="hero-grid">
       <div class="hero-content">
-        <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE</div>
+        <div class="eyebrow eyebrow--accent"><span class="pip"></span>BMC|COLLECTIVE</div>
         <h1>For Intensely Driven Business Leaders Seeking An <em class="key">Unfair Advantage</em>.</h1>
         <p class="hero-sub">Reserve a Business Master Class seat and be immediately activated in the BMC|COLLECTIVE.</p>
         <div class="hero-cta-row">
@@ -1827,7 +1814,7 @@
 </section>
 
 <!-- ===== LAYER 5 — WHAT BMC|COLLECTIVE IS ===== -->
-<section class="section-ink section-divider bmc-wash" id="system">
+<section class="section-ink section-divider" id="system">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>What You Need Is Rare</div>
     <h2 class="section-headline system-headline reveal">Access To The <em class="key">Inaccessible</em>.</h2>
@@ -1972,7 +1959,7 @@
 </section>
 
 <!-- ===== LAYER 8 — THE UNFAIR ADVANTAGE ===== -->
-<section class="section-dark section-divider bmc-wash bmc-wash--center">
+<section class="section-dark section-divider">
   <div class="container" style="text-align:center;">
     <div class="eyebrow eyebrow--center reveal"><span class="pip"></span>Why It Works</div>
     <h2 class="section-headline unfair-headline reveal" style="margin-left:auto;margin-right:auto;">Your <em class="key">Secret Weapon</em>.</h2>
@@ -2151,7 +2138,7 @@
 </section>
 
 <!-- ===== LAYER 12 — INVESTMENT ===== -->
-<section id="investment" class="bmc-wash bmc-wash--center">
+<section id="investment">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>Enrollment</div>
     <h2 class="section-headline reveal">Reserve Your Seat. Activate Your Year.</h2>
@@ -2367,7 +2354,7 @@
 </section>
 
 <!-- ===== LAYER 16 — FINAL CLOSE ===== -->
-<section class="final bmc-wash bmc-wash--center">
+<section class="final">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>The Invitation</div>
     <h2 class="final-headline reveal">If You&rsquo;re Still Reading,<br/>You <em class="key">Already Know</em>.</h2>
