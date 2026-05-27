@@ -995,12 +995,25 @@
   @media (max-width: 960px) {
     .compare { padding: 96px 0 110px; }
     .compare-brand img { height: 88px; }
-    .compare-grid { grid-template-columns: 1fr; gap: 56px; }
+    .compare-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      gap: 56px;
+    }
     .compare-col { padding: 44px 28px; }
-    /* Plus sits between vertically stacked cards */
+    /* Force Collective explicitly into row 2 — we're parking + in row 1 with BMC */
+    .compare-col--collective { grid-row: 2; grid-column: 1; }
+    /* + is placed in BMC's row, aligned to the bottom-center, then pulled
+       slightly below BMC's bottom edge so it "plants" on the BMC card and
+       dips a little into the gap below. Clear of the Collective flag. */
     .compare-plus {
-      left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
+      position: relative;
+      grid-row: 1;
+      grid-column: 1;
+      justify-self: center;
+      align-self: end;
+      top: auto; left: auto;
+      transform: translateY(30%);
     }
   }
 
