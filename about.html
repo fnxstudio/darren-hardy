@@ -37,6 +37,8 @@
     overflow-x: hidden;
   }
 
+  ::selection { background: rgba(255,255,255,0.18); color: var(--white); }
+
   /* ============ TOP NAVIGATION ============ */
   nav.top {
     position: fixed;
@@ -52,7 +54,6 @@
     -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--rule);
   }
-
   .nav-left, .nav-right {
     display: flex;
     gap: 36px;
@@ -62,17 +63,15 @@
     letter-spacing: 0.24em;
     text-transform: uppercase;
   }
-
   .nav-left { justify-content: flex-end; }
   .nav-right { justify-content: flex-start; }
-
   .nav-left a, .nav-right a {
     color: var(--silver);
     text-decoration: none;
     transition: color 0.18s;
   }
   .nav-left a:hover, .nav-right a:hover { color: var(--white); }
-
+  .nav-left a.current, .nav-right a.current { color: var(--white); }
   .nav-brand {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -83,7 +82,6 @@
     text-transform: uppercase;
     white-space: nowrap;
   }
-
   .nav-burger {
     display: none;
     flex-direction: column;
@@ -104,7 +102,6 @@
   .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
   .nav-burger.open span:nth-child(2) { opacity: 0; }
   .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
   .nav-mobile {
     position: absolute;
     top: 100%;
@@ -129,9 +126,9 @@
     border-bottom: 1px solid var(--rule);
     transition: color 0.18s;
   }
+  .nav-mobile a.current { color: var(--white); }
   .nav-mobile a:last-child { border-bottom: none; }
   .nav-mobile a:active { color: var(--white); }
-
   @media (max-width: 960px) {
     nav.top { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
     .nav-left, .nav-right { display: none; }
@@ -159,27 +156,23 @@
     width: 28px; height: 1px;
     background: var(--silver);
   }
+  .eyebrow.center { justify-content: center; }
+  .eyebrow.on-light { color: var(--grey-soft); }
+  .eyebrow.on-light .pip { background: var(--grey-soft); }
 
-  /* ============ SUBPAGE HEADER ============ */
-  .subhero {
-    background: #0d0b09;
+  /* ============ SECTION 1 — HERO (FLAG PLANT) ============ */
+  .hero-flag {
+    background:
+      radial-gradient(ellipse at 25% 25%, rgba(255,255,255,0.06), transparent 55%),
+      radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.035), transparent 55%),
+      linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 100%);
+    min-height: 100vh;
+    padding: 168px 0 120px;
+    display: flex;
+    align-items: center;
     overflow: hidden;
-    padding: 168px 0 88px;
-    border-bottom: 1px solid var(--rule);
   }
-  .subhero-bkgd {
-    position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center 30%;
-    z-index: 0;
-    display: block;
-    pointer-events: none;
-    opacity: 0.55;
-    filter: grayscale(35%);
-  }
-  .subhero::before {
+  .hero-flag::before {
     content: "";
     position: absolute; inset: 0;
     background-image: radial-gradient(rgba(255,255,255,0.014) 1px, transparent 1px);
@@ -187,456 +180,605 @@
     pointer-events: none;
     z-index: 1;
   }
-  .subhero::after {
-    content: "";
-    position: absolute; inset: 0;
-    background:
-      linear-gradient(90deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.65) 45%, rgba(10,10,10,0.45) 100%),
-      linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.55) 60%, rgba(10,10,10,0.95) 100%);
-    z-index: 2;
-    pointer-events: none;
-  }
-  .subhero .container { position: relative; z-index: 3; }
+  .hero-flag .container { position: relative; z-index: 2; }
+  .hf-stack { max-width: 1100px; display: flex; flex-direction: column; gap: 0; }
 
-  .crumb {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.36em;
-    text-transform: uppercase;
-    color: var(--grey);
-    margin-bottom: 32px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .crumb a {
-    color: var(--grey);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .crumb a:hover { color: var(--white); }
-  .crumb .sep { opacity: 0.5; }
-  .crumb .current { color: var(--white); }
-
-  .subhero-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(48px, 6.8vw, 108px);
-    line-height: 0.96;
-    letter-spacing: -0.04em;
-    color: var(--white);
-    text-transform: uppercase;
-    margin-bottom: 28px;
-    max-width: 1100px;
-  }
-  .subhero-attrib {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-style: italic;
-    font-size: clamp(14px, 1.1vw, 17px);
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--grey);
-    margin-bottom: 20px;
-  }
-  .subhero-sub {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: clamp(18px, 1.55vw, 24px);
-    line-height: 1.5;
-    color: var(--silver);
-    max-width: 780px;
-  }
-  .subhero-sub strong { color: var(--white); font-weight: 600; }
-
-  /* ============ ORIGIN STORY ============ */
-  .origin {
-    background: var(--black);
-    padding: 140px 0 120px;
-    border-top: 1px solid var(--rule);
-  }
-  .origin-grid {
-    display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
-    gap: 88px;
-    align-items: start;
-  }
-  @media (max-width: 960px) {
-    .origin-grid { grid-template-columns: 1fr; gap: 56px; }
-  }
-
-  .origin-portrait {
-    position: relative;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    background: var(--ink);
-    border: 1px solid var(--rule-strong);
-  }
-  .origin-portrait img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center 18%;
-    filter: grayscale(20%);
-    display: block;
-  }
-  .origin-portrait .tag {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.95) 70%);
-    padding: 80px 28px 24px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--silver);
-  }
-
-  .origin-content .eyebrow { margin-bottom: 28px; }
-  .origin-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(36px, 4.4vw, 64px);
-    line-height: 1;
-    letter-spacing: -0.035em;
-    color: var(--white);
-    text-transform: uppercase;
+  .hf-eyebrow {
     margin-bottom: 36px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: heroIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
   }
-  .origin-body {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: clamp(16px, 1.2vw, 18px);
-    line-height: 1.7;
-    color: var(--silver);
-    margin-bottom: 22px;
-  }
-  .origin-body strong { color: var(--white); font-weight: 600; }
-
-  .pull-quote {
-    border-left: 2px solid var(--white);
-    padding: 18px 0 18px 28px;
-    margin: 36px 0;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: clamp(18px, 1.5vw, 22px);
-    line-height: 1.45;
-    color: var(--white);
-    letter-spacing: -0.005em;
-  }
-  .pull-quote .attrib {
-    display: block;
-    margin-top: 14px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--grey);
-  }
-
-  /* ============ STATS RIBBON ============ */
-  .stats {
-    background: var(--ink-soft);
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    padding: 84px 0;
-  }
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--rule);
-    border: 1px solid var(--rule);
-  }
-  @media (max-width: 880px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-
-  .stat {
-    background: var(--ink-soft);
-    padding: 40px 28px;
-    text-align: center;
-  }
-  .stat-num {
+  .hf-headline {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(32px, 3.2vw, 48px);
-    line-height: 1;
-    letter-spacing: -0.03em;
-    color: var(--white);
-    margin-bottom: 14px;
-  }
-  .stat-label {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 11px;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--silver);
-    line-height: 1.45;
-  }
-
-  /* ============ IMPACT BANNER ============ */
-  .impact {
-    background:
-      radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.05), transparent 60%),
-      linear-gradient(180deg, #0a0a0a 0%, #131313 100%);
-    padding: 140px 0 120px;
-    border-top: 1px solid var(--rule);
-    text-align: center;
-  }
-  .impact-eyebrow { justify-content: center; margin-bottom: 28px; }
-  .impact-num {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(64px, 9vw, 168px);
-    line-height: 0.92;
-    letter-spacing: -0.045em;
-    color: var(--white);
-    text-transform: uppercase;
-    margin-bottom: 22px;
-  }
-  .impact-sub {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: clamp(17px, 1.4vw, 22px);
-    line-height: 1.55;
-    color: var(--silver);
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  .impact-sub strong { color: var(--white); font-weight: 600; }
-
-  /* ============ BELIEFS (LIGHT) ============ */
-  .beliefs {
-    background: var(--bone);
-    color: var(--black);
-    padding: 140px 0;
-    border-top: 1px solid var(--rule-dark);
-  }
-  .beliefs-head {
-    margin-bottom: 64px;
-    max-width: 900px;
-  }
-  .beliefs .eyebrow { color: var(--grey-soft); margin-bottom: 24px; }
-  .beliefs .eyebrow .pip { background: var(--grey-soft); }
-  .beliefs-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(36px, 5.2vw, 80px);
-    line-height: 0.96;
-    letter-spacing: -0.035em;
-    color: var(--black);
-    text-transform: uppercase;
-    margin-bottom: 18px;
-  }
-  .beliefs-kicker {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--grey-soft);
-  }
-  .word-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1px;
-    background: var(--rule-dark);
-    border: 1px solid var(--rule-dark);
-  }
-  @media (max-width: 960px) { .word-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 560px) { .word-grid { grid-template-columns: repeat(2, 1fr); } }
-
-  .word-cell {
-    background: var(--bone);
-    padding: 44px 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    transition: background 0.3s ease;
-    min-height: 150px;
-  }
-  .word-cell:hover { background: #ececec; }
-  .word-cell .n {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    color: var(--grey-soft);
-    margin-bottom: 18px;
-  }
-  .word-cell .w {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(20px, 1.8vw, 26px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--black);
-    text-transform: uppercase;
-  }
-
-  /* ============ ANTI-BELIEFS (DARK) ============ */
-  .anti {
-    background: var(--black);
-    padding: 140px 0;
-    border-top: 1px solid var(--rule);
-  }
-  .anti-head {
-    margin-bottom: 64px;
-    max-width: 900px;
-  }
-  .anti .eyebrow { margin-bottom: 24px; }
-  .anti-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(36px, 5.2vw, 80px);
+    font-size: clamp(48px, 8.2vw, 144px);
     line-height: 0.96;
     letter-spacing: -0.035em;
     color: var(--white);
     text-transform: uppercase;
-    margin-bottom: 18px;
+    margin-bottom: 56px;
+    opacity: 0;
+    transform: translateY(22px);
+    animation: heroIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards;
   }
-  .anti-kicker {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--grey);
-  }
-  .anti-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
-  }
-  @media (max-width: 960px) { .anti-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 560px) { .anti-grid { grid-template-columns: repeat(2, 1fr); } }
-
-  .anti-cell {
-    background: var(--black);
-    padding: 44px 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-height: 150px;
-    position: relative;
-    transition: background 0.3s ease;
-  }
-  .anti-cell:hover { background: var(--ink-soft); }
-  .anti-cell .n {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    color: var(--grey);
-    margin-bottom: 18px;
-  }
-  .anti-cell .w {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(20px, 1.8vw, 26px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    text-transform: uppercase;
-    text-decoration: line-through;
-    text-decoration-thickness: 2px;
-    text-decoration-color: rgba(255,255,255,0.55);
-  }
-
-  /* ============ NOT FOR EVERYONE ============ */
-  .notfor {
-    background:
-      radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.05), transparent 60%),
-      radial-gradient(ellipse at 10% 80%, rgba(255,255,255,0.03), transparent 60%),
-      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
-    padding: 140px 0;
-    border-top: 1px solid var(--rule);
-  }
-  .notfor-head {
-    max-width: 900px;
-    margin-bottom: 80px;
-  }
-  .notfor .eyebrow { margin-bottom: 28px; }
-  .notfor-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(40px, 5.4vw, 84px);
-    line-height: 0.96;
-    letter-spacing: -0.035em;
-    color: var(--white);
-    text-transform: uppercase;
-    margin-bottom: 22px;
-  }
-  .notfor-sub {
+  .hf-body {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: clamp(16px, 1.3vw, 19px);
-    line-height: 1.55;
+    font-size: clamp(17px, 1.45vw, 21px);
+    line-height: 1.6;
     color: var(--silver);
-    max-width: 640px;
+    max-width: 760px;
+    margin-bottom: 22px;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: heroIn 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
+  .hf-body.lead { font-weight: 500; color: var(--white); }
+  .hf-b1 { animation-delay: 1.6s; }
+  .hf-b2 { animation-delay: 2.0s; }
+  .hf-b3 { animation-delay: 2.4s; }
+  .hf-b4 { animation-delay: 2.8s; }
+  .hf-b5 { animation-delay: 3.2s; }
+  .hf-b6 { animation-delay: 3.6s; }
 
-  .versus {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
-  }
-  @media (max-width: 720px) { .versus { grid-template-columns: 1fr; } }
-
-  .vs-col {
-    background: rgba(10,10,10,0.65);
-    padding: 56px 44px;
-  }
-  .vs-col.dark { background: rgba(255,255,255,0.02); }
-  .vs-tag {
+  .hf-close-1, .hf-close-2 {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 0.36em;
-    text-transform: uppercase;
-    margin-bottom: 28px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--rule-strong);
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.4;
+    color: var(--white);
+    max-width: 760px;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: heroIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-  .vs-col.is-we .vs-tag { color: var(--white); }
-  .vs-col.is-not .vs-tag { color: var(--grey); }
+  .hf-close-1 { margin-top: 22px; animation-delay: 4.2s; }
+  .hf-close-2 { margin-top: 8px; animation-delay: 4.6s; }
 
-  .vs-list {
-    list-style: none;
+  @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
+
+  .scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 36px;
+    transform: translateX(-50%);
+    color: var(--silver);
+    opacity: 0;
+    animation: cueIn 1s ease 5.0s forwards, bob 2.4s ease-in-out 5.4s infinite;
+    z-index: 3;
+  }
+  .scroll-cue svg { width: 22px; height: 26px; display: block; }
+  @keyframes cueIn { to { opacity: 0.65; } }
+  @keyframes bob {
+    0%,100% { transform: translate(-50%, 0); }
+    50%     { transform: translate(-50%, 6px); }
+  }
+
+  /* ============ SECTION 2 — THE RANT ============ */
+  .rant {
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.025), transparent 60%),
+      linear-gradient(180deg, #080808 0%, #0a0a0a 100%);
+    padding: 160px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .rant .eyebrow { margin-bottom: 32px; }
+  .rant-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(42px, 5.6vw, 92px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 64px;
+    max-width: 1280px;
+  }
+  .rant-body {
+    max-width: 880px;
     display: flex;
     flex-direction: column;
     gap: 22px;
   }
-  .vs-list li {
+  .rant-body p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(17px, 1.45vw, 21px);
+    line-height: 1.6;
+    color: var(--silver);
+  }
+  .rant-body p.lead {
+    font-weight: 500;
+    color: var(--white);
+    font-size: clamp(19px, 1.7vw, 24px);
+    margin-bottom: 12px;
+  }
+  .rant-close {
+    margin-top: 56px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 2.4vw, 36px);
+    line-height: 1.25;
+    color: var(--white);
+    max-width: 880px;
+    letter-spacing: -0.012em;
+  }
+
+  /* ============ SECTION 3 — THE ACCESS STORY ============ */
+  .access {
+    background: var(--black);
+    padding: 160px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .access .eyebrow { margin-bottom: 32px; }
+  .access-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(40px, 5.2vw, 80px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 56px;
+    max-width: 1200px;
+  }
+  .access-body {
+    max-width: 980px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .access-body p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(17px, 1.45vw, 21px);
+    line-height: 1.65;
+    color: var(--silver);
+  }
+  .access-body p.lead {
+    font-weight: 500;
+    color: var(--white);
+    font-size: clamp(19px, 1.65vw, 23px);
+    margin-bottom: 8px;
+  }
+  .access-body p strong { color: var(--white); font-weight: 700; }
+  .access-body p.beat {
+    font-weight: 500;
+    color: var(--white);
+    font-size: clamp(19px, 1.6vw, 24px);
+    margin: 8px 0;
+  }
+  .access-pull {
+    margin: 40px 0;
+    padding: 18px 0 18px 36px;
+    border-left: 2px solid var(--silver);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1.15;
+    color: var(--white);
+    letter-spacing: -0.015em;
+    max-width: 880px;
+  }
+  .access-close {
+    margin-top: 24px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 2.2vw, 32px);
+    line-height: 1.3;
+    color: var(--white);
+    max-width: 880px;
+  }
+
+  /* ============ SECTION 4 — BE THE EXCEPTION (LIGHT) ============ */
+  .bte {
+    background: var(--bone);
+    color: var(--black);
+    padding: 160px 0;
+    border-top: 1px solid var(--rule-dark);
+  }
+  .bte-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.3fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 880px) {
+    .bte-grid { grid-template-columns: 1fr; gap: 56px; }
+  }
+  .bte-portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #d8d8d8;
+    border: 1px solid var(--rule-dark-strong);
+  }
+  .bte-portrait img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 24%;
+    display: block;
+    filter: grayscale(28%) contrast(1.02);
+  }
+  .bte-portrait .cap {
+    position: absolute;
+    left: 18px; bottom: 18px;
+    background: rgba(10,10,10,0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+  .bte-content .eyebrow { margin-bottom: 24px; }
+  .bte-display {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(64px, 8vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    color: var(--black);
+    text-transform: uppercase;
+    max-width: 620px;
+    margin-bottom: 16px;
+  }
+  .bte-sub {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-    font-size: clamp(17px, 1.4vw, 22px);
-    line-height: 1.35;
+    font-style: italic;
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.3;
+    color: var(--muted);
+    margin-bottom: 56px;
+    max-width: 640px;
+  }
+  .bte-body {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    max-width: 660px;
+  }
+  .bte-body p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(17px, 1.45vw, 21px);
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .bte-body p.lead { color: var(--black); font-weight: 500; }
+  .bte-body p strong { color: var(--black); font-weight: 600; }
+  .bte-pull {
+    margin: 8px 0 8px;
+    padding: 16px 0 16px 28px;
+    border-left: 2px solid var(--black);
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(19px, 1.6vw, 24px);
+    line-height: 1.4;
+    color: var(--black);
+    max-width: 720px;
     letter-spacing: -0.005em;
-    padding-left: 22px;
+  }
+  .bte-close {
+    margin-top: 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(20px, 1.7vw, 26px);
+    line-height: 1.3;
+    color: var(--black);
+  }
+
+  /* ============ SECTION 5 — THE MISSION ============ */
+  .mission {
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.05), transparent 60%),
+      var(--black);
+    padding: 160px 0;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .mission .eyebrow { margin-bottom: 40px; }
+  .mission-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(96px, 16vw, 240px);
+    line-height: 1.0;
+    letter-spacing: -0.05em;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+  .mission-num sup {
+    font-size: 0.32em;
+    font-weight: 500;
+    color: var(--silver);
+    vertical-align: super;
+    letter-spacing: 0;
+    margin-left: 6px;
+  }
+  .mission-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(18px, 1.5vw, 22px);
+    line-height: 1.6;
+    color: var(--silver);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .mission-foot {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--grey-soft);
+    margin-top: 24px;
+  }
+
+  /* ============ SECTION 6 — THE A-TEAM ============ */
+  .ateam-hero {
+    position: relative;
+    height: clamp(420px, 60vh, 720px);
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ateam-hero img.bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    z-index: 0;
+    filter: grayscale(15%);
+  }
+  .ateam-hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.75) 100%);
+    z-index: 1;
+  }
+  .ateam-hero .container { position: relative; z-index: 2; text-align: center; }
+  .ateam-hero .eyebrow { margin-bottom: 32px; }
+  .ateam-display {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(88px, 14vw, 200px);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .ateam-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(18px, 1.5vw, 22px);
+    line-height: 1.5;
+    color: var(--silver);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .ateam-grid-wrap {
+    background: var(--black);
+    padding: 120px 0;
+  }
+  .ateam-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 1080px) { .ateam-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 720px)  { .ateam-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .ateam-card { display: flex; flex-direction: column; }
+  .ateam-photo {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--ink);
+    border: 1px solid var(--rule);
     position: relative;
   }
-  .vs-col.is-we .vs-list li { color: var(--white); }
-  .vs-col.is-not .vs-list li { color: var(--grey); }
-  .vs-list li::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 0.65em;
-    width: 10px; height: 1px;
-    background: currentColor;
+  .ateam-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    filter: grayscale(100%);
+    transition: filter 0.6s ease, transform 0.6s ease;
   }
-  .vs-col.is-we .vs-list li::before { background: var(--white); }
+  .ateam-card:hover .ateam-photo img {
+    filter: grayscale(0%);
+    transform: scale(1.03);
+  }
+  .ateam-meta { padding: 18px 4px 0; }
+  .ateam-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .ateam-role {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--silver);
+    text-transform: uppercase;
+  }
 
-  /* ============ CLOSING CTA ============ */
+  /* ============ SECTION 7 — WHAT WE BELIEVE / DON'T ============ */
+  .manifesto {
+    background: var(--ink);
+    padding: 160px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .manifesto-head {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .manifesto-head .eyebrow { margin-bottom: 24px; }
+  .manifesto-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.8vw, 72px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .mani-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 880px) { .mani-cols { grid-template-columns: 1fr; } }
+  .mani-col {
+    padding: 48px 44px;
+    border-right: 1px solid var(--rule-strong);
+  }
+  .mani-col:last-child { border-right: none; }
+  @media (max-width: 880px) {
+    .mani-col { border-right: none; border-bottom: 1px solid var(--rule-strong); padding: 40px 28px; }
+    .mani-col:last-child { border-bottom: none; }
+  }
+  .mani-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    color: var(--grey);
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .mani-list { list-style: none; display: flex; flex-direction: column; }
+  .mani-item {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.25s ease, padding 0.25s ease;
+    border-radius: 2px;
+  }
+  .mani-item:last-child { border-bottom: none; }
+  .mani-item:hover { background: rgba(255,255,255,0.025); padding-left: 12px; padding-right: 12px; }
+  .mani-word {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .mani-def {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--silver);
+  }
+  .mani-foot {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(17px, 1.5vw, 22px);
+    line-height: 1.45;
+    color: var(--white);
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ============ SECTION 8 — PULL QUOTE MOMENT ============ */
+  .anthem {
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.04), transparent 65%),
+      var(--black);
+    padding: 200px 0;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .anthem-quote {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(48px, 7vw, 124px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    color: var(--white);
+    text-transform: uppercase;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .anthem-attrib {
+    margin-top: 40px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.42em;
+    color: var(--silver);
+    text-transform: uppercase;
+  }
+
+  /* ============ SECTION 9 — WE ARE NOT FOR EVERYONE (LIGHT) ============ */
+  .nfe {
+    background: var(--bone);
+    color: var(--black);
+    padding: 160px 0;
+    border-top: 1px solid var(--rule-dark);
+  }
+  .nfe .container { max-width: 1100px; }
+  .nfe .eyebrow { margin-bottom: 56px; }
+  .nfe-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .nfe-block {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .nfe-tag {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    color: var(--black);
+    text-transform: uppercase;
+  }
+  .nfe-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(18px, 1.5vw, 22px);
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  /* ============ SECTION 10 — CTA CLOSE ============ */
   .closing {
-    background: var(--black);
-    padding: 140px 0;
+    background: var(--ink);
+    padding: 180px 0;
     border-top: 1px solid var(--rule);
     text-align: center;
     overflow: hidden;
@@ -645,31 +787,31 @@
   .closing::before {
     content: "";
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 60%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.05), transparent 60%);
     pointer-events: none;
   }
   .closing .container { position: relative; z-index: 2; }
-  .closing-eyebrow { justify-content: center; margin-bottom: 28px; }
+  .closing .eyebrow { margin-bottom: 36px; }
   .closing-headline {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(40px, 5.8vw, 92px);
+    font-size: clamp(48px, 7vw, 120px);
     line-height: 0.96;
     letter-spacing: -0.035em;
     color: var(--white);
     text-transform: uppercase;
-    margin-bottom: 28px;
+    margin-bottom: 36px;
     max-width: 1100px;
     margin-left: auto; margin-right: auto;
   }
   .closing-body {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: clamp(16px, 1.3vw, 19px);
+    font-size: clamp(17px, 1.4vw, 20px);
     line-height: 1.6;
     color: var(--silver);
-    max-width: 720px;
-    margin: 0 auto 44px;
+    max-width: 680px;
+    margin: 0 auto 48px;
   }
   .closing-cta {
     display: inline-flex;
@@ -688,36 +830,34 @@
     border: 1px solid var(--white);
   }
   .closing-cta:hover { background: transparent; color: var(--white); }
+  .closing-cta .arrow { font-weight: 400; transition: transform 0.2s; }
+  .closing-cta:hover .arrow { transform: translateX(4px); }
 
   /* ============ MOTION ============ */
   .reveal {
     opacity: 0;
     transform: translateY(28px);
     transition:
-      opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 0.9s cubic-bezier(0.2, 0.65, 0.3, 0.95),
+      transform 0.9s cubic-bezier(0.2, 0.65, 0.3, 0.95);
     will-change: opacity, transform;
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  .subhero .crumb,
-  .subhero-title,
-  .subhero-attrib,
-  .subhero-sub {
+  .reveal-scale {
     opacity: 0;
-    transform: translateY(14px);
-    animation: subheroIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: scale(0.96);
+    transition:
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
   }
-  .subhero .crumb     { animation-delay: 0.12s; }
-  .subhero-attrib     { animation-delay: 0.36s; }
-  .subhero-title      { animation-delay: 0.58s; }
-  .subhero-sub        { animation-delay: 0.92s; }
-  @keyframes subheroIn { to { opacity: 1; transform: translateY(0); } }
+  .reveal-scale.visible { opacity: 1; transform: scale(1); }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1; transform: none; transition: none; }
-    .subhero .crumb, .subhero-title, .subhero-attrib, .subhero-sub {
-      opacity: 1; transform: none; animation: none;
+    .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
+    .hf-eyebrow, .hf-headline, .hf-body, .hf-close-1, .hf-close-2, .scroll-cue {
+      opacity: 1 !important; transform: none !important; animation: none !important;
     }
   }
 
@@ -870,7 +1010,7 @@
 <!-- NAV -->
 <nav class="top">
   <div class="nav-left">
-    <a href="about.html">About</a>
+    <a href="about.html" class="current">About</a>
     <a href="resources.html">Resources</a>
     <a href="https://hardyclub.com/">Community</a>
   </div>
@@ -884,7 +1024,7 @@
     <span></span><span></span><span></span>
   </button>
   <div class="nav-mobile" id="navMobile">
-    <a href="about.html">About</a>
+    <a href="about.html" class="current">About</a>
     <a href="resources.html">Resources</a>
     <a href="https://hardyclub.com/">Community</a>
     <a href="https://darrendaily.com/">Daily Mentoring</a>
@@ -893,167 +1033,209 @@
   </div>
 </nav>
 
-<!-- SUBPAGE HEADER -->
-<section class="subhero">
-  <img class="subhero-bkgd" src="Hero-Bkgd.png" alt="" aria-hidden="true" />
+<!-- SECTION 1 — HERO (FLAG PLANT) -->
+<section class="hero-flag">
   <div class="container">
-    <div class="crumb">
-      <a href="home.html">Darren Hardy</a>
-      <span class="sep">/</span>
-      <span class="current">About</span>
+    <div class="hf-stack">
+      <div class="eyebrow hf-eyebrow"><span class="pip"></span>The Advisor</div>
+      <h1 class="hf-headline">The Edge<br>You&rsquo;ve Been<br>Seeking.</h1>
+      <p class="hf-body lead hf-b1">You&rsquo;re already a successful builder.</p>
+      <p class="hf-body hf-b2">You don&rsquo;t need motivation. You don&rsquo;t need a coach. You don&rsquo;t need clever hacks from someone who has never built a significant business.</p>
+      <p class="hf-body hf-b3">What you need is rare.</p>
+      <p class="hf-body hf-b4">You need an edge. An advantage. Access to the inaccessible.</p>
+      <p class="hf-body hf-b5">You need inside the rooms, minds, and playbooks of today&rsquo;s titans: the market makers, category leaders, and disruptors. To learn how they think, decide, allocate, hire, build, scale, and win.</p>
+      <p class="hf-body hf-b6">So you can too. Faster and bigger.</p>
+      <p class="hf-close-1">That is what I can give you.</p>
+      <p class="hf-close-2">That&rsquo;s the work I do.</p>
     </div>
-    <p class="subhero-attrib">— My Father Would Say —</p>
-    <h1 class="subhero-title">Be The Exception.</h1>
-    <p class="subhero-sub">Don't just do what others do. Don't be a follower. <strong>Be the exception.</strong></p>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">
+    <svg viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="4 4 12 11 20 4"/>
+      <polyline points="4 14 12 21 20 14"/>
+    </svg>
   </div>
 </section>
 
-<!-- ORIGIN STORY -->
-<section class="origin">
+<!-- SECTION 2 — THE RANT -->
+<section class="rant">
   <div class="container">
-    <div class="origin-grid">
-      <div class="origin-portrait reveal">
-        <img src="dh_jacket.png" alt="Darren Hardy" />
-        <div class="tag">Founder · Darren Hardy LLC</div>
+    <div class="reveal"><div class="eyebrow"><span class="pip"></span>The Truth</div></div>
+    <h2 class="rant-title reveal">Most &ldquo;Advisors&rdquo;<br>Haven&rsquo;t Built<br>Anything.</h2>
+    <div class="rant-body">
+      <p class="lead reveal">Most of what&rsquo;s sold as &ldquo;business advice&rdquo; today is sold by people who have never built a business.</p>
+      <p class="reveal">28-year-old &ldquo;coaches&rdquo; selling courses on businesses they&rsquo;ve never run.</p>
+      <p class="reveal">Masterminds that produce selfies, not strategy.</p>
+      <p class="reveal">LinkedIn &ldquo;experts&rdquo; with no actual business.</p>
+      <p class="reveal">Podcast hosts who confuse interviewing accomplished people with being one.</p>
+      <p class="reveal">The serious business builder at your level has already smelled it and walked out of those rooms.</p>
+    </div>
+    <p class="rant-close reveal">That is exactly why I&rsquo;m still here.</p>
+  </div>
+</section>
+
+<!-- SECTION 3 — THE ACCESS STORY -->
+<section class="access">
+  <div class="container">
+    <div class="reveal"><div class="eyebrow"><span class="pip"></span>The Receipt</div></div>
+    <h2 class="access-title reveal">35 Years At The<br>Centerpiece Of Success.</h2>
+    <div class="access-body">
+      <p class="lead reveal">For 35 years, I&rsquo;ve sat at the centerpiece of the success media industry. Founding publisher of SUCCESS magazine. Executive producer of three success-focused television networks.</p>
+      <p class="reveal">This gained me access to something no consultant, coach, or professor has ever had.</p>
+      <p class="reveal">Nearly every iconic founder, self-made billionaire, and business leader who has built something extraordinary from nothing took my call.</p>
+      <p class="beat reveal">Why?</p>
+      <p class="reveal">Because we ran the only major media platform focused entirely on a positive profile of their success.</p>
+      <p class="reveal">They wanted that positive exposure, and it was significant for their brand, their boards, and their shareholders.</p>
+    </div>
+    <p class="access-pull reveal">In exchange, they opened their vault doors.</p>
+    <div class="access-body">
+      <p class="reveal">Not their PR version. Their real, closely guarded insights: their actual strategies, systems, and decisions. The ones they would never share on a stage or under the bright lights of a camera.</p>
+      <p class="reveal">I have spent 35 years collecting those playbooks.</p>
+      <p class="reveal">I then tested every one of them across more than <strong>11,000 businesses</strong> in every industry and market condition imaginable. This allows me to identify patterns long before they are obvious to most.</p>
+      <p class="reveal">The principles the industry titans use to dominate their markets are the same principles I&rsquo;ve installed at your scale. Engineered for the realities you operate under. Proven across thousands of businesses that look a lot more like yours than theirs.</p>
+    </div>
+    <p class="access-close reveal">That bridge is what no one else can give you.</p>
+  </div>
+</section>
+
+<!-- SECTION 4 — BE THE EXCEPTION (LIGHT BREAK) -->
+<section class="bte">
+  <div class="container">
+    <div class="bte-grid">
+      <div class="bte-portrait reveal-scale">
+        <img src="team-photos/darren.jpg" alt="Darren Hardy" loading="lazy" />
+        <div class="cap">Darren &amp; His Father</div>
       </div>
-      <div class="origin-content">
-        <div class="reveal">
-          <div class="eyebrow"><span class="pip"></span>The Origin</div>
-          <h2 class="origin-title">A Philosophy<br>Before A Rule.</h2>
+      <div class="bte-content">
+        <div class="reveal"><div class="eyebrow on-light"><span class="pip"></span>My Father Would Say</div></div>
+        <h2 class="bte-display reveal">Be The<br>Exception.</h2>
+        <p class="bte-sub reveal">&ldquo;Don&rsquo;t just do what others do. Don&rsquo;t be a follower. Be the exception.&rdquo;</p>
+        <div class="bte-body">
+          <p class="lead reveal">I was raised by my father. A university football coach. Single dad.</p>
+          <p class="reveal">He didn&rsquo;t give me a lot of rules or restrictions. Yet I never did drugs, never got into trouble, and got good grades.</p>
+          <p class="reveal">What he did give me was a philosophy. A standard to live up to.</p>
+          <p class="reveal">When I complained something wasn&rsquo;t fair, or thought I wasn&rsquo;t good enough, my dad would say the same thing every time.</p>
+          <div class="bte-pull reveal">&ldquo;Circumstances don&rsquo;t matter. If others are smarter, have more talent, or are more experienced, you can still win. Work harder, study longer, and push yourself further than anyone else will go. Be the exception.&rdquo;</div>
+          <p class="reveal">He had me believe I could do anything and achieve anything I wanted if I simply chose to.</p>
+          <p class="reveal"><strong>Be the exception.</strong></p>
+          <p class="bte-close reveal">Forty years later, it is still my operating system.</p>
         </div>
-        <p class="origin-body reveal">Darren's parents divorced when he was eighteen months old. His mother chose not to raise him. His father did — alone — and rather than handing down a long list of rules, he handed down a single philosophy that would shape every chapter that followed.</p>
-        <div class="pull-quote reveal">
-          "Circumstances don't matter. If others are smarter, have more talent, or are more experienced — you can still win. Work harder, study longer, push further than anyone else will go. <strong>Be The Exception.</strong>"
-          <span class="attrib">— Darren's Father</span>
-        </div>
-        <p class="origin-body reveal">He took it seriously. Darren started his first company at <strong>18</strong>, earned a six-figure income before his <strong>19th birthday</strong>, and was generating over a million dollars in annual revenue within five years.</p>
-        <p class="origin-body reveal">In the decades since, he has stood shoulder-to-shoulder with the most successful operators alive — interviewing them, profiling them, decoding the small daily habits that compound into extraordinary outcomes. What he found, again and again, was simple: <strong>abnormal results require abnormal action.</strong> The exception is not born. It is chosen.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- STATS RIBBON -->
-<section class="stats">
+<!-- SECTION 5 — THE MISSION -->
+<section class="mission">
   <div class="container">
-    <div class="stats-grid">
-      <div class="stat">
-        <div class="stat-num">35<span style="color:var(--silver);">YR</span></div>
-        <div class="stat-label">Studying<br>Elite Achievers</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">350K+</div>
-        <div class="stat-label">Daily<br>Mentees Globally</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">35+</div>
-        <div class="stat-label">Languages In<br>Print Worldwide</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">1M+</div>
-        <div class="stat-label">Lives Reshaped<br>By The Books</div>
-      </div>
-    </div>
+    <div class="reveal"><div class="eyebrow center"><span class="pip"></span>Our Mission</div></div>
+    <div class="mission-num reveal">1.6 Billion<sup>*</sup></div>
+    <p class="mission-body reveal">People impacted globally, every year, through the daily mentoring, books, training systems, and inner-circle communities of Darren Hardy, LLC.</p>
+    <p class="mission-foot reveal">*Measured by reach across all media and active members.</p>
   </div>
 </section>
 
-<!-- IMPACT BANNER -->
-<section class="impact">
+<!-- SECTION 6 — THE A-TEAM (HERO + GRID) -->
+<section class="ateam-hero">
+  <img class="bg" src="team-photos/team-group.jpg" alt="A-Team group photo" loading="lazy" />
   <div class="container">
-    <div class="eyebrow impact-eyebrow reveal"><span class="pip"></span>The Mission</div>
-    <div class="impact-num reveal">1.5 Billion</div>
-    <p class="impact-sub reveal">People impacted globally, every year, through the books, daily mentoring, training systems, and inner-circle communities of <strong>Darren Hardy LLC.</strong></p>
+    <div class="reveal"><div class="eyebrow center"><span class="pip"></span>Our Team</div></div>
+    <h2 class="ateam-display reveal">A-Team</h2>
+    <p class="ateam-sub reveal">A hand-selected, battle-tested team of extraordinary human beings.</p>
+  </div>
+</section>
+<section class="ateam-grid-wrap">
+  <div class="container">
+    <div class="ateam-grid" id="teamGrid"></div>
   </div>
 </section>
 
-<!-- WHAT WE BELIEVE (LIGHT) -->
-<section class="beliefs">
+<!-- SECTION 7 — WHAT WE BELIEVE / WHAT WE DON'T -->
+<section class="manifesto">
   <div class="container">
-    <div class="beliefs-head reveal">
-      <div class="eyebrow"><span class="pip"></span>What We Believe</div>
-      <h2 class="beliefs-title">At Darren Hardy LLC…</h2>
-      <p class="beliefs-kicker">Ten Words We Operate By</p>
+    <div class="manifesto-head">
+      <div class="reveal"><div class="eyebrow center"><span class="pip"></span>The Standards</div></div>
+      <h2 class="manifesto-title reveal">What We Believe.<br>What We Don&rsquo;t.</h2>
     </div>
-    <div class="word-grid">
-      <div class="word-cell reveal"><div class="n">01</div><div class="w">Audacity</div></div>
-      <div class="word-cell reveal"><div class="n">02</div><div class="w">Obsession</div></div>
-      <div class="word-cell reveal"><div class="n">03</div><div class="w">Impact</div></div>
-      <div class="word-cell reveal"><div class="n">04</div><div class="w">Action</div></div>
-      <div class="word-cell reveal"><div class="n">05</div><div class="w">Growth</div></div>
-      <div class="word-cell reveal"><div class="n">06</div><div class="w">Accountability</div></div>
-      <div class="word-cell reveal"><div class="n">07</div><div class="w">Excellence</div></div>
-      <div class="word-cell reveal"><div class="n">08</div><div class="w">Courage</div></div>
-      <div class="word-cell reveal"><div class="n">09</div><div class="w">Real</div></div>
-      <div class="word-cell reveal"><div class="n">10</div><div class="w">On Time</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- WHAT WE DON'T BELIEVE (DARK) -->
-<section class="anti">
-  <div class="container">
-    <div class="anti-head reveal">
-      <div class="eyebrow"><span class="pip"></span>What We Don't Believe</div>
-      <h2 class="anti-title">At Darren Hardy LLC…</h2>
-      <p class="anti-kicker">Ten Words That Have No Home Here</p>
-    </div>
-    <div class="anti-grid">
-      <div class="anti-cell reveal"><div class="n">01</div><div class="w">Excuses</div></div>
-      <div class="anti-cell reveal"><div class="n">02</div><div class="w">Blaming</div></div>
-      <div class="anti-cell reveal"><div class="n">03</div><div class="w">Whining</div></div>
-      <div class="anti-cell reveal"><div class="n">04</div><div class="w">Regrets</div></div>
-      <div class="anti-cell reveal"><div class="n">05</div><div class="w">"Good"</div></div>
-      <div class="anti-cell reveal"><div class="n">06</div><div class="w">Motivation</div></div>
-      <div class="anti-cell reveal"><div class="n">07</div><div class="w">Dreaming</div></div>
-      <div class="anti-cell reveal"><div class="n">08</div><div class="w">Talent</div></div>
-      <div class="anti-cell reveal"><div class="n">09</div><div class="w">What's Popular</div></div>
-      <div class="anti-cell reveal"><div class="n">10</div><div class="w">High-Fives</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- NOT FOR EVERYONE -->
-<section class="notfor">
-  <div class="container">
-    <div class="notfor-head reveal">
-      <div class="eyebrow"><span class="pip"></span>Plain Truth</div>
-      <h2 class="notfor-title">We Are Not<br>For Everyone.</h2>
-      <p class="notfor-sub">We don't try to be. The line is sharp on purpose. Read both columns. You'll know which side you're on.</p>
-    </div>
-    <div class="versus">
-      <div class="vs-col is-we reveal">
-        <div class="vs-tag">We Are For…</div>
-        <ul class="vs-list">
-          <li>Achievers, strivers, and rebels.</li>
-          <li>Leaders building something that matters.</li>
-          <li>Operators who refuse "good enough."</li>
-          <li>Founders chasing extraordinary outcomes.</li>
-          <li>People who choose responsibility over excuses.</li>
-          <li>Those who want to be coached, not coddled.</li>
+    <div class="mani-cols">
+      <div class="mani-col reveal">
+        <div class="mani-label">We Believe In</div>
+        <ul class="mani-list">
+          <li class="mani-item"><span class="mani-word">Audacity.</span><span class="mani-def">Playing small is a sin against your nature.</span></li>
+          <li class="mani-item"><span class="mani-word">Obsession.</span><span class="mani-def">Motivation is weak and passion wanes.</span></li>
+          <li class="mani-item"><span class="mani-word">Impact.</span><span class="mani-def">You do make a difference. Make it positive.</span></li>
+          <li class="mani-item"><span class="mani-word">Action.</span><span class="mani-def">It doesn&rsquo;t just happen.</span></li>
+          <li class="mani-item"><span class="mani-word">Growth.</span><span class="mani-def">Better is always possible.</span></li>
+          <li class="mani-item"><span class="mani-word">Accountability.</span><span class="mani-def">Everything is your fault. Own it.</span></li>
+          <li class="mani-item"><span class="mani-word">Excellence.</span><span class="mani-def">We have zero tolerance for mediocrity.</span></li>
+          <li class="mani-item"><span class="mani-word">Courage.</span><span class="mani-def">Especially when we&rsquo;re scared to death.</span></li>
+          <li class="mani-item"><span class="mani-word">Being Real.</span><span class="mani-def">We&rsquo;re all &ldquo;flawsome.&rdquo;</span></li>
+          <li class="mani-item"><span class="mani-word">Being On Time.</span><span class="mani-def">Because we hate burpees.</span></li>
         </ul>
       </div>
-      <div class="vs-col is-not reveal">
-        <div class="vs-tag">We Are Not For…</div>
-        <ul class="vs-list">
-          <li>The content. The satisfied. The settled.</li>
-          <li>The timid or the faint of heart.</li>
-          <li>Those looking for hype or hugs.</li>
-          <li>Anyone in love with their own excuses.</li>
-          <li>People who want the result without the work.</li>
-          <li>The merely curious, the easily offended.</li>
+      <div class="mani-col reveal">
+        <div class="mani-label">We Don&rsquo;t Believe In</div>
+        <ul class="mani-list">
+          <li class="mani-item"><span class="mani-word">Excuses.</span><span class="mani-def">Step up or step aside.</span></li>
+          <li class="mani-item"><span class="mani-word">Blaming.</span><span class="mani-def">Fix it or zip it.</span></li>
+          <li class="mani-item"><span class="mani-word">Whining.</span><span class="mani-def">If you want it, earn it.</span></li>
+          <li class="mani-item"><span class="mani-word">Regrets.</span><span class="mani-def">Just do better next time.</span></li>
+          <li class="mani-item"><span class="mani-word">&ldquo;Good.&rdquo;</span><span class="mani-def">You are here to be great.</span></li>
+          <li class="mani-item"><span class="mani-word">Motivation.</span><span class="mani-def">Do it whether you feel like it or not.</span></li>
+          <li class="mani-item"><span class="mani-word">Dreaming.</span><span class="mani-def">Unless you back it up with a crazy amount of doing.</span></li>
+          <li class="mani-item"><span class="mani-word">Talent.</span><span class="mani-def">Only training and preparation.</span></li>
+          <li class="mani-item"><span class="mani-word">What&rsquo;s Popular.</span><span class="mani-def">Popular is the average. Average is mediocre. We abhor mediocrity.</span></li>
         </ul>
+      </div>
+    </div>
+    <p class="mani-foot reveal">No dancing, high-fiving, or jumping up and down at seminars or on Zoom. That&rsquo;s just weird.</p>
+  </div>
+</section>
+
+<!-- SECTION 8 — PULL QUOTE -->
+<section class="anthem">
+  <div class="container">
+    <p class="anthem-quote reveal">Playing Small Is A Sin Against Your Nature.</p>
+    <div class="anthem-attrib reveal">Darren Hardy</div>
+  </div>
+</section>
+
+<!-- SECTION 9 — WE ARE NOT FOR EVERYONE (LIGHT) -->
+<section class="nfe">
+  <div class="container">
+    <div class="reveal"><div class="eyebrow on-light"><span class="pip"></span>We Are Not For Everyone</div></div>
+    <div class="nfe-blocks">
+      <div class="nfe-block reveal">
+        <div class="nfe-tag">We Are Not&hellip;</div>
+        <p class="nfe-body">For the content. The satisfied. The settled. For those who have resolved themselves to the current state of affairs. For those who go with the flow, bend with the wind, travel in the direction of the current.</p>
+      </div>
+      <div class="nfe-block reveal">
+        <div class="nfe-tag">Here&hellip;</div>
+        <p class="nfe-body">Elite leaders and extreme high achievers meet to take back control, own up to their responsibility, and decide to invent their fate. We don&rsquo;t believe in luck. We make our own.</p>
+      </div>
+      <div class="nfe-block reveal">
+        <div class="nfe-tag">Here&hellip;</div>
+        <p class="nfe-body">Is where you will find the infamous &ldquo;crazy ones&rdquo; you&rsquo;ve heard about. You remember. The ones others call misfits. Rebels. Troublemakers. The ones who see things, and most importantly, do things, differently.</p>
+      </div>
+      <div class="nfe-block reveal">
+        <div class="nfe-tag">We Are&hellip;</div>
+        <p class="nfe-body">The crazy, hardworking believers others call &ldquo;insane.&rdquo; We seek to break the rules of conformity and shake the status quo by the shoulders. We are the people who change things. The ones who push the human race forward.</p>
+      </div>
+      <div class="nfe-block reveal">
+        <div class="nfe-tag">We Are Not&hellip;</div>
+        <p class="nfe-body">For 99% of the world&rsquo;s population. For the timid or faint of heart. Because being a leader, a builder, an extreme achiever is hard work.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CLOSING CTA -->
+<!-- SECTION 10 — CTA CLOSE -->
 <section class="closing">
   <div class="container">
-    <div class="eyebrow closing-eyebrow reveal"><span class="pip"></span>Begin Your Adventure</div>
-    <h2 class="closing-headline reveal">If You're Still Reading,<br>You're One Of Us.</h2>
-    <p class="closing-body reveal">Start where every member of the A-Team started — with five free minutes of daily mentoring, 260 mornings a year. The on-ramp is open. The standard is yours to meet.</p>
-    <a class="closing-cta reveal" href="https://darrendaily.com/" target="_blank" rel="noopener">Start Free Daily Mentoring <span class="arrow">→</span></a>
+    <div class="reveal"><div class="eyebrow center"><span class="pip"></span>Begin Your Adventure</div></div>
+    <h2 class="closing-headline reveal">If You&rsquo;re Still Reading,<br>You&rsquo;re One Of Us.</h2>
+    <p class="closing-body reveal">Start with five free minutes of daily mentoring, 260 mornings a year. Begin your never-ending journey to grow Better Every Day.</p>
+    <a class="closing-cta reveal" href="https://darrendaily.com/" target="_blank" rel="noopener">Start Free Daily Mentoring <span class="arrow">&rarr;</span></a>
   </div>
 </section>
 
@@ -1113,13 +1295,13 @@
           <div class="bmc-corner-text">
             <span class="bmc-corner-title">Business Master Class</span>
             <span class="bmc-corner-tag">Build a High-Growth,<br>High-Impact Business</span>
-            <span class="bmc-corner-cta">Explore Business Master Class <span class="arrow">↗</span></span>
+            <span class="bmc-corner-cta">Explore Business Master Class <span class="arrow">&#8599;</span></span>
           </div>
         </a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© Darren Hardy, LLC. All Rights Reserved.</span>
+      <span>&copy; Darren Hardy, LLC. All Rights Reserved.</span>
       <div class="legal-links">
         <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
         <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
@@ -1129,19 +1311,58 @@
 </footer>
 
 <script>
+// ── A-Team grid ──
+const team = [
+  { name: 'Darren Hardy', role: 'Founder',                       photo: 'team-photos/darren.jpg' },
+  { name: 'Georgia',  role: 'CFO',                               photo: 'team-photos/georgia.png?v=2' },
+  { name: 'Darami',   role: 'Chief of Staff',                    photo: 'team-photos/darami.png' },
+  { name: 'Jon',      role: 'CMO',                               photo: 'team-photos/jon.png' },
+  { name: 'Brenda',   role: 'VP Member Experience',              photo: 'team-photos/brenda.png' },
+  { name: 'Mariana',  role: 'Director of Productions',           photo: 'team-photos/mariana.png' },
+  { name: 'Lesli',    role: 'Marketing Campaign Manager',        photo: 'team-photos/lesli.png' },
+  { name: 'Ali',      role: 'Director of Communications',        photo: 'team-photos/ali.png' },
+  { name: 'Emerald',  role: 'Member Success Coordinator',        photo: 'team-photos/emerald.png' },
+  { name: 'Laila',    role: 'Senior Operations Manager',         photo: 'team-photos/laila.png' },
+  { name: 'Jake',     role: 'Marketing Operations Specialist',   photo: 'team-photos/jake.png' },
+  { name: 'Ashlee',   role: 'VIP Member Coordinator',            photo: 'team-photos/ashlee.png' },
+  { name: 'Stuart',   role: 'AI Integrator',                     photo: 'team-photos/stuart.png' },
+  { name: 'Sara',     role: 'Treasury Director',                 photo: 'team-photos/sara.png' },
+  { name: 'Josh',     role: 'Member Enrollment Specialist',      photo: 'team-photos/josh.png' },
+  { name: 'Missy',    role: 'Executive Coordinator',             photo: 'team-photos/missy.png' },
+  { name: 'Kylie',    role: 'Member Care Specialist',            photo: 'team-photos/kylie.png' },
+];
+const grid = document.getElementById('teamGrid');
+team.forEach(m => {
+  const card = document.createElement('div');
+  card.className = 'ateam-card reveal';
+  card.innerHTML = `
+    <div class="ateam-photo"><img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy" /></div>
+    <div class="ateam-meta">
+      <div class="ateam-name">${m.name}</div>
+      <div class="ateam-role">${m.role}</div>
+    </div>`;
+  grid.appendChild(card);
+});
+
+// ── Scroll-reveal ──
 (function () {
   function stagger(selector, step = 0.06, cap = 0.6) {
     document.querySelectorAll(selector).forEach((el, i) => {
       el.style.transitionDelay = Math.min(i * step, cap) + 's';
     });
   }
-  stagger('.word-grid .reveal',  0.05);
-  stagger('.anti-grid .reveal',  0.05);
-  stagger('.versus .reveal',     0.15);
-  stagger('.stats-grid .reveal', 0.08);
+  stagger('.rant-body .reveal',     0.10);
+  stagger('.access-body .reveal',   0.08);
+  stagger('.bte-body .reveal',      0.07);
+  stagger('.mani-cols .reveal',     0.12);
+  stagger('.nfe-blocks .reveal',    0.10);
+  stagger('.ateam-grid .reveal',    0.05);
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) return;
+  if (reduced) {
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => el.classList.add('visible'));
+    return;
+  }
 
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -1150,9 +1371,9 @@
         obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  }, { threshold: 0.18, rootMargin: '0px 0px -60px 0px' });
 
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
 })();
 </script>
 </body>
