@@ -443,11 +443,13 @@
      Darren does NOT fade in — he's present on load. */
   .hero {
     min-height: 100vh;
-    padding: 120px 0 80px;
+    padding: 140px 0 80px;
     background: linear-gradient(180deg, #11081a 0%, #0c0710 55%, #060206 100%);
     overflow: hidden;
     display: flex;
-    align-items: center;
+    /* Anchor content to top — Darren's face sits in the upper third of the
+       cutout, so top-aligned text reads as "he's looking at the headline." */
+    align-items: flex-start;
     position: relative;
   }
   /* The .container inside a flex parent shrinks to its content's width by
@@ -620,37 +622,45 @@
         radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%),
         radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     }
-    /* Mobile: text overlays the image. Pattern matches home.html —
-       Darren anchors to bottom-center so his head/torso land in the bottom
-       half (clear of headline), with a top-down dark fade making the upper
-       portion readable. Opacity dialed back so headline reads through him. */
-    .hero {
-      align-items: flex-start;
-    }
+    /* Mobile: both bg and cutout MUST use identical object-position or
+       Darren stops aligning with his real-life stage backdrop. Pin both to
+       "right bottom" so the cutout reads as continuous with the photo —
+       his feet on the ground, body anchored to the lower-right of the
+       viewport, clearly to the right of the headline text on the left. */
     .hero-bkgd { object-position: right bottom; }
-    .hero-portrait { object-position: 65% bottom; opacity: 0.55; }
-    /* Stronger top-down darkening so headline sits cleanly on dark sky;
-       fades to transparent toward the bottom where Darren is visible */
+    .hero-portrait {
+      object-position: right bottom;
+      opacity: 0.85;
+    }
+    /* Top-down dark fade keeps headline area readable; bottom stays open
+       so Darren is visible at full vibrance. */
     .hero::after {
       background: linear-gradient(
         180deg,
-        rgba(8,4,12,0.92) 0%,
-        rgba(8,4,12,0.75) 25%,
-        rgba(8,4,12,0.40) 50%,
-        rgba(8,4,12,0.08) 75%,
+        rgba(8,4,12,0.88) 0%,
+        rgba(8,4,12,0.65) 28%,
+        rgba(8,4,12,0.28) 56%,
+        rgba(8,4,12,0.05) 80%,
         transparent 100%
       );
     }
   }
   @media (max-width: 600px) {
-    .hero-portrait { opacity: 0.55; object-position: 70% bottom; }
+    /* Phone: image scales so wide that only Darren's right side fits —
+       shift positioning so more of him reads. Opacity holds at 0.8 so he
+       stays present without overpowering the text. */
+    .hero-bkgd { object-position: 85% bottom; }
+    .hero-portrait {
+      object-position: 85% bottom;
+      opacity: 0.80;
+    }
     .hero::after {
       background: linear-gradient(
         180deg,
-        rgba(8,4,12,0.95) 0%,
-        rgba(8,4,12,0.85) 30%,
-        rgba(8,4,12,0.45) 55%,
-        rgba(8,4,12,0.10) 80%,
+        rgba(8,4,12,0.92) 0%,
+        rgba(8,4,12,0.78) 32%,
+        rgba(8,4,12,0.38) 60%,
+        rgba(8,4,12,0.08) 84%,
         transparent 100%
       );
     }
