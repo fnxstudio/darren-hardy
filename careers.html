@@ -249,7 +249,6 @@
   */
   .subhero-title:has(em),
   .collage-title:has(em),
-  .standard-title:has(em),
   .team-title:has(em),
   .process-title:has(em),
   .closing-headline:has(em) {
@@ -257,7 +256,6 @@
   }
   .subhero-title em,
   .collage-title em,
-  .standard-title em,
   .team-title em,
   .process-title em,
   .closing-headline em {
@@ -360,171 +358,98 @@
   }
   .subhero-sub strong { color: var(--white); font-weight: 600; }
 
-  /* ============ THE STANDARD ============ */
-  .standard {
-    background: var(--black);
-    padding: 140px 0 120px;
+  /* ============ MANIFESTO — WE BELIEVE / WE DON'T (mirrors /about.html) ============ */
+  .manifesto {
+    background: var(--ink);
+    padding: 160px 0;
     border-top: 1px solid var(--rule);
   }
-  .standard-head {
-    max-width: 900px;
-    margin-bottom: 72px;
+  .manifesto-head {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  .standard-head .eyebrow { margin-bottom: 28px; }
-  .standard-title {
+  .manifesto-head .eyebrow { margin-bottom: 24px; justify-content: center; }
+  .manifesto-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(36px, 4.6vw, 72px);
-    line-height: 0.98;
-    letter-spacing: -0.035em;
+    font-size: clamp(36px, 4.8vw, 72px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
     color: var(--white);
     text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-  .standard-sub {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: clamp(16px, 1.3vw, 19px);
-    line-height: 1.55;
-    color: var(--silver);
-    max-width: 640px;
   }
 
-  .standard {
-    /* Prevent tiles bleeding into adjacent sections during 3D flip */
-    overflow: hidden;
-  }
-  /* Single-source grid lines: container bg shows through 1px gaps for perfectly
-     consistent dividers (no subpixel rounding artifacts from per-tile borders) */
-  .standard-grid {
+  .mani-cols {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 1px;
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    perspective: 1800px;
-    perspective-origin: center 30%;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--rule-strong);
   }
-  @media (max-width: 1080px) { .standard-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  @media (max-width: 720px)  { .standard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (max-width: 460px)  { .standard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 880px) { .mani-cols { grid-template-columns: 1fr; } }
 
-  .std {
-    background: var(--black);
-    position: relative;
-    padding: 24px 22px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    aspect-ratio: 0.88 / 1;
-    overflow: hidden;
-    transition:
-      background 0.3s ease,
-      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
+  .mani-col {
+    padding: 48px 44px;
+    border-right: 1px solid var(--rule-strong);
   }
-  /* Tiny corner index — keeps the numerical orientation */
-  .std-num {
-    position: absolute;
-    top: 18px;
-    right: 22px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    color: var(--grey);
-    text-transform: uppercase;
-    z-index: 2;
-  }
-  /* Big outlined number — the watermark visual that gives each card identity */
-  .std-bg-num {
-    position: absolute;
-    top: -8px;
-    left: 12px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(82px, 10vw, 158px);
-    line-height: 0.82;
-    color: transparent;
-    -webkit-text-stroke: 1.5px rgba(255,255,255,0.14);
-    letter-spacing: -0.05em;
-    user-select: none;
-    pointer-events: none;
-    z-index: 1;
-    transition: -webkit-text-stroke-color 0.4s ease, color 0.4s ease;
-  }
-  .std-word {
-    position: relative;
-    z-index: 2;
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(15px, 1.35vw, 20px);
-    line-height: 1;
-    letter-spacing: -0.015em;
-    color: var(--white);
-    text-transform: uppercase;
+  .mani-col:last-child { border-right: none; }
+  @media (max-width: 880px) {
+    .mani-col { border-right: none; border-bottom: 1px solid var(--rule-strong); padding: 40px 28px; }
+    .mani-col:last-child { border-bottom: none; }
   }
 
-  /* 3D card-flip reveal from the side */
-  .standard-grid .std.reveal {
-    opacity: 0;
-    transform: rotateY(-72deg) translateZ(-50px) scale(0.94);
-    transform-origin: left center;
-  }
-  .standard-grid .std.reveal.visible {
-    opacity: 1;
-    transform: rotateY(0) translateZ(0) scale(1);
-  }
-  /* Hover state — lift in 3D, light up the watermark */
-  .standard-grid .std.visible:hover {
-    background: var(--ink-soft);
-    transform: translateZ(18px);
-  }
-  .standard-grid .std.visible:hover .std-bg-num {
-    -webkit-text-stroke-color: rgba(255,255,255,0.34);
-    color: rgba(255,255,255,0.05);
-  }
-
-  /* Mobile: shallower 3D so the flip never pushes tiles past viewport edges */
-  @media (max-width: 720px) {
-    .standard-grid { perspective: 1100px; }
-    .standard-grid .std.reveal {
-      transform: rotateY(-42deg) translateZ(-22px) scale(0.96);
-    }
-    .standard-grid .std.visible:hover { transform: translateZ(10px); }
-    .std-bg-num { font-size: clamp(64px, 18vw, 108px); top: -2px; }
-    .std { padding: 22px 18px; }
-  }
-
-  .standard-footnote {
-    margin-top: 56px;
-    padding-top: 32px;
-    border-top: 1px solid var(--rule);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px 20px;
-    align-items: center;
-  }
-  .standard-footnote-label {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    color: var(--grey);
-    text-transform: uppercase;
-  }
-  .standard-footnote-item {
+  .mani-label {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    color: var(--grey-soft);
-    text-decoration: line-through;
-    text-decoration-color: rgba(255,255,255,0.25);
-    text-decoration-thickness: 1px;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    color: var(--grey);
     text-transform: uppercase;
+    margin-bottom: 36px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .mani-list { list-style: none; display: flex; flex-direction: column; }
+  .mani-item {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.25s ease, padding 0.25s ease;
+    border-radius: 2px;
+  }
+  .mani-item:last-child { border-bottom: none; }
+  .mani-item:hover { background: rgba(255,255,255,0.025); padding-left: 12px; padding-right: 12px; }
+  .mani-word {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .mani-def {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--silver);
+  }
+  .mani-foot {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(17px, 1.5vw, 22px);
+    line-height: 1.45;
+    color: var(--white);
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* ============ CREED ============ */
@@ -1347,39 +1272,45 @@
   </div>
 </section>
 
-<!-- THE STANDARD — unified panel, not stark split -->
-<section class="standard">
+<!-- MANIFESTO — mirrors the /about.html version: two-column belief/reject lists -->
+<section class="manifesto">
   <div class="container">
-    <div class="standard-head reveal">
-      <div class="eyebrow"><span class="pip"></span>The Standard</div>
-      <h2 class="standard-title">What We Hold <em>Each Other</em> To.</h2>
-      <p class="standard-sub">Ten non-negotiables that define how the A-Team shows up every day, on every project, with every member we serve.</p>
+    <div class="manifesto-head">
+      <div class="reveal"><div class="eyebrow"><span class="pip"></span>The Standards</div></div>
+      <h2 class="manifesto-title reveal">What We Believe.<br>What We Don&rsquo;t.</h2>
     </div>
-    <div class="standard-grid">
-      <div class="std reveal"><span class="std-bg-num">01</span><span class="std-num">01</span><span class="std-word">Audacity</span></div>
-      <div class="std reveal"><span class="std-bg-num">02</span><span class="std-num">02</span><span class="std-word">Action</span></div>
-      <div class="std reveal"><span class="std-bg-num">03</span><span class="std-num">03</span><span class="std-word">Excellence</span></div>
-      <div class="std reveal"><span class="std-bg-num">04</span><span class="std-num">04</span><span class="std-word">On Time</span></div>
-      <div class="std reveal"><span class="std-bg-num">05</span><span class="std-num">05</span><span class="std-word">Being Real</span></div>
-      <div class="std reveal"><span class="std-bg-num">06</span><span class="std-num">06</span><span class="std-word">Obsession</span></div>
-      <div class="std reveal"><span class="std-bg-num">07</span><span class="std-num">07</span><span class="std-word">Growth</span></div>
-      <div class="std reveal"><span class="std-bg-num">08</span><span class="std-num">08</span><span class="std-word">Courage</span></div>
-      <div class="std reveal"><span class="std-bg-num">09</span><span class="std-num">09</span><span class="std-word">Impact</span></div>
-      <div class="std reveal"><span class="std-bg-num">10</span><span class="std-num">10</span><span class="std-word">Accountability</span></div>
+    <div class="mani-cols">
+      <div class="mani-col reveal">
+        <div class="mani-label">We Believe In</div>
+        <ul class="mani-list">
+          <li class="mani-item"><span class="mani-word">Audacity.</span><span class="mani-def">Playing small is a sin against your nature.</span></li>
+          <li class="mani-item"><span class="mani-word">Obsession.</span><span class="mani-def">Motivation is weak and passion wanes.</span></li>
+          <li class="mani-item"><span class="mani-word">Impact.</span><span class="mani-def">You do make a difference. Make it positive.</span></li>
+          <li class="mani-item"><span class="mani-word">Action.</span><span class="mani-def">It doesn&rsquo;t just happen.</span></li>
+          <li class="mani-item"><span class="mani-word">Growth.</span><span class="mani-def">Better is always possible.</span></li>
+          <li class="mani-item"><span class="mani-word">Accountability.</span><span class="mani-def">Everything is your fault. Own it.</span></li>
+          <li class="mani-item"><span class="mani-word">Excellence.</span><span class="mani-def">We have zero tolerance for mediocrity.</span></li>
+          <li class="mani-item"><span class="mani-word">Courage.</span><span class="mani-def">Especially when we&rsquo;re scared to death.</span></li>
+          <li class="mani-item"><span class="mani-word">Being Real.</span><span class="mani-def">We&rsquo;re all &ldquo;flawsome.&rdquo;</span></li>
+          <li class="mani-item"><span class="mani-word">Being On Time.</span><span class="mani-def">Because we hate burpees.</span></li>
+        </ul>
+      </div>
+      <div class="mani-col reveal">
+        <div class="mani-label">We Don&rsquo;t Believe In</div>
+        <ul class="mani-list">
+          <li class="mani-item"><span class="mani-word">Excuses.</span><span class="mani-def">Step up or step aside.</span></li>
+          <li class="mani-item"><span class="mani-word">Blaming.</span><span class="mani-def">Fix it or zip it.</span></li>
+          <li class="mani-item"><span class="mani-word">Whining.</span><span class="mani-def">If you want it, earn it.</span></li>
+          <li class="mani-item"><span class="mani-word">Regrets.</span><span class="mani-def">Just do better next time.</span></li>
+          <li class="mani-item"><span class="mani-word">&ldquo;Good.&rdquo;</span><span class="mani-def">You are here to be great.</span></li>
+          <li class="mani-item"><span class="mani-word">Motivation.</span><span class="mani-def">Do it whether you feel like it or not.</span></li>
+          <li class="mani-item"><span class="mani-word">Dreaming.</span><span class="mani-def">Unless you back it up with a crazy amount of doing.</span></li>
+          <li class="mani-item"><span class="mani-word">Talent.</span><span class="mani-def">Only training and preparation.</span></li>
+          <li class="mani-item"><span class="mani-word">What&rsquo;s Popular.</span><span class="mani-def">Popular is the average. Average is mediocre. We abhor mediocrity.</span></li>
+        </ul>
+      </div>
     </div>
-    <div class="standard-footnote reveal">
-      <span class="standard-footnote-label">And What We Don't Tolerate:</span>
-      <span class="standard-footnote-item">Excuses</span>
-      <span class="standard-footnote-item">Whining</span>
-      <span class="standard-footnote-item">"Good"</span>
-      <span class="standard-footnote-item">Dreaming</span>
-      <span class="standard-footnote-item">Blaming</span>
-      <span class="standard-footnote-item">Regrets</span>
-      <span class="standard-footnote-item">Motivation</span>
-      <span class="standard-footnote-item">Talent</span>
-      <span class="standard-footnote-item">What's Popular</span>
-      <span class="standard-footnote-item">High-Fives</span>
-    </div>
+    <p class="mani-foot reveal">No dancing, high-fiving, or jumping up and down at seminars or on Zoom. That&rsquo;s just weird.</p>
   </div>
 </section>
 
@@ -1598,7 +1529,7 @@ team.forEach(m => {
     });
   }
   stagger('.collage-mosaic .reveal-scale', 0.12);
-  stagger('.standard-grid .reveal',        0.09);
+  stagger('.mani-cols .reveal',            0.18);
   stagger('.team-grid .reveal-scale',      0.04);
   stagger('.step-stack .reveal',           0.15);
   stagger('.role-grid .reveal',            0.12);
