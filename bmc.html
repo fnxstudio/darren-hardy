@@ -234,6 +234,7 @@
     --ink-soft: #1c1c1c;
     --white: #ffffff;
     --bone: #f5f5f5;
+    --bone-soft: #ececec;
     --silver: #b8b8b8;
     --grey: #888888;
     --grey-soft: #6a6a6a;
@@ -1121,6 +1122,40 @@
   @media (max-width: 960px) { .quote-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 640px) { .quote-grid { grid-template-columns: 1fr; } }
 
+  /* Light treatment — bone-soft background, magazine-editorial feel */
+  #testimonials.is-light {
+    background: var(--bone-soft);
+    color: var(--black);
+    border-top: 1px solid var(--rule-dark);
+  }
+  #testimonials.is-light .eyebrow { color: var(--grey-soft); }
+  #testimonials.is-light .eyebrow .pip { background: var(--grey-soft); }
+  #testimonials.is-light .section-headline { color: var(--black); }
+  #testimonials.is-light .testimonial-intro { color: var(--muted); }
+  #testimonials.is-light .video-thumb {
+    border-color: var(--rule-dark-strong);
+    background: linear-gradient(135deg, #2a2725 0%, #131110 100%);
+  }
+  #testimonials.is-light .video-thumb::before {
+    background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  }
+  #testimonials.is-light .video-name { color: var(--black); }
+  #testimonials.is-light .video-title-co { color: var(--muted); }
+  #testimonials.is-light .video-quote { color: var(--black); }
+  #testimonials.is-light .quote-card {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: var(--rule-dark);
+  }
+  #testimonials.is-light .quote-card:hover {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: var(--rule-dark-strong);
+  }
+  #testimonials.is-light .quote-card .q { color: var(--muted); }
+  #testimonials.is-light .quote-rule { background: var(--rule-dark); }
+  #testimonials.is-light .quote-name { color: var(--black); }
+  #testimonials.is-light .quote-title { color: var(--muted); }
+  #testimonials.is-light .quote-industry { color: var(--black); }
+
   /* ============ LAYER 10 — WHO FOR / NOT FOR ============ */
   .filter-headline-10 {
     font-size: clamp(40px, 5.2vw, 80px);
@@ -1469,6 +1504,26 @@
   @media (max-width: 720px) {
     .stack-item { grid-template-columns: 1fr; gap: 8px; padding: 28px 0; }
   }
+
+  /* Light treatment — pure white, inventory feels clean and tangible */
+  .stack-section.is-light {
+    background: var(--white);
+    color: var(--black);
+    border-top: 1px solid var(--rule-dark);
+  }
+  .stack-section.is-light .eyebrow { color: var(--grey-soft); }
+  .stack-section.is-light .eyebrow .pip { background: var(--grey-soft); }
+  .stack-section.is-light .section-headline { color: var(--black); }
+  /* Cyan keyword 'Moment You Enroll' would wash out on white — swap to deep cyan */
+  .stack-section.is-light em.key { color: var(--bmc-cyan-deep); }
+  .stack-section.is-light .stack-list { border-top-color: var(--rule-dark); }
+  .stack-section.is-light .stack-item {
+    border-bottom-color: var(--rule-dark);
+  }
+  .stack-section.is-light .stack-item:hover { background: rgba(0, 0, 0, 0.02); }
+  .stack-section.is-light .stack-numeral { color: var(--grey); }
+  .stack-section.is-light .stack-item h3 { color: var(--black); }
+  .stack-section.is-light .stack-item p { color: var(--muted); }
 
   /* ============ LAYER 14 — RISK REVERSAL ============ */
   .risk-section {
@@ -2065,7 +2120,7 @@
 </section>
 
 <!-- ===== LAYER 9 — TESTIMONIAL WALL ===== -->
-<section class="section-ink section-divider" id="testimonials">
+<section class="section-ink section-divider is-light" id="testimonials">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>What Members Say</div>
     <h2 class="section-headline reveal" style="text-align:center;">The Standard Of The Room.</h2>
@@ -2256,7 +2311,7 @@
 </section>
 
 <!-- ===== LAYER 13 — ACTIVATION STACK ===== -->
-<section class="stack-section">
+<section class="stack-section is-light">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>What You Get Access To</div>
     <h2 class="section-headline stack-headline reveal">Everything That Opens The <em class="key">Moment You Enroll</em>.</h2>
