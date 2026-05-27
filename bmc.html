@@ -540,38 +540,27 @@
   }
   .secondary-link:hover { color: var(--white); border-bottom-color: var(--silver); }
 
+  /* Transparent PNG cutout — let Darren sit on the dark purple background
+     at natural color, no container crop, no gradient overlays (cutout has
+     built-in transparency on the left). Subtle drop shadow for depth. */
   .hero-portrait-wrap {
     position: relative;
-    aspect-ratio: 4 / 5;
-    max-height: 640px;
-    overflow: hidden;
     opacity: 0;
     animation: fadeIn 1.6s ease forwards;
     animation-delay: 0.5s;
     align-self: center;
     justify-self: end;
     width: 100%;
+    max-width: 640px;
   }
   .hero-portrait-wrap img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center 35%;
-    filter: grayscale(28%) contrast(1.06) brightness(0.95);
-  }
-  .hero-portrait-wrap::after {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, var(--black) 0%, rgba(10,10,10,0.4) 8%, transparent 32%);
-    pointer-events: none;
-  }
-  .hero-portrait-wrap::before {
-    content: "";
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 80px;
-    background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.85) 100%);
-    z-index: 1;
-    pointer-events: none;
+    width: 100%;
+    height: auto;
+    max-height: 720px;
+    object-fit: contain;
+    display: block;
+    margin-left: auto;
+    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.5));
   }
 
   .scroll-cue {
@@ -600,12 +589,12 @@
     .hero-grid { grid-template-columns: 1fr; gap: 48px; }
     .hero-content { max-width: 100%; }
     .hero-portrait-wrap {
-      max-height: 480px;
-      aspect-ratio: 5 / 4;
-      justify-self: stretch;
+      max-width: 100%;
+      justify-self: center;
     }
-    .hero-portrait-wrap::after {
-      background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 60%, var(--black) 100%);
+    .hero-portrait-wrap img {
+      max-height: 460px;
+      margin: 0 auto;
     }
     /* Mobile compensation — radial gradients lose impact on smaller
        viewports. Stronger base tint + denser bloom centered for single-col. */
@@ -1964,7 +1953,7 @@
         </div>
       </div>
       <div class="hero-portrait-wrap">
-        <img src="DH_BMC_2.jpg" alt="Darren Hardy presenting on the Business Master Class stage" />
+        <img src="DH_BMC_stage.png" alt="Darren Hardy on stage at Business Master Class" />
       </div>
     </div>
   </div>
