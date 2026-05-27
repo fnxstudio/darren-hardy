@@ -4,6 +4,88 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>About · Darren Hardy</title>
+<meta name="description" content="Darren Hardy is a business advisor and mentor who has spent 35 years at the centerpiece of the success media industry, in close counsel with the world's leading CEOs, founders, and industry titans.">
+<meta name="author" content="Darren Hardy">
+<meta name="robots" content="index, follow">
+
+<!-- ─────────────────────────────────────────────────────────────
+     MIGRATION NOTE FOR DEV TEAM
+     When this site moves to DarrenHardy.com, update the four
+     lines below marked [MIGRATE] — swap the GitHub Pages URL
+     for https://darrenhardy.com everywhere they appear.
+     ───────────────────────────────────────────────────────────── -->
+
+<!-- Canonical -->
+<link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/about.html"> <!-- [MIGRATE] → https://darrenhardy.com/about/ -->
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="Darren Hardy · Be The Exception">
+<meta property="og:title"       content="About · Darren Hardy">
+<meta property="og:description" content="35 years at the centerpiece of the success media industry, in close counsel with the world's top CEOs, founders, and industry titans. The edge you've been seeking.">
+<meta property="og:url"         content="https://fnxstudio.github.io/darren-hardy/about.html"> <!-- [MIGRATE] → https://darrenhardy.com/about/ -->
+<meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/og-image.jpg"> <!-- [MIGRATE] → https://darrenhardy.com/og-image.jpg -->
+<meta property="og:image:width"  content="1376">
+<meta property="og:image:height" content="768">
+<meta property="og:image:alt"   content="Darren Hardy — Be The Exception">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@DARRENHARDY">
+<meta name="twitter:creator"     content="@DARRENHARDY">
+<meta name="twitter:title"       content="About · Darren Hardy">
+<meta name="twitter:description" content="35 years at the centerpiece of the success media industry, in close counsel with the world's top CEOs, founders, and industry titans.">
+<meta name="twitter:image"       content="https://fnxstudio.github.io/darren-hardy/og-image.jpg"> <!-- [MIGRATE] → https://darrenhardy.com/og-image.jpg -->
+
+<!-- Structured Data — AEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://darrenhardy.com/#darren-hardy",
+      "name": "Darren Hardy",
+      "url": "https://darrenhardy.com",
+      "image": "https://fnxstudio.github.io/darren-hardy/og-image.jpg",
+      "jobTitle": "Business Advisor, Mentor & Bestselling Author",
+      "description": "Darren Hardy is a business advisor and mentor who has spent 35 years at the centerpiece of the success media industry, in close counsel with the world's leading CEOs, founders, and industry titans. Founding publisher of SUCCESS magazine. Creator of DarrenDaily. Advisor to 11,000+ CEOs worldwide.",
+      "slogan": "Be The Exception.",
+      "knowsAbout": [
+        "Business Strategy", "Leadership Development", "Entrepreneurship",
+        "CEO Mentoring", "The Compound Effect", "Productivity Systems",
+        "Sales", "Recruiting", "Business Scaling",
+        "Persuasion and Influence", "AI and Human Judgment"
+      ],
+      "award": [
+        "NSA Master of Influence Award, shared with Zig Ziglar, Jim Rohn, and Deepak Chopra",
+        "New York Times Bestselling Author",
+        "Wall Street Journal Bestselling Author",
+        "USA Today Bestselling Author",
+        "Amazon Bestselling Author"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/darrenhardy/",
+        "https://twitter.com/DARRENHARDY",
+        "https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ",
+        "https://www.facebook.com/DarrenHardyFan/",
+        "https://www.instagram.com/darrenhardy/",
+        "https://darrendaily.com",
+        "https://en.wikipedia.org/wiki/Darren_Hardy"
+      ]
+    },
+    {
+      "@type": "AboutPage",
+      "@id": "https://fnxstudio.github.io/darren-hardy/about.html#aboutpage",
+      "url": "https://fnxstudio.github.io/darren-hardy/about.html",
+      "name": "About · Darren Hardy",
+      "description": "The advisor, the access story, the philosophy, and the team behind Darren Hardy, LLC.",
+      "mainEntity": { "@id": "https://darrenhardy.com/#darren-hardy" }
+    }
+  ]
+}
+</script>
+
 <link rel="icon" type="image/png" href="dh_logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,16 +244,27 @@
 
   /* ============ SECTION 1 — HERO (FLAG PLANT) ============ */
   .hero-flag {
-    background:
-      radial-gradient(ellipse at 25% 25%, rgba(255,255,255,0.06), transparent 55%),
-      radial-gradient(ellipse at 80% 70%, rgba(255,255,255,0.035), transparent 55%),
-      linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 100%);
+    background: #0a0a0a;
     min-height: 100vh;
     padding: 168px 0 120px;
     display: flex;
     align-items: center;
     overflow: hidden;
   }
+  /* Background photo behind everything */
+  .hf-bkgd {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+    opacity: 0.4;
+    filter: grayscale(45%);
+  }
+  /* Subtle grain over background */
   .hero-flag::before {
     content: "";
     position: absolute; inset: 0;
@@ -180,8 +273,38 @@
     pointer-events: none;
     z-index: 1;
   }
-  .hero-flag .container { position: relative; z-index: 2; }
-  .hf-stack { max-width: 1100px; display: flex; flex-direction: column; gap: 0; }
+  /* Left-side gradient mask so text stays readable over the photo + portrait */
+  .hero-flag::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.80) 38%, rgba(10,10,10,0.35) 65%, rgba(10,10,10,0.10) 100%),
+      linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.45) 60%, rgba(10,10,10,0.95) 100%),
+      radial-gradient(ellipse at 25% 30%, rgba(255,255,255,0.05), transparent 55%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  /* DH portrait on the right — mirrors the homepage hero treatment */
+  .hf-portrait {
+    position: absolute;
+    top: 72px; bottom: 0; right: 0;
+    width: 50%;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    animation: hfPortraitIn 1.6s ease 0.4s forwards;
+  }
+  .hf-portrait picture { display: contents; }
+  .hf-portrait img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  @keyframes hfPortraitIn { to { opacity: 0.95; } }
+
+  .hero-flag .container { position: relative; z-index: 3; }
+  .hf-stack { max-width: 760px; display: flex; flex-direction: column; gap: 0; }
 
   .hf-eyebrow {
     margin-bottom: 36px;
@@ -235,6 +358,19 @@
   }
   .hf-close-1 { margin-top: 22px; animation-delay: 4.2s; }
   .hf-close-2 { margin-top: 8px; animation-delay: 4.6s; }
+
+  @media (max-width: 960px) {
+    .hero-flag { padding: 140px 0 96px; }
+    .hf-portrait { width: 80%; opacity: 0; animation-name: hfPortraitInFaint; }
+    .hf-portrait img { object-position: bottom right; }
+    .hero-flag::after {
+      background:
+        linear-gradient(180deg, rgba(10,10,10,0.65) 0%, rgba(10,10,10,0.55) 30%, rgba(10,10,10,0.92) 90%),
+        linear-gradient(90deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.55) 60%, rgba(10,10,10,0.35) 100%);
+    }
+    .hf-stack { max-width: 100%; }
+  }
+  @keyframes hfPortraitInFaint { to { opacity: 0.55; } }
 
   @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
 
@@ -391,15 +527,21 @@
     position: relative;
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    background: #d8d8d8;
+    background: #e8e4dd;
     border: 1px solid var(--rule-dark-strong);
+    padding: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .bte-portrait img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center 24%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     display: block;
-    filter: grayscale(28%) contrast(1.02);
+    filter: contrast(1.02);
   }
   .bte-portrait .cap {
     position: absolute;
@@ -859,6 +1001,7 @@
     .hf-eyebrow, .hf-headline, .hf-body, .hf-close-1, .hf-close-2, .scroll-cue {
       opacity: 1 !important; transform: none !important; animation: none !important;
     }
+    .hf-portrait { opacity: 0.85 !important; animation: none !important; }
   }
 
   /* ============ FOOTER ============ */
@@ -906,7 +1049,7 @@
   .footer-brand .socials a svg { width: 18px; height: 18px; fill: currentColor; display: block; }
   .footer-brand .socials a:hover { color: var(--white); }
 
-  .footer-col h4 {
+  .footer-col h3, .footer-col h4 {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 10px;
@@ -1012,13 +1155,11 @@
   <div class="nav-left">
     <a href="about.html" class="current">About</a>
     <a href="resources.html">Resources</a>
-    <a href="https://hardyclub.com/">Community</a>
   </div>
   <a class="nav-brand" href="home.html">Darren Hardy</a>
   <div class="nav-right">
     <a href="https://darrendaily.com/">Daily Mentoring</a>
-    <a href="resources.html">Free Audio Book</a>
-    <a href="https://darrendaily.com/">Mailing List</a>
+    <a href="home.html#start-here">Start Here</a>
   </div>
   <button class="nav-burger" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('navMobile').classList.toggle('open')">
     <span></span><span></span><span></span>
@@ -1026,15 +1167,24 @@
   <div class="nav-mobile" id="navMobile">
     <a href="about.html" class="current">About</a>
     <a href="resources.html">Resources</a>
-    <a href="https://hardyclub.com/">Community</a>
     <a href="https://darrendaily.com/">Daily Mentoring</a>
-    <a href="resources.html">Free Audio Book</a>
-    <a href="https://darrendaily.com/">Mailing List</a>
+    <a href="home.html#start-here">Start Here</a>
   </div>
 </nav>
 
+<main>
+
 <!-- SECTION 1 — HERO (FLAG PLANT) -->
 <section class="hero-flag">
+  <img class="hf-bkgd" src="Hero-Bkgd.png" alt="" aria-hidden="true" />
+  <div class="hf-portrait" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 960px)" type="image/webp" srcset="Hero-DH-mobile.webp">
+      <source media="(max-width: 960px)" srcset="Hero-DH-mobile.png">
+      <source type="image/webp" srcset="Hero-DH.webp">
+      <img src="Hero-DH.png" alt="" />
+    </picture>
+  </div>
   <div class="container">
     <div class="hf-stack">
       <div class="eyebrow hf-eyebrow"><span class="pip"></span>The Advisor</div>
@@ -1103,7 +1253,7 @@
   <div class="container">
     <div class="bte-grid">
       <div class="bte-portrait reveal-scale">
-        <img src="team-photos/darren.jpg" alt="Darren Hardy" loading="lazy" />
+        <img src="darren-dad.png" alt="Young Darren with his father" loading="lazy" />
         <div class="cap">Darren &amp; His Father</div>
       </div>
       <div class="bte-content">
@@ -1239,6 +1389,8 @@
   </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -1268,25 +1420,20 @@
         </div>
       </div>
       <div class="footer-col">
-        <h4>Explore</h4>
+        <h3>Explore</h3>
         <ul>
           <li><a href="about.html">About</a></li>
-          <li><a href="https://store.darrenhardy.com/">Books</a></li>
           <li><a href="resources.html">Resources</a></li>
-          <li><a href="https://hardyclub.com/">Community</a></li>
-          <li><a href="https://dhbmc.com">AI Systems</a></li>
           <li><a href="https://darrendaily.com/">Daily Mentoring</a></li>
-          <li><a href="https://darrendailyondemand.com/">Daily Podcast</a></li>
-          <li><a href="resources.html">Free Audio Book</a></li>
-          <li><a href="https://darrendaily.com/">Mailing List</a></li>
+          <li><a href="https://darrendailyondemand.com/">Podcast</a></li>
+          <li><a href="https://store.darrenhardy.com/">Books</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Support</h4>
+        <h3>Support</h3>
         <ul>
           <li><a href="https://helpme.darrenhardy.com/">Help Center</a></li>
           <li><a href="careers.html">Careers</a></li>
-          <li><a href="https://helpme.darrenhardy.com/">Contact</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1328,8 +1475,6 @@ const team = [
   { name: 'Stuart',   role: 'AI Integrator',                     photo: 'team-photos/stuart.png' },
   { name: 'Sara',     role: 'Treasury Director',                 photo: 'team-photos/sara.png' },
   { name: 'Josh',     role: 'Member Enrollment Specialist',      photo: 'team-photos/josh.png' },
-  { name: 'Missy',    role: 'Executive Coordinator',             photo: 'team-photos/missy.png' },
-  { name: 'Kylie',    role: 'Member Care Specialist',            photo: 'team-photos/kylie.png' },
 ];
 const grid = document.getElementById('teamGrid');
 team.forEach(m => {
