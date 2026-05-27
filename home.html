@@ -718,23 +718,33 @@
 
   .declarations .container { position: relative; z-index: 2; }
 
-  /* All decls stack in the same grid cell — JS cycles them one at a time */
+  /* All decls stack in the same grid cell — CSS cycles them like the hero identity */
   .decl-stack { display: grid; }
   .decl {
     grid-row: 1;
     grid-column: 1;
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(38px, 6.4vw, 106px);
-    line-height: 0.94;
-    letter-spacing: -0.03em;
+    font-size: clamp(43px, 7.7vw, 134px);
+    line-height: 1;
+    letter-spacing: -0.04em;
     color: var(--white);
     text-transform: uppercase;
+    margin: 0;
     opacity: 0;
-    transition: opacity 0.8s ease;
   }
-  .decl.decl-active { opacity: 1; }
-  .decl.d4 { color: var(--silver); }
+  /* Stagger 4 lines across a 12s loop — same keyframe shape as hero .identity */
+  .decl.d1 { animation: declLoop 12s ease-in-out infinite; animation-delay:  0s; }
+  .decl.d2 { animation: declLoop 12s ease-in-out infinite; animation-delay:  3s; }
+  .decl.d3 { animation: declLoop 12s ease-in-out infinite; animation-delay:  6s; }
+  .decl.d4 { animation: declLoop 12s ease-in-out infinite; animation-delay:  9s; }
+  @keyframes declLoop {
+    0%          { opacity: 0; transform: translateY(20px); }
+    7%          { opacity: 1; transform: translateY(0);    }
+    25%         { opacity: 1; transform: translateY(0);    }
+    33%         { opacity: 0; transform: translateY(-10px);}
+    33.1%, 100% { opacity: 0; transform: translateY(20px); }
+  }
 
   /* ============ MEDIA RIBBON ============ */
   .ribbon {
@@ -1043,18 +1053,16 @@
   /* ============ AWARDS RIBBON ============ */
   .ribbon--awards {
     background: var(--black);
-    padding: 48px 0;
+    padding: 24px 0;
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
   }
-  .ribbon--awards .ribbon-label { color: var(--silver); }
   .awards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     text-align: center;
     align-items: center;
-    margin-top: 32px;
     position: relative;
     overflow: hidden;
     background: var(--black);
@@ -1233,7 +1241,7 @@
     background: linear-gradient(
       105deg,
       transparent 20%,
-      rgba(210, 210, 230, 0.16) 50%,
+      rgba(210, 210, 230, 0.32) 50%,
       transparent 80%
     );
     animation: cta-shimmer 4s ease-in-out infinite;
@@ -1616,7 +1624,6 @@
 
 <!-- AWARDS RIBBON -->
 <div class="ribbon ribbon--awards">
-  <div class="ribbon-label">Award-Winning Educator</div>
   <div class="container">
     <div class="awards-grid">
       <div class="award award-has-img">
@@ -1776,24 +1783,7 @@
 })();
 
 // ── Declarations scroll reveal ──
-// ── Declarations: cycle lines one at a time, never-ending loop ──
-(function () {
-  const decls = Array.from(document.querySelectorAll('.decl'));
-  if (!decls.length) return;
-  let idx = 0;
-  const FADE = 800;   // must match CSS transition duration (ms)
-  const HOLD = 3200;  // how long each line stays fully visible
-
-  function next() {
-    decls[idx].classList.remove('decl-active');   // start fade-out
-    idx = (idx + 1) % decls.length;
-    decls[idx].classList.add('decl-active');       // crossfade to next
-    setTimeout(next, HOLD + FADE);
-  }
-
-  decls[0].classList.add('decl-active');           // show first line
-  setTimeout(next, HOLD + FADE);
-})();
+// Declarations cycling is handled entirely by CSS animation (declLoop keyframe)
 
 // ── Covers grid ──
 const covers = [
