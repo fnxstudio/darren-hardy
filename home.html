@@ -718,21 +718,22 @@
 
   .declarations .container { position: relative; z-index: 2; }
 
-  .decl-stack { display: flex; flex-direction: column; gap: 24px; }
+  /* All decls stack in the same grid cell — JS cycles them one at a time */
+  .decl-stack { display: grid; }
   .decl {
+    grid-row: 1;
+    grid-column: 1;
     font-family: 'Inter', sans-serif;
-    font-weight: 700;
+    font-weight: 900;
     font-size: clamp(38px, 6.4vw, 106px);
     line-height: 0.94;
     letter-spacing: -0.03em;
     color: var(--white);
     text-transform: uppercase;
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.9s cubic-bezier(0.2,0.65,0.3,0.95),
-                transform 0.9s cubic-bezier(0.2,0.65,0.3,0.95);
+    transition: opacity 0.8s ease;
   }
-  .decl.visible { opacity: 1; transform: translateY(0); }
+  .decl.decl-active { opacity: 1; }
   .decl.d4 { color: var(--silver); }
 
   /* ============ MEDIA RIBBON ============ */
@@ -982,7 +983,7 @@
   }
 
   /* ============ STATS ============ */
-  .stats { background: var(--black); padding: 120px 0 64px; }
+  .stats { background: var(--black); padding: 80px 0 0; }
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1039,17 +1040,24 @@
   }
 
 
-  /* ============ AWARDS ============ */
+  /* ============ AWARDS RIBBON ============ */
+  .ribbon--awards {
+    background: var(--black);
+    padding: 48px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .ribbon--awards .ribbon-label { color: var(--silver); }
   .awards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     text-align: center;
     align-items: center;
-    padding-top: 48px;
+    margin-top: 32px;
     position: relative;
     overflow: hidden;
-    background: var(--black); /* explicit bg so overlay blend composites against true black */
+    background: var(--black);
   }
   .award.award-has-img {
     padding: 0;
@@ -1213,8 +1221,33 @@
     text-decoration: none;
     transition: all 0.2s;
     border: 1px solid var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+  .magnet-cta::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -80%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(
+      105deg,
+      transparent 20%,
+      rgba(210, 210, 230, 0.16) 50%,
+      transparent 80%
+    );
+    animation: cta-shimmer 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes cta-shimmer {
+    0%   { left: -80%; opacity: 1; }
+    38%  { left: 110%; opacity: 1; }
+    39%  { left: 110%; opacity: 0; }
+    99%  { left: -80%; opacity: 0; }
+    100% { left: -80%; opacity: 1; }
   }
   .magnet-cta:hover { background: transparent; color: var(--black); }
+  .magnet-cta:hover::after { display: none; }
 
   /* ============ FOOTER ============ */
   footer {
@@ -1578,6 +1611,13 @@
         <div class="stats-footnote">*Reach across all media and active members.</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- AWARDS RIBBON -->
+<div class="ribbon ribbon--awards">
+  <div class="ribbon-label">Award-Winning Educator</div>
+  <div class="container">
     <div class="awards-grid">
       <div class="award award-has-img">
         <img class="award-img--sm" src="dd-award-flat.webp" alt="DarrenDaily Award" />
@@ -1590,7 +1630,7 @@
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- THREE A's -->
 <section class="triple-a">
@@ -1607,7 +1647,7 @@
       </div>
       <div class="aaa">
         <div class="aaa-title">Association</div>
-        <div class="aaa-body">Private access to a global network of elite leaders and extreme achievers who challenge your thinking, raise your standards, and hold you to bigger goals, greater success, and meaningful impact.</div>
+        <div class="aaa-body">Access to a curated global community of elite leaders who will raise your standards, stretch your ambition, and challenge you to build something that makes a positive impact.</div>
       </div>
     </div>
   </div>
@@ -1736,17 +1776,24 @@
 })();
 
 // ── Declarations scroll reveal ──
-const decls = document.querySelectorAll('.decl');
-const declObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      const idx = Array.from(decls).indexOf(entry.target);
-      setTimeout(() => entry.target.classList.add('visible'), idx * 350);
-      declObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.25 });
-decls.forEach(d => declObserver.observe(d));
+// ── Declarations: cycle lines one at a time, never-ending loop ──
+(function () {
+  const decls = Array.from(document.querySelectorAll('.decl'));
+  if (!decls.length) return;
+  let idx = 0;
+  const FADE = 800;   // must match CSS transition duration (ms)
+  const HOLD = 3200;  // how long each line stays fully visible
+
+  function next() {
+    decls[idx].classList.remove('decl-active');   // start fade-out
+    idx = (idx + 1) % decls.length;
+    decls[idx].classList.add('decl-active');       // crossfade to next
+    setTimeout(next, HOLD + FADE);
+  }
+
+  decls[0].classList.add('decl-active');           // show first line
+  setTimeout(next, HOLD + FADE);
+})();
 
 // ── Covers grid ──
 const covers = [
