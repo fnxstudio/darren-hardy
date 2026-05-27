@@ -462,7 +462,10 @@
     inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: right center;
+    /* 25% Y bias instead of center — on short viewports the image gets
+       vertical-cropped; centering eats Darren's head. Top-biased crop
+       preserves the head and trims feet (less critical). */
+    object-position: right 25%;
     z-index: 0;
     display: block;
     pointer-events: none;
@@ -498,7 +501,7 @@
     inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: right center;
+    object-position: right 25%;
     z-index: 3;
     display: block;
     pointer-events: none;
@@ -622,46 +625,24 @@
         radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%),
         radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     }
-    /* Mobile: both bg and cutout MUST use identical object-position or
-       Darren stops aligning with his real-life stage backdrop. Pin both to
-       "right bottom" so the cutout reads as continuous with the photo —
-       his feet on the ground, body anchored to the lower-right of the
-       viewport, clearly to the right of the headline text on the left. */
-    .hero-bkgd { object-position: right bottom; }
-    .hero-portrait {
+    /* Mobile: use the pre-composited mobile image (bg + Darren merged into
+       one), cropped portrait. Contain-fit anchors it bottom-right so Darren
+       fills the lower-right of the viewport and headline sits cleanly above. */
+    .hero-bkgd {
+      object-fit: contain;
       object-position: right bottom;
-      opacity: 0.85;
     }
-    /* Top-down dark fade keeps headline area readable; bottom stays open
-       so Darren is visible at full vibrance. */
+    /* Cutout layer is baked into the composite — hide the standalone one */
+    .hero-portrait { display: none; }
+    /* Lighter overlay since image is bottom-only — no need to darken the
+       upper portion (it's already on the dark gradient). Subtle vignette
+       only at the very top for sticky-bar visual seat. */
     .hero::after {
       background: linear-gradient(
         180deg,
-        rgba(8,4,12,0.88) 0%,
-        rgba(8,4,12,0.65) 28%,
-        rgba(8,4,12,0.28) 56%,
-        rgba(8,4,12,0.05) 80%,
-        transparent 100%
-      );
-    }
-  }
-  @media (max-width: 600px) {
-    /* Phone: image scales so wide that only Darren's right side fits —
-       shift positioning so more of him reads. Opacity holds at 0.8 so he
-       stays present without overpowering the text. */
-    .hero-bkgd { object-position: 85% bottom; }
-    .hero-portrait {
-      object-position: 85% bottom;
-      opacity: 0.80;
-    }
-    .hero::after {
-      background: linear-gradient(
-        180deg,
-        rgba(8,4,12,0.92) 0%,
-        rgba(8,4,12,0.78) 32%,
-        rgba(8,4,12,0.38) 60%,
-        rgba(8,4,12,0.08) 84%,
-        transparent 100%
+        rgba(8,4,12,0.60) 0%,
+        rgba(8,4,12,0.20) 18%,
+        transparent 40%
       );
     }
   }
@@ -1998,7 +1979,10 @@
 
 <!-- ===== LAYER 1 — HERO ===== -->
 <section class="hero" id="hero">
-  <img class="hero-bkgd" src="DH_BMC_stage_background.png" alt="" />
+  <picture>
+    <source media="(max-width: 880px)" srcset="DH_BMC_stage_mobile.jpg">
+    <img class="hero-bkgd" src="DH_BMC_stage_background.png" alt="" />
+  </picture>
 
   <div class="container">
     <div class="hero-content">
