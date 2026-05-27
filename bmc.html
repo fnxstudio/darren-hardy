@@ -911,18 +911,18 @@
     border-top: 1px solid var(--rule);
     position: relative;
   }
+  .compare-eyebrow { margin-bottom: 28px; }
   .compare-brand {
     display: flex; justify-content: center;
-    margin-bottom: 32px;
+    margin-bottom: 80px;
   }
   .compare-brand img {
-    height: 36px; width: auto;
-    max-width: 320px;
+    height: 56px; width: auto;
+    max-width: 480px;
     object-fit: contain;
     filter: invert(1);
-    opacity: 0.92;
+    opacity: 0.95;
   }
-  .compare-eyebrow { margin-bottom: 72px; }
 
   .compare-grid {
     display: grid;
@@ -944,37 +944,12 @@
     border-color: var(--rule-cyan);
   }
 
-  .compare-logo {
-    height: 64px;
-    margin-bottom: 36px;
-    display: flex;
-    align-items: center;
-  }
-  .compare-logo img {
-    height: 64px; width: auto;
-    display: block;
-    filter: brightness(0) invert(1) opacity(0.92);
-  }
-  .compare-logo--placeholder {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px dashed rgba(255, 255, 255, 0.18);
-    width: 280px;
-    max-width: 100%;
-    justify-content: center;
-  }
-  .compare-logo .placeholder-label {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--grey);
-  }
-
-  /* Thin cyan flag — keep it lightweight; sits top-right of the COLLECTIVE col. */
+  /* Thin cyan flag — planted at top center, overlapping the card's top edge. */
   .compare-flag {
     position: absolute;
-    top: 56px; right: 44px;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
     background: var(--bmc-cyan);
     color: var(--black);
     font-family: 'Inter', sans-serif;
@@ -982,16 +957,17 @@
     font-size: 9px;
     letter-spacing: 0.32em;
     text-transform: uppercase;
-    padding: 5px 12px;
+    padding: 6px 14px;
     z-index: 2;
+    white-space: nowrap;
   }
 
   .compare-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(28px, 3vw, 44px);
+    font-size: clamp(24px, 2.4vw, 34px);
     line-height: 1.0;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
     color: var(--white);
     text-transform: uppercase;
     margin-bottom: 14px;
@@ -1058,10 +1034,10 @@
 
   @media (max-width: 960px) {
     .compare { padding: 96px 0 110px; }
-    .compare-grid { grid-template-columns: 1fr; gap: 48px; }
+    .compare-brand img { height: 44px; }
+    .compare-grid { grid-template-columns: 1fr; gap: 56px; }
     .compare-col { padding: 44px 28px; }
-    .compare-flag { top: 44px; right: 28px; }
-    /* Plus rotates 90deg conceptually — sits between vertically stacked cards */
+    /* Plus sits between vertically stacked cards */
     .compare-plus {
       left: 50%; top: 50%;
       transform: translate(-50%, -50%);
@@ -2163,20 +2139,17 @@
 <!-- ===== LAYER 5.5 — SIDE-BY-SIDE COMPARISON ===== -->
 <section class="compare section-divider bmc-wash">
   <div class="container">
-    <div class="compare-brand reveal">
-      <img src="BMC_COLLECTIVE_logo-2.png" alt="BMC|COLLECTIVE" />
-    </div>
     <div class="compare-eyebrow eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;">
       <span class="pip"></span>One Enrollment &middot; Two Layers
+    </div>
+    <div class="compare-brand reveal">
+      <img src="BMC_COLLECTIVE_logo-2.png" alt="BMC|COLLECTIVE" />
     </div>
 
     <div class="compare-grid">
 
       <!-- LEFT — Business Master Class -->
       <div class="compare-col">
-        <div class="compare-logo">
-          <img src="BMC_Logo.png" alt="Business Master Class seal" />
-        </div>
         <h3 class="compare-title">Business Master Class</h3>
         <div class="compare-sub">Live Virtual &middot; 3 Days &middot; Fall 2026 or Spring 2027</div>
         <p class="compare-intro">Most businesses do not fail because the builder lacks ambition. They fail because the business lacks a scalable operating system. <strong>Business Master Class is designed to correct that.</strong></p>
@@ -2201,9 +2174,6 @@
       <!-- RIGHT — THE COLLECTIVE -->
       <div class="compare-col compare-col--collective">
         <div class="compare-flag">Yours Immediately</div>
-        <div class="compare-logo compare-logo--placeholder">
-          <span class="placeholder-label">The Collective &middot; Logo TBD</span>
-        </div>
         <h3 class="compare-title">The Collective</h3>
         <div class="compare-sub">The room that activates the moment you reserve</div>
         <p class="compare-intro">Business Master Class installs the operating system. <strong>THE COLLECTIVE compounds it</strong> across the next twelve months. Access activates the moment your seat is reserved.</p>
