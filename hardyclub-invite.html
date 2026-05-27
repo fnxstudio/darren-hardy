@@ -1024,10 +1024,22 @@
     color: var(--white);
     text-transform: uppercase;
   }
-  .inclusions-card-title .bmc-pipe {
-    color: var(--gold);
-    font-weight: 700;
-    margin: 0 2px;
+  /* BMC|COLLECTIVE wordmark — replaces icon+text on the Collective card */
+  .inclusions-card-header.is-wordmark {
+    display: block;
+    align-items: initial;
+    gap: 0;
+  }
+  .inclusions-card-header.is-wordmark .inclusions-card-label {
+    margin-bottom: 16px;
+  }
+  .inclusions-card-wordmark {
+    display: block;
+    height: clamp(36px, 3.8vw, 52px);
+    width: auto;
+    max-width: 100%;
+    /* Wordmark is black on transparent — invert to white to match the rest of the title typography */
+    filter: brightness(0) invert(1) opacity(0.95);
   }
   .inclusions-card-sub {
     font-weight: 500;
@@ -1170,12 +1182,13 @@
   .sponsor-callout {
     margin-top: 64px;
     padding: 36px 40px;
-    border: 1px solid var(--rule-gold);
-    background: rgba(201,169,106,0.04);
+    border: 1px solid var(--rule-strong);
+    background: rgba(255,255,255,0.02);
     display: flex; align-items: center; justify-content: space-between;
     gap: 32px; flex-wrap: wrap;
   }
   .sponsor-callout-text { flex: 1; min-width: 280px; }
+  /* Label is the only gold accent kept in this section */
   .sponsor-callout-label {
     font-weight: 600; font-size: 10px;
     letter-spacing: 0.32em; text-transform: uppercase;
@@ -1186,14 +1199,15 @@
     font-weight: 500;
     font-size: 17px;
     line-height: 1.5;
-    color: var(--white);
+    color: var(--silver);
   }
-  .sponsor-callout-copy strong { color: var(--gold); font-weight: 700; }
+  /* Opening question stays bold, but white (not gold) */
+  .sponsor-callout-copy strong { color: var(--white); font-weight: 700; }
   .sponsor-callout-cta {
     display: inline-flex; align-items: center; gap: 12px;
     background: transparent;
-    color: var(--gold);
-    border: 1px solid var(--gold);
+    color: var(--white);
+    border: 1px solid var(--white);
     padding: 18px 28px;
     font-weight: 700; font-size: 11px;
     letter-spacing: 0.24em; text-transform: uppercase;
@@ -1201,7 +1215,7 @@
     transition: all 0.2s;
     flex-shrink: 0;
   }
-  .sponsor-callout-cta:hover { background: var(--gold); color: var(--black); }
+  .sponsor-callout-cta:hover { background: var(--white); color: var(--black); }
 
   /* ============ IF YOU'RE STILL READING ============ */
   .stillreading {
@@ -1441,7 +1455,7 @@
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>The Impact</div>
     <h2 class="premise-title reveal">Who you're with is<br>who you <em>become</em>.</h2>
-    <p class="premise-body reveal">Strategy can be installed. Skill can be sharpened. Discipline can be learned. The one variable that resets your trajectory the fastest is the standard of the people around you.</p>
+    <p class="premise-body reveal">Strategy can be installed. Skill can be sharpened. Discipline can be learned. The one variable that resets your trajectory the fastest is the caliber of the people around you.</p>
     <p class="premise-body reveal"><strong>Hardy Club is the closed association built to do exactly that.</strong></p>
   </div>
 </section>
@@ -1571,12 +1585,9 @@
 
       <!-- BMC|COLLECTIVE -->
       <div class="inclusions-card is-collective reveal">
-        <div class="inclusions-card-header">
-          <div class="inclusions-card-icon"><img src="BMC_Logo.png" alt="" /></div>
-          <div class="inclusions-card-meta">
-            <div class="inclusions-card-label">Earned Through BMC</div>
-            <div class="inclusions-card-title">BMC<span class="bmc-pipe">|</span>COLLECTIVE</div>
-          </div>
+        <div class="inclusions-card-header is-wordmark">
+          <div class="inclusions-card-label">Earned Through BMC</div>
+          <img class="inclusions-card-wordmark" src="BMC_COLLECTIVE_logo.png" alt="BMC | COLLECTIVE" />
         </div>
         <p class="inclusions-card-sub"><strong>Everything in Hardy Club, plus the highest-level work Darren teaches.</strong> Earned the day you reserve your seat in BMC.</p>
         <ol class="inclusions-list">
@@ -1676,7 +1687,7 @@
       <div class="voice-card reveal">
         <div class="voice-photo"><img src="members/tony-calabria.jpg" alt="Tony Calabria" /></div>
         <div class="voice-body">
-          <p class="voice-quote">Darren built the room I've been looking for since I started. The right leaders, in one place, with a standard I respect, holding each other to it.</p>
+          <p class="voice-quote">Darren built the room I've been looking for since I started. The right leaders, in one place, with a bar I respect, holding each other to it.</p>
           <div class="voice-attr">
             <span class="voice-name">Tony Calabria</span>
             <span class="voice-role">Founder &amp; CEO · Logistics</span>
@@ -1718,7 +1729,7 @@
       <div class="curator-body">
         <p class="reveal">For 35 years, Darren has sat in the rooms with the world's most admired business builders. Founding publisher of SUCCESS magazine. Trusted advisor to <strong>11,000+ CEOs, founders, and industry leaders</strong>. Close counsel to the kind of leaders most people only read about.</p>
         <p class="reveal">He hasn't observed elite leaders from a distance. They've let him inside. Boardrooms, family offices, the late-night strategy sessions the world doesn't see. Close enough to know what separates the leaders who plateau from the leaders who keep going. <strong>Hardy Club is the association he built to stand in himself.</strong></p>
-        <p class="reveal"><strong>The standard is his. The door is his. The bar holds because he holds it.</strong></p>
+        <p class="reveal"><strong>The door is his. The bar is his. The room holds because he holds it.</strong></p>
       </div>
       <div class="curator-quote reveal">
         <p>"The best leaders I've ever met are already inside this association. I'm just the one holding the door."</p>
@@ -1737,7 +1748,7 @@
       <div class="inside-cell reveal">
         <div class="inside-num">01</div>
         <h3 class="inside-head">The Right Company</h3>
-        <p class="inside-body">Standing next to leaders already where you're going compresses years into weeks. The shortcut isn't a course. It's the company you keep, and the standard the people next to you have already normalized.</p>
+        <p class="inside-body">Standing next to leaders already where you're going compresses years into weeks. The shortcut isn't a course. It's the company you keep, and the bar the people next to you have already normalized.</p>
       </div>
       <div class="inside-cell reveal">
         <div class="inside-num">02</div>
@@ -1794,14 +1805,14 @@
 <section class="paths">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>How Membership Works</div>
-    <h2 class="paths-title reveal">Three paths in. <em>One standard.</em></h2>
+    <h2 class="paths-title reveal">Three paths in. <em>One bar.</em></h2>
     <p class="paths-lead reveal">Most members enter through a sponsor: an existing member who recognizes the bar in you and holds the door. <strong>That's the most likely path, and it's the fastest.</strong> Every entry is reviewed against the same criteria: character, trajectory, contribution. In that order.</p>
 
     <div class="paths-grid">
       <div class="paths-card is-primary reveal">
         <div class="paths-card-tag"><span class="badge">Most Likely</span>Sponsored</div>
         <h3 class="paths-card-head">By A Member Who Knows You're Built For This</h3>
-        <p class="paths-card-body">An existing Club member sponsors you. A vouch that says you'll raise the standard, not ride it. Sponsored candidates skip the longer review. <strong>Most members get here this way.</strong></p>
+        <p class="paths-card-body">An existing Club member sponsors you. A vouch that says you'll raise the bar, not ride it. Sponsored candidates skip the longer review. <strong>Most members get here this way.</strong></p>
       </div>
       <div class="paths-card reveal">
         <div class="paths-card-tag">BMC Member</div>
@@ -1811,14 +1822,14 @@
       <div class="paths-card reveal">
         <div class="paths-card-tag">Self-Submitted</div>
         <h3 class="paths-card-head">For The Leaders We Haven't Met Yet</h3>
-        <p class="paths-card-body">Don't have a sponsor yet? <a href="#invite">Request an invite</a> directly. Reviewed on the same standard. The bar is the bar, with or without a vouch.</p>
+        <p class="paths-card-body">Don't have a sponsor yet? <a href="#invite">Request an invite</a> directly. Reviewed on the same bar. The bar is the bar, with or without a vouch.</p>
       </div>
     </div>
 
     <div class="sponsor-callout reveal">
       <div class="sponsor-callout-text">
         <div class="sponsor-callout-label">For Existing Members</div>
-        <p class="sponsor-callout-copy"><strong>Know someone who belongs here?</strong> Sponsor them in. Hold the door for the next leader who deserves the standard.</p>
+        <p class="sponsor-callout-copy"><strong>Know someone who belongs here?</strong> Sponsor them in. Hold the door for the next leader whose ambition deserves more.</p>
       </div>
       <a class="sponsor-callout-cta" href="mailto:helpme@darrenhardy.com?subject=Hardy%20Club%20Sponsor%20A%20Candidate">Sponsor A Candidate <span>→</span></a>
     </div>
@@ -1888,7 +1899,7 @@
           <span class="faq-q-icon" aria-hidden="true"></span>
         </button>
         <div class="faq-a">
-          <div class="faq-a-inner">Most rooms sell access. Hardy Club closes the door. Every entry is reviewed personally, the standard is held by Darren, and the conversations stay where they happen. The result is a different kind of room, a different kind of intro, and a different kind of bar than what's on the open market.</div>
+          <div class="faq-a-inner">Most rooms sell access. Hardy Club closes the door. Every entry is reviewed personally, the bar is held by Darren, and the conversations stay where they happen. The result is a different kind of room, a different kind of intro, and a different kind of bar than what's on the open market.</div>
         </div>
       </div>
 
@@ -1931,7 +1942,7 @@
     <div class="eyebrow reveal"><span class="pip"></span>The Door</div>
     <h2 class="stillreading-title reveal">If you're still reading,<br>you already <em>know</em>.</h2>
     <p class="stillreading-body reveal">You weren't going to be talked into this. You were going to recognize it. <strong>This association exists because leaders like you decided it had to.</strong></p>
-    <p class="stillreading-body reveal">Request your invite. We'll handle the rest with the care a standard like this deserves.</p>
+    <p class="stillreading-body reveal">Request your invite. We'll handle the rest with the care an association like this deserves.</p>
     <a class="stillreading-cta reveal" href="#">Request An Invite <span>→</span></a>
     <p class="stillreading-meta reveal">Annual Membership · Reviewed Annually · By Invitation Only</p>
     <p class="stillreading-redirect reveal">Building at the highest level? <a href="https://dhbmc.com">Reserve your seat in Business Master Class</a>. Your year inside THE COLLECTIVE comes with it.</p>
