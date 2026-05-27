@@ -459,16 +459,15 @@
   .hero > .container { width: 100%; }
   .hero-bkgd {
     position: absolute;
-    /* Top offset shifts the entire image stack down ~100px so Darren's eyes
-       land at the first headline line instead of his face being at the very
-       top. Both bg and cutout shift identically so they stay aligned. */
-    top: 100px;
-    bottom: 0;
+    top: 70px;
     left: 0;
-    right: 0;
+    width: 100%;
+    height: calc(100% - 70px);
     object-fit: cover;
-    /* 25% Y bias prevents Darren's head from being cropped on short viewports. */
-    object-position: right 25%;
+    /* "right top" never crops from the top of image → head always safe.
+       Combined with the 70px top offset above, Darren's eyes settle around
+       the first headline line on standard viewports. */
+    object-position: right top;
     z-index: 0;
     display: block;
     pointer-events: none;
@@ -501,12 +500,12 @@
   }
   .hero-portrait {
     position: absolute;
-    top: 100px;
-    bottom: 0;
+    top: 70px;
     left: 0;
-    right: 0;
+    width: 100%;
+    height: calc(100% - 70px);
     object-fit: cover;
-    object-position: right 25%;
+    object-position: right top;
     z-index: 3;
     display: block;
     pointer-events: none;
@@ -554,7 +553,10 @@
   }
   .hero-cta-row {
     margin-top: 44px;
-    display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
   }
   .btn-primary {
     background: var(--white);
@@ -618,7 +620,11 @@
 
   @media (max-width: 960px) {
     .hero { padding: 100px 0 60px; }
-    .hero-content { max-width: 100%; }
+    /* Constrain headline to ~62% so it wraps tighter, leaving the right side
+       of the viewport for Darren. Smaller font on mobile too. */
+    .hero-content { max-width: 62%; }
+    .hero h1 { font-size: clamp(32px, 7.4vw, 56px); max-width: 100%; }
+    .hero-sub { font-size: 15px; max-width: 100%; }
     /* Mobile compensation — radial gradients lose impact on smaller
        viewports. Stronger base tint + denser bloom centered for single-col. */
     .hero {
@@ -651,6 +657,16 @@
         transparent 78%
       );
     }
+  }
+  @media (max-width: 600px) {
+    /* Phone: relax the headline column to 70% so words don't get awkward. */
+    .hero-content { max-width: 70%; }
+    .hero h1 { font-size: clamp(28px, 8.4vw, 44px); }
+    .hero-sub { font-size: 14px; }
+  }
+  @media (max-width: 420px) {
+    /* Very narrow phones: give the headline a touch more breathing room. */
+    .hero-content { max-width: 78%; }
   }
 
   /* ============ SCROLL REVEAL UTILITY ============ */
