@@ -242,6 +242,10 @@
     --rule-strong: rgba(255, 255, 255, 0.15);
     --rule-dark: rgba(10, 10, 10, 0.1);
     --rule-dark-strong: rgba(10, 10, 10, 0.18);
+    /* BMC accents — used like HC's gold: very subtle behind-the-black washes
+       (purple) and a quiet keyword highlight (cyan). */
+    --bmc-purple: #9c27ac;
+    --bmc-cyan:   #78e4ef;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -260,6 +264,30 @@
   section { position: relative; scroll-margin-top: 120px; }
   .container { max-width: 1380px; margin: 0 auto; padding: 0 48px; }
   @media (max-width: 720px) { .container { padding: 0 24px; } }
+
+  /* Keyword emphasis — applied via <em class="key">word</em> inside headlines.
+     Cyan, normalized font-style, inherits weight + scale from the headline. */
+  em.key { font-style: normal; color: var(--bmc-cyan); }
+
+  /* Subtle purple wash behind the black — added to key dark sections to
+     give the page a quiet identity without competing with the typography. */
+  .bmc-wash::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 22% 30%, rgba(156, 39, 172, 0.10), transparent 55%),
+      radial-gradient(ellipse at 80% 75%, rgba(156, 39, 172, 0.06), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bmc-wash--center::before {
+    background: radial-gradient(ellipse at 50% 30%, rgba(156, 39, 172, 0.10), transparent 60%);
+  }
+  .bmc-wash--low::before {
+    background: radial-gradient(ellipse at 50% 50%, rgba(156, 39, 172, 0.07), transparent 65%);
+  }
+  /* Anything direct inside a washed section sits above the overlay */
+  .bmc-wash > * { position: relative; z-index: 1; }
 
   /* ============ ETERNAL EYEBROW PATTERN ============ */
   .eyebrow {
@@ -371,7 +399,9 @@
   .hero::before {
     content: "";
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.04) 0%, transparent 60%);
+    background:
+      radial-gradient(ellipse at 22% 32%, rgba(156, 39, 172, 0.12), transparent 55%),
+      radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.03) 0%, transparent 60%);
     z-index: 1;
     pointer-events: none;
   }
@@ -1673,7 +1703,7 @@
     <div class="hero-grid">
       <div class="hero-content">
         <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE</div>
-        <h1>For Intensely Driven Business Leaders Seeking An Unfair Advantage.</h1>
+        <h1>For Intensely Driven Business Leaders Seeking An <em class="key">Unfair Advantage</em>.</h1>
         <p class="hero-sub">Reserve a Business Master Class seat and be immediately activated in the BMC|COLLECTIVE.</p>
         <div class="hero-cta-row">
           <a href="#investment" class="btn-primary hero-cta">Reserve Your Seat &rarr;</a>
@@ -1797,10 +1827,10 @@
 </section>
 
 <!-- ===== LAYER 5 — WHAT BMC|COLLECTIVE IS ===== -->
-<section class="section-ink section-divider" id="system">
+<section class="section-ink section-divider bmc-wash" id="system">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>What You Need Is Rare</div>
-    <h2 class="section-headline system-headline reveal">Access To The Inaccessible.</h2>
+    <h2 class="section-headline system-headline reveal">Access To The <em class="key">Inaccessible</em>.</h2>
     <div class="prose">
       <p class="lead">As an already successful business builder, you don&rsquo;t need motivation. You don&rsquo;t need a coach. You don&rsquo;t need clever hacks from someone who has never built a significant business.</p>
       <p class="emphasized">What you need is rare.</p>
@@ -1942,10 +1972,10 @@
 </section>
 
 <!-- ===== LAYER 8 — THE UNFAIR ADVANTAGE ===== -->
-<section class="section-dark section-divider">
+<section class="section-dark section-divider bmc-wash bmc-wash--center">
   <div class="container" style="text-align:center;">
     <div class="eyebrow eyebrow--center reveal"><span class="pip"></span>Why It Works</div>
-    <h2 class="section-headline unfair-headline reveal" style="margin-left:auto;margin-right:auto;">Your Secret Weapon.</h2>
+    <h2 class="section-headline unfair-headline reveal" style="margin-left:auto;margin-right:auto;">Your <em class="key">Secret Weapon</em>.</h2>
     <div class="prose prose-center unfair-body">
       <p class="lead">BMC|COLLECTIVE is your unfair advantage in business and in life.</p>
       <p>The intensive installs the playbook. THE COLLECTIVE compounds it. The peer network raises the standard. The AI systems close the gap between idea and execution. The advisory access removes the guesswork.</p>
@@ -2121,7 +2151,7 @@
 </section>
 
 <!-- ===== LAYER 12 — INVESTMENT ===== -->
-<section id="investment">
+<section id="investment" class="bmc-wash bmc-wash--center">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>Enrollment</div>
     <h2 class="section-headline reveal">Reserve Your Seat. Activate Your Year.</h2>
@@ -2337,10 +2367,10 @@
 </section>
 
 <!-- ===== LAYER 16 — FINAL CLOSE ===== -->
-<section class="final">
+<section class="final bmc-wash bmc-wash--center">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>The Invitation</div>
-    <h2 class="final-headline reveal">If You&rsquo;re Still Reading,<br/>You Already Know.</h2>
+    <h2 class="final-headline reveal">If You&rsquo;re Still Reading,<br/>You <em class="key">Already Know</em>.</h2>
     <div class="final-body">
       <p>The intensely driven business leader does not need to be convinced. They need to be invited.</p>
       <p>Consider this the invitation. The reservation page is one click away. THE COLLECTIVE activates the moment you walk through.</p>
