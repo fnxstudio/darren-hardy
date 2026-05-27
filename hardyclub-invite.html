@@ -59,29 +59,45 @@
   nav.top {
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 50;
-    padding: 16px 40px;
-    display: flex;
-    justify-content: space-between;
+    padding: 14px 40px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 40px;
+    gap: 32px;
     background: rgba(10, 10, 10, 0.78);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--rule);
   }
+  /* Centered page jump-tos */
   .nav-links {
-    display: flex; gap: 36px; align-items: center;
-    font-weight: 500; font-size: 10px;
+    display: flex; gap: 40px; align-items: center;
+    justify-content: center;
+    font-weight: 500; font-size: 11px;
     letter-spacing: 0.24em; text-transform: uppercase;
   }
-  .nav-links a { color: var(--silver); text-decoration: none; transition: color 0.18s; }
-  .nav-links a:hover { color: var(--white); }
-  .nav-links a.nav-pill {
-    border: 1px solid var(--rule-gold);
-    padding: 8px 14px;
-    color: var(--gold);
+  .nav-links a {
+    color: var(--silver);
+    text-decoration: none;
+    transition: color 0.18s;
+    white-space: nowrap;
   }
-  .nav-links a.nav-pill:hover { color: var(--black); background: var(--gold); border-color: var(--gold); }
+  .nav-links a:hover { color: var(--white); }
+
+  /* Right-corner CTA — ghost border, gold accent */
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid var(--rule-gold);
+    padding: 12px 22px;
+    color: var(--gold);
+    background: transparent;
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { color: var(--black); background: var(--gold); border-color: var(--gold); }
   .nav-brand {
     font-weight: 900; font-size: 14px;
     letter-spacing: 0.32em;
@@ -134,9 +150,12 @@
   .nav-mobile a:last-child { border-bottom: none; }
 
   @media (max-width: 960px) {
-    nav.top { padding: 14px 24px; }
-    .nav-links { display: none; }
-    .nav-burger { display: flex; }
+    nav.top {
+      padding: 14px 24px;
+      grid-template-columns: auto 1fr auto;
+    }
+    .nav-links, .nav-cta { display: none; }
+    .nav-burger { display: flex; justify-self: end; }
   }
 
   /* ============ SECTION DEFAULTS ============ */
@@ -1499,18 +1518,22 @@
 <nav class="top">
   <a class="nav-brand" href="#" aria-label="Hardy Club"><img src="HC_logo.png" alt="Hardy Club" /></a>
   <div class="nav-links">
-    <a href="https://darrenhardy.com/about.html">About</a>
-    <a href="https://darrenhardy.com/resources.html">Resources</a>
-    <a href="https://darrendaily.com/">Daily Mentoring</a>
-    <a href="#invite" class="nav-pill">Request An Invite</a>
+    <a href="#impact">The Impact</a>
+    <a href="#whats-inside">What's Inside</a>
+    <a href="#members">Members</a>
+    <a href="#collective">The Collective</a>
+    <a href="#faq">FAQ</a>
   </div>
+  <a class="nav-cta" href="#invite">Request An Invite <span>→</span></a>
   <button class="nav-burger" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('navMobile').classList.toggle('open')">
     <span></span><span></span><span></span>
   </button>
   <div class="nav-mobile" id="navMobile">
-    <a href="https://darrenhardy.com/about.html">About</a>
-    <a href="https://darrenhardy.com/resources.html">Resources</a>
-    <a href="https://darrendaily.com/">Daily Mentoring</a>
+    <a href="#impact">The Impact</a>
+    <a href="#whats-inside">What's Inside</a>
+    <a href="#members">Members</a>
+    <a href="#collective">The Collective</a>
+    <a href="#faq">FAQ</a>
     <a href="#invite">Request An Invite</a>
   </div>
 </nav>
@@ -1617,7 +1640,7 @@
 </section>
 
 <!-- WHAT'S INSIDE -->
-<section class="inclusions">
+<section class="inclusions" id="whats-inside">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>What's Inside</div>
     <h2 class="inclusions-title reveal">What's yours,<br>the moment you're <em>in</em>.</h2>
@@ -1703,7 +1726,7 @@
 </section>
 
 <!-- VOICES / TESTIMONIALS -->
-<section class="voices">
+<section class="voices" id="members">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>From Inside The Association</div>
     <h2 class="voices-title reveal">What members <em>actually say</em>.</h2>
@@ -1837,7 +1860,7 @@
 </section>
 
 <!-- THE COLLECTIVE -->
-<section class="collective">
+<section class="collective" id="collective">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>Inside Hardy Club</div>
     <img class="collective-shield reveal" src="BMC_COLLECTIVE_logo.png" alt="The Collective · Darren Hardy Business Master Class" />
@@ -1904,7 +1927,7 @@
 </section>
 
 <!-- FAQ -->
-<section class="faq">
+<section class="faq" id="faq">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>Real Questions</div>
     <h2 class="faq-title reveal">What you may want to <em>know</em>.</h2>
