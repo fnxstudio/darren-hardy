@@ -658,24 +658,77 @@
     min-height: 720px;
   }
   @media (max-width: 960px) { .curator-grid { grid-template-columns: 1fr; min-height: auto; } }
-  .curator-image { position: relative; overflow: hidden; background: #0d0d0d; }
-  .curator-image img {
+  .curator-image {
+    position: relative;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+  @media (max-width: 960px) { .curator-image { min-height: 540px; } }
+
+  /* Covers grid backdrop (SUCCESS wall) */
+  .curator-wall {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 2px;
+  }
+  @media (max-width: 720px) {
+    .curator-wall { grid-template-columns: repeat(3, 1fr); }
+  }
+  .curator-wall img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 20%;
     display: block;
-    opacity: 0.92;
+    filter: grayscale(100%) brightness(0.78) contrast(0.95);
   }
+
+  /* DH cutout overlay, anchored to bottom-center */
+  .curator-dh {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 96%;
+    z-index: 3;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .curator-dh picture { display: contents; }
+  .curator-dh img {
+    height: 100%;
+    width: auto;
+    max-height: 96%;
+    display: block;
+    filter: drop-shadow(0 8px 40px rgba(0,0,0,0.9));
+  }
+
+  /* Bottom vignette to blend wall into page background */
   .curator-image::after {
     content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0) 60%, rgba(10,10,10,0.65) 100%);
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 30%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(10,10,10,0.85) 75%, #0a0a0a 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+  /* Right-edge soft fade so the wall blends into the dark text panel on desktop */
+  .curator-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0) 70%, rgba(10,10,10,0.5) 100%);
+    z-index: 2;
     pointer-events: none;
   }
   @media (max-width: 960px) {
-    .curator-image { min-height: 440px; }
-    .curator-image::after {
-      background: linear-gradient(180deg, rgba(10,10,10,0) 60%, rgba(10,10,10,0.85) 100%);
+    .curator-image::before {
+      background: linear-gradient(180deg, rgba(10,10,10,0) 60%, rgba(10,10,10,0.65) 100%);
     }
   }
 
@@ -970,6 +1023,11 @@
     letter-spacing: -0.025em;
     color: var(--white);
     text-transform: uppercase;
+  }
+  .inclusions-card-title .bmc-pipe {
+    color: var(--gold);
+    font-weight: 700;
+    margin: 0 2px;
   }
   .inclusions-card-sub {
     font-weight: 500;
@@ -1369,13 +1427,7 @@
 <section class="hero">
   <div class="hero-stage">
     <div class="eyebrow"><span class="pip"></span>Hardy Club · By Invitation</div>
-    <div class="hero-identity">
-      <p class="identity i1">The Quietly Ambitious.</p>
-      <p class="identity i2">The Loudly Unfinished.</p>
-      <p class="identity i3">The Few Still Climbing.</p>
-    </div>
-    <div class="hero-divider"></div>
-    <h1 class="hero-headline">Where The Few<br>Find Their <em>Edge</em>.</h1>
+    <h1 class="hero-headline">Where The Few<br>Meet Their <em>Future</em>.</h1>
     <p class="hero-sub">An invitation-only association of unusually driven founders, CEOs, and elite business leaders. <strong>Closed by design.</strong> The kind of room that finally raises your ceiling.</p>
     <div class="hero-cta-row">
       <a class="cta-primary" href="#invite">Request An Invite <span>→</span></a>
@@ -1523,7 +1575,7 @@
           <div class="inclusions-card-icon"><img src="BMC_Logo.png" alt="" /></div>
           <div class="inclusions-card-meta">
             <div class="inclusions-card-label">Earned Through BMC</div>
-            <div class="inclusions-card-title">BMC|COLLECTIVE</div>
+            <div class="inclusions-card-title">BMC<span class="bmc-pipe">|</span>COLLECTIVE</div>
           </div>
         </div>
         <p class="inclusions-card-sub"><strong>Everything in Hardy Club, plus the highest-level work Darren teaches.</strong> Earned the day you reserve your seat in BMC.</p>
@@ -1639,10 +1691,26 @@
 <section class="curator">
   <div class="curator-grid">
     <div class="curator-image">
-      <picture>
-        <source type="image/webp" srcset="Hero-DH.webp">
-        <img src="Hero-DH.png" alt="Darren Hardy" loading="lazy" />
-      </picture>
+      <div class="curator-wall">
+        <img src="covers/SM_11_08_BEZOS.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_10_06_JOBS.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_09_01_Robbins.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_11_11_CUBAN.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_09_07_BRANSON.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_13_02_MUSK.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_14_11_COOK.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_11_05_ZUCKERBERG.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_11_03_SCHWAB.jpg" alt="" loading="lazy" />
+        <img src="covers/JackWelch.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_13_03_CORCORAN.jpg" alt="" loading="lazy" />
+        <img src="covers/SM_10_05_MICHAELS.jpg" alt="" loading="lazy" />
+      </div>
+      <div class="curator-dh">
+        <picture>
+          <source type="image/webp" srcset="Wall-DH.webp">
+          <img src="Wall-DH.png" alt="Darren Hardy" loading="lazy" />
+        </picture>
+      </div>
     </div>
     <div class="curator-text">
       <div class="eyebrow reveal"><span class="pip"></span>Curated By Darren Hardy</div>
