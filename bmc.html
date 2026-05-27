@@ -459,12 +459,15 @@
   .hero > .container { width: 100%; }
   .hero-bkgd {
     position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
+    /* Top offset shifts the entire image stack down ~100px so Darren's eyes
+       land at the first headline line instead of his face being at the very
+       top. Both bg and cutout shift identically so they stay aligned. */
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    right: 0;
     object-fit: cover;
-    /* 25% Y bias instead of center — on short viewports the image gets
-       vertical-cropped; centering eats Darren's head. Top-biased crop
-       preserves the head and trims feet (less critical). */
+    /* 25% Y bias prevents Darren's head from being cropped on short viewports. */
     object-position: right 25%;
     z-index: 0;
     display: block;
@@ -498,8 +501,10 @@
   }
   .hero-portrait {
     position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    right: 0;
     object-fit: cover;
     object-position: right 25%;
     z-index: 3;
@@ -521,12 +526,12 @@
   .hero h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(36px, 4.4vw, 64px);
-    line-height: 1.04;
-    letter-spacing: -0.025em;
+    font-size: clamp(42px, 5.4vw, 80px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
     color: var(--white);
     text-transform: uppercase;
-    max-width: 680px;
+    max-width: 720px;
     text-wrap: balance;
     opacity: 0;
     transform: translateY(14px);
@@ -625,24 +630,25 @@
         radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%),
         radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     }
-    /* Mobile: use the pre-composited mobile image (bg + Darren merged into
-       one), cropped portrait. Contain-fit anchors it bottom-right so Darren
-       fills the lower-right of the viewport and headline sits cleanly above. */
+    /* Mobile: pre-composited image (bg + Darren merged), cover-fit + left
+       bottom so the image fills viewport, Darren lands on the right half,
+       and the left half shows the dark digital backdrop where the headline
+       overlays. Reset the top offset on mobile — image goes full-bleed. */
     .hero-bkgd {
-      object-fit: contain;
-      object-position: right bottom;
+      top: 0;
+      object-fit: cover;
+      object-position: left bottom;
     }
     /* Cutout layer is baked into the composite — hide the standalone one */
     .hero-portrait { display: none; }
-    /* Lighter overlay since image is bottom-only — no need to darken the
-       upper portion (it's already on the dark gradient). Subtle vignette
-       only at the very top for sticky-bar visual seat. */
+    /* Strong left-fade gradient so headline reads cleanly over the backdrop */
     .hero::after {
       background: linear-gradient(
-        180deg,
-        rgba(8,4,12,0.60) 0%,
-        rgba(8,4,12,0.20) 18%,
-        transparent 40%
+        90deg,
+        rgba(8,4,12,0.92) 0%,
+        rgba(8,4,12,0.72) 28%,
+        rgba(8,4,12,0.30) 56%,
+        transparent 78%
       );
     }
   }
