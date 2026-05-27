@@ -1001,10 +1001,15 @@
       gap: 56px;
     }
     .compare-col { padding: 44px 28px; }
-    /* Force Collective explicitly into row 2 — we're parking + in row 1 with BMC */
+    /* Pin all three children explicitly. Without pinning BMC, the auto-flow
+       algorithm pushes it past the explicit row-2 Collective and row-1 +. */
+    .compare-grid > .compare-col:not(.compare-col--collective) {
+      grid-row: 1;
+      grid-column: 1;
+    }
     .compare-col--collective { grid-row: 2; grid-column: 1; }
-    /* + is placed in BMC's row, aligned to the bottom-center, then pulled
-       slightly below BMC's bottom edge so it "plants" on the BMC card and
+    /* + lives in BMC's row, aligned to the bottom-center, then pulled
+       slightly below BMC's bottom edge so it plants on the BMC card and
        dips a little into the gap below. Clear of the Collective flag. */
     .compare-plus {
       position: relative;
@@ -1014,6 +1019,7 @@
       align-self: end;
       top: auto; left: auto;
       transform: translateY(30%);
+      z-index: 3;
     }
   }
 
