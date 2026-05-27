@@ -966,15 +966,15 @@
     background: var(--bone);
     border-top-color: var(--rule-dark);
     border-bottom-color: var(--rule-dark);
-    padding: 32px 0; /* taller badges need less vertical padding than 28px logos */
+    padding: 48px 0;
   }
   .ribbon.light .ribbon-label { color: var(--grey-soft); }
   .ribbon.light .marquee-item { color: var(--muted); }
   /* Bestseller ribbon: own gap and scroll speed (fewer, larger items than media ribbon) */
   .ribbon.light .marquee-track { gap: 100px; padding-left: 100px; animation-duration: 28s; }
-  /* Badge treatment: white bg × bone = invisible; grey/dark content remains */
+  /* Badge heights trimmed to match media ribbon visual height — logos are 28px */
   .bestseller-badge {
-    height: 104px;
+    height: 52px;
     width: auto;
     display: block;
     mix-blend-mode: multiply;
@@ -982,14 +982,14 @@
     opacity: 0.78;
   }
   /* NYT badge is square — needs more height to read at the same visual size */
-  .bestseller-badge--nyt { height: 152px; }
+  .bestseller-badge--nyt { height: 72px; }
   /* Black-background badges: invert so black → white, then multiply eliminates it */
   .bestseller-badge--invert { filter: grayscale(1) invert(1) contrast(0.6) brightness(1.1); }
 
   @media (max-width: 720px) {
     .ribbon.light .marquee-track { gap: 28px; padding-left: 28px; }
-    .bestseller-badge { height: 64px; }
-    .bestseller-badge--nyt { height: 90px; }
+    .bestseller-badge { height: 40px; }
+    .bestseller-badge--nyt { height: 56px; }
   }
 
   /* ============ STATS ============ */
@@ -1054,8 +1054,6 @@
   .ribbon--awards {
     background: var(--black);
     padding: 24px 0;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
   }
   .awards-grid {
     display: grid;
