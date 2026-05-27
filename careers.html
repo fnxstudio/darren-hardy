@@ -720,7 +720,7 @@
   }
   .serve-track {
     display: flex;
-    gap: 14px;
+    gap: 0;            /* tiles run flush against each other — continuous strip */
     width: max-content;
     animation: serveScroll 80s linear infinite;
   }
@@ -732,17 +732,18 @@
     100% { transform: translateX(-50%); } /* track holds 2x content, so -50% loops seamlessly */
   }
 
+  /* Tile height is fixed so the strip stays visually aligned; widths flow
+     naturally from each photo's aspect ratio (or per-placeholder width). */
   .serve-tile {
     flex-shrink: 0;
-    width: 220px;
-    aspect-ratio: 3 / 4;
+    height: 340px;
     position: relative;
     overflow: hidden;
     background: var(--ink-soft);
   }
   .serve-tile img {
-    width: 100%; height: 100%;
-    object-fit: cover;
+    height: 100%;
+    width: auto;
     display: block;
     filter: grayscale(100%);
     transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -759,30 +760,8 @@
       radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.05), transparent 65%),
       linear-gradient(160deg, #2a2a2a 0%, #161616 100%);
   }
-  .serve-tile-caption {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 36px 14px 14px;
-    background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.5) 55%, transparent);
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    line-height: 1.3;
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-  .serve-tile-name {
-    display: block;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    margin-bottom: 4px;
-    color: var(--white);
-  }
   @media (max-width: 720px) {
-    .serve-tile { width: 160px; }
+    .serve-tile { height: 240px; }
     .serve-track { animation-duration: 55s; }
   }
 
@@ -1448,8 +1427,8 @@
   <div class="container">
     <div class="serve-head">
       <div class="eyebrow reveal"><span class="pip"></span>Who We Serve</div>
-      <h2 class="serve-title reveal">The Operators We're Lucky To <em>Stand Beside</em>.</h2>
-      <p class="serve-sub reveal">Founders, CEOs, market-makers, and category-definers. The kind of people who don't need us. They choose us anyway.</p>
+      <h2 class="serve-title reveal">The Members We Get To <em>Stand Beside</em>.</h2>
+      <p class="serve-sub reveal">Founders, CEOs, market-makers, and category-definers. The people building what comes next.</p>
     </div>
   </div>
   <div class="serve-marquee">
@@ -1719,23 +1698,24 @@ team.forEach(m => {
 })();
 
 // ── Who We Serve ticker ──
-// Edit this array when real photos arrive. Schema per item:
-//   { name: 'Jane Doe',  caliber: 'Founder · TechCo', photo: 'team-photos/members/jane.jpg' }
-// Name + photo are optional; if photo is omitted, a gradient placeholder is shown.
+// Add real member photos by replacing the entries below with { photo: 'path.jpg' }.
+// No captions render; the ticker is pure imagery. Mixed widths are fine — each
+// tile takes the natural width of its image (height is fixed by CSS).
+// Until real photos arrive, gradient placeholders render at the widths below.
 (function () {
   const members = [
-    { caliber: 'Founder · 9-Figure SaaS' },
-    { caliber: 'CEO · Fortune 500' },
-    { caliber: 'Bestselling Author' },
-    { caliber: 'Category Creator' },
-    { caliber: 'PE-Backed Founder' },
-    { caliber: 'Series B CEO' },
-    { caliber: 'Holdco President' },
-    { caliber: 'Public Co. Founder' },
-    { caliber: 'Hall of Fame Speaker' },
-    { caliber: 'Investor · 100x Fund' },
-    { caliber: 'CMO · Iconic Brand' },
-    { caliber: 'Co-Founder · Unicorn' },
+    { width: 260 },
+    { width: 210 },
+    { width: 320 },
+    { width: 240 },
+    { width: 200 },
+    { width: 280 },
+    { width: 240 },
+    { width: 360 },
+    { width: 220 },
+    { width: 300 },
+    { width: 200 },
+    { width: 260 },
   ];
   const track = document.getElementById('serveTrack');
   if (!track) return;
@@ -1743,18 +1723,16 @@ team.forEach(m => {
   const buildTile = (m) => {
     const el = document.createElement('div');
     el.className = 'serve-tile';
-    const media = m.photo
-      ? `<img src="${m.photo}" alt="${m.name || m.caliber}" loading="lazy" />`
-      : `<div class="serve-placeholder"></div>`;
-    const nameLine = m.name ? `<span class="serve-tile-name">${m.name}</span>` : '';
-    el.innerHTML = `
-      ${media}
-      <div class="serve-tile-caption">${nameLine}${m.caliber}</div>
-    `;
+    if (m.photo) {
+      el.innerHTML = `<img src="${m.photo}" alt="" loading="lazy" />`;
+    } else {
+      el.style.width = (m.width || 240) + 'px';
+      el.innerHTML = `<div class="serve-placeholder"></div>`;
+    }
     return el;
   };
 
-  // Duplicate the content so the translateX(-50%) loop is seamless
+  // Duplicate so translateX(-50%) loops seamlessly
   [...members, ...members].forEach(m => track.appendChild(buildTile(m)));
 })();
 
