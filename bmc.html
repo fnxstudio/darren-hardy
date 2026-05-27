@@ -902,6 +902,172 @@
     .benefit-block:last-child { border-bottom: none; }
   }
 
+  /* ============ LAYER 5.5 — SIDE-BY-SIDE COMPARISON ============
+     Condensed visual summary of the two layers (BMC + COLLECTIVE).
+     Sits between the system reveal and the verbose Layer 6/7 deep dives. */
+  .compare {
+    background: var(--ink);
+    padding: 140px 0 160px;
+    border-top: 1px solid var(--rule);
+    position: relative;
+  }
+  .compare-brand {
+    display: flex; justify-content: center;
+    margin-bottom: 32px;
+  }
+  .compare-brand img {
+    height: 36px; width: auto;
+    max-width: 320px;
+    object-fit: contain;
+    filter: invert(1);
+    opacity: 0.92;
+  }
+  .compare-eyebrow { margin-bottom: 72px; }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    position: relative;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .compare-col {
+    position: relative;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--rule);
+    padding: 56px 44px;
+  }
+  .compare-col--collective {
+    background: rgba(120, 228, 239, 0.025);
+    border-color: var(--rule-cyan);
+  }
+
+  .compare-logo {
+    height: 64px;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+  }
+  .compare-logo img {
+    height: 64px; width: auto;
+    display: block;
+    filter: brightness(0) invert(1) opacity(0.92);
+  }
+  .compare-logo--placeholder {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    width: 280px;
+    max-width: 100%;
+    justify-content: center;
+  }
+  .compare-logo .placeholder-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  /* Thin cyan flag — keep it lightweight; sits top-right of the COLLECTIVE col. */
+  .compare-flag {
+    position: absolute;
+    top: 56px; right: 44px;
+    background: var(--bmc-cyan);
+    color: var(--black);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    z-index: 2;
+  }
+
+  .compare-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .compare-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 28px;
+  }
+  .compare-intro {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(15px, 1.25vw, 17px);
+    line-height: 1.55;
+    color: var(--silver);
+    margin-bottom: 32px;
+  }
+  .compare-intro strong { color: var(--white); font-weight: 600; }
+
+  .compare-list { list-style: none; padding: 0; margin: 0; }
+  .compare-list li {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .compare-list li:first-child { border-top: none; padding-top: 0; }
+  .compare-list .num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    color: var(--grey);
+    padding-top: 2px;
+  }
+  .compare-list .copy {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(14px, 1.15vw, 16px);
+    line-height: 1.5;
+    color: var(--silver);
+  }
+  .compare-list .copy strong { color: var(--white); font-weight: 700; }
+
+  /* Cyan + circle — floats centered over the gap between cards */
+  .compare-plus {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--bmc-cyan);
+    color: var(--black);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 3;
+    box-shadow: 0 0 0 6px var(--ink), 0 8px 24px rgba(120, 228, 239, 0.30);
+  }
+  .compare-plus svg { width: 22px; height: 22px; display: block; }
+
+  @media (max-width: 960px) {
+    .compare { padding: 96px 0 110px; }
+    .compare-grid { grid-template-columns: 1fr; gap: 48px; }
+    .compare-col { padding: 44px 28px; }
+    .compare-flag { top: 44px; right: 28px; }
+    /* Plus rotates 90deg conceptually — sits between vertically stacked cards */
+    .compare-plus {
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
   /* ============ LAYER 6 / 7 — STACKED CAPABILITY ROWS ============ */
   .pillar-title {
     font-size: clamp(56px, 7.5vw, 120px);
@@ -1990,6 +2156,66 @@
         <div class="benefit-subtitle">Implementation &amp; Expansion</div>
         <p class="benefit-body">The AI execution systems, the strategic advisor on call, and the private network of elite business leaders that compound the work between intensives.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LAYER 5.5 — SIDE-BY-SIDE COMPARISON ===== -->
+<section class="compare section-divider bmc-wash">
+  <div class="container">
+    <div class="compare-brand reveal">
+      <img src="BMC_COLLECTIVE_logo-2.png" alt="BMC|COLLECTIVE" />
+    </div>
+    <div class="compare-eyebrow eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;">
+      <span class="pip"></span>One Enrollment &middot; Two Layers
+    </div>
+
+    <div class="compare-grid">
+
+      <!-- LEFT — Business Master Class -->
+      <div class="compare-col">
+        <div class="compare-logo">
+          <img src="BMC_Logo.png" alt="Business Master Class seal" />
+        </div>
+        <h3 class="compare-title">Business Master Class</h3>
+        <div class="compare-sub">Live Virtual &middot; 3 Days &middot; Fall 2026 or Spring 2027</div>
+        <p class="compare-intro">Most businesses do not fail because the builder lacks ambition. They fail because the business lacks a scalable operating system. <strong>Business Master Class is designed to correct that.</strong></p>
+        <ul class="compare-list">
+          <li><span class="num">01</span><span class="copy"><strong>Market Dominance Positioning.</strong> Be the de facto choice in your category. Stop competing on price.</span></li>
+          <li><span class="num">02</span><span class="copy"><strong>Sales Breakthrough Systems.</strong> Pipeline that produces revenue without personal heroics. Predictability at scale.</span></li>
+          <li><span class="num">03</span><span class="copy"><strong>Rabid Client Advocates.</strong> Cult-grade loyalty. The customer experience becomes the marketing.</span></li>
+          <li><span class="num">04</span><span class="copy"><strong>Scalable Hyper-Growth.</strong> Compound revenue without compounding founder hours. Bottlenecks removed.</span></li>
+          <li><span class="num">05</span><span class="copy"><strong>Build Your A-Team And Culture.</strong> Teams that execute without escalation. A culture others want to work for.</span></li>
+          <li><span class="num">06</span><span class="copy"><strong>AI-Enhanced Operations.</strong> Automate the predictable. AI as a force multiplier on judgment, not a substitute for thinking.</span></li>
+        </ul>
+      </div>
+
+      <!-- PLUS BADGE (overlays the gap) -->
+      <div class="compare-plus" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </div>
+
+      <!-- RIGHT — THE COLLECTIVE -->
+      <div class="compare-col compare-col--collective">
+        <div class="compare-flag">Yours Immediately</div>
+        <div class="compare-logo compare-logo--placeholder">
+          <span class="placeholder-label">The Collective &middot; Logo TBD</span>
+        </div>
+        <h3 class="compare-title">The Collective</h3>
+        <div class="compare-sub">The room that activates the moment you reserve</div>
+        <p class="compare-intro">Business Master Class installs the operating system. <strong>THE COLLECTIVE compounds it</strong> across the next twelve months. Access activates the moment your seat is reserved.</p>
+        <ul class="compare-list">
+          <li><span class="num">01</span><span class="copy"><strong>AI Execution Systems.</strong> Strategy becomes execution in minutes. Hiring scorecards. Sales audits. Onboarding plans. Job descriptions that attract serious talent.</span></li>
+          <li><span class="num">02</span><span class="copy"><strong>HARDYbot &middot; 24/7 Strategic Advisor.</strong> Trained on Darren&rsquo;s complete methodology. Second opinions, decision guidance, vendor evaluation. The closest thing to Darren on call.</span></li>
+          <li><span class="num">03</span><span class="copy"><strong>AI Group Consulting And Workshops.</strong> Real-time, personalized guidance led by Darren&rsquo;s own A-Team AI experts. Built for decisive competitive advantage.</span></li>
+          <li><span class="num">04</span><span class="copy"><strong>Elite Leader Network.</strong> Private Hardy Club space exclusively for COLLECTIVE members. Live workshops and peer meet-ups matched by stage and ambition.</span></li>
+          <li><span class="num">05</span><span class="copy"><strong>Expert Office Hours And Discussion Forums.</strong> Open-door sessions with top industry experts. Professionally-led discussion on the operating issues that actually move the needle.</span></li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </section>
