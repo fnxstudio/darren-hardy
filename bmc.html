@@ -308,6 +308,25 @@
   }
   /* Anything direct inside a washed section sits above the overlay */
   .bmc-wash > * { position: relative; z-index: 1; }
+  /* Mobile compensation — radials lose impact on smaller viewports.
+     Reposition centered + roughly double the opacity so the wash actually
+     reads on a phone. Tuned per variant. */
+  @media (max-width: 880px) {
+    .bmc-wash::before {
+      background:
+        radial-gradient(ellipse 100% 45% at 50% 22%, rgba(156, 39, 172, 0.22), transparent 65%),
+        radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.10), transparent 70%);
+    }
+    .bmc-wash--center::before {
+      background:
+        radial-gradient(ellipse 100% 45% at 50% 18%, rgba(156, 39, 172, 0.24), transparent 65%),
+        radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.10), transparent 70%);
+    }
+    .bmc-wash--soft::before {
+      background:
+        radial-gradient(ellipse 100% 50% at 50% 25%, rgba(156, 39, 172, 0.15), transparent 65%);
+    }
+  }
 
   /* ============ ETERNAL EYEBROW PATTERN ============ */
   .eyebrow {
@@ -415,12 +434,11 @@
 
   /* ============ LAYER 1 — HERO ============
      Quiet purple-tinted base with a moderate radial bloom behind the
-     headline. Sits between "pure-black + faint splotch" and the
-     full HC-style heavy tint. */
+     headline. */
   .hero {
     min-height: 100vh;
     padding: 120px 0 80px;
-    background: linear-gradient(180deg, #0e070f 0%, #0a060c 55%, #060206 100%);
+    background: linear-gradient(180deg, #11081a 0%, #0c0710 55%, #060206 100%);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -429,8 +447,8 @@
     content: "";
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 60% 55% at 22% 32%, rgba(156, 39, 172, 0.18), transparent 60%),
-      radial-gradient(ellipse 70% 55% at 18% 85%, rgba(156, 39, 172, 0.08), transparent 70%),
+      radial-gradient(ellipse 60% 55% at 22% 32%, rgba(156, 39, 172, 0.22), transparent 60%),
+      radial-gradient(ellipse 70% 55% at 18% 85%, rgba(156, 39, 172, 0.10), transparent 70%),
       radial-gradient(ellipse at 30% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     z-index: 1;
     pointer-events: none;
@@ -587,6 +605,17 @@
     }
     .hero-portrait-wrap::after {
       background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 60%, var(--black) 100%);
+    }
+    /* Mobile compensation — radial gradients lose impact on smaller
+       viewports. Stronger base tint + denser bloom centered for single-col. */
+    .hero {
+      background: linear-gradient(180deg, #160a22 0%, #0e0814 55%, #060206 100%);
+    }
+    .hero::before {
+      background:
+        radial-gradient(ellipse 90% 45% at 50% 22%, rgba(156, 39, 172, 0.30), transparent 65%),
+        radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%),
+        radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     }
   }
 
@@ -1264,6 +1293,13 @@
     z-index: 0;
   }
   #investment > .container { position: relative; z-index: 1; }
+  @media (max-width: 880px) {
+    #investment::before {
+      background:
+        radial-gradient(ellipse 100% 45% at 50% 20%, rgba(156, 39, 172, 0.32), transparent 65%),
+        radial-gradient(ellipse 100% 55% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%);
+    }
+  }
   #investment .section-headline {
     font-size: clamp(44px, 5.8vw, 88px);
     margin-bottom: 32px;
