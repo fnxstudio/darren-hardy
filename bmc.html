@@ -413,11 +413,14 @@
 
   /* Main site nav intentionally omitted on this page — sticky bar is the only chrome. */
 
-  /* ============ LAYER 1 — HERO ============ */
+  /* ============ LAYER 1 — HERO ============
+     Quiet purple-tinted base with a moderate radial bloom behind the
+     headline. Sits between "pure-black + faint splotch" and the
+     full HC-style heavy tint. */
   .hero {
     min-height: 100vh;
     padding: 120px 0 80px;
-    background: var(--black);
+    background: linear-gradient(180deg, #0e070f 0%, #0a060c 55%, #060206 100%);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -425,12 +428,9 @@
   .hero::before {
     content: "";
     position: absolute; inset: 0;
-    /* Purple ambient bloom anchored behind the headline (left side), so it
-       doesn't compete with the portrait on the right. Top layer kept as
-       a subtle white highlight for depth. */
     background:
-      radial-gradient(ellipse 55% 50% at 22% 38%, rgba(156, 39, 172, 0.16), transparent 65%),
-      radial-gradient(ellipse 70% 55% at 18% 85%, rgba(156, 39, 172, 0.07), transparent 70%),
+      radial-gradient(ellipse 60% 55% at 22% 32%, rgba(156, 39, 172, 0.18), transparent 60%),
+      radial-gradient(ellipse 70% 55% at 18% 85%, rgba(156, 39, 172, 0.08), transparent 70%),
       radial-gradient(ellipse at 30% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     z-index: 1;
     pointer-events: none;
