@@ -251,6 +251,10 @@
        wash out (e.g., Meet Darren link). */
     --bmc-cyan-deep: #0e7280;
     --rule-cyan:    rgba(120, 228, 239, 0.32);
+    /* Purple ambient — only ever used as a low-opacity background wash
+       (like HC's gold). Never used for type, icons, or borders. Cyan
+       remains the lone accent color for content. */
+    --bmc-purple:   #9c27ac;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -277,6 +281,33 @@
   /* Eyebrow accent variant — applied sparingly to flag identity moments. */
   .eyebrow.eyebrow--accent { color: var(--bmc-cyan); }
   .eyebrow.eyebrow--accent .pip { background: var(--bmc-cyan); }
+
+  /* ============ AMBIENT PURPLE WASH (HC pattern, BMC color) ============
+     Subtle radial gradient layered behind a section's content. Gives the
+     dark background a quiet purple tint so the page reads as BMC and not
+     "another homepage clone." Three densities; default is upper-left.
+     Always set position: relative on the section and bump content z-index. */
+  .bmc-wash { position: relative; overflow: hidden; }
+  .bmc-wash::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 22% 30%, rgba(156, 39, 172, 0.12), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 80% 78%, rgba(156, 39, 172, 0.06), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bmc-wash--center::before {
+    background:
+      radial-gradient(ellipse 65% 50% at 50% 28%, rgba(156, 39, 172, 0.14), transparent 65%),
+      radial-gradient(ellipse 80% 60% at 50% 92%, rgba(156, 39, 172, 0.05), transparent 70%);
+  }
+  .bmc-wash--soft::before {
+    background:
+      radial-gradient(ellipse 60% 55% at 30% 35%, rgba(156, 39, 172, 0.08), transparent 65%);
+  }
+  /* Anything direct inside a washed section sits above the overlay */
+  .bmc-wash > * { position: relative; z-index: 1; }
 
   /* ============ ETERNAL EYEBROW PATTERN ============ */
   .eyebrow {
@@ -1236,14 +1267,14 @@
     text-align: center;
     overflow: hidden;
   }
-  /* Set-point wash: subtle cyan radial glow centered on the headline + cards.
-     Brighter at top (0.10), trails off softly toward the bottom (0.04). */
+  /* Enrollment is the page's primary set-point — purple wash is denser here
+     than other sections so the eye lands on the pricing decision. */
   #investment::before {
     content: "";
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 60% 50% at 50% 28%, rgba(120, 228, 239, 0.10), transparent 70%),
-      radial-gradient(ellipse 80% 60% at 50% 90%, rgba(120, 228, 239, 0.04), transparent 75%);
+      radial-gradient(ellipse 60% 50% at 50% 28%, rgba(156, 39, 172, 0.18), transparent 65%),
+      radial-gradient(ellipse 80% 60% at 50% 90%, rgba(156, 39, 172, 0.07), transparent 75%);
     pointer-events: none;
     z-index: 0;
   }
@@ -1821,7 +1852,7 @@
 </section>
 
 <!-- ===== LAYER 3 — THE FILTER ===== -->
-<section class="section-dark" id="truth">
+<section class="section-dark bmc-wash bmc-wash--soft" id="truth">
   <div class="container">
     <div class="eyebrow eyebrow--accent reveal"><span class="pip"></span>The Truth</div>
     <h2 class="section-headline filter-headline reveal">Filtering The BS &amp; <em class="key">Charlatans</em></h2>
@@ -1854,7 +1885,7 @@
 </section>
 
 <!-- ===== LAYER 5 — WHAT BMC|COLLECTIVE IS ===== -->
-<section class="section-ink section-divider" id="system">
+<section class="section-ink section-divider bmc-wash" id="system">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>What You Need Is Rare</div>
     <h2 class="section-headline system-headline reveal">Access To The <em class="key">Inaccessible</em>.</h2>
@@ -1999,7 +2030,7 @@
 </section>
 
 <!-- ===== LAYER 8 — THE UNFAIR ADVANTAGE ===== -->
-<section class="section-dark section-divider">
+<section class="section-dark section-divider bmc-wash bmc-wash--center">
   <div class="container" style="text-align:center;">
     <div class="eyebrow eyebrow--center reveal"><span class="pip"></span>Why It Works</div>
     <h2 class="section-headline unfair-headline reveal" style="margin-left:auto;margin-right:auto;">Your <em class="key">Secret Weapon</em>.</h2>
@@ -2394,7 +2425,7 @@
 </section>
 
 <!-- ===== LAYER 16 — FINAL CLOSE ===== -->
-<section class="final">
+<section class="final bmc-wash bmc-wash--center">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>The Invitation</div>
     <h2 class="final-headline reveal">If You&rsquo;re Still Reading,<br/>You <em class="key">Already Know</em>.</h2>
