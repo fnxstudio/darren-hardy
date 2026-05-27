@@ -366,11 +366,15 @@
     z-index: 1;
     pointer-events: none;
   }
-  .hero-content {
-    max-width: 920px;
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 72px;
     position: relative;
     z-index: 2;
+    align-items: center;
   }
+  .hero-content { max-width: 680px; }
   .hero-content .eyebrow {
     opacity: 0;
     transform: translateY(10px);
@@ -381,12 +385,12 @@
   .hero h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(44px, 6.5vw, 96px);
-    line-height: 1.0;
+    font-size: clamp(42px, 5.6vw, 84px);
+    line-height: 1.02;
     letter-spacing: -0.03em;
     color: var(--white);
     text-transform: uppercase;
-    max-width: 900px;
+    max-width: 660px;
     opacity: 0;
     transform: translateY(14px);
     animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -448,6 +452,40 @@
   }
   .secondary-link:hover { color: var(--white); border-bottom-color: var(--silver); }
 
+  .hero-portrait-wrap {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    max-height: 640px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeIn 1.6s ease forwards;
+    animation-delay: 0.5s;
+    align-self: center;
+    justify-self: end;
+    width: 100%;
+  }
+  .hero-portrait-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    filter: grayscale(35%) contrast(1.06) brightness(0.96);
+  }
+  .hero-portrait-wrap::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--black) 0%, rgba(10,10,10,0.55) 14%, transparent 42%);
+    pointer-events: none;
+  }
+  .hero-portrait-wrap::before {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.85) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
   .trust-tag {
     position: absolute;
     bottom: 40px; left: 48px;
@@ -491,6 +529,16 @@
 
   @media (max-width: 960px) {
     .hero { padding: 100px 0 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-content { max-width: 100%; }
+    .hero-portrait-wrap {
+      max-height: 480px;
+      aspect-ratio: 5 / 4;
+      justify-self: stretch;
+    }
+    .hero-portrait-wrap::after {
+      background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 60%, var(--black) 100%);
+    }
     .trust-tag { left: 24px; bottom: 24px; }
   }
 
@@ -1610,16 +1658,24 @@
 
 <main>
 
-<!-- ===== LAYER 1 — HERO (pure text, no portrait) ===== -->
+<!-- ===== LAYER 1 — HERO ===== -->
 <section class="hero" id="hero">
   <div class="container">
-    <div class="hero-content">
-      <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE</div>
-      <h1>For Intensely Driven Business Leaders Seeking An Unfair Advantage.</h1>
-      <p class="hero-sub">Reserve a Business Master Class seat and be immediately activated in the BMC|COLLECTIVE.</p>
-      <div class="hero-cta-row">
-        <a href="#investment" class="btn-primary hero-cta">Reserve Your Seat &rarr;</a>
-        <a href="#vsl" class="secondary-link">Or watch the 4-minute walkthrough first &darr;</a>
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE</div>
+        <h1>For Intensely Driven Business Leaders Seeking An Unfair Advantage.</h1>
+        <p class="hero-sub">Reserve a Business Master Class seat and be immediately activated in the BMC|COLLECTIVE.</p>
+        <div class="hero-cta-row">
+          <a href="#investment" class="btn-primary hero-cta">Reserve Your Seat &rarr;</a>
+          <a href="#vsl" class="secondary-link">Or watch the 4-minute walkthrough first &darr;</a>
+        </div>
+      </div>
+      <div class="hero-portrait-wrap">
+        <picture>
+          <source type="image/webp" srcset="Wall-DH.webp">
+          <img src="Wall-DH.png" alt="Darren Hardy" />
+        </picture>
       </div>
     </div>
   </div>
@@ -2042,8 +2098,8 @@
     <div class="meet-grid">
       <div class="meet-portrait">
         <picture>
-          <source type="image/webp" srcset="Wall-DH.webp">
-          <img src="Wall-DH.png" alt="Darren Hardy" loading="lazy" />
+          <source type="image/webp" srcset="Hero-DH.webp">
+          <img src="Hero-DH.png" alt="Darren Hardy" loading="lazy" />
         </picture>
         <div class="meet-caption">Darren Hardy &middot; 35 Years At The Centerpiece</div>
       </div>
