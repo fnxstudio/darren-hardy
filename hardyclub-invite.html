@@ -1122,18 +1122,23 @@
     color: var(--white);
     text-transform: uppercase;
   }
-  /* BMC|COLLECTIVE wordmark — replaces icon+text on the Collective card */
+  /* BMC|COLLECTIVE wordmark — replaces icon+text on the Collective card.
+     Header behaves as a flex column with the same min-height as the Hardy
+     Club icon (64px), so the label + wordmark center vertically and align
+     with the icon+title block in the other card. */
   .inclusions-card-header.is-wordmark {
-    display: block;
-    align-items: initial;
-    gap: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    min-height: 64px;
   }
   .inclusions-card-header.is-wordmark .inclusions-card-label {
-    margin-bottom: 16px;
+    margin-bottom: 0;
   }
   .inclusions-card-wordmark {
     display: block;
-    height: clamp(36px, 3.8vw, 52px);
+    height: clamp(26px, 2.4vw, 34px);
     width: auto;
     max-width: 100%;
     /* Use invert(1) only (no brightness(0)) so the opaque white badge interior doesn't flood solid and the D negative space stays intact */
