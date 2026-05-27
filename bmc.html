@@ -413,11 +413,18 @@
 
   /* Main site nav intentionally omitted on this page — sticky bar is the only chrome. */
 
-  /* ============ LAYER 1 — HERO ============ */
+  /* ============ LAYER 1 — HERO ============
+     Mirrors HC hero treatment: a radial accent bloom layered over a vertical
+     linear-gradient base that tints the whole section with the accent color
+     (purple here, gold on HC). Without the linear base, the radial alone
+     reads as "muddy splotch" instead of "ambient mood." */
   .hero {
     min-height: 100vh;
     padding: 120px 0 80px;
-    background: var(--black);
+    background:
+      radial-gradient(ellipse at 22% 28%, rgba(156, 39, 172, 0.22), transparent 55%),
+      radial-gradient(ellipse at 80% 78%, rgba(156, 39, 172, 0.10), transparent 60%),
+      linear-gradient(180deg, #140a17 0%, #0c0710 55%, #060206 100%);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -425,13 +432,12 @@
   .hero::before {
     content: "";
     position: absolute; inset: 0;
-    /* Purple ambient bloom anchored behind the headline (left side), so it
-       doesn't compete with the portrait on the right. Top layer kept as
-       a subtle white highlight for depth. */
-    background:
-      radial-gradient(ellipse 55% 50% at 22% 38%, rgba(156, 39, 172, 0.16), transparent 65%),
-      radial-gradient(ellipse 70% 55% at 18% 85%, rgba(156, 39, 172, 0.07), transparent 70%),
+    /* Subtle grain texture + faint white highlight for depth — same role
+       the grain layer plays on HC. */
+    background-image:
+      radial-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
       radial-gradient(ellipse at 30% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+    background-size: 3px 3px, 100% 100%;
     z-index: 1;
     pointer-events: none;
   }
