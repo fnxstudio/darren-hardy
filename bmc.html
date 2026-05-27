@@ -247,6 +247,9 @@
        pricing badge, FAQ chevron, "for you" markers). */
     --bmc-cyan:     #78e4ef;
     --bmc-cyan-soft: rgba(120, 228, 239, 0.85);
+    /* Deeper cyan for use on light/bone backgrounds where #78e4ef would
+       wash out (e.g., Meet Darren link). */
+    --bmc-cyan-deep: #0e7280;
     --rule-cyan:    rgba(120, 228, 239, 0.32);
   }
 
@@ -795,7 +798,7 @@
     font-style: italic;
     font-size: clamp(24px, 2.6vw, 36px);
     line-height: 1.3;
-    color: var(--white);
+    color: var(--bmc-cyan);
     padding-left: 28px;
     border-left: 2px solid var(--bmc-cyan);
     margin: 48px 0;
@@ -1206,7 +1209,7 @@
   .meet-body strong { color: var(--black); font-weight: 600; }
   .meet-link {
     display: inline-flex; align-items: center; gap: 8px;
-    color: var(--black);
+    color: var(--bmc-cyan-deep);
     text-decoration: none;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -1216,9 +1219,9 @@
     border-bottom: 1px solid transparent;
     padding-bottom: 3px;
     margin-top: 16px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, color 0.2s;
   }
-  .meet-link:hover { border-bottom-color: var(--black); }
+  .meet-link:hover { border-bottom-color: var(--bmc-cyan-deep); }
   @media (max-width: 880px) {
     .meet { padding: 96px 0; }
     .meet-grid { grid-template-columns: 1fr; gap: 48px; }
@@ -1342,6 +1345,19 @@
     transition: background 0.2s, color 0.2s;
   }
   .price-cta:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
+  /* Ghost variant — Monthly card. HC nav-cta pattern: cyan border + cyan text
+     on transparent, inverts to solid cyan + black on hover. Visually
+     subordinates this option to the Annual "Best Value" primary. */
+  .price-cta.price-cta--ghost {
+    background: transparent;
+    color: var(--bmc-cyan);
+    border-color: var(--rule-cyan);
+  }
+  .price-cta.price-cta--ghost:hover {
+    background: var(--bmc-cyan);
+    color: var(--black);
+    border-color: var(--bmc-cyan);
+  }
   .invest-footnote {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -1462,11 +1478,11 @@
   .faq-q .chev {
     flex-shrink: 0;
     width: 16px; height: 16px;
-    color: var(--silver);
+    color: var(--bmc-cyan);
     transition: transform 0.3s ease;
   }
   .faq-q[aria-expanded="true"] { color: var(--bmc-cyan); }
-  .faq-q[aria-expanded="true"] .chev { transform: rotate(180deg); color: var(--bmc-cyan); }
+  .faq-q[aria-expanded="true"] .chev { transform: rotate(180deg); }
   .faq-a {
     max-height: 0;
     overflow: hidden;
@@ -1523,13 +1539,13 @@
     color: var(--silver);
   }
   .final-secondary a {
-    color: var(--silver);
+    color: var(--bmc-cyan);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     padding-bottom: 2px;
     transition: color 0.2s, border-color 0.2s;
   }
-  .final-secondary a:hover { color: var(--white); border-bottom-color: var(--silver); }
+  .final-secondary a:hover { border-bottom-color: var(--bmc-cyan); }
   .final-secondary .br { display: block; margin-top: 6px; }
 
   /* ============ FOOTER ============ */
@@ -1827,7 +1843,7 @@
 <section class="vsl-section" id="vsl">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal"><span class="pip"></span>A Personal Word</div>
-    <h2 class="section-headline vsl-headline reveal">Watch Darren Explain What&rsquo;s Inside.</h2>
+    <h2 class="section-headline vsl-headline reveal">Watch Darren Explain <em class="key">What&rsquo;s Inside</em>.</h2>
     <div class="vsl-frame" role="button" tabindex="0" aria-label="Play video">
       <div class="vsl-play">
         <svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg>
@@ -2111,7 +2127,7 @@
 <section class="section-dark section-divider">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>The Standard For Admission</div>
-    <h2 class="section-headline filter-headline-10 reveal">This Room Is Not For Everyone. By Design.</h2>
+    <h2 class="section-headline filter-headline-10 reveal">This Room Is Not For Everyone. <em class="key">By Design</em>.</h2>
     <div class="filter-grid">
       <div class="filter-col col-for">
         <div class="filter-sublabel">BMC|COLLECTIVE Is For You If</div>
@@ -2181,7 +2197,7 @@
         <div class="price-num">$895</div>
         <div class="price-sub">per month</div>
         <p class="price-desc">Twelve-month commitment. Reserved BMC seat. Full COLLECTIVE activation.</p>
-        <a href="#" class="price-cta">Reserve Your Seat &rarr;</a>
+        <a href="#" class="price-cta price-cta--ghost">Reserve Your Seat &rarr;</a>
       </div>
     </div>
     <p class="invest-footnote">All prices in USD. Reservation confirmed by member services within 24 hours.</p>
@@ -2192,7 +2208,7 @@
 <section class="stack-section">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>What You Get Access To</div>
-    <h2 class="section-headline stack-headline reveal">Everything That Opens The Moment You Enroll.</h2>
+    <h2 class="section-headline stack-headline reveal">Everything That Opens The <em class="key">Moment You Enroll</em>.</h2>
     <div class="stack-list">
       <div class="stack-item">
         <div class="stack-numeral">01</div>
@@ -2265,7 +2281,7 @@
 <section class="risk-section">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>A Confident Promise</div>
-    <h2 class="section-headline risk-headline reveal">The Fit Guarantee.</h2>
+    <h2 class="section-headline risk-headline reveal">The Fit <em class="key">Guarantee</em>.</h2>
     <div class="risk-body">
       <p>BMC|COLLECTIVE is built on the standard of the people inside. If within the first 30 days you decide this is not the right room for you, contact member services. We refund your full investment. No questions. No friction. No awkwardness.</p>
       <p>THE COLLECTIVE works because the people inside are intensely committed to growth and building something that matters. If that&rsquo;s not you, this room is not for you.</p>
@@ -2277,7 +2293,7 @@
 <section id="faq">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>Real Questions</div>
-    <h2 class="section-headline faq-headline reveal">What You&rsquo;re Probably Wondering.</h2>
+    <h2 class="section-headline faq-headline reveal">What You&rsquo;re Probably <em class="key">Wondering</em>.</h2>
 
     <div class="faq-row">
       <button class="faq-q" aria-expanded="false">
