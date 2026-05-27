@@ -662,27 +662,87 @@
     position: relative;
     overflow: hidden;
     background: #0a0a0a;
+    min-height: 720px;
   }
-  @media (max-width: 960px) { .curator-image { min-height: 540px; } }
+  @media (max-width: 960px) { .curator-image { min-height: 560px; } }
 
-  /* Covers grid backdrop (SUCCESS wall) */
+  /* JS-built covers grid backdrop (SUCCESS wall) — matches home.html intro */
   .curator-wall {
     position: absolute;
     inset: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 1fr;
+    grid-auto-rows: 144px;
+    grid-auto-flow: dense;
     gap: 2px;
+    will-change: transform;
   }
   @media (max-width: 720px) {
-    .curator-wall { grid-template-columns: repeat(3, 1fr); }
+    .curator-wall {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 120px;
+    }
   }
-  .curator-wall img {
+
+  .curator-image .c-tile {
+    position: relative;
+    overflow: hidden;
+    background: #0d0d0d;
+    opacity: 0;
+    transform: scale(0.93) translateY(14px);
+    will-change: opacity, transform;
+    cursor: pointer;
+  }
+  .curator-image .c-tile.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition:
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .curator-image .c-wide  { grid-column: span 2; }
+  .curator-image .c-tall  { grid-row:    span 2; }
+  .curator-image .c-large { grid-column: span 2; grid-row: span 2; }
+
+  .curator-image .c-tile img {
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center 20%;
     display: block;
-    filter: grayscale(100%) brightness(0.78) contrast(0.95);
+    filter: grayscale(100%);
+    transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .curator-image .c-tile:hover img,
+  .curator-image .c-tile.tapped img {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+  }
+  /* Lift hovered/tapped tiles above the vignettes so the color reveal is fully visible */
+  .curator-image .c-tile:hover,
+  .curator-image .c-tile.tapped { z-index: 4; }
+
+  .curator-image .c-cap {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 22px 10px 8px;
+    background: linear-gradient(to top, rgba(0,0,0,0.82), transparent);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.32s ease, transform 0.32s ease;
+    pointer-events: none;
+  }
+  .curator-image .c-tile:hover .c-cap,
+  .curator-image .c-tile.tapped .c-cap {
+    opacity: 1; transform: translateY(0);
   }
 
   /* DH cutout overlay, anchored to bottom-center */
@@ -692,7 +752,7 @@
     left: 50%;
     transform: translateX(-50%);
     height: 96%;
-    z-index: 3;
+    z-index: 10;
     pointer-events: none;
     display: flex;
     align-items: flex-end;
@@ -712,18 +772,18 @@
     content: '';
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    height: 30%;
-    background: linear-gradient(to bottom, transparent 0%, rgba(10,10,10,0.85) 75%, #0a0a0a 100%);
+    height: 25%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(10,10,10,0.85) 70%, #0a0a0a 100%);
     pointer-events: none;
-    z-index: 2;
+    z-index: 5;
   }
   /* Right-edge soft fade so the wall blends into the dark text panel on desktop */
   .curator-image::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0) 70%, rgba(10,10,10,0.5) 100%);
-    z-index: 2;
+    background: linear-gradient(90deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0) 70%, rgba(10,10,10,0.55) 100%);
+    z-index: 5;
     pointer-events: none;
   }
   @media (max-width: 960px) {
@@ -1049,6 +1109,14 @@
     margin-bottom: 28px;
   }
   .inclusions-card-sub strong { color: var(--white); font-weight: 700; }
+  .inclusions-card-sub a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,169,106,0.4);
+    padding-bottom: 1px;
+    transition: all 0.2s;
+  }
+  .inclusions-card-sub a:hover { color: var(--white); border-bottom-color: var(--white); }
 
   .inclusions-list {
     list-style: none;
@@ -1445,13 +1513,13 @@
     <p class="hero-sub">An invitation-only association of unusually driven founders, CEOs, and elite business leaders. <strong>Closed by design.</strong> The kind of room that finally raises your ceiling.</p>
     <div class="hero-cta-row">
       <a class="cta-primary" href="#invite">Request An Invite <span>→</span></a>
-      <a class="cta-secondary" href="#whofor">See Who It's Built For <span>↓</span></a>
+      <a class="cta-secondary" href="#impact">See Who It's Built For <span>↓</span></a>
     </div>
   </div>
 </section>
 
 <!-- PREMISE (BRIDGE) -->
-<section class="premise">
+<section class="premise" id="impact">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>The Impact</div>
     <h2 class="premise-title reveal">Who you're with is<br>who you <em>become</em>.</h2>
@@ -1589,7 +1657,7 @@
           <div class="inclusions-card-label">Included With BMC Seats</div>
           <img class="inclusions-card-wordmark" src="BMC_COLLECTIVE_logo.png" alt="BMC | COLLECTIVE" />
         </div>
-        <p class="inclusions-card-sub"><strong>Everything in Hardy Club, plus the highest-level work that elite business leaders crave.</strong> Earned the day you reserve your seat in BMC.</p>
+        <p class="inclusions-card-sub"><strong>Everything in Hardy Club, plus the highest-level work that elite business leaders crave.</strong> Earned the day you <a href="https://dhbmc.com">reserve your seat in BMC</a>.</p>
         <ol class="inclusions-list">
           <li>
             <div class="inclusions-list-num">01</div>
@@ -1626,7 +1694,7 @@
 <section class="voices">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>From Inside The Association</div>
-    <h2 class="voices-title reveal">What the members <em>actually say</em>.</h2>
+    <h2 class="voices-title reveal">What members <em>actually say</em>.</h2>
 
     <div class="voices-grid">
       <div class="voice-card reveal">
@@ -1702,20 +1770,7 @@
 <section class="curator">
   <div class="curator-grid">
     <div class="curator-image">
-      <div class="curator-wall">
-        <img src="covers/SM_11_08_BEZOS.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_10_06_JOBS.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_09_01_Robbins.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_11_11_CUBAN.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_09_07_BRANSON.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_13_02_MUSK.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_14_11_COOK.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_11_05_ZUCKERBERG.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_11_03_SCHWAB.jpg" alt="" loading="lazy" />
-        <img src="covers/JackWelch.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_13_03_CORCORAN.jpg" alt="" loading="lazy" />
-        <img src="covers/SM_10_05_MICHAELS.jpg" alt="" loading="lazy" />
-      </div>
+      <div class="curator-wall" id="curator-covers-grid"></div>
       <div class="curator-dh">
         <picture>
           <source type="image/webp" srcset="Wall-DH.webp">
@@ -2043,6 +2098,145 @@
       item.classList.toggle('is-open');
     });
   });
+})();
+
+// Curator SUCCESS wall — JS-built covers grid with varied sizing,
+// staggered entrance, parallax on scroll, hover + tap-to-color reveal
+(function () {
+  const coversGrid = document.getElementById('curator-covers-grid');
+  if (!coversGrid) return;
+
+  const covers = [
+    'JackWelch.jpg','SM_13_05_FORD.jpg','SM_12_01_DOWNEY.jpg',
+    'SM_09_07_BRANSON.jpg','SM_10_06_JOBS.jpg',
+    'SM_09_08_FOX.jpg',
+    'SM_08_01_Kiyosaki.jpg','SM_08_02_50.jpg','SM_08_04_OZ.jpg',
+    'SM_08_05_HAWK.jpg','SM_08_06_Deutsch.jpg','SM_10_12_SHRIVER.jpg',
+    'SM_09_02_Powell.jpg','SM_09_03_FOREMAN.jpg','SM_09_04_Maxwell.jpg',
+    'SM_09_05_ORMAN.jpg','SM_09_06_LANCE.jpg','SM_09_01_Robbins.jpg',
+    'SM_09_09_FOSTER_Barcode.jpg','SM_09_10_SERENA_barcode.jpg',
+    'SM_09_11_OSTEEN_barcode.jpg','SM_09_12_DrPHIL.jpg',
+    'SM_12_07_TECHNOLOGY.jpg','SM_10_01_KEYES.jpg','SM_10_02_RAMSEY.jpg',
+    'SM_10_03_HOPKINS.jpg','SM_10_04_COLLINS.jpg','SM_10_05_MICHAELS.jpg',
+    'SM_10_07_COLE.jpg','SM_10_08_JOHNSON.jpg',
+    'SM_10_09_DELL.jpg','SM_10_10_USHER.jpg','SM_10_11_MANNINGS.jpg',
+    'SM_11_01_HOWARD.jpg','SM_11_02_CHAN.jpg','SM_11_03_SCHWAB.jpg',
+    'SM_11_04_SCHULTZ.jpg','SM_12_08_BRANSON.jpg','SM_11_05_ZUCKERBERG.jpg',
+    'SM_11_06_MARTIN.jpg','SM_11_07_DICAPRIO.jpg','SM_11_08_BEZOS.jpg',
+    'SM_11_09_CONNICK.jpg','SM_11_10_OZ.jpg','SM_11_11_CUBAN.jpg',
+    'SM_11_12_SANTA.jpg','SM_12_02_KARDASHIAN.jpg','SM_12_03_BLOOMBERG.jpg',
+    'SM_12_04_LOWE.jpg','SM_12_05_ORMAN.jpg','SM_12_06_JOHANNSON.jpg',
+    'SM_12_09_BURNETT.jpg','SM_12_10_MAXWELL.jpg','SM_12_11_WASHINGTON.jpg',
+    'SM_12_12_COURIC.jpg','SM_13_01_STEWART.jpg','SM_13_02_MUSK.jpg',
+    'SM_13_03_CORCORAN.jpg','SM_13_04_DIAMANDIS.jpg','SM_08_03_Trump.jpg',
+    'SM_14_11_COOK.jpg','Santa1977.jpg','Tony_Hseih.jpg'
+  ];
+
+  function cleanName(f) {
+    let n = f.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '');
+    n = n.replace(/^SM_\d+_\d+_/i, '');
+    n = n.replace(/([a-z])([A-Z])/g, '$1 $2');
+    n = n.replace(/[_-]/g, ' ');
+    n = n.replace(/\bbarcode\b/gi, '').replace(/\s+/g, ' ').trim();
+    n = n.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    return n;
+  }
+
+  const featuredTypes = ['large', 'tall', 'large', 'tall', 'standard'];
+
+  function buildSpreadPool(n) {
+    const special = [...Array(4).fill('wide'), ...Array(16).fill('tall')];
+    let s = 0xc0ffee42;
+    for (let i = special.length - 1; i > 0; i--) {
+      s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+      s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+      s ^= s >>> 16;
+      const j = (Math.abs(s) >>> 0) % (i + 1);
+      [special[i], special[j]] = [special[j], special[i]];
+    }
+    const pool = Array(n).fill('standard');
+    const step = (n - 1) / (special.length - 1);
+    special.forEach((type, i) => { pool[Math.round(i * step)] = type; });
+    return pool;
+  }
+
+  const bodyTypes = buildSpreadPool(covers.length - 5);
+
+  covers.forEach((cover, i) => {
+    const tile = document.createElement('div');
+    tile.className = 'c-tile';
+    const t = i < 5 ? featuredTypes[i] : bodyTypes[i - 5];
+    if (t === 'wide')  tile.classList.add('c-wide');
+    if (t === 'tall')  tile.classList.add('c-tall');
+    if (t === 'large') tile.classList.add('c-large');
+
+    const img = document.createElement('img');
+    img.src      = `covers/${cover}`;
+    img.alt      = cleanName(cover);
+    img.loading  = i < 12 ? 'eager' : 'lazy';
+    img.decoding = 'async';
+
+    const cap = document.createElement('div');
+    cap.className   = 'c-cap';
+    cap.textContent = cleanName(cover);
+
+    tile.appendChild(img);
+    tile.appendChild(cap);
+    coversGrid.appendChild(tile);
+  });
+
+  const curatorImage = document.querySelector('.curator-image');
+
+  // Staggered entrance when the wall scrolls into view
+  const wallObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      const tiles = coversGrid.querySelectorAll('.c-tile');
+      tiles.forEach((tile, i) => {
+        tile.style.transitionDelay = `${i * 35}ms`;
+      });
+      requestAnimationFrame(() => {
+        tiles.forEach(tile => tile.classList.add('visible'));
+      });
+      wallObserver.disconnect();
+    }
+  }, { threshold: 0.1 });
+  wallObserver.observe(curatorImage);
+
+  // Touch tap-to-color (mobile)
+  coversGrid.querySelectorAll('.c-tile').forEach(tile => {
+    let ty, tx;
+    tile.addEventListener('touchstart', e => {
+      ty = e.touches[0].clientY;
+      tx = e.touches[0].clientX;
+    }, { passive: true });
+    tile.addEventListener('touchend', e => {
+      if (Math.abs(e.changedTouches[0].clientY - ty) > 8 ||
+          Math.abs(e.changedTouches[0].clientX - tx) > 8) return;
+      const active = tile.classList.contains('tapped');
+      coversGrid.querySelectorAll('.c-tile.tapped').forEach(t => t.classList.remove('tapped'));
+      if (!active) tile.classList.add('tapped');
+    });
+    // Also wire click for mouse (toggles the color reveal sticky like the homepage)
+    tile.addEventListener('click', () => {
+      const active = tile.classList.contains('tapped');
+      coversGrid.querySelectorAll('.c-tile.tapped').forEach(t => t.classList.remove('tapped'));
+      if (!active) tile.classList.add('tapped');
+    });
+  });
+
+  // Parallax — rAF-throttled
+  let rafPending = false;
+  window.addEventListener('scroll', () => {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      const rect = curatorImage.getBoundingClientRect();
+      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      const offset = Math.max(0, progress * 400);
+      coversGrid.style.transform = `translateY(-${offset}px)`;
+      rafPending = false;
+    });
+  }, { passive: true });
 })();
 </script>
 </body>
