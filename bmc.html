@@ -434,8 +434,13 @@
   /* Main site nav intentionally omitted on this page — sticky bar is the only chrome. */
 
   /* ============ LAYER 1 — HERO ============
-     Quiet purple-tinted base with a moderate radial bloom behind the
-     headline. */
+     Two-file composite (matches home.html pattern):
+       z 0  → bg image (digital stage backdrop)
+       z 1  → purple ambient wash (tints the bg only — keeps page in BMC family)
+       z 2  → left-side darkening gradient (keeps text readable over bg)
+       z 3  → DH cutout (natural color, on top of everything else)
+       z 4  → text content
+     Darren does NOT fade in — he's present on load. */
   .hero {
     min-height: 100vh;
     padding: 120px 0 80px;
@@ -443,6 +448,17 @@
     overflow: hidden;
     display: flex;
     align-items: center;
+    position: relative;
+  }
+  .hero-bkgd {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: right center;
+    z-index: 0;
+    display: block;
+    pointer-events: none;
   }
   .hero::before {
     content: "";
@@ -454,10 +470,36 @@
     z-index: 1;
     pointer-events: none;
   }
-  .hero-content {
-    max-width: 920px;
-    position: relative;
+  .hero::after {
+    /* Darken the left side so the headline + sub stay legible over the bg.
+       Fades cleanly into transparency by ~70% across, so Darren on the right
+       reads at full vibrance. */
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(8,4,12,0.94) 0%,
+      rgba(8,4,12,0.78) 28%,
+      rgba(8,4,12,0.30) 54%,
+      transparent 72%
+    );
     z-index: 2;
+    pointer-events: none;
+  }
+  .hero-portrait {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: right center;
+    z-index: 3;
+    display: block;
+    pointer-events: none;
+  }
+  .hero-content {
+    max-width: 640px;
+    position: relative;
+    z-index: 4;
   }
   .hero-content .eyebrow {
     opacity: 0;
@@ -571,6 +613,26 @@
         radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%),
         radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     }
+    /* Strengthen left-darkening so text stays readable when Darren sits
+       behind it (no two-column split on mobile). Fades to transparent later. */
+    .hero::after {
+      background: linear-gradient(
+        90deg,
+        rgba(8,4,12,0.97) 0%,
+        rgba(8,4,12,0.90) 30%,
+        rgba(8,4,12,0.60) 58%,
+        rgba(8,4,12,0.18) 80%,
+        transparent 100%
+      );
+    }
+    /* Darren shifts right + slightly transparent so headline overlays cleanly */
+    .hero-portrait {
+      object-position: right center;
+      opacity: 0.55;
+    }
+  }
+  @media (max-width: 600px) {
+    .hero-portrait { opacity: 0.45; }
   }
 
   /* ============ SCROLL REVEAL UTILITY ============ */
@@ -1905,6 +1967,8 @@
 
 <!-- ===== LAYER 1 — HERO ===== -->
 <section class="hero" id="hero">
+  <img class="hero-bkgd" src="DH_BMC_stage_background.png" alt="" />
+
   <div class="container">
     <div class="hero-content">
       <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE</div>
@@ -1916,6 +1980,9 @@
       </div>
     </div>
   </div>
+
+  <img class="hero-portrait" src="DH_BMC_stage.png" alt="Darren Hardy on stage at Business Master Class" />
+
   <a href="#truth" class="scroll-cue" aria-label="Scroll down">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
   </a>
