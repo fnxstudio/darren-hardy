@@ -1038,8 +1038,8 @@
     height: clamp(36px, 3.8vw, 52px);
     width: auto;
     max-width: 100%;
-    /* Wordmark is black on transparent — invert to white to match the rest of the title typography */
-    filter: brightness(0) invert(1) opacity(0.95);
+    /* Use invert(1) only (no brightness(0)) so the opaque white badge interior doesn't flood solid and the D negative space stays intact */
+    filter: invert(1);
   }
   .inclusions-card-sub {
     font-weight: 500;
@@ -1586,7 +1586,7 @@
       <!-- BMC|COLLECTIVE -->
       <div class="inclusions-card is-collective reveal">
         <div class="inclusions-card-header is-wordmark">
-          <div class="inclusions-card-label">Earned Through BMC</div>
+          <div class="inclusions-card-label">Included With BMC Seats</div>
           <img class="inclusions-card-wordmark" src="BMC_COLLECTIVE_logo.png" alt="BMC | COLLECTIVE" />
         </div>
         <p class="inclusions-card-sub"><strong>Everything in Hardy Club, plus the highest-level work that elite business leaders crave.</strong> Earned the day you reserve your seat in BMC.</p>
