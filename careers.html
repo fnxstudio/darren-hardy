@@ -356,32 +356,80 @@
     /* Prevent tiles bleeding into adjacent sections during 3D flip */
     overflow: hidden;
   }
+  /* Border-based grid — consistent 1px lines, no subpixel gap glitches */
   .standard-grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
-    perspective: 1600px;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+    perspective: 1800px;
     perspective-origin: center 30%;
   }
-  @media (max-width: 880px) { .standard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (max-width: 520px) { .standard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 1080px) { .standard-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (max-width: 720px)  { .standard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 460px)  { .standard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
   .std {
     background: var(--black);
-    padding: 36px 24px;
+    position: relative;
+    padding: 24px 22px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    aspect-ratio: 1.05 / 1;
+    justify-content: flex-end;
+    aspect-ratio: 0.88 / 1;
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    overflow: hidden;
     transition:
       background 0.3s ease,
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     transform-style: preserve-3d;
     backface-visibility: hidden;
   }
-  /* Override default .reveal fade-up for Standard tiles: 3D card-flip from the side */
+  /* Tiny corner index — keeps the numerical orientation */
+  .std-num {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: var(--grey);
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  /* Big outlined number — the watermark visual that gives each card identity */
+  .std-bg-num {
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(82px, 10vw, 158px);
+    line-height: 0.82;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.14);
+    letter-spacing: -0.05em;
+    user-select: none;
+    pointer-events: none;
+    z-index: 1;
+    transition: -webkit-text-stroke-color 0.4s ease, color 0.4s ease;
+  }
+  .std-word {
+    position: relative;
+    z-index: 2;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(15px, 1.35vw, 20px);
+    line-height: 1;
+    letter-spacing: -0.015em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  /* 3D card-flip reveal from the side */
   .standard-grid .std.reveal {
     opacity: 0;
     transform: rotateY(-72deg) translateZ(-50px) scale(0.94);
@@ -391,34 +439,25 @@
     opacity: 1;
     transform: rotateY(0) translateZ(0) scale(1);
   }
-  /* Slow the flip slightly so it reads as a deliberate motion, not a quick fade */
-  .standard-grid .std {
-    transition:
-      background 0.3s ease,
-      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  /* Hover lift — match specificity of post-reveal so the transform wins */
+  /* Hover state — lift in 3D, light up the watermark */
   .standard-grid .std.visible:hover {
     background: var(--ink-soft);
     transform: translateZ(18px);
   }
-  .std-num {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    color: var(--grey);
-    text-transform: uppercase;
+  .standard-grid .std.visible:hover .std-bg-num {
+    -webkit-text-stroke-color: rgba(255,255,255,0.34);
+    color: rgba(255,255,255,0.05);
   }
-  .std-word {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(20px, 1.8vw, 26px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    text-transform: uppercase;
+
+  /* Mobile: shallower 3D so the flip never pushes tiles past viewport edges */
+  @media (max-width: 720px) {
+    .standard-grid { perspective: 1100px; }
+    .standard-grid .std.reveal {
+      transform: rotateY(-42deg) translateZ(-22px) scale(0.96);
+    }
+    .standard-grid .std.visible:hover { transform: translateZ(10px); }
+    .std-bg-num { font-size: clamp(64px, 18vw, 108px); top: -2px; }
+    .std { padding: 22px 18px; }
   }
 
   .standard-footnote {
@@ -1239,7 +1278,7 @@
       <span class="current">Careers</span>
     </div>
     <h1 class="subhero-title">Join The A-Team.</h1>
-    <p class="subhero-sub">Our work can positively influence the lives of <strong>1.6 billion people</strong>. Wake up inspired to grow, be excellent, and make an impact. That's what we do. We need your help.</p>
+    <p class="subhero-sub">Our work can positively influence the lives of <strong>1.6 billion people</strong>. Wake up inspired to grow, be excellent, and make an impact. That's what we do, and we need your help.</p>
   </div>
 </section>
 
@@ -1279,16 +1318,16 @@
       <p class="standard-sub">Ten non-negotiables that define how the A-Team shows up every day, on every project, with every member we serve.</p>
     </div>
     <div class="standard-grid">
-      <div class="std reveal"><span class="std-num">01</span><span class="std-word">Audacity</span></div>
-      <div class="std reveal"><span class="std-num">02</span><span class="std-word">Action</span></div>
-      <div class="std reveal"><span class="std-num">03</span><span class="std-word">Excellence</span></div>
-      <div class="std reveal"><span class="std-num">04</span><span class="std-word">On Time</span></div>
-      <div class="std reveal"><span class="std-num">05</span><span class="std-word">Being Real</span></div>
-      <div class="std reveal"><span class="std-num">06</span><span class="std-word">Obsession</span></div>
-      <div class="std reveal"><span class="std-num">07</span><span class="std-word">Growth</span></div>
-      <div class="std reveal"><span class="std-num">08</span><span class="std-word">Courage</span></div>
-      <div class="std reveal"><span class="std-num">09</span><span class="std-word">Impact</span></div>
-      <div class="std reveal"><span class="std-num">10</span><span class="std-word">Accountability</span></div>
+      <div class="std reveal"><span class="std-bg-num">01</span><span class="std-num">01</span><span class="std-word">Audacity</span></div>
+      <div class="std reveal"><span class="std-bg-num">02</span><span class="std-num">02</span><span class="std-word">Action</span></div>
+      <div class="std reveal"><span class="std-bg-num">03</span><span class="std-num">03</span><span class="std-word">Excellence</span></div>
+      <div class="std reveal"><span class="std-bg-num">04</span><span class="std-num">04</span><span class="std-word">On Time</span></div>
+      <div class="std reveal"><span class="std-bg-num">05</span><span class="std-num">05</span><span class="std-word">Being Real</span></div>
+      <div class="std reveal"><span class="std-bg-num">06</span><span class="std-num">06</span><span class="std-word">Obsession</span></div>
+      <div class="std reveal"><span class="std-bg-num">07</span><span class="std-num">07</span><span class="std-word">Growth</span></div>
+      <div class="std reveal"><span class="std-bg-num">08</span><span class="std-num">08</span><span class="std-word">Courage</span></div>
+      <div class="std reveal"><span class="std-bg-num">09</span><span class="std-num">09</span><span class="std-word">Impact</span></div>
+      <div class="std reveal"><span class="std-bg-num">10</span><span class="std-num">10</span><span class="std-word">Accountability</span></div>
     </div>
     <div class="standard-footnote reveal">
       <span class="standard-footnote-label">And What We Don't Tolerate:</span>
