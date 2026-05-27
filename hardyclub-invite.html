@@ -94,14 +94,16 @@
     height: 44px;
     width: auto;
     display: block;
-    /* Flat white — matches the BMC|TC mark treatment on the BMC page */
+    /* Flat white — matches the BMC|TC mark treatment on the BMC page.
+       Desktop: muted to ~0.72 so the larger logo doesn't dominate the bar. */
     filter: brightness(0) invert(1);
-    opacity: 0.95;
+    opacity: 0.72;
     transition: opacity 0.2s;
   }
   .nav-brand:hover img { opacity: 1; }
   @media (max-width: 960px) {
-    .nav-brand img { height: 36px; }
+    /* Mobile is fine at full brightness — smaller size reads naturally. */
+    .nav-brand img { height: 36px; opacity: 0.95; }
   }
   .nav-burger {
     display: none; flex-direction: column; justify-content: center; gap: 5px;
@@ -1495,7 +1497,7 @@
 
 <!-- NAV -->
 <nav class="top">
-  <a class="nav-brand" href="https://darrenhardy.com/" aria-label="Hardy Club"><img src="HC_seal.png" alt="Hardy Club" /></a>
+  <a class="nav-brand" href="#" aria-label="Hardy Club"><img src="HC_seal.png" alt="Hardy Club" /></a>
   <div class="nav-links">
     <a href="https://darrenhardy.com/about.html">About</a>
     <a href="https://darrenhardy.com/resources.html">Resources</a>
