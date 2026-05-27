@@ -716,7 +716,15 @@
     text-transform: uppercase;
   }
 
-  /* ============ SECTION 7 — WHAT WE BELIEVE / DON'T ============ */
+  /* ============ HEADLINE EMPHASIS (greyscale color-shift, hardyclub pattern) ============
+     Headlines that contain <em> get dimmed to a soft off-white, so the em itself reads
+     as pure white and pops by contrast. No italics — overridden to font-style: normal
+     so the em is purely a color treatment.
+  */
+  .manifesto-title:has(em) { color: var(--silver); }
+  .manifesto-title em { font-style: normal; color: var(--white); }
+
+  /* ============ SECTION 7 — MANIFESTO (mirrors /careers.html) ============ */
   .manifesto {
     background: var(--ink);
     padding: 160px 0;
@@ -729,7 +737,7 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .manifesto-head .eyebrow { margin-bottom: 24px; }
+  .manifesto-head .eyebrow { margin-bottom: 24px; justify-content: center; }
   .manifesto-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -740,32 +748,40 @@
     text-transform: uppercase;
   }
 
+  /* Two-tone columns: Left "Required" gets bone tone (yes path);
+     Right "Refused" stays dark (no path). Color contrast is the divider. */
   .mani-cols {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border: 1px solid var(--rule-strong);
   }
   @media (max-width: 880px) { .mani-cols { grid-template-columns: 1fr; } }
-  .mani-col {
-    padding: 48px 44px;
-    border-right: 1px solid var(--rule-strong);
+
+  .mani-col { padding: 56px 48px; }
+  @media (max-width: 880px) { .mani-col { padding: 44px 28px; } }
+
+  .mani-col:first-child {
+    background: var(--bone);
+    color: var(--black);
   }
-  .mani-col:last-child { border-right: none; }
-  @media (max-width: 880px) {
-    .mani-col { border-right: none; border-bottom: 1px solid var(--rule-strong); padding: 40px 28px; }
-    .mani-col:last-child { border-bottom: none; }
-  }
+
+  /* Labels promoted to chapter-heading scale */
   .mani-label {
     font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 11px;
-    letter-spacing: 0.42em;
-    color: var(--grey);
+    font-weight: 900;
+    font-size: clamp(22px, 2vw, 30px);
+    letter-spacing: 0.02em;
+    color: var(--white);
     text-transform: uppercase;
-    margin-bottom: 36px;
-    padding-bottom: 18px;
+    margin-bottom: 44px;
+    padding-bottom: 26px;
     border-bottom: 1px solid var(--rule);
+    line-height: 1;
   }
+  .mani-col:first-child .mani-label {
+    color: var(--black);
+    border-bottom-color: rgba(10, 10, 10, 0.22);
+  }
+
   .mani-list { list-style: none; display: flex; flex-direction: column; }
   .mani-item {
     padding: 22px 0;
@@ -775,6 +791,9 @@
   }
   .mani-item:last-child { border-bottom: none; }
   .mani-item:hover { background: rgba(255,255,255,0.025); padding-left: 12px; padding-right: 12px; }
+  .mani-col:first-child .mani-item { border-bottom-color: rgba(10, 10, 10, 0.12); }
+  .mani-col:first-child .mani-item:hover { background: rgba(10, 10, 10, 0.04); }
+
   .mani-word {
     display: block;
     font-family: 'Inter', sans-serif;
@@ -785,6 +804,8 @@
     text-transform: uppercase;
     margin-bottom: 10px;
   }
+  .mani-col:first-child .mani-word { color: var(--black); }
+
   .mani-def {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -792,6 +813,8 @@
     line-height: 1.55;
     color: var(--silver);
   }
+  .mani-col:first-child .mani-def { color: rgba(10, 10, 10, 0.72); }
+
   .mani-foot {
     margin-top: 64px;
     padding-top: 48px;
@@ -1250,12 +1273,12 @@
 <section class="manifesto">
   <div class="container">
     <div class="manifesto-head">
-      <div class="reveal"><div class="eyebrow center"><span class="pip"></span>The Standards</div></div>
-      <h2 class="manifesto-title reveal">What We Believe.<br>What We Don&rsquo;t.</h2>
+      <div class="reveal"><div class="eyebrow"><span class="pip"></span>The Standards</div></div>
+      <h2 class="manifesto-title reveal">What We Believe.<br>What <em>We Don&rsquo;t</em>.</h2>
     </div>
     <div class="mani-cols">
       <div class="mani-col reveal">
-        <div class="mani-label">We Believe In</div>
+        <div class="mani-label">Required.</div>
         <ul class="mani-list">
           <li class="mani-item"><span class="mani-word">Audacity.</span><span class="mani-def">Playing small is a sin against your nature.</span></li>
           <li class="mani-item"><span class="mani-word">Obsession.</span><span class="mani-def">Motivation is weak and passion wanes.</span></li>
@@ -1270,7 +1293,7 @@
         </ul>
       </div>
       <div class="mani-col reveal">
-        <div class="mani-label">We Don&rsquo;t Believe In</div>
+        <div class="mani-label">Refused.</div>
         <ul class="mani-list">
           <li class="mani-item"><span class="mani-word">Excuses.</span><span class="mani-def">Step up or step aside.</span></li>
           <li class="mani-item"><span class="mani-word">Blaming.</span><span class="mani-def">Fix it or zip it.</span></li>
