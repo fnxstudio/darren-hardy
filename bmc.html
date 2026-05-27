@@ -454,15 +454,11 @@
     z-index: 1;
     pointer-events: none;
   }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-    gap: 56px;
+  .hero-content {
+    max-width: 920px;
     position: relative;
     z-index: 2;
-    align-items: center;
   }
-  .hero-content { max-width: 680px; }
   .hero-content .eyebrow {
     opacity: 0;
     transform: translateY(10px);
@@ -540,29 +536,6 @@
   }
   .secondary-link:hover { color: var(--white); border-bottom-color: var(--silver); }
 
-  /* Transparent PNG cutout — let Darren sit on the dark purple background
-     at natural color, no container crop, no gradient overlays (cutout has
-     built-in transparency around the silhouette). Soft drop shadow for depth. */
-  .hero-portrait-wrap {
-    position: relative;
-    opacity: 0;
-    animation: fadeIn 1.6s ease forwards;
-    animation-delay: 0.5s;
-    align-self: end;
-    justify-self: end;
-    width: 100%;
-  }
-  .hero-portrait-wrap img {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 76vh;
-    object-fit: contain;
-    display: block;
-    margin-left: auto;
-    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.5));
-  }
-
   .scroll-cue {
     position: absolute;
     bottom: 28px; left: 50%;
@@ -586,16 +559,7 @@
 
   @media (max-width: 960px) {
     .hero { padding: 100px 0 60px; }
-    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
     .hero-content { max-width: 100%; }
-    .hero-portrait-wrap {
-      max-width: 100%;
-      justify-self: center;
-    }
-    .hero-portrait-wrap img {
-      max-height: 460px;
-      margin: 0 auto;
-    }
     /* Mobile compensation — radial gradients lose impact on smaller
        viewports. Stronger base tint + denser bloom centered for single-col. */
     .hero {
@@ -1942,18 +1906,13 @@
 <!-- ===== LAYER 1 — HERO ===== -->
 <section class="hero" id="hero">
   <div class="container">
-    <div class="hero-grid">
-      <div class="hero-content">
-        <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE</div>
-        <h1>For Intensely Driven Business Leaders Seeking An <em class="key">Unfair Advantage</em>.</h1>
-        <p class="hero-sub">Reserve a Business Master Class seat and be immediately activated in the BMC|COLLECTIVE.</p>
-        <div class="hero-cta-row">
-          <a href="#investment" class="btn-primary hero-cta">Reserve Your Seat &rarr;</a>
-          <a href="#vsl" class="secondary-link">Or watch the 4-minute walkthrough first &darr;</a>
-        </div>
-      </div>
-      <div class="hero-portrait-wrap">
-        <img src="DH_BMC_stage.png" alt="Darren Hardy on stage at Business Master Class" />
+    <div class="hero-content">
+      <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE</div>
+      <h1>For Intensely Driven Business Leaders Seeking An <em class="key">Unfair Advantage</em>.</h1>
+      <p class="hero-sub">Reserve a Business Master Class seat and be immediately activated in the BMC|COLLECTIVE.</p>
+      <div class="hero-cta-row">
+        <a href="#investment" class="btn-primary hero-cta">Reserve Your Seat &rarr;</a>
+        <a href="#vsl" class="secondary-link">Or watch the 4-minute walkthrough first &darr;</a>
       </div>
     </div>
   </div>
