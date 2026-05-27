@@ -352,15 +352,21 @@
     max-width: 640px;
   }
 
+  .standard {
+    /* Prevent tiles bleeding into adjacent sections during 3D flip */
+    overflow: hidden;
+  }
   .standard-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1px;
     background: var(--rule-strong);
     border: 1px solid var(--rule-strong);
+    perspective: 1600px;
+    perspective-origin: center 30%;
   }
-  @media (max-width: 880px) { .standard-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 520px) { .standard-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 880px) { .standard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .standard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
   .std {
     background: var(--black);
@@ -369,9 +375,34 @@
     flex-direction: column;
     justify-content: space-between;
     aspect-ratio: 1.05 / 1;
-    transition: background 0.3s ease;
+    transition:
+      background 0.3s ease,
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
   }
-  .std:hover { background: var(--ink-soft); }
+  /* Override default .reveal fade-up for Standard tiles: 3D card-flip from the side */
+  .standard-grid .std.reveal {
+    opacity: 0;
+    transform: rotateY(-72deg) translateZ(-50px) scale(0.94);
+    transform-origin: left center;
+  }
+  .standard-grid .std.reveal.visible {
+    opacity: 1;
+    transform: rotateY(0) translateZ(0) scale(1);
+  }
+  /* Slow the flip slightly so it reads as a deliberate motion, not a quick fade */
+  .standard-grid .std {
+    transition:
+      background 0.3s ease,
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Hover lift — match specificity of post-reveal so the transform wins */
+  .standard-grid .std.visible:hover {
+    background: var(--ink-soft);
+    transform: translateZ(18px);
+  }
   .std-num {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
@@ -1490,7 +1521,7 @@ team.forEach(m => {
     });
   }
   stagger('.collage-mosaic .reveal-scale', 0.12);
-  stagger('.standard-grid .reveal',        0.05);
+  stagger('.standard-grid .reveal',        0.09);
   stagger('.team-grid .reveal-scale',      0.04);
   stagger('.step-stack .reveal',           0.15);
   stagger('.role-grid .reveal',            0.12);
