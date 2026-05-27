@@ -345,10 +345,12 @@
     transition: color 0.18s;
   }
   .sticky-nav a:hover { color: var(--white); }
+  /* Ghost CTA — HC nav-cta pattern: cyan border + cyan text on transparent,
+     inverts to solid cyan + black text on hover. */
   .sticky-cta {
     justify-self: end;
-    background: var(--white);
-    color: var(--black);
+    background: transparent;
+    color: var(--bmc-cyan);
     text-decoration: none;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -356,11 +358,15 @@
     letter-spacing: 0.28em;
     text-transform: uppercase;
     padding: 14px 24px;
-    border: 1px solid var(--white);
-    transition: background 0.2s, color 0.2s;
+    border: 1px solid var(--rule-cyan);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
     white-space: nowrap;
   }
-  .sticky-cta:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
+  .sticky-cta:hover {
+    background: var(--bmc-cyan);
+    color: var(--black);
+    border-color: var(--bmc-cyan);
+  }
   .sticky-cta .cta-mobile { display: none; }
 
   @media (max-width: 960px) {
@@ -755,11 +761,15 @@
     transform: translate(-50%, -50%);
     width: 88px; height: 88px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.95);
+    background: var(--bmc-cyan);
     display: flex; align-items: center; justify-content: center;
-    transition: transform 0.25s ease, background 0.25s ease;
+    box-shadow: 0 0 0 1px rgba(120, 228, 239, 0.25), 0 8px 24px rgba(120, 228, 239, 0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .vsl-frame:hover .vsl-play { transform: translate(-50%, -50%) scale(1.05); background: var(--white); }
+  .vsl-frame:hover .vsl-play {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 0 0 1px rgba(120, 228, 239, 0.4), 0 12px 32px rgba(120, 228, 239, 0.28);
+  }
   .vsl-play svg { width: 28px; height: 28px; margin-left: 4px; }
   .vsl-caption {
     font-family: 'Inter', sans-serif;
@@ -977,9 +987,10 @@
     transform: translate(-50%, -50%);
     width: 64px; height: 64px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.95);
+    background: var(--bmc-cyan);
     display: flex; align-items: center; justify-content: center;
-    transition: transform 0.25s ease;
+    box-shadow: 0 0 0 1px rgba(120, 228, 239, 0.25), 0 6px 18px rgba(120, 228, 239, 0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
   .video-card:hover .play { transform: translate(-50%, -50%) scale(1.1); }
   .video-thumb .play svg { width: 22px; height: 22px; margin-left: 3px; }
@@ -1220,7 +1231,20 @@
     padding: 180px 0;
     border-top: 1px solid var(--rule);
     text-align: center;
+    overflow: hidden;
   }
+  /* Set-point wash: subtle cyan radial glow centered on the headline + cards.
+     Brighter at top (0.10), trails off softly toward the bottom (0.04). */
+  #investment::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 28%, rgba(120, 228, 239, 0.10), transparent 70%),
+      radial-gradient(ellipse 80% 60% at 50% 90%, rgba(120, 228, 239, 0.04), transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #investment > .container { position: relative; z-index: 1; }
   #investment .section-headline {
     font-size: clamp(44px, 5.8vw, 88px);
     margin-bottom: 32px;
