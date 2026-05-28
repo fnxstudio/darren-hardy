@@ -648,16 +648,16 @@
         radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%),
         radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     }
-    /* Mobile: pre-composited image (bg + Darren merged), cover-fit + left
-       bottom so the image fills viewport, Darren lands on the right half,
-       and the left half shows the dark digital backdrop where the headline
-       overlays. Reset the top offset on mobile AND the desktop's
-       calc(100% - 70px) height — image goes full-bleed. */
+    /* Mobile: pre-composited image (bg + Darren merged), cover-fit + RIGHT
+       bottom so Darren's face/body/gesture hand land in view. (With "left"
+       positioning, we were seeing the digital backdrop area and just
+       Darren's left arm — wrong slice.) The left-fade gradient below
+       handles headline readability over his upper body. */
     .hero-bkgd {
       top: 0;
       height: 100%;
       object-fit: cover;
-      object-position: left bottom;
+      object-position: right bottom;
     }
     /* Cutout layer is baked into the composite — hide the standalone one */
     .hero-portrait { display: none; }
@@ -1690,11 +1690,17 @@
   }
   .meet-portrait {
     position: relative;
+    width: 100%;
     aspect-ratio: 4 / 5;
     overflow: hidden;
     background: #0a0a0a;
   }
   .meet-portrait img {
+    /* Absolute positioning is more reliable than height:100% inside an
+       aspect-ratio parent — Safari occasionally fails to resolve the
+       height in grid/flex contexts, leaving the image at intrinsic 0. */
+    position: absolute;
+    inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center top;
