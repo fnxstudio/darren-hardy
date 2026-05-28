@@ -691,13 +691,22 @@
     transform: translateY(28px);
     transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .reveal.visible { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
   /* Directional variants — for two-column sections where each side slides
-     in from its own direction. */
+     in from its own direction. Defined BEFORE .visible so the .visible
+     rule (which resets transform) takes effect when added. */
   .reveal.reveal-left  { transform: translateY(28px) translateX(-36px); }
   .reveal.reveal-right { transform: translateY(28px) translateX(36px); }
   /* Scale-in variant — for video frames, image placeholders */
   .reveal.reveal-scale { transform: translateY(20px) scale(0.97); }
+  /* Final state — comes LAST so it overrides every variant. */
+  .reveal.visible { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
+  /* Mobile safeguard: kill horizontal slide on small viewports where a
+     full-width element with translateX(-36px) goes off-screen left, leaving
+     a 36px gap on the right (and vice versa). Vertical fade-up only. */
+  @media (max-width: 880px) {
+    .reveal.reveal-left,
+    .reveal.reveal-right { transform: translateY(28px); }
+  }
 
   /* ============ STAGGER GROUPS ============
      Cascade list children into view with sequential delays.
