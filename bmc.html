@@ -226,6 +226,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://flagcdn.com" crossorigin>
+<!-- Preload the hero LCP image with the same media query as the <picture> source. Browser starts fetching before HTML body is parsed. -->
+<link rel="preload" as="image" href="DH_BMC_stage_mobile.webp" type="image/webp" media="(max-width: 880px)" fetchpriority="high">
+<link rel="preload" as="image" href="DH_BMC_stage_background.webp" type="image/webp" media="(min-width: 881px)" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="bmc.css">
 </head>
@@ -255,8 +258,9 @@
 <!-- ===== LAYER 1 — HERO ===== -->
 <section class="hero" id="hero">
   <picture>
-    <source media="(max-width: 880px)" srcset="DH_BMC_stage_mobile.jpg">
-    <img class="hero-bkgd" src="DH_BMC_stage_background.jpg" alt="" width="2400" height="1339" fetchpriority="high" decoding="async" />
+    <source media="(max-width: 880px)" srcset="DH_BMC_stage_mobile.webp" type="image/webp">
+    <source srcset="DH_BMC_stage_background.webp" type="image/webp">
+    <img class="hero-bkgd" src="DH_BMC_stage_background.webp" alt="" width="2400" height="1339" fetchpriority="high" decoding="async" />
   </picture>
 
   <div class="container">
