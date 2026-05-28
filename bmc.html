@@ -576,6 +576,16 @@
   }
   .btn-primary:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
   .btn-large { padding: 22px 44px; }
+  @media (max-width: 600px) {
+    .btn-primary {
+      padding: 14px 20px;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+    .btn-large { padding: 18px 28px; }
+  }
   .hero-cta {
     opacity: 0; transform: translateY(14px);
     animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -641,9 +651,11 @@
     /* Mobile: pre-composited image (bg + Darren merged), cover-fit + left
        bottom so the image fills viewport, Darren lands on the right half,
        and the left half shows the dark digital backdrop where the headline
-       overlays. Reset the top offset on mobile — image goes full-bleed. */
+       overlays. Reset the top offset on mobile AND the desktop's
+       calc(100% - 70px) height — image goes full-bleed. */
     .hero-bkgd {
       top: 0;
+      height: 100%;
       object-fit: cover;
       object-position: left bottom;
     }
@@ -1016,8 +1028,9 @@
     margin-bottom: 80px;
   }
   .compare-brand img {
-    height: 120px; width: auto;
-    max-width: 960px;
+    height: 120px;
+    width: auto;
+    max-width: min(960px, 100%);
     object-fit: contain;
     filter: invert(1);
     opacity: 0.95;
@@ -1088,12 +1101,17 @@
   .compare-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(24px, 2.4vw, 34px);
+    font-size: clamp(22px, 2.4vw, 34px);
     line-height: 1.0;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
     color: var(--white);
     text-transform: uppercase;
     margin-bottom: 14px;
+  }
+  @media (max-width: 480px) {
+    /* Drop slightly so "BUSINESS MASTER CLASS" stays on one line on narrow
+       phones (iPhone SE, etc.). 21 chars at 20px fits ~310px container. */
+    .compare-title { font-size: 20px; }
   }
   .compare-sub {
     font-family: 'Inter', sans-serif;
@@ -1157,7 +1175,10 @@
 
   @media (max-width: 960px) {
     .compare { padding: 96px 0 110px; }
-    .compare-brand img { height: 88px; }
+    /* Tablet: scale wordmark so it never overflows narrow viewports
+       (iPhone Pro Max 428 → ~380 content width). 5.31:1 aspect means a
+       420px width caps height at ~79px. */
+    .compare-brand img { width: min(100%, 420px); height: auto; max-height: none; }
     .compare-grid {
       grid-template-columns: 1fr;
       grid-template-rows: auto auto;
