@@ -686,10 +686,47 @@
   /* ============ SCROLL REVEAL UTILITY ============ */
   .reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(28px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal.visible { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
+  /* Directional variants — for two-column sections where each side slides
+     in from its own direction. */
+  .reveal.reveal-left  { transform: translateY(28px) translateX(-36px); }
+  .reveal.reveal-right { transform: translateY(28px) translateX(36px); }
+  /* Scale-in variant — for video frames, image placeholders */
+  .reveal.reveal-scale { transform: translateY(20px) scale(0.97); }
+
+  /* ============ STAGGER GROUPS ============
+     Cascade list children into view with sequential delays.
+     Add .stagger to a parent; its direct children animate in. */
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .stagger.visible > * { opacity: 1; transform: translateY(0); }
+  .stagger > *:nth-child(1) { transition-delay: 0ms; }
+  .stagger > *:nth-child(2) { transition-delay: 60ms; }
+  .stagger > *:nth-child(3) { transition-delay: 120ms; }
+  .stagger > *:nth-child(4) { transition-delay: 180ms; }
+  .stagger > *:nth-child(5) { transition-delay: 240ms; }
+  .stagger > *:nth-child(6) { transition-delay: 300ms; }
+  .stagger > *:nth-child(7) { transition-delay: 360ms; }
+  .stagger > *:nth-child(8) { transition-delay: 420ms; }
+  .stagger > *:nth-child(9) { transition-delay: 480ms; }
+  .stagger > *:nth-child(10) { transition-delay: 540ms; }
+  .stagger > *:nth-child(11) { transition-delay: 600ms; }
+  .stagger > *:nth-child(12) { transition-delay: 660ms; }
+
+  /* Respect reduced-motion preference — kill all reveals */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .stagger > * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
 
   /* ============ LAYER 2 — SOCIAL PROOF RIBBON ============ */
   .ribbon-section {
@@ -1172,6 +1209,13 @@
     box-shadow: 0 0 0 6px var(--ink), 0 8px 24px rgba(120, 228, 239, 0.30);
   }
   .compare-plus svg { width: 22px; height: 22px; display: block; }
+  /* Subtle pulse glow when section enters viewport (via .visible on parent) */
+  @keyframes plusPulse {
+    0%   { box-shadow: 0 0 0 6px var(--ink), 0 8px 24px rgba(120, 228, 239, 0.30); }
+    50%  { box-shadow: 0 0 0 6px var(--ink), 0 8px 36px rgba(120, 228, 239, 0.60); }
+    100% { box-shadow: 0 0 0 6px var(--ink), 0 8px 24px rgba(120, 228, 239, 0.30); }
+  }
+  .compare-grid.visible .compare-plus { animation: plusPulse 2.4s ease-in-out 0.6s 2; }
 
   @media (max-width: 960px) {
     .compare { padding: 96px 0 110px; }
@@ -2345,7 +2389,7 @@
 <!-- ===== LAYER 2 — SOCIAL PROOF RIBBON ===== -->
 <section class="ribbon-section bmc-wash">
   <div class="container">
-    <div class="stats-row">
+    <div class="stats-row stagger">
       <div>
         <div class="stat-number">9.8</div>
         <div class="stat-stars" aria-label="5 out of 5 stars">★★★★★★★★★★</div>
@@ -2356,7 +2400,7 @@
         <div class="stat-label">Countries Represented<br/>Inside BMC|COLLECTIVE</div>
       </div>
     </div>
-    <div class="flag-block">
+    <div class="flag-block reveal">
       <div class="flag-caption">A network of elite business leaders, on every inhabited continent.</div>
     </div>
   </div>
@@ -2421,10 +2465,10 @@
     <div class="filter-twocol-grid">
 
       <!-- LEFT — THE NOISE -->
-      <div class="filter-twocol-col filter-twocol-col--noise">
+      <div class="filter-twocol-col filter-twocol-col--noise reveal reveal-left">
         <div class="eyebrow filter-twocol-eyebrow"><span class="pip"></span>The Noise</div>
         <h2 class="filter-twocol-title">Filtering The BS &amp; <em class="key">Charlatans</em></h2>
-        <div class="filter-twocol-body">
+        <div class="filter-twocol-body stagger">
           <p class="lead">Most &ldquo;business advice&rdquo; today is sold by people who have never built a business.</p>
           <p>Masterminds that produce selfies, not strategy.</p>
           <p>28-year-old &ldquo;coaches&rdquo; selling business courses.</p>
@@ -2435,10 +2479,10 @@
       </div>
 
       <!-- RIGHT — THE SIGNAL -->
-      <div class="filter-twocol-col filter-twocol-col--signal">
+      <div class="filter-twocol-col filter-twocol-col--signal reveal reveal-right">
         <div class="eyebrow filter-twocol-eyebrow"><span class="pip"></span>The Signal</div>
         <h2 class="filter-twocol-title">Access To The <em class="key">Inaccessible</em></h2>
-        <div class="filter-twocol-body">
+        <div class="filter-twocol-body stagger">
           <p class="lead">As an experienced business operator with an already successful business&hellip;</p>
           <p>You don&rsquo;t need motivation.</p>
           <p>You don&rsquo;t need another coach.</p>
@@ -2458,7 +2502,7 @@
 <section class="vsl-section" id="vsl">
   <div class="container">
     <div class="eyebrow eyebrow--center vsl-eyebrow reveal" style="display:flex;justify-content:center;"><span class="pip"></span>A Personal Word</div>
-    <div class="vsl-frame" role="button" tabindex="0" aria-label="Play video">
+    <div class="vsl-frame reveal reveal-scale" role="button" tabindex="0" aria-label="Play video">
       <div class="vsl-overlay">
         <p class="vsl-overlay-text">Watch Darren explain <em class="key">what&rsquo;s inside</em>.</p>
       </div>
@@ -2480,15 +2524,15 @@
       <img src="BMC_COLLECTIVE_logo-2.png" alt="BMC|COLLECTIVE" />
     </div>
 
-    <div class="compare-grid">
+    <div class="compare-grid reveal">
 
       <!-- LEFT — Business Master Class -->
-      <div class="compare-col">
+      <div class="compare-col reveal reveal-left">
         <div class="compare-benefit">The Immersion</div>
         <h3 class="compare-title">Business Master Class</h3>
         <div class="compare-sub">Live Virtual &middot; 3 Days &middot; Fall 2026 or Spring 2027</div>
         <p class="compare-intro">Most businesses don&rsquo;t fail because the builder lacks ambition. They fail because they lack proven strategies and execution systems. <strong>Business Master Class is designed to correct that.</strong></p>
-        <ul class="compare-list">
+        <ul class="compare-list stagger">
           <li><span class="num">01</span><span class="copy"><strong>Market Dominance Positioning.</strong> Be the de facto choice in your category. Stop competing on price.</span></li>
           <li><span class="num">02</span><span class="copy"><strong>Sales Breakthrough Systems.</strong> Pipeline that produces revenue without personal heroics. Predictability at scale.</span></li>
           <li><span class="num">03</span><span class="copy"><strong>Passionate Client Evangelists.</strong> Cult-grade loyalty. The customer experience becomes the marketing.</span></li>
@@ -2507,13 +2551,13 @@
       </div>
 
       <!-- RIGHT — THE COLLECTIVE -->
-      <div class="compare-col compare-col--collective">
+      <div class="compare-col compare-col--collective reveal reveal-right">
         <div class="compare-flag">Yours Immediately</div>
         <div class="compare-benefit">The Expansion</div>
         <h3 class="compare-title">The Collective</h3>
         <div class="compare-sub">You Are Activated The Moment You Reserve</div>
         <p class="compare-intro">Most strategies don&rsquo;t fail in the planning. They fail in the gap between idea and execution. <strong>THE COLLECTIVE is designed to correct that.</strong></p>
-        <ul class="compare-list">
+        <ul class="compare-list stagger">
           <li><span class="num">01</span><span class="copy"><strong>AI Execution Systems.</strong> Strategy becomes execution in minutes. Pre-built systems for marketing, sales, and recruiting.</span></li>
           <li><span class="num">02</span><span class="copy"><strong>HARDYbot Strategic Advisor.</strong> Trained on Darren&rsquo;s complete body of work for strategic clarity on demand 24/7.</span></li>
           <li><span class="num">03</span><span class="copy"><strong>AI Group Workshops.</strong> Live AI guidance with Darren&rsquo;s A-Team experts. Decisive competitive advantage, built in.</span></li>
@@ -2525,13 +2569,13 @@
 
     </div>
 
-    <p class="compare-close">BMC|COLLECTIVE installs proven strategies and execution systems, then compounds them as iron sharpens iron. <span class="signal-accent">The unfair advantage you came seeking.</span></p>
+    <p class="compare-close reveal">BMC|COLLECTIVE installs proven strategies and execution systems, then compounds them as iron sharpens iron. <span class="signal-accent">The unfair advantage you came seeking.</span></p>
   </div>
 </section>
 
 <!-- ===== NEW: TESTIMONIAL VIDEO LOOP (full-bleed) ===== -->
 <section class="testimonial-loop section-divider">
-  <div class="testimonial-loop-frame">
+  <div class="testimonial-loop-frame reveal reveal-scale">
     <iframe src="https://player.vimeo.com/video/1127070090?h=72acaea194&background=1&autoplay=1&loop=1&muted=1&autopause=0"
       frameborder="0"
       allow="autoplay; fullscreen; picture-in-picture"
@@ -2550,7 +2594,7 @@
         <h2 class="section-headline unfair-headline reveal">Your <em class="key">Secret Weapon</em>.</h2>
         <p class="unfair-lead reveal">BMC|COLLECTIVE is your unfair advantage in business.</p>
 
-        <ul class="unfair-list">
+        <ul class="unfair-list stagger">
           <li><span class="n">01</span><span class="t">BMC installs the playbook.</span></li>
           <li><span class="n">02</span><span class="t">THE COLLECTIVE compounds it.</span></li>
           <li><span class="n">03</span><span class="t">Peer network raises the standard.</span></li>
@@ -2558,18 +2602,18 @@
         </ul>
 
         <div class="unfair-compare">
-          <div class="unfair-compare-col unfair-compare-col--without">
+          <div class="unfair-compare-col unfair-compare-col--without reveal reveal-left">
             <div class="unfair-compare-label">Without It</div>
-            <ul>
+            <ul class="stagger">
               <li>Hours figuring it out.</li>
               <li>Costly trial &amp; error.</li>
               <li>Navigating it alone.</li>
               <li>Losing opportunity time.</li>
             </ul>
           </div>
-          <div class="unfair-compare-col unfair-compare-col--with">
+          <div class="unfair-compare-col unfair-compare-col--with reveal reveal-right">
             <div class="unfair-compare-label">With BMC|COLLECTIVE</div>
-            <ul>
+            <ul class="stagger">
               <li>Already filtered.</li>
               <li>Already tested.</li>
               <li>Already optimized.</li>
@@ -2578,16 +2622,16 @@
           </div>
         </div>
 
-        <div class="unfair-stop">
+        <div class="unfair-stop stagger">
           <p>You stop building alone.</p>
           <p>You stop guessing.</p>
           <p>You stop bleeding time on problems other elite leaders have already solved.</p>
         </div>
 
-        <p class="unfair-close">BMC|COLLECTIVE takes <em class="key">years off your timeline</em>.</p>
+        <p class="unfair-close reveal">BMC|COLLECTIVE takes <em class="key">years off your timeline</em>.</p>
       </div>
 
-      <div class="unfair-image">
+      <div class="unfair-image reveal reveal-right">
         <!-- Placeholder until DH delivers the dynamic image -->
         <div class="unfair-image-placeholder">
           <span class="ph-label">Dynamic Image<br/>Placeholder</span>
@@ -2605,7 +2649,7 @@
     <h2 class="section-headline reveal" style="text-align:center;">What They&rsquo;ve Built. <em class="key">What&rsquo;s Changed</em>.</h2>
 
     <!-- 9a — Video testimonials -->
-    <div class="video-grid">
+    <div class="video-grid stagger">
       <div class="video-card">
         <div class="video-thumb">
           <div class="play"><svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg></div>
@@ -2639,7 +2683,7 @@
     </div>
 
     <!-- 9b — Written wall -->
-    <div class="quote-grid">
+    <div class="quote-grid stagger">
       <div class="quote-card">
         <p class="q">&ldquo;Member quote.&rdquo;</p>
         <div class="quote-rule"></div>
@@ -2713,7 +2757,7 @@
     <div class="eyebrow reveal"><span class="pip"></span>The Standard We Keep</div>
     <h2 class="section-headline filter-headline-10 reveal">Not For Everyone. <em class="key">By Design</em>.</h2>
     <div class="filter-grid">
-      <div class="filter-col col-for">
+      <div class="filter-col col-for reveal reveal-left">
         <div class="filter-sublabel">BMC|COLLECTIVE Is For You If</div>
         <div class="filter-item"><span class="marker">&rarr;</span>You are intensely driven, ambitious, and you back it with obsessive action.</div>
         <div class="filter-item"><span class="marker">&rarr;</span>You build while most people watch. You aren&rsquo;t waiting for permission.</div>
@@ -2722,7 +2766,7 @@
         <div class="filter-item"><span class="marker">&rarr;</span>You&rsquo;re tired of advisors who can&rsquo;t keep up with the builder you&rsquo;ve become.</div>
         <div class="filter-item"><span class="marker">&rarr;</span>You&rsquo;d rather build something rare and lasting than something popular.</div>
       </div>
-      <div class="filter-col col-not">
+      <div class="filter-col col-not reveal reveal-right">
         <div class="filter-sublabel">BMC|COLLECTIVE Is Not For You If</div>
         <div class="filter-item"><span class="marker">&times;</span>Your discipline runs on motivation, not commitment.</div>
         <div class="filter-item"><span class="marker">&times;</span>Your bookshelf is stuffed with ideas you&rsquo;ve never applied.</div>
@@ -2732,7 +2776,7 @@
         <div class="filter-item"><span class="marker">&times;</span>You believe shortcuts exist at your level.</div>
       </div>
     </div>
-    <div class="filter-close">
+    <div class="filter-close reveal">
       <p>If the left column drew a smile, the door is below.</p>
       <p>If the right column drew a flinch, the rest of the industry is louder than ever.</p>
     </div>
@@ -2743,11 +2787,11 @@
 <section class="meet">
   <div class="container">
     <div class="meet-grid">
-      <div class="meet-portrait">
+      <div class="meet-portrait reveal reveal-left">
         <img src="DH_BMC_3.jpg" alt="Darren Hardy with Business Master Class members" loading="lazy" />
         <div class="meet-caption">Darren Hardy &middot; 35 Years As The Centerpiece</div>
       </div>
-      <div>
+      <div class="reveal reveal-right">
         <div class="eyebrow eyebrow--dark reveal"><span class="pip"></span>The Advisor</div>
         <h2 class="section-headline meet-headline reveal">Why Darren.</h2>
         <div class="meet-body">
@@ -2765,8 +2809,8 @@
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>Enrollment</div>
     <h2 class="section-headline reveal">Reserve Your Seat.</h2>
-    <p class="invest-intro">One enrollment reserves your seat at the next Business Master Class and immediately activates your full year inside THE COLLECTIVE.</p>
-    <div class="price-grid">
+    <p class="invest-intro reveal">One enrollment reserves your seat at the next Business Master Class and immediately activates your full year inside THE COLLECTIVE.</p>
+    <div class="price-grid stagger">
       <div class="price-card">
         <div class="price-label">Pay Monthly</div>
         <div class="price-num">$895</div>
@@ -2781,7 +2825,7 @@
         <a href="#" class="price-cta">Reserve Your Seat &rarr;</a>
       </div>
     </div>
-    <p class="invest-footnote">All prices in USD. Reservation confirmed by member services within 24 hours.</p>
+    <p class="invest-footnote reveal">All prices in USD. Reservation confirmed by member services within 24 hours.</p>
   </div>
 </section>
 
@@ -2790,7 +2834,7 @@
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>The Moment You Enroll</div>
     <h2 class="section-headline stack-headline reveal">Everything <em class="key">Activates Immediately</em>.</h2>
-    <div class="stack-list">
+    <div class="stack-list stagger">
       <div class="stack-item">
         <div class="stack-numeral">01</div>
         <div>
@@ -2863,7 +2907,7 @@
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>A Confident Promise</div>
     <h2 class="section-headline risk-headline reveal">The Fit <em class="key">Guarantee</em>.</h2>
-    <div class="risk-body">
+    <div class="risk-body stagger">
       <p>BMC|COLLECTIVE works because the people inside are intensely committed to growth and building something that matters. If that&rsquo;s not you, we don&rsquo;t want you here either.</p>
       <p>So we make leaving easy. Inside 30 days, contact member services. Full refund. No questions. No friction. No awkwardness.</p>
     </div>
@@ -2875,6 +2919,8 @@
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>Real Questions</div>
     <h2 class="section-headline faq-headline reveal"><em class="key">Straight Answers</em>.</h2>
+
+    <div class="faq-list stagger">
 
     <div class="faq-row">
       <button class="faq-q" aria-expanded="false">
@@ -2971,6 +3017,8 @@
       </button>
       <div class="faq-a"><div class="faq-a-inner">Probably not yet. BMC|COLLECTIVE is built for business leaders who have already built something and are scaling it. If you are pre-revenue or pre-product-market-fit, start with Darren&rsquo;s book <em>The Entrepreneur Roller Coaster</em> and his eFASTPASS program, and make sure you&rsquo;re watching DarrenDaily. Come back when you&rsquo;ve built a company ready for scale.</div></div>
     </div>
+
+    </div><!-- /.faq-list -->
   </div>
 </section>
 
@@ -2979,14 +3027,14 @@
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>The Invitation</div>
     <h2 class="final-headline reveal">If You&rsquo;re Still Reading,<br/>You <em class="key">Already Know</em>.</h2>
-    <div class="final-body">
+    <div class="final-body stagger">
       <p>The intensely driven business leader does not need to be convinced. They need to be invited.</p>
       <p>Consider this the invitation. The reservation page is one click away. THE COLLECTIVE activates the moment you walk through.</p>
     </div>
-    <div class="final-cta-row">
+    <div class="final-cta-row reveal">
       <a href="#investment" class="btn-primary btn-large">Reserve Your Seat &rarr;</a>
     </div>
-    <div class="final-secondary">
+    <div class="final-secondary reveal">
       Questions before reserving? Speak with member services.
       <div class="final-secondary-links">
         <a href="#">Live Online Chat &rarr;</a>
@@ -3013,22 +3061,40 @@
 </footer>
 
 <script>
-// ===== Scroll-triggered reveal =====
+// ===== Scroll-triggered reveal (single + stagger group) =====
 (function () {
-  const els = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) {
-    els.forEach(el => el.classList.add('visible'));
+  // Skip animation entirely if user prefers reduced motion
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.reveal, .stagger').forEach(el => el.classList.add('visible'));
     return;
   }
-  const io = new IntersectionObserver((entries) => {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal, .stagger').forEach(el => el.classList.add('visible'));
+    return;
+  }
+  // Standalone .reveal elements — fire when each enters viewport
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealIO = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        io.unobserve(entry.target);
+        revealIO.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.25 });
-  els.forEach(el => io.observe(el));
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  revealEls.forEach(el => revealIO.observe(el));
+
+  // .stagger groups — fire on the parent, children cascade via CSS nth-child delays
+  const staggerEls = document.querySelectorAll('.stagger');
+  const staggerIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        staggerIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+  staggerEls.forEach(el => staggerIO.observe(el));
 })();
 
 // ===== FAQ accordion (one at a time) =====
