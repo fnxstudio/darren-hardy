@@ -648,16 +648,18 @@
         radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%),
         radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     }
-    /* Mobile: pre-composited image (bg + Darren merged), cover-fit + RIGHT
-       bottom so Darren's face/body/gesture hand land in view. (With "left"
-       positioning, we were seeing the digital backdrop area and just
-       Darren's left arm — wrong slice.) The left-fade gradient below
-       handles headline readability over his upper body. */
+    /* Mobile: pre-composited image (bg + Darren merged), cover-fit +
+       CENTER bottom. Math: Darren sits at composite x 458–1436; with
+       right-positioning the cover crop puts his face at viewport x 44–165
+       (under headline gradient → appears faded). Center positioning shifts
+       the visible window so his face lands at viewport x 263–384 — past
+       the dark left-fade, fully visible. Right side of his body / arm gets
+       trimmed at viewport edge, which is acceptable. */
     .hero-bkgd {
       top: 0;
       height: 100%;
       object-fit: cover;
-      object-position: right bottom;
+      object-position: center bottom;
     }
     /* Cutout layer is baked into the composite — hide the standalone one */
     .hero-portrait { display: none; }
@@ -762,6 +764,11 @@
     line-height: 1.0;
     letter-spacing: -0.04em;
     color: var(--bmc-cyan);
+  }
+  /* Placeholder dash shown before count-up animation fires */
+  .stat-dash {
+    font-weight: 300;
+    opacity: 0.32;
   }
   .stat-label {
     font-family: 'Inter', sans-serif;
@@ -2391,12 +2398,12 @@
   <div class="container">
     <div class="stats-row stagger">
       <div>
-        <div class="stat-number">9.8</div>
+        <div class="stat-number" data-count="9.8" data-decimals="1"><span class="stat-dash">—</span></div>
         <div class="stat-stars" aria-label="5 out of 5 stars">★★★★★★★★★★</div>
         <div class="stat-label">Rating From 11,738 CEOs</div>
       </div>
       <div>
-        <div class="stat-number">121</div>
+        <div class="stat-number" data-count="121" data-decimals="0"><span class="stat-dash">—</span></div>
         <div class="stat-label">Countries Represented<br/>Inside BMC|COLLECTIVE</div>
       </div>
     </div>
@@ -3095,6 +3102,47 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
   staggerEls.forEach(el => staggerIO.observe(el));
+})();
+
+// ===== Count-up animation for stat numbers =====
+(function () {
+  const els = document.querySelectorAll('.stat-number[data-count]');
+  if (!els.length) return;
+
+  // Respect reduced-motion — just show final values
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    els.forEach(el => {
+      const end = parseFloat(el.dataset.count);
+      const dec = parseInt(el.dataset.decimals) || 0;
+      el.textContent = end.toFixed(dec);
+    });
+    return;
+  }
+
+  const ease = t => 1 - Math.pow(1 - t, 3); // ease-out cubic
+
+  function animate(el) {
+    const end = parseFloat(el.dataset.count);
+    const dec = parseInt(el.dataset.decimals) || 0;
+    const dur = 1100;
+    const t0 = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - t0) / dur, 1);
+      el.textContent = (ease(p) * end).toFixed(dec);
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animate(entry.target);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.45 });
+  els.forEach(el => obs.observe(el));
 })();
 
 // ===== FAQ accordion (one at a time) =====
