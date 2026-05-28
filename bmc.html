@@ -248,12 +248,12 @@
        pricing badge, FAQ chevron, "for you" markers). */
     --bmc-cyan:     #78e4ef;
     --bmc-cyan-soft: rgba(120, 228, 239, 0.85);
-    /* Emphasis color on light/bone backgrounds. Was a deep cyan (#2bb8c7)
-       but DH reads the teal-on-white as jarring, so this now resolves to
-       black — emphasis on light sections is greyscale (weight + black tone
-       vs. muted-grey body). Play buttons explicitly use --bmc-cyan (the
+    /* Emphasis color on light/bone backgrounds. Was a deep cyan (#2bb8c7),
+       then black (DH didn't like teal-on-white), now a dark grey — subtle
+       greyscale emphasis that's distinct from pure black body copy without
+       being a competing color. Play buttons explicitly use --bmc-cyan (the
        bright cyan) and are unaffected. */
-    --bmc-cyan-deep: var(--black);
+    --bmc-cyan-deep: #3a3a3a;
     --rule-cyan:    rgba(120, 228, 239, 0.32);
     /* Purple ambient — only ever used as a low-opacity background wash
        (like HC's gold). Never used for type, icons, or borders. Cyan
@@ -1688,7 +1688,7 @@
   #testimonials.is-light .eyebrow { color: var(--grey-soft); }
   #testimonials.is-light .eyebrow .pip { background: var(--grey-soft); }
   #testimonials.is-light .section-headline { color: var(--black); }
-  #testimonials.is-light em.key { color: var(--black); }
+  #testimonials.is-light em.key { color: #3a3a3a; }
   #testimonials.is-light .testimonial-intro { color: var(--muted); }
   #testimonials.is-light .video-thumb {
     border-color: var(--rule-dark-strong);
@@ -2098,8 +2098,8 @@
     position: relative;
     overflow: hidden;
   }
-  /* FIT seal watermark — centered behind all copy, heavy transparency so
-     it reads as ambient texture, never competes with the words. */
+  /* FIT seal watermark — centered behind all copy, visible enough to read
+     as a seal but transparent enough to never compete with the words. */
   .risk-section::after {
     content: "";
     position: absolute;
@@ -2107,8 +2107,8 @@
     background-image: url('FIT_seal_purple.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: clamp(300px, 34vw, 560px) auto;
-    opacity: 0.09;
+    background-size: clamp(320px, 36vw, 600px) auto;
+    opacity: 0.22;
     pointer-events: none;
     z-index: 0;
   }
