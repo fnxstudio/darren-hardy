@@ -1482,8 +1482,10 @@
     object-position: 70% center;
     display: block;
   }
-  /* Fade the cropped left edge into black so the truncated arms / mic blend
-     into the section background instead of reading as a hard crop. */
+  /* Fully obscure the cropped arm/mic edge with solid black, then fade out
+     well before Darren's face starts so his face never gets darkened.
+     Container is ~573px wide; face starts around container x 280 (49%),
+     so fade must be fully transparent by ~40% (container x 230). */
   .unfair-image::after {
     content: "";
     position: absolute;
@@ -1491,9 +1493,9 @@
     background: linear-gradient(
       90deg,
       var(--black) 0%,
-      rgba(10, 10, 10, 0.82) 12%,
-      rgba(10, 10, 10, 0.35) 32%,
-      transparent 52%
+      var(--black) 22%,
+      rgba(10, 10, 10, 0.5) 32%,
+      transparent 40%
     );
     pointer-events: none;
     z-index: 2;
