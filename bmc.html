@@ -1360,10 +1360,11 @@
     border: 0;
   }
 
-  /* ============ LAYER 8 — THE UNFAIR ADVANTAGE (image-bg, text overlay) ============
-     The image is a full-section background; text content overlays the
-     dark-faded left portion. Darren's face shows clearly on the right
-     (uncropped), and the gradient ensures the text reads cleanly. */
+  /* ============ LAYER 8 — THE UNFAIR ADVANTAGE (constrained right image) ============
+     Image lives in the right ~50% of the section with vertical padding so
+     there's space above his head. Left side of section shows the purple
+     bmc-wash through the section bg. Soft left-edge fade on the image
+     blends it into the section. */
   .unfair {
     background: var(--black);
     padding: 140px 0 160px;
@@ -1373,33 +1374,40 @@
   }
   .unfair-bg {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    top: 100px;
+    bottom: 100px;
+    right: 0;
+    width: 50%;
+    height: auto;
     object-fit: cover;
-    /* Anchor right so Darren's face stays in the right half of the section.
-       Slight upward bias keeps his head from being cropped at the top. */
-    object-position: right 30%;
-    z-index: 0;
+    /* Position the source so Darren's face lands in the right 2/3 of the
+       image container (i.e., on the right side of the section overall). */
+    object-position: 35% center;
+    z-index: 1;
     pointer-events: none;
   }
   .unfair-bg-fade {
     position: absolute;
-    inset: 0;
+    top: 100px;
+    bottom: 100px;
+    right: 0;
+    width: 50%;
+    /* Soft left-edge fade so the image dissolves into the section bg.
+       Right side of fade stays transparent so the face is fully visible. */
     background: linear-gradient(
       90deg,
       var(--black) 0%,
-      rgba(10, 10, 10, 0.97) 32%,
-      rgba(10, 10, 10, 0.55) 50%,
-      transparent 70%
+      rgba(10, 10, 10, 0.55) 14%,
+      transparent 30%
     );
-    z-index: 1;
+    z-index: 2;
     pointer-events: none;
   }
-  .unfair .container { position: relative; z-index: 2; }
-  .unfair-text { max-width: 58%; }
+  .unfair .container { position: relative; z-index: 3; }
+  /* Text occupies the left half — out of overlap with Darren */
+  .unfair-text { max-width: 48%; }
   @media (max-width: 1200px) {
-    .unfair-text { max-width: 62%; }
+    .unfair-text { max-width: 52%; }
   }
   .unfair-headline {
     font-size: clamp(44px, 5.6vw, 84px);
@@ -1496,21 +1504,39 @@
   @media (max-width: 960px) {
     .unfair { padding: 80px 0; }
     .unfair-text { max-width: 100%; }
-    /* On mobile, strengthen the fade so it covers more of the viewport for
-       text readability — Darren shows on the right edge, faded behind. */
+    /* On mobile, image goes full width but constrained to a banner at the
+       bottom of the section — text takes full width on top. Vertical fade
+       at bottom so it blends with the next section. */
+    .unfair-bg {
+      top: auto;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      height: 280px;
+      object-position: 35% center;
+    }
     .unfair-bg-fade {
+      top: auto;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      height: 280px;
       background: linear-gradient(
         180deg,
         var(--black) 0%,
-        rgba(10, 10, 10, 0.85) 35%,
-        rgba(10, 10, 10, 0.55) 65%,
-        rgba(10, 10, 10, 0.40) 100%
+        rgba(10, 10, 10, 0.6) 25%,
+        transparent 60%
       );
     }
-    .unfair-bg { object-position: 75% 25%; }
+    /* Text needs bottom margin so it clears the image banner */
+    .unfair-text { padding-bottom: 280px; }
   }
   @media (max-width: 600px) {
     .unfair-compare { grid-template-columns: 1fr; gap: 24px; }
+    .unfair-bg, .unfair-bg-fade { height: 220px; }
+    .unfair-text { padding-bottom: 220px; }
   }
 
   /* ============ LAYER 9 — TESTIMONIAL WALL ============ */
