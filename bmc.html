@@ -1360,12 +1360,7 @@
     border: 0;
   }
 
-  /* ============ LAYER 8 — THE UNFAIR ADVANTAGE ============
-     Two blocks:
-     1. .unfair-top — text on the left + image anchored to the right, image
-        bottom aligns with the bottom of the 4-item list.
-     2. .unfair-bottom — centered comparison + stop + close, full width
-        centered, tight. */
+  /* ============ LAYER 8 — THE UNFAIR ADVANTAGE (2-col, text + image) ============ */
   .unfair {
     background: var(--black);
     padding: 140px 0 160px;
@@ -1373,53 +1368,11 @@
     position: relative;
     overflow: hidden;
   }
-  .unfair-top {
-    position: relative;
-    padding-bottom: 24px;
-    margin-bottom: 96px;
-  }
-  .unfair-bg {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 50%;
-    height: auto;
-    object-fit: cover;
-    /* Show Darren's face in the right portion of the image container =
-       right side of the section overall. */
-    object-position: 35% center;
-    z-index: 1;
-    pointer-events: none;
-  }
-  .unfair-bg-fade {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 50%;
-    background: linear-gradient(
-      90deg,
-      var(--black) 0%,
-      rgba(10, 10, 10, 0.55) 14%,
-      transparent 30%
-    );
-    z-index: 2;
-    pointer-events: none;
-  }
-  .unfair-text {
-    position: relative;
-    z-index: 3;
-    max-width: 48%;
-  }
-  @media (max-width: 1200px) {
-    .unfair-text { max-width: 52%; }
-  }
-  /* Bottom block — centered comparison + stop + close */
-  .unfair-bottom {
-    max-width: 760px;
-    margin: 0 auto;
-    text-align: center;
+  .unfair-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    align-items: start;
   }
   .unfair-headline {
     font-size: clamp(44px, 5.6vw, 84px);
@@ -1465,16 +1418,14 @@
     color: var(--white);
     line-height: 1.4;
   }
-  /* Centered, tight 2-col comparison */
   .unfair-compare {
-    display: inline-grid;
-    grid-template-columns: auto auto;
-    gap: 48px;
-    margin: 0 0 56px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
     padding: 32px 0;
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
-    text-align: left;
   }
   .unfair-compare-label {
     font-family: 'Inter', sans-serif;
@@ -1515,46 +1466,40 @@
     color: var(--white);
     margin: 0;
   }
+  .unfair-image {
+    align-self: stretch;
+    min-height: 600px;
+  }
+  .unfair-image-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 600px;
+    border: 1px dashed var(--rule-strong);
+    background: rgba(120, 228, 239, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ph-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-align: center;
+    line-height: 1.6;
+  }
   @media (max-width: 960px) {
     .unfair { padding: 80px 0; }
-    .unfair-top { margin-bottom: 64px; padding-bottom: 0; }
-    .unfair-text { max-width: 100%; }
-    /* On mobile, image becomes a banner at the bottom of the top block
-       (after the 4-item list) — text reads full-width above it. */
-    .unfair-bg {
-      position: relative;
-      top: auto;
-      bottom: auto;
-      right: auto;
-      width: 100%;
-      height: 280px;
-      margin-top: 40px;
-      object-position: 35% center;
-    }
-    .unfair-bg-fade {
-      position: absolute;
-      top: auto;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      width: 100%;
-      height: 280px;
-      background: linear-gradient(
-        180deg,
-        var(--black) 0%,
-        rgba(10, 10, 10, 0.6) 25%,
-        transparent 60%
-      );
-    }
+    .unfair-grid { grid-template-columns: 1fr; gap: 48px; }
+    .unfair-image { min-height: 360px; }
+    .unfair-image-placeholder { min-height: 360px; }
   }
   @media (max-width: 600px) {
-    .unfair-compare {
-      grid-template-columns: 1fr;
-      gap: 32px;
-      text-align: center;
-    }
-    .unfair-bg { height: 220px; }
-    .unfair-bg-fade { height: 220px; }
+    .unfair-compare { grid-template-columns: 1fr; gap: 24px; }
+    .unfair-image { min-height: 260px; }
+    .unfair-image-placeholder { min-height: 260px; }
   }
 
   /* ============ LAYER 9 — TESTIMONIAL WALL ============ */
@@ -2657,13 +2602,11 @@
   </div>
 </section>
 
-<!-- ===== LAYER 8 — THE UNFAIR ADVANTAGE (top: text + image bottom-anchored to list; bottom: centered) ===== -->
+<!-- ===== LAYER 8 — THE UNFAIR ADVANTAGE (2-col: text left, image right) ===== -->
 <section class="unfair section-divider bmc-wash">
   <div class="container">
+    <div class="unfair-grid">
 
-    <div class="unfair-top">
-      <img class="unfair-bg" src="DH_works.jpg" alt="Darren Hardy" loading="lazy" />
-      <div class="unfair-bg-fade" aria-hidden="true"></div>
       <div class="unfair-text">
         <div class="eyebrow reveal"><span class="pip"></span>Why It Works</div>
         <h2 class="section-headline unfair-headline reveal">Your <em class="key">Secret Weapon</em>.</h2>
@@ -2675,40 +2618,45 @@
           <li><span class="n">03</span><span class="t">Peer network raises the standard.</span></li>
           <li><span class="n">04</span><span class="t">AI execution systems close the gap.</span></li>
         </ul>
-      </div>
-    </div>
 
-    <div class="unfair-bottom">
-      <div class="unfair-compare">
-        <div class="unfair-compare-col unfair-compare-col--without reveal reveal-left">
-          <div class="unfair-compare-label">Without It</div>
-          <ul class="stagger">
-            <li>Hours figuring it out.</li>
-            <li>Costly trial &amp; error.</li>
-            <li>Navigating it alone.</li>
-            <li>Losing opportunity time.</li>
-          </ul>
+        <div class="unfair-compare">
+          <div class="unfair-compare-col unfair-compare-col--without reveal reveal-left">
+            <div class="unfair-compare-label">Without It</div>
+            <ul class="stagger">
+              <li>Hours figuring it out.</li>
+              <li>Costly trial &amp; error.</li>
+              <li>Navigating it alone.</li>
+              <li>Losing opportunity time.</li>
+            </ul>
+          </div>
+          <div class="unfair-compare-col unfair-compare-col--with reveal reveal-right">
+            <div class="unfair-compare-label">With BMC|COLLECTIVE</div>
+            <ul class="stagger">
+              <li>Already filtered.</li>
+              <li>Already tested.</li>
+              <li>Already optimized.</li>
+              <li>Already winning at your level.</li>
+            </ul>
+          </div>
         </div>
-        <div class="unfair-compare-col unfair-compare-col--with reveal reveal-right">
-          <div class="unfair-compare-label">With BMC|COLLECTIVE</div>
-          <ul class="stagger">
-            <li>Already filtered.</li>
-            <li>Already tested.</li>
-            <li>Already optimized.</li>
-            <li>Already winning at your level.</li>
-          </ul>
+
+        <div class="unfair-stop stagger">
+          <p>You stop building alone.</p>
+          <p>You stop guessing.</p>
+          <p>You stop bleeding time on problems other elite leaders have already solved.</p>
+        </div>
+
+        <p class="unfair-close reveal">BMC|COLLECTIVE takes <em class="key">years off your timeline</em>.</p>
+      </div>
+
+      <div class="unfair-image reveal reveal-right">
+        <!-- Placeholder until a final image is delivered -->
+        <div class="unfair-image-placeholder">
+          <span class="ph-label">Dynamic Image<br/>Placeholder</span>
         </div>
       </div>
 
-      <div class="unfair-stop stagger">
-        <p>You stop building alone.</p>
-        <p>You stop guessing.</p>
-        <p>You stop bleeding time on problems other elite leaders have already solved.</p>
-      </div>
-
-      <p class="unfair-close reveal">BMC|COLLECTIVE takes <em class="key">years off your timeline</em>.</p>
     </div>
-
   </div>
 </section>
 
@@ -3231,6 +3179,60 @@
       } else {
         btn.setAttribute('aria-expanded', 'true');
         panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
+   })(t0);
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animate(entry.target);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.45 });
+  els.forEach(el => obs.observe(el));
+})();
+
+// ===== FAQ accordion (one at a time) =====
+(function () {
+  const buttons = document.querySelectorAll('.faq-q');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      const panel = btn.nextElementSibling;
+
+      // Close any others
+      buttons.forEach(other => {
+        if (other !== btn) {
+          other.setAttribute('aria-expanded', 'false');
+          const p = other.nextElementSibling;
+          p.style.maxHeight = null;
+        }
+      });
+
+      if (isOpen) {
+        btn.setAttribute('aria-expanded', 'false');
+        panel.style.maxHeight = null;
+      } else {
+        btn.setAttribute('aria-expanded', 'true');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
+eight + 'px';
       }
     });
   });
