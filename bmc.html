@@ -2093,7 +2093,24 @@
     padding: 120px 0;
     border-top: 1px solid var(--rule);
     text-align: center;
+    position: relative;
+    overflow: hidden;
   }
+  /* FIT seal watermark — centered behind all copy, heavy transparency so
+     it reads as ambient texture, never competes with the words. */
+  .risk-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('FIT_seal_purple.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: clamp(300px, 34vw, 560px) auto;
+    opacity: 0.09;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .risk-section > .container { position: relative; z-index: 1; }
   .risk-headline {
     font-size: clamp(40px, 5.2vw, 76px);
     margin-bottom: 56px;
