@@ -1360,17 +1360,46 @@
     border: 0;
   }
 
-  /* ============ LAYER 8 — THE UNFAIR ADVANTAGE (2-col, text + image) ============ */
+  /* ============ LAYER 8 — THE UNFAIR ADVANTAGE (image-bg, text overlay) ============
+     The image is a full-section background; text content overlays the
+     dark-faded left portion. Darren's face shows clearly on the right
+     (uncropped), and the gradient ensures the text reads cleanly. */
   .unfair {
     background: var(--black);
     padding: 140px 0 160px;
     border-top: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
   }
-  .unfair-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 80px;
-    align-items: start;
+  .unfair-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Anchor right so Darren's face stays in the right half of the section.
+       Slight upward bias keeps his head from being cropped at the top. */
+    object-position: right 30%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .unfair-bg-fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      var(--black) 0%,
+      rgba(10, 10, 10, 0.97) 32%,
+      rgba(10, 10, 10, 0.55) 50%,
+      transparent 70%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+  .unfair .container { position: relative; z-index: 2; }
+  .unfair-text { max-width: 58%; }
+  @media (max-width: 1200px) {
+    .unfair-text { max-width: 62%; }
   }
   .unfair-headline {
     font-size: clamp(44px, 5.6vw, 84px);
@@ -1464,52 +1493,24 @@
     color: var(--white);
     margin: 0;
   }
-  .unfair-image {
-    align-self: stretch;
-    min-height: 600px;
-    position: relative;
-    overflow: hidden;
-  }
-  .unfair-image img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* Image is landscape (4765×3177); container is tall (portrait). Cover
-       scales by height + crops sides. Object-position 70% center biases the
-       crop toward the right side of the image where Darren's face is. */
-    object-position: 70% center;
-    display: block;
-  }
-  /* Fully obscure the cropped arm/mic edge with solid black, then fade out
-     well before Darren's face starts so his face never gets darkened.
-     Container is ~573px wide; face starts around container x 280 (49%),
-     so fade must be fully transparent by ~40% (container x 230). */
-  .unfair-image::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      var(--black) 0%,
-      var(--black) 22%,
-      rgba(10, 10, 10, 0.5) 32%,
-      transparent 40%
-    );
-    pointer-events: none;
-    z-index: 2;
-  }
   @media (max-width: 960px) {
     .unfair { padding: 80px 0; }
-    .unfair-grid { grid-template-columns: 1fr; gap: 48px; }
-    /* On mobile, the container becomes wider than tall — switch to a
-       letterbox-friendly aspect so we don't crop too aggressively. */
-    .unfair-image { min-height: 360px; }
+    .unfair-text { max-width: 100%; }
+    /* On mobile, strengthen the fade so it covers more of the viewport for
+       text readability — Darren shows on the right edge, faded behind. */
+    .unfair-bg-fade {
+      background: linear-gradient(
+        180deg,
+        var(--black) 0%,
+        rgba(10, 10, 10, 0.85) 35%,
+        rgba(10, 10, 10, 0.55) 65%,
+        rgba(10, 10, 10, 0.40) 100%
+      );
+    }
+    .unfair-bg { object-position: 75% 25%; }
   }
   @media (max-width: 600px) {
     .unfair-compare { grid-template-columns: 1fr; gap: 24px; }
-    .unfair-image { min-height: 260px; }
   }
 
   /* ============ LAYER 9 — TESTIMONIAL WALL ============ */
@@ -2612,57 +2613,51 @@
   </div>
 </section>
 
-<!-- ===== LAYER 8 — THE UNFAIR ADVANTAGE (2-col: text left, image right) ===== -->
+<!-- ===== LAYER 8 — THE UNFAIR ADVANTAGE (image-bg, text overlays left) ===== -->
 <section class="unfair section-divider bmc-wash">
+  <img class="unfair-bg" src="DH_works.jpg" alt="Darren Hardy" loading="lazy" />
+  <div class="unfair-bg-fade" aria-hidden="true"></div>
   <div class="container">
-    <div class="unfair-grid">
+    <div class="unfair-text">
+      <div class="eyebrow reveal"><span class="pip"></span>Why It Works</div>
+      <h2 class="section-headline unfair-headline reveal">Your <em class="key">Secret Weapon</em>.</h2>
+      <p class="unfair-lead reveal">BMC|COLLECTIVE is your unfair advantage in business.</p>
 
-      <div class="unfair-text">
-        <div class="eyebrow reveal"><span class="pip"></span>Why It Works</div>
-        <h2 class="section-headline unfair-headline reveal">Your <em class="key">Secret Weapon</em>.</h2>
-        <p class="unfair-lead reveal">BMC|COLLECTIVE is your unfair advantage in business.</p>
+      <ul class="unfair-list stagger">
+        <li><span class="n">01</span><span class="t">BMC installs the playbook.</span></li>
+        <li><span class="n">02</span><span class="t">THE COLLECTIVE compounds it.</span></li>
+        <li><span class="n">03</span><span class="t">Peer network raises the standard.</span></li>
+        <li><span class="n">04</span><span class="t">AI execution systems close the gap.</span></li>
+      </ul>
 
-        <ul class="unfair-list stagger">
-          <li><span class="n">01</span><span class="t">BMC installs the playbook.</span></li>
-          <li><span class="n">02</span><span class="t">THE COLLECTIVE compounds it.</span></li>
-          <li><span class="n">03</span><span class="t">Peer network raises the standard.</span></li>
-          <li><span class="n">04</span><span class="t">AI execution systems close the gap.</span></li>
-        </ul>
-
-        <div class="unfair-compare">
-          <div class="unfair-compare-col unfair-compare-col--without reveal reveal-left">
-            <div class="unfair-compare-label">Without It</div>
-            <ul class="stagger">
-              <li>Hours figuring it out.</li>
-              <li>Costly trial &amp; error.</li>
-              <li>Navigating it alone.</li>
-              <li>Losing opportunity time.</li>
-            </ul>
-          </div>
-          <div class="unfair-compare-col unfair-compare-col--with reveal reveal-right">
-            <div class="unfair-compare-label">With BMC|COLLECTIVE</div>
-            <ul class="stagger">
-              <li>Already filtered.</li>
-              <li>Already tested.</li>
-              <li>Already optimized.</li>
-              <li>Already winning at your level.</li>
-            </ul>
-          </div>
+      <div class="unfair-compare">
+        <div class="unfair-compare-col unfair-compare-col--without reveal reveal-left">
+          <div class="unfair-compare-label">Without It</div>
+          <ul class="stagger">
+            <li>Hours figuring it out.</li>
+            <li>Costly trial &amp; error.</li>
+            <li>Navigating it alone.</li>
+            <li>Losing opportunity time.</li>
+          </ul>
         </div>
-
-        <div class="unfair-stop stagger">
-          <p>You stop building alone.</p>
-          <p>You stop guessing.</p>
-          <p>You stop bleeding time on problems other elite leaders have already solved.</p>
+        <div class="unfair-compare-col unfair-compare-col--with reveal reveal-right">
+          <div class="unfair-compare-label">With BMC|COLLECTIVE</div>
+          <ul class="stagger">
+            <li>Already filtered.</li>
+            <li>Already tested.</li>
+            <li>Already optimized.</li>
+            <li>Already winning at your level.</li>
+          </ul>
         </div>
-
-        <p class="unfair-close reveal">BMC|COLLECTIVE takes <em class="key">years off your timeline</em>.</p>
       </div>
 
-      <div class="unfair-image reveal reveal-right">
-        <img src="DH_works.jpg" alt="Darren Hardy" loading="lazy" />
+      <div class="unfair-stop stagger">
+        <p>You stop building alone.</p>
+        <p>You stop guessing.</p>
+        <p>You stop bleeding time on problems other elite leaders have already solved.</p>
       </div>
 
+      <p class="unfair-close reveal">BMC|COLLECTIVE takes <em class="key">years off your timeline</em>.</p>
     </div>
   </div>
 </section>
