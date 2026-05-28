@@ -248,12 +248,12 @@
        pricing badge, FAQ chevron, "for you" markers). */
     --bmc-cyan:     #78e4ef;
     --bmc-cyan-soft: rgba(120, 228, 239, 0.85);
-    /* Emphasis color on light/bone backgrounds. Was a deep cyan (#2bb8c7),
-       then black (DH didn't like teal-on-white), now a dark grey — subtle
-       greyscale emphasis that's distinct from pure black body copy without
-       being a competing color. Play buttons explicitly use --bmc-cyan (the
-       bright cyan) and are unaffected. */
-    --bmc-cyan-deep: #3a3a3a;
+    /* Emphasis color on light/bone backgrounds. The em.key emphasis is
+       BLACK; the surrounding headline copy is a darker grey (#555). Same
+       pattern as the careers page — emphasis lands by being the only black
+       glyph in an otherwise dark-grey headline. Play buttons explicitly
+       use --bmc-cyan (the bright cyan) and are unaffected. */
+    --bmc-cyan-deep: var(--black);
     --rule-cyan:    rgba(120, 228, 239, 0.32);
     /* Purple ambient — only ever used as a low-opacity background wash
        (like HC's gold). Never used for type, icons, or borders. Cyan
@@ -1044,12 +1044,13 @@
     font-size: clamp(34px, 3.8vw, 56px);
     line-height: 1.02;
     letter-spacing: -0.025em;
-    color: var(--black);
+    color: #555;
     text-transform: uppercase;
     margin-bottom: 36px;
     text-wrap: balance;
   }
-  /* Cyan keyword <em> on light bg — use deep cyan for legibility */
+  /* Emphasis on light bg: em.key resolves to black against the dark-grey
+     headline (via --bmc-cyan-deep → var(--black)). */
   .filter-twocol-title em.key { color: var(--bmc-cyan-deep); }
   .filter-twocol-body p {
     font-family: 'Inter', sans-serif;
@@ -1687,8 +1688,8 @@
   }
   #testimonials.is-light .eyebrow { color: var(--grey-soft); }
   #testimonials.is-light .eyebrow .pip { background: var(--grey-soft); }
-  #testimonials.is-light .section-headline { color: var(--black); }
-  #testimonials.is-light em.key { color: #3a3a3a; }
+  #testimonials.is-light .section-headline { color: #555; }
+  #testimonials.is-light em.key { color: var(--black); }
   #testimonials.is-light .testimonial-intro { color: var(--muted); }
   #testimonials.is-light .video-thumb {
     border-color: var(--rule-dark-strong);
@@ -2077,7 +2078,7 @@
   }
   .stack-section.is-light .eyebrow { color: var(--grey-soft); }
   .stack-section.is-light .eyebrow .pip { background: var(--grey-soft); }
-  .stack-section.is-light .section-headline { color: var(--black); }
+  .stack-section.is-light .section-headline { color: #555; }
   /* Cyan keyword 'Moment You Enroll' would wash out on white — swap to deep cyan */
   .stack-section.is-light em.key { color: var(--bmc-cyan-deep); }
   .stack-section.is-light .stack-list { border-top-color: var(--rule-dark); }
@@ -2154,7 +2155,7 @@
   }
   #faq .eyebrow { color: var(--grey-soft); }
   #faq .eyebrow .pip { background: var(--grey-soft); }
-  #faq .section-headline { color: var(--black); }
+  #faq .section-headline { color: #555; }
   #faq .section-headline em.key { color: var(--bmc-cyan-deep); }
   #faq .faq-row { border-bottom-color: var(--rule-dark); }
   #faq .faq-q { color: var(--black); }
