@@ -2121,17 +2121,28 @@
         radial-gradient(ellipse 100% 55% at 50% 92%, rgba(214, 42, 143, 0.22), transparent 70%);
     }
   }
-  /* The Fit Guarantee seal replaces the eyebrow + headline. Sits centered
-     above the copy block, capped width so it doesn't overpower on desktop. */
-  .risk-seal {
-    display: block;
-    width: 100%;
-    max-width: 320px;
+  /* Corner stamp — seal sits in the bottom-right, rotated like a wax seal
+     pressed onto a signed document. Sits on top of the purple wash but
+     below the container content (no text overlap). Drop-shadow gives it
+     a hint of physical presence. */
+  .risk-stamp {
+    position: absolute;
+    bottom: 56px;
+    right: 56px;
+    width: 240px;
     height: auto;
-    margin: 0 auto 56px;
+    transform: rotate(-12deg);
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+    pointer-events: none;
+    z-index: 2;
   }
-  @media (max-width: 720px) {
-    .risk-seal { max-width: 220px; margin-bottom: 40px; }
+  @media (max-width: 880px) {
+    .risk-stamp {
+      bottom: 32px;
+      right: 24px;
+      width: 140px;
+      transform: rotate(-10deg);
+    }
   }
   .risk-headline {
     font-size: clamp(40px, 5.2vw, 76px);
@@ -3011,13 +3022,15 @@
 <!-- ===== LAYER 14 — RISK REVERSAL ===== -->
 <section class="risk-section">
   <div class="container">
-    <img src="fit_guarantee_seal.png" alt="The Fit Guarantee" class="risk-seal reveal" loading="lazy" />
+    <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>A Confident Promise</div>
+    <h2 class="section-headline risk-headline reveal">The Fit <em class="key">Guarantee</em>.</h2>
     <div class="risk-body stagger">
       <p>BMC|COLLECTIVE works because the people inside are intensely committed to growth and building something that matters. If that&rsquo;s not you, we don&rsquo;t want you here either.</p>
       <p>So we make leaving easy. Inside 30 days, contact member services.</p>
       <p class="risk-promise">Full refund. No questions. No friction. No awkwardness.</p>
     </div>
   </div>
+  <img src="fit_guarantee_seal.png" alt="" class="risk-stamp reveal" aria-hidden="true" loading="lazy" />
 </section>
 
 <!-- ===== LAYER 15 — FAQ ===== -->
