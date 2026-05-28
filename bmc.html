@@ -2092,6 +2092,46 @@
   .stack-section.is-light .stack-item h3 { color: var(--black); }
   .stack-section.is-light .stack-item p { color: var(--muted); }
 
+  /* ============ CYAN BLOOM — light-section ambient warmth ============
+     Subtle radial cyan glow behind the headline area on each light
+     section. Atmosphere, never UI — opacity tuned so it reads as a quiet
+     tint, not a visible element. Sections set position relative + overflow
+     hidden in their existing rules. */
+  .filter-twocol.is-light,
+  .stack-section.is-light,
+  #testimonials.is-light,
+  #faq {
+    position: relative;
+    overflow: hidden;
+  }
+  .filter-twocol.is-light::before,
+  .stack-section.is-light::before,
+  #testimonials.is-light::before,
+  #faq::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 65% 32% at 50% 15%, rgba(43, 184, 199, 0.18), transparent 65%),
+      radial-gradient(ellipse 75% 25% at 50% 90%, rgba(43, 184, 199, 0.08), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .filter-twocol.is-light > .container,
+  .stack-section.is-light > .container,
+  #testimonials.is-light > .container,
+  #faq > .container { position: relative; z-index: 1; }
+  @media (max-width: 880px) {
+    .filter-twocol.is-light::before,
+    .stack-section.is-light::before,
+    #testimonials.is-light::before,
+    #faq::before {
+      background:
+        radial-gradient(ellipse 100% 30% at 50% 12%, rgba(43, 184, 199, 0.22), transparent 65%),
+        radial-gradient(ellipse 100% 25% at 50% 92%, rgba(43, 184, 199, 0.10), transparent 70%);
+    }
+  }
+
   /* ============ LAYER 14 — RISK REVERSAL ============ */
   .risk-section {
     background: var(--black);
@@ -2163,11 +2203,11 @@
   }
   .risk-body p:first-child { font-weight: 500; color: var(--white); }
   .risk-body p:last-child { margin-bottom: 0; }
-  /* The promise line stands alone — bold, teal, its own visual beat. */
+  /* The promise line — bold + teal, lives inside the same paragraph as
+     the preceding sentence via <br/> so there's no paragraph gap. */
   .risk-promise {
     font-weight: 700 !important;
     color: var(--bmc-cyan) !important;
-    margin-top: 32px !important;
   }
 
   /* ============ LAYER 15 — FAQ ============ */
@@ -3026,8 +3066,7 @@
     <h2 class="section-headline risk-headline reveal">The Fit <em class="key">Guarantee</em>.</h2>
     <div class="risk-body stagger">
       <p>BMC|COLLECTIVE works because the people inside are intensely committed to growth and building something that matters. If that&rsquo;s not you, we don&rsquo;t want you here either.</p>
-      <p>So we make leaving easy. Inside 30 days, contact member services.</p>
-      <p class="risk-promise">Full refund. No questions. No friction. No awkwardness.</p>
+      <p>So we make leaving easy. Inside 30 days, contact member services.<br/><span class="risk-promise">Full refund. No questions. No friction. No awkwardness.</span></p>
     </div>
   </div>
   <img src="fit_guarantee_seal.png" alt="" class="risk-stamp reveal" aria-hidden="true" loading="lazy" />
