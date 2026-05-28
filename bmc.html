@@ -1482,6 +1482,22 @@
     object-position: 70% center;
     display: block;
   }
+  /* Fade the cropped left edge into black so the truncated arms / mic blend
+     into the section background instead of reading as a hard crop. */
+  .unfair-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      var(--black) 0%,
+      rgba(10, 10, 10, 0.82) 12%,
+      rgba(10, 10, 10, 0.35) 32%,
+      transparent 52%
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
   @media (max-width: 960px) {
     .unfair { padding: 80px 0; }
     .unfair-grid { grid-template-columns: 1fr; gap: 48px; }
