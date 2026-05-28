@@ -725,10 +725,12 @@
   }
   @media (max-width: 720px) {
     .stats-row { grid-template-columns: 1fr; }
+    .stats-row > div { padding: 40px 24px; }
     .stats-row > div:first-child {
       border-right: none;
       border-bottom: 1px solid var(--rule-strong);
     }
+    .stat-stars { font-size: 18px; }
   }
 
   .flag-block { margin-top: 64px; }
@@ -894,13 +896,17 @@
   .vsl-overlay-text {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: clamp(20px, 2.4vw, 36px);
-    line-height: 1.1;
+    font-size: clamp(16px, 2.4vw, 36px);
+    line-height: 1.15;
     letter-spacing: -0.02em;
     color: var(--white);
     text-transform: uppercase;
     text-align: left;
     max-width: 80%;
+  }
+  @media (max-width: 600px) {
+    .vsl-overlay { padding: 20px 20px 24px; }
+    .vsl-overlay-text { max-width: 90%; }
   }
   .vsl-caption {
     font-family: 'Inter', sans-serif;
@@ -1155,7 +1161,10 @@
     .compare-grid {
       grid-template-columns: 1fr;
       grid-template-rows: auto auto;
-      gap: 56px;
+      /* Larger gap on mobile so the + circle (extends below BMC card) and
+         the multi-line cyan flag (extends above Collective card) don't crash
+         into each other. */
+      gap: 80px;
     }
     .compare-col { padding: 44px 28px; }
     /* Pin all three children explicitly. Without pinning BMC, the auto-flow
@@ -1409,11 +1418,13 @@
   @media (max-width: 960px) {
     .unfair { padding: 80px 0; }
     .unfair-grid { grid-template-columns: 1fr; gap: 48px; }
-    .unfair-image { min-height: 360px; }
-    .unfair-image-placeholder { min-height: 360px; }
+    .unfair-image { min-height: 280px; }
+    .unfair-image-placeholder { min-height: 280px; }
   }
   @media (max-width: 600px) {
     .unfair-compare { grid-template-columns: 1fr; gap: 24px; }
+    .unfair-image { min-height: 220px; }
+    .unfair-image-placeholder { min-height: 220px; }
   }
 
   /* ============ LAYER 9 — TESTIMONIAL WALL ============ */
@@ -2102,6 +2113,12 @@
   .final-secondary-sep {
     color: var(--grey-soft);
     opacity: 0.6;
+  }
+  /* On narrow phones, stack the two CTAs vertically and hide the separator
+     so we don't get an orphaned "|" on its own line. */
+  @media (max-width: 540px) {
+    .final-secondary-links { flex-direction: column; gap: 12px; }
+    .final-secondary-sep { display: none; }
   }
 
   /* ============ FOOTER ============ */
