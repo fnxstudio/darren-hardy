@@ -256,8 +256,10 @@
     --rule-cyan:    rgba(120, 228, 239, 0.32);
     /* Purple ambient — only ever used as a low-opacity background wash
        (like HC's gold). Never used for type, icons, or borders. Cyan
-       remains the lone accent color for content. */
+       remains the lone accent color for content. Magenta is a secondary
+       ambient hue blended into the wash to give the page more pop. */
     --bmc-purple:   #9c27ac;
+    --bmc-magenta:  #d62a8f;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -295,39 +297,40 @@
     content: "";
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 60% 50% at 22% 30%, rgba(156, 39, 172, 0.12), transparent 60%),
-      radial-gradient(ellipse 70% 60% at 80% 78%, rgba(156, 39, 172, 0.06), transparent 65%);
+      radial-gradient(ellipse 60% 50% at 22% 30%, rgba(156, 39, 172, 0.22), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 80% 78%, rgba(214, 42, 143, 0.14), transparent 65%);
     pointer-events: none;
     z-index: 0;
   }
   .bmc-wash--center::before {
     background:
-      radial-gradient(ellipse 65% 50% at 50% 28%, rgba(156, 39, 172, 0.14), transparent 65%),
-      radial-gradient(ellipse 80% 60% at 50% 92%, rgba(156, 39, 172, 0.05), transparent 70%);
+      radial-gradient(ellipse 65% 50% at 50% 28%, rgba(156, 39, 172, 0.24), transparent 65%),
+      radial-gradient(ellipse 80% 60% at 50% 92%, rgba(214, 42, 143, 0.12), transparent 70%);
   }
   .bmc-wash--soft::before {
     background:
-      radial-gradient(ellipse 60% 55% at 30% 35%, rgba(156, 39, 172, 0.08), transparent 65%);
+      radial-gradient(ellipse 60% 55% at 30% 35%, rgba(156, 39, 172, 0.16), transparent 65%),
+      radial-gradient(ellipse 50% 45% at 75% 65%, rgba(214, 42, 143, 0.08), transparent 65%);
   }
   /* Anything direct inside a washed section sits above the overlay */
   .bmc-wash > * { position: relative; z-index: 1; }
   /* Mobile compensation — radials lose impact on smaller viewports.
-     Reposition centered + roughly double the opacity so the wash actually
-     reads on a phone. Tuned per variant. */
+     Reposition centered + boost opacity so the wash actually reads on a
+     phone. Tuned per variant. */
   @media (max-width: 880px) {
     .bmc-wash::before {
       background:
-        radial-gradient(ellipse 100% 45% at 50% 22%, rgba(156, 39, 172, 0.22), transparent 65%),
-        radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.10), transparent 70%);
+        radial-gradient(ellipse 100% 45% at 50% 22%, rgba(156, 39, 172, 0.32), transparent 65%),
+        radial-gradient(ellipse 100% 50% at 50% 92%, rgba(214, 42, 143, 0.18), transparent 70%);
     }
     .bmc-wash--center::before {
       background:
-        radial-gradient(ellipse 100% 45% at 50% 18%, rgba(156, 39, 172, 0.24), transparent 65%),
-        radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.10), transparent 70%);
+        radial-gradient(ellipse 100% 45% at 50% 18%, rgba(156, 39, 172, 0.34), transparent 65%),
+        radial-gradient(ellipse 100% 50% at 50% 92%, rgba(214, 42, 143, 0.18), transparent 70%);
     }
     .bmc-wash--soft::before {
       background:
-        radial-gradient(ellipse 100% 50% at 50% 25%, rgba(156, 39, 172, 0.15), transparent 65%);
+        radial-gradient(ellipse 100% 50% at 50% 25%, rgba(156, 39, 172, 0.24), transparent 65%);
     }
   }
 
@@ -790,6 +793,20 @@
     margin: 16px auto 0;
     max-width: 280px;
   }
+  /* Balancing line that runs across the bottom of BOTH stat columns. */
+  .stats-close {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.5;
+    color: var(--silver);
+    text-align: center;
+    max-width: 880px;
+    margin: 48px auto 0;
+    padding: 28px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .stats-close .signal-accent { color: var(--white); font-weight: 600; }
   @media (max-width: 720px) {
     .stats-row { grid-template-columns: 1fr; }
     .stats-row > div { padding: 40px 24px; }
@@ -797,7 +814,7 @@
       border-right: none;
       border-bottom: 1px solid var(--rule-strong);
     }
-    .stat-stars { font-size: 18px; }
+    .stats-close { margin-top: 32px; padding-top: 24px; }
   }
 
   .flag-block { margin-top: 64px; }
@@ -901,7 +918,8 @@
   }
 
   /* ============ LAYER 4 — VSL ============ */
-  .vsl-eyebrow { margin-bottom: 56px; }
+  .vsl-eyebrow { margin-bottom: 24px; }
+  .vsl-headline { margin-bottom: 56px; }
   .vsl-section {
     background: var(--black);
     padding: 120px 0;
@@ -1852,8 +1870,8 @@
     content: "";
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 60% 50% at 50% 28%, rgba(156, 39, 172, 0.18), transparent 65%),
-      radial-gradient(ellipse 80% 60% at 50% 90%, rgba(156, 39, 172, 0.07), transparent 75%);
+      radial-gradient(ellipse 60% 50% at 50% 28%, rgba(156, 39, 172, 0.32), transparent 65%),
+      radial-gradient(ellipse 80% 60% at 50% 90%, rgba(214, 42, 143, 0.16), transparent 75%);
     pointer-events: none;
     z-index: 0;
   }
@@ -1861,8 +1879,8 @@
   @media (max-width: 880px) {
     #investment::before {
       background:
-        radial-gradient(ellipse 100% 45% at 50% 20%, rgba(156, 39, 172, 0.32), transparent 65%),
-        radial-gradient(ellipse 100% 55% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%);
+        radial-gradient(ellipse 100% 45% at 50% 20%, rgba(156, 39, 172, 0.42), transparent 65%),
+        radial-gradient(ellipse 100% 55% at 50% 92%, rgba(214, 42, 143, 0.22), transparent 70%);
     }
   }
   #investment .section-headline {
@@ -1986,6 +2004,70 @@
   @media (max-width: 720px) {
     #investment { padding: 120px 0; }
     .price-grid { grid-template-columns: 1fr; max-width: 480px; }
+  }
+
+  /* ============ LAYER 12+13 — SIDE-BY-SIDE ENROLLMENT PAIR ============
+     Enrollment (left) + The Moment You Enroll (right) sit as two columns
+     inside the same section. Headlines, eyebrows, and CTAs feel like
+     siblings of a single decision moment. Stacks vertically on mobile. */
+  .enroll-pair-section { text-align: left; }
+  .enroll-pair-section .section-headline { text-align: left; }
+  .enroll-pair-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    align-items: start;
+  }
+  .enroll-pair-col .eyebrow { margin-bottom: 24px; }
+  .enroll-pair-col .section-headline {
+    font-size: clamp(36px, 4.2vw, 60px);
+    margin-bottom: 24px;
+    letter-spacing: -0.03em;
+  }
+  /* Left column — pricing intro + stacked cards */
+  .enroll-pair-col--left .invest-intro {
+    text-align: left;
+    margin: 0 0 40px;
+    max-width: none;
+  }
+  .price-grid--stacked {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    max-width: 100%;
+  }
+  .enroll-pair-col--left .invest-footnote {
+    margin-top: 32px;
+    text-align: left;
+  }
+  /* Right column — activation stack at narrower width */
+  .enroll-pair-col--right .stack-list {
+    max-width: 100%;
+    border-top: 1px solid var(--rule);
+  }
+  .enroll-pair-col--right .stack-headline {
+    margin-bottom: 40px;
+  }
+  .enroll-pair-col--right .stack-item {
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+  }
+  .enroll-pair-col--right .stack-numeral { font-size: 14px; }
+  .enroll-pair-col--right .stack-item h3 {
+    font-size: clamp(16px, 1.25vw, 19px);
+    margin-bottom: 8px;
+  }
+  .enroll-pair-col--right .stack-item p {
+    font-size: clamp(14px, 1.05vw, 16px);
+    line-height: 1.5;
+  }
+  @media (max-width: 960px) {
+    .enroll-pair-grid { grid-template-columns: 1fr; gap: 80px; }
+    .enroll-pair-col--right .stack-item { grid-template-columns: 48px 1fr; gap: 20px; }
+  }
+  @media (max-width: 720px) {
+    .enroll-pair-grid { gap: 64px; }
+    .enroll-pair-col--right .stack-item { grid-template-columns: 1fr; gap: 8px; padding: 22px 0; }
   }
 
   /* ============ LAYER 13 — ACTIVATION STACK ============ */
@@ -2427,14 +2509,14 @@
     <div class="stats-row stagger">
       <div>
         <div class="stat-number" data-count="9.8" data-decimals="1"><span class="stat-dash">—</span></div>
-        <div class="stat-stars" aria-label="5 out of 5 stars">★★★★★★★★★★</div>
         <div class="stat-label">Rating From 11,738 CEOs</div>
       </div>
       <div>
         <div class="stat-number" data-count="121" data-decimals="0"><span class="stat-dash">—</span></div>
-        <div class="stat-label">Countries Represented<br/>Inside BMC|COLLECTIVE</div>
+        <div class="stat-label">Countries Represented</div>
       </div>
     </div>
+    <p class="stats-close reveal">BMC installs the breakthrough strategies and systems. THE COLLECTIVE supports and compounds them. <span class="signal-accent">This is the unfair advantage you&rsquo;ve been looking for.</span></p>
     <div class="flag-block reveal">
       <div class="flag-caption">A network of elite business leaders, on every inhabited continent.</div>
     </div>
@@ -2522,9 +2604,8 @@
           <p>You don&rsquo;t need motivation.</p>
           <p>You don&rsquo;t need another coach.</p>
           <p>You don&rsquo;t need clever hacks.</p>
-          <p>What you need is rare. An edge. An advantage.</p>
-          <p>You need access to the proven playbooks of today&rsquo;s titans. How they think, decide, hire, build, scale, and win.</p>
-          <p>So you can too. Faster and bigger.</p>
+          <p>What you need is rare. An edge. An advantage. You need access to the proven playbooks of today&rsquo;s titans. How they think, decide, hire, build, scale, and win.</p>
+          <p class="emphasized">So you can build faster and bigger.</p>
           <p class="emphasized">I&rsquo;ve already done the filtering. So you don&rsquo;t have to. <span class="signal-accent">BMC|COLLECTIVE is the result.</span></p>
         </div>
       </div>
@@ -2537,6 +2618,7 @@
 <section class="vsl-section" id="vsl">
   <div class="container">
     <div class="eyebrow eyebrow--center vsl-eyebrow reveal" style="display:flex;justify-content:center;"><span class="pip"></span>A Personal Word</div>
+    <h2 class="section-headline vsl-headline reveal" style="text-align:center;">What They&rsquo;ve Built. <em class="key">What&rsquo;s Changed</em>.</h2>
     <div class="vsl-frame reveal reveal-scale" role="button" tabindex="0" aria-label="Play video">
       <div class="vsl-overlay">
         <p class="vsl-overlay-text">Watch Darren explain <em class="key">what&rsquo;s inside</em>.</p>
@@ -2588,7 +2670,7 @@
       <!-- RIGHT — THE COLLECTIVE -->
       <div class="compare-col compare-col--collective reveal reveal-right">
         <div class="compare-flag">Yours Immediately</div>
-        <div class="compare-benefit">The Expansion</div>
+        <div class="compare-benefit">The Compounding</div>
         <h3 class="compare-title">The Collective</h3>
         <div class="compare-sub">You Are Activated The Moment You Reserve</div>
         <p class="compare-intro">Most strategies don&rsquo;t fail in the planning. They fail in the gap between idea and execution. <strong>THE COLLECTIVE is designed to correct that.</strong></p>
@@ -2678,7 +2760,7 @@
 <section class="section-ink section-divider is-light" id="testimonials">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>In Their Own Words</div>
-    <h2 class="section-headline reveal" style="text-align:center;">What They&rsquo;ve Built. <em class="key">What&rsquo;s Changed</em>.</h2>
+    <h2 class="section-headline reveal" style="text-align:center;">Real Builders. <em class="key">Real Results</em>.</h2>
 
     <!-- 9a — Video testimonials -->
     <div class="video-grid stagger">
@@ -2800,12 +2882,12 @@
       </div>
       <div class="filter-col col-not reveal reveal-right">
         <div class="filter-sublabel">BMC|COLLECTIVE Is Not For You If</div>
-        <div class="filter-item"><span class="marker">&times;</span>Your discipline runs on motivation, not commitment.</div>
-        <div class="filter-item"><span class="marker">&times;</span>Your bookshelf is stuffed with ideas you&rsquo;ve never applied.</div>
-        <div class="filter-item"><span class="marker">&times;</span>You want applause, instead of candid feedback.</div>
-        <div class="filter-item"><span class="marker">&times;</span>You confuse loud with right and visibility with value.</div>
-        <div class="filter-item"><span class="marker">&times;</span>You won&rsquo;t defend your decisions to challenging peers.</div>
-        <div class="filter-item"><span class="marker">&times;</span>You believe shortcuts exist at your level.</div>
+        <div class="filter-item"><span class="marker">&times;</span>Your discipline depends on motivation, and motivation disappears the moment the work stops feeling exciting.</div>
+        <div class="filter-item"><span class="marker">&times;</span>Your bookshelf is full of underlined ideas and highlighted insights you have never applied and put into action.</div>
+        <div class="filter-item"><span class="marker">&times;</span>You want applause and validation more than you want the candid feedback that would actually make you better.</div>
+        <div class="filter-item"><span class="marker">&times;</span>You confuse loud with right and visibility with value, and you&rsquo;d rather look like a winner than become one.</div>
+        <div class="filter-item"><span class="marker">&times;</span>You go quiet when sharp peers challenge your thinking, because pushback feels like an attack instead of a gift.</div>
+        <div class="filter-item"><span class="marker">&times;</span>You still think there&rsquo;s a shortcut at your level, some clever hack that lets you skip the reps everyone else puts in.</div>
       </div>
     </div>
     <div class="filter-close reveal">
@@ -2836,100 +2918,105 @@
   </div>
 </section>
 
-<!-- ===== LAYER 12 — INVESTMENT ===== -->
-<section id="investment">
+<!-- ===== LAYER 12+13 — ENROLLMENT + THE MOMENT YOU ENROLL (side-by-side) ===== -->
+<section id="investment" class="enroll-pair-section">
   <div class="container">
-    <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>Enrollment</div>
-    <h2 class="section-headline reveal">Reserve Your Seat.</h2>
-    <p class="invest-intro reveal">One enrollment reserves your seat at the next Business Master Class and immediately activates your full year inside THE COLLECTIVE.</p>
-    <div class="price-grid stagger">
-      <div class="price-card">
-        <div class="price-label">Pay Monthly</div>
-        <div class="price-num">$895</div>
-        <p class="price-desc">12-month commitment.<br/>Reserved BMC seat. Immediate COLLECTIVE activation.</p>
-        <a href="#" class="price-cta price-cta--ghost">Reserve Your Seat &rarr;</a>
-      </div>
-      <div class="price-card">
-        <div class="price-badge">Save $745</div>
-        <div class="price-label">Pay Annually</div>
-        <div class="price-num">$9,995</div>
-        <p class="price-desc">12 months of access.<br/>Reserved BMC seat. Immediate COLLECTIVE activation.</p>
-        <a href="#" class="price-cta">Reserve Your Seat &rarr;</a>
-      </div>
-    </div>
-    <p class="invest-footnote reveal">All prices in USD. Reservation confirmed by member services within 24 hours.</p>
-  </div>
-</section>
+    <div class="enroll-pair-grid">
 
-<!-- ===== LAYER 13 — ACTIVATION STACK ===== -->
-<section class="stack-section is-light">
-  <div class="container">
-    <div class="eyebrow reveal"><span class="pip"></span>The Moment You Enroll</div>
-    <h2 class="section-headline stack-headline reveal">Everything <em class="key">Activates Immediately</em>.</h2>
-    <div class="stack-list stagger">
-      <div class="stack-item">
-        <div class="stack-numeral">01</div>
-        <div>
-          <h3>Business Master Class Seat</h3>
-          <p>A reserved seat at the next three-day Business Master Class. Installing the proven strategies and execution systems.</p>
+      <!-- LEFT — Enrollment -->
+      <div class="enroll-pair-col enroll-pair-col--left reveal reveal-left">
+        <div class="eyebrow"><span class="pip"></span>Enrollment</div>
+        <h2 class="section-headline">Reserve Your Seat.</h2>
+        <p class="invest-intro">One enrollment reserves your seat at the next Business Master Class and immediately activates your full year inside THE COLLECTIVE.</p>
+        <div class="price-grid price-grid--stacked stagger">
+          <div class="price-card">
+            <div class="price-label">Pay Monthly</div>
+            <div class="price-num">$895</div>
+            <p class="price-desc">12-month commitment.<br/>Reserved BMC seat. Immediate COLLECTIVE activation.</p>
+            <a href="#" class="price-cta price-cta--ghost">Reserve Your Seat &rarr;</a>
+          </div>
+          <div class="price-card">
+            <div class="price-badge">Save $745</div>
+            <div class="price-label">Pay Annually</div>
+            <div class="price-num">$9,995</div>
+            <p class="price-desc">12 months of access.<br/>Reserved BMC seat. Immediate COLLECTIVE activation.</p>
+            <a href="#" class="price-cta">Reserve Your Seat &rarr;</a>
+          </div>
+        </div>
+        <p class="invest-footnote">All prices in USD. Reservation confirmed by member services within 24 hours.</p>
+      </div>
+
+      <!-- RIGHT — The Moment You Enroll -->
+      <div class="enroll-pair-col enroll-pair-col--right reveal reveal-right">
+        <div class="eyebrow"><span class="pip"></span>The Moment You Enroll</div>
+        <h2 class="section-headline stack-headline"><em class="key">Activated Immediately</em>.</h2>
+        <div class="stack-list stagger">
+          <div class="stack-item">
+            <div class="stack-numeral">01</div>
+            <div>
+              <h3>Business Master Class Seat</h3>
+              <p>A reserved seat at the next three-day Business Master Class. Installing the proven strategies and execution systems.</p>
+            </div>
+          </div>
+          <div class="stack-item">
+            <div class="stack-numeral">02</div>
+            <div>
+              <h3>COLLECTIVE Activation</h3>
+              <p>Full access inside THE COLLECTIVE the moment your seat is reserved. Twelve months.</p>
+            </div>
+          </div>
+          <div class="stack-item">
+            <div class="stack-numeral">03</div>
+            <div>
+              <h3>AI Execution Systems</h3>
+              <p>Darren&rsquo;s 35-year methodology is encoded into AI. Sales, marketing, and recruiting strategies become execution in minutes.</p>
+            </div>
+          </div>
+          <div class="stack-item">
+            <div class="stack-numeral">04</div>
+            <div>
+              <h3>HARDYbot &middot; 24/7 Strategic Advisor</h3>
+              <p>Trained on Darren&rsquo;s lifetime of work. Available around the clock. Decision guidance. Unlimited access.</p>
+            </div>
+          </div>
+          <div class="stack-item">
+            <div class="stack-numeral">05</div>
+            <div>
+              <h3>Hardy Club + Elite Leader Network</h3>
+              <p>Full Hardy Club access plus the private Elite Leader Network reserved for COLLECTIVE members.</p>
+            </div>
+          </div>
+          <div class="stack-item">
+            <div class="stack-numeral">06</div>
+            <div>
+              <h3>AI Group Consulting And Workshops</h3>
+              <p>Live AI workshops with Darren&rsquo;s A-Team experts. Stay months ahead of your competitors.</p>
+            </div>
+          </div>
+          <div class="stack-item">
+            <div class="stack-numeral">07</div>
+            <div>
+              <h3>Expert Office Hours</h3>
+              <p>Direct access to vetted industry experts. Bring your hardest question. Get honest counsel.</p>
+            </div>
+          </div>
+          <div class="stack-item">
+            <div class="stack-numeral">08</div>
+            <div>
+              <h3>Discussion Forums</h3>
+              <p>Member forums on needle-moving issues. Solutions from people who&rsquo;ve already solved them.</p>
+            </div>
+          </div>
+          <div class="stack-item">
+            <div class="stack-numeral">09</div>
+            <div>
+              <h3>Member Services Concierge</h3>
+              <p>A real human handling your member services and member introductions. Not a chatbot.</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="stack-item">
-        <div class="stack-numeral">02</div>
-        <div>
-          <h3>COLLECTIVE Activation</h3>
-          <p>Full access inside THE COLLECTIVE the moment your seat is reserved. Twelve months.</p>
-        </div>
-      </div>
-      <div class="stack-item">
-        <div class="stack-numeral">03</div>
-        <div>
-          <h3>AI Execution Systems</h3>
-          <p>Darren&rsquo;s 35-year methodology is encoded into AI. Sales, marketing, and recruiting strategies become execution in minutes.</p>
-        </div>
-      </div>
-      <div class="stack-item">
-        <div class="stack-numeral">04</div>
-        <div>
-          <h3>HARDYbot &middot; 24/7 Strategic Advisor</h3>
-          <p>Trained on Darren&rsquo;s lifetime of work. Available around the clock. Decision guidance. Unlimited access.</p>
-        </div>
-      </div>
-      <div class="stack-item">
-        <div class="stack-numeral">05</div>
-        <div>
-          <h3>Hardy Club + Elite Leader Network</h3>
-          <p>Full Hardy Club access plus the private Elite Leader Network reserved for COLLECTIVE members.</p>
-        </div>
-      </div>
-      <div class="stack-item">
-        <div class="stack-numeral">06</div>
-        <div>
-          <h3>AI Group Consulting And Workshops</h3>
-          <p>Live AI workshops with Darren&rsquo;s A-Team experts. Stay months ahead of your competitors.</p>
-        </div>
-      </div>
-      <div class="stack-item">
-        <div class="stack-numeral">07</div>
-        <div>
-          <h3>Expert Office Hours</h3>
-          <p>Direct access to vetted industry experts. Bring your hardest question. Get honest counsel.</p>
-        </div>
-      </div>
-      <div class="stack-item">
-        <div class="stack-numeral">08</div>
-        <div>
-          <h3>Discussion Forums</h3>
-          <p>Member forums on needle-moving issues. Solutions from people who&rsquo;ve already solved them.</p>
-        </div>
-      </div>
-      <div class="stack-item">
-        <div class="stack-numeral">09</div>
-        <div>
-          <h3>Member Services Concierge</h3>
-          <p>A real human handling your member services and member introductions. Not a chatbot.</p>
-        </div>
-      </div>
+
     </div>
   </div>
 </section>
