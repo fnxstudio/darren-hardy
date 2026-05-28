@@ -2098,6 +2098,28 @@
     padding: 120px 0;
     border-top: 1px solid var(--rule);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Purple/magenta wash matching the Enrollment set-point — gives the
+     guarantee section the same gravitational weight as the pricing
+     decision above. Same gradient stops as #investment::before. */
+  .risk-section::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 28%, rgba(156, 39, 172, 0.32), transparent 65%),
+      radial-gradient(ellipse 80% 60% at 50% 90%, rgba(214, 42, 143, 0.16), transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .risk-section > .container { position: relative; z-index: 1; }
+  @media (max-width: 880px) {
+    .risk-section::before {
+      background:
+        radial-gradient(ellipse 100% 45% at 50% 20%, rgba(156, 39, 172, 0.42), transparent 65%),
+        radial-gradient(ellipse 100% 55% at 50% 92%, rgba(214, 42, 143, 0.22), transparent 70%);
+    }
   }
   /* The Fit Guarantee seal replaces the eyebrow + headline. Sits centered
      above the copy block, capped width so it doesn't overpower on desktop. */
