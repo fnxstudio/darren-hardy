@@ -248,11 +248,12 @@
        pricing badge, FAQ chevron, "for you" markers). */
     --bmc-cyan:     #78e4ef;
     --bmc-cyan-soft: rgba(120, 228, 239, 0.85);
-    /* Slightly darker than --bmc-cyan for use on light/bone backgrounds.
-       Stays in the same family as the bright cyan so accents read as
-       consistent across dark and light sections (vs. a fully desaturated
-       teal which felt jarring). */
-    --bmc-cyan-deep: #2bb8c7;
+    /* Emphasis color on light/bone backgrounds. Was a deep cyan (#2bb8c7)
+       but DH reads the teal-on-white as jarring, so this now resolves to
+       black — emphasis on light sections is greyscale (weight + black tone
+       vs. muted-grey body). Play buttons explicitly use --bmc-cyan (the
+       bright cyan) and are unaffected. */
+    --bmc-cyan-deep: var(--black);
     --rule-cyan:    rgba(120, 228, 239, 0.32);
     /* Purple ambient — only ever used as a low-opacity background wash
        (like HC's gold). Never used for type, icons, or borders. Cyan
@@ -1687,6 +1688,7 @@
   #testimonials.is-light .eyebrow { color: var(--grey-soft); }
   #testimonials.is-light .eyebrow .pip { background: var(--grey-soft); }
   #testimonials.is-light .section-headline { color: var(--black); }
+  #testimonials.is-light em.key { color: var(--black); }
   #testimonials.is-light .testimonial-intro { color: var(--muted); }
   #testimonials.is-light .video-thumb {
     border-color: var(--rule-dark-strong);
