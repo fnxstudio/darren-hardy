@@ -779,14 +779,19 @@
   .filter-twocol-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0;
+    gap: 24px;
     position: relative;
+    max-width: 1280px;
+    margin: 0 auto;
   }
+  /* Distinct boxes (Compare-section pattern, light-adapted): white cards on
+     the bone-soft base, subtle border + soft lift. Gives the close line below
+     something to bridge — it now connects two clearly separate concepts. */
   .filter-twocol-col {
-    padding: 0 60px;
-  }
-  .filter-twocol-col:first-child {
-    border-right: 1px solid var(--rule-dark);
+    background: #ffffff;
+    border: 1px solid rgba(10, 10, 10, 0.08);
+    padding: 56px 48px;
+    box-shadow: 0 1px 14px rgba(10, 10, 10, 0.05);
   }
   .filter-twocol-eyebrow {
     color: var(--grey-soft);
@@ -844,46 +849,38 @@
   .signal-accent { color: var(--bmc-cyan-deep); }
   .filter-payoff--final { color: #4B2C6A !important; font-weight: 800; }
 
-  /* CLOSE BAR — resolution moment. No background band (kept the section
-     on the bone-soft base to match the rest of the palette). Still gets
-     the 3px purple rule above + larger type + designed arrow so it lands
-     as the section's punchline through type weight and the accent rule,
-     not through a competing background tone. */
+  /* CLOSE — the line that bridges the two boxes. Mirrors .compare-close:
+     centered, generous space above, sits cleanly below the cards (no rule
+     band). Two visual lines: the setup, then [arrow] + the BMC payoff. */
   .filter-twocol-closebar {
-    margin-top: 0;
-    padding: 72px 24px 80px;
-    position: relative;
-  }
-  .filter-twocol-closebar-rule {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg,
-      transparent 0%,
-      #4B2C6A 18%,
-      #4B2C6A 82%,
-      transparent 100%);
+    margin-top: 56px;
+    text-align: center;
   }
   .filter-twocol-close {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    color: #555;
-    font-size: clamp(22px, 2.2vw, 34px);
-    line-height: 1.35;
+    color: var(--black);
+    font-size: clamp(20px, 2.2vw, 30px);
+    line-height: 1.4;
     text-align: center;
-    max-width: 1080px;
+    max-width: 900px;
     margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 16px 20px;
   }
-  .filter-close-line { display: inline-block; }
+  .filter-close-line { display: block; }
+  /* Arrow + BMC payoff locked together on one line, nowrap, so the arrow
+     always sits immediately left of "BMC|COLLECTIVE" and points right at it. */
+  .filter-close-result {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    white-space: nowrap;
+    margin-top: 8px;
+  }
   /* Designed arrow — stroke-draw animation triggered when .reveal fires */
   .filter-close-arrow {
-    width: clamp(48px, 5vw, 72px);
-    height: clamp(20px, 1.8vw, 26px);
+    width: clamp(40px, 4vw, 58px);
+    height: clamp(18px, 1.6vw, 24px);
     color: #4B2C6A;
     display: inline-block;
     flex-shrink: 0;
@@ -907,19 +904,16 @@
   .filter-twocol-closebar.reveal { transition-delay: 0.7s; }
 
   @media (max-width: 880px) {
-    .filter-twocol { padding: 80px 0 0; }
+    .filter-twocol { padding: 80px 0; }
     .filter-twocol-grid {
       grid-template-columns: 1fr;
-      gap: 0;
-      margin: 0;
+      gap: 16px;
+      margin: 0 auto;
     }
-    .filter-twocol-col { padding: 56px 32px; }
-    .filter-twocol-col:first-child {
-      border-right: none;
-      border-bottom: 1px solid var(--rule-dark);
-    }
-    .filter-twocol-closebar { padding: 48px 24px 56px; }
-    .filter-twocol-close { font-size: 20px; gap: 12px 16px; }
+    .filter-twocol-col { padding: 40px 28px; }
+    .filter-twocol-closebar { margin-top: 40px; }
+    .filter-twocol-close { font-size: 20px; }
+    .filter-close-result { gap: 10px; }
     .filter-close-arrow { width: 44px; height: 18px; }
   }
 
