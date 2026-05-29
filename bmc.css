@@ -769,11 +769,8 @@
      literal divider. Close bar treated as the section's resolution. */
   .filter-twocol {
     color: var(--black);
-    padding: 140px 0 0;
+    padding: 140px 0;
     border-top: 1px solid var(--rule-dark);
-    /* Section base flows into the closebar below; per-column tones are
-       applied to .filter-twocol-col individually so they extend full-bleed
-       within their column. */
     background: var(--bone-soft);
   }
   .filter-twocol-grid {
@@ -781,19 +778,12 @@
     grid-template-columns: 1fr 1px 1fr;
     gap: 0;
     position: relative;
-    margin: 0 -48px;
   }
   .filter-twocol-col {
-    padding: 80px 80px;
+    padding: 0 60px;
   }
-  /* LEFT — Noise tone: 6-7% shift toward grey */
-  .filter-twocol-col--noise {
-    background: #dcd9d2;
-  }
-  /* RIGHT — Signal tone: lift toward white for clarity */
-  .filter-twocol-col--signal {
-    background: #fafaf7;
-  }
+  /* Column tone polarity dropped per DH — both columns sit on the section
+     base. Argument is now carried by typography + brand pipe + close bar. */
   /* Brand pipe divider — vertical BMC|COLLECTIVE wordmark sitting in the
      1px center track. Rotated 90deg so the type reads top-to-bottom.
      Faded so it reads as background mark, never as label. */
@@ -880,10 +870,12 @@
   .signal-accent { color: var(--bmc-cyan-deep); }
   .filter-payoff--final { color: #4B2C6A !important; font-weight: 800; }
 
-  /* CLOSE BAR — resolution moment. Distinct band, strong cyan rule above,
-     larger type, designed arrow between the two halves. */
+  /* CLOSE BAR — resolution moment. No background band (kept the section
+     on the bone-soft base to match the rest of the palette). Still gets
+     the 3px purple rule above + larger type + designed arrow so it lands
+     as the section's punchline through type weight and the accent rule,
+     not through a competing background tone. */
   .filter-twocol-closebar {
-    background: #d2cec7;
     margin-top: 0;
     padding: 72px 24px 80px;
     position: relative;
