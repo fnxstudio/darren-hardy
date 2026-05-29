@@ -763,24 +763,66 @@
   }
 
   /* ============ LAYER 3 — TWO-COLUMN FILTER (NOISE | SIGNAL) ============
-     Light section, side-by-side. Provides the transition break the page
-     needs from all-dark — and contrasts NOISE vs SIGNAL visually. */
+     Editorial polarity: LEFT column tinted slightly darker (heavy / static /
+     what's filtered out), RIGHT column tinted slightly brighter (clarity /
+     what's left after the filter). Brand pipe runs between them as the
+     literal divider. Close bar treated as the section's resolution. */
   .filter-twocol {
-    background: var(--bone-soft);
     color: var(--black);
-    padding: 140px 0;
+    padding: 140px 0 0;
     border-top: 1px solid var(--rule-dark);
+    /* Section base flows into the closebar below; per-column tones are
+       applied to .filter-twocol-col individually so they extend full-bleed
+       within their column. */
+    background: var(--bone-soft);
   }
   .filter-twocol-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1px 1fr;
     gap: 0;
+    position: relative;
+    margin: 0 -48px;
   }
   .filter-twocol-col {
-    padding: 0 60px;
+    padding: 80px 80px;
   }
-  .filter-twocol-col:first-child {
-    border-right: 1px solid var(--rule-dark-strong);
+  /* LEFT — Noise tone: 6-7% shift toward grey */
+  .filter-twocol-col--noise {
+    background: #dcd9d2;
+  }
+  /* RIGHT — Signal tone: lift toward white for clarity */
+  .filter-twocol-col--signal {
+    background: #fafaf7;
+  }
+  /* Brand pipe divider — vertical BMC|COLLECTIVE wordmark sitting in the
+     1px center track. Rotated 90deg so the type reads top-to-bottom.
+     Faded so it reads as background mark, never as label. */
+  .filter-twocol-pipe {
+    position: relative;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(10, 10, 10, 0.10) 10%,
+      rgba(10, 10, 10, 0.10) 90%,
+      transparent 100%);
+    overflow: visible;
+  }
+  .filter-twocol-pipe-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 64px);
+    letter-spacing: 0.18em;
+    color: rgba(10, 10, 10, 0.08);
+    user-select: none;
+    pointer-events: none;
+  }
+  .filter-twocol-pipe-bar {
+    color: rgba(43, 184, 199, 0.32);
+    margin: 0 0.06em;
   }
   .filter-twocol-eyebrow {
     color: var(--grey-soft);
@@ -806,8 +848,6 @@
     margin-bottom: 36px;
     text-wrap: balance;
   }
-  /* Emphasis on light bg: em.key resolves to black against the dark-grey
-     headline (via --bmc-cyan-deep → var(--black)). */
   .filter-twocol-title em.key { color: var(--bmc-cyan-deep); }
   .filter-twocol-body p {
     font-family: 'Inter', sans-serif;
@@ -831,32 +871,95 @@
     line-height: 1.4;
     margin-top: 22px;
   }
+  /* Payoff phrases get the accent color — three resolution beats across the
+     section: "Most weren't.", "So you can build faster and bigger.", and
+     the final "BMC|COLLECTIVE is the result." */
+  .filter-payoff {
+    color: #1a8896 !important;
+  }
   .signal-accent { color: var(--bmc-cyan-deep); }
-  /* Centered closing line that spans below both columns. Base is dark
-     grey; the inner .signal-accent span lands in black so the
-     "BMC|COLLECTIVE is the result." closer carries the emphasis. */
+  .filter-payoff--final { color: #1a8896 !important; font-weight: 800; }
+
+  /* CLOSE BAR — resolution moment. Distinct band, strong cyan rule above,
+     larger type, designed arrow between the two halves. */
+  .filter-twocol-closebar {
+    background: #d2cec7;
+    margin-top: 0;
+    padding: 72px 24px 80px;
+    position: relative;
+  }
+  .filter-twocol-closebar-rule {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      #1a8896 18%,
+      #1a8896 82%,
+      transparent 100%);
+  }
   .filter-twocol-close {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     color: #555;
-    font-size: clamp(20px, 1.8vw, 28px);
-    line-height: 1.4;
+    font-size: clamp(22px, 2.2vw, 34px);
+    line-height: 1.35;
     text-align: center;
-    max-width: 880px;
-    margin: 72px auto 0;
-    padding-top: 48px;
-    border-top: 1px solid var(--rule-dark);
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px 20px;
   }
+  .filter-close-line { display: inline-block; }
+  /* Designed arrow — stroke-draw animation triggered when .reveal fires */
+  .filter-close-arrow {
+    width: clamp(48px, 5vw, 72px);
+    height: clamp(20px, 1.8vw, 26px);
+    color: #1a8896;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .filter-close-arrow .arrow-shaft,
+  .filter-close-arrow .arrow-head {
+    stroke-dasharray: 80;
+    stroke-dashoffset: 80;
+    transition: stroke-dashoffset 0.9s cubic-bezier(0.2, 0.65, 0.3, 0.95);
+  }
+  .filter-close-arrow .arrow-head { transition-delay: 0.35s; }
+  .filter-twocol-closebar.visible .filter-close-arrow .arrow-shaft,
+  .filter-twocol-closebar.visible .filter-close-arrow .arrow-head {
+    stroke-dashoffset: 0;
+  }
+
+  /* Sequential scroll reveal — LEFT first, RIGHT lagged ~400ms, closebar
+     lands last. .reveal-left + .reveal-right base classes still handle the
+     translate; we just nudge the right column's animation-delay. */
+  .filter-twocol-col--signal.reveal { transition-delay: 0.4s; }
+  .filter-twocol-closebar.reveal { transition-delay: 0.7s; }
+
   @media (max-width: 880px) {
-    .filter-twocol { padding: 80px 0; }
-    .filter-twocol-grid { grid-template-columns: 1fr; gap: 56px; }
-    .filter-twocol-col { padding: 0; }
-    .filter-twocol-col:first-child {
-      border-right: none;
-      padding-bottom: 56px;
-      border-bottom: 1px solid var(--rule-dark-strong);
+    .filter-twocol { padding: 80px 0 0; }
+    .filter-twocol-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin: 0;
     }
-    .filter-twocol-close { margin-top: 56px; padding-top: 36px; font-size: 19px; }
+    .filter-twocol-col { padding: 56px 32px; }
+    .filter-twocol-pipe {
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(10, 10, 10, 0.12) 18%,
+        rgba(10, 10, 10, 0.12) 82%,
+        transparent 100%);
+    }
+    .filter-twocol-pipe-text { display: none; }
+    .filter-twocol-closebar { padding: 48px 24px 56px; }
+    .filter-twocol-close { font-size: 20px; gap: 12px 16px; }
+    .filter-close-arrow { width: 44px; height: 18px; }
   }
 
   /* ============ LAYER 5.5 — SIDE-BY-SIDE COMPARISON ============
