@@ -1480,13 +1480,29 @@
   .filter-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+  /* Stronger visual divider — low-opacity cyan vertical accent line.
+     Reads as a quiet "two sides" demarcation before the words register. */
+  .filter-grid::before {
+    content: "";
+    position: absolute;
+    top: 16px; bottom: 16px;
+    left: 50%;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(120, 228, 239, 0.18) 12%,
+      rgba(120, 228, 239, 0.18) 88%,
+      transparent 100%
+    );
+    pointer-events: none;
   }
   .filter-col {
     padding: 72px 56px;
-    border-right: 1px solid var(--rule-strong);
   }
   .filter-col:last-child {
-    border-right: none;
     background: var(--ink-soft);
   }
   .filter-sublabel {
@@ -1495,7 +1511,7 @@
     font-size: 11px;
     letter-spacing: 0.42em;
     text-transform: uppercase;
-    color: var(--silver);
+    color: var(--white);
     display: inline-flex; align-items: center; gap: 16px;
     margin-bottom: 32px;
   }
@@ -1508,7 +1524,7 @@
     font-weight: 400;
     font-size: clamp(16px, 1.3vw, 19px);
     line-height: 1.55;
-    color: var(--silver);
+    color: var(--white);
     padding: 18px 0 18px 36px;
     border-bottom: 1px solid var(--rule);
     position: relative;
@@ -1519,32 +1535,45 @@
     left: 0; top: 18px;
     font-weight: 500;
   }
+  /* LEFT — alive, white text, cyan arrows. */
   .filter-col.col-for .marker { color: var(--bmc-cyan); }
   .filter-col.col-for .filter-sublabel { color: var(--bmc-cyan); }
   .filter-col.col-for .filter-sublabel::before { background: var(--bmc-cyan); }
-  .filter-col.col-not .filter-item { color: var(--grey); }
-  .filter-col.col-not .marker { color: var(--grey-soft); }
+  /* RIGHT — inert, "crossed off" feel. Body text dimmed to ~42% bright so
+     the reader's eye physically has to work harder. Sublabel stays bright
+     so the disqualification headline still announces itself. */
+  .filter-col.col-not .filter-item { color: rgba(255, 255, 255, 0.42); }
+  .filter-col.col-not .marker { color: rgba(255, 255, 255, 0.32); }
+  .filter-col.col-not .filter-item { border-bottom-color: rgba(255, 255, 255, 0.05); }
 
+  /* Closing line — dramatic visual moment that resolves the For / Not For
+     into a decision. Significantly larger type, real breathing room, top
+     rule for the transition. */
   .filter-close {
-    max-width: 880px;
-    margin: 60px auto 0;
-    padding: 0 56px;
+    max-width: 920px;
+    margin: 96px auto 0;
+    padding: 80px 56px 0;
     text-align: center;
+    border-top: 1px solid var(--rule);
   }
   .filter-close p {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-    font-size: clamp(17px, 1.45vw, 21px);
-    line-height: 1.6;
+    font-size: clamp(22px, 2.2vw, 32px);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
   }
-  .filter-close p:first-child { color: var(--white); }
-  .filter-close p:last-child { color: var(--grey); margin-top: 16px; }
+  .filter-close p:first-child { color: var(--white); margin-bottom: 18px; }
+  .filter-close p:last-child { color: var(--silver); margin-top: 0; }
+  .filter-close-accent { color: var(--bmc-cyan); font-weight: 600; }
 
   @media (max-width: 880px) {
     .filter-grid { grid-template-columns: 1fr; }
-    .filter-col { border-right: none; border-bottom: 1px solid var(--rule-strong); padding: 56px 32px; }
+    .filter-grid::before { display: none; }
+    .filter-col { border-bottom: 1px solid var(--rule-strong); padding: 56px 32px; }
     .filter-col:last-child { border-bottom: none; }
-    .filter-close { padding: 0 24px; }
+    .filter-close { margin-top: 64px; padding: 56px 24px 0; }
+    .filter-close p { font-size: clamp(19px, 4.5vw, 24px); }
   }
 
   /* ============ LAYER 11 — MEET DARREN ============ */
