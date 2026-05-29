@@ -242,7 +242,7 @@
   .eyebrow.on-light { color: var(--grey-soft); }
   .eyebrow.on-light .pip { background: var(--grey-soft); }
 
-  /* ============ SECTION 1 — HERO (FULL-BLEED PHOTO · COPY LEFT) ============ */
+  /* ============ SECTION 1 — HERO (WOOD BACKDROP · COPY LEFT · DH HARD-RIGHT) ============ */
   .hero-flag {
     position: relative;
     background: #0a0a0a;
@@ -252,46 +252,62 @@
     overflow: hidden;
   }
 
-  /* DH photo spans the FULL hero so the wood wall continues under the copy.
-     DH himself sits right-of-center; full opacity (no wash over him). */
-  .hf-portrait {
+  /* Wood-panel backdrop — full bleed, continues under the copy */
+  .hf-bg {
     position: absolute; inset: 0;
     z-index: 0;
-    overflow: hidden;
     pointer-events: none;
   }
-  .hf-portrait picture { display: contents; }
-  .hf-portrait img {
+  .hf-bg picture { display: contents; }
+  .hf-bg img {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: 76% center;
+    object-position: center center;
     display: block;
     opacity: 0;
-    animation: hfPortraitIn 1.6s ease 0.4s forwards;
+    animation: hfBgIn 1.6s ease 0.15s forwards;
   }
-  @keyframes hfPortraitIn { to { opacity: 1; } }
+  @keyframes hfBgIn { to { opacity: 1; } }
 
-  /* Soft left-to-right scrim: dark enough on the left for legible copy,
-     but eases off so the wood panel reads faintly behind the text and
-     fully clear over DH on the right. */
+  /* DH cutout — anchored hard-right, full opacity, no wash over him */
+  .hf-dh {
+    position: absolute;
+    bottom: 0; right: 0;
+    height: 96%;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hf-dh picture { display: contents; }
+  .hf-dh img {
+    height: 100%; width: auto;
+    display: block;
+    opacity: 0;
+    animation: hfDhIn 1.6s ease 0.4s forwards;
+  }
+  @keyframes hfDhIn { to { opacity: 1; } }
+
+  /* Soft left-to-right scrim: dark on the left for legible copy, easing off
+     so the wood reads faintly behind the text and is clear under DH. */
   .hero-flag::after {
     content: "";
     position: absolute; inset: 0;
     background: linear-gradient(90deg,
-      rgba(10,10,10,0.86) 0%,
-      rgba(10,10,10,0.72) 26%,
-      rgba(10,10,10,0.45) 44%,
-      rgba(10,10,10,0.12) 60%,
-      transparent 74%);
-    z-index: 1;
+      rgba(10,10,10,0.88) 0%,
+      rgba(10,10,10,0.74) 28%,
+      rgba(10,10,10,0.45) 46%,
+      rgba(10,10,10,0.12) 62%,
+      transparent 76%);
+    z-index: 2;
     pointer-events: none;
   }
 
   /* LEFT — copy, hard-left aligned to the site container edge */
   .hf-copy {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     width: 100%;
     display: flex;
     align-items: center;
@@ -303,20 +319,18 @@
   .hf-copy .hf-inner { width: 100%; max-width: 600px; }
   .hf-stack { display: flex; flex-direction: column; gap: 0; }
 
-  /* Mobile: photo sits behind, scrim turns vertical so copy stays readable */
+  /* Mobile: DH shrinks + hugs the right; scrim turns vertical for legibility */
   @media (max-width: 960px) {
     .hero-flag { min-height: auto; }
-    .hf-portrait img { object-position: 70% center; }
+    .hf-dh { height: 72%; opacity: 0.85; }
     .hero-flag::after {
       background: linear-gradient(180deg,
         rgba(10,10,10,0.82) 0%,
-        rgba(10,10,10,0.6) 38%,
-        rgba(10,10,10,0.55) 70%,
-        rgba(10,10,10,0.85) 100%);
+        rgba(10,10,10,0.58) 36%,
+        rgba(10,10,10,0.55) 64%,
+        rgba(10,10,10,0.9) 100%);
     }
-    .hf-copy {
-      padding: 200px 0 120px;
-    }
+    .hf-copy { padding: 180px 0 220px; }
     .hf-copy .hf-inner { margin: 0 auto; padding: 0 24px; max-width: 100%; }
   }
 
@@ -1134,7 +1148,7 @@
   @media (prefers-reduced-motion: reduce) {
     .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
     .hf-eyebrow, .hf-headline, .hf-body, .hf-close-1, .hf-close-2, .scroll-cue,
-    .hf-bkgd, .hf-portrait {
+    .hf-bg, .hf-dh, .hf-bg img, .hf-dh img {
       opacity: 1 !important; transform: none !important; animation: none !important;
     }
   }
@@ -1328,11 +1342,18 @@
       </div>
     </div>
   </div>
-  <!-- RIGHT: DH image (flattened backdrop + DH, full opacity) -->
-  <div class="hf-portrait" aria-hidden="true">
+  <!-- Wood-panel backdrop (full bleed, under everything) -->
+  <div class="hf-bg" aria-hidden="true">
     <picture>
-      <source type="image/webp" srcset="DH_about_full.webp">
-      <img src="DH_about_full.png" alt="Darren Hardy" />
+      <source type="image/webp" srcset="DH_about_bg.webp">
+      <img src="DH_about_bg.png" alt="" />
+    </picture>
+  </div>
+  <!-- DH cutout, anchored hard-right, full opacity -->
+  <div class="hf-dh" aria-hidden="true">
+    <picture>
+      <source type="image/webp" srcset="DH_about_dh.webp">
+      <img src="DH_about_dh.png" alt="Darren Hardy" />
     </picture>
   </div>
   <div class="scroll-cue" aria-hidden="true">
