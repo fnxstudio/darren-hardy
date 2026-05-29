@@ -1804,28 +1804,47 @@
     color: var(--grey-soft);
     margin-top: 40px;
   }
-  /* Bridge into the Activation Stack — eyebrow + headline pulled up so the
-     two sections feel like a single "Enroll. Get this." moment. */
-  .invest-bridge-eyebrow { margin-top: 96px; margin-bottom: 24px; }
-  .invest-bridge-headline {
-    font-size: clamp(40px, 5.2vw, 80px);
-    margin-bottom: 0;
-    letter-spacing: -0.03em;
+  /* SUB-SECTION inside Enrollment — title + 9 activation items live HERE,
+     not in their own layer. Subordinate to "Reserve Your Seat." above:
+     smaller headline, thinner weight, narrower stack, top divider so the
+     reader perceives it as a payoff list under the pricing decision. */
+  .invest-sub {
+    margin-top: 96px;
+    padding-top: 80px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .invest-sub-eyebrow { margin-bottom: 20px; }
+  .invest-sub-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 64px;
+    text-wrap: balance;
+  }
+  .invest-sub-headline em.key { color: var(--bmc-cyan); font-style: normal; }
+  .invest-sub-stack {
+    text-align: left;
+    max-width: 1080px;
+    margin: 0 auto;
+    border-top: 1px solid var(--rule);
   }
   @media (max-width: 720px) {
     #investment { padding: 120px 0; }
     .price-grid { grid-template-columns: 1fr; max-width: 480px; }
-    .invest-bridge-eyebrow { margin-top: 72px; }
+    .invest-sub { margin-top: 72px; padding-top: 56px; }
+    .invest-sub-headline { margin-bottom: 40px; }
   }
 
-  /* ============ LAYER 13 — ACTIVATION STACK ============ */
+  /* ============ LAYER 13 — ACTIVATION STACK ============
+     The stack-section block no longer ships on the page (its content was
+     pulled up into #investment .invest-sub). Item-level styles below are
+     retained because .invest-sub-stack reuses .stack-list / .stack-item. */
   .stack-section { background: var(--ink); padding: 160px 0; border-top: 1px solid var(--rule); }
-  /* Bridged variant — title was pulled up into Enrollment, so this section
-     starts with the list and runs tighter against the dark section above. */
-  .stack-section--bridged { padding-top: 72px; border-top: 0; }
-  @media (max-width: 720px) {
-    .stack-section--bridged { padding-top: 56px; }
-  }
   .stack-headline {
     font-size: clamp(40px, 5.2vw, 80px);
     margin-bottom: 80px;
