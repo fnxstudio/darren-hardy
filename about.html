@@ -869,32 +869,31 @@
     border-top: 1px solid var(--rule-dark);
   }
   .nfe .container { max-width: 1100px; }
-  .nfe .eyebrow { margin-bottom: 56px; }
-  .nfe-blocks {
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
-  }
-  .nfe-block {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .nfe-tag {
+  .nfe .eyebrow { margin-bottom: 24px; }
+  .nfe-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: 18px;
-    letter-spacing: 0.18em;
+    font-size: clamp(40px, 5.4vw, 84px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
     color: var(--black);
     text-transform: uppercase;
+    margin-bottom: 56px;
+    max-width: 980px;
   }
+  .nfe-title:has(em) { color: var(--muted); }
+  .nfe-title em { font-style: normal; color: var(--black); }
   .nfe-body {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: clamp(18px, 1.5vw, 22px);
     line-height: 1.65;
     color: var(--muted);
+    max-width: 880px;
+    margin-bottom: 22px;
   }
+  .nfe-body:last-child { margin-bottom: 0; }
+  .nfe-body strong { color: var(--black); font-weight: 600; }
 
   /* ============ SECTION 10 — CTA CLOSE ============ */
   .closing {
@@ -1321,29 +1320,11 @@
 <!-- SECTION 9 — WE ARE NOT FOR EVERYONE (LIGHT) -->
 <section class="nfe">
   <div class="container">
-    <div class="reveal"><div class="eyebrow on-light"><span class="pip"></span>We Are Not For Everyone</div></div>
-    <div class="nfe-blocks">
-      <div class="nfe-block reveal">
-        <div class="nfe-tag">We Are Not&hellip;</div>
-        <p class="nfe-body">For the content. The satisfied. The settled. For those who have resolved themselves to the current state of affairs. For those who go with the flow, bend with the wind, travel in the direction of the current.</p>
-      </div>
-      <div class="nfe-block reveal">
-        <div class="nfe-tag">Here&hellip;</div>
-        <p class="nfe-body">Elite leaders and extreme high achievers meet to take back control, own up to their responsibility, and decide to invent their fate. We don&rsquo;t believe in luck. We make our own.</p>
-      </div>
-      <div class="nfe-block reveal">
-        <div class="nfe-tag">Here&hellip;</div>
-        <p class="nfe-body">Is where you will find the infamous &ldquo;crazy ones&rdquo; you&rsquo;ve heard about. You remember. The ones others call misfits. Rebels. Troublemakers. The ones who see things, and most importantly, do things, differently.</p>
-      </div>
-      <div class="nfe-block reveal">
-        <div class="nfe-tag">We Are&hellip;</div>
-        <p class="nfe-body">The crazy, hardworking believers others call &ldquo;insane.&rdquo; We seek to break the rules of conformity and shake the status quo by the shoulders. We are the people who change things. The ones who push the human race forward.</p>
-      </div>
-      <div class="nfe-block reveal">
-        <div class="nfe-tag">We Are Not&hellip;</div>
-        <p class="nfe-body">For 99% of the world&rsquo;s population. For the timid or faint of heart. Because being a leader, a builder, an extreme achiever is hard work.</p>
-      </div>
-    </div>
+    <div class="reveal"><div class="eyebrow on-light"><span class="pip"></span>Who Belongs Here</div></div>
+    <h2 class="nfe-title reveal">We Are Not <em>For Everyone</em>.</h2>
+    <p class="nfe-body reveal">We&rsquo;re not for the content, the satisfied, or the settled. Not for those who go with the flow, bend with the wind, or travel in the direction of the current.</p>
+    <p class="nfe-body reveal">We&rsquo;re for elite leaders and extreme high achievers who take back control, own their responsibility, and invent their fate. We don&rsquo;t believe in luck. We make our own.</p>
+    <p class="nfe-body reveal">Being a leader, a builder, an extreme achiever is hard work. That&rsquo;s the entire point. If that&rsquo;s not you, this is not the place you&rsquo;ve been looking for.</p>
   </div>
 </section>
 
@@ -1468,7 +1449,7 @@ team.forEach(m => {
   stagger('.access-body .reveal',   0.08);
   stagger('.bte-body .reveal',      0.07);
   stagger('.mani-cols .reveal',     0.12);
-  stagger('.nfe-blocks .reveal',    0.10);
+  stagger('.nfe .nfe-body.reveal',  0.10);
   stagger('.ateam-grid .reveal',    0.05);
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
