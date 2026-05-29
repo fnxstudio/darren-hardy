@@ -403,70 +403,183 @@
     letter-spacing: -0.012em;
   }
 
-  /* ============ SECTION 3 — THE ACCESS STORY ============ */
+  /* ============ SECTION 3 — THE RECEIPT (SPLIT: SUCCESS WALL + COPY) ============ */
   .access {
     background: var(--black);
-    padding: 160px 0;
     border-top: 1px solid var(--rule);
+    overflow: hidden;
   }
-  .access .eyebrow { margin-bottom: 32px; }
+  .access-split {
+    display: flex;
+    min-height: 100vh;
+  }
+  @media (max-width: 960px) {
+    .access-split { flex-direction: column; }
+  }
+
+  /* LEFT — SUCCESS magazine cover wall */
+  .access-wall {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+  }
+  @media (max-width: 960px) {
+    .access-wall { flex: none; min-height: 60vh; }
+  }
+
+  #covers-grid-access {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: 144px;
+    grid-auto-flow: dense;
+    gap: 2px;
+    will-change: transform;
+  }
+  .c-tile {
+    position: relative;
+    overflow: hidden;
+    background: #0d0d0d;
+    opacity: 0;
+    transform: scale(0.93) translateY(14px);
+    will-change: opacity, transform;
+    cursor: pointer;
+  }
+  .c-tile.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition:
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .c-wide  { grid-column: span 2; }
+  .c-tall  { grid-row:    span 2; }
+  .c-large { grid-column: span 2; grid-row: span 2; }
+  .c-tile img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    filter: grayscale(100%);
+    transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .c-tile:hover img, .c-tile.tapped img {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+  }
+  .c-cap {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 28px 10px 9px;
+    background: linear-gradient(to top, rgba(0,0,0,0.78), transparent);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.32s ease, transform 0.32s ease;
+    pointer-events: none;
+  }
+  .c-tile:hover .c-cap, .c-tile.tapped .c-cap { opacity: 1; transform: translateY(0); }
+
+  /* Bottom and side vignettes — anchor the wall into the page and blend into the copy column */
+  .access-wall::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(10,10,10,0.65) 55%, #0a0a0a 100%);
+    pointer-events: none;
+    z-index: 5;
+  }
+  .access-wall::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; right: 0;
+    width: 140px;
+    background: linear-gradient(to right, transparent 0%, rgba(10,10,10,0.55) 60%, #0a0a0a 100%);
+    pointer-events: none;
+    z-index: 5;
+  }
+  @media (max-width: 960px) { .access-wall::before { display: none; } }
+
+  /* RIGHT — copy column on dark */
+  .access-text {
+    width: 46%;
+    min-width: 320px;
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 64px;
+  }
+  @media (max-width: 960px) {
+    .access-text { width: 100%; padding: 96px 32px; }
+  }
+  @media (max-width: 720px) {
+    .access-text { padding: 80px 24px; }
+  }
+
+  .access-text .eyebrow { margin-bottom: 28px; }
   .access-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(40px, 5.2vw, 80px);
+    font-size: clamp(36px, 3.4vw, 56px);
     line-height: 1.0;
     letter-spacing: -0.03em;
     color: var(--white);
     text-transform: uppercase;
-    margin-bottom: 56px;
-    max-width: 1200px;
+    margin-bottom: 40px;
   }
+  .access-title:has(em) { color: var(--silver); }
+  .access-title em { font-style: normal; color: var(--white); }
+
   .access-body {
-    max-width: 980px;
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 18px;
+    max-width: 620px;
   }
   .access-body p {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: clamp(17px, 1.45vw, 21px);
+    font-size: clamp(15px, 1.05vw, 17px);
     line-height: 1.65;
     color: var(--silver);
   }
   .access-body p.lead {
     font-weight: 500;
     color: var(--white);
-    font-size: clamp(19px, 1.65vw, 23px);
-    margin-bottom: 8px;
+    font-size: clamp(16px, 1.15vw, 19px);
+    margin-bottom: 6px;
   }
   .access-body p strong { color: var(--white); font-weight: 700; }
-  .access-body p.beat {
-    font-weight: 500;
-    color: var(--white);
-    font-size: clamp(19px, 1.6vw, 24px);
-    margin: 8px 0;
-  }
   .access-pull {
-    margin: 40px 0;
-    padding: 18px 0 18px 36px;
+    margin: 20px 0;
+    padding: 14px 0 14px 24px;
     border-left: 2px solid var(--silver);
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: clamp(28px, 3vw, 44px);
-    line-height: 1.15;
+    font-size: clamp(20px, 1.7vw, 26px);
+    line-height: 1.2;
     color: var(--white);
-    letter-spacing: -0.015em;
-    max-width: 880px;
+    letter-spacing: -0.012em;
   }
   .access-close {
-    margin-top: 24px;
+    margin-top: 20px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: clamp(22px, 2.2vw, 32px);
+    font-size: clamp(18px, 1.4vw, 22px);
     line-height: 1.3;
     color: var(--white);
-    max-width: 880px;
   }
 
   /* ============ SECTION 4 — BE THE EXCEPTION (LIGHT) ============ */
@@ -717,82 +830,101 @@
   }
 
   /* ============ HEADLINE EMPHASIS (greyscale color-shift, hardyclub pattern) ============
-     Headlines that contain <em> get dimmed to a soft off-white, so the em itself reads
-     as pure white and pops by contrast. No italics — overridden to font-style: normal
-     so the em is purely a color treatment.
+     On a LIGHT manifesto background: the dimmed half is muted grey, the em pops black.
   */
-  .manifesto-title:has(em) { color: var(--silver); }
-  .manifesto-title em { font-style: normal; color: var(--white); }
+  .manifesto-title:has(em) { color: var(--muted); }
+  .manifesto-title em { font-style: normal; color: var(--black); }
 
-  /* ============ SECTION 7 — MANIFESTO (mirrors /careers.html) ============ */
+  /* ============ SECTION 7 — MANIFESTO ============ */
   .manifesto {
-    background: var(--ink);
+    background: #ebe9e3;
+    color: var(--black);
     padding: 160px 0;
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid var(--rule-dark);
   }
+  .manifesto .container { max-width: 1380px; }
   .manifesto-head {
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: 64px;
     max-width: 1100px;
     margin-left: auto;
     margin-right: auto;
   }
-  .manifesto-head .eyebrow { margin-bottom: 24px; justify-content: center; }
+  .manifesto-head .eyebrow {
+    margin-bottom: 24px;
+    justify-content: center;
+    color: var(--grey-soft);
+  }
+  .manifesto-head .eyebrow .pip { background: var(--grey-soft); }
   .manifesto-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: clamp(36px, 4.8vw, 72px);
     line-height: 1.0;
     letter-spacing: -0.03em;
-    color: var(--white);
+    color: var(--black);
     text-transform: uppercase;
   }
 
-  /* Two-tone columns: Left "Required" gets bone tone (yes path);
-     Right "Refused" stays dark (no path). Color contrast is the divider. */
+  /* Two boxes that read as separate cards on the grey section.
+     Required = bone/white (yes path). Refused = ink/dark (no path). */
   .mani-cols {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 24px;
   }
-  @media (max-width: 880px) { .mani-cols { grid-template-columns: 1fr; } }
+  @media (max-width: 880px) { .mani-cols { grid-template-columns: 1fr; gap: 18px; } }
 
-  .mani-col { padding: 56px 48px; }
+  .mani-col {
+    padding: 56px 48px;
+    border: 1px solid rgba(10,10,10,0.08);
+    box-shadow: 0 2px 24px rgba(10,10,10,0.04);
+  }
   @media (max-width: 880px) { .mani-col { padding: 44px 28px; } }
 
+  /* Left — Required, bone/white */
   .mani-col:first-child {
-    background: var(--bone);
+    background: #fafaf7;
     color: var(--black);
   }
+  /* Right — Refused, ink/dark */
+  .mani-col:last-child {
+    background: var(--ink);
+    color: var(--white);
+    border-color: rgba(0,0,0,0.4);
+  }
 
-  /* Labels promoted to chapter-heading scale */
+  /* Labels — chapter-heading scale */
   .mani-label {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: clamp(22px, 2vw, 30px);
     letter-spacing: 0.02em;
-    color: var(--white);
     text-transform: uppercase;
     margin-bottom: 44px;
     padding-bottom: 26px;
-    border-bottom: 1px solid var(--rule);
     line-height: 1;
   }
   .mani-col:first-child .mani-label {
     color: var(--black);
-    border-bottom-color: rgba(10, 10, 10, 0.22);
+    border-bottom: 1px solid rgba(10, 10, 10, 0.22);
+  }
+  .mani-col:last-child .mani-label {
+    color: var(--white);
+    border-bottom: 1px solid var(--rule);
   }
 
   .mani-list { list-style: none; display: flex; flex-direction: column; }
   .mani-item {
     padding: 22px 0;
-    border-bottom: 1px solid var(--rule);
     transition: background 0.25s ease, padding 0.25s ease;
     border-radius: 2px;
   }
+  .mani-col:first-child .mani-item { border-bottom: 1px solid rgba(10, 10, 10, 0.12); }
+  .mani-col:last-child  .mani-item { border-bottom: 1px solid var(--rule); }
   .mani-item:last-child { border-bottom: none; }
-  .mani-item:hover { background: rgba(255,255,255,0.025); padding-left: 12px; padding-right: 12px; }
-  .mani-col:first-child .mani-item { border-bottom-color: rgba(10, 10, 10, 0.12); }
-  .mani-col:first-child .mani-item:hover { background: rgba(10, 10, 10, 0.04); }
+  .mani-col:first-child .mani-item:hover { background: rgba(10, 10, 10, 0.04); padding-left: 12px; padding-right: 12px; }
+  .mani-col:last-child  .mani-item:hover { background: rgba(255, 255, 255, 0.025); padding-left: 12px; padding-right: 12px; }
 
   .mani-word {
     display: block;
@@ -800,36 +932,20 @@
     font-weight: 700;
     font-size: 15px;
     letter-spacing: 0.08em;
-    color: var(--white);
     text-transform: uppercase;
     margin-bottom: 10px;
   }
   .mani-col:first-child .mani-word { color: var(--black); }
+  .mani-col:last-child  .mani-word { color: var(--white); }
 
   .mani-def {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 1.55;
-    color: var(--silver);
   }
   .mani-col:first-child .mani-def { color: rgba(10, 10, 10, 0.72); }
-
-  .mani-foot {
-    margin-top: 64px;
-    padding-top: 48px;
-    border-top: 1px solid var(--rule);
-    text-align: center;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-style: italic;
-    font-size: clamp(17px, 1.5vw, 22px);
-    line-height: 1.45;
-    color: var(--white);
-    max-width: 980px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  .mani-col:last-child  .mani-def { color: var(--silver); }
 
   /* ============ SECTION 8 — WE ARE NOT FOR EVERYONE (LIGHT) ============ */
   .nfe {
@@ -1162,27 +1278,30 @@
   </div>
 </section>
 
-<!-- SECTION 3 — THE ACCESS STORY -->
+<!-- SECTION 3 — THE RECEIPT (SUCCESS WALL + COPY) -->
 <section class="access">
-  <div class="container">
-    <div class="reveal"><div class="eyebrow"><span class="pip"></span>The Receipt</div></div>
-    <h2 class="access-title reveal">35 Years At The<br>Centerpiece Of Success.</h2>
-    <div class="access-body">
-      <p class="lead reveal">For 35 years, I&rsquo;ve sat at the centerpiece of the success media industry. Founding publisher of SUCCESS magazine. Executive producer of three success-focused television networks.</p>
-      <p class="reveal">This gained me access to something no consultant, coach, or professor has ever had.</p>
-      <p class="reveal">Nearly every iconic founder, self-made billionaire, and business leader who has built something extraordinary from nothing took my call.</p>
-      <p class="beat reveal">Why?</p>
-      <p class="reveal">Because we ran the only major media platform focused entirely on a positive profile of their success.</p>
-      <p class="reveal">They wanted that positive exposure, and it was significant for their brand, their boards, and their shareholders.</p>
+  <div class="access-split">
+    <!-- LEFT — SUCCESS magazine cover wall -->
+    <div class="access-wall">
+      <div id="covers-grid-access"></div>
     </div>
-    <p class="access-pull reveal">In exchange, they opened their vault doors.</p>
-    <div class="access-body">
-      <p class="reveal">Not their PR version. Their real, closely guarded insights: their actual strategies, systems, and decisions. The ones they would never share on a stage or under the bright lights of a camera.</p>
-      <p class="reveal">I have spent 35 years collecting those playbooks.</p>
-      <p class="reveal">I then tested every one of them across more than <strong>11,000 businesses</strong> in every industry and market condition imaginable. This allows me to identify patterns long before they are obvious to most.</p>
-      <p class="reveal">The principles the industry titans use to dominate their markets are the same principles I&rsquo;ve installed at your scale. Engineered for the realities you operate under. Proven across thousands of businesses that look a lot more like yours than theirs.</p>
+    <!-- RIGHT — copy column -->
+    <div class="access-text">
+      <div class="reveal"><div class="eyebrow"><span class="pip"></span>The Receipt</div></div>
+      <h2 class="access-title reveal">35 Years At The<br><em>Center Of Success</em>.</h2>
+      <div class="access-body">
+        <p class="lead reveal">For 35 years, I&rsquo;ve sat at the center of the success media industry. Founding publisher of SUCCESS magazine. Executive producer of three success-focused television networks.</p>
+        <p class="reveal">This gained me access to something no consultant, coach, or professor has ever had.</p>
+        <p class="reveal">Nearly every iconic founder, self-made billionaire, and business leader who has built something extraordinary from nothing took my call.</p>
+        <p class="reveal">Why? Because I ran the only major media platform focused entirely on a positive profile of their success. They wanted that positive exposure, and it was significant for their brand, their boards, and their shareholders.</p>
+        <p class="access-pull reveal">In exchange, they opened their vault doors.</p>
+        <p class="reveal">Not their PR version. Their real insights: actual strategies, systems, and decisions. The ones they&rsquo;d never share on a stage or under the bright lights of a camera.</p>
+        <p class="reveal">I have spent 35 years collecting those playbooks.</p>
+        <p class="reveal">I then tested everyone across more than <strong>11,000 businesses</strong> in every industry and market condition. This allows me to identify patterns long before they&rsquo;re obvious to anyone else.</p>
+        <p class="reveal">The principles the industry titans use to dominate their markets are the same principles I&rsquo;ve installed at your scale. Engineered for the realities you operate under. Proven across thousands of businesses that look a lot more like yours than theirs.</p>
+        <p class="access-close reveal">That is the unfair advantage no one else can give you.</p>
+      </div>
     </div>
-    <p class="access-close reveal">That bridge is what no one else can give you.</p>
   </div>
 </section>
 
@@ -1242,7 +1361,7 @@
   <div class="container">
     <div class="manifesto-head">
       <div class="reveal"><div class="eyebrow"><span class="pip"></span>The Standards</div></div>
-      <h2 class="manifesto-title reveal">What We Believe.<br>What <em>We Don&rsquo;t</em>.</h2>
+      <h2 class="manifesto-title reveal"><em>What We Believe</em>.<br>What We Don&rsquo;t.</h2>
     </div>
     <div class="mani-cols">
       <div class="mani-col reveal">
@@ -1430,6 +1549,135 @@ team.forEach(m => {
   }, { threshold: 0.18, rootMargin: '0px 0px -60px 0px' });
 
   document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
+})();
+
+// ── SUCCESS magazine covers wall (mirrors home.html intro wall, no DH cutout) ──
+(function () {
+  const wall = document.querySelector('.access-wall');
+  const coversGrid = document.getElementById('covers-grid-access');
+  if (!wall || !coversGrid) return;
+
+  const covers = [
+    'JackWelch.jpg','SM_13_05_FORD.jpg','SM_12_01_DOWNEY.jpg',
+    'SM_09_07_BRANSON.jpg','SM_10_06_JOBS.jpg',
+    'SM_09_08_FOX.jpg',
+    'SM_08_01_Kiyosaki.jpg','SM_08_02_50.jpg','SM_08_04_OZ.jpg',
+    'SM_08_05_HAWK.jpg','SM_08_06_Deutsch.jpg','SM_10_12_SHRIVER.jpg',
+    'SM_09_02_Powell.jpg','SM_09_03_FOREMAN.jpg','SM_09_04_Maxwell.jpg',
+    'SM_09_05_ORMAN.jpg','SM_09_06_LANCE.jpg','SM_09_01_Robbins.jpg',
+    'SM_09_09_FOSTER_Barcode.jpg','SM_09_10_SERENA_barcode.jpg',
+    'SM_09_11_OSTEEN_barcode.jpg','SM_09_12_DrPHIL.jpg',
+    'SM_12_07_TECHNOLOGY.jpg','SM_10_01_KEYES.jpg','SM_10_02_RAMSEY.jpg',
+    'SM_10_03_HOPKINS.jpg','SM_10_04_COLLINS.jpg','SM_10_05_MICHAELS.jpg',
+    'SM_10_07_COLE.jpg','SM_10_08_JOHNSON.jpg',
+    'SM_10_09_DELL.jpg','SM_10_10_USHER.jpg','SM_10_11_MANNINGS.jpg',
+    'SM_11_01_HOWARD.jpg','SM_11_02_CHAN.jpg','SM_11_03_SCHWAB.jpg',
+    'SM_11_04_SCHULTZ.jpg','SM_12_08_BRANSON.jpg','SM_11_05_ZUCKERBERG.jpg',
+    'SM_11_06_MARTIN.jpg','SM_11_07_DICAPRIO.jpg','SM_11_08_BEZOS.jpg',
+    'SM_11_09_CONNICK.jpg','SM_11_10_OZ.jpg','SM_11_11_CUBAN.jpg',
+    'SM_11_12_SANTA.jpg','SM_12_02_KARDASHIAN.jpg','SM_12_03_BLOOMBERG.jpg',
+    'SM_12_04_LOWE.jpg','SM_12_05_ORMAN.jpg','SM_12_06_JOHANNSON.jpg',
+    'SM_12_09_BURNETT.jpg','SM_12_10_MAXWELL.jpg','SM_12_11_WASHINGTON.jpg',
+    'SM_12_12_COURIC.jpg','SM_13_01_STEWART.jpg','SM_13_02_MUSK.jpg',
+    'SM_13_03_CORCORAN.jpg','SM_13_04_DIAMANDIS.jpg','SM_08_03_Trump.jpg',
+    'SM_14_11_COOK.jpg','Santa1977.jpg','Tony_Hseih.jpg'
+  ];
+
+  function cleanName(f) {
+    let n = f.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '');
+    n = n.replace(/^SM_\d+_\d+_/i, '');
+    n = n.replace(/([a-z])([A-Z])/g, '$1 $2');
+    n = n.replace(/[_-]/g, ' ');
+    n = n.replace(/\bbarcode\b/gi, '').replace(/\s+/g, ' ').trim();
+    n = n.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    return n;
+  }
+
+  const featuredTypes = ['large', 'tall', 'large', 'tall', 'standard'];
+  function buildSpreadPool(n) {
+    const special = [...Array(4).fill('wide'), ...Array(16).fill('tall')];
+    let s = 0xc0ffee42;
+    for (let i = special.length - 1; i > 0; i--) {
+      s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+      s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+      s ^= s >>> 16;
+      const j = (Math.abs(s) >>> 0) % (i + 1);
+      [special[i], special[j]] = [special[j], special[i]];
+    }
+    const pool = Array(n).fill('standard');
+    const step = (n - 1) / (special.length - 1);
+    special.forEach((type, i) => { pool[Math.round(i * step)] = type; });
+    return pool;
+  }
+  const bodyTypes = buildSpreadPool(covers.length - 5);
+
+  covers.forEach((cover, i) => {
+    const tile = document.createElement('div');
+    tile.className = 'c-tile';
+    const t = i < 5 ? featuredTypes[i] : bodyTypes[i - 5];
+    if (t === 'wide')  tile.classList.add('c-wide');
+    if (t === 'tall')  tile.classList.add('c-tall');
+    if (t === 'large') tile.classList.add('c-large');
+
+    const img    = document.createElement('img');
+    img.src      = `covers/${cover}`;
+    img.alt      = cleanName(cover);
+    img.loading  = i < 12 ? 'eager' : 'lazy';
+    img.decoding = 'async';
+
+    const cap       = document.createElement('div');
+    cap.className   = 'c-cap';
+    cap.textContent = cleanName(cover);
+
+    tile.appendChild(img);
+    tile.appendChild(cap);
+    coversGrid.appendChild(tile);
+  });
+
+  // Staggered entrance when section enters viewport
+  const wallObs = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      const tiles = coversGrid.querySelectorAll('.c-tile');
+      tiles.forEach((tile, i) => {
+        tile.style.transitionDelay = `${i * 55}ms`;
+      });
+      requestAnimationFrame(() => {
+        tiles.forEach(tile => tile.classList.add('visible'));
+      });
+      wallObs.disconnect();
+    }
+  }, { threshold: 0.1 });
+  wallObs.observe(wall);
+
+  // Touch tap-to-color
+  coversGrid.querySelectorAll('.c-tile').forEach(tile => {
+    let ty, tx;
+    tile.addEventListener('touchstart', e => {
+      ty = e.touches[0].clientY;
+      tx = e.touches[0].clientX;
+    }, { passive: true });
+    tile.addEventListener('touchend', e => {
+      if (Math.abs(e.changedTouches[0].clientY - ty) > 8 ||
+          Math.abs(e.changedTouches[0].clientX - tx) > 8) return;
+      const active = tile.classList.contains('tapped');
+      coversGrid.querySelectorAll('.c-tile.tapped').forEach(t => t.classList.remove('tapped'));
+      if (!active) tile.classList.add('tapped');
+    });
+  });
+
+  // Parallax — rAF throttled
+  let rafPending = false;
+  window.addEventListener('scroll', () => {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      const rect = wall.getBoundingClientRect();
+      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      const offset = Math.max(0, progress * 500);
+      coversGrid.style.transform = `translateY(-${offset}px)`;
+      rafPending = false;
+    });
+  }, { passive: true });
 })();
 </script>
 </body>
