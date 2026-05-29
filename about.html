@@ -566,6 +566,21 @@
   }
   @media (max-width: 960px) { .access-wall::before { display: none; } }
 
+  /* DH cutout fixed over the covers wall */
+  .access-dh {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    height: 92%;
+    z-index: 6;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+  }
+  .access-dh picture { display: contents; }
+  .access-dh img { height: 100%; width: auto; display: block; }
+  @media (max-width: 960px) { .access-dh { height: 80%; } }
+
   /* RIGHT — copy column on dark */
   .access-text {
     width: 46%;
@@ -1351,6 +1366,12 @@
     <!-- LEFT — SUCCESS magazine cover wall -->
     <div class="access-wall">
       <div id="covers-grid-access"></div>
+      <div class="access-dh" aria-hidden="true">
+        <picture>
+          <source type="image/webp" srcset="DH_about_wall.webp">
+          <img src="DH_about_wall.png" alt="Darren Hardy" loading="lazy">
+        </picture>
+      </div>
     </div>
     <!-- RIGHT — copy column -->
     <div class="access-text">
