@@ -242,21 +242,57 @@
   .eyebrow.on-light { color: var(--grey-soft); }
   .eyebrow.on-light .pip { background: var(--grey-soft); }
 
-  /* ============ SECTION 1 — HERO (TWO COLUMNS: COPY LEFT · DH RIGHT) ============ */
+  /* ============ SECTION 1 — HERO (FULL-BLEED PHOTO · COPY LEFT) ============ */
   .hero-flag {
     position: relative;
     background: #0a0a0a;
     min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: stretch;
+    display: flex;
+    align-items: center;
     overflow: hidden;
   }
 
-  /* LEFT — copy column, hard-left aligned to the site container edge */
+  /* DH photo spans the FULL hero so the wood wall continues under the copy.
+     DH himself sits right-of-center; full opacity (no wash over him). */
+  .hf-portrait {
+    position: absolute; inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hf-portrait picture { display: contents; }
+  .hf-portrait img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 76% center;
+    display: block;
+    opacity: 0;
+    animation: hfPortraitIn 1.6s ease 0.4s forwards;
+  }
+  @keyframes hfPortraitIn { to { opacity: 1; } }
+
+  /* Soft left-to-right scrim: dark enough on the left for legible copy,
+     but eases off so the wood panel reads faintly behind the text and
+     fully clear over DH on the right. */
+  .hero-flag::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg,
+      rgba(10,10,10,0.86) 0%,
+      rgba(10,10,10,0.72) 26%,
+      rgba(10,10,10,0.45) 44%,
+      rgba(10,10,10,0.12) 60%,
+      transparent 74%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* LEFT — copy, hard-left aligned to the site container edge */
   .hf-copy {
     position: relative;
     z-index: 2;
+    width: 100%;
     display: flex;
     align-items: center;
     padding-top: 168px;
@@ -264,45 +300,24 @@
     padding-right: 56px;
     padding-left: max(48px, calc((100vw - 1380px) / 2 + 48px));
   }
-  .hf-copy .hf-inner { width: 100%; max-width: 620px; }
+  .hf-copy .hf-inner { width: 100%; max-width: 600px; }
   .hf-stack { display: flex; flex-direction: column; gap: 0; }
 
-  /* RIGHT — DH image, hard-right, full opacity (no gradient washing over him) */
-  .hf-portrait {
-    position: relative;
-    overflow: hidden;
-    background: #0a0a0a;
-  }
-  .hf-portrait picture { display: contents; }
-  .hf-portrait img {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: 60% center;
-    display: block;
-    opacity: 0;
-    animation: hfPortraitIn 1.6s ease 0.4s forwards;
-  }
-  @keyframes hfPortraitIn { to { opacity: 1; } }
-  /* Feather only the left seam so the photo melts into the black copy column */
-  .hf-portrait::before {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, #0a0a0a 0%, rgba(10,10,10,0.35) 12%, transparent 32%);
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  /* Mobile: stack — copy on top, DH below */
+  /* Mobile: photo sits behind, scrim turns vertical so copy stays readable */
   @media (max-width: 960px) {
-    .hero-flag { grid-template-columns: 1fr; min-height: auto; }
-    .hf-copy { padding: 140px 0 64px; }
-    .hf-copy .hf-inner { margin: 0 auto; padding: 0 24px; max-width: 100%; }
-    .hf-portrait { min-height: 64vh; }
-    .hf-portrait img { object-position: 62% center; }
-    .hf-portrait::before {
-      background: linear-gradient(180deg, #0a0a0a 0%, rgba(10,10,10,0.25) 14%, transparent 34%);
+    .hero-flag { min-height: auto; }
+    .hf-portrait img { object-position: 70% center; }
+    .hero-flag::after {
+      background: linear-gradient(180deg,
+        rgba(10,10,10,0.82) 0%,
+        rgba(10,10,10,0.6) 38%,
+        rgba(10,10,10,0.55) 70%,
+        rgba(10,10,10,0.85) 100%);
     }
+    .hf-copy {
+      padding: 200px 0 120px;
+    }
+    .hf-copy .hf-inner { margin: 0 auto; padding: 0 24px; max-width: 100%; }
   }
 
   .hf-eyebrow {
@@ -556,7 +571,7 @@
     position: absolute;
     bottom: 0; left: 50%;
     transform: translateX(-50%);
-    height: 92%;
+    height: 115%;
     z-index: 6;
     pointer-events: none;
     display: flex;
@@ -564,7 +579,7 @@
   }
   .access-dh picture { display: contents; }
   .access-dh img { height: 100%; width: auto; display: block; }
-  @media (max-width: 960px) { .access-dh { height: 80%; } }
+  @media (max-width: 960px) { .access-dh { height: 100%; } }
 
   /* RIGHT — copy column on dark */
   .access-text {
@@ -1294,9 +1309,9 @@
 
 <main>
 
-<!-- SECTION 1 — HERO (TWO COLUMNS: COPY LEFT · DH RIGHT) -->
+<!-- SECTION 1 — HERO (FULL-BLEED PHOTO · COPY LEFT) -->
 <section class="hero-flag">
-  <!-- LEFT: copy -->
+  <!-- COPY (left, over the soft scrim) -->
   <div class="hf-copy">
     <div class="hf-inner">
       <div class="hf-stack">
