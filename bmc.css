@@ -352,6 +352,17 @@
   }
   .btn-primary:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
   .btn-large { padding: 22px 44px; }
+  /* Ghost variant — transparent + outlined by default, fills white on hover. */
+  .btn-primary.btn-ghost {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+  .btn-primary.btn-ghost:hover {
+    background: var(--white);
+    color: var(--black);
+    border-color: var(--white);
+  }
   @media (max-width: 600px) {
     .btn-primary {
       padding: 14px 20px;
@@ -2224,7 +2235,13 @@
     margin: 0 auto 28px;
     max-width: 820px;
   }
-  .proximity-anchor--resolve { margin-top: 8px; }
+  /* Resolution line runs at body size (keeps bold + cyan from .proximity-anchor)
+     so it reads as a punchy statement, not a second headline. */
+  .proximity-anchor--resolve {
+    margin-top: 8px;
+    font-size: clamp(18px, 1.5vw, 22px);
+    line-height: 1.4;
+  }
   .proximity-body {
     max-width: 720px;
     margin: 0 auto 52px;
