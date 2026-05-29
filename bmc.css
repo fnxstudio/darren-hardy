@@ -2110,54 +2110,98 @@
      The guarantee was pulled up into the Enrollment section as a sub-block
      so the whole arc reads as one moment: Enroll → Activate → Promise. */
 
-  /* Seal bridge — sits between the activation stack and the guarantee block
-     as a visual transition. Centered, modest size, fades the eye toward
-     the promise text below. */
-  .invest-seal-bridge {
-    text-align: center;
-    margin: 88px auto 0;
-    position: relative;
+  /* Guarantee sub-block — 2-column pair inside the Enrollment section:
+     seal LEFT, copy RIGHT, cyan vertical divider between. Pulled up so the
+     whole Enrollment arc reads as one moment: Activate → Promise. */
+  .invest-guarantee {
+    margin-top: 96px;
+  }
+  .invest-guarantee--pair {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    align-items: center;
+    gap: 56px;
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .invest-guarantee-seal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .invest-seal {
     width: 100%;
-    max-width: 240px;
+    max-width: 360px;
     height: auto;
-    display: inline-block;
-    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.35));
+    display: block;
+    filter: drop-shadow(0 6px 22px rgba(0, 0, 0, 0.45));
   }
-  @media (max-width: 720px) {
-    .invest-seal-bridge { margin-top: 64px; }
-    .invest-seal { max-width: 180px; }
+  /* Vertical cyan divider — low opacity, fades top + bottom */
+  .invest-guarantee-divider {
+    width: 1px;
+    align-self: stretch;
+    min-height: 240px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(120, 228, 239, 0.32) 18%,
+      rgba(120, 228, 239, 0.32) 82%,
+      transparent 100%);
   }
-
-  /* Guarantee sub-block — same subordinate visual language as the
-     activation stack: smaller H3, centered, narrow body. */
-  .invest-guarantee {
-    text-align: center;
-    margin-top: 48px;
+  .invest-guarantee-copy {
+    text-align: left;
+  }
+  .invest-guarantee-copy .invest-sub-eyebrow {
+    justify-content: flex-start;
+    display: inline-flex;
+    margin-bottom: 20px;
+  }
+  .invest-guarantee-copy .invest-sub-headline {
+    text-align: left;
+    margin-bottom: 28px;
   }
   .invest-guarantee-body {
-    max-width: 760px;
-    margin: 32px auto 0;
+    max-width: 100%;
   }
   .invest-guarantee-body p {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: clamp(17px, 1.4vw, 20px);
+    font-size: clamp(16px, 1.3vw, 19px);
     line-height: 1.6;
     color: var(--silver);
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    text-align: left;
   }
   .invest-guarantee-body p:first-child { font-weight: 500; color: var(--white); }
   .invest-guarantee-body p:last-child { margin-bottom: 0; }
-  /* The promise line — bold + cyan, lives inside the same paragraph as
-     the preceding sentence via <br/> so there's no paragraph gap. */
+  /* The promise line — bold + cyan, lives inside the same paragraph as the
+     preceding sentence via <br/> so there's no paragraph gap. */
   .risk-promise {
     font-weight: 700 !important;
     color: var(--bmc-cyan) !important;
   }
-  @media (max-width: 720px) {
-    .invest-guarantee { margin-top: 32px; }
+  @media (max-width: 880px) {
+    .invest-guarantee { margin-top: 72px; }
+    .invest-guarantee--pair {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 560px;
+    }
+    .invest-guarantee-divider {
+      width: auto;
+      height: 1px;
+      min-height: 0;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(120, 228, 239, 0.32) 18%,
+        rgba(120, 228, 239, 0.32) 82%,
+        transparent 100%);
+    }
+    .invest-seal { max-width: 240px; margin: 0 auto; }
+    .invest-guarantee-copy { text-align: center; }
+    .invest-guarantee-copy .invest-sub-eyebrow { justify-content: center; }
+    .invest-guarantee-copy .invest-sub-headline { text-align: center; }
+    .invest-guarantee-body p { text-align: center; }
   }
 
   /* ============ LAYER 15 — FAQ ============ */
