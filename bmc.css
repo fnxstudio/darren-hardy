@@ -2106,59 +2106,58 @@
   .stack-section.is-light .stack-item h3 { color: var(--black); }
   .stack-section.is-light .stack-item p { color: var(--muted); }
 
-  /* ============ LAYER 14 — RISK REVERSAL ============ */
-  .risk-section {
-    background: var(--black);
-    padding: 120px 0;
-    border-top: 1px solid var(--rule);
+  /* ============ LAYER 14 — RISK REVERSAL (now lives inside #investment) ============
+     The guarantee was pulled up into the Enrollment section as a sub-block
+     so the whole arc reads as one moment: Enroll → Activate → Promise. */
+
+  /* Seal bridge — sits between the activation stack and the guarantee block
+     as a visual transition. Centered, modest size, fades the eye toward
+     the promise text below. */
+  .invest-seal-bridge {
     text-align: center;
+    margin: 88px auto 0;
     position: relative;
-    overflow: hidden;
   }
-  /* Purple/magenta wash matching the Enrollment set-point — gives the
-     guarantee section the same gravitational weight as the pricing
-     decision above. Same gradient stops as #investment::before. */
-  .risk-section::before {
-    content: "";
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 50% 28%, rgba(156, 39, 172, 0.32), transparent 65%),
-      radial-gradient(ellipse 80% 60% at 50% 90%, rgba(214, 42, 143, 0.16), transparent 75%);
-    pointer-events: none;
-    z-index: 0;
+  .invest-seal {
+    width: 100%;
+    max-width: 240px;
+    height: auto;
+    display: inline-block;
+    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.35));
   }
-  .risk-section > .container { position: relative; z-index: 1; }
-  @media (max-width: 880px) {
-    .risk-section::before {
-      background:
-        radial-gradient(ellipse 100% 45% at 50% 20%, rgba(156, 39, 172, 0.42), transparent 65%),
-        radial-gradient(ellipse 100% 55% at 50% 92%, rgba(214, 42, 143, 0.22), transparent 70%);
-    }
+  @media (max-width: 720px) {
+    .invest-seal-bridge { margin-top: 64px; }
+    .invest-seal { max-width: 180px; }
   }
-  .risk-headline {
-    font-size: clamp(40px, 5.2vw, 76px);
-    margin-bottom: 56px;
-    letter-spacing: -0.03em;
+
+  /* Guarantee sub-block — same subordinate visual language as the
+     activation stack: smaller H3, centered, narrow body. */
+  .invest-guarantee {
+    text-align: center;
+    margin-top: 48px;
   }
-  .risk-body {
-    max-width: 880px;
-    margin: 0 auto;
+  .invest-guarantee-body {
+    max-width: 760px;
+    margin: 32px auto 0;
   }
-  .risk-body p {
+  .invest-guarantee-body p {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: clamp(18px, 1.5vw, 22px);
+    font-size: clamp(17px, 1.4vw, 20px);
     line-height: 1.6;
     color: var(--silver);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
-  .risk-body p:first-child { font-weight: 500; color: var(--white); }
-  .risk-body p:last-child { margin-bottom: 0; }
-  /* The promise line — bold + teal, lives inside the same paragraph as
+  .invest-guarantee-body p:first-child { font-weight: 500; color: var(--white); }
+  .invest-guarantee-body p:last-child { margin-bottom: 0; }
+  /* The promise line — bold + cyan, lives inside the same paragraph as
      the preceding sentence via <br/> so there's no paragraph gap. */
   .risk-promise {
     font-weight: 700 !important;
     color: var(--bmc-cyan) !important;
+  }
+  @media (max-width: 720px) {
+    .invest-guarantee { margin-top: 32px; }
   }
 
   /* ============ LAYER 15 — FAQ ============ */
