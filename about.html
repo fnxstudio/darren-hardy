@@ -242,38 +242,36 @@
   .eyebrow.on-light { color: var(--grey-soft); }
   .eyebrow.on-light .pip { background: var(--grey-soft); }
 
-  /* ============ SECTION 1 — HERO (COMPOSITE: BACKDROP + DH CUTOUT + COPY) ============ */
+  /* ============ SECTION 1 — HERO (TWO COLUMNS: COPY LEFT · DH RIGHT) ============ */
   .hero-flag {
     position: relative;
     background: #0a0a0a;
     min-height: 100vh;
-    padding: 168px 0 120px;
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
     overflow: hidden;
   }
-  /* Wood-panel backdrop — static, fades in first */
-  .hf-bkgd {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: 60% center;
-    z-index: 0;
-    display: block;
-    pointer-events: none;
-    opacity: 0;
-    animation: hfBkgdIn 1.6s ease 0.15s forwards;
-  }
-  @keyframes hfBkgdIn { to { opacity: 1; } }
 
-  /* DH cutout — same 2752x1536 frame as the backdrop, so identical
-     object-fit/position composites him exactly where he was shot */
+  /* LEFT — copy column, hard-left aligned to the site container edge */
+  .hf-copy {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    padding-top: 168px;
+    padding-bottom: 120px;
+    padding-right: 56px;
+    padding-left: max(48px, calc((100vw - 1380px) / 2 + 48px));
+  }
+  .hf-copy .hf-inner { width: 100%; max-width: 620px; }
+  .hf-stack { display: flex; flex-direction: column; gap: 0; }
+
+  /* RIGHT — DH image, hard-right, full opacity (no gradient washing over him) */
   .hf-portrait {
-    position: absolute; inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0;
-    animation: hfPortraitIn 1.8s ease 0.5s forwards;
+    position: relative;
+    overflow: hidden;
+    background: #0a0a0a;
   }
   .hf-portrait picture { display: contents; }
   .hf-portrait img {
@@ -282,43 +280,30 @@
     object-fit: cover;
     object-position: 60% center;
     display: block;
+    opacity: 0;
+    animation: hfPortraitIn 1.6s ease 0.4s forwards;
   }
   @keyframes hfPortraitIn { to { opacity: 1; } }
-
-  /* Left-weighted gradient keeps the copy legible; right stays clear for DH */
-  .hero-flag::after {
+  /* Feather only the left seam so the photo melts into the black copy column */
+  .hf-portrait::before {
     content: "";
     position: absolute; inset: 0;
-    background:
-      linear-gradient(90deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.88) 28%, rgba(10,10,10,0.55) 52%, rgba(10,10,10,0.15) 78%, rgba(10,10,10,0) 100%),
-      linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.12) 45%, rgba(10,10,10,0.55) 82%, rgba(10,10,10,0.92) 100%);
-    z-index: 2;
+    background: linear-gradient(90deg, #0a0a0a 0%, rgba(10,10,10,0.35) 12%, transparent 32%);
+    z-index: 1;
     pointer-events: none;
   }
-  /* Film grain over the scene */
-  .hero-flag::before {
-    content: "";
-    position: absolute; inset: 0;
-    background-image: radial-gradient(rgba(255,255,255,0.014) 1px, transparent 1px);
-    background-size: 3px 3px;
-    pointer-events: none;
-    z-index: 3;
-  }
 
-  .hero-flag .container { position: relative; z-index: 4; }
-  .hf-stack { display: flex; flex-direction: column; gap: 0; max-width: 620px; }
-
+  /* Mobile: stack — copy on top, DH below */
   @media (max-width: 960px) {
-    .hf-bkgd, .hf-portrait img { object-position: 72% center; }
-    .hf-portrait { animation-name: hfPortraitInFaint; }
-    .hero-flag::after {
-      background:
-        linear-gradient(90deg, rgba(10,10,10,0.93) 0%, rgba(10,10,10,0.74) 45%, rgba(10,10,10,0.42) 100%),
-        linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.25) 45%, rgba(10,10,10,0.95) 100%);
+    .hero-flag { grid-template-columns: 1fr; min-height: auto; }
+    .hf-copy { padding: 140px 0 64px; }
+    .hf-copy .hf-inner { margin: 0 auto; padding: 0 24px; max-width: 100%; }
+    .hf-portrait { min-height: 64vh; }
+    .hf-portrait img { object-position: 62% center; }
+    .hf-portrait::before {
+      background: linear-gradient(180deg, #0a0a0a 0%, rgba(10,10,10,0.25) 14%, transparent 34%);
     }
-    .hf-stack { max-width: 100%; }
   }
-  @keyframes hfPortraitInFaint { to { opacity: 0.6; } }
 
   .hf-eyebrow {
     margin-bottom: 36px;
@@ -1309,31 +1294,31 @@
 
 <main>
 
-<!-- SECTION 1 — HERO (COMPOSITE: BACKDROP + DH CUTOUT + COPY) -->
+<!-- SECTION 1 — HERO (TWO COLUMNS: COPY LEFT · DH RIGHT) -->
 <section class="hero-flag">
-  <picture>
-    <source type="image/webp" srcset="DH_about_background.webp">
-    <img class="hf-bkgd" src="DH_about_background.png" alt="" aria-hidden="true" />
-  </picture>
+  <!-- LEFT: copy -->
+  <div class="hf-copy">
+    <div class="hf-inner">
+      <div class="hf-stack">
+        <div class="eyebrow hf-eyebrow"><span class="pip"></span>The Advisor</div>
+        <h1 class="hf-headline">The Edge<br>You&rsquo;ve Been<br>Seeking.</h1>
+        <p class="hf-body lead hf-b1">You&rsquo;re already a successful builder.</p>
+        <p class="hf-body hf-b2">You don&rsquo;t need motivation. You don&rsquo;t need a coach. You don&rsquo;t need clever hacks from someone who has never built a significant business.</p>
+        <p class="hf-body hf-b3">What you need is rare.</p>
+        <p class="hf-body hf-b4">You need an edge. An advantage. Access to the inaccessible.</p>
+        <p class="hf-body hf-b5">You need inside the rooms, minds, and playbooks of today&rsquo;s titans: the market makers, category leaders, and disruptors. To learn how they think, decide, allocate, hire, build, scale, and win.</p>
+        <p class="hf-body hf-b6">So you can too. Faster and bigger.</p>
+        <p class="hf-close-1">That is what I can give you.</p>
+        <p class="hf-close-2">That&rsquo;s the work I do.</p>
+      </div>
+    </div>
+  </div>
+  <!-- RIGHT: DH image (flattened backdrop + DH, full opacity) -->
   <div class="hf-portrait" aria-hidden="true">
     <picture>
-      <source type="image/webp" srcset="DH_about_cutout.webp">
-      <img src="DH_about_cutout.png" alt="Darren Hardy" />
+      <source type="image/webp" srcset="DH_about_full.webp">
+      <img src="DH_about_full.png" alt="Darren Hardy" />
     </picture>
-  </div>
-  <div class="container">
-    <div class="hf-stack">
-      <div class="eyebrow hf-eyebrow"><span class="pip"></span>The Advisor</div>
-      <h1 class="hf-headline">The Edge<br>You&rsquo;ve Been<br>Seeking.</h1>
-      <p class="hf-body lead hf-b1">You&rsquo;re already a successful builder.</p>
-      <p class="hf-body hf-b2">You don&rsquo;t need motivation. You don&rsquo;t need a coach. You don&rsquo;t need clever hacks from someone who has never built a significant business.</p>
-      <p class="hf-body hf-b3">What you need is rare.</p>
-      <p class="hf-body hf-b4">You need an edge. An advantage. Access to the inaccessible.</p>
-      <p class="hf-body hf-b5">You need inside the rooms, minds, and playbooks of today&rsquo;s titans: the market makers, category leaders, and disruptors. To learn how they think, decide, allocate, hire, build, scale, and win.</p>
-      <p class="hf-body hf-b6">So you can too. Faster and bigger.</p>
-      <p class="hf-close-1">That is what I can give you.</p>
-      <p class="hf-close-2">That&rsquo;s the work I do.</p>
-    </div>
   </div>
   <div class="scroll-cue" aria-hidden="true">
     <svg class="scroll-icon" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
