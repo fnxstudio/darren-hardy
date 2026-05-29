@@ -263,7 +263,55 @@
     z-index: 1;
   }
   .hero-flag .container { position: relative; z-index: 2; }
-  .hf-stack { max-width: 1100px; display: flex; flex-direction: column; gap: 0; }
+
+  /* Split layout: copy left, DH portrait right */
+  .hf-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 80px;
+    align-items: center;
+    width: 100%;
+  }
+  @media (max-width: 1080px) {
+    .hf-split { gap: 56px; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+  }
+  @media (max-width: 960px) {
+    .hf-split { grid-template-columns: 1fr; gap: 48px; }
+  }
+  .hf-stack { display: flex; flex-direction: column; gap: 0; max-width: 720px; }
+
+  .hf-portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 1px solid var(--rule-strong);
+    background: #0d0d0d;
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+    animation: hfPortraitIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+  .hf-portrait img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 52% center;
+    display: block;
+    filter: contrast(1.04);
+  }
+  /* Subtle bottom vignette that blends DH's frame into the page bg */
+  .hf-portrait::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, transparent 55%, rgba(10,10,10,0.45) 100%),
+      linear-gradient(90deg, rgba(10,10,10,0.2) 0%, transparent 22%, transparent 78%, rgba(10,10,10,0.2) 100%);
+    pointer-events: none;
+  }
+  @keyframes hfPortraitIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+  @media (max-width: 960px) {
+    .hf-portrait { aspect-ratio: 5 / 4; max-width: 520px; margin: 0 auto; }
+    .hf-portrait img { object-position: center 35%; }
+  }
 
   .hf-eyebrow {
     margin-bottom: 36px;
@@ -1062,7 +1110,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
-    .hf-eyebrow, .hf-headline, .hf-body, .hf-close-1, .hf-close-2, .scroll-cue {
+    .hf-eyebrow, .hf-headline, .hf-body, .hf-close-1, .hf-close-2, .scroll-cue, .hf-portrait {
       opacity: 1 !important; transform: none !important; animation: none !important;
     }
   }
@@ -1240,17 +1288,22 @@
 <!-- SECTION 1 — HERO (FLAG PLANT) -->
 <section class="hero-flag">
   <div class="container">
-    <div class="hf-stack">
-      <div class="eyebrow hf-eyebrow"><span class="pip"></span>The Advisor</div>
-      <h1 class="hf-headline">The Edge<br>You&rsquo;ve Been<br>Seeking.</h1>
-      <p class="hf-body lead hf-b1">You&rsquo;re already a successful builder.</p>
-      <p class="hf-body hf-b2">You don&rsquo;t need motivation. You don&rsquo;t need a coach. You don&rsquo;t need clever hacks from someone who has never built a significant business.</p>
-      <p class="hf-body hf-b3">What you need is rare.</p>
-      <p class="hf-body hf-b4">You need an edge. An advantage. Access to the inaccessible.</p>
-      <p class="hf-body hf-b5">You need inside the rooms, minds, and playbooks of today&rsquo;s titans: the market makers, category leaders, and disruptors. To learn how they think, decide, allocate, hire, build, scale, and win.</p>
-      <p class="hf-body hf-b6">So you can too. Faster and bigger.</p>
-      <p class="hf-close-1">That is what I can give you.</p>
-      <p class="hf-close-2">That&rsquo;s the work I do.</p>
+    <div class="hf-split">
+      <div class="hf-stack">
+        <div class="eyebrow hf-eyebrow"><span class="pip"></span>The Advisor</div>
+        <h1 class="hf-headline">The Edge<br>You&rsquo;ve Been<br>Seeking.</h1>
+        <p class="hf-body lead hf-b1">You&rsquo;re already a successful builder.</p>
+        <p class="hf-body hf-b2">You don&rsquo;t need motivation. You don&rsquo;t need a coach. You don&rsquo;t need clever hacks from someone who has never built a significant business.</p>
+        <p class="hf-body hf-b3">What you need is rare.</p>
+        <p class="hf-body hf-b4">You need an edge. An advantage. Access to the inaccessible.</p>
+        <p class="hf-body hf-b5">You need inside the rooms, minds, and playbooks of today&rsquo;s titans: the market makers, category leaders, and disruptors. To learn how they think, decide, allocate, hire, build, scale, and win.</p>
+        <p class="hf-body hf-b6">So you can too. Faster and bigger.</p>
+        <p class="hf-close-1">That is what I can give you.</p>
+        <p class="hf-close-2">That&rsquo;s the work I do.</p>
+      </div>
+      <div class="hf-portrait">
+        <img src="DH_about.png" alt="Darren Hardy" />
+      </div>
     </div>
   </div>
   <div class="scroll-cue" aria-hidden="true">
