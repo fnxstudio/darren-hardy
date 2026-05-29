@@ -775,44 +775,15 @@
   }
   .filter-twocol-grid {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 0;
     position: relative;
   }
   .filter-twocol-col {
     padding: 0 60px;
   }
-  /* Column tone polarity dropped per DH — both columns sit on the section
-     base. Argument is now carried by typography + brand pipe + close bar. */
-  /* Brand pipe divider — vertical BMC|COLLECTIVE wordmark sitting in the
-     1px center track. Rotated 90deg so the type reads top-to-bottom.
-     Faded so it reads as background mark, never as label. */
-  .filter-twocol-pipe {
-    position: relative;
-    background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(10, 10, 10, 0.10) 10%,
-      rgba(10, 10, 10, 0.10) 90%,
-      transparent 100%);
-    overflow: visible;
-  }
-  .filter-twocol-pipe-text {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) rotate(-90deg);
-    transform-origin: center;
-    white-space: nowrap;
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(28px, 4vw, 64px);
-    letter-spacing: 0.18em;
-    color: rgba(10, 10, 10, 0.08);
-    user-select: none;
-    pointer-events: none;
-  }
-  .filter-twocol-pipe-bar {
-    color: rgba(75, 44, 106, 0.42);
-    margin: 0 0.06em;
+  .filter-twocol-col:first-child {
+    border-right: 1px solid var(--rule-dark);
   }
   .filter-twocol-eyebrow {
     color: var(--grey-soft);
@@ -940,15 +911,10 @@
       margin: 0;
     }
     .filter-twocol-col { padding: 56px 32px; }
-    .filter-twocol-pipe {
-      height: 1px;
-      background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(10, 10, 10, 0.12) 18%,
-        rgba(10, 10, 10, 0.12) 82%,
-        transparent 100%);
+    .filter-twocol-col:first-child {
+      border-right: none;
+      border-bottom: 1px solid var(--rule-dark);
     }
-    .filter-twocol-pipe-text { display: none; }
     .filter-twocol-closebar { padding: 48px 24px 56px; }
     .filter-twocol-close { font-size: 20px; gap: 12px 16px; }
     .filter-close-arrow { width: 44px; height: 18px; }
