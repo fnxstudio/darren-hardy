@@ -1713,6 +1713,11 @@
   .filter-col {
     padding: 72px 56px;
   }
+  /* LEFT box gets a thin cyan outline so it reads as a distinct card next
+     to the filled-dark RIGHT box. */
+  .filter-col.col-for {
+    border: 1px solid rgba(120, 228, 239, 0.35);
+  }
   .filter-col:last-child {
     background: var(--ink-soft);
   }
@@ -1750,12 +1755,12 @@
   .filter-col.col-for .marker { color: var(--bmc-cyan); }
   .filter-col.col-for .filter-sublabel { color: var(--bmc-cyan); }
   .filter-col.col-for .filter-sublabel::before { background: var(--bmc-cyan); }
-  /* RIGHT — inert, "crossed off" feel. Body text dimmed to ~42% bright so
-     the reader's eye physically has to work harder. Sublabel stays bright
-     so the disqualification headline still announces itself. */
-  .filter-col.col-not .filter-item { color: rgba(255, 255, 255, 0.42); }
-  .filter-col.col-not .marker { color: rgba(255, 255, 255, 0.32); }
-  .filter-col.col-not .filter-item { border-bottom-color: rgba(255, 255, 255, 0.05); }
+  /* RIGHT — disqualification list. Body text now full white for
+     readability against the dark filled bg; markers stay slightly dimmed
+     to preserve the "crossed off" hierarchy without losing legibility. */
+  .filter-col.col-not .filter-item { color: var(--white); }
+  .filter-col.col-not .marker { color: rgba(255, 255, 255, 0.55); }
+  .filter-col.col-not .filter-item { border-bottom-color: rgba(255, 255, 255, 0.08); }
 
   /* Closing line — dramatic visual moment that resolves the For / Not For
      into a decision. Significantly larger type, real breathing room, top
