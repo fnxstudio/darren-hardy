@@ -603,92 +603,54 @@
   }
   .team-body strong { color: var(--white); font-weight: 600; }
 
+  /* Team grid — matches /about.html's .ateam-grid / .ateam-card structure */
   .team-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
   }
-  @media (max-width: 1080px) { .team-grid { grid-template-columns: repeat(4, 1fr); } }
-  @media (max-width: 720px)  { .team-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 480px)  { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 1080px) { .team-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 720px)  { .team-grid { grid-template-columns: repeat(2, 1fr); } }
 
-  .person {
-    position: relative;
-    aspect-ratio: 3 / 4;
+  .person { display: flex; flex-direction: column; }
+
+  .person-photo {
+    aspect-ratio: 4 / 5;
     overflow: hidden;
-    background: var(--ink-soft);
-    cursor: pointer;
+    background: var(--ink);
+    border: 1px solid var(--rule);
+    position: relative;
   }
-
-  /* Placeholder portrait — gradient + silhouette glyph so the grid reads as people-sized tiles */
-  .person-placeholder {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.05), transparent 60%),
-      linear-gradient(160deg, #2a2a2a 0%, #161616 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    filter: grayscale(100%);
-    transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .person-placeholder svg {
-    width: 50%; height: auto;
-    color: rgba(255,255,255,0.18);
-    transition: color 0.3s;
-  }
-  .person:hover .person-placeholder, .person.tapped .person-placeholder {
-    filter: grayscale(0%);
-    transform: scale(1.04);
-  }
-  .person:hover .person-placeholder svg, .person.tapped .person-placeholder svg {
-    color: rgba(255,255,255,0.32);
-  }
-
-  /* When a real photo is provided */
-  .person img {
-    position: absolute;
-    inset: 0;
+  .person-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 20%;
     display: block;
     filter: grayscale(100%);
-    transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: 1;
+    transition: filter 0.6s ease, transform 0.6s ease;
   }
-  .person:hover img, .person.tapped img {
+  .person:hover .person-photo img {
     filter: grayscale(0%);
-    transform: scale(1.04);
+    transform: scale(1.03);
   }
 
-  .person-caption {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 32px 16px 14px;
-    background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.55) 60%, transparent);
-    z-index: 2;
-    pointer-events: none;
-  }
+  .person-meta { padding: 18px 4px 0; }
   .person-name {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 0.04em;
     color: var(--white);
     text-transform: uppercase;
-    line-height: 1.2;
-    margin-bottom: 3px;
+    margin-bottom: 6px;
   }
   .person-role {
     font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 10px;
-    letter-spacing: 0.24em;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.16em;
     color: var(--silver);
     text-transform: uppercase;
-    line-height: 1.3;
   }
 
   /* ============ WHO WE SERVE — horizontal ticker of members ============ */
@@ -1604,9 +1566,10 @@
 <script>
 // ── Team grid build — Darren first as 2×2 lead, then 16 placeholders ──
 // When real photos arrive, set member.photo = 'filename.jpg' on each.
+// Mirrors the team array on /about.html + Missy reinstated for an even 4×4 grid
 const team = [
   { name: 'Darren Hardy', role: 'Founder',                       photo: 'team-photos/darren.jpg' },
-  { name: 'Georgia Hardy', role: 'Founder · CFO',                 photo: 'team-photos/georgia.png?v=2' },
+  { name: 'Georgia Hardy', role: 'Founder · CFO',                photo: 'team-photos/georgia.png?v=2' },
   { name: 'Darami',   role: 'Chief of Staff',                    photo: 'team-photos/darami.png' },
   { name: 'Jon',      role: 'CMO',                               photo: 'team-photos/jon.png' },
   { name: 'Brenda',   role: 'VP Member Experience',              photo: 'team-photos/brenda.png' },
@@ -1618,30 +1581,22 @@ const team = [
   { name: 'Jake',     role: 'Marketing Operations Specialist',   photo: 'team-photos/jake.png' },
   { name: 'Ashlee',   role: 'VIP Member Coordinator',            photo: 'team-photos/ashlee.png' },
   { name: 'Stuart',   role: 'AI Integrator',                     photo: 'team-photos/stuart.png' },
+  { name: 'Missy',    role: 'Hardy Club Host',                   photo: 'team-photos/missy.png' },
   { name: 'Sara',     role: 'Treasury Director',                 photo: 'team-photos/sara.png' },
   { name: 'Josh',     role: 'Member Enrollment Specialist',      photo: 'team-photos/josh.png' },
 ];
 
 const teamGrid = document.getElementById('teamGrid');
-const silhouetteSVG = `<svg viewBox="0 0 64 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="22" r="11"/><path d="M12 58c0-11 9-20 20-20s20 9 20 20"/></svg>`;
-
 team.forEach(m => {
-  const el = document.createElement('div');
-  el.className = 'person reveal-scale' + (m.lead ? ' lead' : '');
-  if (m.photo) {
-    el.innerHTML = `<img src="${m.photo}" alt="${m.name}" />
-      <div class="person-caption">
-        <div class="person-name">${m.name}</div>
-        <div class="person-role">${m.role}</div>
-      </div>`;
-  } else {
-    el.innerHTML = `<div class="person-placeholder">${silhouetteSVG}</div>
-      <div class="person-caption">
-        <div class="person-name">${m.name}</div>
-        <div class="person-role">${m.role}</div>
-      </div>`;
-  }
-  teamGrid.appendChild(el);
+  const card = document.createElement('div');
+  card.className = 'person reveal';
+  card.innerHTML = `
+    <div class="person-photo"><img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy" /></div>
+    <div class="person-meta">
+      <div class="person-name">${m.name}</div>
+      <div class="person-role">${m.role}</div>
+    </div>`;
+  teamGrid.appendChild(card);
 });
 
 // ── Scroll-reveal: fade-up/scale-in for any .reveal or .reveal-scale element ──
@@ -1654,7 +1609,7 @@ team.forEach(m => {
   }
   stagger('.collage-mosaic .reveal-scale', 0.12);
   stagger('.mani-cols .reveal',            0.18);
-  stagger('.team-grid .reveal-scale',      0.04);
+  stagger('.team-grid .reveal',            0.05, 1.0);
   stagger('.step-stack .reveal',           0.15);
   stagger('.role-grid .reveal',            0.12);
 
@@ -1754,22 +1709,6 @@ team.forEach(m => {
   // Duplicate so translateX(-50%) loops seamlessly
   [...members, ...members].forEach(m => track.appendChild(buildTile(m)));
 })();
-
-// Mobile tap-to-color
-document.querySelectorAll('.person').forEach(p => {
-  let ty, tx;
-  p.addEventListener('touchstart', e => {
-    ty = e.touches[0].clientY;
-    tx = e.touches[0].clientX;
-  }, { passive: true });
-  p.addEventListener('touchend', e => {
-    if (Math.abs(e.changedTouches[0].clientY - ty) > 8 ||
-        Math.abs(e.changedTouches[0].clientX - tx) > 8) return;
-    const active = p.classList.contains('tapped');
-    document.querySelectorAll('.person.tapped').forEach(t => t.classList.remove('tapped'));
-    if (!active) p.classList.add('tapped');
-  });
-});
 </script>
 </body>
 </html>
