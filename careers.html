@@ -249,7 +249,6 @@
   */
   .subhero-title:has(em),
   .collage-title:has(em),
-  .manifesto-title:has(em),
   .team-title:has(em),
   .serve-title:has(em),
   .process-title:has(em),
@@ -258,7 +257,6 @@
   }
   .subhero-title em,
   .collage-title em,
-  .manifesto-title em,
   .team-title em,
   .serve-title em,
   .process-title em,
@@ -362,21 +360,21 @@
   }
   .subhero-sub strong { color: var(--white); font-weight: 600; }
 
-  /* ============ MANIFESTO — WE BELIEVE / WE DON'T (mirrors /about.html) ============ */
-  .manifesto {
+  /* ============ VALUES — 12 attributes, hover-to-reveal definitions ============ */
+  .values {
     background: var(--ink);
     padding: 160px 0;
     border-top: 1px solid var(--rule);
   }
-  .manifesto-head {
+  .values-head {
     text-align: center;
     margin-bottom: 80px;
     max-width: 1100px;
     margin-left: auto;
     margin-right: auto;
   }
-  .manifesto-head .eyebrow { margin-bottom: 24px; justify-content: center; }
-  .manifesto-title {
+  .values-head .eyebrow { margin-bottom: 24px; justify-content: center; }
+  .values-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: clamp(36px, 4.8vw, 72px);
@@ -386,90 +384,57 @@
     text-transform: uppercase;
   }
 
-  /* Two-tone columns: Left "Required" gets the page's established bone tone
-     (same as creed / open-roles) for the "yes path"; Right "Refused" stays
-     dark for the "no path". Color contrast itself acts as the divider. */
-  .mani-cols {
+  /* 4x3 grid of attribute cards. Single source 1px lines via gap + bg. */
+  .values-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
-  @media (max-width: 880px) { .mani-cols { grid-template-columns: 1fr; } }
+  @media (max-width: 880px) { .values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .values-grid { grid-template-columns: 1fr; } }
 
-  .mani-col {
-    padding: 56px 48px;
+  .value {
+    background: var(--ink);
+    padding: 36px 28px;
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.35s ease;
   }
-  @media (max-width: 880px) { .mani-col { padding: 44px 28px; } }
+  .value:hover { background: var(--ink-soft); }
 
-  /* Left column — bone "Required" treatment, matching creed / open-roles */
-  .mani-col:first-child {
-    background: var(--bone);
-    color: var(--black);
-  }
-
-  /* Labels promoted to chapter-heading scale — bigger, bolder, tighter spacing */
-  .mani-label {
+  .value-word {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: clamp(22px, 2vw, 30px);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
     color: var(--white);
     text-transform: uppercase;
-    margin-bottom: 44px;
-    padding-bottom: 26px;
-    border-bottom: 1px solid var(--rule);
     line-height: 1;
+    margin: 0 0 0;
+    transition: margin-bottom 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .mani-col:first-child .mani-label {
-    color: var(--black);
-    border-bottom-color: rgba(10, 10, 10, 0.22);
-  }
-
-  .mani-list { list-style: none; display: flex; flex-direction: column; }
-  .mani-item {
-    padding: 22px 0;
-    border-bottom: 1px solid var(--rule);
-    transition: background 0.25s ease, padding 0.25s ease;
-    border-radius: 2px;
-  }
-  .mani-item:last-child { border-bottom: none; }
-  .mani-item:hover { background: rgba(255,255,255,0.025); padding-left: 12px; padding-right: 12px; }
-  .mani-col:first-child .mani-item { border-bottom-color: rgba(10, 10, 10, 0.12); }
-  .mani-col:first-child .mani-item:hover { background: rgba(10, 10, 10, 0.04); }
-
-  .mani-word {
-    display: block;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.08em;
-    color: var(--white);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .mani-col:first-child .mani-word { color: var(--black); }
-
-  .mani-def {
+  .value-def {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.55;
     color: var(--silver);
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    margin: 0;
+    transition: opacity 0.35s ease, max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .mani-col:first-child .mani-def { color: rgba(10, 10, 10, 0.72); }
-  .mani-foot {
-    margin-top: 64px;
-    padding-top: 48px;
-    border-top: 1px solid var(--rule);
-    text-align: center;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-style: italic;
-    font-size: clamp(17px, 1.5vw, 22px);
-    line-height: 1.45;
-    color: var(--white);
-    max-width: 980px;
-    margin-left: auto;
-    margin-right: auto;
+  .value:hover .value-word { margin-bottom: 18px; }
+  .value:hover .value-def { opacity: 1; max-height: 240px; }
+
+  /* Touch / no-hover devices: just reveal everything */
+  @media (hover: none) {
+    .value-word { margin-bottom: 18px; }
+    .value-def { opacity: 1; max-height: none; }
   }
 
   /* ============ CREED ============ */
@@ -1343,45 +1308,63 @@
   </div>
 </section>
 
-<!-- MANIFESTO — mirrors the /about.html version: two-column belief/reject lists -->
-<section class="manifesto">
+<!-- VALUES — 12 core values & attributes, hover to reveal definitions -->
+<section class="values">
   <div class="container">
-    <div class="manifesto-head">
-      <div class="reveal"><div class="eyebrow"><span class="pip"></span>The Standards</div></div>
-      <h2 class="manifesto-title reveal">What We Believe.<br>What <em>We Don&rsquo;t</em>.</h2>
+    <div class="values-head">
+      <div class="reveal"><div class="eyebrow"><span class="pip"></span>A-Team Standards</div></div>
+      <h2 class="values-title reveal">Our Core Values &amp; Attributes.</h2>
     </div>
-    <div class="mani-cols">
-      <div class="mani-col reveal">
-        <div class="mani-label">Required.</div>
-        <ul class="mani-list">
-          <li class="mani-item"><span class="mani-word">Audacity.</span><span class="mani-def">Playing small is a sin against your nature.</span></li>
-          <li class="mani-item"><span class="mani-word">Obsession.</span><span class="mani-def">Motivation is weak and passion wanes.</span></li>
-          <li class="mani-item"><span class="mani-word">Impact.</span><span class="mani-def">You do make a difference. Make it positive.</span></li>
-          <li class="mani-item"><span class="mani-word">Action.</span><span class="mani-def">It doesn&rsquo;t just happen.</span></li>
-          <li class="mani-item"><span class="mani-word">Growth.</span><span class="mani-def">Better is always possible.</span></li>
-          <li class="mani-item"><span class="mani-word">Accountability.</span><span class="mani-def">Everything is your fault. Own it.</span></li>
-          <li class="mani-item"><span class="mani-word">Excellence.</span><span class="mani-def">We have zero tolerance for mediocrity.</span></li>
-          <li class="mani-item"><span class="mani-word">Courage.</span><span class="mani-def">Especially when we&rsquo;re scared to death.</span></li>
-          <li class="mani-item"><span class="mani-word">Being Real.</span><span class="mani-def">We&rsquo;re all &ldquo;flawsome.&rdquo;</span></li>
-          <li class="mani-item"><span class="mani-word">Being On Time.</span><span class="mani-def">Because we hate burpees.</span></li>
-        </ul>
+    <div class="values-grid">
+      <div class="value reveal">
+        <h3 class="value-word">Love</h3>
+        <p class="value-def">Love for mission, what we do, how we do it, and who we do it for.</p>
       </div>
-      <div class="mani-col reveal">
-        <div class="mani-label">Refused.</div>
-        <ul class="mani-list">
-          <li class="mani-item"><span class="mani-word">Excuses.</span><span class="mani-def">Step up or step aside.</span></li>
-          <li class="mani-item"><span class="mani-word">Blaming.</span><span class="mani-def">Fix it or zip it.</span></li>
-          <li class="mani-item"><span class="mani-word">Whining.</span><span class="mani-def">If you want it, earn it.</span></li>
-          <li class="mani-item"><span class="mani-word">Regrets.</span><span class="mani-def">Just do better next time.</span></li>
-          <li class="mani-item"><span class="mani-word">&ldquo;Good.&rdquo;</span><span class="mani-def">You are here to be great.</span></li>
-          <li class="mani-item"><span class="mani-word">Motivation.</span><span class="mani-def">Do it whether you feel like it or not.</span></li>
-          <li class="mani-item"><span class="mani-word">Dreaming.</span><span class="mani-def">Unless you back it up with a crazy amount of doing.</span></li>
-          <li class="mani-item"><span class="mani-word">Talent.</span><span class="mani-def">Only training and preparation.</span></li>
-          <li class="mani-item"><span class="mani-word">What&rsquo;s Popular.</span><span class="mani-def">Popular is the average. Average is mediocre. We abhor mediocrity.</span></li>
-        </ul>
+      <div class="value reveal">
+        <h3 class="value-word">Growth</h3>
+        <p class="value-def">Mindset and personal commitment to growing Better Every Day.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">Excellence</h3>
+        <p class="value-def">OCE: Obsessive Commitment to Excellence. Exceed expectations.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">Humble</h3>
+        <p class="value-def">Flawsome: Awesome in your flaws. Grounded confidence. Respectful.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">Hungry</h3>
+        <p class="value-def">Competitive, intensely driven, and audaciously ambitious.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">Smart</h3>
+        <p class="value-def">People skills and emotional intelligence. Intuitive and insightful.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">Ownership</h3>
+        <p class="value-def">100% responsibility. No excuses, stories, or justifications. Own it.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">HardyHustle</h3>
+        <p class="value-def">GSD quickly. Rapid responsiveness. Decide quickly. Act fast. Move on.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">Courageous</h3>
+        <p class="value-def">Speak up. Rumble. Debate passionately. Confront. Hold others accountable.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">Reliable</h3>
+        <p class="value-def">Be counted on, always. Do what you say. Handle your sh!t. Follow through.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">Resourceful</h3>
+        <p class="value-def">FITFO: Figure It The F*ck Out. Don&rsquo;t wait to be told. Don&rsquo;t pass your monkey.</p>
+      </div>
+      <div class="value reveal">
+        <h3 class="value-word">Consistent</h3>
+        <p class="value-def">Predictable, steady, reliable, and able to be counted on, regardless.</p>
       </div>
     </div>
-    <p class="mani-foot reveal">No dancing, high-fiving, or jumping up and down at seminars or on Zoom. That&rsquo;s just weird.</p>
   </div>
 </section>
 
@@ -1608,7 +1591,7 @@ team.forEach(m => {
     });
   }
   stagger('.collage-mosaic .reveal-scale', 0.12);
-  stagger('.mani-cols .reveal',            0.18);
+  stagger('.values-grid .reveal',          0.05, 0.7);
   stagger('.team-grid .reveal',            0.05, 1.0);
   stagger('.step-stack .reveal',           0.15);
   stagger('.role-grid .reveal',            0.12);
