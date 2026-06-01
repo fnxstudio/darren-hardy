@@ -230,7 +230,7 @@
 <link rel="preload" as="image" href="DH_BMC_stage_mobile.webp" type="image/webp" media="(max-width: 880px)" fetchpriority="high">
 <link rel="preload" as="image" href="DH_BMC_stage_background.webp" type="image/webp" media="(min-width: 881px)" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="bmc.css?v=39">
+<link rel="stylesheet" href="bmc.css?v=40">
 </head>
 <body>
 
@@ -553,10 +553,10 @@
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>In Their Own Words</div>
     <h2 class="section-headline reveal" style="text-align:center;">Real Builders. <em class="key">Real Results</em>.</h2>
 
-    <!-- BLOCK 1 — Video testimonials. Manual arrow-driven, seamless loop:
-         JS duplicates the card set so clicking past the end glides straight
-         into the start with no jump. -->
-    <div class="t-video-marquee reveal">
+    <!-- BLOCK 1 — Video testimonials scroller. HIDDEN for now (kept in source
+         so it can be restored). Concept being trialed: videos live inside the
+         bento as the large boxes instead of a separate scroller row. -->
+    <div class="t-video-marquee reveal is-hidden">
       <div class="t-video-marquee-track" data-video-marquee>
         <article class="t-video">
           <div class="t-video-thumb">
@@ -632,9 +632,10 @@
 
       <!-- ROW GROUP 1 — featured LEFT, 4-card grid RIGHT -->
       <div class="t-quote-rowgroup reveal-rg">
-        <article class="t-quote t-quote--featured">
-          <div class="t-quote-photo" aria-hidden="true">
+        <article class="t-quote t-quote--featured t-quote--video">
+          <div class="t-quote-photo">
             <span class="t-quote-chip">Tech</span>
+            <button class="t-play t-play--lg t-quote-play" aria-label="Play Jennifer Kowalski&rsquo;s video testimonial"><svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg></button>
           </div>
           <div class="t-quote-content">
             <p class="t-quote-text">&ldquo;The conversations in this room changed how I think about scale. Inside ninety days I had repositioned the company, replaced two senior hires, and finally felt like I had peers who actually understood the work. This is not a course. It is a different altitude.&rdquo;</p>
@@ -751,9 +752,10 @@
           </article>
         </div>
 
-        <article class="t-quote t-quote--featured">
-          <div class="t-quote-photo" aria-hidden="true">
+        <article class="t-quote t-quote--featured t-quote--video">
+          <div class="t-quote-photo">
             <span class="t-quote-chip">Private Equity</span>
+            <button class="t-play t-play--lg t-quote-play" aria-label="Play Marcus Webb&rsquo;s video testimonial"><svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg></button>
           </div>
           <div class="t-quote-content">
             <p class="t-quote-text">&ldquo;I spent a decade chasing tactics. This is the first room that handed me a real system and then made me run it. Two acquisitions later, my only regret is not walking through the door three years sooner.&rdquo;</p>
@@ -766,6 +768,76 @@
             </div>
           </div>
         </article>
+      </div>
+
+      <!-- ROW GROUP 3 — featured VIDEO LEFT, 4-card grid RIGHT (mirror of row 2) -->
+      <div class="t-quote-rowgroup reveal-rg">
+        <article class="t-quote t-quote--featured t-quote--video">
+          <div class="t-quote-photo">
+            <span class="t-quote-chip">Technology</span>
+            <button class="t-play t-play--lg t-quote-play" aria-label="Play Elena Marsh&rsquo;s video testimonial"><svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg></button>
+          </div>
+          <div class="t-quote-content">
+            <p class="t-quote-text">&ldquo;I came for the strategy. I stayed because, for the first time, I was the least experienced person in the room &mdash; and every single one of them wanted me to win.&rdquo;</p>
+            <div class="t-quote-rule"></div>
+            <div class="t-quote-author">
+              <div class="t-quote-author-text">
+                <div class="t-quote-name">Elena Marsh</div>
+                <div class="t-quote-title">CEO &middot; Halcyon Group</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="t-quote-grid4">
+          <article class="t-quote t-quote--std">
+            <div class="t-quote-photo" aria-hidden="true"><span class="t-quote-chip">Finance</span></div>
+            <div class="t-quote-content">
+              <p class="t-quote-text">&ldquo;I finally have a board-level brain on call.&rdquo;</p>
+              <div class="t-quote-rule"></div>
+              <div class="t-quote-author"><div class="t-quote-author-text">
+                <div class="t-quote-name">Helena Cruz</div>
+                <div class="t-quote-title">CEO &middot; Northpoint Capital</div>
+              </div></div>
+            </div>
+          </article>
+
+          <article class="t-quote t-quote--std">
+            <div class="t-quote-photo" aria-hidden="true"><span class="t-quote-chip">Retail</span></div>
+            <div class="t-quote-content">
+              <p class="t-quote-text">&ldquo;We doubled margin without adding a single hire.&rdquo;</p>
+              <div class="t-quote-rule"></div>
+              <div class="t-quote-author"><div class="t-quote-author-text">
+                <div class="t-quote-name">Derek Olsen</div>
+                <div class="t-quote-title">Founder &middot; Cedar &amp; Stone</div>
+              </div></div>
+            </div>
+          </article>
+
+          <article class="t-quote t-quote--std">
+            <div class="t-quote-photo" aria-hidden="true"><span class="t-quote-chip">Healthcare</span></div>
+            <div class="t-quote-content">
+              <p class="t-quote-text">&ldquo;The first room that actually challenged me.&rdquo;</p>
+              <div class="t-quote-rule"></div>
+              <div class="t-quote-author"><div class="t-quote-author-text">
+                <div class="t-quote-name">Naomi Park</div>
+                <div class="t-quote-title">President &middot; Vertex Health</div>
+              </div></div>
+            </div>
+          </article>
+
+          <article class="t-quote t-quote--std">
+            <div class="t-quote-photo" aria-hidden="true"><span class="t-quote-chip">Logistics</span></div>
+            <div class="t-quote-content">
+              <p class="t-quote-text">&ldquo;Clarity I had been missing for ten years.&rdquo;</p>
+              <div class="t-quote-rule"></div>
+              <div class="t-quote-author"><div class="t-quote-author-text">
+                <div class="t-quote-name">Sam Reuben</div>
+                <div class="t-quote-title">CEO &middot; Atlas Freight</div>
+              </div></div>
+            </div>
+          </article>
+        </div>
       </div>
 
     </div>
