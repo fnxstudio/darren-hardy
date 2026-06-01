@@ -119,22 +119,31 @@
 
 // (Video testimonials are now a static 2x3 grid — no slider/marquee JS needed.)
 
-// ===== VSL player — custom play button only (no Vimeo controls) =====
-// The iframe loads with controls=0 (no scrub bar, settings, CC/AI buttons).
-// Our cyan button starts playback via the Vimeo Player API, then fades out
-// while playing; clicking the video (controls=0) pauses and the button returns.
+// ===== Vimeo players — custom play button only (no Vimeo controls) =====
+// Every embed loads with controls=0 (no scrub bar, settings, CC/AI buttons).
+// A cyan button starts playback via the Vimeo Player API and fades out while
+// playing; clicking the video (controls=0) pauses and the button returns.
+// Handles the VSL ("What's Inside") and any video-grid testimonial embeds.
 (function () {
-  const iframe = document.getElementById('vsl-player');
-  const btn = document.querySelector('[data-vsl-play]');
-  if (!iframe || !btn) return;
-
-  const init = () => {
-    if (!window.Vimeo || !window.Vimeo.Player) return false;
+  // Pair each player iframe with the button that controls it.
+  const pair = (iframe, btn) => {
+    if (!iframe || !btn) return;
     const player = new window.Vimeo.Player(iframe);
     btn.addEventListener('click', () => { player.play().catch(() => {}); });
     player.on('play',  () => btn.classList.add('is-playing'));
     player.on('pause', () => btn.classList.remove('is-playing'));
     player.on('ended', () => btn.classList.remove('is-playing'));
+  };
+
+  const init = () => {
+    if (!window.Vimeo || !window.Vimeo.Player) return false;
+    // VSL (What's Inside)
+    pair(document.getElementById('vsl-player'), document.querySelector('[data-vsl-play]'));
+    // Video-grid testimonial embeds — button lives in the same card.
+    document.querySelectorAll('.t-video-iframe').forEach(iframe => {
+      const card = iframe.closest('.t-video');
+      pair(iframe, card && card.querySelector('.t-play'));
+    });
     return true;
   };
 
