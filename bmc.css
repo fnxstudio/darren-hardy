@@ -287,9 +287,19 @@
     z-index: 3;
     display: block;
     pointer-events: none;
+    /* Desktop: image aspect ≈ container aspect, so there's almost no
+       horizontal crop and object-position alone can't move Darren. Push
+       him further right (and a touch larger) so his body clears the
+       headline column. His right arm/edge runs off-screen — acceptable;
+       face stays well within frame. */
+    transform: translateX(9%) scale(1.04);
+    transform-origin: right center;
   }
   .hero-content {
-    max-width: 720px;
+    /* Narrowed from 720 → 640 so the widest lines ("DRIVEN BUSINESS",
+       "BUILDERS SEEKING") wrap and the column stays in the left ~third,
+       clear of Darren on the right. */
+    max-width: 640px;
     position: relative;
     z-index: 4;
   }
@@ -308,7 +318,7 @@
     letter-spacing: -0.03em;
     color: var(--white);
     text-transform: uppercase;
-    max-width: 720px;
+    max-width: 640px;
     text-wrap: balance;
     opacity: 0;
     transform: translateY(14px);
@@ -464,6 +474,9 @@
       z-index: 3;
       opacity: 1;
       pointer-events: none;
+      /* Reset the desktop translate/scale — mobile positions Darren via
+         object-position instead. */
+      transform: none;
     }
     /* Left-only dark fade so the headline reads cleanly over the backdrop
        and the right half (where Darren lives) stays fully visible. The
