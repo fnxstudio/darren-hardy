@@ -125,24 +125,30 @@
 // playing; clicking the video (controls=0) pauses and the button returns.
 // Handles the VSL ("What's Inside") and any video-grid testimonial embeds.
 (function () {
-  // Pair each player iframe with the button that controls it.
-  const pair = (iframe, btn) => {
-    if (!iframe || !btn) return;
+  // Pair each player iframe with its full-area toggle button. Clicking the
+  // toggle plays if paused, pauses if playing (controls=0 has no native
+  // click-to-pause). The .is-playing class fades the cyan visual.
+  const pair = (iframe, toggle) => {
+    if (!iframe || !toggle) return;
     const player = new window.Vimeo.Player(iframe);
-    btn.addEventListener('click', () => { player.play().catch(() => {}); });
-    player.on('play',  () => btn.classList.add('is-playing'));
-    player.on('pause', () => btn.classList.remove('is-playing'));
-    player.on('ended', () => btn.classList.remove('is-playing'));
+    toggle.addEventListener('click', () => {
+      player.getPaused()
+        .then(paused => (paused ? player.play() : player.pause()))
+        .catch(() => {});
+    });
+    player.on('play',  () => toggle.classList.add('is-playing'));
+    player.on('pause', () => toggle.classList.remove('is-playing'));
+    player.on('ended', () => toggle.classList.remove('is-playing'));
   };
 
   const init = () => {
     if (!window.Vimeo || !window.Vimeo.Player) return false;
     // VSL (What's Inside)
     pair(document.getElementById('vsl-player'), document.querySelector('[data-vsl-play]'));
-    // Video-grid testimonial embeds — button lives in the same card.
+    // Video-grid testimonial embeds — toggle lives in the same card.
     document.querySelectorAll('.t-video-iframe').forEach(iframe => {
       const card = iframe.closest('.t-video');
-      pair(iframe, card && card.querySelector('.t-play'));
+      pair(iframe, card && card.querySelector('.t-video-toggle'));
     });
     return true;
   };
