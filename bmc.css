@@ -1517,10 +1517,19 @@
     gap: 48px 32px;
     margin-top: 80px;
   }
-  /* Play button right-sized for the grid cards. */
-  .t-video-grid .t-play--lg { width: 64px; height: 64px; }
-  .t-video-grid .t-play--lg svg { width: 22px; height: 22px; }
-  .t-video { cursor: pointer; display: flex; flex-direction: column; }
+  /* Each card (thumbnail image + text) rolls in on scroll: rises + fades,
+     cascaded across the 6 cards via the .stagger nth-child delays. Declared
+     explicitly so the motion is reliable. */
+  .t-video {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(38px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .t-video-grid.visible .t-video { opacity: 1; transform: translateY(0); }
   .t-video-thumb {
     position: relative;
     aspect-ratio: 16 / 9;
@@ -1545,25 +1554,23 @@
   }
   .t-video:hover .t-video-thumb::after { background: rgba(0, 0, 0, 0.15); }
   .t-video:hover .t-video-thumb { transform: scale(1.01); }
+  /* Play button — parked in the bottom-right corner of the thumbnail (same
+     placement as the What's Inside VSL button). No pulse here. */
   .t-play {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 16px; right: 16px;
     border: 0;
     border-radius: 50%;
     background: var(--bmc-cyan);
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 0 1px rgba(120, 228, 239, 0.3), 0 6px 22px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     cursor: pointer;
     z-index: 2;
   }
-  .t-play--lg { width: 88px; height: 88px; }
-  .t-play--lg svg { width: 28px; height: 28px; margin-left: 3px; }
-  .t-play--sm { width: 56px; height: 56px; }
-  .t-play--sm svg { width: 18px; height: 18px; margin-left: 2px; }
-  .t-video:hover .t-play--lg { transform: translate(-50%, -50%) scale(1.1); }
-  .t-video:hover .t-play--sm { transform: translate(-50%, -50%) scale(1.08); }
+  .t-play--lg { width: 64px; height: 64px; }
+  .t-play--lg svg { width: 22px; height: 22px; margin-left: 3px; }
+  .t-video:hover .t-play--lg { transform: scale(1.08); }
   .t-video-meta { padding-top: 18px; }
   .t-video-name {
     font-family: 'Inter', sans-serif;
