@@ -1375,42 +1375,22 @@
 
   .bmc-corner {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 10px;
     color: var(--silver);
     text-decoration: none;
     transition: color 0.2s;
-    flex-shrink: 0;
   }
   .bmc-corner:hover { color: var(--white); }
-  .bmc-corner img {
-    width: 56px; height: 56px;
-    display: block;
-    filter: brightness(0) invert(1) opacity(0.85);
-    transition: opacity 0.2s;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .bmc-corner:hover img { filter: brightness(0) invert(1) opacity(1); }
-  .bmc-corner-text { display: flex; flex-direction: column; gap: 8px; }
-  .bmc-corner-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--silver);
+  .bmc-corner-arrow {
+    font-size: 22px;
+    font-weight: 300;
     line-height: 1;
+    color: var(--silver);
+    transition: color 0.2s, transform 0.2s;
   }
-  .bmc-corner-tag {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    color: var(--white);
-    line-height: 1.2;
-  }
+  .bmc-corner:hover .bmc-corner-arrow { color: var(--white); transform: translateY(-3px); }
   .bmc-corner-cta {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
@@ -1418,15 +1398,9 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--silver);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 2px;
     transition: color 0.2s;
   }
-  .bmc-corner-cta .arrow { font-weight: 400; transition: transform 0.2s; }
   .bmc-corner:hover .bmc-corner-cta { color: var(--white); }
-  .bmc-corner:hover .bmc-corner-cta .arrow { transform: translate(2px, -2px); }
 
   @media (max-width: 640px) {
     .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
@@ -1723,12 +1697,8 @@
       </div>
       <div class="footer-col">
         <a class="bmc-corner" href="https://dhbmc.com">
-          <img src="BMC_Logo.png" alt="BMC" />
-          <div class="bmc-corner-text">
-            <span class="bmc-corner-title">Business Master Class</span>
-            <span class="bmc-corner-tag">Build a High-Growth,<br>High-Impact Business</span>
-            <span class="bmc-corner-cta">Explore Business Master Class <span class="arrow">↗</span></span>
-          </div>
+          <span class="bmc-corner-arrow">↑</span>
+          <span class="bmc-corner-cta">Explore Further</span>
         </a>
       </div>
     </div>
