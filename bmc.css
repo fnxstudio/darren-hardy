@@ -445,10 +445,13 @@
       object-position: center bottom;
       opacity: 1;
     }
-    /* Show the standalone DH cutout (DH_BMC_stage.webp) on the right
-       half of the viewport. Cover-crop with right-anchor puts Darren
-       on the far right; left side of the source gets trimmed off — fine,
-       it's transparent / stage backdrop anyway. */
+    /* Show the standalone DH cutout (DH_BMC_stage.webp) layered over the
+       bg. Darren sits at ~70-75% horizontally in the source image. With
+       object-position: 100% (right), the mobile cover-crop window starts
+       right at his face — putting him on the LEFT of the viewport.
+       object-position: 65% center shifts the visible source window so his
+       face lands on the right ~75-80% of the viewport with clearance from
+       the right edge (face fully visible; left shoulder/jacket gets cropped). */
     .hero-portrait {
       display: block;
       position: absolute;
@@ -457,7 +460,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: right center;
+      object-position: 65% center;
       z-index: 3;
       opacity: 1;
       pointer-events: none;
