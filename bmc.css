@@ -768,30 +768,50 @@
     background-size: 3px 3px;
     pointer-events: none;
   }
+  /* Play button — parked in the bottom-left corner so it never sits over
+     Darren's face. Pulsing ring (::after) draws the eye / invites the click. */
   .vsl-play {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 88px; height: 88px;
+    bottom: 22px; left: 22px;
+    width: 72px; height: 72px;
     border: 0;
     padding: 0;
     border-radius: 50%;
     background: var(--bmc-cyan);
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 0 1px rgba(120, 228, 239, 0.25), 0 8px 24px rgba(120, 228, 239, 0.18);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
     transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
     cursor: pointer;
     z-index: 2;
   }
-  .vsl-frame:hover .vsl-play {
-    transform: translate(-50%, -50%) scale(1.05);
-    box-shadow: 0 0 0 1px rgba(120, 228, 239, 0.4), 0 12px 32px rgba(120, 228, 239, 0.28);
+  /* Expanding ring pulse behind the button. */
+  .vsl-play::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(120, 228, 239, 0.55);
+    animation: vslPulse 2.2s cubic-bezier(0.25, 0.6, 0.3, 1) infinite;
+    pointer-events: none;
   }
-  .vsl-play svg { width: 28px; height: 28px; margin-left: 4px; }
+  @keyframes vslPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(120, 228, 239, 0.5); }
+    70%  { box-shadow: 0 0 0 20px rgba(120, 228, 239, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(120, 228, 239, 0); }
+  }
+  .vsl-frame:hover .vsl-play {
+    transform: scale(1.08);
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
+  }
+  .vsl-play svg { width: 24px; height: 24px; margin-left: 3px; }
   /* While the video is playing, fade the custom button out and let clicks
      reach the player (controls=0 → clicking toggles pause). On pause it
      fades back in. */
   .vsl-play.is-playing { opacity: 0; pointer-events: none; }
+  /* Stop the pulse for reduced-motion users. */
+  @media (prefers-reduced-motion: reduce) {
+    .vsl-play::after { animation: none; }
+  }
   /* Overlay text on the video still — placeholder for "Watch Darren explain
      what's inside" until the still includes baked-in text. Bottom-anchored,
      subtle dark vignette so it reads against any thumbnail. */
