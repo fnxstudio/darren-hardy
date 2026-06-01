@@ -434,21 +434,34 @@
         radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%),
         radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     }
-    /* Mobile: pre-composited image (bg + Darren merged at the right side
-       of the source). 'right bottom' anchors the right edge of the source
-       to the right edge of the viewport so Darren stays in frame on the
-       far right after the portrait cover-crop. The left side of the
-       source (background only) gets trimmed off — acceptable. */
+    /* Mobile background — pre-composited image (city/stage scene). Restored
+       to center bottom so the right side stamp/logo on the composite isn't
+       what shows up in the viewport. Darren the PERSON comes from the
+       standalone cutout (.hero-portrait) layered on top, not from the bg. */
     .hero-bkgd {
       top: 0;
       height: 100%;
       object-fit: cover;
-      object-position: right bottom;
-      /* Full opacity — no transparency on Darren */
+      object-position: center bottom;
       opacity: 1;
     }
-    /* Cutout layer is baked into the composite — hide the standalone one */
-    .hero-portrait { display: none; }
+    /* Show the standalone DH cutout (DH_BMC_stage.webp) on the right
+       half of the viewport. Cover-crop with right-anchor puts Darren
+       on the far right; left side of the source gets trimmed off — fine,
+       it's transparent / stage backdrop anyway. */
+    .hero-portrait {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right center;
+      z-index: 3;
+      opacity: 1;
+      pointer-events: none;
+    }
     /* Left-only dark fade so the headline reads cleanly over the backdrop
        and the right half (where Darren lives) stays fully visible. The
        fade clears well before the ~56% headline column ends so there's no
