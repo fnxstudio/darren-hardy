@@ -1367,9 +1367,19 @@
     padding: 22px;
     border: 1px solid var(--rule);
     background: rgba(255, 255, 255, 0.025);
+    /* No hover (not clickable). Explicit roll-in on scroll: each card rises
+       + fades, cascaded via the .stagger nth-child delays on the parent.
+       Declared here (higher specificity than .stagger > *) so the motion is
+       reliable and a bit more pronounced. */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  /* No hover state — these cards aren't clickable. Movement comes purely
-     from the scroll-in stagger reveal on the parent .stagger group. */
+  .unfair-list.visible li {
+    opacity: 1;
+    transform: translateY(0);
+  }
   .unfair-list .n {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
