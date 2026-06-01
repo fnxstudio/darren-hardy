@@ -1557,30 +1557,14 @@
     white-space: nowrap;
   }
 
-  /* ───── BLOCK 3 — Quote wall (photo TOP, quote BELOW) ─────
-     Two mirrored row-groups. Each row-group = one featured card + a 2x2
-     grid of four small cards, side by side. Row-group 1: featured left.
-     Row-group 2: featured right (mirror). Photo and quote live in separate
-     zones so the quote NEVER covers the face. */
-  .t-quote-bento {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    /* Generous space below the slider arrows so they aren't bunched. */
+  /* ───── BLOCK 3 — Quote wall: uniform, evenly-spaced 3-column grid ─────
+     Every card is identical: photo zone on top, quote + author below. Photo
+     and quote live in separate zones so the quote never covers the face. */
+  .t-quote-grid-wall {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
     margin-top: 84px;
-  }
-  .t-quote-rowgroup {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: stretch;
-  }
-  /* 2x2 grid of the four small cards inside each row-group. */
-  .t-quote-grid4 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 1fr;
-    gap: 24px;
   }
 
   /* Card shell — solid white, photo zone on top, content below. */
@@ -1602,11 +1586,12 @@
   }
 
   /* Photo zone — neutral charcoal placeholder + subtle dot texture (matches
-     the video thumbnails). Swap to background-image: url(headshot.jpg) +
-     background-size: cover when real portraits arrive; the dot texture
-     ::before can stay or be removed. */
+     the video thumbnails). Uniform 16/11 ratio across every card. Swap to
+     background-image: url(headshot.jpg) + background-size: cover when real
+     portraits arrive. */
   .t-quote-photo {
     position: relative;
+    aspect-ratio: 16 / 11;
     background: linear-gradient(135deg, #2a2725 0%, #131110 100%);
     background-size: cover;
     background-position: center 28%;
@@ -1620,10 +1605,6 @@
     background-size: 3px 3px;
     pointer-events: none;
   }
-  .t-quote--std .t-quote-photo { aspect-ratio: 16 / 11; }
-  /* Featured photo fills the space above the quote so it matches the height
-     of the 2x2 grid beside it — big, beautiful, no skinny column. */
-  .t-quote--featured .t-quote-photo { flex: 1; min-height: 260px; }
 
   /* Content zone — quote + rule + author, dark text on the white card. */
   .t-quote-content {
@@ -1632,21 +1613,20 @@
     flex-direction: column;
     flex: 1;
   }
-  .t-quote--featured .t-quote-content { padding: 32px 34px 32px; }
 
+  /* Quote — upright (not italic); key words bolded inline via <strong>. */
   .t-quote-text {
     font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-style: italic;
-    font-size: 15px;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
     line-height: 1.5;
-    color: var(--black);
-    margin-bottom: 16px;
+    color: var(--muted);
+    margin-bottom: 18px;
   }
-  .t-quote--featured .t-quote-text {
-    font-size: clamp(19px, 1.6vw, 26px);
-    line-height: 1.4;
-    margin-bottom: 22px;
+  .t-quote-text strong {
+    font-weight: 700;
+    color: var(--black);
   }
 
   .t-quote-rule {
@@ -1671,8 +1651,6 @@
     color: var(--muted);
     margin-top: 3px;
   }
-  .t-quote--featured .t-quote-name { font-size: 17px; }
-  .t-quote--featured .t-quote-title { font-size: 14px; margin-top: 4px; }
 
   /* Industry chip — solid cyan pill, top-right of the photo zone. */
   .t-quote-chip {
@@ -1690,36 +1668,18 @@
     color: #0a0a0a;
     z-index: 2;
   }
-  .t-quote--featured .t-quote-chip {
-    top: 18px;
-    right: 18px;
-    font-size: 10px;
-    padding: 7px 13px;
-  }
 
   /* Responsive — tablet + mobile */
   @media (max-width: 1079px) {
-    /* Video grid: 2 columns on tablet. */
+    /* Video + quote grids: 2 columns on tablet. */
     .t-video-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
-
-    /* Quote bento (tablet): row-groups stack to single column. Featured on
-       top of its 2x2 grid; reverse group keeps featured below its grid. */
-    .t-quote-bento { gap: 20px; margin-top: 64px; }
-    .t-quote-rowgroup { grid-template-columns: 1fr; gap: 20px; }
-    .t-quote-grid4 { gap: 20px; }
-    /* Featured needs its own aspect-ratio when stacked (no sibling to
-       stretch against). */
-    .t-quote--featured .t-quote-photo { flex: none; aspect-ratio: 16 / 10; min-height: 0; }
+    .t-quote-grid-wall { grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 64px; }
   }
   @media (max-width: 719px) {
     #testimonials.is-light { padding: 96px 0; }
-    /* Video grid: single column on phones. */
+    /* Video + quote grids: single column on phones. */
     .t-video-grid { grid-template-columns: 1fr; gap: 32px; }
-    .t-quote-bento { gap: 16px; margin-top: 56px; }
-    .t-quote-rowgroup { gap: 16px; }
-    /* Small cards: 1 per row on phones for readability. */
-    .t-quote-grid4 { grid-template-columns: 1fr; gap: 16px; }
-    .t-quote--std .t-quote-photo { aspect-ratio: 16 / 9; }
+    .t-quote-grid-wall { grid-template-columns: 1fr; gap: 16px; margin-top: 56px; }
   }
 
   /* ============ LAYER 10 — WHO FOR / NOT FOR ============ */
