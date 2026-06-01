@@ -1670,7 +1670,37 @@ team.forEach(m => {
     });
   }, { threshold: 0.18, rootMargin: '0px 0px -60px 0px' });
 
-  document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
+  // Looser observer for grids where the last row can sit close to the viewport
+  // edge (e.g. A-Team). Triggers on any pixel of intersection.
+  const obsLoose = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obsLoose.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px 0px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-scale').forEach(el => {
+    if (el.closest('.ateam-grid')) obsLoose.observe(el);
+    else obs.observe(el);
+  });
+
+  // Safety net: once the user scrolls past the A-Team section, force-reveal
+  // any cards still hidden (handles tall last rows on short viewports).
+  const ateam = document.querySelector('.ateam-grid');
+  if (ateam) {
+    const tailObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting && e.boundingClientRect.top < 0) {
+          ateam.querySelectorAll('.reveal:not(.visible), .reveal-scale:not(.visible)')
+            .forEach(el => el.classList.add('visible'));
+          tailObs.disconnect();
+        }
+      });
+    }, { threshold: 0 });
+    tailObs.observe(ateam);
+  }
 })();
 
 // ── SUCCESS magazine covers wall (mirrors home.html intro wall, no DH cutout) ──
