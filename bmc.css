@@ -1658,9 +1658,10 @@
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
   }
   .t-pause svg { width: 40px; height: 40px; display: block; }
-  /* While playing: hide the play circle, show the cyan pause symbol. */
-  .t-video-toggle.is-playing .t-play { opacity: 0; }
-  .t-video-toggle.is-playing .t-pause { opacity: 1; }
+  /* While playing: hide the play circle, show the cyan pause symbol. (Class
+     lives on .t-video-thumb so the poster + icons all respond.) */
+  .t-video-thumb.is-playing .t-play { opacity: 0; }
+  .t-video-thumb.is-playing .t-pause { opacity: 1; }
   /* Embedded Vimeo player fills the thumbnail (same approach as the VSL). */
   .t-video-iframe {
     position: absolute;
@@ -1670,6 +1671,19 @@
     border: 0;
     z-index: 1;
   }
+  /* Custom poster — covers Vimeo's own thumbnail until the video is first
+     played, then fades away to reveal the live player. */
+  .t-video-poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+  }
+  .t-video-thumb.has-played .t-video-poster { opacity: 0; pointer-events: none; }
   .t-video-meta { padding-top: 18px; }
   .t-video-name {
     font-family: 'Inter', sans-serif;

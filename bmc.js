@@ -127,28 +127,31 @@
 (function () {
   // Pair each player iframe with its full-area toggle button. Clicking the
   // toggle plays if paused, pauses if playing (controls=0 has no native
-  // click-to-pause). The .is-playing class fades the cyan visual.
-  const pair = (iframe, toggle) => {
+  // click-to-pause). State classes go on `el`: .is-playing swaps the play/
+  // pause visual; .has-played (one-way) fades the custom poster away.
+  const pair = (iframe, toggle, el) => {
     if (!iframe || !toggle) return;
+    const target = el || toggle;
     const player = new window.Vimeo.Player(iframe);
     toggle.addEventListener('click', () => {
       player.getPaused()
         .then(paused => (paused ? player.play() : player.pause()))
         .catch(() => {});
     });
-    player.on('play',  () => toggle.classList.add('is-playing'));
-    player.on('pause', () => toggle.classList.remove('is-playing'));
-    player.on('ended', () => toggle.classList.remove('is-playing'));
+    player.on('play',  () => { target.classList.add('is-playing'); target.classList.add('has-played'); });
+    player.on('pause', () => target.classList.remove('is-playing'));
+    player.on('ended', () => target.classList.remove('is-playing'));
   };
 
   const init = () => {
     if (!window.Vimeo || !window.Vimeo.Player) return false;
     // VSL (What's Inside)
     pair(document.getElementById('vsl-player'), document.querySelector('[data-vsl-play]'));
-    // Video-grid testimonial embeds — toggle lives in the same card.
+    // Video-grid testimonial embeds — state class lives on the thumbnail so
+    // the poster + play/pause icons all respond.
     document.querySelectorAll('.t-video-iframe').forEach(iframe => {
-      const card = iframe.closest('.t-video');
-      pair(iframe, card && card.querySelector('.t-video-toggle'));
+      const thumb = iframe.closest('.t-video-thumb');
+      pair(iframe, thumb && thumb.querySelector('.t-video-toggle'), thumb);
     });
     return true;
   };
