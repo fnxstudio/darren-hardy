@@ -508,11 +508,16 @@
   }
 
   /* ============ SCROLL REVEAL UTILITY ============ */
-  .reveal {
+  .reveal,
+  .reveal-rg {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   }
+  /* .reveal-rg — same fade-up as .reveal, but triggered by its own earlier
+     observer (fires just before the element enters the viewport) so large
+     blocks like the testimonial row-groups don't sit blank for too long. */
+  .reveal-rg.visible { opacity: 1; transform: translateY(0); }
   /* Directional variants — for two-column sections where each side slides
      in from its own direction. Defined BEFORE .visible so the .visible
      rule (which resets transform) takes effect when added. */

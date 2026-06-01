@@ -32,6 +32,20 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
   staggerEls.forEach(el => staggerIO.observe(el));
+
+  // .reveal-rg — large blocks (testimonial row-groups) that should pop in
+  // EARLY so they don't sit blank. threshold 0 = first pixel; positive bottom
+  // rootMargin = fire while the element is still ~14% below the viewport.
+  const rgEls = document.querySelectorAll('.reveal-rg');
+  const rgIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        rgIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px 14% 0px' });
+  rgEls.forEach(el => rgIO.observe(el));
 })();
 
 // ===== Count-up animation for stat numbers =====
@@ -103,11 +117,12 @@
   });
 })();
 
-// ===== Video testimonial slider — prev/next arrows (looping) =====
-// Native CSS scroll-snap does the heavy lifting; the arrows step by one card
-// width (including the gap) and WRAP AROUND at the ends so they always move:
-// "next" at the end loops back to the start, "prev" at the start jumps to the
-// end. No DOM cloning — just edge detection + a scroll to the opposite end.
+// ===== Video testimonial slider — prev/next arrows (seamless infinite loop) =====
+// The original cards are cloned once and appended, so the track can keep
+// sliding one card at a time in the same direction past the end. When a full
+// set has scrolled by, scrollLeft is silently rewound by one set-width — the
+// clones are pixel-identical to the originals, so the rewind is invisible and
+// the motion reads as one continuous loop (no big jump-back).
 (function () {
   document.querySelectorAll('[data-video-track]').forEach(track => {
     const slider = track.closest('.t-video-slider');
@@ -116,33 +131,44 @@
     const next = slider.querySelector('[data-video-next]');
     if (!prev || !next) return;
 
-    const EDGE = 4; // px tolerance for "at the end / at the start"
+    const originals = Array.from(track.querySelectorAll('.t-video'));
+    const N = originals.length;
+    if (!N) return;
+
+    // Clone the full set once and append (kept out of the a11y tree / tab order).
+    originals.forEach(card => {
+      const clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.querySelectorAll('button, a, [tabindex]').forEach(el => el.setAttribute('tabindex', '-1'));
+      track.appendChild(clone);
+    });
+
+    let index = 0; // logical left-most card index (can exceed N transiently)
 
     const step = () => {
-      const firstCard = track.querySelector('.t-video');
-      if (!firstCard) return 0;
-      const trackStyle = window.getComputedStyle(track);
-      const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || '0');
-      return firstCard.offsetWidth + gap;
+      const card = track.querySelector('.t-video');
+      if (!card) return 0;
+      const cs = window.getComputedStyle(track);
+      const gap = parseFloat(cs.columnGap || cs.gap || '0');
+      return card.offsetWidth + gap;
     };
 
-    const scrollByCard = (dir) => {
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      const atEnd = track.scrollLeft >= maxScroll - EDGE;
-      const atStart = track.scrollLeft <= EDGE;
-
-      if (dir > 0 && atEnd) {
-        // Past the last card → loop to the start.
-        track.scrollTo({ left: 0, behavior: 'smooth' });
-      } else if (dir < 0 && atStart) {
-        // Before the first card → loop to the end.
-        track.scrollTo({ left: maxScroll, behavior: 'smooth' });
-      } else {
-        track.scrollBy({ left: dir * step(), behavior: 'smooth' });
+    const go = (dir) => {
+      const s = step();
+      // Before moving, if we're at a set boundary, silently shift by one full
+      // set (N cards) into the clone buffer so there's always room to slide.
+      if (dir > 0 && index >= N) {
+        index -= N;
+        track.scrollLeft -= N * s;
+      } else if (dir < 0 && index <= 0) {
+        index += N;
+        track.scrollLeft += N * s;
       }
+      index += dir;
+      track.scrollBy({ left: dir * s, behavior: 'smooth' });
     };
 
-    prev.addEventListener('click', () => scrollByCard(-1));
-    next.addEventListener('click', () => scrollByCard(1));
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
   });
 })();
