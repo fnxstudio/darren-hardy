@@ -840,6 +840,84 @@
     .video-modal-close { top: -42px; width: 36px; height: 36px; font-size: 16px; }
   }
 
+  /* ============ PROGRAM LOGOS SLIDER ============ */
+  .logos {
+    background: var(--black);
+    padding: 110px 0;
+    border-top: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .logos-head {
+    text-align: center;
+    margin-bottom: 58px;
+  }
+  .logos-head .eyebrow { justify-content: center; margin-bottom: 20px; }
+  .logos-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(26px, 3vw, 46px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+  .logos-marquee {
+    position: relative;
+    overflow: hidden;
+    /* Soft fade edges so logos dissolve into the page */
+    mask-image: linear-gradient(90deg, transparent 0%, black 7%, black 93%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 7%, black 93%, transparent 100%);
+  }
+  .logos-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: logosScroll 44s linear infinite;
+  }
+  .logos-marquee:hover .logos-track { animation-play-state: paused; }
+  @keyframes logosScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* track holds 2x content, so -50% loops seamlessly */
+  }
+  .logo-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 72px;
+    padding: 0 52px;
+  }
+  .logo-item img {
+    width: auto;
+    display: block;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+  .logo-item img:hover { opacity: 1; }
+  /* Per-logo heights, tuned for optical balance across very different shapes */
+  .logo-item img.lg-bmc  { height: 50px; }   /* square emblem */
+  .logo-item img.lg-hj   { height: 54px; }   /* square emblem */
+  .logo-item img.lg-jst  { height: 44px; }
+  .logo-item img.lg-ddod { height: 44px; }
+  .logo-item img.lg-ip   { height: 40px; }
+  .logo-item img.lg-dd   { height: 34px; }
+  .logo-item img.lg-tc   { height: 26px; }   /* wide wordmark */
+  .logo-item img.lg-efp  { height: 24px; }   /* wide wordmark */
+  .logo-item img.lg-riv  { height: 26px; }   /* wide wordmark */
+  @media (max-width: 720px) {
+    .logo-item { padding: 0 32px; height: 56px; }
+    .logo-item img.lg-bmc  { height: 40px; }
+    .logo-item img.lg-hj   { height: 42px; }
+    .logo-item img.lg-jst  { height: 36px; }
+    .logo-item img.lg-ddod { height: 36px; }
+    .logo-item img.lg-ip   { height: 32px; }
+    .logo-item img.lg-dd   { height: 28px; }
+    .logo-item img.lg-tc   { height: 22px; }
+    .logo-item img.lg-efp  { height: 20px; }
+    .logo-item img.lg-riv  { height: 22px; }
+    .logos-track { animation-duration: 32s; }
+  }
+
   /* ============ MOTION ============ */
   .reveal {
     opacity: 0;
@@ -1193,6 +1271,19 @@
   </div>
 </section>
 
+<!-- PROGRAM LOGOS SLIDER -->
+<section class="logos">
+  <div class="container">
+    <div class="logos-head reveal">
+      <div class="eyebrow"><span class="pip"></span>One Mission · Many Brands</div>
+      <h2 class="logos-title">The Programs You'd <em>Amplify</em>.</h2>
+    </div>
+  </div>
+  <div class="logos-marquee">
+    <div class="logos-track" id="logosTrack"></div>
+  </div>
+</section>
+
 <!-- CREED -->
 <section class="creed">
   <div class="container">
@@ -1417,6 +1508,35 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+})();
+
+// ── Program logos marquee (white logos) ──
+(function () {
+  // Flagship programs first (BMC, The Collective, DarrenDaily, DDOD), then the
+  // Mastery Systems. `cls` sets per-logo height for optical balance.
+  const logos = [
+    { src: 'BMC_logo_white.png',            alt: 'Business Master Class',   cls: 'lg-bmc'  },
+    { src: 'THE COLLECTIVE_logo_white.png', alt: 'The Collective',          cls: 'lg-tc'   },
+    { src: 'DarrenDaily_logo_white.png',    alt: 'DarrenDaily',             cls: 'lg-dd'   },
+    { src: 'DDoD_podcast_logo_white.png',   alt: 'DarrenDaily On Demand',   cls: 'lg-ddod' },
+    { src: 'IP_logo_white.png',             alt: 'Insane Productivity',     cls: 'lg-ip'   },
+    { src: 'RIVETING_logo_white.png',       alt: 'RIVETING',                cls: 'lg-riv'  },
+    { src: 'JST_logo_white.png',            alt: 'Jumpstart',               cls: 'lg-jst'  },
+    { src: 'EFP_logo_white.png',            alt: 'eFASTPASS',               cls: 'lg-efp'  },
+    { src: 'HJ_logo_white.png',             alt: "Hero's Journey",          cls: 'lg-hj'   },
+  ];
+  const track = document.getElementById('logosTrack');
+  if (!track) return;
+
+  const build = (l) => {
+    const el = document.createElement('div');
+    el.className = 'logo-item';
+    el.innerHTML = `<img class="${l.cls}" src="${encodeURI(l.src)}" alt="${l.alt}" loading="lazy" />`;
+    return el;
+  };
+
+  // Duplicate the set so translateX(-50%) loops seamlessly
+  [...logos, ...logos].forEach(l => track.appendChild(build(l)));
 })();
 
 // ── Darami hiring-process video modal ──
