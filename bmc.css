@@ -1130,9 +1130,15 @@
       justify-self: center;
       align-self: end;
       top: auto; left: auto;
-      transform: translateY(30%);
+      /* Smaller circle + tighter ring + drop into the actual gap (~50%
+         of the 56px gap) so it sits centered between BMC and the
+         ACTIVATED IMMEDIATELY flag instead of crowding it. */
+      width: 44px; height: 44px;
+      box-shadow: 0 0 0 4px var(--ink), 0 6px 18px rgba(120, 228, 239, 0.30);
+      transform: translateY(calc(50% + 14px));
       z-index: 3;
     }
+    .compare-plus svg { width: 18px; height: 18px; }
   }
 
   /* ============ LAYER 6 / 7 — STACKED CAPABILITY ROWS ============ */
@@ -1300,10 +1306,16 @@
   }
   @media (max-width: 720px) {
     .unfair-list { grid-template-columns: repeat(2, 1fr); }
+    /* The clamp lower-bound (13px) was rendering at minimum on mobile —
+       too small for the size of the cards. Bump up so the copy fills the
+       card properly. */
+    .unfair-list .t { font-size: 17px; line-height: 1.35; }
+    .unfair-list .n { font-size: 14px; }
   }
   @media (max-width: 420px) {
     .unfair-list { grid-template-columns: 1fr; }
     .unfair-list li { aspect-ratio: auto; padding: 18px 22px; gap: 12px; }
+    .unfair-list .t { font-size: 18px; }
   }
   .unfair-compare {
     display: grid;
@@ -1376,10 +1388,14 @@
     .unfair { padding: 80px 0; }
     .unfair-grid { grid-template-columns: 1fr; gap: 48px; }
     .unfair-image { min-height: 360px; }
+    /* Anchor the crop so DH's head stays in frame on narrower viewports —
+       'center top' on desktop trims the bottom rather than the head. */
+    .unfair-image img { object-position: center 12%; }
   }
   @media (max-width: 600px) {
     .unfair-compare { grid-template-columns: 1fr; gap: 24px; }
     .unfair-image { min-height: 260px; }
+    .unfair-image img { object-position: center 8%; }
   }
 
   /* ============ LAYER 9 — TESTIMONIAL WALL (editorial bento) ============
@@ -1746,6 +1762,9 @@
       grid-auto-columns: 86%;
       gap: 16px;
     }
+    /* Native swipe is the better mobile gesture — hide the arrow controls
+       so they don't crowd the card below. */
+    .t-video-controls { display: none; }
     .t-divider { margin: 64px 0 40px; gap: 14px; }
     .t-divider-label { font-size: 10px; letter-spacing: 0.32em; }
     .t-quote-bento { gap: 16px; }
@@ -1860,7 +1879,10 @@
     .filter-grid::before { display: none; }
     .filter-col { border-bottom: 1px solid var(--rule-strong); padding: 56px 32px; }
     .filter-col:last-child { border-bottom: none; }
-    .filter-close { margin-top: 36px; padding: 0 24px; }
+    /* Equal vertical breathing room on mobile — was margin-top:36 only,
+       which left the line tucked against the bottom of the dark column
+       above. Symmetric 56px top + 56px bottom now. */
+    .filter-close { margin-top: 56px; padding: 0 24px 56px; }
     .filter-close p { font-size: clamp(19px, 4.5vw, 24px); }
   }
 
