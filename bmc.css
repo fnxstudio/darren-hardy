@@ -420,13 +420,11 @@
 
   @media (max-width: 960px) {
     .hero { padding: 100px 0 60px; }
-    /* Constrain headline to ~62% so it wraps tighter, leaving the right side
-       of the viewport for Darren. Smaller font on mobile too. */
-    .hero-content { max-width: 62%; }
-    .hero h1 { font-size: clamp(32px, 7.4vw, 56px); max-width: 100%; }
+    /* Constrain headline column to the LEFT half so Darren sits cleanly
+       on the right with no copy overlapping his face. */
+    .hero-content { max-width: 56%; }
+    .hero h1 { font-size: clamp(30px, 6.8vw, 50px); max-width: 100%; }
     .hero-sub { font-size: 15px; max-width: 100%; }
-    /* Mobile compensation — radial gradients lose impact on smaller
-       viewports. Stronger base tint + denser bloom centered for single-col. */
     .hero {
       background: linear-gradient(180deg, #160a22 0%, #0e0814 55%, #060206 100%);
     }
@@ -436,41 +434,47 @@
         radial-gradient(ellipse 100% 50% at 50% 92%, rgba(156, 39, 172, 0.14), transparent 70%),
         radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
     }
-    /* Mobile: pre-composited image (bg + Darren merged), cover-fit +
-       CENTER bottom. Math: Darren sits at composite x 458–1436; with
-       right-positioning the cover crop puts his face at viewport x 44–165
-       (under headline gradient → appears faded). Center positioning shifts
-       the visible window so his face lands at viewport x 263–384 — past
-       the dark left-fade, fully visible. Right side of his body / arm gets
-       trimmed at viewport edge, which is acceptable. */
+    /* Mobile: pre-composited image (bg + Darren merged at the right side
+       of the source). 'right bottom' anchors the right edge of the source
+       to the right edge of the viewport so Darren stays in frame on the
+       far right after the portrait cover-crop. The left side of the
+       source (background only) gets trimmed off — acceptable. */
     .hero-bkgd {
       top: 0;
       height: 100%;
       object-fit: cover;
-      object-position: center bottom;
+      object-position: right bottom;
+      /* Full opacity — no transparency on Darren */
+      opacity: 1;
     }
     /* Cutout layer is baked into the composite — hide the standalone one */
     .hero-portrait { display: none; }
-    /* Strong left-fade gradient so headline reads cleanly over the backdrop */
+    /* Left-only dark fade so the headline reads cleanly over the backdrop
+       and the right half (where Darren lives) stays fully visible. The
+       fade clears well before the ~56% headline column ends so there's no
+       dark wash sitting over Darren's face. */
     .hero::after {
       background: linear-gradient(
         90deg,
-        rgba(8,4,12,0.92) 0%,
-        rgba(8,4,12,0.72) 28%,
-        rgba(8,4,12,0.30) 56%,
-        transparent 78%
+        rgba(8,4,12,0.95) 0%,
+        rgba(8,4,12,0.82) 30%,
+        rgba(8,4,12,0.35) 52%,
+        transparent 64%
       );
     }
   }
   @media (max-width: 600px) {
-    /* Phone: relax the headline column to 70% so words don't get awkward. */
-    .hero-content { max-width: 70%; }
-    .hero h1 { font-size: clamp(28px, 8.4vw, 44px); }
+    /* Phone: column stays narrow so Darren keeps the right portion of the
+       viewport. Headline size scales down with viewport. */
+    .hero-content { max-width: 58%; }
+    .hero h1 { font-size: clamp(26px, 7.2vw, 40px); }
     .hero-sub { font-size: 14px; }
   }
   @media (max-width: 420px) {
-    /* Very narrow phones: give the headline a touch more breathing room. */
-    .hero-content { max-width: 78%; }
+    /* Very narrow phones — small extra room so the longest words don't
+       crash out, while still leaving the right ~38% for Darren. */
+    .hero-content { max-width: 62%; }
+    .hero h1 { font-size: clamp(22px, 7.4vw, 34px); }
   }
 
   /* ============ SCROLL REVEAL UTILITY ============ */
