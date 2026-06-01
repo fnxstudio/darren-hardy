@@ -1641,8 +1641,26 @@
     z-index: 2;
   }
   .t-video-toggle .t-play { pointer-events: none; }
-  /* While playing, fade the play button; clicking anywhere still pauses. */
+  /* Bare cyan pause symbol (no circle) shown while the video plays — replaces
+     the play button. Clicking anywhere on the toggle still pauses. */
+  .t-pause {
+    position: absolute;
+    bottom: 22px;
+    right: 24px;
+    color: var(--bmc-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 3;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
+  }
+  .t-pause svg { width: 40px; height: 40px; display: block; }
+  /* While playing: hide the play circle, show the cyan pause symbol. */
   .t-video-toggle.is-playing .t-play { opacity: 0; }
+  .t-video-toggle.is-playing .t-pause { opacity: 1; }
   /* Embedded Vimeo player fills the thumbnail (same approach as the VSL). */
   .t-video-iframe {
     position: absolute;
@@ -1745,6 +1763,17 @@
     background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 3px 3px;
     pointer-events: none;
+  }
+  /* Real portrait fills the photo zone (covers the charcoal placeholder). */
+  .t-quote-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    display: block;
+    z-index: 1;
   }
 
   /* Content zone — quote + rule + author, dark text on the white card. */
