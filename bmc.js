@@ -103,9 +103,11 @@
   });
 })();
 
-// ===== Video testimonial slider — prev/next arrows =====
-// Native CSS scroll-snap does the heavy lifting; this just maps the arrow
-// buttons to scrollBy() by one card width (including the gap).
+// ===== Video testimonial slider — prev/next arrows (looping) =====
+// Native CSS scroll-snap does the heavy lifting; the arrows step by one card
+// width (including the gap) and WRAP AROUND at the ends so they always move:
+// "next" at the end loops back to the start, "prev" at the start jumps to the
+// end. No DOM cloning — just edge detection + a scroll to the opposite end.
 (function () {
   document.querySelectorAll('[data-video-track]').forEach(track => {
     const slider = track.closest('.t-video-slider');
@@ -114,13 +116,30 @@
     const next = slider.querySelector('[data-video-next]');
     if (!prev || !next) return;
 
-    const scrollByCard = (dir) => {
+    const EDGE = 4; // px tolerance for "at the end / at the start"
+
+    const step = () => {
       const firstCard = track.querySelector('.t-video');
-      if (!firstCard) return;
+      if (!firstCard) return 0;
       const trackStyle = window.getComputedStyle(track);
       const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || '0');
-      const step = firstCard.offsetWidth + gap;
-      track.scrollBy({ left: dir * step, behavior: 'smooth' });
+      return firstCard.offsetWidth + gap;
+    };
+
+    const scrollByCard = (dir) => {
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      const atEnd = track.scrollLeft >= maxScroll - EDGE;
+      const atStart = track.scrollLeft <= EDGE;
+
+      if (dir > 0 && atEnd) {
+        // Past the last card → loop to the start.
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else if (dir < 0 && atStart) {
+        // Before the first card → loop to the end.
+        track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+      } else {
+        track.scrollBy({ left: dir * step(), behavior: 'smooth' });
+      }
     };
 
     prev.addEventListener('click', () => scrollByCard(-1));
