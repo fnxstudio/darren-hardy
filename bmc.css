@@ -638,10 +638,21 @@
     margin-bottom: 14px;
   }
   .flag-marquee {
+    position: relative;
     overflow: hidden;
     width: 100%;
     mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+  /* Dark tint overlay — keeps the full-color flags from being too bright /
+     overpowering against the dark section. */
+  .flag-marquee::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 11, 9, 0.34);
+    pointer-events: none;
+    z-index: 1;
   }
   .flag-track {
     display: inline-flex;
@@ -654,8 +665,10 @@
     height: 40px;
     width: auto;
     display: block;
-    filter: grayscale(1) brightness(1.6) contrast(0.85);
-    opacity: 0.72;
+    /* Full country colors; a touch of desaturation softens neon edges. */
+    filter: saturate(0.92);
+    opacity: 0.95;
+    border-radius: 2px;
     flex-shrink: 0;
   }
   @keyframes flagScroll {
