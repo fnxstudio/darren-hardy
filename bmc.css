@@ -635,7 +635,7 @@
     text-transform: uppercase;
     color: var(--grey-soft);
     text-align: center;
-    margin-bottom: 14px;
+    margin-bottom: 30px;
   }
   .flag-marquee {
     position: relative;
@@ -643,16 +643,6 @@
     width: 100%;
     mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
-  }
-  /* Dark tint overlay — keeps the full-color flags from being too bright /
-     overpowering against the dark section. */
-  .flag-marquee::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(13, 11, 9, 0.34);
-    pointer-events: none;
-    z-index: 1;
   }
   .flag-track {
     display: inline-flex;
@@ -665,9 +655,11 @@
     height: 40px;
     width: auto;
     display: block;
-    /* Full country colors; a touch of desaturation softens neon edges. */
-    filter: saturate(0.92);
-    opacity: 0.95;
+    /* Mute the flag ITSELF (brightness + slight desaturation) instead of a
+       full-width overlay — so only the flags are toned down and the gaps
+       between them stay clean (no dark patches). */
+    filter: brightness(0.8) saturate(0.9);
+    opacity: 0.92;
     border-radius: 2px;
     flex-shrink: 0;
   }
