@@ -119,39 +119,61 @@
 
 // (Video testimonials are now a static 2x3 grid — no slider/marquee JS needed.)
 
-// ===== Vimeo players — custom play button only (no Vimeo controls) =====
+// ===== Vimeo players — custom play/pause + simple mute (no Vimeo controls) =====
 // Every embed loads with controls=0 (no scrub bar, settings, CC/AI buttons).
-// A cyan button starts playback via the Vimeo Player API and fades out while
-// playing; clicking the video (controls=0) pauses and the button returns.
-// Handles the VSL ("What's Inside") and any video-grid testimonial embeds.
+// State classes on `target`: .is-playing (swap play/pause visual), .has-played
+// (drop poster / reveal volume), .is-muted (mute icon). Handles the VSL and
+// every video-grid testimonial embed.
 (function () {
-  // Pair each player iframe with its full-area toggle button. Clicking the
-  // toggle plays if paused, pauses if playing (controls=0 has no native
-  // click-to-pause). State classes go on `el`: .is-playing swaps the play/
-  // pause visual; .has-played (one-way) fades the custom poster away.
-  const pair = (iframe, toggle, el) => {
+  const wire = (iframe, toggle, vol, target) => {
     if (!iframe || !toggle) return;
-    const target = el || toggle;
+    const el = target || toggle;
     const player = new window.Vimeo.Player(iframe);
+
+    // IMPORTANT: call play() synchronously inside the click gesture (NOT from
+    // a promise callback) — otherwise the browser drops the user-gesture and
+    // forces muted playback. We track play state via the class, not getPaused().
     toggle.addEventListener('click', () => {
-      player.getPaused()
-        .then(paused => (paused ? player.play() : player.pause()))
-        .catch(() => {});
+      if (el.classList.contains('is-playing')) {
+        player.pause();
+      } else {
+        if (!el.classList.contains('is-muted')) player.setMuted(false); // ensure audible
+        player.play();
+      }
     });
-    player.on('play',  () => { target.classList.add('is-playing'); target.classList.add('has-played'); });
-    player.on('pause', () => target.classList.remove('is-playing'));
-    player.on('ended', () => target.classList.remove('is-playing'));
+    player.on('play',  () => { el.classList.add('is-playing'); el.classList.add('has-played'); });
+    player.on('pause', () => el.classList.remove('is-playing'));
+    player.on('ended', () => el.classList.remove('is-playing'));
+
+    // Simple mute toggle (its own button, sibling of the toggle).
+    if (vol) {
+      vol.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const mute = !el.classList.contains('is-muted');
+        player.setMuted(mute).catch(() => {});
+        el.classList.toggle('is-muted', mute);
+      });
+    }
   };
 
   const init = () => {
     if (!window.Vimeo || !window.Vimeo.Player) return false;
-    // VSL (What's Inside)
-    pair(document.getElementById('vsl-player'), document.querySelector('[data-vsl-play]'));
-    // Video-grid testimonial embeds — state class lives on the thumbnail so
-    // the poster + play/pause icons all respond.
+    // VSL (What's Inside) — state class on the frame.
+    const vsl = document.getElementById('vsl-player');
+    if (vsl) {
+      const frame = vsl.closest('.vsl-frame');
+      wire(vsl,
+        document.querySelector('[data-vsl-play]'),
+        frame && frame.querySelector('.vsl-vol'),
+        frame);
+    }
+    // Video-grid testimonial embeds — state class on the thumbnail.
     document.querySelectorAll('.t-video-iframe').forEach(iframe => {
       const thumb = iframe.closest('.t-video-thumb');
-      pair(iframe, thumb && thumb.querySelector('.t-video-toggle'), thumb);
+      wire(iframe,
+        thumb && thumb.querySelector('.t-video-toggle'),
+        thumb && thumb.querySelector('.t-video-vol'),
+        thumb);
     });
     return true;
   };

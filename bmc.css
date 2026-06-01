@@ -830,14 +830,65 @@
     cursor: pointer;
     z-index: 2;
   }
-  .vsl-toggle .vsl-play { pointer-events: none; }
-  /* While playing, fade the cyan button so the video reads clean; clicking
-     anywhere still pauses. On pause it fades back in. */
-  .vsl-toggle.is-playing .vsl-play { opacity: 0; }
+  .vsl-toggle .vsl-play,
+  .vsl-toggle .vsl-pause { pointer-events: none; }
+  /* While playing: fade the play circle, show the bare cyan pause symbol. */
+  .vsl-frame.is-playing .vsl-play { opacity: 0; }
+  .vsl-pause {
+    position: absolute;
+    bottom: 52px; right: 52px;
+    color: var(--bmc-cyan);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 3;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+  }
+  .vsl-pause svg { width: 56px; height: 56px; display: block; }
+  .vsl-frame.is-playing .vsl-pause { opacity: 1; }
   /* Stop the motion for reduced-motion users. */
   @media (prefers-reduced-motion: reduce) {
     .vsl-play, .vsl-play::after { animation: none; }
   }
+
+  /* ───── Simple cyan mute toggle (shared: VSL + testimonial videos) ─────
+     Bare cyan speaker icon in the opposite corner from play/pause. Appears
+     once the video has started; click toggles mute. */
+  .vsl-vol, .t-video-vol {
+    position: absolute;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--bmc-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 4;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+  }
+  .vsl-vol:hover, .t-video-vol:hover { transform: scale(1.1); }
+  .vsl-vol { bottom: 32px; left: 32px; }
+  .vsl-vol svg { width: 34px; height: 34px; display: block; }
+  .t-video-vol { bottom: 16px; left: 16px; }
+  .t-video-vol svg { width: 26px; height: 26px; display: block; }
+  /* Reveal the mute control once the video has started. */
+  .vsl-frame.has-played .vsl-vol,
+  .t-video-thumb.has-played .t-video-vol {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* Icon swap: speaker (on) by default, crossed-out speaker when muted. */
+  .t-vol-off { display: none; }
+  .vsl-frame.is-muted .t-vol-on,
+  .t-video-thumb.is-muted .t-vol-on { display: none; }
+  .vsl-frame.is-muted .t-vol-off,
+  .t-video-thumb.is-muted .t-vol-off { display: block; }
   /* Overlay text on the video still — placeholder for "Watch Darren explain
      what's inside" until the still includes baked-in text. Bottom-anchored,
      subtle dark vignette so it reads against any thumbnail. */
