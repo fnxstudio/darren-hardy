@@ -1457,60 +1457,47 @@
   }
   #testimonials.is-light em.key { color: #4B2C6A; font-style: normal; }
 
-  /* ───── BLOCK 1 — Video testimonials slider ─────
-     3 equal cards visible on desktop; native CSS scroll-snap horizontal track
-     so the section can hold an unlimited number of videos. Arrow controls
-     live in a centered row below the track. */
-  .t-video-slider {
+  /* ───── BLOCK 1 — Video testimonials marquee ─────
+     Continuous auto-scroll, same technique as the flag/logo marquee: the card
+     set is duplicated (by JS) and the track translates -50% on an infinite
+     linear loop, so the seam is invisible — it just keeps going. Pauses on
+     hover so a card can be read / played. Each card uses margin-right (not
+     gap) so the -50% shift lands on an exact set boundary = perfectly seamless. */
+  .t-video-marquee {
     position: relative;
     margin-top: 80px;
+    overflow: hidden;
+    /* Soft fade at both edges so cards slide in/out gracefully. */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
   }
-  .t-video-track {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: calc((100% - 64px) / 3);
-    gap: 32px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-  }
-  .t-video-track::-webkit-scrollbar { display: none; }
-  .t-video-track .t-video { scroll-snap-align: start; }
-  /* Controls — centered chevron buttons below the track. */
-  .t-video-controls {
+  .t-video-marquee-track {
     display: flex;
-    justify-content: center;
-    gap: 18px;
-    /* Pulled up close to the videos; the quote bento below gets its own
-       generous margin-top so the arrows aren't bunched against the cards. */
-    margin-top: 18px;
+    width: max-content;
+    animation: tVideoMarquee 55s linear infinite;
+    will-change: transform;
   }
-  .t-video-arrow {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: transparent;
-    color: var(--black);
-    border: 1px solid rgba(10, 10, 10, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
-    padding: 0;
+  .t-video-marquee:hover .t-video-marquee-track {
+    animation-play-state: paused;
   }
-  .t-video-arrow svg { width: 18px; height: 18px; display: block; }
-  .t-video-arrow:hover {
-    background: var(--black);
-    color: var(--white);
-    border-color: var(--black);
+  @keyframes tVideoMarquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
-  .t-video-arrow:active { transform: scale(0.96); }
-  /* Play button right-sized for the slider cards (smaller than the old featured 88px). */
-  .t-video-slider .t-play--lg { width: 64px; height: 64px; }
-  .t-video-slider .t-play--lg svg { width: 22px; height: 22px; }
+  .t-video-marquee-track .t-video {
+    flex: 0 0 auto;
+    width: clamp(300px, 30vw, 420px);
+    margin-right: 32px;
+  }
+  /* Respect reduced-motion: stop the auto-scroll, allow manual horizontal
+     scroll instead. */
+  @media (prefers-reduced-motion: reduce) {
+    .t-video-marquee { overflow-x: auto; }
+    .t-video-marquee-track { animation: none; }
+  }
+  /* Play button right-sized for the marquee cards. */
+  .t-video-marquee .t-play--lg { width: 64px; height: 64px; }
+  .t-video-marquee .t-play--lg svg { width: 22px; height: 22px; }
   .t-video { cursor: pointer; display: flex; flex-direction: column; }
   .t-video-thumb {
     position: relative;
@@ -1743,12 +1730,6 @@
 
   /* Responsive — tablet + mobile */
   @media (max-width: 1079px) {
-    /* Video slider: 2 cards visible on tablet */
-    .t-video-track {
-      grid-auto-columns: calc((100% - 24px) / 2);
-      gap: 24px;
-    }
-
     /* Quote bento (tablet): row-groups stack to single column. Featured on
        top of its 2x2 grid; reverse group keeps featured below its grid. */
     .t-quote-bento { gap: 20px; margin-top: 64px; }
@@ -1760,14 +1741,9 @@
   }
   @media (max-width: 719px) {
     #testimonials.is-light { padding: 96px 0; }
-    /* Video slider: ~1 card visible on phone, swipe-friendly */
-    .t-video-track {
-      grid-auto-columns: 86%;
-      gap: 16px;
-    }
-    /* Native swipe is the better mobile gesture — hide the arrow controls
-       so they don't crowd the card below. */
-    .t-video-controls { display: none; }
+    /* Marquee: narrower cards + faster loop so motion reads on small screens. */
+    .t-video-marquee-track .t-video { width: clamp(240px, 78vw, 300px); margin-right: 16px; }
+    .t-video-marquee-track { animation-duration: 36s; }
     .t-quote-bento { gap: 16px; margin-top: 56px; }
     .t-quote-rowgroup { gap: 16px; }
     /* Small cards: 1 per row on phones for readability. */

@@ -117,58 +117,20 @@
   });
 })();
 
-// ===== Video testimonial slider — prev/next arrows (seamless infinite loop) =====
-// The original cards are cloned once and appended, so the track can keep
-// sliding one card at a time in the same direction past the end. When a full
-// set has scrolled by, scrollLeft is silently rewound by one set-width — the
-// clones are pixel-identical to the originals, so the rewind is invisible and
-// the motion reads as one continuous loop (no big jump-back).
+// ===== Video testimonial marquee — seamless continuous auto-scroll =====
+// Duplicate the card set once so the track is exactly 2x its content width.
+// The CSS animation translates the track -50% on an infinite linear loop —
+// because the second half is identical to the first, the wrap point is
+// invisible and the row just keeps gliding (same trick as the flag marquee).
 (function () {
-  document.querySelectorAll('[data-video-track]').forEach(track => {
-    const slider = track.closest('.t-video-slider');
-    if (!slider) return;
-    const prev = slider.querySelector('[data-video-prev]');
-    const next = slider.querySelector('[data-video-next]');
-    if (!prev || !next) return;
-
+  document.querySelectorAll('[data-video-marquee]').forEach(track => {
     const originals = Array.from(track.querySelectorAll('.t-video'));
-    const N = originals.length;
-    if (!N) return;
-
-    // Clone the full set once and append (kept out of the a11y tree / tab order).
+    if (!originals.length) return;
     originals.forEach(card => {
       const clone = card.cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
       clone.querySelectorAll('button, a, [tabindex]').forEach(el => el.setAttribute('tabindex', '-1'));
       track.appendChild(clone);
     });
-
-    let index = 0; // logical left-most card index (can exceed N transiently)
-
-    const step = () => {
-      const card = track.querySelector('.t-video');
-      if (!card) return 0;
-      const cs = window.getComputedStyle(track);
-      const gap = parseFloat(cs.columnGap || cs.gap || '0');
-      return card.offsetWidth + gap;
-    };
-
-    const go = (dir) => {
-      const s = step();
-      // Before moving, if we're at a set boundary, silently shift by one full
-      // set (N cards) into the clone buffer so there's always room to slide.
-      if (dir > 0 && index >= N) {
-        index -= N;
-        track.scrollLeft -= N * s;
-      } else if (dir < 0 && index <= 0) {
-        index += N;
-        track.scrollLeft += N * s;
-      }
-      index += dir;
-      track.scrollBy({ left: dir * s, behavior: 'smooth' });
-    };
-
-    prev.addEventListener('click', () => go(-1));
-    next.addEventListener('click', () => go(1));
   });
 })();
