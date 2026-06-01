@@ -1057,13 +1057,10 @@
     border: none;   /* cancel borders inherited from .ribbon */
   }
   .awards-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    position: relative;
-    overflow: hidden;
+    gap: 48px;
     background: var(--black);
   }
   .award.award-has-img {
@@ -1073,15 +1070,9 @@
     justify-content: center;
   }
   .award.award-has-img::before { display: none; }
-  /* Mobile: awards as a centered flex row */
+  /* Mobile: tighten gap and scale images to viewport */
   @media (max-width: 720px) {
-    .awards-grid {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-    }
+    .awards-grid { gap: 16px; }
     .award.award-has-img { flex: 0 0 22vw; width: 22vw; }
     .awards-grid .award-img,
     .awards-grid .award-img--sm { width: 100%; height: auto; }
