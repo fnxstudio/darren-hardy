@@ -1565,148 +1565,156 @@
     grid-template-columns: repeat(12, 1fr);
     gap: 24px;
   }
+  /* Card — full-bleed photo as background; quote text overlaid at the
+     bottom on a dark legibility gradient. Editorial / magazine-cover feel. */
   .t-quote {
     position: relative;
-    background: var(--white);
-    border-radius: 6px;
+    background: #0a0a0a;
+    border-radius: 8px;
     padding: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    justify-content: flex-end;
+    box-shadow: 0 4px 20px rgba(10, 10, 10, 0.10);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
-  /* Photo block — big visual anchor at top of each card. Currently styled
-     gradient placeholders; swap to background-image or <img> when real
-     portraits arrive. Chip overlays in the top-right corner of the photo
-     so it lives inside the visual area and never collides with body text. */
+  .t-quote:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(10, 10, 10, 0.18);
+  }
+  /* Photo fills the full card behind everything. Swap the background
+     gradient on .t-quote-photo--<tone> to background-image: url(…) when
+     real portraits arrive — the overlay + content layout stay the same. */
   .t-quote-photo {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    flex-shrink: 0;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center 30%;
   }
-  .t-quote-photo::after {
+  /* Soft highlight in the upper portion suggests the face area without
+     using stock photos. */
+  .t-quote-photo::before {
     content: "";
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 55% 40% at 50% 38%, rgba(255, 255, 255, 0.18), transparent 60%),
-      radial-gradient(circle 110px at 50% 42%, rgba(255, 255, 255, 0.10), transparent 70%);
+      radial-gradient(ellipse 50% 38% at 50% 28%, rgba(255, 255, 255, 0.18), transparent 65%);
     pointer-events: none;
   }
-  /* Tone variants give each card a distinct identity */
-  .t-quote-photo--warm    { background: linear-gradient(155deg, #d4ccbf 0%, #a89e8d 55%, #6e6557 100%); }
-  .t-quote-photo--cool    { background: linear-gradient(155deg, #c8ced3 0%, #8a939c 55%, #515a64 100%); }
-  .t-quote-photo--neutral { background: linear-gradient(155deg, #d8d4cf 0%, #aca8a3 55%, #6f6c68 100%); }
-  .t-quote-photo--slate   { background: linear-gradient(155deg, #c2c8d0 0%, #7e8694 55%, #424a58 100%); }
+  /* Bottom-up dark fade — the legibility floor for the overlaid quote. */
+  .t-quote-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 28%,
+      rgba(0, 0, 0, 0.55) 58%,
+      rgba(0, 0, 0, 0.92) 100%);
+    pointer-events: none;
+  }
+  /* Tone variants — gradient placeholders. Each card gets a distinct mood. */
+  .t-quote-photo--warm    { background: linear-gradient(155deg, #b89f7d 0%, #75614a 55%, #3b2f24 100%); }
+  .t-quote-photo--cool    { background: linear-gradient(155deg, #94a0aa 0%, #54616d 55%, #232a32 100%); }
+  .t-quote-photo--neutral { background: linear-gradient(155deg, #aaa49a 0%, #6e6962 55%, #32302e 100%); }
+  .t-quote-photo--slate   { background: linear-gradient(155deg, #8b96a8 0%, #4c5566 55%, #1f2330 100%); }
 
-  /* Content area — text + rule + author. Padded; sits below or beside photo. */
+  /* Content overlays the bottom of the card. Photo shows through above it. */
   .t-quote-content {
-    padding: 22px 24px 24px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+    position: relative;
+    z-index: 1;
+    padding: 26px 28px 28px;
+    color: var(--white);
   }
 
-  /* Featured pull quote — side-by-side: photo LEFT, content RIGHT */
-  .t-quote--featured {
-    grid-column: span 6;
-    grid-row: span 2;
-    background: var(--white);
-    border: 0;
-    box-shadow: 0 4px 24px rgba(10, 10, 10, 0.06);
-    flex-direction: row;
-    align-items: stretch;
-  }
-  .t-quote--featured:hover {
-    box-shadow: 0 8px 32px rgba(10, 10, 10, 0.10);
-  }
-  .t-quote--featured .t-quote-photo {
-    width: 44%;
-    aspect-ratio: auto;
-    height: auto;
-    align-self: stretch;
-  }
-  .t-quote--featured .t-quote-content {
-    padding: 44px 44px;
-    justify-content: center;
-  }
+  /* Glyph — only on featured (std/wide cards omit it). */
   .t-quote-glyph {
     display: block;
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: 80px;
-    line-height: 0.7;
-    color: rgba(75, 44, 106, 0.22);
-    margin-bottom: 6px;
+    font-size: 88px;
+    line-height: 0.65;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 10px;
     user-select: none;
   }
-  .t-quote--featured .t-quote-text {
+
+  /* Quote text — italic, white, text-shadow for extra legibility over any tone. */
+  .t-quote-text {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-style: italic;
-    font-size: clamp(20px, 2vw, 28px);
-    line-height: 1.3;
-    color: var(--black);
-    margin-bottom: 28px;
+    font-size: 17px;
+    line-height: 1.42;
+    color: var(--white);
+    margin-bottom: 16px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
   }
-  /* Standard cards — base */
-  .t-quote--std {
-    grid-column: span 3;
-    border: 1px solid var(--rule-dark);
+  .t-quote--featured .t-quote-text {
+    font-size: clamp(20px, 1.8vw, 26px);
+    line-height: 1.34;
+    margin-bottom: 22px;
   }
-  .t-quote--std:hover {
-    border-color: var(--rule-dark-strong);
-    box-shadow: 0 4px 16px rgba(10, 10, 10, 0.04);
-  }
-  .t-quote--std .t-quote-text {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--black);
-    margin-bottom: 18px;
-  }
-  /* Bottom row — wider standard cards (3 across full width) */
-  .t-quote--wide { grid-column: span 4; }
+  .t-quote--wide .t-quote-text { font-size: 17px; }
+
+  /* Hairline rule — white at low opacity. */
   .t-quote-rule {
     height: 1px;
-    background: var(--rule-dark);
-    margin-top: auto;
-    margin-bottom: 0;
+    background: rgba(255, 255, 255, 0.22);
+    margin: 0 0 14px;
   }
-  .t-quote--featured .t-quote-rule { margin-top: 0; margin-bottom: 24px; }
+  .t-quote--featured .t-quote-rule { margin-bottom: 18px; }
+
+  /* Author block. */
   .t-quote-author {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-top: 16px;
   }
-  .t-quote--featured .t-quote-author { margin-top: 0; }
   .t-quote-author-text { display: flex; flex-direction: column; }
   .t-quote-name {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 14px;
-    color: var(--black);
+    color: var(--white);
   }
-  .t-quote--featured .t-quote-name { font-size: 18px; }
   .t-quote-title {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 12px;
-    color: var(--muted);
+    color: rgba(255, 255, 255, 0.72);
     margin-top: 3px;
   }
+  .t-quote--featured .t-quote-name { font-size: 17px; }
   .t-quote--featured .t-quote-title { font-size: 14px; margin-top: 4px; }
-  /* Industry chip — overlaid in the top-right corner of the photo. Lives
-     INSIDE .t-quote-photo so it never collides with the name/title/quote.
-     Slight backdrop blur for legibility over any tone. */
+
+  /* Card variants — grid spans + aspect ratios. Photo dominates the
+     upper portion; quote sits in the dark band at the bottom. */
+  .t-quote--std {
+    grid-column: span 3;
+    aspect-ratio: 4 / 5;
+  }
+  .t-quote--wide {
+    grid-column: span 4;
+    aspect-ratio: 5 / 4;
+  }
+  .t-quote--featured {
+    grid-column: span 6;
+    grid-row: span 2;
+  }
+  .t-quote--featured .t-quote-content {
+    padding: 36px 36px 36px;
+  }
+
+  /* Industry chip — top-right glassy pill. Lives inside .t-quote-photo so
+     it always sits in the visual area, never near the text. Backdrop blur
+     keeps it legible over any tone. */
   .t-quote-chip {
     position: absolute;
-    top: 14px;
-    right: 14px;
+    top: 16px;
+    right: 16px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 9px;
@@ -1714,8 +1722,10 @@
     text-transform: uppercase;
     padding: 6px 11px;
     border-radius: 4px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
     z-index: 2;
   }
   .t-quote--featured .t-quote-chip {
@@ -1725,12 +1735,14 @@
     padding: 7px 13px;
   }
   /* Chip color variants — low saturation, designed-system feel */
-  .t-quote-chip--tech       { color: #2b7889; background: rgba(43, 184, 199, 0.10); }
-  .t-quote-chip--industrial { color: #5a534a; background: rgba(120, 108, 90, 0.10); }
-  .t-quote-chip--beige      { color: #7a5a3a; background: rgba(180, 145, 100, 0.10); }
-  .t-quote-chip--slate      { color: #3a4858; background: rgba(70, 90, 110, 0.10); }
-  .t-quote-chip--forest     { color: #2f5847; background: rgba(60, 110, 90, 0.10); }
-  .t-quote-chip--ink        { color: #2a2a2a; background: rgba(40, 40, 40, 0.08); }
+  /* Industry text-color variants. Background is the uniform glassy white
+     on .t-quote-chip — only the label color varies per industry. */
+  .t-quote-chip--tech       { color: #1f6976; }
+  .t-quote-chip--industrial { color: #4d4640; }
+  .t-quote-chip--beige      { color: #6d4d2f; }
+  .t-quote-chip--slate      { color: #2f3c4c; }
+  .t-quote-chip--forest     { color: #234a3a; }
+  .t-quote-chip--ink        { color: #1f1f1f; }
 
   /* Responsive — tablet + mobile */
   @media (max-width: 1079px) {
@@ -1745,15 +1757,11 @@
     .t-quote--featured {
       grid-column: 1 / -1;
       grid-row: auto;
-      flex-direction: column;
-    }
-    .t-quote--featured .t-quote-photo {
-      width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 4 / 5;
     }
     .t-quote--featured .t-quote-content { padding: 32px 32px 36px; }
     .t-quote--std { grid-column: span 6; }
-    .t-quote--wide { grid-column: span 6; }
+    .t-quote--wide { grid-column: span 6; aspect-ratio: 4 / 5; }
   }
   @media (max-width: 719px) {
     #testimonials.is-light { padding: 96px 0; }
