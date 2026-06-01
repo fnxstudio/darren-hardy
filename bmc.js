@@ -102,3 +102,28 @@
     });
   });
 })();
+
+// ===== Video testimonial slider — prev/next arrows =====
+// Native CSS scroll-snap does the heavy lifting; this just maps the arrow
+// buttons to scrollBy() by one card width (including the gap).
+(function () {
+  document.querySelectorAll('[data-video-track]').forEach(track => {
+    const slider = track.closest('.t-video-slider');
+    if (!slider) return;
+    const prev = slider.querySelector('[data-video-prev]');
+    const next = slider.querySelector('[data-video-next]');
+    if (!prev || !next) return;
+
+    const scrollByCard = (dir) => {
+      const firstCard = track.querySelector('.t-video');
+      if (!firstCard) return;
+      const trackStyle = window.getComputedStyle(track);
+      const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || '0');
+      const step = firstCard.offsetWidth + gap;
+      track.scrollBy({ left: dir * step, behavior: 'smooth' });
+    };
+
+    prev.addEventListener('click', () => scrollByCard(-1));
+    next.addEventListener('click', () => scrollByCard(1));
+  });
+})();
