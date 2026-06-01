@@ -377,6 +377,7 @@
     gap: 1px;
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.15);
+    counter-reset: value;
   }
   @media (max-width: 880px) { .values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 480px) { .values-grid { grid-template-columns: 1fr; } }
@@ -387,9 +388,33 @@
     min-height: 240px;
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    counter-increment: value;
     transition: background 0.35s ease;
   }
   .value:hover { background: var(--ink-soft); }
+
+  /* Large transparent index number — 01-12, ordered left-to-right, top-to-bottom */
+  .value::before {
+    content: counter(value, decimal-leading-zero);
+    position: absolute;
+    top: -14px;
+    right: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(96px, 10vw, 160px);
+    line-height: 0.82;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.10);
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  /* Keep card content above the watermark number */
+  .value-word, .value-def { position: relative; z-index: 1; }
 
   .value-word {
     font-family: 'Inter', sans-serif;
