@@ -773,17 +773,25 @@
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 88px; height: 88px;
+    border: 0;
+    padding: 0;
     border-radius: 50%;
     background: var(--bmc-cyan);
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 0 0 1px rgba(120, 228, 239, 0.25), 0 8px 24px rgba(120, 228, 239, 0.18);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
+    cursor: pointer;
+    z-index: 2;
   }
   .vsl-frame:hover .vsl-play {
     transform: translate(-50%, -50%) scale(1.05);
     box-shadow: 0 0 0 1px rgba(120, 228, 239, 0.4), 0 12px 32px rgba(120, 228, 239, 0.28);
   }
   .vsl-play svg { width: 28px; height: 28px; margin-left: 4px; }
+  /* While the video is playing, fade the custom button out and let clicks
+     reach the player (controls=0 → clicking toggles pause). On pause it
+     fades back in. */
+  .vsl-play.is-playing { opacity: 0; pointer-events: none; }
   /* Overlay text on the video still — placeholder for "Watch Darren explain
      what's inside" until the still includes baked-in text. Bottom-anchored,
      subtle dark vignette so it reads against any thumbnail. */

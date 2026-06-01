@@ -118,3 +118,32 @@
 })();
 
 // (Video testimonials are now a static 2x3 grid — no slider/marquee JS needed.)
+
+// ===== VSL player — custom play button only (no Vimeo controls) =====
+// The iframe loads with controls=0 (no scrub bar, settings, CC/AI buttons).
+// Our cyan button starts playback via the Vimeo Player API, then fades out
+// while playing; clicking the video (controls=0) pauses and the button returns.
+(function () {
+  const iframe = document.getElementById('vsl-player');
+  const btn = document.querySelector('[data-vsl-play]');
+  if (!iframe || !btn) return;
+
+  const init = () => {
+    if (!window.Vimeo || !window.Vimeo.Player) return false;
+    const player = new window.Vimeo.Player(iframe);
+    btn.addEventListener('click', () => { player.play().catch(() => {}); });
+    player.on('play',  () => btn.classList.add('is-playing'));
+    player.on('pause', () => btn.classList.remove('is-playing'));
+    player.on('ended', () => btn.classList.remove('is-playing'));
+    return true;
+  };
+
+  // The Vimeo API script is deferred too; if it hasn't defined window.Vimeo
+  // yet, retry briefly until it's ready.
+  if (!init()) {
+    let tries = 0;
+    const t = setInterval(() => {
+      if (init() || ++tries > 40) clearInterval(t);
+    }, 100);
+  }
+})();
