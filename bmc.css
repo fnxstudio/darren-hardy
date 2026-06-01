@@ -1457,45 +1457,59 @@
   }
   #testimonials.is-light em.key { color: #4B2C6A; font-style: normal; }
 
-  /* ───── BLOCK 1 — Video testimonials marquee ─────
-     Continuous auto-scroll, same technique as the flag/logo marquee: the card
-     set is duplicated (by JS) and the track translates -50% on an infinite
-     linear loop, so the seam is invisible — it just keeps going. Pauses on
-     hover so a card can be read / played. Each card uses margin-right (not
-     gap) so the -50% shift lands on an exact set boundary = perfectly seamless. */
+  /* ───── BLOCK 1 — Video testimonials (manual, seamless loop) ─────
+     Arrow-driven horizontal scroller. The card set is duplicated (by JS) so
+     clicking "next" past the end glides straight into the start with no jump
+     (scrollLeft is silently rewound by one set-width at the boundary — the
+     second set is identical, so the wrap is invisible). No auto-scroll, no
+     edge fade. Cards use margin-right (not gap) so the rewind lands exactly. */
   .t-video-marquee {
     position: relative;
     margin-top: 80px;
-    overflow: hidden;
-    /* Soft fade at both edges so cards slide in/out gracefully. */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
   }
   .t-video-marquee-track {
     display: flex;
-    width: max-content;
-    animation: tVideoMarquee 55s linear infinite;
-    will-change: transform;
+    overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
   }
-  .t-video-marquee:hover .t-video-marquee-track {
-    animation-play-state: paused;
-  }
-  @keyframes tVideoMarquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
+  .t-video-marquee-track::-webkit-scrollbar { display: none; }
   .t-video-marquee-track .t-video {
     flex: 0 0 auto;
     width: clamp(300px, 30vw, 420px);
     margin-right: 32px;
+    scroll-snap-align: start;
   }
-  /* Respect reduced-motion: stop the auto-scroll, allow manual horizontal
-     scroll instead. */
-  @media (prefers-reduced-motion: reduce) {
-    .t-video-marquee { overflow-x: auto; }
-    .t-video-marquee-track { animation: none; }
+  /* Arrow controls — centered chevron buttons below the row. */
+  .t-video-controls {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 28px;
   }
-  /* Play button right-sized for the marquee cards. */
+  .t-video-arrow {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--black);
+    border: 1px solid rgba(10, 10, 10, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+    padding: 0;
+  }
+  .t-video-arrow svg { width: 18px; height: 18px; display: block; }
+  .t-video-arrow:hover {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+  }
+  .t-video-arrow:active { transform: scale(0.96); }
+  /* Play button right-sized for the cards. */
   .t-video-marquee .t-play--lg { width: 64px; height: 64px; }
   .t-video-marquee .t-play--lg svg { width: 22px; height: 22px; }
   .t-video { cursor: pointer; display: flex; flex-direction: column; }
@@ -1741,9 +1755,8 @@
   }
   @media (max-width: 719px) {
     #testimonials.is-light { padding: 96px 0; }
-    /* Marquee: narrower cards + faster loop so motion reads on small screens. */
-    .t-video-marquee-track .t-video { width: clamp(240px, 78vw, 300px); margin-right: 16px; }
-    .t-video-marquee-track { animation-duration: 36s; }
+    /* Video row: ~1 card visible on phones; narrower cards + tighter gap. */
+    .t-video-marquee-track .t-video { width: clamp(240px, 80vw, 320px); margin-right: 16px; }
     .t-quote-bento { gap: 16px; margin-top: 56px; }
     .t-quote-rowgroup { gap: 16px; }
     /* Small cards: 1 per row on phones for readability. */
