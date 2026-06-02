@@ -30,7 +30,10 @@
         staggerIO.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    // threshold 0 (fire as the TOP edge enters) instead of 0.1 — on tall
+    // groups like the 12-card quote grid, 0.1 meant the first card didn't
+    // reveal until you'd already scrolled ~10% into the grid (too late).
+  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
   staggerEls.forEach(el => staggerIO.observe(el));
 
   // .reveal-rg — large blocks (testimonial row-groups) that should pop in
