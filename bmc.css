@@ -2118,7 +2118,7 @@
     line-height: 1.6;
     color: var(--silver);
     max-width: 760px;
-    margin: 0 auto 80px;
+    margin: 0 auto 36px;   /* was 80px — the .invest-event date line now sits in this gap */
   }
   .price-grid {
     display: grid;
@@ -2239,7 +2239,7 @@
   }
   @media (max-width: 720px) {
     #investment { padding: var(--section-pad-mobile) 0; }
-    .invest-intro { margin-bottom: 64px; }            /* space above first PAY box -20% */
+    .invest-intro { margin-bottom: 40px; }            /* date line sits in the gap above the first PAY box */
     .price-grid { grid-template-columns: 1fr; max-width: 480px; gap: 72px; }   /* double the gap between cards */
     /* Trim the oversized card padding on phones so "RESERVE YOUR SEAT →"
        holds one line (the arrow was wrapping). */
@@ -2505,24 +2505,29 @@
   .final-cta-row {
     margin-top: 64px;
   }
-  /* Event-date line directly under the final CTA button.
-     Mirrors the "|" separator pattern of .final-secondary-links; the date
-     itself carries the cyan accent (cyan on dark) as the key piece of info. */
-  .final-event {
-    margin-top: 24px;
+  /* ── Event-date line (shared component) ─────────────────────────────────
+     "NEXT BMC LIVE EVENT | OCT 19–21, 2026". Used under the final CTA button
+     AND centered inside the enrollment section. The date carries the cyan
+     accent (cyan on dark); the "|" separator matches .final-secondary-links.
+     The wrapper classes (.final-event / .invest-event) only set the
+     surrounding margins so the shared look stays in one place. */
+  .event-line {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--silver);
+    text-align: center;
   }
-  .final-event-sep {
+  .event-line-sep {
     margin: 0 6px;
     color: var(--grey-soft);
     opacity: 0.6;
   }
-  .final-event-date { color: var(--bmc-cyan); }
+  .event-line-date { color: var(--bmc-cyan); }
+  .final-event { margin-top: 24px; }       /* under the final CTA button */
+  .invest-event { margin: 0 auto 36px; }   /* centered between intro + price cards */
   .final-secondary {
     margin-top: 48px;
     font-family: 'Inter', sans-serif;
