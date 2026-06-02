@@ -1599,39 +1599,54 @@
      Branded to the page: stars in the same deep purple as the "Real Results"
      accent right above; "9.8" carried in that purple too; label in the
      eyebrow style (uppercase, tracked) so it reads as part of the system. */
+  /* Rating — big 9.8 as the hero, gold stars + label stacked beside it. */
   .t-rating {
-    text-align: center;
-    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    margin-top: 30px;
+  }
+  .t-rating-score {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(54px, 6.2vw, 88px);
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    color: var(--bmc-cyan-deep);
+  }
+  .t-rating-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
   .t-rating-stars {
     display: inline-flex;
-    gap: 8px;
-    color: var(--bmc-cyan-deep);
+    gap: 7px;
+    color: #f5b301;            /* gold */
     line-height: 1;
   }
   .t-rating-stars svg {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     display: block;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.12));
   }
   .t-rating-text {
     font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 0.18em;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--grey-soft);
-    margin-top: 16px;
-  }
-  .t-rating-text strong {
-    font-weight: 800;
-    color: var(--bmc-cyan-deep);
-    letter-spacing: 0.04em;
   }
   @media (max-width: 600px) {
-    .t-rating-stars { gap: 6px; }
-    .t-rating-stars svg { width: 20px; height: 20px; }
-    .t-rating-text { font-size: 11px; letter-spacing: 0.14em; }
+    .t-rating { gap: 16px; }
+    .t-rating-score { font-size: clamp(44px, 13vw, 60px); }
+    .t-rating-stars { gap: 5px; }
+    .t-rating-stars svg { width: 24px; height: 24px; }
+    .t-rating-text { font-size: 12px; letter-spacing: 0.12em; }
   }
 
   /* ───── BLOCK 1 — Video testimonials: static 2 x 3 grid ───── */
