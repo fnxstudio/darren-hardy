@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BMC|COLLECTIVE — Brand & Design Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a; --ink:#141414; --white:#fff; --bone:#f5f5f5; --bone-soft:#ececec;
+    --silver:#b8b8b8; --grey:#888; --grey-soft:#6a6a6a; --muted:#444;
+    --surface-card:#0e0c12; --text-on-dark:#f1f1f4;
+    --cyan:#78e4ef; --plum:#4b2c6a; --gold:#f5b301; --purple:#9c27ac; --magenta:#d62a8f;
+  }
+  @page{ size:letter; margin:0; }
+  *{ margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  html,body{ font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; }
+  .page{ width:8.5in; height:11in; position:relative; overflow:hidden; page-break-after:always; padding:0.7in 0.75in; }
+  .page:last-child{ page-break-after:auto; }
+  .dark{ background:var(--black); color:#fff; }
+  .light{ background:var(--white); color:var(--ink); }
+  .wash{ position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(ellipse 70% 50% at 22% 18%, rgba(156,39,172,.30), transparent 60%),
+              radial-gradient(ellipse 80% 60% at 85% 88%, rgba(214,42,143,.16), transparent 65%); }
+  .z{ position:relative; z-index:1; }
+
+  /* shared bits */
+  .eyebrow{ font-weight:500; font-size:10px; letter-spacing:.42em; text-transform:uppercase; color:var(--grey-soft); display:flex; align-items:center; gap:14px; }
+  .dark .eyebrow{ color:var(--silver); }
+  .eyebrow .pip{ width:26px; height:1px; background:currentColor; display:block; opacity:.6; }
+  .h-sec{ font-weight:900; text-transform:uppercase; letter-spacing:-0.03em; line-height:1.0; font-size:42px; margin-top:16px; }
+  .h-sec em{ font-style:normal; color:var(--plum); }
+  .dark .h-sec em{ color:var(--cyan); }
+  .lede{ font-weight:400; font-size:14px; line-height:1.6; color:var(--muted); max-width:5.4in; margin-top:18px; }
+  .dark .lede{ color:var(--silver); }
+  .pagenum{ position:absolute; bottom:0.5in; right:0.75in; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--grey); z-index:1; }
+  .brandfoot{ position:absolute; bottom:0.48in; left:0.75in; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--grey); z-index:1; }
+
+  /* ===== COVER ===== */
+  .cover{ display:flex; flex-direction:column; justify-content:center; padding:1in; }
+  .cover img.logo{ width:3.6in; height:auto; margin-bottom:0.55in; }
+  .cover .kicker{ font-weight:700; font-size:11px; letter-spacing:.42em; text-transform:uppercase; color:var(--cyan); margin-bottom:18px; }
+  .cover h1{ font-weight:900; text-transform:uppercase; letter-spacing:-0.035em; line-height:0.95; font-size:74px; }
+  .cover h1 .c{ color:var(--cyan); }
+  .cover .sub{ font-weight:400; font-size:15px; line-height:1.6; color:var(--silver); max-width:5in; margin-top:26px; }
+  .cover .meta{ position:absolute; bottom:1in; left:1in; right:1in; display:flex; justify-content:space-between; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--grey); border-top:1px solid rgba(255,255,255,.12); padding-top:16px; }
+  .cover .rule{ width:56px; height:3px; background:var(--cyan); border-radius:2px; margin:30px 0 0; }
+
+  /* light-page logo header */
+  .loghead{ display:flex; justify-content:space-between; align-items:center; margin-bottom:34px; }
+  .loghead img{ height:24px; width:auto; }
+  .loghead .tag{ font-size:9px; letter-spacing:.28em; text-transform:uppercase; color:var(--grey); }
+
+  /* swatches */
+  .swatch-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:22px; }
+  .swatch{ border:1px solid var(--bone-soft); border-radius:6px; overflow:hidden; }
+  .swatch .chip{ height:70px; display:flex; align-items:flex-end; padding:8px; }
+  .swatch .meta{ padding:8px 9px 10px; }
+  .swatch .nm{ font-weight:700; font-size:10px; letter-spacing:.02em; }
+  .swatch .hx{ font-weight:400; font-size:9px; color:var(--grey-soft); margin-top:2px; font-variant-numeric:tabular-nums; }
+  .swatch .role{ font-size:8.5px; color:var(--grey); margin-top:5px; line-height:1.35; }
+  .grouplbl{ font-weight:700; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:var(--grey-soft); margin:26px 0 2px; }
+
+  /* accent-rule split */
+  .split{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:26px; }
+  .split .panel{ border-radius:10px; padding:34px 30px; min-height:3.1in; display:flex; flex-direction:column; justify-content:center; }
+  .split .pd{ background:var(--surface-card); color:#fff; }
+  .split .pl{ background:var(--bone-soft); color:var(--ink); }
+  .split .lbl{ font-weight:700; font-size:9px; letter-spacing:.26em; text-transform:uppercase; margin-bottom:18px; }
+  .split .pd .lbl{ color:var(--silver); } .split .pl .lbl{ color:var(--grey-soft); }
+  .split .big{ font-weight:900; text-transform:uppercase; letter-spacing:-0.03em; line-height:1.02; font-size:30px; }
+  .split .pd .big em{ font-style:normal; color:var(--cyan); }
+  .split .pl .big em{ font-style:normal; color:var(--plum); }
+  .split .note{ font-size:11px; line-height:1.5; margin-top:18px; }
+  .split .pd .note{ color:var(--silver); } .split .pl .note{ color:var(--muted); }
+
+  /* type specimens */
+  .spec{ border-top:1px solid var(--bone-soft); padding:16px 0; display:grid; grid-template-columns:1.5in 1fr; gap:18px; align-items:baseline; }
+  .spec .tag{ font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--grey); line-height:1.5; }
+  .spec .tag b{ color:var(--ink); font-weight:700; display:block; font-size:10px; letter-spacing:.04em; margin-bottom:3px; }
+  .sp-h{ font-weight:900; text-transform:uppercase; letter-spacing:-0.03em; font-size:34px; line-height:1; }
+  .sp-h em{ font-style:normal; color:var(--plum); }
+  .sp-num{ font-weight:900; letter-spacing:-0.03em; font-size:50px; line-height:.9; color:var(--plum); }
+  .sp-eye{ font-weight:500; font-size:11px; letter-spacing:.42em; text-transform:uppercase; color:var(--grey-soft); }
+  .sp-body{ font-weight:400; font-size:14px; line-height:1.55; color:var(--muted); }
+  .sp-title{ font-weight:600; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--plum); }
+
+  /* components */
+  .comp-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px; }
+  .comp{ border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:22px; background:var(--surface-card); }
+  .comp .clbl{ font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--silver); margin-bottom:16px; }
+  .btn-ghost{ display:inline-block; border:1px solid var(--cyan); color:var(--cyan); font-weight:700; font-size:11px; letter-spacing:.22em; text-transform:uppercase; padding:11px 20px; border-radius:4px; }
+  .btn-solid{ display:inline-block; background:#fff; color:#0a0a0a; font-weight:700; font-size:11px; letter-spacing:.22em; text-transform:uppercase; padding:12px 20px; border-radius:4px; }
+  .badge{ display:inline-block; background:var(--cyan); color:#0a0a0a; font-weight:700; font-size:9px; letter-spacing:.28em; text-transform:uppercase; padding:6px 13px; border-radius:4px; }
+  .chip{ display:inline-block; border:1px solid var(--cyan); color:var(--cyan); font-weight:700; font-size:9px; letter-spacing:.22em; text-transform:uppercase; padding:6px 11px; border-radius:4px; }
+  .rating{ display:inline-flex; align-items:center; gap:14px; background:#fff; border-radius:6px; padding:12px 18px; }
+  .rating .score{ font-weight:900; font-size:34px; letter-spacing:-0.03em; color:var(--plum); line-height:.8; padding-right:14px; border-right:1px solid rgba(10,10,10,.12); }
+  .rating .stars{ color:var(--gold); font-size:13px; letter-spacing:2px; }
+  .rating .lab{ font-weight:700; font-size:8px; letter-spacing:.2em; text-transform:uppercase; color:var(--grey-soft); margin-top:5px; }
+  .qcard .ph{ height:64px; border-radius:4px 4px 0 0; background:linear-gradient(135deg,#3a2350,#161018); }
+  .qcard .bd{ padding:14px; }
+  .qcard q{ font-size:11px; line-height:1.5; color:var(--text-on-dark); quotes:none; }
+  .qcard q b{ color:var(--cyan); font-weight:600; }
+  .qcard .nm{ font-weight:700; font-size:11px; color:#fff; margin-top:12px; }
+  .qcard .ti{ font-weight:600; font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--cyan); margin-top:3px; }
+  .chev{ display:flex; }
+  .chev div{ flex:1; padding:14px 10px 14px 16px; color:#fff; font-weight:700; font-size:10px; line-height:1.2;
+    clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%); margin-left:-12px; }
+  .chev div:first-child{ clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%); margin-left:0; }
+  .chev div:nth-child(1){ background:rgba(108,46,138,.45); } .chev div:nth-child(2){ background:rgba(138,62,170,.55); } .chev div:nth-child(3){ background:rgba(168,86,200,.65); }
+  .chev .n{ color:var(--cyan); font-size:9px; letter-spacing:.16em; display:block; margin-bottom:4px; }
+
+  /* reference rows */
+  .ref{ display:grid; grid-template-columns:1.4in 1fr; gap:16px; border-top:1px solid var(--bone-soft); padding:13px 0; }
+  .ref .k{ font-weight:700; font-size:11px; letter-spacing:.02em; }
+  .ref .v{ font-size:11px; line-height:1.55; color:var(--muted); }
+  .ref .v code{ background:var(--bone-soft); padding:1px 5px; border-radius:3px; font-size:10px; }
+  .dodont{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:22px; }
+  .dodont h4{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; margin-bottom:12px; }
+  .dodont .do h4{ color:#1f9d55; } .dodont .dont h4{ color:#c0392b; }
+  .dodont li{ list-style:none; font-size:11px; line-height:1.5; color:var(--muted); padding:6px 0 6px 18px; position:relative; }
+  .dodont .do li::before{ content:"✓"; position:absolute; left:0; color:#1f9d55; font-weight:700; }
+  .dodont .dont li::before{ content:"✕"; position:absolute; left:0; color:#c0392b; font-weight:700; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="page dark cover">
+  <div class="wash"></div>
+  <div class="z">
+    <img class="logo" src="logo-white.png" alt="THE COLLECTIVE">
+    <div class="kicker">Brand &amp; Design Guide</div>
+    <h1>Built On <span class="c">Restraint.</span></h1>
+    <div class="rule"></div>
+    <div class="sub">The visual system for <strong style="color:#fff">BMC|COLLECTIVE</strong> — Darren Hardy's Business Master Class. Near-monochrome, Inter-only, one chromatic accent applied with discipline. Premium comes from type and space, not decoration.</div>
+  </div>
+  <div class="meta"><span>BMC|COLLECTIVE</span><span>Design System · v1.0 · 2026</span></div>
+</section>
+
+<!-- ============ FOUNDATIONS ============ -->
+<section class="page light">
+  <div class="loghead"><img src="logo-black.png" alt="BMC|COLLECTIVE"><span class="tag">Foundations</span></div>
+  <div class="eyebrow"><span class="pip"></span>01 · Foundations</div>
+  <h2 class="h-sec">The <em>Principles</em>.</h2>
+  <div class="lede">Three rules govern everything. Hold these and the brand can't drift.</div>
+
+  <div style="margin-top:34px; display:grid; grid-template-columns:1fr; gap:0;">
+    <div class="ref"><div class="k">Typeface</div><div class="v"><strong>Inter — everywhere.</strong> No second family, ever. Hierarchy is built from weight + size + letter-spacing + color, never new fonts. Weights in use: 400 body · 500 labels · 600 emphasis · 700 names · 800–900 display.</div></div>
+    <div class="ref"><div class="k">One accent</div><div class="v"><strong>A single chromatic accent</strong>, applied sparingly. <code>cyan</code> on dark backgrounds, <code>plum</code> on light. Gold is reserved for review stars; purple/magenta only for the ambient wash. Everything else is near-monochrome.</div></div>
+    <div class="ref"><div class="k">Case &amp; space</div><div class="v"><strong>Display, eyebrows, labels, chips, titles are UPPERCASE</strong>; body + quotes are sentence case. Generous space on desktop; tightened &amp; uniform on mobile. Flat, bordered, sharp — borders over shadows.</div></div>
+  </div>
+
+  <div style="margin-top:40px; background:var(--surface-card); border-radius:12px; padding:34px 36px; color:#fff; -webkit-print-color-adjust:exact;">
+    <div style="font-weight:500; font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--silver); margin-bottom:14px;">Prime directive</div>
+    <div style="font-weight:800; font-size:22px; line-height:1.3; letter-spacing:-0.01em;">The brand is <span style="color:var(--cyan)">implicit restraint</span>. One typeface, one accent, lots of space. If a choice adds decoration instead of clarity, it's wrong.</div>
+  </div>
+  <div class="brandfoot">BMC|COLLECTIVE · Design Guide</div>
+  <div class="pagenum">02</div>
+</section>
+
+<!-- ============ COLOR ============ -->
+<section class="page light">
+  <div class="loghead"><img src="logo-black.png" alt="BMC|COLLECTIVE"><span class="tag">Color</span></div>
+  <div class="eyebrow"><span class="pip"></span>02 · Color tokens</div>
+  <h2 class="h-sec">The <em>Palette</em>.</h2>
+  <div class="lede">Every value is a <code>:root</code> token in <code>bmc.css</code> — rules reference the vars so the page can never drift from the brand. Brand hues carry an <code>-rgb</code> companion for any opacity.</div>
+
+  <div class="grouplbl">Brand palette</div>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip" style="background:var(--cyan)"></div><div class="meta"><div class="nm">--bmc-cyan</div><div class="hx">#78e4ef</div><div class="role">Accent on DARK — em.key, ghost CTA, play buttons, card titles.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--plum)"></div><div class="meta"><div class="nm" style="color:#fff">--bmc-plum</div><div class="hx">#4b2c6a</div><div class="role">Accent on LIGHT — em.key + titles on bone.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--gold)"></div><div class="meta"><div class="nm">--gold</div><div class="hx">#f5b301</div><div class="role">Review stars only. Never type or UI.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:linear-gradient(135deg,var(--purple),var(--magenta))"></div><div class="meta"><div class="nm">--bmc-purple / magenta</div><div class="hx">#9c27ac · #d62a8f</div><div class="role">Ambient wash backgrounds only.</div></div></div>
+  </div>
+
+  <div class="grouplbl">Surfaces &amp; neutrals</div>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip" style="background:var(--black)"></div><div class="meta"><div class="nm" style="color:#fff">--black</div><div class="hx">#0a0a0a</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--surface-card)"></div><div class="meta"><div class="nm" style="color:#fff">--surface-card</div><div class="hx">#0e0c12</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--bone-soft); border-bottom:1px solid #ddd"></div><div class="meta"><div class="nm">--bone-soft</div><div class="hx">#ececec</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--white); border-bottom:1px solid #ddd"></div><div class="meta"><div class="nm">--white</div><div class="hx">#ffffff</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--silver)"></div><div class="meta"><div class="nm">--silver</div><div class="hx">#b8b8b8</div><div class="role">Body on dark</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--grey-soft)"></div><div class="meta"><div class="nm" style="color:#fff">--grey-soft</div><div class="hx">#6a6a6a</div><div class="role">Eyebrows on light</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--muted)"></div><div class="meta"><div class="nm" style="color:#fff">--muted</div><div class="hx">#444444</div><div class="role">Body on light</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--ink)"></div><div class="meta"><div class="nm" style="color:#fff">--ink</div><div class="hx">#141414</div></div></div>
+  </div>
+  <div class="brandfoot">BMC|COLLECTIVE · Design Guide</div>
+  <div class="pagenum">03</div>
+</section>
+
+<!-- ============ THE ACCENT RULE ============ -->
+<section class="page light">
+  <div class="loghead"><img src="logo-black.png" alt="BMC|COLLECTIVE"><span class="tag">The one rule</span></div>
+  <div class="eyebrow"><span class="pip"></span>03 · Accent logic</div>
+  <h2 class="h-sec">Cyan On Dark. <em>Plum On Light.</em></h2>
+  <div class="lede">The single rule that governs the whole page. The accent is the same <em>idea</em> in both modes — it just changes hue so it stays legible and premium. Cyan washes out on white; plum disappears on black.</div>
+
+  <div class="split">
+    <div class="panel pd">
+      <div class="lbl">Dark surface → cyan</div>
+      <div class="big">Your <em>Secret Weapon</em>.</div>
+      <div class="note">On any dark section, emphasis, <code style="background:rgba(255,255,255,.1);color:#fff;padding:1px 5px;border-radius:3px">em.key</code>, titles, and CTAs are <strong style="color:var(--cyan)">cyan</strong>.</div>
+    </div>
+    <div class="panel pl">
+      <div class="lbl">Light surface → plum</div>
+      <div class="big">Real Builders. <em>Real Results.</em></div>
+      <div class="note">On any light section, the very same role lands in <strong style="color:var(--plum)">plum</strong> instead — readable + premium.</div>
+    </div>
+  </div>
+  <div style="margin-top:24px; font-size:11px; line-height:1.6; color:var(--muted);">
+    <strong>Exception:</strong> functional cyan UI that lives on media — play buttons, video controls — stays cyan regardless of the surrounding section, because it sits on imagery.
+  </div>
+  <div class="brandfoot">BMC|COLLECTIVE · Design Guide</div>
+  <div class="pagenum">04</div>
+</section>
+
+<!-- ============ TYPOGRAPHY ============ -->
+<section class="page light">
+  <div class="loghead"><img src="logo-black.png" alt="BMC|COLLECTIVE"><span class="tag">Type</span></div>
+  <div class="eyebrow"><span class="pip"></span>04 · Typography</div>
+  <h2 class="h-sec">One Family, <em>Many Voices</em>.</h2>
+  <div class="lede">Inter does all the work. Hierarchy comes from weight, size, tracking and color — never a second face.</div>
+
+  <div style="margin-top:20px;">
+    <div class="spec"><div class="tag"><b>Display headline</b>Inter 900 · UPPERCASE<br>tracking −0.03em</div><div><div class="sp-h">Real <em>Results</em>.</div></div></div>
+    <div class="spec"><div class="tag"><b>Big number</b>Inter 900 · clamp 56–88<br>tracking −0.03em</div><div><span class="sp-num">9.8</span></div></div>
+    <div class="spec"><div class="tag"><b>Eyebrow</b>Inter 500 · 11px<br>tracking 0.42em</div><div><span class="sp-eye">● &nbsp;In Their Own Words</span></div></div>
+    <div class="spec"><div class="tag"><b>Body</b>Inter 400 · 17–21px<br>line-height 1.6</div><div><span class="sp-body">Most businesses don't fail because the builder lacks ambition. They fail because they lack proven systems.</span></div></div>
+    <div class="spec"><div class="tag"><b>Quote</b>Inter 400 · 18px<br>emphasis = cyan/plum</div><div><span class="sp-body" style="color:var(--ink)">"Strategies I learned at BMC have <b style="color:var(--plum)">kept turnover 200% below my competitors.</b>"</span></div></div>
+    <div class="spec"><div class="tag"><b>Name / role</b>Inter 700 name<br>+ 600 UPPERCASE title</div><div><div style="font-weight:700;font-size:14px;color:var(--ink)">Jeannie Henderson</div><div class="sp-title" style="margin-top:3px">Founder · Jeannie Cleaning</div></div></div>
+    <div class="spec"><div class="tag"><b>Chip / micro-label</b>Inter 700 · 9px<br>tracking 0.24em</div><div><span class="chip" style="color:var(--plum); border-color:var(--plum)">Consulting</span></div></div>
+  </div>
+  <div class="brandfoot">BMC|COLLECTIVE · Design Guide</div>
+  <div class="pagenum">05</div>
+</section>
+
+<!-- ============ COMPONENTS ============ -->
+<section class="page dark">
+  <div class="wash" style="opacity:.55"></div>
+  <div class="z">
+    <div class="loghead" style="margin-bottom:30px"><img src="logo-white.png" alt="THE COLLECTIVE" style="height:22px"><span class="tag" style="color:var(--silver)">Components</span></div>
+    <div class="eyebrow"><span class="pip"></span>05 · Components</div>
+    <h2 class="h-sec">The <em>Kit</em>.</h2>
+    <div class="lede" style="color:var(--silver)">Flat, bordered, sharp. Cards go cyan-bordered on hover instead of lifting. Standard corner radius is <code style="background:rgba(255,255,255,.1);color:#fff;padding:1px 5px;border-radius:3px">4px</code>.</div>
+
+    <div class="comp-grid">
+      <div class="comp"><div class="clbl">Ghost CTA → fills on hover</div><span class="btn-ghost">Reserve Your Seat →</span></div>
+      <div class="comp"><div class="clbl">Solid CTA &nbsp;·&nbsp; Badge</div><span class="btn-solid">Reserve →</span> &nbsp; <span class="badge">Best Value</span></div>
+      <div class="comp"><div class="clbl">Industry chip (cyan outline)</div><span class="chip">Advocacy</span> &nbsp; <span class="chip">Finance</span></div>
+      <div class="comp"><div class="clbl">Rating lockup</div><div class="rating"><div class="score">9.8</div><div><div class="stars">★★★★★</div><div class="lab">Rating from 11,738 CEOs</div></div></div></div>
+      <div class="comp qcard" style="padding:0; overflow:hidden;"><div class="ph"></div><div class="bd"><div class="clbl" style="margin-bottom:8px">Testimonial card (dark)</div><q>It's my 5th BMC and <b>the growth keeps coming!</b></q><div class="nm">Rebecca Jones</div><div class="ti">Founder · RLJ Wealth</div></div></div>
+      <div class="comp"><div class="clbl">Chevron "stages" ribbon</div><div class="chev"><div><span class="n">01</span>Install</div><div><span class="n">02</span>Compound</div><div><span class="n">03</span>Scale</div></div></div>
+    </div>
+  </div>
+  <div class="brandfoot" style="color:var(--silver)">BMC|COLLECTIVE · Design Guide</div>
+  <div class="pagenum" style="color:var(--silver)">06</div>
+</section>
+
+<!-- ============ REFERENCE + DO/DON'T ============ -->
+<section class="page light">
+  <div class="loghead"><img src="logo-black.png" alt="BMC|COLLECTIVE"><span class="tag">Reference</span></div>
+  <div class="eyebrow"><span class="pip"></span>06 · Spacing, motion &amp; rules</div>
+  <h2 class="h-sec">Putting It <em>Together</em>.</h2>
+
+  <div style="margin-top:22px;">
+    <div class="ref"><div class="k">Spacing</div><div class="v">Container <code>max 1380px</code>, side pad 48px / 24px mobile. Desktop section padding is generous + varied (120–200px). Mobile is <strong>uniform 72px</strong> top/bottom — open space is the brand, but never sprawl on a phone.</div></div>
+    <div class="ref"><div class="k">Radius &amp; elevation</div><div class="v">One radius: <code>4px</code> (cards/chips/badges); circles 50%. Prefer <strong>borders over shadows</strong> — cards go cyan-bordered on hover, not heavy lifts.</div></div>
+    <div class="ref"><div class="k">Motion</div><div class="v">Subtle scroll-reveal (short fade-up, easing <code>cubic-bezier(.16,1,.3,1)</code>). Fires as the top edge enters. Respects <code>prefers-reduced-motion</code>. No bounce, no spin.</div></div>
+    <div class="ref"><div class="k">Testimonial imagery</div><div class="v">Static cards: 3:2, deep-plum bg + soft glow. Video stills: 16:9, cyan→purple duotone, subject left, eye contact, open lower-right for the play button. <strong>Head size consistent</strong> across every image.</div></div>
+  </div>
+
+  <div class="dodont">
+    <div class="do"><h4>Do</h4><ul>
+      <li>Build hierarchy with Inter weight/size/tracking + the one accent.</li>
+      <li>Cyan on dark, plum on light — always.</li>
+      <li>Reference tokens (<code>var(--…)</code>), never raw hex.</li>
+      <li>Let desktop breathe; unify spacing on mobile.</li>
+    </ul></div>
+    <div class="dont"><h4>Don't</h4><ul>
+      <li>Add a second typeface or a third accent color.</li>
+      <li>Use gold anywhere but stars, or the wash anywhere but backgrounds.</li>
+      <li>Use cyan on light (use plum), or plum on dark (use cyan).</li>
+      <li>Add heavy shadows or large rounded corners.</li>
+    </ul></div>
+  </div>
+
+  <div style="margin-top:34px; border-top:1px solid var(--bone-soft); padding-top:16px; font-size:10px; color:var(--grey); line-height:1.6;">
+    Source of truth: <strong>design-system.md</strong> + the <code>:root</code> token block in <strong>bmc.css</strong>. This guide is generated from them — keep all three in sync.
+  </div>
+  <div class="brandfoot">BMC|COLLECTIVE · Design Guide · v1.0</div>
+  <div class="pagenum">07</div>
+</section>
+
+</body>
+</html>
