@@ -1163,7 +1163,7 @@
     color: var(--silver);
     margin-bottom: 16px;
   }
-  .compare-col--collective .compare-benefit { color: var(--bmc-cyan); }
+  .compare-col--collective .compare-benefit { color: var(--white); }
 
   .compare-title {
     font-family: 'Inter', sans-serif;
@@ -1950,22 +1950,19 @@
   .filter-col:last-child {
     background: var(--ink-soft);
   }
+  /* Column headlines — styled like the in-box titles elsewhere on the page
+     (e.g. .compare-title): bold, uppercase, tight tracking. No leading dash. */
   .filter-sublabel {
     font-family: 'Inter', sans-serif;
-    font-weight: 800;
-    /* Match the list copy size (was 11px — read too small as a subhead).
-       Reduced tracking so the longer label still fits the column. */
-    font-size: clamp(16px, 1.3vw, 19px);
-    letter-spacing: 0.08em;
+    font-weight: 900;
+    font-size: clamp(19px, 2vw, 28px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
     text-transform: uppercase;
     color: var(--white);
-    display: inline-flex; align-items: center; gap: 14px;
+    display: block;
     margin-bottom: 30px;
-  }
-  .filter-sublabel::before {
-    content: ""; display: inline-block;
-    width: 24px; height: 1px; background: var(--silver);
-    flex-shrink: 0;
+    text-wrap: balance;
   }
   .filter-item {
     font-family: 'Inter', sans-serif;
@@ -1986,7 +1983,6 @@
   /* LEFT — alive, white text, cyan arrows. */
   .filter-col.col-for .marker { color: var(--bmc-cyan); }
   .filter-col.col-for .filter-sublabel { color: var(--bmc-cyan); }
-  .filter-col.col-for .filter-sublabel::before { background: var(--bmc-cyan); }
   /* RIGHT — disqualification list. Body text now full white for
      readability against the dark filled bg; markers stay slightly dimmed
      to preserve the "crossed off" hierarchy without losing legibility. */
