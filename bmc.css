@@ -1802,14 +1802,20 @@
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 17px;
+    letter-spacing: -0.01em;
     color: var(--black);
   }
+  /* Matches the quote-card name/title: bold name + uppercase letter-spaced
+     accent title. On this light section the accent is deep plum (the page's
+     light-bg em color) so it stays readable; the dark cards use cyan. */
   .t-video-title-co {
     font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--grey-soft);
-    margin-top: 5px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bmc-cyan-deep);
+    margin-top: 7px;
   }
   .t-video-quote {
     font-family: 'Inter', sans-serif;
@@ -1861,20 +1867,20 @@
   /* Card shell — solid white, photo zone on top, content below. */
   .t-quote {
     position: relative;
-    background: var(--white);
-    border: 1px solid var(--rule-dark);
+    background: #0e0c12;
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 4px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     height: 100%;
-    box-shadow: 0 1px 2px rgba(10, 10, 10, 0.03);
+    box-shadow: 0 6px 22px rgba(10, 10, 10, 0.10);
     transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
   }
   .t-quote:hover {
     transform: translateY(-3px);
-    border-color: rgba(120, 228, 239, 0.55);
-    box-shadow: 0 14px 34px rgba(10, 10, 10, 0.09);
+    border-color: rgba(120, 228, 239, 0.40);
+    box-shadow: 0 18px 40px rgba(10, 10, 10, 0.18);
   }
 
   /* Photo zone — neutral charcoal placeholder + subtle dot texture (matches
@@ -1902,7 +1908,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 62%, rgba(10, 8, 16, 0.22));
+    background: linear-gradient(to bottom, transparent 55%, rgba(14, 12, 18, 0.55));
     pointer-events: none;
     z-index: 1;
   }
@@ -1920,10 +1926,24 @@
 
   /* Content zone — quote + rule + author, dark text on the white card. */
   .t-quote-content {
-    padding: 22px 24px 24px;
+    position: relative;
+    padding: 46px 26px 26px;
     display: flex;
     flex-direction: column;
     flex: 1;
+  }
+  /* Big decorative quote mark — top-left of the dark content area (muted plum). */
+  .t-quote-content::before {
+    content: "\201C";
+    position: absolute;
+    top: 6px;
+    left: 22px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 70px;
+    line-height: 1;
+    color: #563a78;
+    pointer-events: none;
   }
 
   /* Quote — upright (not italic); key words bolded inline via <strong>. */
@@ -1931,26 +1951,24 @@
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 17px;
-    line-height: 1.55;
+    font-size: 18px;
+    line-height: 1.5;
     letter-spacing: -0.005em;
-    color: var(--ink);
-    margin-bottom: 20px;
+    color: #f1f1f4;
+    margin-bottom: 22px;
   }
-  /* Emphasis = the page's light-bg accent (deep plum), not heavy black bold. */
+  /* Emphasis = cyan (the accent color on dark backgrounds). */
   .t-quote-text strong {
     font-weight: 600;
-    color: var(--bmc-cyan-deep);
+    color: var(--bmc-cyan);
   }
 
-  /* Short cyan jewel rule (echoes the eyebrow pip, in the accent color). */
+  /* Full-width hairline divider (subtle white on the dark card). */
   .t-quote-rule {
-    width: 28px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--bmc-cyan);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
     margin-top: auto;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
 
   .t-quote-author { display: flex; align-items: center; gap: 12px; }
@@ -1958,16 +1976,18 @@
   .t-quote-name {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 14.5px;
+    font-size: 15px;
     letter-spacing: -0.01em;
-    color: var(--ink);
+    color: #ffffff;
   }
   .t-quote-title {
     font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 3px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bmc-cyan);
+    margin-top: 6px;
   }
 
   /* Industry chip — solid cyan pill, top-right of the photo zone. */
