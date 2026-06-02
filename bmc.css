@@ -2456,6 +2456,9 @@
   @media (max-width: 720px) {
     #investment { padding: 120px 0; }
     .price-grid { grid-template-columns: 1fr; max-width: 480px; gap: 36px; }
+    /* Trim the oversized card padding on phones so "RESERVE YOUR SEAT →"
+       holds one line (the arrow was wrapping). */
+    .price-card { padding: 48px 26px; }
     .invest-sub { margin-top: 72px; padding-top: 56px; }
     .invest-sub-headline { margin-bottom: 40px; }
   }
@@ -2706,6 +2709,10 @@
   .faq-headline {
     font-size: clamp(40px, 5.2vw, 76px);
     margin-bottom: 80px;
+  }
+  /* Same oversized-gap fix as the "By Design" headline — tighten on mobile. */
+  @media (max-width: 880px) {
+    .faq-headline { margin-bottom: 44px; }
   }
   .faq-row {
     border-bottom: 1px solid var(--rule);
