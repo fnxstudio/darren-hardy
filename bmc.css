@@ -1201,12 +1201,6 @@
     /* Drop slightly so "BUSINESS MASTER CLASS" stays on one line on narrow
        phones (iPhone SE, etc.). 21 chars at 20px fits ~310px container. */
     .compare-title { font-size: 20px; }
-    /* Subhead: swap to the shorter string + shrink and drop the wide tracking
-       so it holds one line. Higher specificity (.compare-col) is required
-       because the base .compare-sub rule appears later in source order. */
-    .compare-col .compare-sub { font-size: 9px; letter-spacing: 0.03em; }
-    .cs-full { display: none; }
-    .cs-short { display: inline; }
   }
   .compare-sub {
     font-family: 'Inter', sans-serif;
@@ -1216,6 +1210,15 @@
     text-transform: uppercase;
     color: var(--bmc-cyan);
     margin-bottom: 28px;
+  }
+  /* Mobile subhead: across the whole stacked range (not just ≤480), swap to
+     the shorter string + a fluid size that holds ONE line down to ~340px and
+     wraps gracefully below. Placed AFTER the base rule so no specificity hack
+     is needed. The wide 0.22em tracking is the real space-eater, so it goes. */
+  @media (max-width: 720px) {
+    .compare-sub { font-size: clamp(8.5px, 2.4vw, 12px); letter-spacing: 0.04em; }
+    .cs-full { display: none; }
+    .cs-short { display: inline; }
   }
   .compare-intro {
     font-family: 'Inter', sans-serif;
