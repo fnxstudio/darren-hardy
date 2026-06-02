@@ -2077,7 +2077,7 @@
   .meet {
     background: var(--bone);
     color: var(--black);
-    padding: 160px 0;
+    padding: 160px 0 64px;
   }
   .meet-grid {
     display: grid;
@@ -2153,37 +2153,32 @@
     transition: border-color 0.2s, color 0.2s;
   }
   .meet-link:hover { border-bottom-color: var(--bmc-cyan-deep); }
-  /* Credibility seals strip — all six rendered at a uniform height (their
-     source files have mixed aspect ratios; height + contain normalizes them
-     to the same on-page size). Dark artwork on transparent → reads cleanly
-     on the bone section, slightly muted so it's a strip, not loud logos. */
+  /* Credibility seals strip — all six trimmed to the same artwork height so
+     they render at a matching on-page size; faded to blend into the section. */
   .meet-seals {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 28px clamp(20px, 3vw, 44px);
-    margin-top: 64px;
-    padding-top: 48px;
-    border-top: 1px solid var(--rule-dark);
+    gap: 28px clamp(24px, 3.5vw, 52px);
+    margin-top: 56px;
   }
   .meet-seal {
-    height: 60px;
+    height: 86px;
     width: auto;
     object-fit: contain;
     display: block;
-    opacity: 0.85;
+    opacity: 0.6;
   }
   @media (max-width: 880px) {
-    .meet { padding: 96px 0; }
+    .meet { padding: 96px 0 48px; }
     .meet-grid { grid-template-columns: 1fr; gap: 48px; }
     .meet-portrait { max-width: 400px; margin: 0 auto; }
-    /* Seals wrap to 2-3 per row on smaller screens; smaller + centered. */
-    .meet-seals { justify-content: center; gap: 24px 32px; margin-top: 48px; padding-top: 36px; }
-    .meet-seal { height: 46px; }
+    .meet-seals { justify-content: center; gap: 28px 40px; margin-top: 44px; }
+    .meet-seal { height: 64px; }
   }
   @media (max-width: 480px) {
-    .meet-seal { height: 40px; }
+    .meet-seal { height: 54px; }
   }
 
   /* ============ LAYER 12 — INVESTMENT ============ */
