@@ -56,6 +56,15 @@
      Normalized font-style, inherits weight + scale from the parent. */
   em.key { font-style: normal; color: var(--bmc-cyan); }
 
+  /* Mobile-only helpers — invisible on desktop (zero desktop impact). The
+     <br class="m-br"> forces a phone-only line break; .cs-short swaps in a
+     shorter string on phones while .cs-full stays the desktop default. */
+  .m-br { display: none; }
+  .cs-short { display: none; }
+  @media (max-width: 600px) {
+    .m-br { display: inline; }
+  }
+
   /* Eyebrow accent variant — applied sparingly to flag identity moments. */
   .eyebrow.eyebrow--accent { color: var(--bmc-cyan); }
   .eyebrow.eyebrow--accent .pip { background: var(--bmc-cyan); }
@@ -913,6 +922,19 @@
   @media (max-width: 600px) {
     .vsl-overlay { padding: 20px 20px 24px; }
     .vsl-overlay-text { max-width: 90%; }
+    /* Shrink the play button so it tucks into the corner and clears Darren's
+       face (108px was way too big on a phone-width frame). */
+    .vsl-play { width: 62px; height: 62px; bottom: 14px; right: 14px; }
+    .vsl-play svg { width: 20px; height: 20px; margin-left: 3px; }
+    .vsl-play::after { animation-name: vslPulseSm; }
+    .vsl-pause { bottom: 26px; right: 26px; }
+    .vsl-pause svg { width: 38px; height: 38px; }
+  }
+  /* Smaller pulse ring for the shrunk mobile button (referenced above). */
+  @keyframes vslPulseSm {
+    0%   { box-shadow: 0 0 0 0 rgba(120, 228, 239, 0.6); }
+    70%  { box-shadow: 0 0 0 18px rgba(120, 228, 239, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(120, 228, 239, 0); }
   }
   .vsl-caption {
     font-family: 'Inter', sans-serif;
@@ -1179,6 +1201,12 @@
     /* Drop slightly so "BUSINESS MASTER CLASS" stays on one line on narrow
        phones (iPhone SE, etc.). 21 chars at 20px fits ~310px container. */
     .compare-title { font-size: 20px; }
+    /* Subhead: swap to the shorter string + shrink and drop the wide tracking
+       so it holds one line. Higher specificity (.compare-col) is required
+       because the base .compare-sub rule appears later in source order. */
+    .compare-col .compare-sub { font-size: 9px; letter-spacing: 0.03em; }
+    .cs-full { display: none; }
+    .cs-short { display: inline; }
   }
   .compare-sub {
     font-family: 'Inter', sans-serif;
@@ -1281,7 +1309,7 @@
          ACTIVATED IMMEDIATELY flag instead of crowding it. */
       width: 44px; height: 44px;
       box-shadow: 0 0 0 4px var(--ink), 0 6px 18px rgba(120, 228, 239, 0.30);
-      transform: translateY(calc(50% + 14px));
+      transform: translateY(calc(50% + 24px));
       z-index: 3;
     }
     .compare-plus svg { width: 18px; height: 18px; }
@@ -1473,23 +1501,30 @@
     text-wrap: normal;
   }
   @media (max-width: 720px) {
-    /* Mobile: stack as flat panels (chevrons don't tile vertically); the
-       color progression still carries the staged feel. */
-    .unfair-list { flex-direction: column; gap: 10px; }
-    .unfair-list li,
-    .unfair-list li:first-child {
+    /* Mobile: stack vertically as DOWNWARD-pointing chevrons — each card has a
+       notch on top + a point on the bottom that nests into the next, implying a
+       top-to-bottom progression. Negative margin-top interlocks them. */
+    .unfair-list { flex-direction: column; gap: 0; margin-bottom: 24px; }
+    .unfair-list li {
       flex: none;
-      clip-path: none;
-      margin-left: 0;
       aspect-ratio: auto;
-      padding: 20px 24px;
-      gap: 10px;
+      margin-left: 0;
+      margin-top: -22px;
+      padding: 34px 24px 40px;
+      gap: 8px;
+      clip-path: polygon(0 0, 50% 22px, 100% 0, 100% calc(100% - 22px), 50% 100%, 0 calc(100% - 22px));
+    }
+    .unfair-list li:first-child {
+      margin-top: 0;
+      padding-left: 24px;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 22px), 50% 100%, 0 calc(100% - 22px));
     }
     .unfair-list .t { font-size: 17px; line-height: 1.35; }
     .unfair-list .n { font-size: 14px; }
-    /* Full-width stacked panels — let the copy wrap naturally instead of the
-       forced 3-line desktop breaks (the trailing spaces keep words apart). */
+    /* Stacked panels wrap naturally; drop the forced desktop line breaks. */
     .unfair-list .t br { display: none; }
+    /* Tighten the gap between the chevron stack and the WITHOUT/WITH compare. */
+    .unfair-compare { padding-top: 20px; }
   }
   @media (max-width: 420px) {
     .unfair-list .t { font-size: 18px; }
@@ -2115,6 +2150,8 @@
   .filter-close-accent { color: var(--bmc-cyan); font-weight: 600; }
 
   @media (max-width: 880px) {
+    /* Tighten the oversized gap under the "By Design." headline on mobile. */
+    .filter-headline-10 { margin-bottom: 44px; }
     .filter-grid { grid-template-columns: 1fr; }
     .filter-grid::before { display: none; }
     .filter-col { border-bottom: 1px solid var(--rule-strong); padding: 56px 32px; }
@@ -2418,7 +2455,7 @@
   }
   @media (max-width: 720px) {
     #investment { padding: 120px 0; }
-    .price-grid { grid-template-columns: 1fr; max-width: 480px; }
+    .price-grid { grid-template-columns: 1fr; max-width: 480px; gap: 36px; }
     .invest-sub { margin-top: 72px; padding-top: 56px; }
     .invest-sub-headline { margin-bottom: 40px; }
   }
