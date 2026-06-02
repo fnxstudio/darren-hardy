@@ -49,7 +49,8 @@
     els.forEach(el => {
       const end = parseFloat(el.dataset.count);
       const dec = parseInt(el.dataset.decimals) || 0;
-      el.textContent = end.toFixed(dec);
+      // Write to the inner .stat-value if present so a sibling "/10" survives.
+      (el.querySelector('.stat-value') || el).textContent = end.toFixed(dec);
     });
     return;
   }
@@ -59,11 +60,13 @@
   function animate(el) {
     const end = parseFloat(el.dataset.count);
     const dec = parseInt(el.dataset.decimals) || 0;
+    // Write to the inner .stat-value if present so a sibling "/10" survives.
+    const out = el.querySelector('.stat-value') || el;
     const dur = 1100;
     const t0 = performance.now();
     (function tick(now) {
       const p = Math.min((now - t0) / dur, 1);
-      el.textContent = (ease(p) * end).toFixed(dec);
+      out.textContent = (ease(p) * end).toFixed(dec);
       if (p < 1) requestAnimationFrame(tick);
     })(t0);
   }
