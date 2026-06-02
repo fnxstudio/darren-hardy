@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMC — Testimonials Redesign Mock-up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a; --bone-soft:#ececec; --muted:#444; --grey-soft:#6a6a6a;
+    --cyan:#78e4ef; --plum:#4B2C6A; --gold:#f5b301; --gold-line:rgba(176,141,55,0.5);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bone-soft);color:var(--black);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+
+  /* preview chrome */
+  .pv-banner{background:#0a0a0a;color:#fff;font:600 12px/1.4 'Inter';letter-spacing:.04em;text-align:center;padding:10px 16px;}
+  .pv-banner b{color:var(--cyan);}
+  .wrap{max-width:1380px;margin:0 auto;padding:0 48px;}
+
+  section{padding:96px 0 110px;}
+  .eyebrow{display:flex;align-items:center;justify-content:center;gap:9px;font:700 12px/1 'Inter';letter-spacing:.22em;text-transform:uppercase;color:var(--grey-soft);}
+  .eyebrow .pip{width:6px;height:6px;border-radius:50%;background:var(--grey-soft);display:block;}
+  .headline{text-align:center;font:600 clamp(40px,5.2vw,72px)/1.02 'Inter';letter-spacing:-0.02em;margin-top:18px;}
+  .headline em{font-style:normal;color:var(--plum);}
+
+  /* ===== RATING — two options side by side ===== */
+  .rating-row{display:flex;gap:48px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:40px;}
+  .opt{display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .opt-tag{font:700 10px/1 'Inter';letter-spacing:.18em;text-transform:uppercase;color:#9a9a9a;}
+
+  /* Option A — medallion seal (ticked ring echoes the NYT credibility seal) */
+  .seal{position:relative;width:168px;height:168px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:radial-gradient(circle at 50% 38%,#ffffff,#faf7f0);box-shadow:0 6px 22px rgba(10,10,10,0.08);}
+  .seal-ring{position:absolute;inset:0;width:100%;height:100%;}
+  .seal-in{display:flex;flex-direction:column;align-items:center;gap:5px;}
+  .seal-stars{display:flex;gap:2px;color:var(--gold);}
+  .seal-stars svg{width:10px;height:10px;display:block;}
+  .seal-score{font-family:'Fraunces',serif;font-weight:600;font-size:44px;line-height:.9;color:var(--plum);letter-spacing:-0.02em;}
+  .seal-label{font:700 8.5px/1.35 'Inter';letter-spacing:.13em;text-transform:uppercase;color:var(--grey-soft);text-align:center;}
+
+  /* Option B — refined inline lockup */
+  .lock{display:inline-flex;align-items:center;gap:18px;padding:16px 24px;border-radius:12px;background:#fff;border:1px solid rgba(10,10,10,0.06);box-shadow:0 2px 12px rgba(10,10,10,0.05);}
+  .lock-score{font-family:'Fraunces',serif;font-weight:600;font-size:46px;line-height:.85;color:var(--plum);letter-spacing:-0.03em;padding-right:18px;border-right:1px solid rgba(10,10,10,0.1);}
+  .lock-detail{display:flex;flex-direction:column;gap:8px;}
+  .lock-stars{display:flex;gap:4px;color:var(--gold);}
+  .lock-stars svg{width:15px;height:15px;display:block;}
+  .lock-label{font:700 10px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--grey-soft);padding-top:8px;border-top:1px solid var(--gold-line);}
+
+  /* ===== CARD GRID (unchanged format: 3 cols) ===== */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:84px;}
+
+  .card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid rgba(10,10,10,0.05);
+        box-shadow:0 1px 2px rgba(10,10,10,0.04),0 12px 32px rgba(10,10,10,0.06);
+        display:flex;flex-direction:column;transition:transform .35s ease,box-shadow .35s ease;}
+  .card:hover{transform:translateY(-5px);box-shadow:0 22px 50px rgba(10,10,10,0.13);}
+
+  .photo{position:relative;aspect-ratio:16/11;overflow:hidden;}
+  .photo img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;}
+  .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 58%,rgba(10,8,16,0.30));pointer-events:none;}
+
+  /* frosted glass chip */
+  .chip{position:absolute;top:15px;right:15px;font:700 9px/1 'Inter';letter-spacing:.24em;text-transform:uppercase;
+        color:#fff;padding:7px 12px;border-radius:6px;
+        background:rgba(255,255,255,0.14);backdrop-filter:blur(9px) saturate(125%);-webkit-backdrop-filter:blur(9px) saturate(125%);
+        border:1px solid rgba(255,255,255,0.40);box-shadow:0 2px 12px rgba(0,0,0,0.20);}
+
+  .body{padding:24px 26px 26px;display:flex;flex-direction:column;flex:1;}
+  .mark{font-family:'Fraunces',serif;font-weight:700;font-size:52px;line-height:.4;height:24px;color:var(--plum);opacity:.17;}
+  .quote{font-family:'Fraunces',serif;font-weight:400;font-size:19px;line-height:1.5;letter-spacing:-0.003em;color:#2a2a2a;margin-top:8px;}
+  .quote strong{font-weight:600;color:var(--plum);}
+  .jewel{width:30px;height:2px;border-radius:2px;background:var(--cyan);margin-top:auto;}
+  .auth{margin-top:16px;}
+  .name{font:600 14.5px/1.2 'Inter';letter-spacing:-0.01em;color:#0a0a0a;}
+  .role{font:400 12px/1.3 'Inter';color:#666;margin-top:3px;}
+
+  @media (max-width:1079px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:720px){.wrap{padding:0 24px;}.grid{grid-template-columns:1fr;}.rating-row{gap:36px;}}
+</style>
+</head>
+<body>
+
+<div class="pv-banner">PREVIEW &mdash; Testimonials redesign (the &ldquo;house blend&rdquo;). Live site is untouched. <b>Pick a rating option below + tell me any tweaks.</b></div>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow"><span class="pip"></span>In Their Own Words</div>
+    <h2 class="headline">Real Builders. <em>Real Results</em>.</h2>
+
+    <!-- RATING: two options to choose between -->
+    <div class="rating-row">
+      <div class="opt">
+        <div class="seal">
+          <svg class="seal-ring" viewBox="0 0 168 168" aria-hidden="true">
+            <circle cx="84" cy="84" r="80" fill="none" stroke="rgba(176,141,55,0.55)" stroke-width="1.4"/>
+            <circle cx="84" cy="84" r="72" fill="none" stroke="rgba(176,141,55,0.55)" stroke-width="3" stroke-dasharray="1.4 5.2" stroke-linecap="round"/>
+          </svg>
+          <div class="seal-in">
+            <div class="seal-stars" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+            </div>
+            <div class="seal-score">9.8</div>
+            <div class="seal-label">Rating From<br>11,738 CEOs</div>
+          </div>
+        </div>
+        <div class="opt-tag">Option A &middot; Medallion seal</div>
+      </div>
+
+      <div class="opt">
+        <div class="lock">
+          <div class="lock-score">9.8</div>
+          <div class="lock-detail">
+            <div class="lock-stars" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+            </div>
+            <div class="lock-label">Rating From 11,738 CEOs</div>
+          </div>
+        </div>
+        <div class="opt-tag">Option B &middot; Refined lockup</div>
+      </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="grid">
+      <article class="card">
+        <div class="photo">
+          <img src="dan_tripp.webp?v=2" alt="Dan Tripp">
+          <span class="chip">Advocacy</span>
+        </div>
+        <div class="body">
+          <div class="mark">&ldquo;</div>
+          <p class="quote">My business has skyrocketed &mdash; we are <strong>on track to exceed $5M with a 50% profit margin.</strong></p>
+          <div class="jewel"></div>
+          <div class="auth">
+            <div class="name">Dan Tripp</div>
+            <div class="role">CEO &amp; Founder &middot; Advocacy Architects</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="photo">
+          <img src="gerald_leonard.webp" alt="Gerald Leonard">
+          <span class="chip">Consulting</span>
+        </div>
+        <div class="body">
+          <div class="mark">&ldquo;</div>
+          <p class="quote">In the past two years since BMC, my business has gone <strong>from $250k in revenue to $6 million.</strong></p>
+          <div class="jewel"></div>
+          <div class="auth">
+            <div class="name">Gerald Leonard</div>
+            <div class="role">Chief Executive Officer &middot; Principles of Execution, LLC</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="photo">
+          <img src="jeannie_henderson.webp" alt="Jeannie Henderson">
+          <span class="chip">Services</span>
+        </div>
+        <div class="body">
+          <div class="mark">&ldquo;</div>
+          <p class="quote">Strategies I learned at BMC have <strong>kept turnover 200% below my competitors.</strong></p>
+          <div class="jewel"></div>
+          <div class="auth">
+            <div class="name">Jeannie Henderson</div>
+            <div class="role">Founder &amp; CEO &middot; Jeannie Cleaning</div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
