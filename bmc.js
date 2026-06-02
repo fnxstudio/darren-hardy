@@ -146,34 +146,47 @@
     }
   };
 
-  const init = () => {
-    if (!window.Vimeo || !window.Vimeo.Player) return false;
-    // VSL (What's Inside) — state class on the frame.
+  // Collect every controllable video (VSL + grid testimonials).
+  const collect = () => {
+    const out = [];
     const vsl = document.getElementById('vsl-player');
     if (vsl) {
       const frame = vsl.closest('.vsl-frame');
-      wire(vsl,
-        document.querySelector('[data-vsl-play]'),
-        frame && frame.querySelector('.vsl-vol'),
-        frame);
+      out.push({ iframe: vsl, toggle: document.querySelector('[data-vsl-play]'), vol: frame && frame.querySelector('.vsl-vol'), target: frame });
     }
-    // Video-grid testimonial embeds — state class on the thumbnail.
     document.querySelectorAll('.t-video-iframe').forEach(iframe => {
       const thumb = iframe.closest('.t-video-thumb');
-      wire(iframe,
-        thumb && thumb.querySelector('.t-video-toggle'),
-        thumb && thumb.querySelector('.t-video-vol'),
-        thumb);
+      out.push({ iframe: iframe, toggle: thumb && thumb.querySelector('.t-video-toggle'), vol: thumb && thumb.querySelector('.t-video-vol'), target: thumb });
     });
-    return true;
+    return out;
   };
 
-  // The Vimeo API script is deferred too; if it hasn't defined window.Vimeo
-  // yet, retry briefly until it's ready.
-  if (!init()) {
-    let tries = 0;
-    const t = setInterval(() => {
-      if (init() || ++tries > 40) clearInterval(t);
-    }, 100);
-  }
+  // PERF: Vimeo's player.js (~190KB) loads ON DEMAND — only when a visitor first
+  // clicks a video — so it never sits on the initial critical path. (The
+  // background loop autoplays via its own iframe params and needs no JS at all.)
+  let wired = false, loading = false, pendingToggle = null;
+  const wireAll = () => {
+    if (wired || !window.Vimeo || !window.Vimeo.Player) return;
+    wired = true;
+    collect().forEach(t => wire(t.iframe, t.toggle, t.vol, t.target));
+    if (pendingToggle) pendingToggle.click(); // replay the click that triggered the load
+  };
+  const loadVimeo = () => {
+    if (window.Vimeo && window.Vimeo.Player) { wireAll(); return; }
+    if (loading) return;
+    loading = true;
+    const s = document.createElement('script');
+    s.src = 'https://player.vimeo.com/api/player.js';
+    s.onload = wireAll;
+    document.head.appendChild(s);
+  };
+  // First click on any video control loads Vimeo, then wires every player + plays it.
+  const onFirstClick = (e) => {
+    const toggle = e.target.closest('.t-video-toggle, .vsl-toggle');
+    if (!toggle) return;
+    document.removeEventListener('click', onFirstClick, true);
+    pendingToggle = toggle;
+    loadVimeo();
+  };
+  document.addEventListener('click', onFirstClick, true);
 })();
