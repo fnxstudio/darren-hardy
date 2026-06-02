@@ -36,19 +36,6 @@
   }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
   staggerEls.forEach(el => staggerIO.observe(el));
 
-  // .reveal-rg — large blocks (testimonial row-groups) that should pop in
-  // EARLY so they don't sit blank. threshold 0 = first pixel; positive bottom
-  // rootMargin = fire while the element is still ~14% below the viewport.
-  const rgEls = document.querySelectorAll('.reveal-rg');
-  const rgIO = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        rgIO.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0, rootMargin: '0px 0px 14% 0px' });
-  rgEls.forEach(el => rgIO.observe(el));
 })();
 
 // ===== Count-up animation for stat numbers =====
