@@ -1932,27 +1932,31 @@
   /* Content zone — quote + rule + author, dark text on the white card. */
   .t-quote-content {
     position: relative;
-    padding: 46px 26px 26px;
+    padding: 30px 26px 26px;
     display: flex;
     flex-direction: column;
     flex: 1;
   }
-  /* Big decorative quote mark — top-left of the dark content area (muted plum). */
+  /* Big decorative quote mark — large + semi-transparent, sitting BEHIND the
+     copy as a watermark (the text reads over it). */
   .t-quote-content::before {
     content: "\201C";
     position: absolute;
-    top: 6px;
-    left: 22px;
+    top: -8px;
+    left: 16px;
     font-family: 'Inter', sans-serif;
-    font-weight: 800;
-    font-size: 70px;
+    font-weight: 700;
+    font-size: 120px;
     line-height: 1;
-    color: #563a78;
+    color: rgba(124, 86, 168, 0.20);
+    z-index: 0;
     pointer-events: none;
   }
 
   /* Quote — upright (not italic); key words bolded inline via <strong>. */
   .t-quote-text {
+    position: relative;
+    z-index: 1;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-style: normal;
