@@ -70,6 +70,7 @@
   @media (max-width: 880px) {
     .d880-only { display: none; }
     .m880-only { display: inline; }
+    .d-br { display: none; }   /* desktop-only line break — flows naturally on mobile */
   }
 
   /* Eyebrow accent variant — applied sparingly to flag identity moments. */
@@ -1292,6 +1293,7 @@
        (iPhone Pro Max 428 → ~380 content width). 5.31:1 aspect means a
        420px width caps height at ~79px. */
     .compare-brand img { width: min(100%, 420px); height: auto; max-height: none; }
+    .compare-brand { margin-bottom: 56px; }   /* logo->box gap -30% on mobile */
     .compare-grid {
       grid-template-columns: 1fr;
       grid-template-rows: auto auto;
@@ -2466,7 +2468,8 @@
   }
   @media (max-width: 720px) {
     #investment { padding: 72px 0; }
-    .price-grid { grid-template-columns: 1fr; max-width: 480px; gap: 36px; }
+    .invest-intro { margin-bottom: 64px; }            /* space above first PAY box -20% */
+    .price-grid { grid-template-columns: 1fr; max-width: 480px; gap: 72px; }   /* double the gap between cards */
     /* Trim the oversized card padding on phones so "RESERVE YOUR SEAT →"
        holds one line (the arrow was wrapping). */
     .price-card { padding: 48px 26px; }
@@ -2636,7 +2639,7 @@
         transparent 100%);
     }
     .invest-seal { max-width: 240px; margin: 0 auto; }
-    .invest-guarantee-copy { text-align: center; }
+    .invest-guarantee-copy { text-align: center; margin-top: -16px; }   /* divider->eyebrow gap -40% (40px -> 24px) */
     .invest-guarantee-copy .invest-sub-eyebrow { justify-content: center; }
     .invest-guarantee-copy .invest-sub-headline { text-align: center; }
     .invest-guarantee-body p { text-align: center; }
@@ -2779,8 +2782,14 @@
     border-top: 1px solid var(--rule);
     text-align: center;
   }
-  /* Climax CTA — keep a touch more breathing room than standard sections. */
-  @media (max-width: 880px) { .final { padding: 80px 0; } }
+  /* Climax CTA — keep a touch more breathing room than standard sections.
+     (.final-prefixed selectors so they win over the base rules that appear
+     later in source order.) Center the button between the copy (was 64 / 32). */
+  @media (max-width: 880px) {
+    .final { padding: 80px 0; }
+    .final .final-cta-row { margin-top: 48px; }
+    .final .final-secondary { margin-top: 48px; }
+  }
   .final-headline {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
