@@ -2179,6 +2179,7 @@
   /* Credibility seals strip — all six trimmed to the same artwork height so
      they render at a matching on-page size; faded to blend into the section. */
   .meet-seals {
+    --seal-h: 86px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -2187,12 +2188,18 @@
     margin-top: 56px;
   }
   .meet-seal {
-    height: 86px;
+    height: var(--seal-h);
     width: auto;
     object-fit: contain;
     display: block;
     opacity: 0.3;
   }
+  /* Optical size correction — all seals share the same raw artwork height, but
+     they read at different visual sizes: Amazon's stars+wordmark fill the frame
+     densely (reads biggest), while the NYT circle reads smallest next to the
+     wreaths. Nudge those two so the row looks evenly sized. */
+  .meet-seal[src*="amazon"] { height: calc(var(--seal-h) * 0.82); }
+  .meet-seal[src*="nyt"]    { height: calc(var(--seal-h) * 1.05); }
   /* Amazon's artwork is naturally a lighter gray than the pure-black seals, so
      it reads fainter at the same opacity — bump it up a touch to even the row. */
   .meet-seal[src*="amazon"] { opacity: 0.5; }
@@ -2200,11 +2207,10 @@
     .meet { padding: 96px 0 48px; }
     .meet-grid { grid-template-columns: 1fr; gap: 48px; }
     .meet-portrait { max-width: 400px; margin: 0 auto; }
-    .meet-seals { justify-content: center; gap: 28px 40px; margin-top: 44px; }
-    .meet-seal { height: 64px; }
+    .meet-seals { justify-content: center; gap: 28px 40px; margin-top: 44px; --seal-h: 64px; }
   }
   @media (max-width: 480px) {
-    .meet-seal { height: 54px; }
+    .meet-seals { --seal-h: 54px; }
   }
 
   /* ============ LAYER 12 — INVESTMENT ============ */
