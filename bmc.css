@@ -1156,7 +1156,7 @@
   /* In-card "Benefit One / Two" label — small uppercase, eyebrow-style. */
   .compare-benefit {
     font-family: 'Inter', sans-serif;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 10px;
     letter-spacing: 0.42em;
     text-transform: uppercase;
@@ -1411,32 +1411,43 @@
     margin-bottom: 40px;
   }
   /* 4-item list as a single row of square cards */
+  /* Chevron "stages" ribbon — each card is a rightward arrow that interlocks
+     with the next, implying a left-to-right progression. Tints step from
+     purple → cyan to reinforce the build toward the payoff. */
   .unfair-list {
     list-style: none;
     padding: 0;
     margin: 0 0 56px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
+    display: flex;
   }
   .unfair-list li {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
     aspect-ratio: 1 / 1;
-    padding: 22px;
-    border: 1px solid var(--rule);
-    background: rgba(255, 255, 255, 0.025);
-    /* No hover (not clickable). Explicit roll-in on scroll: each card rises
-       + fades, cascaded via the .stagger nth-child delays on the parent.
-       Declared here (higher specificity than .stagger > *) so the motion is
-       reliable and a bit more pronounced. */
+    padding: 22px 30px 22px 42px;
+    /* Point on the right, notch on the left so consecutive cards interlock. */
+    clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 50%, calc(100% - 28px) 100%, 0 100%, 28px 50%);
+    margin-left: -28px;
+    /* Roll-in on scroll, cascaded via the .stagger nth-child delays. */
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
+  /* First card has a flat left edge (no incoming notch). */
+  .unfair-list li:first-child {
+    clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 50%, calc(100% - 28px) 100%, 0 100%);
+    margin-left: 0;
+    padding-left: 24px;
+  }
+  /* Stage tints — purple → cyan. */
+  .unfair-list li:nth-child(1) { background: rgba(150, 45, 172, 0.20); }
+  .unfair-list li:nth-child(2) { background: rgba(120, 82, 200, 0.20); }
+  .unfair-list li:nth-child(3) { background: rgba(72, 152, 212, 0.20); }
+  .unfair-list li:nth-child(4) { background: rgba(98, 220, 236, 0.22); }
   .unfair-list.visible li {
     opacity: 1;
     transform: translateY(0);
@@ -1458,16 +1469,22 @@
     text-wrap: balance;
   }
   @media (max-width: 720px) {
-    .unfair-list { grid-template-columns: repeat(2, 1fr); }
-    /* The clamp lower-bound (13px) was rendering at minimum on mobile —
-       too small for the size of the cards. Bump up so the copy fills the
-       card properly. */
+    /* Mobile: stack as flat panels (chevrons don't tile vertically); the
+       color progression still carries the staged feel. */
+    .unfair-list { flex-direction: column; gap: 10px; }
+    .unfair-list li,
+    .unfair-list li:first-child {
+      flex: none;
+      clip-path: none;
+      margin-left: 0;
+      aspect-ratio: auto;
+      padding: 20px 24px;
+      gap: 10px;
+    }
     .unfair-list .t { font-size: 17px; line-height: 1.35; }
     .unfair-list .n { font-size: 14px; }
   }
   @media (max-width: 420px) {
-    .unfair-list { grid-template-columns: 1fr; }
-    .unfair-list li { aspect-ratio: auto; padding: 18px 22px; gap: 12px; }
     .unfair-list .t { font-size: 18px; }
   }
   .unfair-compare {
