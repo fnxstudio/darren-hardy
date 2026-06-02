@@ -1673,17 +1673,23 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    background: #0e0c12;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 6px 22px rgba(10, 10, 10, 0.10);
     opacity: 0;
     transform: translateY(38px);
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease, box-shadow 0.3s ease;
   }
   .t-video-grid.visible .t-video { opacity: 1; transform: translateY(0); }
+  .t-video:hover { border-color: rgba(120, 228, 239, 0.40); box-shadow: 0 18px 40px rgba(10, 10, 10, 0.18); }
   .t-video-thumb {
     position: relative;
     aspect-ratio: 16 / 9;
     background: linear-gradient(135deg, #2a2725 0%, #131110 100%);
-    border: 1px solid var(--rule-dark-strong);
     overflow: hidden;
     transition: transform 0.3s ease;
   }
@@ -1797,24 +1803,23 @@
     transition: opacity 0.4s ease;
   }
   .t-video-thumb.has-played .t-video-poster { opacity: 0; pointer-events: none; }
-  .t-video-meta { padding-top: 18px; }
+  .t-video-meta { padding: 18px 20px 20px; }
   .t-video-name {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 17px;
+    font-size: 16px;
     letter-spacing: -0.01em;
-    color: var(--black);
+    color: #ffffff;
   }
-  /* Matches the quote-card name/title: bold name + uppercase letter-spaced
-     accent title. On this light section the accent is deep plum (the page's
-     light-bg em color) so it stays readable; the dark cards use cyan. */
+  /* Matches the dark quote cards: white name + cyan uppercase letter-spaced
+     title (cyan is legible now that the meta sits on the dark card). */
   .t-video-title-co {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--bmc-cyan-deep);
+    color: var(--bmc-cyan);
     margin-top: 7px;
   }
   .t-video-quote {
