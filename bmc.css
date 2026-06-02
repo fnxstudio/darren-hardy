@@ -1662,8 +1662,8 @@
   /* ───── BLOCK 1 — Video testimonials: static 2 x 3 grid ───── */
   .t-video-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 48px 32px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px 36px;
     margin-top: 80px;
   }
   /* Each card (thumbnail image + text) rolls in on scroll: rises + fades,
@@ -1720,6 +1720,24 @@
   .t-play--lg { width: 64px; height: 64px; }
   .t-play--lg svg { width: 22px; height: 22px; margin-left: 3px; }
   .t-video:hover .t-play--lg { transform: scale(1.08); }
+  /* Gentle pulsing ring to invite the click. */
+  .t-play::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(120, 228, 239, 0.5);
+    animation: tPlayPulse 2s cubic-bezier(0.25, 0.6, 0.3, 1) infinite;
+    pointer-events: none;
+  }
+  @keyframes tPlayPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(120, 228, 239, 0.5); }
+    70%  { box-shadow: 0 0 0 15px rgba(120, 228, 239, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(120, 228, 239, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .t-play::after { animation: none; }
+  }
   /* Full-area transparent click target over the embed — click ANYWHERE to
      play/pause (controls=0 disables Vimeo's own click-to-pause). The cyan
      .t-play circle inside is visual only. */
