@@ -928,22 +928,16 @@
     justify-content: center;
     text-align: center;
     padding: 40px 28px;
-    min-height: 100%;
-    aspect-ratio: 4 / 5;
+    /* No aspect-ratio: grid's default align-self: stretch lets the CTA match
+       the row height set by the tallest person card next to it (photo + meta),
+       so they line up at the bottom. If the CTA is alone in a row (no people
+       siblings), min-height kicks in as the floor. */
+    min-height: 240px;
     text-decoration: none;
     border: 1px solid var(--rule-dark);
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.3s ease;
     position: relative;
     overflow: hidden;
-  }
-  /* When the CTA spans more than one column, drop the portrait aspect-ratio so
-     it stretches horizontally (matches the row height of the people next to it,
-     or sits at a comfortable height if it's a row of its own). */
-  .team-cta[style*="span 2"],
-  .team-cta[style*="span 3"],
-  .team-cta[style*="span 4"] {
-    aspect-ratio: auto;
-    min-height: 240px;
   }
   .team-cta:hover {
     background: var(--grey-soft);
