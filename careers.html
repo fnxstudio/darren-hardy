@@ -410,6 +410,72 @@
     text-transform: uppercase;
   }
 
+  /* The 3 core VALUES — foundational tier above the 12 attributes.
+     Definitions always visible (not hover-revealed like attributes), bigger
+     type, no watermark numbers. These are the WHY; attributes are the HOW. */
+  .values-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--rule-dark-strong);
+    border-bottom: 1px solid var(--rule-dark-strong);
+    margin-bottom: 64px;
+  }
+  @media (max-width: 720px) { .values-pillars { grid-template-columns: 1fr; } }
+
+  .pillar {
+    padding: 56px 40px;
+    text-align: center;
+    border-right: 1px solid var(--rule-dark);
+  }
+  .pillar:last-child { border-right: none; }
+  @media (max-width: 720px) {
+    .pillar { border-right: none; border-bottom: 1px solid var(--rule-dark); padding: 44px 28px; }
+    .pillar:last-child { border-bottom: none; }
+  }
+
+  .pillar-word {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4vw, 56px);
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-transform: uppercase;
+    line-height: 1;
+    margin: 0 0 18px;
+  }
+  .pillar-def {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(14px, 1.2vw, 17px);
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  /* Divider label between the 3 values and the 12 attributes */
+  .values-divider {
+    text-align: center;
+    margin: 0 0 48px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .values-divider::before,
+  .values-divider::after {
+    content: '';
+    flex: 0 0 28px;
+    height: 1px;
+    background: var(--grey-soft);
+  }
+
   /* 4x3 grid of attribute cards. Single source 1px lines via gap + bg. */
   .values-grid {
     display: grid;
@@ -1597,6 +1663,26 @@
       <div class="reveal"><div class="eyebrow"><span class="pip"></span>A-Team Standards</div></div>
       <h2 class="values-title reveal">Our Core <em>Values &amp; Attributes</em>.</h2>
     </div>
+
+    <!-- 3 core VALUES — the foundation -->
+    <div class="values-pillars">
+      <div class="pillar reveal">
+        <h3 class="pillar-word">Growth</h3>
+        <p class="pillar-def">Always growing, never settling. Better Every Day.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3 class="pillar-word">Impact</h3>
+        <p class="pillar-def">The lives we positively influence. The reason we exist.</p>
+      </div>
+      <div class="pillar reveal">
+        <h3 class="pillar-word">Excellence</h3>
+        <p class="pillar-def">OCE. Obsessive Commitment to Excellence.</p>
+      </div>
+    </div>
+
+    <!-- Transition into the 12 attributes — the behaviors -->
+    <div class="values-divider reveal">How They Show Up Every Day</div>
+
     <div class="values-grid">
       <div class="value reveal">
         <h3 class="value-word">Love</h3>
