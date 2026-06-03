@@ -253,6 +253,7 @@
   .team-title em,
   .serve-title em,
   .values-title em,
+  .recruit-video-title em,
   .process-title em,
   .closing-headline em,
   .creed-quote em,
@@ -508,6 +509,162 @@
     text-transform: uppercase;
     color: var(--grey-soft);
     margin-top: 40px;
+  }
+
+  /* ============ RECRUITING VIDEO — VSL-pattern from BMC, recolored to red ============ */
+  .recruit-video {
+    background: var(--black);
+    padding: 120px 0;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .recruit-video .eyebrow { justify-content: center; margin-bottom: 24px; }
+  .recruit-video-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 4.8vw, 72px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 64px;
+  }
+  .rv-frame {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--rule-strong);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+    background: radial-gradient(ellipse at center, #1f1d1a 0%, #0d0b09 80%);
+    overflow: hidden;
+  }
+  .rv-frame video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .rv-frame::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Pulsing red play button — anchored bottom-right, animates in resting state */
+  .rv-play {
+    position: absolute;
+    bottom: 26px; right: 26px;
+    width: 108px; height: 108px;
+    border: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.40);
+    transition: box-shadow 0.25s ease, opacity 0.3s ease;
+    cursor: pointer;
+    z-index: 3;
+    animation: rvBtnPulse 1.5s ease-in-out infinite;
+  }
+  .rv-play::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(160, 37, 43, 0.6);
+    animation: rvPulse 1.5s cubic-bezier(0.25, 0.6, 0.3, 1) infinite;
+    pointer-events: none;
+  }
+  @keyframes rvBtnPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.07); }
+  }
+  @keyframes rvPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(160, 37, 43, 0.6); }
+    70%  { box-shadow: 0 0 0 38px rgba(160, 37, 43, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(160, 37, 43, 0); }
+  }
+  .rv-frame:hover .rv-play {
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(160, 37, 43, 0.5);
+  }
+  .rv-play svg { width: 34px; height: 34px; margin-left: 4px; }
+
+  /* Whole-frame click target overlays the video */
+  .rv-toggle {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .rv-toggle .rv-play, .rv-toggle .rv-pause { pointer-events: none; }
+
+  /* Hide pulsing play once playing; show pause icon */
+  .rv-frame.is-playing .rv-play { opacity: 0; animation: none; }
+  .rv-frame.is-playing .rv-play::after { animation: none; }
+  .rv-pause {
+    position: absolute;
+    bottom: 52px; right: 52px;
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 3;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+  }
+  .rv-pause svg { width: 56px; height: 56px; display: block; }
+  .rv-frame.is-playing .rv-pause { opacity: 1; }
+
+  /* Mute / unmute button — fades in once the user has hit play */
+  .rv-vol {
+    position: absolute;
+    bottom: 32px; left: 32px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 4;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+  }
+  .rv-vol:hover { transform: scale(1.1); }
+  .rv-vol svg { width: 34px; height: 34px; display: block; }
+  .rv-frame.has-played .rv-vol { opacity: 1; pointer-events: auto; }
+  .rv-vol-off { display: none; }
+  .rv-frame.is-muted .rv-vol-on { display: none; }
+  .rv-frame.is-muted .rv-vol-off { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rv-play, .rv-play::after { animation: none; }
+  }
+  @media (max-width: 720px) {
+    .rv-play { width: 72px; height: 72px; bottom: 14px; right: 14px; }
+    .rv-play svg { width: 24px; height: 24px; }
+    .rv-pause { bottom: 28px; right: 28px; }
+    .rv-pause svg { width: 38px; height: 38px; }
+    .rv-vol { bottom: 16px; left: 16px; }
+    .rv-vol svg { width: 26px; height: 26px; }
+    .recruit-video { padding: 88px 0; }
+    .recruit-video-title { margin-bottom: 40px; }
   }
 
   /* ============ COLLAGE ============ */
@@ -1328,6 +1485,53 @@
   </div>
 </section>
 
+<!-- RECRUITING VIDEO — A-Team intro from dh.darrenhardy.com/careers, Mux-hosted -->
+<section class="recruit-video" id="watch">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="pip"></span>Watch This First</div>
+    <h2 class="recruit-video-title reveal">Why The <em>A-Team</em> Exists.</h2>
+  </div>
+  <div class="container">
+    <div class="rv-frame reveal reveal-scale">
+      <video id="rv-player"
+             preload="metadata"
+             playsinline
+             crossorigin="anonymous"
+             poster="https://2518645.fs1.hubspotusercontent-na1.net/hubfs/2518645/a-team_recruiting_video_-_v3%20(1080p).mp4/medium.jpg">
+        <source src="https://stream.mux.com/fpd4mHyYgS00Kg02nQWzbmSg931ppEaq3oEsfjYNMNlro/capped-1080p.mp4" type="video/mp4">
+        Your browser doesn&rsquo;t support embedded video.
+      </video>
+      <button class="rv-toggle" type="button" aria-label="Play or pause video">
+        <span class="rv-play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg>
+        </span>
+        <span class="rv-pause" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="5" width="4" height="14" rx="1"/>
+            <rect x="14" y="5" width="4" height="14" rx="1"/>
+          </svg>
+        </span>
+      </button>
+      <button class="rv-vol" type="button" aria-label="Mute or unmute">
+        <span class="rv-vol-on" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/>
+            <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+            <path d="M18.5 5.5a8.5 8.5 0 0 1 0 13"/>
+          </svg>
+        </span>
+        <span class="rv-vol-off" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/>
+            <line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/>
+            <line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</section>
+
 <!-- COLLAGE — who you'd be joining (moved right after hero) -->
 <section class="collage">
   <div class="container">
@@ -1659,6 +1863,56 @@ team.forEach(m => {
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
   document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
+})();
+
+// ── A-Team recruiting video (native player + sound toggle) ──
+// Mirrors the BMC VSL pattern: pulsing play button at rest, click anywhere on
+// the frame to play (with sound, since it's a real user gesture), pause icon
+// appears while playing, mute/unmute button fades in after first play.
+(function () {
+  const video  = document.getElementById('rv-player');
+  const frame  = video && video.closest('.rv-frame');
+  const toggle = frame && frame.querySelector('.rv-toggle');
+  const volBtn = frame && frame.querySelector('.rv-vol');
+  if (!video || !frame || !toggle || !volBtn) return;
+
+  const syncMuted = () => frame.classList.toggle('is-muted', video.muted);
+
+  toggle.addEventListener('click', () => {
+    if (frame.classList.contains('is-playing')) {
+      video.pause();
+      return;
+    }
+    // Real user click — request audible playback
+    video.muted = false;
+    video.volume = 1;
+    const p = video.play();
+    if (p && p.catch) {
+      p.catch(() => {
+        // Browser autoplay policy blocked audible play — fall back to muted so
+        // the video at least starts; the volume button is then one tap away.
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+    }
+  });
+
+  video.addEventListener('play', () => {
+    frame.classList.add('is-playing');
+    frame.classList.add('has-played');
+    syncMuted();
+  });
+  video.addEventListener('pause', () => frame.classList.remove('is-playing'));
+  video.addEventListener('ended', () => frame.classList.remove('is-playing'));
+  video.addEventListener('volumechange', syncMuted);
+
+  volBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const nextMuted = !video.muted;
+    video.muted = nextMuted;
+    if (!nextMuted) video.volume = 1;
+    syncMuted();
+  });
 })();
 
 // ── Darami hiring-process video modal ──
