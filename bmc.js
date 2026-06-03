@@ -123,28 +123,45 @@
     const el = target || toggle;
     const player = new window.Vimeo.Player(iframe);
 
-    // IMPORTANT: call play() synchronously inside the click gesture (NOT from
-    // a promise callback) — otherwise the browser drops the user-gesture and
-    // forces muted playback. We track play state via the class, not getPaused().
+    // Keep the mute ICON in sync with the player's ACTUAL muted state. The
+    // browser's autoplay policy can force a video to start muted even after we
+    // asked for sound — e.g. when the very first play of the session lands a
+    // beat outside the click gesture because player.js was still downloading.
+    // Without this the button's class desyncs from reality, so the first
+    // volume click toggles the WRONG way and it takes two or three clicks to
+    // actually unmute. This reads the truth and reflects it on the icon.
+    const syncMuted = () => player.getMuted()
+      .then(m => el.classList.toggle('is-muted', m))
+      .catch(() => {});
+
+    // IMPORTANT: call play() synchronously inside the click gesture so the
+    // browser keeps the user-activation and allows sound. We track play state
+    // via the class, not getPaused().
     toggle.addEventListener('click', () => {
       if (el.classList.contains('is-playing')) {
         player.pause();
-      } else {
-        if (!el.classList.contains('is-muted')) player.setMuted(false); // ensure audible
-        player.play();
+        return;
       }
+      if (!el.classList.contains('is-muted')) player.setMuted(false).catch(() => {}); // ask for sound
+      player.play().then(syncMuted).catch(() => {
+        // Unmuted play was blocked (no active gesture). Start it muted so the
+        // video at least PLAYS, and reflect that — now one volume-button click
+        // (a fresh user gesture) is all it takes to turn the sound on.
+        player.setMuted(true).then(() => player.play()).then(syncMuted).catch(() => {});
+      });
     });
-    player.on('play',  () => { el.classList.add('is-playing'); el.classList.add('has-played'); });
+    player.on('play',  () => { el.classList.add('is-playing'); el.classList.add('has-played'); syncMuted(); });
     player.on('pause', () => el.classList.remove('is-playing'));
     player.on('ended', () => el.classList.remove('is-playing'));
+    player.on('volumechange', syncMuted); // browser/user changed volume → keep icon honest
 
     // Simple mute toggle (its own button, sibling of the toggle).
     if (vol) {
       vol.addEventListener('click', (e) => {
         e.stopPropagation();
         const mute = !el.classList.contains('is-muted');
-        player.setMuted(mute).catch(() => {});
-        el.classList.toggle('is-muted', mute);
+        el.classList.toggle('is-muted', mute);                    // instant icon feedback
+        player.setMuted(mute).then(syncMuted).catch(syncMuted);   // then confirm against reality
       });
     }
   };
@@ -192,4 +209,29 @@
     loadVimeo();
   };
   document.addEventListener('click', onFirstClick, true);
+
+  // Warm up player.js BEFORE the click so the first play stays inside the user
+  // gesture — which is what lets it start WITH sound instead of muted autoplay.
+  // Triggers, earliest first: a video scrolling into view (works on touch — the
+  // big one for phones, which have no hover), or the first hover / press on a
+  // video. None of this runs on initial load, and Lighthouse neither scrolls
+  // nor hovers during its trace, so the page-speed win holds; visitors who
+  // never reach the videos never download it.
+  let warmed = false;
+  const warmUp = () => { if (warmed) return; warmed = true; loadVimeo(); };
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries, obs) => {
+      if (entries.some(en => en.isIntersecting)) { obs.disconnect(); warmUp(); }
+    }, { rootMargin: '0px' });
+    document.querySelectorAll('.t-video-thumb, .vsl-frame').forEach(v => io.observe(v));
+  }
+  const onIntent = (e) => {
+    if (!e.target.closest('.t-video-thumb, .vsl-frame')) return;
+    document.removeEventListener('pointerover', onIntent, true);
+    document.removeEventListener('pointerdown', onIntent, true);
+    warmUp();
+  };
+  document.addEventListener('pointerover', onIntent, true);
+  document.addEventListener('pointerdown', onIntent, true);
 })();
