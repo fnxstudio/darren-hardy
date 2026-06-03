@@ -346,6 +346,28 @@
   }
   .subhero-sub strong { color: var(--white); font-weight: 600; }
 
+  /* Hero CTA — matches the A-Team subpage hero button (btn-solid) */
+  .subhero .btn-solid { margin-top: 40px; }
+  .btn-solid {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--white);
+    color: var(--black);
+    padding: 20px 40px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid var(--white);
+  }
+  .btn-solid:hover { background: transparent; color: var(--white); }
+  .btn-solid .arrow { font-weight: 400; transition: transform 0.2s; }
+  .btn-solid:hover .arrow { transform: translateX(3px); }
+
   /* ============ VALUES — 12 attributes, hover-to-reveal definitions ============ */
   .values {
     background: var(--ink);
@@ -1047,7 +1069,8 @@
   /* Subhero — on-load cascade */
   .subhero .crumb,
   .subhero-title,
-  .subhero-sub {
+  .subhero-sub,
+  .subhero .btn-solid {
     opacity: 0;
     transform: translateY(14px);
     animation: subheroIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -1055,12 +1078,13 @@
   .subhero .crumb     { animation-delay: 0.15s; }
   .subhero-title      { animation-delay: 0.45s; }
   .subhero-sub        { animation-delay: 0.85s; }
+  .subhero .btn-solid { animation-delay: 1.05s; }
   @keyframes subheroIn { to { opacity: 1; transform: translateY(0); } }
 
   /* Honor user OS-level motion preferences */
   @media (prefers-reduced-motion: reduce) {
     .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
-    .subhero .crumb, .subhero-title, .subhero-sub {
+    .subhero .crumb, .subhero-title, .subhero-sub, .subhero .btn-solid {
       opacity: 1; transform: none; animation: none;
     }
   }
@@ -1300,6 +1324,7 @@
     </div>
     <h1 class="subhero-title">Join The <em>A-Team</em>.</h1>
     <p class="subhero-sub">Our work positively influences the lives of <strong>1.6 billion people</strong>. Wake up inspired to grow, be excellent, and make an impact. That's what we do, and we need your help.</p>
+    <a class="btn-solid" href="#open-roles">Join The A-Team <span class="arrow">→</span></a>
   </div>
 </section>
 
