@@ -332,13 +332,11 @@
   }
   .subhero-sub strong { color: var(--white); font-weight: 600; }
 
-  /* ============ PRIMARY / SOLID BUTTON ============ */
-  .btn-solid {
+  /* ============ HERO CTAs — solid (filled) and ghost (outlined) variants ============ */
+  .btn-solid, .btn-ghost {
     display: inline-flex;
     align-items: center;
     gap: 14px;
-    background: var(--white);
-    color: var(--black);
     padding: 20px 40px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -349,9 +347,12 @@
     transition: all 0.2s;
     border: 1px solid var(--white);
   }
+  .btn-solid { background: var(--white); color: var(--black); }
   .btn-solid:hover { background: transparent; color: var(--white); }
-  .btn-solid .arrow { font-weight: 400; transition: transform 0.2s; }
-  .btn-solid:hover .arrow { transform: translateX(3px); }
+  .btn-ghost { background: transparent; color: var(--white); }
+  .btn-ghost:hover { background: var(--white); color: var(--black); }
+  .btn-solid .arrow, .btn-ghost .arrow { font-weight: 400; transition: transform 0.2s; }
+  .btn-solid:hover .arrow, .btn-ghost:hover .arrow { transform: translateX(3px); }
 
   /* ============ POSITION INTRO: the mission ============ */
   .position-intro {
@@ -919,7 +920,8 @@
   .subhero .position-tags,
   .subhero-title,
   .subhero-sub,
-  .subhero .btn-solid {
+  .subhero .btn-solid,
+  .subhero .btn-ghost {
     opacity: 0;
     transform: translateY(14px);
     animation: subheroIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -928,12 +930,13 @@
   .subhero .position-tags { animation-delay: 0.30s; }
   .subhero-title      { animation-delay: 0.46s; }
   .subhero-sub        { animation-delay: 0.78s; }
-  .subhero .btn-solid { animation-delay: 0.98s; }
+  .subhero .btn-solid,
+  .subhero .btn-ghost { animation-delay: 0.98s; }
   @keyframes subheroIn { to { opacity: 1; transform: translateY(0); } }
 
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
-    .subhero .crumb, .subhero .position-tags, .subhero-title, .subhero-sub, .subhero .btn-solid {
+    .subhero .crumb, .subhero .position-tags, .subhero-title, .subhero-sub, .subhero .btn-solid, .subhero .btn-ghost {
       opacity: 1; transform: none; animation: none;
     }
   }
@@ -1175,7 +1178,7 @@
     </div>
     <h1 class="subhero-title">The <em>Content Marketer</em>.</h1>
     <p class="subhero-sub">We're sitting on a goldmine of the best business content in the world. <strong>Your job: turn it into assets that reach more leaders, generate more leads, and move more people to action.</strong></p>
-    <a class="btn-solid" href="https://forms.gle/P6jFKvGtvfkvtrXKA" target="_blank" rel="noopener">Accept The Mission <span class="arrow">→</span></a>
+    <a class="btn-ghost" href="https://forms.gle/P6jFKvGtvfkvtrXKA" target="_blank" rel="noopener">Accept The Mission <span class="arrow">→</span></a>
   </div>
 </section>
 
