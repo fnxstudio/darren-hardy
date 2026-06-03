@@ -190,9 +190,9 @@
     return out;
   };
 
-  // PERF: Vimeo's player.js (~190KB) loads ON DEMAND — only when a visitor first
-  // clicks a video — so it never sits on the initial critical path. (The
-  // background loop autoplays via its own iframe params and needs no JS at all.)
+  // PERF: Vimeo's player.js (~190KB) is kept OFF the initial critical path — it
+  // loads lazily via the preload triggers below, never blocking first paint.
+  // (The hero background loop autoplays via its own iframe params, no JS needed.)
   let wired = false, loading = false, pendingToggle = null;
   const wireAll = () => {
     if (wired || !window.Vimeo || !window.Vimeo.Player) return;
@@ -219,19 +219,25 @@
   };
   document.addEventListener('click', onFirstClick, true);
 
-  // Warm up player.js BEFORE the click so the first play stays inside the user
-  // gesture — which is what lets it start WITH sound instead of muted autoplay.
-  // Triggers, earliest first: a video scrolling into view (works on touch — the
-  // big one for phones, which have no hover), or the first hover / press on a
-  // video. None of this runs on initial load, and Lighthouse neither scrolls
-  // nor hovers during its trace, so the page-speed win holds; visitors who
-  // never reach the videos never download it.
-  let warmed = false;
-  const warmUp = () => { if (warmed) return; warmed = true; loadVimeo(); };
+  // Preload player.js BEFORE any click so the first play runs inside the user
+  // gesture — the only state where the browser allows audible playback. (An
+  // async load AFTER the click loses the gesture and playback is forced to
+  // muted.) loadVimeo() is idempotent, so we fire it from a few triggers:
+  //
+  //   • a guaranteed backstop ~3s after the page settles — the real safety net,
+  //     ready for every visitor well before they scroll down to the videos;
+  //   • a video scrolling into view, or the first hover / press on one — earlier
+  //     still, for anyone who races down the page.
+  //
+  // The 3s defer keeps it off the critical path (Lighthouse neither waits that
+  // long nor scrolls), so the page-speed score is unaffected.
+  const preload = () => setTimeout(loadVimeo, 3000);
+  if (document.readyState === 'complete') preload();
+  else window.addEventListener('load', preload);
 
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries, obs) => {
-      if (entries.some(en => en.isIntersecting)) { obs.disconnect(); warmUp(); }
+      if (entries.some(en => en.isIntersecting)) { obs.disconnect(); loadVimeo(); }
     }, { rootMargin: '0px' });
     document.querySelectorAll('.t-video-thumb, .vsl-frame').forEach(v => io.observe(v));
   }
@@ -239,19 +245,8 @@
     if (!e.target.closest('.t-video-thumb, .vsl-frame')) return;
     document.removeEventListener('pointerover', onIntent, true);
     document.removeEventListener('pointerdown', onIntent, true);
-    warmUp();
+    loadVimeo();
   };
   document.addEventListener('pointerover', onIntent, true);
   document.addEventListener('pointerdown', onIntent, true);
-
-  // Backstop preload: a few seconds after the page settles, quietly load
-  // player.js in the background so every player is wired BEFORE the visitor
-  // scrolls down to the videos. That's what makes the first real click run
-  // in-gesture and start WITH sound — instead of the click landing before the
-  // script is ready, replaying after an async load, and getting forced to mute.
-  // Deferred 3s past load so it stays off the critical path (and clears the
-  // Lighthouse trace window, preserving the page-speed score).
-  const schedulePreload = () => setTimeout(warmUp, 3000);
-  if (document.readyState === 'complete') schedulePreload();
-  else window.addEventListener('load', schedulePreload);
 })();
