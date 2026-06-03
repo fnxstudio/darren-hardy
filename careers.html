@@ -911,9 +911,13 @@
   }
 
   /* Filler CTA at the end of the team grid — auto-spans the leftover cells of the
-     last row (set via JS) so the grid stays rectangular regardless of team count. */
+     last row (set via JS) so the grid stays rectangular regardless of team count.
+     Visual: dark card (matches creed / positions sections), white headline with a
+     small red accent bar above (echoes the value cards' marker), bone button for
+     the actionable element. Quieter than a full-red card; feels native to the team
+     grid space. */
   .team-cta {
-    background: var(--accent);
+    background: var(--ink);
     color: var(--white);
     display: flex;
     flex-direction: column;
@@ -924,8 +928,8 @@
     min-height: 100%;
     aspect-ratio: 4 / 5;
     text-decoration: none;
-    border: 1px solid var(--accent);
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    border: 1px solid var(--rule);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.3s ease;
     position: relative;
     overflow: hidden;
   }
@@ -938,18 +942,23 @@
     aspect-ratio: auto;
     min-height: 240px;
   }
-  .team-cta::before {
-    /* Soft inner radial vignette for depth — matches the screenshot reference */
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.06), transparent 70%);
-    pointer-events: none;
-  }
   .team-cta:hover {
+    background: var(--black);
     transform: translateY(-2px);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
   }
+
+  /* Small red accent bar above the headline — same pattern as value cards */
+  .team-cta-headline::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin: 0 auto 22px;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .team-cta:hover .team-cta-headline::before { width: 48px; }
 
   .team-cta-headline {
     font-family: 'Inter', sans-serif;
@@ -966,21 +975,21 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: var(--bone);
-    color: var(--black);
+    background: transparent;
+    color: var(--white);
     padding: 12px 22px;
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     letter-spacing: 0.24em;
     text-transform: uppercase;
     font-weight: 700;
-    border: 1px solid var(--bone);
+    border: 1px solid var(--white);
     transition: background 0.2s, color 0.2s;
     position: relative;
   }
   .team-cta:hover .team-cta-button {
-    background: transparent;
-    color: var(--bone);
+    background: var(--white);
+    color: var(--black);
   }
   .team-cta-button .arrow { font-weight: 400; transition: transform 0.2s; }
   .team-cta:hover .team-cta-button .arrow { transform: translateX(3px); }
