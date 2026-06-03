@@ -260,11 +260,20 @@
   .roles-header em {
     font-style: normal;
     color: var(--accent);
-    /* Hairline same-color shadow compensates for the contrast-weight illusion
-       — red has lower luminance contrast against white/black than the surrounding
-       text, which makes the letterforms read thinner. This adds ~0.5px of ink
-       mass per glyph and brings the visual weight back in line. */
-    text-shadow: 0 0 0.6px currentColor;
+    /* Compensate for the contrast-weight illusion. Red has lower luminance
+       contrast against white/black than the surrounding text, so the letterforms
+       read visually thinner. Stack of same-color shadows synthesizes extra
+       stroke thickness:
+         - 4 directional 0.4px offsets thicken every glyph edge in all 4 sides
+           (~1 font-weight increase of apparent thickness)
+         - 0.6px blur softens the resulting edges so it reads as bold type,
+           not pixelated. */
+    text-shadow:
+      0.4px 0 0 currentColor,
+      -0.4px 0 0 currentColor,
+      0 0.4px 0 currentColor,
+      0 -0.4px 0 currentColor,
+      0 0 0.6px currentColor;
   }
 
   /* ============ SUBPAGE HEADER ============ */
