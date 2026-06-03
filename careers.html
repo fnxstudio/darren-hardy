@@ -253,6 +253,7 @@
   .team-title em,
   .serve-title em,
   .values-title em,
+  .beliefs-title em,
   .recruit-video-title em,
   .process-title em,
   .closing-headline em,
@@ -907,6 +908,131 @@
     letter-spacing: 0.16em;
     color: var(--grey-soft);
     text-transform: uppercase;
+  }
+
+  /* ============ BELIEFS — two-column REQUIRED / REFUSED (mirrors /about.html) ============ */
+  .beliefs {
+    background: var(--bone);
+    padding: 160px 0;
+    border-top: 1px solid var(--rule-dark);
+  }
+  .beliefs-head {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .beliefs-head .eyebrow {
+    justify-content: center;
+    margin-bottom: 24px;
+    color: var(--grey-soft);
+  }
+  .beliefs-head .eyebrow .pip { background: var(--grey-soft); }
+  .beliefs-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(48px, 7vw, 124px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    color: var(--black);
+    text-transform: uppercase;
+  }
+
+  .beliefs-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--rule-dark-strong);
+  }
+  @media (max-width: 880px) { .beliefs-cols { grid-template-columns: 1fr; } }
+
+  .belief-col {
+    padding: 56px 48px;
+  }
+  @media (max-width: 880px) { .belief-col { padding: 44px 28px; } }
+
+  /* Left "Required" column stays bone (matching section bg);
+     Right "Refused" column flips to dark for the visual yes-path / no-path cue */
+  .belief-col:first-child {
+    background: var(--bone);
+    color: var(--black);
+    border-right: 1px solid var(--rule-dark-strong);
+  }
+  .belief-col:last-child {
+    background: var(--black);
+    color: var(--white);
+  }
+  @media (max-width: 880px) {
+    .belief-col:first-child {
+      border-right: none;
+      border-bottom: 1px solid var(--rule-dark-strong);
+    }
+  }
+
+  .belief-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(22px, 2vw, 30px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 44px;
+    padding-bottom: 26px;
+    border-bottom: 1px solid var(--rule-dark-strong);
+    line-height: 1;
+    color: var(--black);
+  }
+  .belief-col:last-child .belief-label {
+    color: var(--white);
+    border-bottom-color: var(--rule-strong);
+  }
+
+  .belief-list { list-style: none; display: flex; flex-direction: column; }
+  .belief-item {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule-dark);
+    transition: background 0.25s ease, padding 0.25s ease;
+    border-radius: 2px;
+  }
+  .belief-item:last-child { border-bottom: none; }
+  .belief-item:hover { background: rgba(10, 10, 10, 0.04); padding-left: 12px; padding-right: 12px; }
+  .belief-col:last-child .belief-item { border-bottom-color: var(--rule); }
+  .belief-col:last-child .belief-item:hover { background: rgba(255, 255, 255, 0.025); }
+
+  .belief-word {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: var(--black);
+  }
+  .belief-col:last-child .belief-word { color: var(--white); }
+
+  .belief-def {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .belief-col:last-child .belief-def { color: var(--silver); }
+
+  .beliefs-foot {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--rule-dark);
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(17px, 1.5vw, 22px);
+    line-height: 1.45;
+    color: var(--black);
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* ============ WHO WE SERVE — light bg, horizontal ticker of members ============ */
@@ -1750,6 +1876,48 @@
   </div>
 </section>
 
+<!-- BELIEFS — required / refused split (mirrors /about.html, rebranded in careers palette) -->
+<section class="beliefs">
+  <div class="container">
+    <div class="beliefs-head">
+      <div class="reveal"><div class="eyebrow"><span class="pip"></span>Our Manifesto</div></div>
+      <h2 class="beliefs-title reveal">What We Believe.<br>What <em>We Don&rsquo;t</em>.</h2>
+    </div>
+    <div class="beliefs-cols">
+      <div class="belief-col reveal">
+        <div class="belief-label">Required.</div>
+        <ul class="belief-list">
+          <li class="belief-item"><span class="belief-word">Audacity.</span><span class="belief-def">Playing small is a sin against your nature.</span></li>
+          <li class="belief-item"><span class="belief-word">Obsession.</span><span class="belief-def">Motivation is weak and passion wanes.</span></li>
+          <li class="belief-item"><span class="belief-word">Impact.</span><span class="belief-def">You do make a difference. Make it positive.</span></li>
+          <li class="belief-item"><span class="belief-word">Action.</span><span class="belief-def">It doesn&rsquo;t just happen.</span></li>
+          <li class="belief-item"><span class="belief-word">Growth.</span><span class="belief-def">Better is always possible.</span></li>
+          <li class="belief-item"><span class="belief-word">Accountability.</span><span class="belief-def">Everything is your fault. Own it.</span></li>
+          <li class="belief-item"><span class="belief-word">Excellence.</span><span class="belief-def">We have zero tolerance for mediocrity.</span></li>
+          <li class="belief-item"><span class="belief-word">Courage.</span><span class="belief-def">Especially when we&rsquo;re scared to death.</span></li>
+          <li class="belief-item"><span class="belief-word">Being Real.</span><span class="belief-def">We&rsquo;re all &ldquo;flawsome.&rdquo;</span></li>
+          <li class="belief-item"><span class="belief-word">Being On Time.</span><span class="belief-def">Because we hate burpees.</span></li>
+        </ul>
+      </div>
+      <div class="belief-col reveal">
+        <div class="belief-label">Refused.</div>
+        <ul class="belief-list">
+          <li class="belief-item"><span class="belief-word">Excuses.</span><span class="belief-def">Step up or step aside.</span></li>
+          <li class="belief-item"><span class="belief-word">Blaming.</span><span class="belief-def">Fix it or zip it.</span></li>
+          <li class="belief-item"><span class="belief-word">Whining.</span><span class="belief-def">If you want it, earn it.</span></li>
+          <li class="belief-item"><span class="belief-word">Regrets.</span><span class="belief-def">Just do better next time.</span></li>
+          <li class="belief-item"><span class="belief-word">&ldquo;Good.&rdquo;</span><span class="belief-def">You are here to be great.</span></li>
+          <li class="belief-item"><span class="belief-word">Motivation.</span><span class="belief-def">Do it whether you feel like it or not.</span></li>
+          <li class="belief-item"><span class="belief-word">Dreaming.</span><span class="belief-def">Unless you back it up with a crazy amount of doing.</span></li>
+          <li class="belief-item"><span class="belief-word">Talent.</span><span class="belief-def">Only training and preparation.</span></li>
+          <li class="belief-item"><span class="belief-word">What&rsquo;s Popular.</span><span class="belief-def">Popular is the average. Average is mediocre. We abhor mediocrity.</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="beliefs-foot reveal">No dancing, high-fiving, or jumping up and down at seminars or on Zoom. That&rsquo;s just weird.</p>
+  </div>
+</section>
+
 <!-- WHO WE SERVE — slow ticker of members (the operators the A-Team serves) -->
 <section class="serve">
   <div class="container">
@@ -1961,8 +2129,9 @@ team.forEach(m => {
   stagger('.collage-mosaic .reveal-scale', 0.12);
   stagger('.values-grid .reveal',          0.05, 0.7);
   stagger('.team-grid .reveal',            0.05, 1.0);
+  stagger('.beliefs-cols .reveal',         0.18);
   stagger('.step-stack .reveal',           0.15);
-  stagger('.position-grid .reveal',            0.12);
+  stagger('.position-grid .reveal',        0.12);
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) {
