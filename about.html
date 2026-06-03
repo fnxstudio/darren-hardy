@@ -868,27 +868,29 @@
     margin: 0 auto;
   }
 
-  .ateam-grid-wrap {
-    background: var(--black);
+  /* ============ TEAM GRID — light bg, identical to /careers.html ============ */
+  .team {
+    background: var(--bone);
     padding: 120px 0;
+    border-top: 1px solid var(--rule-dark);
   }
-  .ateam-grid {
+  .team-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
   }
-  @media (max-width: 1080px) { .ateam-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 720px)  { .ateam-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 1080px) { .team-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 720px)  { .team-grid { grid-template-columns: repeat(2, 1fr); } }
 
-  .ateam-card { display: flex; flex-direction: column; }
-  .ateam-photo {
+  .person { display: flex; flex-direction: column; }
+  .person-photo {
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    background: var(--ink);
-    border: 1px solid var(--rule);
+    background: #d8d8d8;
+    border: 1px solid var(--rule-dark);
     position: relative;
   }
-  .ateam-photo img {
+  .person-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center 20%;
@@ -896,28 +898,102 @@
     filter: grayscale(100%);
     transition: filter 0.6s ease, transform 0.6s ease;
   }
-  .ateam-card:hover .ateam-photo img {
+  .person:hover .person-photo img {
     filter: grayscale(0%);
     transform: scale(1.03);
   }
-  .ateam-meta { padding: 18px 4px 0; }
-  .ateam-name {
+  .person-meta { padding: 18px 4px 0; }
+  .person-name {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 0.04em;
-    color: var(--white);
+    color: var(--black);
     text-transform: uppercase;
     margin-bottom: 6px;
   }
-  .ateam-role {
+  .person-role {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 11px;
     letter-spacing: 0.16em;
-    color: var(--silver);
+    color: var(--grey-soft);
     text-transform: uppercase;
   }
+
+  /* Filler CTA at end of team grid — auto-spans the leftover cells of the last
+     row (JS-driven) so the grid stays rectangular regardless of team count. */
+  .team-cta {
+    background: var(--grey);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 28px;
+    min-height: 100%;
+    aspect-ratio: 4 / 5;
+    text-decoration: none;
+    border: 1px solid var(--rule-dark);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .team-cta[style*="span 2"],
+  .team-cta[style*="span 3"],
+  .team-cta[style*="span 4"] {
+    aspect-ratio: auto;
+    min-height: 240px;
+  }
+  .team-cta:hover {
+    background: var(--grey-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  }
+  .team-cta-headline::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    margin: 0 auto 22px;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .team-cta:hover .team-cta-headline::before { width: 48px; }
+  .team-cta-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(20px, 1.8vw, 28px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin: 0 0 28px;
+    position: relative;
+  }
+  .team-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--white);
+    padding: 12px 22px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: 1px solid var(--white);
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+  }
+  .team-cta:hover .team-cta-button {
+    background: var(--white);
+    color: var(--black);
+  }
+  .team-cta-button .arrow { font-weight: 400; transition: transform 0.2s; }
+  .team-cta:hover .team-cta-button .arrow { transform: translateX(3px); }
 
   /* ============ HEADLINE EMPHASIS (greyscale color-shift, hardyclub pattern) ============
      On a LIGHT manifesto background: the dimmed half is muted grey, the em pops black.
@@ -1471,9 +1547,10 @@
     <p class="ateam-sub reveal">A hand-selected, battle-tested team of extraordinary human beings.</p>
   </div>
 </section>
-<section class="ateam-grid-wrap">
+<!-- TEAM GRID (identical to /careers.html — see team-cta filler logic in the script) -->
+<section class="team">
   <div class="container">
-    <div class="ateam-grid" id="teamGrid"></div>
+    <div class="team-grid" id="teamGrid"></div>
   </div>
 </section>
 
@@ -1610,9 +1687,13 @@
 
 <script>
 // ── A-Team grid ──
+// ── Team grid build (identical to /careers.html) ──
+// Edit this array to add/remove team members; the filler CTA block at the end
+// auto-recomputes its column span so the last row is always filled cleanly.
 const team = [
-  { name: 'Darren Hardy', role: 'Founder',                       photo: 'team-photos/darren.jpg' },
-  { name: 'Georgia Hardy', role: 'Founder · CFO',                 photo: 'team-photos/georgia.png?v=2' },
+  // Darren intentionally hidden for now — uncomment to add him back:
+  // { name: 'Darren Hardy', role: 'Founder',                       photo: 'team-photos/darren.jpg' },
+  { name: 'Georgia',  role: 'CFO',                               photo: 'team-photos/georgia.png?v=2' },
   { name: 'Darami',   role: 'Chief of Staff',                    photo: 'team-photos/darami.png' },
   { name: 'Jon',      role: 'CMO',                               photo: 'team-photos/jon.png' },
   { name: 'Brenda',   role: 'VP Member Experience',              photo: 'team-photos/brenda.png' },
@@ -1628,18 +1709,52 @@ const team = [
   { name: 'Josh',     role: 'Member Enrollment Specialist',      photo: 'team-photos/josh.png' },
   { name: 'Missy',    role: 'Unbreakable Sole Author',           photo: 'team-photos/missy.png' },
 ];
-const grid = document.getElementById('teamGrid');
+const teamGrid = document.getElementById('teamGrid');
 team.forEach(m => {
   const card = document.createElement('div');
-  card.className = 'ateam-card reveal';
+  card.className = 'person reveal';
   card.innerHTML = `
-    <div class="ateam-photo"><img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy" /></div>
-    <div class="ateam-meta">
-      <div class="ateam-name">${m.name}</div>
-      <div class="ateam-role">${m.role}</div>
+    <div class="person-photo"><img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy" /></div>
+    <div class="person-meta">
+      <div class="person-name">${m.name}</div>
+      <div class="person-role">${m.role}</div>
     </div>`;
-  grid.appendChild(card);
+  teamGrid.appendChild(card);
 });
+
+// ── Filler CTA at end of team grid — auto-spans the leftover cells of the
+// last row (or a full row if the grid divides evenly). Keeps the grid
+// rectangular regardless of how many team members are listed. ──
+(function () {
+  if (!teamGrid) return;
+  const cta = document.createElement('a');
+  cta.className = 'team-cta reveal';
+  cta.href = 'careers.html#open-positions';
+  cta.innerHTML = `
+    <h3 class="team-cta-headline">Want To Join<br>The A-Team?</h3>
+    <span class="team-cta-button">View Open Positions <span class="arrow">→</span></span>
+  `;
+  teamGrid.appendChild(cta);
+
+  function getCols() {
+    if (window.matchMedia('(max-width: 720px)').matches) return 2;
+    if (window.matchMedia('(max-width: 1080px)').matches) return 3;
+    return 4;
+  }
+  function fitCta() {
+    const people = team.length;
+    const cols = getCols();
+    const rem = people % cols;
+    const span = rem === 0 ? cols : (cols - rem);
+    cta.style.gridColumn = `span ${span}`;
+  }
+  fitCta();
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(fitCta, 100);
+  }, { passive: true });
+})();
 
 // ── Scroll-reveal ──
 (function () {
@@ -1653,7 +1768,7 @@ team.forEach(m => {
   stagger('.bte-body .reveal',      0.07);
   stagger('.mani-cols .reveal',     0.12);
   stagger('.nfe .nfe-body.reveal',  0.10);
-  stagger('.ateam-grid .reveal',    0.05);
+  stagger('.team-grid .reveal',    0.05);
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) {
@@ -1682,13 +1797,13 @@ team.forEach(m => {
   }, { threshold: 0, rootMargin: '0px 0px 0px 0px' });
 
   document.querySelectorAll('.reveal, .reveal-scale').forEach(el => {
-    if (el.closest('.ateam-grid')) obsLoose.observe(el);
+    if (el.closest('.team-grid')) obsLoose.observe(el);
     else obs.observe(el);
   });
 
   // Safety net: once the user scrolls past the A-Team section, force-reveal
   // any cards still hidden (handles tall last rows on short viewports).
-  const ateam = document.querySelector('.ateam-grid');
+  const ateam = document.querySelector('.team-grid');
   if (ateam) {
     const tailObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
