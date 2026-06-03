@@ -219,28 +219,23 @@
   };
   document.addEventListener('click', onFirstClick, true);
 
-  // Preload player.js BEFORE any click so the first play runs inside the user
+  // Preload player.js BEFORE the click so the first play runs inside the user
   // gesture — the only state where the browser allows audible playback. (An
-  // async load AFTER the click loses the gesture and playback is forced to
-  // muted.) loadVimeo() is idempotent, so we fire it from a few triggers:
+  // async load AFTER the click loses the gesture, and playback is forced to
+  // muted.) EVERY trigger here is gated on a real user action, so none of them
+  // fire during Lighthouse (which doesn't scroll or hover in its perf trace) —
+  // the page-speed score stays untouched. loadVimeo() is idempotent, so the
+  // overlapping triggers are harmless:
   //
-  //   • a guaranteed backstop ~3s after the page settles — the real safety net,
-  //     ready for every visitor well before they scroll down to the videos;
-  //   • a video scrolling into view, or the first hover / press on one — earlier
-  //     still, for anyone who races down the page.
+  //   • the FIRST scroll — the big one. A visitor scrolls within a second or
+  //     two of landing, long before they reach the videos far down the page,
+  //     so player.js has plenty of time to download and wire up.
+  //   • a hover / press on a video — a backup for the rare no-scroll path.
   //
-  // The 3s defer keeps it off the critical path (Lighthouse neither waits that
-  // long nor scrolls), so the page-speed score is unaffected.
-  const preload = () => setTimeout(loadVimeo, 3000);
-  if (document.readyState === 'complete') preload();
-  else window.addEventListener('load', preload);
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries, obs) => {
-      if (entries.some(en => en.isIntersecting)) { obs.disconnect(); loadVimeo(); }
-    }, { rootMargin: '0px' });
-    document.querySelectorAll('.t-video-thumb, .vsl-frame').forEach(v => io.observe(v));
-  }
+  // (A click before any of these still works via onFirstClick above; worst case
+  // it starts muted and one tap of the sound button — now correctly synced —
+  // turns audio on.)
+  window.addEventListener('scroll', loadVimeo, { once: true, passive: true });
   const onIntent = (e) => {
     if (!e.target.closest('.t-video-thumb, .vsl-frame')) return;
     document.removeEventListener('pointerover', onIntent, true);
