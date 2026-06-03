@@ -910,6 +910,81 @@
     text-transform: uppercase;
   }
 
+  /* Filler CTA at the end of the team grid — auto-spans the leftover cells of the
+     last row (set via JS) so the grid stays rectangular regardless of team count. */
+  .team-cta {
+    background: var(--accent);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 28px;
+    min-height: 100%;
+    aspect-ratio: 4 / 5;
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  /* When the CTA spans more than one column, drop the portrait aspect-ratio so
+     it stretches horizontally (matches the row height of the people next to it,
+     or sits at a comfortable height if it's a row of its own). */
+  .team-cta[style*="span 2"],
+  .team-cta[style*="span 3"],
+  .team-cta[style*="span 4"] {
+    aspect-ratio: auto;
+    min-height: 240px;
+  }
+  .team-cta::before {
+    /* Soft inner radial vignette for depth — matches the screenshot reference */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.06), transparent 70%);
+    pointer-events: none;
+  }
+  .team-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  .team-cta-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(20px, 1.8vw, 28px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin: 0 0 28px;
+    position: relative;
+  }
+  .team-cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bone);
+    color: var(--black);
+    padding: 12px 22px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: 1px solid var(--bone);
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+  }
+  .team-cta:hover .team-cta-button {
+    background: transparent;
+    color: var(--bone);
+  }
+  .team-cta-button .arrow { font-weight: 400; transition: transform 0.2s; }
+  .team-cta:hover .team-cta-button .arrow { transform: translateX(3px); }
+
   /* ============ BELIEFS — two-column REQUIRED / REFUSED (mirrors /about.html) ============ */
   .beliefs {
     background: var(--bone);
@@ -2084,12 +2159,13 @@
 </div>
 
 <script>
-// ── Team grid build — Darren first as 2×2 lead, then 16 placeholders ──
-// When real photos arrive, set member.photo = 'filename.jpg' on each.
-// Mirrors the team array on /about.html + Missy reinstated for an even 4×4 grid
+// ── Team grid build ──
+// Edit this array to add/remove team members; the filler CTA block at the end
+// auto-recomputes its column span so the last row is always filled cleanly.
 const team = [
-  { name: 'Darren Hardy', role: 'Founder',                       photo: 'team-photos/darren.jpg' },
-  { name: 'Georgia Hardy', role: 'Founder · CFO',                photo: 'team-photos/georgia.png?v=2' },
+  // Darren intentionally hidden for now — uncomment to add him back:
+  // { name: 'Darren Hardy', role: 'Founder',                       photo: 'team-photos/darren.jpg' },
+  { name: 'Georgia',  role: 'Founder · CFO',                     photo: 'team-photos/georgia.png?v=2' },
   { name: 'Darami',   role: 'Chief of Staff',                    photo: 'team-photos/darami.png' },
   { name: 'Jon',      role: 'CMO',                               photo: 'team-photos/jon.png' },
   { name: 'Brenda',   role: 'VP Member Experience',              photo: 'team-photos/brenda.png' },
@@ -2118,6 +2194,42 @@ team.forEach(m => {
     </div>`;
   teamGrid.appendChild(card);
 });
+
+// ── Filler CTA at end of team grid — auto-spans the leftover cells of the
+// last row (or a full row if the grid divides evenly). Keeps the grid
+// rectangular regardless of how many team members are listed. ──
+(function () {
+  if (!teamGrid) return;
+  const cta = document.createElement('a');
+  cta.className = 'team-cta reveal';
+  cta.href = '#open-positions';
+  cta.innerHTML = `
+    <h3 class="team-cta-headline">Want To Join<br>The A-Team?</h3>
+    <span class="team-cta-button">View Open Positions <span class="arrow">→</span></span>
+  `;
+  teamGrid.appendChild(cta);
+
+  function getCols() {
+    if (window.matchMedia('(max-width: 720px)').matches) return 2;
+    if (window.matchMedia('(max-width: 1080px)').matches) return 3;
+    return 4;
+  }
+  function fitCta() {
+    const people = team.length;        // count from source array, stable
+    const cols = getCols();
+    const rem = people % cols;
+    // If the last row is full (rem === 0) the CTA gets a row of its own
+    // spanning every column; otherwise it fills only the leftover cells.
+    const span = rem === 0 ? cols : (cols - rem);
+    cta.style.gridColumn = `span ${span}`;
+  }
+  fitCta();
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(fitCta, 100);
+  }, { passive: true });
+})();
 
 // ── Scroll-reveal: fade-up/scale-in for any .reveal or .reveal-scale element ──
 (function () {
