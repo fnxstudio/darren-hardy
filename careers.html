@@ -478,11 +478,13 @@
     background: var(--grey-soft);
   }
 
-  /* 4x3 grid of attribute cards. Single source 1px lines via gap + bg. */
+  /* 4x3 grid of attribute cards. Dividers come from the grid bg showing through
+     the gap. Using 2px (not 1px) avoids subpixel rounding making any gap render
+     as <1px and visually disappear at certain viewport widths. */
   .values-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1px;
+    gap: 2px;
     background: rgba(10, 10, 10, 0.15);
     border: 1px solid rgba(10, 10, 10, 0.15);
     counter-reset: value;
