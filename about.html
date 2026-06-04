@@ -1211,6 +1211,10 @@
   .closing-cta .arrow { font-weight: 400; transition: transform 0.2s; }
   .closing-cta:hover .arrow { transform: translateX(4px); }
 
+  /* ============ TYPOGRAPHY UTILITIES ============ */
+  /* Phrases that must never break across lines (e.g. brand terms like A-Team) */
+  .nobreak { white-space: nowrap; }
+
   /* ============ MOTION ============ */
   .reveal {
     opacity: 0;
@@ -1549,7 +1553,7 @@
   <img class="bg" src="team-photos/team-group.jpg" alt="A-Team group photo" loading="lazy" />
   <div class="container">
     <div class="reveal"><div class="eyebrow center"><span class="pip"></span>Our Team</div></div>
-    <h2 class="ateam-display reveal">A-Team</h2>
+    <h2 class="ateam-display reveal nobreak">A-Team</h2>
     <p class="ateam-sub reveal">A hand-selected, battle-tested team of extraordinary human beings.</p>
   </div>
 </section>
@@ -1737,7 +1741,7 @@ team.forEach(m => {
   cta.className = 'team-cta reveal';
   cta.href = 'careers.html#open-positions';
   cta.innerHTML = `
-    <h3 class="team-cta-headline">Want To Join<br>The A-Team?</h3>
+    <h3 class="team-cta-headline">Want To Join<br>The <span class="nobreak">A-Team</span>?</h3>
     <span class="team-cta-button">View Open Positions <span class="arrow">→</span></span>
   `;
   teamGrid.appendChild(cta);
