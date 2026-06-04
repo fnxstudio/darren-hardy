@@ -549,6 +549,30 @@ display: inline-flex; align-items: center; gap: 10px;
 }
 .btn-primary:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
 .btn-large { padding: 22px 44px; }
+
+/* Glow pass — final CTA only (cyan sheen sweep, ported from the DH-home magnet button) */
+.cta-glow { position: relative; overflow: hidden; }
+.cta-glow::after {
+content: '';
+position: absolute;
+top: 0; left: -80%;
+width: 55%;
+height: 100%;
+background: linear-gradient(105deg, transparent 20%, rgba(120, 228, 239, 0.55) 50%, transparent 80%);
+animation: cta-shimmer 4s ease-in-out infinite;
+pointer-events: none;
+}
+.cta-glow:hover::after { opacity: 0; }
+@keyframes cta-shimmer {
+0%   { left: -80%; opacity: 1; }
+38%  { left: 110%; opacity: 1; }
+39%  { left: 110%; opacity: 0; }
+99%  { left: -80%; opacity: 0; }
+100% { left: -80%; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+.cta-glow::after { animation: none; opacity: 0; }
+}
 @media (max-width: 600px) {
 .btn-primary {
 padding: 14px 20px;
@@ -3408,7 +3432,7 @@ color: var(--grey);
       <p>Every day you wait, a competitor compounds ahead.</p>
     </div>
     <div class="final-cta-row reveal">
-      <a href="#investment" class="btn-primary btn-large">Reserve Your Seat &rarr;</a>
+      <a href="#investment" class="btn-primary btn-large cta-glow">Reserve Your Seat &rarr;</a>
     </div>
     <div class="event-line final-event reveal">Next BMC Live Event <span class="event-line-sep">|</span> <span class="event-line-date">Oct 19&ndash;21, 2026</span></div>
     <div class="final-secondary reveal">
