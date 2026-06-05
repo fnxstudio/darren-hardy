@@ -864,6 +864,7 @@
   .c-tall  { grid-row:    span 2; }
   .c-large { grid-column: span 2; grid-row: span 2; }
 
+  .c-tile picture { display: contents; } /* invisible to layout — img inherits tile dimensions */
   .c-tile img {
     width: 100%; height: 100%;
     object-fit: cover;
@@ -1894,17 +1895,24 @@ covers.forEach((cover, i) => {
   if (t === 'tall')  tile.classList.add('c-tall');
   if (t === 'large') tile.classList.add('c-large');
 
-  const img    = document.createElement('img');
-  img.src      = `covers/${cover}`;
-  img.alt      = cleanName(cover);
-  img.loading  = i < 12 ? 'eager' : 'lazy';
-  img.decoding = 'async';
+  const webpSrc = `covers/${cover.replace(/\.(jpg|jpeg)$/i, '.webp')}`;
+  const picture = document.createElement('picture');
+  const source  = document.createElement('source');
+  source.srcset = webpSrc;
+  source.type   = 'image/webp';
+  const img     = document.createElement('img');
+  img.src       = `covers/${cover}`;
+  img.alt       = cleanName(cover);
+  img.loading   = i < 12 ? 'eager' : 'lazy';
+  img.decoding  = 'async';
+  picture.appendChild(source);
+  picture.appendChild(img);
 
   const cap       = document.createElement('div');
   cap.className   = 'c-cap';
   cap.textContent = cleanName(cover);
 
-  tile.appendChild(img);
+  tile.appendChild(picture);
   tile.appendChild(cap);
   coversGrid.appendChild(tile);
 });
