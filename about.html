@@ -932,8 +932,8 @@
   /* Filler CTA at end of team grid — auto-spans the leftover cells of the last
      row (JS-driven) so the grid stays rectangular regardless of team count. */
   .team-cta {
-    background: #bfbfbf;
-    color: var(--ink);
+    background: transparent;
+    color: var(--grey-soft);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -946,15 +946,17 @@
        siblings), min-height kicks in as the floor. */
     min-height: 240px;
     text-decoration: none;
-    border: 1px solid var(--rule-dark);
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.3s ease;
+    border: 1px dashed #c8c8c8;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
     position: relative;
     overflow: hidden;
   }
   .team-cta:hover {
-    background: #b3b3b3;
+    background: rgba(20, 20, 20, 0.03);
+    border-color: var(--grey-soft);
+    color: var(--ink);
     transform: translateY(-2px);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   }
   .team-cta-headline::before {
     content: '';
@@ -973,7 +975,7 @@
     line-height: 1.1;
     letter-spacing: -0.01em;
     text-transform: uppercase;
-    color: var(--ink);
+    color: inherit;
     margin: 0 0 28px;
     position: relative;
   }
@@ -982,20 +984,21 @@
     align-items: center;
     gap: 10px;
     background: transparent;
-    color: var(--ink);
+    color: inherit;
     padding: 12px 22px;
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     letter-spacing: 0.24em;
     text-transform: uppercase;
     font-weight: 700;
-    border: 1px solid var(--ink);
-    transition: background 0.2s, color 0.2s;
+    border: 1px solid currentColor;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
     position: relative;
   }
   .team-cta:hover .team-cta-button {
     background: var(--ink);
     color: var(--white);
+    border-color: var(--ink);
   }
   .team-cta-button .arrow { font-weight: 400; transition: transform 0.2s; }
   .team-cta:hover .team-cta-button .arrow { transform: translateX(3px); }
