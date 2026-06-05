@@ -1004,15 +1004,22 @@
   .daily-logo {
     display: block;
     width: auto;
-    margin: 4px 0 32px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;        /* keep flex container from squishing it */
+    align-self: flex-start;
+    margin: 4px 0 28px;
     opacity: 0.95;
     transition: opacity 0.3s ease;
   }
   .daily-card:hover .daily-logo { opacity: 1; }
-  .daily-logo.lg-dd   { max-height: 110px; max-width: 70%; }
-  .daily-logo.lg-ddod { max-height: 110px; max-width: 70%; }
+  /* Explicit height + width:auto enforces aspect ratio — locks both logos to
+     the same visual height regardless of flex layout. */
+  .daily-logo.lg-dd   { height: 76px; }
+  .daily-logo.lg-ddod { height: 76px; }
   @media (max-width: 720px) {
-    .daily-logo.lg-dd, .daily-logo.lg-ddod { max-height: 92px; }
+    .daily-logo.lg-dd, .daily-logo.lg-ddod { height: 64px; }
   }
   .daily-body {
     font-family: 'Inter', sans-serif;
@@ -1506,13 +1513,13 @@
       <div class="daily-card reveal">
         <div class="eyebrow"><span class="pip"></span>Free · Daily Video</div>
         <img class="daily-logo lg-dd" src="DarrenDaily_logo_white.png" alt="DarrenDaily" />
-        <p class="daily-body">A specially-created video mentoring session delivered in <strong>under 5 minutes, 260 days a year</strong>. The same daily input used by founders, CEOs, and elite operators around the world to kick-start their day.</p>
+        <p class="daily-body"><strong>DARRENDAILY.</strong> A specially-created video mentoring session delivered in <strong>under 5 minutes, 260 days a year</strong>. The same daily input used by founders, CEOs, and elite operators around the world to kick-start their day.</p>
         <a class="daily-cta" href="https://darrendaily.com/" target="_blank" rel="noopener">Subscribe Free <span class="arrow">→</span></a>
       </div>
       <div class="daily-card reveal">
         <div class="eyebrow"><span class="pip"></span>Free · Podcast</div>
         <img class="daily-logo lg-ddod" src="DDoD_podcast_logo_white.png" alt="DarrenDaily On-Demand" />
-        <p class="daily-body">The podcast companion to DarrenDaily morning mentoring. <strong>Revisit, retain, and install</strong> the small daily improvements that compound into industry-shaping outcomes.</p>
+        <p class="daily-body"><strong>DARRENDAILY ON-DEMAND.</strong> The podcast companion to DarrenDaily morning mentoring. <strong>Revisit, retain, and install</strong> the small daily improvements that compound into industry-shaping outcomes.</p>
         <a class="daily-cta" href="https://darrendailyondemand.com/" target="_blank" rel="noopener">Listen Free <span class="arrow">→</span></a>
       </div>
     </div>
