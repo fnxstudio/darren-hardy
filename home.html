@@ -1129,11 +1129,29 @@
   .aaa.in .ghost-num, .aaa.in .col { opacity: 1; transform: none; }
 
   @media (max-width: 860px) {
-    .aaa-stack { padding-left: 44px; }
-    .spine-track, .spine-fill { left: 14px; }
-    .aaa { padding: 60px 0 60px 140px; }
-    .ghost-num { font-size: clamp(96px, 26vw, 150px); top: 32px; transform: none; }
-    .node { left: -30px; top: 46px; }
+    .triple-a { padding: 100px 0 80px; }
+    .triple-a .eyebrow { margin-bottom: 64px; }
+    .aaa-stack { padding-left: 36px; }
+    .spine-track, .spine-fill { left: 12px; }
+
+    /* Ghost num sits behind content as decorative backdrop — no side offset */
+    .aaa { padding: 52px 0; }
+    .aaa:first-child { padding-top: 0; }
+    .aaa:last-child { padding-bottom: 0; }
+    .ghost-num {
+      font-size: clamp(80px, 22vw, 130px);
+      top: 0; left: -8px;
+      transform: none;
+      -webkit-text-stroke-width: 1px;
+    }
+    /* Col sits above the ghost numeral */
+    .col { position: relative; z-index: 1; padding-top: 60px; }
+
+    /* Scale the title down so it fits within a phone viewport */
+    .aaa-title { font-size: clamp(28px, 9vw, 48px); }
+    .aaa-body  { font-size: clamp(15px, 4vw, 18px); }
+
+    .node { left: -24px; top: 52px; }
     .aaa:first-child .node { top: 0; }
   }
 
