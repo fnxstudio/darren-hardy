@@ -517,25 +517,23 @@
 
   /* ============ INNER CIRCLE (FEATURED) ============ */
   .featured {
-    background:
-      radial-gradient(ellipse at 20% 40%, rgba(255,255,255,0.05), transparent 55%),
-      radial-gradient(ellipse at 80% 60%, rgba(255,255,255,0.03), transparent 55%),
-      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
+    background: var(--bone);
     padding: 140px 0;
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid var(--rule-dark);
   }
   .featured-head {
     max-width: 900px;
     margin-bottom: 72px;
   }
-  .featured-head .eyebrow { margin-bottom: 28px; }
+  .featured-head .eyebrow { margin-bottom: 28px; color: var(--grey-soft); }
+  .featured-head .eyebrow .pip { background: var(--grey-soft); }
   .featured-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: clamp(36px, 4.6vw, 72px);
     line-height: 0.98;
     letter-spacing: -0.035em;
-    color: var(--white);
+    color: var(--black);
     text-transform: uppercase;
     margin-bottom: 24px;
   }
@@ -544,7 +542,7 @@
     font-weight: 400;
     font-size: clamp(16px, 1.3vw, 19px);
     line-height: 1.55;
-    color: var(--silver);
+    color: var(--muted);
     max-width: 640px;
   }
 
@@ -556,19 +554,20 @@
   @media (max-width: 880px) { .featured-grid { grid-template-columns: 1fr; } }
 
   .feature-card {
-    background: rgba(20, 20, 20, 0.65);
-    border: 1px solid var(--rule-strong);
+    background: var(--ink);
+    border: 1px solid var(--ink);
     padding: 56px 48px 48px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     min-height: 460px;
-    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
   .feature-card:hover {
-    background: rgba(28, 28, 28, 0.85);
-    border-color: rgba(255,255,255,0.28);
+    background: var(--ink-soft);
+    border-color: var(--ink-soft);
     transform: translateY(-4px);
+    box-shadow: 0 24px 50px rgba(10, 10, 10, 0.18);
   }
   @media (max-width: 720px) { .feature-card { padding: 40px 32px 36px; min-height: auto; } }
 
