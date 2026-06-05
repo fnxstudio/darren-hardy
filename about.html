@@ -850,6 +850,7 @@
     justify-content: center;
     padding-top: 72px;
   }
+  .ateam-hero picture.bg { display: contents; }
   .ateam-hero img.bg {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
@@ -911,6 +912,7 @@
     border: 1px solid var(--rule-dark);
     position: relative;
   }
+  .person-photo picture { display: contents; }
   .person-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
@@ -1541,11 +1543,17 @@
     <div class="bte-grid">
       <div class="bte-portrait-stack reveal-scale">
         <div class="bte-portrait">
-          <img src="DH_DadnMe.jpg" alt="Young Darren on his father's shoulders" loading="lazy" />
+          <picture>
+            <source type="image/webp" srcset="DH_DadnMe.webp">
+            <img src="DH_DadnMe.jpg" alt="Young Darren on his father's shoulders" loading="lazy" decoding="async" />
+          </picture>
           <div class="cap">My Dad &amp; Me</div>
         </div>
         <div class="bte-portrait">
-          <img src="DH_about_best_man.jpg" alt="Darren as best man at his wedding" loading="lazy" />
+          <picture>
+            <source type="image/webp" srcset="DH_about_best_man.webp">
+            <img src="DH_about_best_man.jpg" alt="Darren as best man at his wedding" loading="lazy" decoding="async" />
+          </picture>
           <div class="cap">Best Man At My Wedding</div>
         </div>
       </div>
@@ -1580,7 +1588,10 @@
 
 <!-- SECTION 6 — THE A-TEAM (HERO + GRID) -->
 <section class="ateam-hero">
-  <img class="bg" src="team-photos/team-group.jpg" alt="A-Team group photo" loading="lazy" />
+  <picture class="bg">
+    <source type="image/webp" srcset="team-photos/team-group.webp">
+    <img class="bg" src="team-photos/team-group.jpg" alt="A-Team group photo" loading="lazy" decoding="async" />
+  </picture>
   <div class="container">
     <div class="reveal"><div class="eyebrow center"><span class="pip"></span>Our Team</div></div>
     <h2 class="ateam-display reveal nobreak">A-Team</h2>
@@ -1750,11 +1761,20 @@ const team = [
   { name: 'Missy',    role: 'Unbreakable Sole Author',           photo: 'team-photos/missy.png' },
 ];
 const teamGrid = document.getElementById('teamGrid');
+// Derive the WebP path from each photo filename so each card gets a
+// <picture> with a WebP <source> + the original as fallback.
+// Strips any cache-busting querystring (?v=2) before swapping ext.
+const toWebp = p => p.replace(/\?.*$/, '').replace(/\.(png|jpg|jpeg)$/i, '.webp');
 team.forEach(m => {
   const card = document.createElement('div');
   card.className = 'person reveal';
   card.innerHTML = `
-    <div class="person-photo"><img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy" /></div>
+    <div class="person-photo">
+      <picture>
+        <source type="image/webp" srcset="${toWebp(m.photo)}">
+        <img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy" decoding="async" />
+      </picture>
+    </div>
     <div class="person-meta">
       <div class="person-name">${m.name}</div>
       <div class="person-role">${m.role}</div>
