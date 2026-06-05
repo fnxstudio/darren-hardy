@@ -656,7 +656,7 @@
   .feature-cta:hover { gap: 18px; }
   .feature-cta .arrow { font-weight: 400; }
 
-  /* ============ SYSTEMS GRID ============ */
+  /* ============ MASTERY SYSTEMS ============ */
   .systems {
     background: var(--black);
     padding: 140px 0 80px;
@@ -686,74 +686,7 @@
     max-width: 640px;
   }
 
-  .system-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--rule-strong);
-    border: 1px solid var(--rule-strong);
-  }
-  @media (max-width: 880px) { .system-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .system-grid { grid-template-columns: 1fr; } }
-
-  .system {
-    background: var(--black);
-    padding: 44px 36px 40px;
-    display: flex;
-    flex-direction: column;
-    transition: background 0.3s ease;
-    min-height: 320px;
-  }
-  .system:hover { background: var(--ink-soft); }
-
-  .system-meta {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--grey);
-    margin-bottom: 24px;
-  }
-  .system-name {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(24px, 2.2vw, 32px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .system-body {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--silver);
-    margin-bottom: 32px;
-    flex-grow: 1;
-  }
-  .system-cta {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--white);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    align-self: flex-start;
-    border-bottom: 1px solid rgba(255,255,255,0.45);
-    padding-bottom: 6px;
-    transition: gap 0.2s, border-color 0.2s;
-  }
-  .system-cta:hover { gap: 16px; border-bottom-color: var(--white); }
-  .system-cta .arrow { font-weight: 400; }
-
-  /* ── Horizontal tile variant ── */
+  /* Stacked horizontal tiles — one row per program, logo | body+CTA */
   .system-stack {
     border-top: 1px solid var(--rule-strong);
   }
@@ -812,16 +745,6 @@
      expands to full-width. Nearly double it so it reads at parity with the others. */
   @media (max-width: 640px) {
     .system-row-logo img.lg-efp { max-height: 96px; }
-  }
-  .system-row-logo-text {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(14px, 1.15vw, 17px);
-    letter-spacing: 0.18em;
-    color: var(--silver);
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 1.25;
   }
   .system-row-body {
     font-family: 'Inter', sans-serif;
@@ -1023,16 +946,6 @@
     transform: translateY(-4px);
   }
   .daily-card .eyebrow { color: var(--white); margin-bottom: 28px; }
-  .daily-name {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(26px, 2.6vw, 38px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    text-transform: uppercase;
-    margin-bottom: 24px;
-  }
   .daily-logo {
     display: block;
     width: auto;
@@ -1148,16 +1061,6 @@
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  .reveal-scale {
-    opacity: 0;
-    transform: scale(0.96);
-    transition:
-      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
-  }
-  .reveal-scale.visible { opacity: 1; transform: scale(1); }
-
   .subhero .crumb,
   .subhero-title,
   .subhero-sub {
@@ -1171,7 +1074,7 @@
   @keyframes subheroIn { to { opacity: 1; transform: translateY(0); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
     .subhero .crumb, .subhero-title, .subhero-sub {
       opacity: 1; transform: none; animation: none;
     }
@@ -1643,7 +1546,7 @@
 </footer>
 
 <script>
-// ── Scroll-reveal: fade-up/scale-in for any .reveal or .reveal-scale element ──
+// ── Scroll-reveal: fade-up on any .reveal element when it enters viewport ──
 (function () {
   function stagger(selector, step = 0.06, cap = 0.6) {
     document.querySelectorAll(selector).forEach((el, i) => {
@@ -1667,7 +1570,7 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
-  document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 })();
 
 // ── Pillars ecosystem: spine draws left→right, lighting each node + revealing its column in sequence ──
