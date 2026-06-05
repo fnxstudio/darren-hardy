@@ -1525,7 +1525,7 @@
 
 <!-- DECLARATIONS -->
 <section class="declarations">
-  <video class="decl-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
+  <video class="decl-video" muted loop playsinline webkit-playsinline preload="none">
     <source src="stage-reel.mp4" type="video/mp4">
   </video>
   <div class="bg"></div>
@@ -1969,10 +1969,22 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   }, { passive: true });
 })();
 
-// Force video play on mobile — iOS sometimes needs an explicit trigger
+// B-roll video — trigger load+play only when section enters viewport.
+// iOS Safari won't autoplay off-screen video even with muted+playsinline,
+// so we skip preload and fire play() the moment it becomes visible.
 (function () {
   const v = document.querySelector('.decl-video');
-  if (v) v.play().catch(() => {});
+  const section = document.querySelector('.declarations');
+  if (!v || !section) return;
+
+  const obs = new IntersectionObserver((entries) => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+    v.load();                       // start buffering now that it's in view
+    v.play().catch(() => {});       // iOS needs explicit play() call
+  }, { threshold: 0.1 });
+
+  obs.observe(section);
 })();
 </script>
 </body>
