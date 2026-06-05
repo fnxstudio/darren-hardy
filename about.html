@@ -677,22 +677,28 @@
     display: grid;
     grid-template-columns: 0.85fr 1.3fr;
     gap: 80px;
-    align-items: start;
+    align-items: stretch;
   }
   @media (max-width: 880px) {
-    .bte-grid { grid-template-columns: 1fr; gap: 56px; }
+    .bte-grid { grid-template-columns: 1fr; gap: 56px; align-items: start; }
   }
   .bte-portrait-stack {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    height: 100%;
   }
   .bte-portrait {
     position: relative;
-    aspect-ratio: 4 / 5;
+    flex: 1 1 0;
+    min-height: 0;
     overflow: hidden;
     background: #d8d8d8;
     border: 1px solid var(--rule-dark-strong);
+  }
+  @media (max-width: 880px) {
+    .bte-portrait-stack { height: auto; }
+    .bte-portrait { flex: none; aspect-ratio: 4 / 5; }
   }
   .bte-portrait img {
     width: 100%; height: 100%;
