@@ -719,6 +719,10 @@
     margin-left: 4px;
     display: inline-block;
     transition: transform 0.2s;
+    /* Force text-style rendering on iOS — ↗ U+2197 is in the Unicode emoji set
+       and Safari mobile auto-renders it as Apple Color Emoji unless we opt out.
+       Belt-and-suspenders with U+FE0E in the HTML for older browsers. */
+    font-variant-emoji: text;
   }
   .process-intro a:hover .arrow { transform: translateX(3px); }
 
@@ -1357,7 +1361,7 @@
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>How Hiring Works</div>
     <h2 class="process-title reveal">Three Steps. <em>No Shortcuts</em>.</h2>
-    <p class="process-intro reveal">We hire for evidence, not promises. The application takes about 15 minutes, so bring your best work and make it impossible to ignore. Want to know what the process actually feels like? <a href="#darami-video">Hear directly from Darami, our Chief of Staff <span class="arrow">↗</span></a></p>
+    <p class="process-intro reveal">We hire for evidence, not promises. The application takes about 15 minutes, so bring your best work and make it impossible to ignore. Want to know what the process actually feels like? <a href="#darami-video">Hear directly from Darami, our Chief of Staff <span class="arrow">↗&#xFE0E;</span></a></p>
     <div class="step-stack">
       <div class="step reveal">
         <div class="step-num">Step 01</div>
