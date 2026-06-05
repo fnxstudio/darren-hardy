@@ -535,13 +535,6 @@
     background: #0d0d0d;
     cursor: pointer;
   }
-  .c-tile.visible {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    transition:
-      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-  }
   .c-wide  { grid-column: span 2; }
   .c-tall  { grid-row:    span 2; }
   .c-large { grid-column: span 2; grid-row: span 2; }
@@ -1941,21 +1934,6 @@ team.forEach(m => {
     tile.appendChild(cap);
     coversGrid.appendChild(tile);
   });
-
-  // Staggered entrance when section enters viewport
-  const wallObs = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      const tiles = coversGrid.querySelectorAll('.c-tile');
-      tiles.forEach((tile, i) => {
-        tile.style.transitionDelay = `${i * 55}ms`;
-      });
-      requestAnimationFrame(() => {
-        tiles.forEach(tile => tile.classList.add('visible'));
-      });
-      wallObs.disconnect();
-    }
-  }, { threshold: 0.1 });
-  wallObs.observe(wall);
 
   // Touch tap-to-color
   coversGrid.querySelectorAll('.c-tile').forEach(tile => {
