@@ -771,7 +771,11 @@
     gap: 80px;
     animation: marquee 32s linear infinite;
     padding-left: 80px;
+    will-change: transform;
+    transform: translateZ(0);      /* force GPU layer — prevents jank */
+    backface-visibility: hidden;
   }
+  .marquee-track.paused { animation-play-state: paused; }
   .marquee-item {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -1431,6 +1435,24 @@
   @media (max-width: 640px) {
     .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
   }
+
+  /* ── Mobile performance ── */
+  @media (max-width: 768px) {
+    /* Hide B-roll video on mobile — 43MB is too heavy; black bg shows through */
+    .decl-video { display: none; }
+    /* Kill shimmer on mobile — saves a GPU layer */
+    .magnet-cta::after { display: none; }
+    /* Slow both marquees to the same speed so they feel consistent */
+    .marquee-track,
+    .ribbon.light .marquee-track { animation-duration: 36s !important; }
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+    .decl, .identity { animation: none; opacity: 1; transform: none; }
+    .magnet-cta::after { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -1502,7 +1524,7 @@
 
 <!-- DECLARATIONS -->
 <section class="declarations">
-  <video class="decl-video" autoplay muted loop playsinline preload="none">
+  <video class="decl-video" autoplay muted loop playsinline webkit-playsinline preload="metadata">
     <source src="stage-reel.mp4" type="video/mp4">
   </video>
   <div class="bg"></div>
@@ -1924,19 +1946,33 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   aaas.forEach(a => tripleObs.observe(a));
 })();
 
-// Parallax: rAF-throttled so it runs at most once per frame, not on every scroll tick
-let rafPending = false;
-window.addEventListener('scroll', () => {
-  if (rafPending) return;
-  rafPending = true;
-  requestAnimationFrame(() => {
-    const rect = introWall.getBoundingClientRect();
-    const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-    const offset = Math.max(0, progress * 500);
-    coversGrid.style.transform = `translateY(-${offset}px)`;
-    rafPending = false;
-  });
-}, { passive: true });
+// ── Pause marquees when off-screen — frees GPU on mobile ──
+(function () {
+  const tracks = document.querySelectorAll('.marquee-track');
+  if (!tracks.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      e.target.classList.toggle('paused', !e.isIntersecting);
+    });
+  }, { rootMargin: '0px 0px 100px 0px' });
+  tracks.forEach(t => obs.observe(t));
+})();
+
+// Parallax: desktop only — skip on mobile to avoid unnecessary rAF overhead
+if (window.innerWidth > 880) {
+  let rafPending = false;
+  window.addEventListener('scroll', () => {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      const rect = introWall.getBoundingClientRect();
+      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      const offset = Math.max(0, progress * 500);
+      coversGrid.style.transform = `translateY(-${offset}px)`;
+      rafPending = false;
+    });
+  }, { passive: true });
+}
 </script>
 </body>
 </html>
