@@ -1124,9 +1124,13 @@
   .aaa-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(51px, 7.2vw, 115px); line-height: 0.92; letter-spacing: -0.04em; color: var(--white); text-transform: uppercase; }
   .aaa-body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.55; color: var(--silver); max-width: 720px; }
 
-  .aaa .ghost-num, .aaa .col { opacity: 0; transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
-  .aaa .col { transform: translateY(36px); }
-  .aaa.in .ghost-num, .aaa.in .col { opacity: 1; transform: none; }
+  /* Ghost-num: always visible as ghost, brightens only when the spine line hits its node */
+  .aaa .ghost-num { transition: -webkit-text-stroke-color .6s ease; }
+  .node.lit ~ .ghost-num { -webkit-text-stroke-color: var(--silver); }
+
+  /* Col: hidden until line hits — triggered one-way by draw() adding .in */
+  .aaa .col { opacity: 0; transform: translateY(36px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+  .aaa.in .col { opacity: 1; transform: none; }
 
   @media (max-width: 860px) {
     .triple-a { padding: 100px 0 80px; }
@@ -1476,7 +1480,8 @@
     transition: color 1s cubic-bezier(.22, 1, .36, 1),
                 -webkit-text-stroke-color 1s cubic-bezier(.22, 1, .36, 1);
   }
-  .man-close.in .man-title {
+  /* man-title brightens when the spine line reaches its sibling node */
+  .node.lit ~ .man-title {
     color: var(--white);
     -webkit-text-stroke-color: transparent;
   }
@@ -1977,15 +1982,7 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   const stack = document.querySelector('.aaa-stack');
   const fill  = document.querySelector('.spine-fill');
   if (!stack || !fill) return;
-  const rows  = [...stack.querySelectorAll('.aaa')];
-  const close = stack.querySelector('.man-close');
   const nodes = [...stack.querySelectorAll('.node')];
-
-  const io = new IntersectionObserver((es) => {
-    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.3 });
-  rows.forEach(r => io.observe(r));
-  if (close) io.observe(close);
 
   let ticking = false;
   function draw() {
@@ -1999,7 +1996,14 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     nodes.forEach(n => {
       const nr    = n.getBoundingClientRect();
       const nodeY = (nr.top + nr.height / 2) - (rect.top + 8);
-      if (drawn >= nodeY) n.classList.add('lit'); else n.classList.remove('lit');
+      if (drawn >= nodeY) {
+        n.classList.add('lit');
+        // Reveal col text one-way when line first hits the node
+        const row = n.closest('.aaa');
+        if (row && !row.classList.contains('in')) row.classList.add('in');
+      } else {
+        n.classList.remove('lit');
+      }
     });
   }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }
