@@ -562,6 +562,7 @@
   @media (max-width: 880px) { .featured-grid { grid-template-columns: 1fr; } }
 
   .feature-card {
+    position: relative;
     background: var(--ink);
     border: 1px solid var(--ink);
     padding: 56px 48px 48px;
@@ -580,6 +581,26 @@
   @media (max-width: 720px) { .feature-card { padding: 40px 32px 36px; min-height: auto; } }
 
   .feature-card .eyebrow { margin-bottom: 32px; color: var(--silver); }
+  .feature-logo {
+    position: absolute;
+    top: 56px;
+    right: 48px;
+    display: block;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .feature-card:hover .feature-logo { opacity: 1; }
+  /* Per-logo dimensions — BMC is a near-square mark, The Collective is a wide wordmark */
+  .feature-logo.lg-bmc { height: 52px; }
+  .feature-logo.lg-tc  { height: 28px; }
+  @media (max-width: 720px) {
+    .feature-logo { top: 40px; right: 32px; }
+    .feature-logo.lg-bmc { height: 44px; }
+    .feature-logo.lg-tc  { height: 24px; }
+  }
   .feature-name {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -1381,6 +1402,7 @@
     </div>
     <div class="featured-grid">
       <div class="feature-card reveal">
+        <img class="feature-logo lg-bmc" src="BMC_logo_white.png" alt="" aria-hidden="true" />
         <div class="eyebrow"><span class="pip"></span>Flagship · Immersion</div>
         <h3 class="feature-name">Business Master Class</h3>
         <div class="feature-tagline">Live Virtual · 3-Day Intensive · Spring &amp; Fall</div>
@@ -1388,6 +1410,7 @@
         <a class="feature-cta" href="https://hardybmc.com/" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
       </div>
       <div class="feature-card reveal">
+        <img class="feature-logo lg-tc" src="THE COLLECTIVE_logo_white.png" alt="" aria-hidden="true" />
         <div class="eyebrow"><span class="pip"></span>Flagship · Compounding</div>
         <h3 class="feature-name">The<br>Collective</h3>
         <div class="feature-tagline">Invitation Only · Virtual · Year-Round</div>
