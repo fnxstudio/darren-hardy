@@ -18,6 +18,14 @@
 <!-- Canonical -->
 <link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/about.html"> <!-- [MIGRATE] → https://darrenhardy.com/about/ -->
 
+<!-- Preload key above-the-scroll hero assets so they paint with the page,
+     not after the JS-built covers wall has hydrated -->
+<link rel="preload" as="image" href="DH_about_bg.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="DH_about_dh.webp" type="image/webp" fetchpriority="high">
+<!-- The covers-wall DH cutout sits well below the fold but renders slowly
+     once revealed — preload at low priority so it streams in parallel -->
+<link rel="preload" as="image" href="DH_about_wall.webp" type="image/webp">
+
 <!-- Open Graph -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="Darren Hardy · Be The Exception">
@@ -319,19 +327,27 @@
   .hf-copy .hf-inner { width: 100%; max-width: 600px; }
   .hf-stack { display: flex; flex-direction: column; gap: 0; }
 
-  /* Mobile: DH shrinks + hugs the right; scrim turns vertical for legibility */
+  /* Mobile: DH shrinks + hugs the right; scrim turns vertical for legibility.
+     Matches the home-page hero treatment — DH stays nearly opaque so the
+     wood texture doesn't bleed through his face; scrim wraps top + bottom
+     for copy legibility. */
   @media (max-width: 960px) {
     .hero-flag { min-height: auto; }
-    .hf-dh { height: 72%; opacity: 0.85; }
+    .hf-dh { height: 72%; opacity: 0.95; }
     .hero-flag::after {
       background: linear-gradient(180deg,
-        rgba(10,10,10,0.82) 0%,
-        rgba(10,10,10,0.58) 36%,
-        rgba(10,10,10,0.55) 64%,
-        rgba(10,10,10,0.9) 100%);
+        rgba(10,10,10,0.92) 0%,
+        rgba(10,10,10,0.70) 32%,
+        rgba(10,10,10,0.55) 58%,
+        rgba(10,10,10,0.78) 84%,
+        rgba(10,10,10,0.95) 100%);
     }
-    .hf-copy { padding: 180px 0 220px; }
+    .hf-copy { padding: 120px 0 96px; }
     .hf-copy .hf-inner { margin: 0 auto; padding: 0 24px; max-width: 100%; }
+  }
+  @media (max-width: 600px) {
+    .hf-copy { padding: 96px 0 64px; }
+    .hf-dh { height: 64%; opacity: 0.92; }
   }
 
   .hf-eyebrow {
@@ -388,7 +404,7 @@
   .hf-close-2 { margin-top: 8px; animation-delay: 4.6s; }
 
   @media (max-width: 960px) {
-    .hero-flag { padding: 140px 0 96px; }
+    .hero-flag { padding: 0; }
   }
 
   @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
@@ -1490,7 +1506,7 @@
       <div class="access-dh" aria-hidden="true">
         <picture>
           <source type="image/webp" srcset="DH_about_wall.webp">
-          <img src="DH_about_wall.png" alt="Darren Hardy" loading="lazy">
+          <img src="DH_about_wall.png" alt="Darren Hardy" decoding="async" fetchpriority="high">
         </picture>
       </div>
     </div>
