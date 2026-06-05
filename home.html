@@ -1109,30 +1109,32 @@
   .spine-track { position: absolute; left: 20px; top: 8px; bottom: 8px; width: 1px; background: var(--rule); }
   .spine-fill { position: absolute; left: 20px; top: 8px; width: 1px; height: 0; background: var(--silver); }
 
-  .aaa { position: relative; display: grid; grid-template-columns: 260px 1fr; gap: 64px; align-items: center; padding: 84px 0; }
+  /* ghost-num is absolutely positioned — never a grid item, no column boundary to clip it */
+  .aaa { position: relative; padding: 84px 0 84px 300px; }
   .aaa:first-child { padding-top: 0; }
   .aaa:last-child { padding-bottom: 0; }
 
   .node { position: absolute; left: -36px; top: 50%; transform: translate(-50%, -50%); width: 9px; height: 9px; background: transparent; border: 1px solid var(--silver); transition: background .35s ease, transform .35s cubic-bezier(.22,1,.36,1), border-color .35s ease; }
   .node.lit { background: var(--white); border-color: var(--white); transform: translate(-50%, -50%) scale(1.25); }
 
-  .ghost-num { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(120px, 16vw, 230px); line-height: 0.86; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 1px var(--rule-strong); font-variant-numeric: tabular-nums; user-select: none; transition: -webkit-text-stroke-color .5s ease; }
+  .ghost-num { position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(120px, 16vw, 230px); line-height: 0.86; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 1px var(--rule-strong); font-variant-numeric: tabular-nums; user-select: none; pointer-events: none; transition: -webkit-text-stroke-color .5s ease; }
   .aaa:hover .ghost-num { -webkit-text-stroke-color: var(--silver); }
 
   .col { display: flex; flex-direction: column; gap: 28px; }
   .aaa-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(51px, 7.2vw, 115px); line-height: 0.92; letter-spacing: -0.04em; color: var(--white); text-transform: uppercase; }
   .aaa-body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.55; color: var(--silver); max-width: 720px; }
 
-  .aaa .ghost-num, .aaa .col { opacity: 0; transform: translateY(36px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+  .aaa .ghost-num, .aaa .col { opacity: 0; transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+  .aaa .col { transform: translateY(36px); }
   .aaa.in .ghost-num, .aaa.in .col { opacity: 1; transform: none; }
 
   @media (max-width: 860px) {
     .aaa-stack { padding-left: 44px; }
     .spine-track, .spine-fill { left: 14px; }
-    .aaa { grid-template-columns: 1fr; gap: 28px; padding: 60px 0; }
+    .aaa { padding: 60px 0 60px 140px; }
+    .ghost-num { font-size: clamp(96px, 26vw, 150px); top: 32px; transform: none; }
     .node { left: -30px; top: 46px; }
     .aaa:first-child .node { top: 0; }
-    .ghost-num { font-size: clamp(96px, 26vw, 150px); }
   }
 
   /* ============ LEAD MAGNET ============ */
