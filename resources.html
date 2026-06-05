@@ -581,25 +581,31 @@
   @media (max-width: 720px) { .feature-card { padding: 40px 32px 36px; min-height: auto; } }
 
   .feature-card .eyebrow { margin-bottom: 32px; color: var(--silver); }
+  /* Brand-stamp logos sit in the bottom-right of each card, sharing a flex
+     row with the CTA so they never overlap the body copy. */
+  .feature-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .feature-bottom .feature-cta { align-self: center; }
   .feature-logo {
-    position: absolute;
-    top: 56px;
-    right: 48px;
     display: block;
     width: auto;
     object-fit: contain;
     opacity: 0.85;
     transition: opacity 0.3s ease;
     pointer-events: none;
+    flex-shrink: 0;
   }
   .feature-card:hover .feature-logo { opacity: 1; }
   /* Per-logo dimensions — BMC is a near-square mark, The Collective is a wide wordmark */
-  .feature-logo.lg-bmc { height: 52px; }
-  .feature-logo.lg-tc  { height: 28px; }
+  .feature-logo.lg-bmc { height: 104px; }
+  .feature-logo.lg-tc  { height: 56px; }
   @media (max-width: 720px) {
-    .feature-logo { top: 40px; right: 32px; }
-    .feature-logo.lg-bmc { height: 44px; }
-    .feature-logo.lg-tc  { height: 24px; }
+    .feature-logo.lg-bmc { height: 80px; }
+    .feature-logo.lg-tc  { height: 44px; }
   }
   .feature-name {
     font-family: 'Inter', sans-serif;
@@ -1402,20 +1408,24 @@
     </div>
     <div class="featured-grid">
       <div class="feature-card reveal">
-        <img class="feature-logo lg-bmc" src="BMC_logo_white.png" alt="" aria-hidden="true" />
         <div class="eyebrow"><span class="pip"></span>Flagship · Immersion</div>
         <h3 class="feature-name">Business Master Class</h3>
         <div class="feature-tagline">Live Virtual · 3-Day Intensive · Spring &amp; Fall</div>
         <p class="feature-body">Three days inside the closed-door playbook Darren has built across 35 years of proximity to industry titans. 500+ specific strategies on positioning, sales, marketing, recruiting, team building, and scaling growth.</p>
-        <a class="feature-cta" href="https://hardybmc.com/" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+        <div class="feature-bottom">
+          <a class="feature-cta" href="https://hardybmc.com/" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+          <img class="feature-logo lg-bmc" src="BMC_logo_white.png" alt="" aria-hidden="true" />
+        </div>
       </div>
       <div class="feature-card reveal">
-        <img class="feature-logo lg-tc" src="THE COLLECTIVE_logo_white.png" alt="" aria-hidden="true" />
         <div class="eyebrow"><span class="pip"></span>Flagship · Compounding</div>
         <h3 class="feature-name">The<br>Collective</h3>
         <div class="feature-tagline">Associations · AI Systems · Annual Membership</div>
         <p class="feature-body">Private association of elite business builders. The virtual room where founders, CEOs, and market makers exchange the moves they don't post online and hold each other to bigger goals and meaningful impact.</p>
-        <a class="feature-cta" href="https://hardybmc.com/" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+        <div class="feature-bottom">
+          <a class="feature-cta" href="https://hardybmc.com/" target="_blank" rel="noopener">Learn More <span class="arrow">→</span></a>
+          <img class="feature-logo lg-tc" src="THE COLLECTIVE_logo_white.png" alt="" aria-hidden="true" />
+        </div>
       </div>
     </div>
   </div>
