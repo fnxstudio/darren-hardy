@@ -616,17 +616,32 @@
     letter-spacing: -0.025em;
     text-transform: uppercase;
     color: var(--black);
-    margin-bottom: 30px;
+    margin-bottom: 34px;
   }
-  .repel-list { list-style: none; max-width: 860px; margin: 0 auto 32px; display: grid; gap: 16px; }
+  .repel-title em { font-style: normal; color: var(--accent); }
+  /* Four disqualifiers as a 2x2 grid, left-aligned cells */
+  .repel-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px 56px;
+    max-width: 940px;
+    margin: 0 auto 40px;
+    text-align: left;
+  }
+  @media (max-width: 640px) { .repel-list { grid-template-columns: 1fr; gap: 20px; } }
   .repel-list li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 14px;
+    align-items: baseline;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: clamp(16px, 1.35vw, 19px);
+    font-size: clamp(16px, 1.3vw, 18px);
     line-height: 1.5;
     color: var(--muted);
   }
-  .repel-x { color: var(--accent); font-weight: 900; font-size: 18px; margin-right: 10px; }
+  .repel-x { color: var(--accent); font-weight: 900; font-size: 17px; }
   .repel-close {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
@@ -1356,7 +1371,7 @@
     </ul>
 
     <div class="repel reveal">
-      <h3 class="repel-title">This Isn't Your Seat If&hellip;</h3>
+      <h3 class="repel-title">This <em>Isn't</em> Your Seat If&hellip;</h3>
       <ul class="repel-list">
         <li><span class="repel-x">&times;</span><span>Your relationship with AI is asking it to write your emails and summarize your meetings. Fine upgrade. Wrong job.</span></li>
         <li><span class="repel-x">&times;</span><span>You wait for a ticket, a tool, or permission before a problem gets solved.</span></li>
