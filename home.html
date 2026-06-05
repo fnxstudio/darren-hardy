@@ -1102,58 +1102,37 @@
   }
 
   /* ============ THREE A's ============ */
-  .triple-a {
-    background:
-      radial-gradient(ellipse at 20% 40%, rgba(255,255,255,0.05), transparent 55%),
-      radial-gradient(ellipse at 80% 60%, rgba(255,255,255,0.03), transparent 55%),
-      linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%);
-    padding: 160px 0 140px;
-    border-top: 1px solid var(--rule);
-  }
+  .triple-a { background: radial-gradient(ellipse at 20% 40%, rgba(255,255,255,0.05), transparent 55%), radial-gradient(ellipse at 80% 60%, rgba(255,255,255,0.03), transparent 55%), linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 50%, #0f0f0f 100%); padding: 160px 0 140px; border-top: 1px solid var(--rule); }
   .triple-a .eyebrow { margin-bottom: 100px; }
 
-  .aaa-stack { display: grid; gap: 80px; }
-  .aaa {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    padding-bottom: 80px;
-    border-bottom: 1px solid var(--rule);
-  }
+  .aaa-stack { display: grid; position: relative; padding-left: 56px; }
+  .spine-track { position: absolute; left: 20px; top: 8px; bottom: 8px; width: 1px; background: var(--rule); }
+  .spine-fill { position: absolute; left: 20px; top: 8px; width: 1px; height: 0; background: var(--silver); }
+
+  .aaa { position: relative; display: grid; grid-template-columns: 260px 1fr; gap: 64px; align-items: center; padding: 84px 0; border-bottom: 1px solid var(--rule); }
+  .aaa:first-child { padding-top: 0; }
   .aaa:last-child { border-bottom: 0; padding-bottom: 0; }
 
-  .aaa-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(51px, 7.2vw, 115px);
-    line-height: 0.92;
-    letter-spacing: -0.04em;
-    color: var(--white);
-    text-transform: uppercase;
-  }
-  .aaa-body {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: clamp(18px, 1.5vw, 22px);
-    line-height: 1.55;
-    color: var(--silver);
-    max-width: 920px;
-  }
+  .node { position: absolute; left: -36px; top: 50%; transform: translate(-50%, -50%); width: 9px; height: 9px; background: transparent; border: 1px solid var(--silver); transition: background .35s ease, transform .35s cubic-bezier(.22,1,.36,1), border-color .35s ease; }
+  .node.lit { background: var(--white); border-color: var(--white); transform: translate(-50%, -50%) scale(1.25); }
 
-  /* ── Ecosystem entrance animations ── */
-  .triple-a .eyebrow,
-  .aaa-title,
-  .aaa-body {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .triple-a .eyebrow.aaa-visible,
-  .aaa-title.aaa-visible,
-  .aaa-body.aaa-visible {
-    opacity: 1;
-    transform: translateY(0);
+  .ghost-num { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(120px, 16vw, 230px); line-height: 0.86; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 1px var(--rule-strong); font-variant-numeric: tabular-nums; user-select: none; transition: -webkit-text-stroke-color .5s ease; }
+  .aaa:hover .ghost-num { -webkit-text-stroke-color: var(--silver); }
+
+  .col { display: flex; flex-direction: column; gap: 28px; }
+  .aaa-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(51px, 7.2vw, 115px); line-height: 0.92; letter-spacing: -0.04em; color: var(--white); text-transform: uppercase; }
+  .aaa-body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.55; color: var(--silver); max-width: 720px; }
+
+  .aaa .ghost-num, .aaa .col { opacity: 0; transform: translateY(36px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+  .aaa.in .ghost-num, .aaa.in .col { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    .aaa-stack { padding-left: 44px; }
+    .spine-track, .spine-fill { left: 14px; }
+    .aaa { grid-template-columns: 1fr; gap: 28px; padding: 60px 0; }
+    .node { left: -30px; top: 46px; }
+    .aaa:first-child .node { top: 0; }
+    .ghost-num { font-size: clamp(96px, 26vw, 150px); }
   }
 
   /* ============ LEAD MAGNET ============ */
@@ -1661,18 +1640,36 @@
   <div class="container">
     <div class="eyebrow"><span class="pip"></span>The Ecosystem</div>
     <div class="aaa-stack">
+      <span class="spine-track"></span>
+      <span class="spine-fill"></span>
+
       <div class="aaa">
-        <div class="aaa-title">Advantage</div>
-        <div class="aaa-body">Access to closely-guarded, insider strategies most founders never see, drawn from Darren's rare proximity to the world's top business builders, market leaders, and elite leaders.</div>
+        <span class="node"></span>
+        <span class="ghost-num">01</span>
+        <div class="col">
+          <div class="aaa-title">Advantage</div>
+          <div class="aaa-body">Access to closely-guarded, insider strategies most founders never see, drawn from Darren's rare proximity to the world's top business builders, market leaders, and elite leaders.</div>
+        </div>
       </div>
+
       <div class="aaa">
-        <div class="aaa-title">Application</div>
-        <div class="aaa-body">AI-powered execution engines trained on Darren's proven frameworks, built to compress time, accelerate implementation, and convert strategy into measurable growth.</div>
+        <span class="node"></span>
+        <span class="ghost-num">02</span>
+        <div class="col">
+          <div class="aaa-title">Application</div>
+          <div class="aaa-body">AI-powered execution engines trained on Darren's proven frameworks, built to compress time, accelerate implementation, and convert strategy into measurable growth.</div>
+        </div>
       </div>
+
       <div class="aaa">
-        <div class="aaa-title">Association</div>
-        <div class="aaa-body">Access to a curated global community of elite leaders who will raise your standards, stretch your ambition, and challenge you to build something that makes a positive impact.</div>
+        <span class="node"></span>
+        <span class="ghost-num">03</span>
+        <div class="col">
+          <div class="aaa-title">Association</div>
+          <div class="aaa-body">Access to a curated global community of elite leaders who will raise your standards, stretch your ambition, and challenge you to build something that makes a positive impact.</div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -1916,29 +1913,38 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   });
 });
 
-// ── Ecosystem (triple-a) entrance animations ──
+// ── Ecosystem (triple-a): scroll-drawn spine + per-pillar reveal ──
 (function () {
-  const eyebrow = document.querySelector('.triple-a .eyebrow');
-  const aaas    = document.querySelectorAll('.aaa');
+  const stack = document.querySelector('.aaa-stack');
+  const fill  = document.querySelector('.spine-fill');
+  if (!stack || !fill) return;
+  const rows  = [...stack.querySelectorAll('.aaa')];
+  const nodes = [...stack.querySelectorAll('.node')];
 
-  const tripleObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      if (el === eyebrow) {
-        el.classList.add('aaa-visible');
-      } else {
-        const title = el.querySelector('.aaa-title');
-        const body  = el.querySelector('.aaa-body');
-        if (title) title.classList.add('aaa-visible');
-        setTimeout(() => { if (body) body.classList.add('aaa-visible'); }, 200);
-      }
-      tripleObs.unobserve(el);
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  rows.forEach(r => io.observe(r));
+
+  let ticking = false;
+  function draw() {
+    ticking = false;
+    const rect   = stack.getBoundingClientRect();
+    const trackH = rect.height - 16;
+    let p = ((window.innerHeight * 0.55) - (rect.top + 8)) / trackH;
+    p = Math.max(0, Math.min(1, p));
+    const drawn = p * trackH;
+    fill.style.height = drawn + 'px';
+    nodes.forEach(n => {
+      const nr    = n.getBoundingClientRect();
+      const nodeY = (nr.top + nr.height / 2) - (rect.top + 8);
+      if (drawn >= nodeY) n.classList.add('lit'); else n.classList.remove('lit');
     });
-  }, { threshold: 0.2 });
-
-  if (eyebrow) tripleObs.observe(eyebrow);
-  aaas.forEach(a => tripleObs.observe(a));
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  draw();
 })();
 
 // ── Pause marquees when off-screen — frees GPU on mobile ──
