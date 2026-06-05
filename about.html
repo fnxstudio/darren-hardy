@@ -18,16 +18,6 @@
 <!-- Canonical -->
 <link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/about.html"> <!-- [MIGRATE] → https://darrenhardy.com/about/ -->
 
-<!-- Preload key above-the-fold hero assets so they paint with the page.
-     Phones get tiny resized variants; desktop preloads the full-res ones.
-     Mobile cutoff matches the @media breakpoints used in <picture> below.
-     Note: no preload for the covers-wall DH — it's below the fold and
-     loading it eagerly stole bandwidth from the LCP image. -->
-<link rel="preload" as="image" href="DH_about_dh_m.webp" type="image/webp" media="(max-width: 960px)" fetchpriority="high">
-<link rel="preload" as="image" href="DH_about_bg_m.webp" type="image/webp" media="(max-width: 960px)">
-<link rel="preload" as="image" href="DH_about_dh.webp" type="image/webp" media="(min-width: 961px)" fetchpriority="high">
-<link rel="preload" as="image" href="DH_about_bg.webp" type="image/webp" media="(min-width: 961px)">
-
 <!-- Open Graph -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="Darren Hardy · Be The Exception">
@@ -99,7 +89,7 @@
 <link rel="icon" type="image/png" href="dh_logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --black: #0a0a0a;
@@ -107,7 +97,6 @@
     --ink-soft: #1c1c1c;
     --white: #ffffff;
     --bone: #f5f5f5;
-    --bone-soft: #ececec;
     --silver: #b8b8b8;
     --grey: #888888;
     --grey-soft: #6a6a6a;
@@ -276,7 +265,10 @@
     object-fit: cover;
     object-position: center center;
     display: block;
+    opacity: 0;
+    animation: hfBgIn 1.6s ease 0.15s forwards;
   }
+  @keyframes hfBgIn { to { opacity: 1; } }
 
   /* DH cutout — anchored hard-right, full opacity, no wash over him */
   .hf-dh {
@@ -292,7 +284,10 @@
   .hf-dh img {
     height: 100%; width: auto;
     display: block;
+    opacity: 0;
+    animation: hfDhIn 1.6s ease 0.4s forwards;
   }
+  @keyframes hfDhIn { to { opacity: 1; } }
 
   /* Soft left-to-right scrim: dark on the left for legible copy, easing off
      so the wood reads faintly behind the text and is clear under DH. */
@@ -324,38 +319,19 @@
   .hf-copy .hf-inner { width: 100%; max-width: 600px; }
   .hf-stack { display: flex; flex-direction: column; gap: 0; }
 
-  /* Mobile: DH shrinks + hugs the right; scrim turns vertical for legibility.
-     Matches the home-page hero treatment — DH stays nearly opaque so the
-     wood texture doesn't bleed through his face; scrim wraps top + bottom
-     for copy legibility. */
+  /* Mobile: DH shrinks + hugs the right; scrim turns vertical for legibility */
   @media (max-width: 960px) {
     .hero-flag { min-height: auto; }
-    .hf-dh {
-      top: 48px; bottom: auto;
-      right: -20%;
-      height: 70%;
-      opacity: 0.95;
-      align-items: flex-start;
-    }
+    .hf-dh { height: 72%; opacity: 0.85; }
     .hero-flag::after {
       background: linear-gradient(180deg,
-        rgba(10,10,10,0.92) 0%,
-        rgba(10,10,10,0.70) 32%,
-        rgba(10,10,10,0.55) 58%,
-        rgba(10,10,10,0.78) 84%,
-        rgba(10,10,10,0.95) 100%);
+        rgba(10,10,10,0.82) 0%,
+        rgba(10,10,10,0.58) 36%,
+        rgba(10,10,10,0.55) 64%,
+        rgba(10,10,10,0.9) 100%);
     }
-    .hf-copy { padding: 120px 0 96px; }
+    .hf-copy { padding: 180px 0 220px; }
     .hf-copy .hf-inner { margin: 0 auto; padding: 0 24px; max-width: 100%; }
-  }
-  @media (max-width: 600px) {
-    .hf-copy { padding: 96px 0 64px; }
-    .hf-dh {
-      top: 40px; bottom: auto;
-      right: -28%;
-      height: 60%;
-      opacity: 0.92;
-    }
   }
 
   .hf-eyebrow {
@@ -412,7 +388,7 @@
   .hf-close-2 { margin-top: 8px; animation-delay: 4.6s; }
 
   @media (max-width: 960px) {
-    .hero-flag { padding: 0; }
+    .hero-flag { padding: 140px 0 96px; }
   }
 
   @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
@@ -535,7 +511,17 @@
     position: relative;
     overflow: hidden;
     background: #0d0d0d;
+    opacity: 0;
+    transform: scale(0.93) translateY(14px);
+    will-change: opacity, transform;
     cursor: pointer;
+  }
+  .c-tile.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition:
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .c-wide  { grid-column: span 2; }
   .c-tall  { grid-row:    span 2; }
@@ -691,28 +677,22 @@
     display: grid;
     grid-template-columns: 0.85fr 1.3fr;
     gap: 80px;
-    align-items: stretch;
+    align-items: start;
   }
   @media (max-width: 880px) {
-    .bte-grid { grid-template-columns: 1fr; gap: 56px; align-items: start; }
+    .bte-grid { grid-template-columns: 1fr; gap: 56px; }
   }
   .bte-portrait-stack {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    height: 100%;
   }
   .bte-portrait {
     position: relative;
-    flex: 1 1 0;
-    min-height: 0;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
     background: #d8d8d8;
     border: 1px solid var(--rule-dark-strong);
-  }
-  @media (max-width: 880px) {
-    .bte-portrait-stack { height: auto; }
-    .bte-portrait { flex: none; aspect-ratio: 4 / 5; }
   }
   .bte-portrait img {
     width: 100%; height: 100%;
@@ -787,6 +767,7 @@
     letter-spacing: -0.005em;
   }
   .bte-close {
+    margin-top: 16px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: clamp(20px, 1.7vw, 26px);
@@ -850,7 +831,6 @@
     justify-content: center;
     padding-top: 72px;
   }
-  .ateam-hero picture.bg { display: contents; }
   .ateam-hero img.bg {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
@@ -912,7 +892,6 @@
     border: 1px solid var(--rule-dark);
     position: relative;
   }
-  .person-photo picture { display: contents; }
   .person-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
@@ -947,8 +926,8 @@
   /* Filler CTA at end of team grid — auto-spans the leftover cells of the last
      row (JS-driven) so the grid stays rectangular regardless of team count. */
   .team-cta {
-    background: rgba(20, 20, 20, 0.025);
-    color: var(--grey-soft);
+    background: var(--grey);
+    color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -962,16 +941,14 @@
     min-height: 240px;
     text-decoration: none;
     border: 1px solid var(--rule-dark);
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.3s ease;
     position: relative;
     overflow: hidden;
   }
   .team-cta:hover {
-    background: rgba(20, 20, 20, 0.06);
-    border-color: var(--grey-soft);
-    color: var(--ink);
+    background: var(--grey-soft);
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
   }
   .team-cta-headline::before {
     content: '';
@@ -990,7 +967,7 @@
     line-height: 1.1;
     letter-spacing: -0.01em;
     text-transform: uppercase;
-    color: inherit;
+    color: var(--white);
     margin: 0 0 28px;
     position: relative;
   }
@@ -999,21 +976,20 @@
     align-items: center;
     gap: 10px;
     background: transparent;
-    color: inherit;
+    color: var(--white);
     padding: 12px 22px;
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     letter-spacing: 0.24em;
     text-transform: uppercase;
     font-weight: 700;
-    border: 1px solid currentColor;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    border: 1px solid var(--white);
+    transition: background 0.2s, color 0.2s;
     position: relative;
   }
   .team-cta:hover .team-cta-button {
-    background: var(--ink);
-    color: var(--white);
-    border-color: var(--ink);
+    background: var(--white);
+    color: var(--black);
   }
   .team-cta-button .arrow { font-weight: 400; transition: transform 0.2s; }
   .team-cta:hover .team-cta-button .arrow { transform: translateX(3px); }
@@ -1033,7 +1009,7 @@
 
   /* ============ SECTION 7 — MANIFESTO ============ */
   .manifesto {
-    background: var(--bone-soft);
+    background: #ebe9e3;
     color: var(--black);
     padding: 160px 0;
     border-top: 1px solid var(--rule-dark);
@@ -1078,9 +1054,9 @@
   }
   @media (max-width: 880px) { .mani-col { padding: 44px 28px; } }
 
-  /* Left — Required, white card on the bone section bg */
+  /* Left — Required, bone/white */
   .mani-col:first-child {
-    background: var(--white);
+    background: #fafaf7;
     color: var(--black);
   }
   /* Right — Refused, ink/dark */
@@ -1460,19 +1436,15 @@
   <!-- Wood-panel backdrop (full bleed, under everything) -->
   <div class="hf-bg" aria-hidden="true">
     <picture>
-      <source media="(max-width: 960px)" type="image/webp" srcset="DH_about_bg_m.webp">
-      <source media="(max-width: 960px)" srcset="DH_about_bg_m.png">
       <source type="image/webp" srcset="DH_about_bg.webp">
-      <img src="DH_about_bg.png" alt="" decoding="async" />
+      <img src="DH_about_bg.png" alt="" />
     </picture>
   </div>
-  <!-- DH cutout, anchored hard-right, full opacity. This is the hero LCP element. -->
+  <!-- DH cutout, anchored hard-right, full opacity -->
   <div class="hf-dh" aria-hidden="true">
     <picture>
-      <source media="(max-width: 960px)" type="image/webp" srcset="DH_about_dh_m.webp">
-      <source media="(max-width: 960px)" srcset="DH_about_dh_m.png">
       <source type="image/webp" srcset="DH_about_dh.webp">
-      <img src="DH_about_dh.png" alt="Darren Hardy" fetchpriority="high" decoding="async" />
+      <img src="DH_about_dh.png" alt="Darren Hardy" />
     </picture>
   </div>
   <div class="scroll-cue" aria-hidden="true">
@@ -1508,12 +1480,8 @@
       <div id="covers-grid-access"></div>
       <div class="access-dh" aria-hidden="true">
         <picture>
-          <!-- Mobile: use the tighter, zoomed-in cutout from the home-page intro wall -->
-          <source media="(max-width: 960px)" type="image/webp" srcset="Wall-DH.webp">
-          <source media="(max-width: 960px)" srcset="Wall-DH.png">
-          <!-- Desktop: full-length figure -->
           <source type="image/webp" srcset="DH_about_wall.webp">
-          <img src="DH_about_wall.png" alt="Darren Hardy" loading="lazy" decoding="async">
+          <img src="DH_about_wall.png" alt="Darren Hardy" loading="lazy">
         </picture>
       </div>
     </div>
@@ -1531,7 +1499,7 @@
         <p class="reveal">I have spent 35 years collecting those playbooks.</p>
         <p class="reveal">I then tested everyone across more than <strong>11,000 businesses</strong> in every industry and market condition. This allows me to identify patterns long before they&rsquo;re obvious to anyone else.</p>
         <p class="reveal">The principles the industry titans use to dominate their markets are the same principles I&rsquo;ve installed at your scale. Engineered for the realities you operate under. Proven across thousands of businesses that look a lot more like yours than theirs.</p>
-        <p class="access-close reveal">That is the <strong>unfair advantage</strong> no one else can give you.</p>
+        <p class="access-close reveal">That is the unfair advantage no one else can give you.</p>
       </div>
     </div>
   </div>
@@ -1543,32 +1511,26 @@
     <div class="bte-grid">
       <div class="bte-portrait-stack reveal-scale">
         <div class="bte-portrait">
-          <picture>
-            <source type="image/webp" srcset="DH_DadnMe.webp">
-            <img src="DH_DadnMe.jpg" alt="Young Darren on his father's shoulders" loading="lazy" decoding="async" />
-          </picture>
+          <img src="DH_DadnMe.jpg" alt="Young Darren on his father's shoulders" loading="lazy" />
           <div class="cap">My Dad &amp; Me</div>
         </div>
         <div class="bte-portrait">
-          <picture>
-            <source type="image/webp" srcset="DH_about_best_man.webp">
-            <img src="DH_about_best_man.jpg" alt="Darren as best man at his wedding" loading="lazy" decoding="async" />
-          </picture>
+          <img src="DH_about_best_man.jpg" alt="Darren as best man at his wedding" loading="lazy" />
           <div class="cap">Best Man At My Wedding</div>
         </div>
       </div>
       <div class="bte-content">
         <div class="reveal"><div class="eyebrow on-light"><span class="pip"></span>My Father Would Say</div></div>
         <h2 class="bte-display reveal">Be The<br>Exception.</h2>
-        <p class="bte-sub reveal">&ldquo;Don&rsquo;t just do what others do. Don&rsquo;t be a follower. Be The Exception.&rdquo;</p>
+        <p class="bte-sub reveal">&ldquo;Don&rsquo;t just do what others do. Don&rsquo;t be a follower. Be the exception.&rdquo;</p>
         <div class="bte-body">
           <p class="lead reveal">I was raised by my father. A university football coach. Single dad.</p>
           <p class="reveal">He didn&rsquo;t give me a lot of rules or restrictions. Yet I never did drugs, never got into trouble, and got good grades.</p>
           <p class="reveal">What he did give me was a philosophy. A standard to live up to.</p>
           <p class="reveal">When I complained something wasn&rsquo;t fair, or thought I wasn&rsquo;t good enough, my dad would say the same thing every time.</p>
-          <div class="bte-pull reveal">&ldquo;Circumstances don&rsquo;t matter. If others are smarter, have more talent, or are more experienced, you can still win. Work harder, study longer, and push yourself further than anyone else will go. Be The Exception.&rdquo;</div>
+          <div class="bte-pull reveal">&ldquo;Circumstances don&rsquo;t matter. If others are smarter, have more talent, or are more experienced, you can still win. Work harder, study longer, and push yourself further than anyone else will go. Be the exception.&rdquo;</div>
           <p class="reveal">He had me believe I could do anything and achieve anything I wanted if I simply chose to.</p>
-          <p class="reveal"><strong>Be The Exception.</strong></p>
+          <p class="reveal"><strong>Be the exception.</strong></p>
           <p class="bte-close reveal">Forty years later, it is still my operating system.</p>
         </div>
       </div>
@@ -1588,10 +1550,7 @@
 
 <!-- SECTION 6 — THE A-TEAM (HERO + GRID) -->
 <section class="ateam-hero">
-  <picture class="bg">
-    <source type="image/webp" srcset="team-photos/team-group.webp">
-    <img class="bg" src="team-photos/team-group.jpg" alt="A-Team group photo" loading="lazy" decoding="async" />
-  </picture>
+  <img class="bg" src="team-photos/team-group.webp" alt="A-Team group photo" loading="lazy" />
   <div class="container">
     <div class="reveal"><div class="eyebrow center"><span class="pip"></span>Our Team</div></div>
     <h2 class="ateam-display reveal nobreak">A-Team</h2>
@@ -1651,7 +1610,7 @@
 <section class="nfe">
   <div class="container">
     <div class="reveal"><div class="eyebrow on-light"><span class="pip"></span>Who Belongs Here</div></div>
-    <h2 class="nfe-title reveal">We Are <em>Not For Everyone</em>.</h2>
+    <h2 class="nfe-title reveal">We Are Not <em>For Everyone</em>.</h2>
     <p class="nfe-body reveal">We&rsquo;re not for the content, the satisfied, or the settled. Not for those who go with the flow, bend with the wind, or travel in the direction of the current.</p>
     <p class="nfe-body reveal">We&rsquo;re for elite leaders and extreme high achievers who take back control, own their responsibility, and invent their fate. We don&rsquo;t believe in luck. We make our own.</p>
     <p class="nfe-body reveal">Being a leader, a builder, an extreme achiever is hard work. That&rsquo;s the entire point. If that&rsquo;s not you, this is not the place you&rsquo;ve been looking for.</p>
@@ -1743,38 +1702,29 @@
 // auto-recomputes its column span so the last row is always filled cleanly.
 const team = [
   // Darren intentionally hidden for now — uncomment to add him back:
-  // { name: 'Darren Hardy', role: 'Founder',                       photo: 'team-photos/darren.jpg' },
-  { name: 'Georgia',  role: 'CFO',                               photo: 'team-photos/georgia.png?v=2' },
-  { name: 'Darami',   role: 'Chief of Staff',                    photo: 'team-photos/darami.png' },
-  { name: 'Jon',      role: 'CMO',                               photo: 'team-photos/jon.png' },
-  { name: 'Brenda',   role: 'VP Member Experience',              photo: 'team-photos/brenda.png' },
-  { name: 'Mariana',  role: 'Director of Productions',           photo: 'team-photos/mariana.png' },
-  { name: 'Lesli',    role: 'Marketing Campaign Manager',        photo: 'team-photos/lesli.png' },
-  { name: 'Ali',      role: 'Director of Communications',        photo: 'team-photos/ali.png' },
-  { name: 'Emerald',  role: 'Member Success Coordinator',        photo: 'team-photos/emerald.png' },
-  { name: 'Laila',    role: 'Senior Operations Manager',         photo: 'team-photos/laila.png' },
-  { name: 'Jake',     role: 'Marketing Operations Specialist',   photo: 'team-photos/jake.png' },
-  { name: 'Ashlee',   role: 'VIP Member Coordinator',            photo: 'team-photos/ashlee.png' },
-  { name: 'Stuart',   role: 'AI Integrator',                     photo: 'team-photos/stuart.png' },
-  { name: 'Sara',     role: 'Treasury Director',                 photo: 'team-photos/sara.png' },
-  { name: 'Josh',     role: 'Member Enrollment Specialist',      photo: 'team-photos/josh.png' },
-  { name: 'Missy',    role: 'Unbreakable Sole Author',           photo: 'team-photos/missy.png' },
+  // { name: 'Darren Hardy', role: 'Founder',                       photo: 'team-photos/darren.webp' },
+  { name: 'Georgia',  role: 'CFO',                               photo: 'team-photos/georgia.webp' },
+  { name: 'Darami',   role: 'Chief of Staff',                    photo: 'team-photos/darami.webp' },
+  { name: 'Jon',      role: 'CMO',                               photo: 'team-photos/jon.webp' },
+  { name: 'Brenda',   role: 'VP Member Experience',              photo: 'team-photos/brenda.webp' },
+  { name: 'Mariana',  role: 'Director of Productions',           photo: 'team-photos/mariana.webp' },
+  { name: 'Lesli',    role: 'Marketing Campaign Manager',        photo: 'team-photos/lesli.webp' },
+  { name: 'Ali',      role: 'Director of Communications',        photo: 'team-photos/ali.webp' },
+  { name: 'Emerald',  role: 'Member Success Coordinator',        photo: 'team-photos/emerald.webp' },
+  { name: 'Laila',    role: 'Senior Operations Manager',         photo: 'team-photos/laila.webp' },
+  { name: 'Jake',     role: 'Marketing Operations Specialist',   photo: 'team-photos/jake.webp' },
+  { name: 'Ashlee',   role: 'VIP Member Coordinator',            photo: 'team-photos/ashlee.webp' },
+  { name: 'Stuart',   role: 'AI Integrator',                     photo: 'team-photos/stuart.webp' },
+  { name: 'Sara',     role: 'Treasury Director',                 photo: 'team-photos/sara.webp' },
+  { name: 'Josh',     role: 'Member Enrollment Specialist',      photo: 'team-photos/josh.webp' },
+  { name: 'Missy',    role: 'Unbreakable Sole Author',           photo: 'team-photos/missy.webp' },
 ];
 const teamGrid = document.getElementById('teamGrid');
-// Derive the WebP path from each photo filename so each card gets a
-// <picture> with a WebP <source> + the original as fallback.
-// Strips any cache-busting querystring (?v=2) before swapping ext.
-const toWebp = p => p.replace(/\?.*$/, '').replace(/\.(png|jpg|jpeg)$/i, '.webp');
 team.forEach(m => {
   const card = document.createElement('div');
   card.className = 'person reveal';
   card.innerHTML = `
-    <div class="person-photo">
-      <picture>
-        <source type="image/webp" srcset="${toWebp(m.photo)}">
-        <img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy" decoding="async" />
-      </picture>
-    </div>
+    <div class="person-photo"><img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy" /></div>
     <div class="person-meta">
       <div class="person-name">${m.name}</div>
       <div class="person-role">${m.role}</div>
@@ -1792,7 +1742,7 @@ team.forEach(m => {
   cta.href = 'careers.html#open-positions';
   cta.innerHTML = `
     <h3 class="team-cta-headline">Want To Join<br>The <span class="nobreak">A-Team</span>?</h3>
-    <span class="team-cta-button">Open Positions <span class="arrow">→</span></span>
+    <span class="team-cta-button">View Open Positions <span class="arrow">→</span></span>
   `;
   teamGrid.appendChild(cta);
 
@@ -1960,6 +1910,21 @@ team.forEach(m => {
     tile.appendChild(cap);
     coversGrid.appendChild(tile);
   });
+
+  // Staggered entrance when section enters viewport
+  const wallObs = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      const tiles = coversGrid.querySelectorAll('.c-tile');
+      tiles.forEach((tile, i) => {
+        tile.style.transitionDelay = `${i * 55}ms`;
+      });
+      requestAnimationFrame(() => {
+        tiles.forEach(tile => tile.classList.add('visible'));
+      });
+      wallObs.disconnect();
+    }
+  }, { threshold: 0.1 });
+  wallObs.observe(wall);
 
   // Touch tap-to-color
   coversGrid.querySelectorAll('.c-tile').forEach(tile => {
