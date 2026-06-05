@@ -394,14 +394,22 @@
   }
   .pillars-body strong { color: var(--white); font-weight: 600; }
 
-  /* Ecosystem-style horizontal row — spine + nodes + ghost numerals */
+  /* Ecosystem-style horizontal row — spine + nodes + ghost numerals
+     Vertical alignment math (so the node BOX rests on the spine line):
+        spine y               = 12
+        row padding-top       = 32
+        pillar top (from row) = 32
+        node top (from pillar)= -20  →  node center = 32 + (-20) = 12  ✓ on spine
+        ghost-num top         = pillar 8  → 40 from section top  (28px below spine)
+        col padding-top       = 60  → col text starts at 92 from section top,
+                                       sitting visually within the ghost numeral. */
   .pillars-eco {
     position: relative;
-    padding-top: 56px;
+    padding-top: 0;
   }
   .pillars-eco .spine-track {
     position: absolute;
-    top: 18px;
+    top: 12px;
     left: 8.33%;   /* aligns to center of first column (1fr-of-3) */
     right: 8.33%;  /* aligns to center of last column */
     height: 1px;
@@ -409,7 +417,7 @@
   }
   .pillars-eco .spine-fill {
     position: absolute;
-    top: 18px;
+    top: 12px;
     left: 8.33%;
     width: 0;
     height: 1px;
@@ -422,22 +430,22 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
-    padding-top: 56px;
+    padding-top: 32px;
   }
 
   .eco-pillar {
     position: relative;
-    padding: 96px 28px 32px;
+    padding: 60px 28px 32px;
     min-height: 320px;
-    overflow: hidden;
+    overflow: visible;
   }
   .eco-pillar .node {
     position: absolute;
-    top: -38px;
+    top: -20px;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 9px;
-    height: 9px;
+    width: 11px;
+    height: 11px;
     background: transparent;
     border: 1px solid var(--silver);
     transition: background .35s ease, transform .35s cubic-bezier(.22,1,.36,1), border-color .35s ease;
