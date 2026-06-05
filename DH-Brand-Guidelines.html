@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Darren Hardy — Brand & Design System</title>
+<style>
+  @font-face { font-family:'Inter'; font-style:normal; font-weight:400 900; font-display:swap; src:url(fonts/inter-latin.woff2) format('woff2'); }
+  @font-face { font-family:'Inter'; font-style:normal; font-weight:400 900; font-display:swap; src:url(fonts/inter-latin-ext.woff2) format('woff2'); }
+
+  :root {
+    /* DH site tokens — reference only, never override */
+    --black: #0a0a0a;
+    --ink: #141414;
+    --ink-soft: #1c1c1c;
+    --white: #ffffff;
+    --bone: #f5f5f5;
+    --silver: #b8b8b8;
+    --grey: #888888;
+    --grey-soft: #6a6a6a;
+    --muted: #444444;
+    --rule: rgba(255,255,255,0.08);
+    --rule-strong: rgba(255,255,255,0.15);
+    --rule-dark: rgba(10,10,10,0.10);
+    --rule-dark-strong: rgba(10,10,10,0.18);
+    /* A-Team accent */
+    --accent: #A0252B;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { font-family:'Inter',-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); background:#fff; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  @page { size:letter; margin:0; }
+
+  .page { position:relative; width:8.5in; height:11in; overflow:hidden; padding:0.65in 0.75in; page-break-after:always; background:#fff; }
+  .page:last-child { page-break-after:auto; }
+  .page.dark { background:var(--black); color:var(--white); }
+
+  /* Section eyebrow — matches the pip on the live site */
+  .sec { display:flex; align-items:center; gap:10px; font-weight:700; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--grey-soft); margin-bottom:14px; }
+  .sec::before { content:''; width:30px; height:1px; background:var(--grey-soft); }
+  .page.dark .sec { color:var(--silver); }
+  .page.dark .sec::before { background:var(--silver); }
+
+  h2.page-h { font-weight:900; text-transform:uppercase; letter-spacing:-0.02em; font-size:30px; line-height:1; color:var(--ink); margin:2px 0 8px; }
+  .page.dark h2.page-h { color:var(--white); }
+  p.lead { font-size:12.5px; color:#4a4a4a; max-width:6.4in; }
+  .page.dark p.lead { color:var(--silver); }
+  .small { font-size:10px; color:#6a6a6a; }
+  .label { font-weight:700; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--grey-soft); }
+  strong { font-weight:700; }
+
+  /* ── COVER ────────────────────────────────────────────────── */
+  .cover { background:var(--black) !important; color:var(--white); display:flex; flex-direction:column; justify-content:flex-end; padding:0.8in 0.75in; }
+  .cover-eyebrow { font-weight:700; font-size:10px; letter-spacing:.4em; text-transform:uppercase; color:var(--silver); display:flex; align-items:center; gap:12px; margin-bottom:40px; }
+  .cover-eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--silver); }
+  .cover-title { font-weight:900; font-size:72px; line-height:0.88; letter-spacing:-0.045em; text-transform:uppercase; color:var(--white); margin-bottom:24px; }
+  .cover-sub { font-weight:400; font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--silver); }
+  .cover-rule { width:100%; height:1px; background:var(--rule-strong); margin:40px 0 24px; }
+  .cover-meta { display:flex; justify-content:space-between; align-items:flex-end; }
+  .cover-version { font-size:10px; color:var(--grey-soft); }
+  .cover-dh { font-weight:900; font-size:11px; letter-spacing:.32em; text-transform:uppercase; color:var(--white); }
+
+  /* ── FOOTER BAR ───────────────────────────────────────────── */
+  .foot { position:absolute; bottom:0.45in; left:0.75in; right:0.75in; display:flex; justify-content:space-between; align-items:center; font-size:8.5px; color:#9a9a9a; border-top:1px solid #e8e8e8; padding-top:8px; }
+  .page.dark .foot { border-top-color:var(--rule); color:var(--grey-soft); }
+
+  /* ── GRID UTILITIES ───────────────────────────────────────── */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; }
+  .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:18px; }
+  .mini { background:#f8f8f8; border:1px solid #e8e8e8; padding:14px; }
+  .mini h4 { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); margin-bottom:6px; }
+  .mini p { font-size:10px; color:#5a5a5a; margin-bottom:5px; }
+  .page.dark .mini { background:var(--ink); border-color:var(--rule); }
+  .page.dark .mini h4 { color:var(--white); }
+  .page.dark .mini p { color:var(--silver); }
+
+  /* ── LOGO DISPLAY ─────────────────────────────────────────── */
+  .logo-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px; }
+  .logo-cell { padding:40px 32px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; min-height:1.6in; }
+  .logo-cell.on-dark { background:var(--black); }
+  .logo-cell.on-light { background:var(--bone); border:1px solid #e0e0e0; }
+  .logo-cell.on-white { background:#fff; border:1px solid #e0e0e0; }
+  .logo-cell img { width:72px; height:72px; display:block; }
+  .logo-cell .wordmark { font-family:'Inter',sans-serif; font-weight:900; font-size:18px; letter-spacing:.28em; text-transform:uppercase; line-height:1; }
+  .logo-cell.on-dark .wordmark { color:#fff; }
+  .logo-cell.on-light .wordmark, .logo-cell.on-white .wordmark { color:var(--black); }
+  .logo-lockup { display:flex; align-items:center; gap:14px; }
+  .logo-lockup img { width:48px; height:48px; }
+  .logo-cell .logo-label { font-size:8.5px; letter-spacing:.18em; text-transform:uppercase; font-weight:600; margin-top:8px; }
+  .logo-cell.on-dark .logo-label { color:var(--grey-soft); }
+  .logo-cell.on-light .logo-label, .logo-cell.on-white .logo-label { color:#9a9a9a; }
+
+  /* ── COLOR SWATCHES ───────────────────────────────────────── */
+  .swatches { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-top:18px; }
+  .swatch-col { display:flex; flex-direction:column; gap:6px; }
+  .swatch { height:56px; border-radius:2px; }
+  .swatch-name { font-size:8.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink); }
+  .swatch-hex { font-size:8px; color:#7a7a7a; margin-top:1px; font-family:monospace; }
+
+  /* ── TYPE SCALE ───────────────────────────────────────────── */
+  .type-row { display:flex; align-items:baseline; gap:16px; border-bottom:1px solid #ebebeb; padding:10px 0; }
+  .type-row:first-child { border-top:1px solid #ebebeb; margin-top:16px; }
+  .type-spec { flex:0 0 1.6in; font-size:8.5px; color:#7a7a7a; }
+  .type-sample { font-family:'Inter',sans-serif; font-weight:900; color:var(--ink); text-transform:uppercase; letter-spacing:-0.04em; line-height:1; }
+
+  /* ── CODE BLOCKS ──────────────────────────────────────────── */
+  .code { font-family:'Menlo','Courier New',monospace; font-size:9px; background:#f2f2f2; border:1px solid #e0e0e0; padding:12px; line-height:1.65; color:#2a2a2a; white-space:pre-wrap; }
+  .page.dark .code { background:var(--ink); border-color:var(--rule); color:var(--silver); }
+  .c { color:#9a9a9a; }
+  .k { color:#0a5f8a; }
+  .v { color:#1a7a1a; }
+  .page.dark .k { color:#7ec8e3; }
+  .page.dark .v { color:#98d998; }
+
+  /* ── RULE BOX ─────────────────────────────────────────────── */
+  .rulebox { background:#f8f8f8; border-left:3px solid var(--ink); padding:12px 14px; margin-top:14px; }
+  .rulebox h4 { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); margin-bottom:6px; }
+  .rulebox p { font-size:10px; color:#5a5a5a; }
+  .page.dark .rulebox { background:var(--ink); border-left-color:var(--silver); }
+  .page.dark .rulebox h4 { color:var(--white); }
+  .page.dark .rulebox p { color:var(--silver); }
+
+  /* ── UI DEMO ──────────────────────────────────────────────── */
+  .demo-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:14px; }
+  .demo-dark { background:var(--black); padding:20px 24px; flex:1; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .demo-light { background:var(--bone); border:1px solid #e0e0e0; padding:20px 24px; flex:1; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .btn-solid-dk { display:inline-flex; align-items:center; gap:10px; background:var(--black); color:#fff; padding:14px 28px; font-family:'Inter',sans-serif; font-weight:700; font-size:10px; letter-spacing:.22em; text-transform:uppercase; border:1px solid var(--black); }
+  .btn-ghost-dk { display:inline-flex; align-items:center; gap:10px; background:transparent; color:var(--white); padding:14px 28px; font-family:'Inter',sans-serif; font-weight:700; font-size:10px; letter-spacing:.22em; text-transform:uppercase; border:1px solid var(--rule-strong); }
+  .btn-solid-lt { display:inline-flex; align-items:center; gap:10px; background:#fff; color:var(--black); padding:14px 28px; font-family:'Inter',sans-serif; font-weight:700; font-size:10px; letter-spacing:.22em; text-transform:uppercase; border:1px solid #fff; }
+  .btn-ghost-lt { display:inline-flex; align-items:center; gap:10px; background:transparent; color:var(--black); padding:14px 28px; font-family:'Inter',sans-serif; font-weight:700; font-size:10px; letter-spacing:.22em; text-transform:uppercase; border:1px solid var(--rule-dark-strong); }
+  .eyebrow-demo { display:flex; align-items:center; gap:12px; font-family:'Inter',sans-serif; font-weight:500; font-size:10px; letter-spacing:.38em; text-transform:uppercase; color:var(--silver); }
+  .eyebrow-demo::before { content:''; display:block; width:26px; height:1px; background:var(--silver); }
+  .pip-demo { display:flex; align-items:center; gap:10px; font-family:'Inter',sans-serif; font-weight:500; font-size:10px; letter-spacing:.38em; text-transform:uppercase; color:var(--silver); }
+  .pip-demo .pip { display:inline-block; width:26px; height:1px; background:var(--silver); }
+
+  /* ── SPINE / NODE DEMO ────────────────────────────────────── */
+  .spine-demo { display:flex; gap:32px; margin-top:16px; }
+  .spine-col { position:relative; padding-left:28px; flex:1; }
+  .spine-line { position:absolute; left:8px; top:0; bottom:0; width:1px; background:rgba(255,255,255,0.15); }
+  .spine-line-fill { position:absolute; left:8px; top:0; width:1px; height:60%; background:var(--silver); }
+  .spine-item { position:relative; padding:14px 0; border-bottom:1px solid var(--rule); }
+  .spine-item:last-child { border-bottom:none; }
+  .spine-node { position:absolute; left:-20px; top:50%; transform:translate(-50%,-50%); width:7px; height:7px; border:1px solid var(--silver); background:transparent; }
+  .spine-node.lit { background:var(--white); border-color:var(--white); }
+  .spine-label { font-family:'Inter',sans-serif; font-size:9px; color:var(--silver); text-transform:uppercase; letter-spacing:.14em; }
+
+  /* ── SPACE SCALE ──────────────────────────────────────────── */
+  .space-scale { display:flex; align-items:flex-end; gap:4px; margin-top:8px; }
+  .space-scale div { background:var(--ink); width:18px; }
+
+</style>
+</head>
+<body>
+
+<!-- 1 — COVER -->
+<section class="page cover">
+  <div class="cover-eyebrow">Design System</div>
+  <div class="cover-title">Darren<br>Hardy</div>
+  <div class="cover-sub">Brand &amp; Design System · v1.0</div>
+  <div class="cover-rule"></div>
+  <div class="cover-meta">
+    <span class="cover-version">For use on DarrenHardy.com and all owned web properties</span>
+    <span class="cover-dh">Darren Hardy</span>
+  </div>
+</section>
+
+<!-- 2 — LOGO SYSTEM -->
+<section class="page">
+  <div class="sec">Identity</div>
+  <h2 class="page-h">Logo System</h2>
+  <p class="lead">Three approved forms. Use the lockup as the default. The mark alone is for contexts where the name is established. The wordmark alone is for text-only environments.</p>
+
+  <div class="logo-grid">
+    <!-- Mark only — dark -->
+    <div class="logo-cell on-dark">
+      <img src="dh_logo.webp" alt="DH mark">
+      <div class="logo-label">Mark · on Dark</div>
+    </div>
+    <!-- Mark only — light -->
+    <div class="logo-cell on-light">
+      <img src="dh_logo.webp" alt="DH mark" style="filter:invert(1) brightness(0.15);">
+      <div class="logo-label">Mark · on Light</div>
+    </div>
+    <!-- Lockup — dark -->
+    <div class="logo-cell on-dark">
+      <div class="logo-lockup">
+        <img src="dh_logo.webp" alt="DH mark">
+        <span class="wordmark">Darren Hardy</span>
+      </div>
+      <div class="logo-label">Lockup · on Dark</div>
+    </div>
+    <!-- Lockup — light -->
+    <div class="logo-cell on-light">
+      <div class="logo-lockup">
+        <img src="dh_logo.webp" alt="DH mark" style="filter:invert(1) brightness(0.15);">
+        <span class="wordmark">Darren Hardy</span>
+      </div>
+      <div class="logo-label">Lockup · on Light</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:16px">
+    <div class="mini">
+      <h4>Wordmark spec</h4>
+      <p>Inter 900 · <code>letter-spacing: 0.28em</code> · uppercase · tracked wide. Always use this exact spec — never a system font or a different weight.</p>
+      <p style="margin-top:8px"><span style="font-family:'Inter',sans-serif;font-weight:900;font-size:15px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink);">DARREN HARDY</span></p>
+    </div>
+    <div class="mini">
+      <h4>Clear space &amp; misuse</h4>
+      <p>Minimum clear space = cap-height of the wordmark on all sides. Do not: stretch, recolor, add drop shadow, set on a busy photo without a scrim, or use a weight other than 900.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>Darren Hardy Brand &amp; Design System</span><span>Logo System</span></div>
+</section>
+
+<!-- 3 — COLOR SYSTEM -->
+<section class="page">
+  <div class="sec">Color</div>
+  <h2 class="page-h">Color System</h2>
+  <p class="lead">The DH palette is intentionally neutral — black, white, and silver. Color communicates through contrast and texture, not hue. The only brand hue is the A-Team red, used exclusively for A-Team properties.</p>
+
+  <div class="swatches">
+    <div class="swatch-col">
+      <div class="swatch" style="background:#0a0a0a;border:1px solid #222;"></div>
+      <div class="swatch-name">Black</div>
+      <div class="swatch-hex">#0a0a0a</div>
+      <div class="small" style="margin-top:4px">Page bg · primary dark surface</div>
+    </div>
+    <div class="swatch-col">
+      <div class="swatch" style="background:#141414;border:1px solid #2a2a2a;"></div>
+      <div class="swatch-name">Ink</div>
+      <div class="swatch-hex">#141414</div>
+      <div class="small" style="margin-top:4px">Cards · nav bg · ribbons</div>
+    </div>
+    <div class="swatch-col">
+      <div class="swatch" style="background:#f5f5f5;border:1px solid #e0e0e0;"></div>
+      <div class="swatch-name">Bone</div>
+      <div class="swatch-hex">#f5f5f5</div>
+      <div class="small" style="margin-top:4px">Alternate section bg · bestseller ribbon</div>
+    </div>
+    <div class="swatch-col">
+      <div class="swatch" style="background:#b8b8b8;border:1px solid #ccc;"></div>
+      <div class="swatch-name">Silver</div>
+      <div class="swatch-hex">#b8b8b8</div>
+      <div class="small" style="margin-top:4px">Spine line · nav links · body on dark</div>
+    </div>
+    <div class="swatch-col">
+      <div class="swatch" style="background:#444444;border:1px solid #555;"></div>
+      <div class="swatch-name">Muted</div>
+      <div class="swatch-hex">#444444</div>
+      <div class="small" style="margin-top:4px">Body copy on light backgrounds</div>
+    </div>
+    <div class="swatch-col">
+      <div class="swatch" style="background:#A0252B;"></div>
+      <div class="swatch-name">A-Team Red</div>
+      <div class="swatch-hex">#A0252B</div>
+      <div class="small" style="margin-top:4px">A-Team pages only — never on DH core brand</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:18px">
+    <div class="mini">
+      <h4>Rule: Black on black, white on white</h4>
+      <p>Dark sections use dark backgrounds (#0a0a0a or #141414) with white or silver type. Light sections use bone (#f5f5f5) with black or muted (#444) type. Never mix a dark bg with dark type or a light bg with light type.</p>
+    </div>
+    <div class="mini">
+      <h4>Rule opacity tokens</h4>
+      <p><code>--rule</code> <span style="font-size:8px;color:#888">rgba(255,255,255,0.08)</span> — hairline dividers on dark<br>
+      <code>--rule-strong</code> <span style="font-size:8px;color:#888">rgba(255,255,255,0.15)</span> — borders on dark<br>
+      <code>--rule-dark</code> <span style="font-size:8px;color:#888">rgba(10,10,10,0.10)</span> — hairlines on light<br>
+      Never hard-code raw rgba — always use the token.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>Darren Hardy Brand &amp; Design System</span><span>Color System</span></div>
+</section>
+
+<!-- 4 — TYPOGRAPHY -->
+<section class="page">
+  <div class="sec">Type</div>
+  <h2 class="page-h">Typography</h2>
+  <p class="lead">One typeface. One weight for headlines. Inter is self-hosted — no Google Fonts dependency. Every headline is Inter 900 uppercase. Body is Inter 400.</p>
+
+  <div class="type-row">
+    <div class="type-spec">Hero · clamp(64px,10vw,170px)<br>weight 900 · ls –0.05em · lh 0.86</div>
+    <div class="type-sample" style="font-size:52px;letter-spacing:-0.05em;line-height:0.86">Be The<br>Exception.</div>
+  </div>
+  <div class="type-row">
+    <div class="type-spec">H1 · clamp(51px,7.2vw,115px)<br>weight 900 · ls –0.04em · lh 0.92</div>
+    <div class="type-sample" style="font-size:40px;letter-spacing:-0.04em;line-height:0.92">Advantage</div>
+  </div>
+  <div class="type-row">
+    <div class="type-spec">H2 · clamp(32px,4.6vw,77px)<br>weight 900 · ls –0.035em · lh 0.95</div>
+    <div class="type-sample" style="font-size:32px;letter-spacing:-0.035em;line-height:0.95">The 15-Minute<br>CEO Morning Routine</div>
+  </div>
+  <div class="type-row">
+    <div class="type-spec">Ghost numeral · clamp(120px,16vw,230px)<br>weight 900 · ls –0.06em · lh 0.86<br>color:transparent · -webkit-text-stroke:1px</div>
+    <div class="type-sample" style="font-size:56px;letter-spacing:-0.06em;line-height:0.86;color:transparent;-webkit-text-stroke:1px #0a0a0a">01</div>
+  </div>
+  <div class="type-row">
+    <div class="type-spec">Eyebrow · 11px<br>weight 500 · ls 0.42em · uppercase<br>color silver · pip 28px line</div>
+    <div class="eyebrow-demo" style="color:var(--grey-soft);">The Ecosystem</div>
+  </div>
+  <div class="type-row">
+    <div class="type-spec">Body · clamp(17px,1.4vw,20px)<br>weight 400 · lh 1.6<br>color muted (#444) on light</div>
+    <div class="type-sample" style="font-size:13px;font-weight:400;letter-spacing:0;line-height:1.6;color:#444;text-transform:none">Access to closely-guarded, insider strategies most founders never see.</div>
+  </div>
+
+  <div class="rulebox" style="margin-top:16px">
+    <h4>Font hosting rule</h4>
+    <p>Inter is served from <code>fonts/inter-latin.woff2</code> and <code>fonts/inter-latin-ext.woff2</code> within each site's own repo. No Google Fonts CDN calls. This eliminates two preconnect round-trips and one render-blocking CSS fetch on every page load.</p>
+  </div>
+
+  <div class="foot"><span>Darren Hardy Brand &amp; Design System</span><span>Typography</span></div>
+</section>
+
+<!-- 5 — UI ELEMENTS -->
+<section class="page">
+  <div class="sec">UI</div>
+  <h2 class="page-h">Buttons &amp; UI Marks</h2>
+  <p class="lead">Two button states. One eyebrow pattern. The spine + node system for scroll-driven section structure. All measurements are exact — do not approximate.</p>
+
+  <h3 style="margin-top:20px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#4a4a4a">Buttons</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px;">
+    <div style="background:var(--black);padding:24px;display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
+      <div class="btn-ghost-dk">Get The Free Guide →</div>
+      <div style="font-size:8.5px;color:var(--grey-soft);margin-top:4px">Ghost · dark bg<br>border: 1px solid rgba(255,255,255,0.15)<br>padding: 22px 44px · fw 700 · ls 0.24em</div>
+    </div>
+    <div style="background:var(--bone);border:1px solid #e0e0e0;padding:24px;display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
+      <div class="btn-solid-lt">Get The Free Guide →</div>
+      <div style="font-size:8.5px;color:#888;margin-top:4px">Solid · light bg (black on bone)<br>border: 1px solid #0a0a0a<br>padding: 22px 44px · fw 700 · ls 0.24em</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:22px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#4a4a4a">Shimmer CTA (homepage only)</h3>
+  <div style="font-size:10px;color:#5a5a5a;margin-top:6px">The primary homepage CTA carries a diagonal silver shimmer sweep every 4s: <code>rgba(210,210,230,0.32)</code> diagonal gradient animated with <code>cta-shimmer</code> keyframe. Disabled on mobile (saves GPU layer). Used exclusively on the "Get The Free Guide + Audio Series" CTA.</div>
+
+  <h3 style="margin-top:22px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#4a4a4a">Spine &amp; Node System</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px;">
+    <div style="background:var(--black);padding:20px 20px 20px 36px;position:relative;min-height:1.4in;">
+      <div style="position:absolute;left:16px;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.08);"></div>
+      <div style="position:absolute;left:16px;top:0;width:1px;height:55%;background:var(--silver);"></div>
+      <div style="position:relative;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.08);">
+        <div style="position:absolute;left:-28px;top:50%;transform:translate(-50%,-50%);width:7px;height:7px;background:#fff;border:1px solid #fff;"></div>
+        <div style="font-family:'Inter',sans-serif;font-size:9px;color:#fff;text-transform:uppercase;letter-spacing:.12em;font-weight:900">01 · Advantage</div>
+      </div>
+      <div style="position:relative;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.08);">
+        <div style="position:absolute;left:-28px;top:50%;transform:translate(-50%,-50%);width:7px;height:7px;border:1px solid var(--silver);background:transparent;"></div>
+        <div style="font-family:'Inter',sans-serif;font-size:9px;color:var(--silver);text-transform:uppercase;letter-spacing:.12em;font-weight:900">02 · Application</div>
+      </div>
+      <div style="position:relative;padding:10px 0;">
+        <div style="position:absolute;left:-28px;top:50%;transform:translate(-50%,-50%);width:7px;height:7px;border:1px solid var(--silver);background:transparent;"></div>
+        <div style="font-family:'Inter',sans-serif;font-size:9px;color:var(--silver);text-transform:uppercase;letter-spacing:.12em;font-weight:900">03 · Association</div>
+      </div>
+    </div>
+    <div style="font-size:9.5px;color:#5a5a5a;padding-top:4px">
+      <p style="margin-bottom:6px"><strong>Spine track:</strong> 1px line · <code>background:var(--rule)</code> · <code>left:20px</code> within <code>.aaa-stack</code></p>
+      <p style="margin-bottom:6px"><strong>Spine fill:</strong> same position, height driven by JS <code>draw()</code> proportional to mid-viewport scroll progress</p>
+      <p style="margin-bottom:6px"><strong>Node (unlit):</strong> 9×9px square · transparent bg · <code>border:1px solid var(--silver)</code></p>
+      <p style="margin-bottom:6px"><strong>Node (lit):</strong> <code>background:var(--white)</code> · <code>border-color:var(--white)</code> · <code>scale(1.25)</code></p>
+      <p style="margin-bottom:6px"><strong>Ghost numerals:</strong> <code>-webkit-text-stroke:1px var(--rule-strong)</code> → brightens to <code>var(--silver)</code> via CSS sibling selector <code>.node.lit ~ .ghost-num</code></p>
+      <p><strong>Terminus node:</strong> 11×11px · same lit/unlit rules · used for "BE THE EXCEPTION." close</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>Darren Hardy Brand &amp; Design System</span><span>Buttons &amp; UI Marks</span></div>
+</section>
+
+<!-- 6 — WEB TOKENS -->
+<section class="page">
+  <div class="sec">Web</div>
+  <h2 class="page-h">Web Implementation</h2>
+  <p class="lead">Live tokens. Reference variables only — never hard-code raw hex in components. Container and spacing are fixed site-wide.</p>
+
+  <pre class="code" style="margin-top:14px"><span class="c">/* Design tokens — from the live :root (home.html, careers.html, resources.html …) */</span>
+:root {
+  <span class="c">/* ── Surfaces ──────────────────────────────────────────── */</span>
+  <span class="k">--black</span>:          <span class="v">#0a0a0a</span>;   <span class="c">/* page bg, primary dark surface */</span>
+  <span class="k">--ink</span>:            <span class="v">#141414</span>;   <span class="c">/* nav bg, cards, dark ribbons */</span>
+  <span class="k">--ink-soft</span>:       <span class="v">#1c1c1c</span>;   <span class="c">/* subtle nested dark surfaces */</span>
+  <span class="k">--white</span>:          <span class="v">#ffffff</span>;
+  <span class="k">--bone</span>:           <span class="v">#f5f5f5</span>;   <span class="c">/* light section bg, bestseller ribbon */</span>
+
+  <span class="c">/* ── Type ───────────────────────────────────────────────── */</span>
+  <span class="k">--silver</span>:         <span class="v">#b8b8b8</span>;   <span class="c">/* body copy on dark, UI marks */</span>
+  <span class="k">--grey</span>:           <span class="v">#888888</span>;
+  <span class="k">--grey-soft</span>:      <span class="v">#6a6a6a</span>;
+  <span class="k">--muted</span>:          <span class="v">#444444</span>;   <span class="c">/* body copy on light */</span>
+
+  <span class="c">/* ── Dividers (opacity-based — adapt to any bg) ─────────── */</span>
+  <span class="k">--rule</span>:           <span class="v">rgba(255,255,255,0.08)</span>;  <span class="c">/* hairline on dark */</span>
+  <span class="k">--rule-strong</span>:    <span class="v">rgba(255,255,255,0.15)</span>;  <span class="c">/* border on dark */</span>
+  <span class="k">--rule-dark</span>:      <span class="v">rgba(10,10,10,0.10)</span>;    <span class="c">/* hairline on light */</span>
+  <span class="k">--rule-dark-strong</span>:<span class="v">rgba(10,10,10,0.18)</span>;   <span class="c">/* border on light */</span>
+}</pre>
+
+  <div class="two-col" style="margin-top:14px">
+    <div class="mini">
+      <h4>Layout &amp; spacing</h4>
+      <p>Container max <strong>1380 px</strong> · padding 48 px desktop / 24 px mobile.</p>
+      <p>Section breathing room: <strong>120–160 px</strong> vertical desktop · <strong>80–100 px</strong> mobile.</p>
+      <div class="space-scale" style="margin-top:8px"><div style="height:8px"></div><div style="height:16px"></div><div style="height:24px"></div><div style="height:48px"></div><div style="height:80px"></div></div>
+    </div>
+    <div class="mini">
+      <h4>Performance rules</h4>
+      <p>Self-host Inter · no Google Fonts calls.<br>All imagery in <strong>.webp</strong> · cover images max 600 px wide.<br>Video backgrounds via Vimeo <code>background=1</code> embed.<br>Lazy-load below-fold media.<br><code>prefers-reduced-motion</code> honored.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>Darren Hardy Brand &amp; Design System</span><span>Web Implementation</span></div>
+</section>
+
+<!-- 7 — A-TEAM WRAPPER -->
+<section class="page">
+  <div class="sec">A-Team</div>
+  <h2 class="page-h">A-Team Wrapper Rule</h2>
+  <p class="lead">Any web page or section that carries the Darren Hardy A-Team identity must include the following wrapper pattern. This is not optional — it encodes the red accent token and the no-italics emphasis rule that distinguish A-Team contexts from the core DH brand.</p>
+
+  <pre class="code" style="margin-top:14px"><span class="c">/* ── A-Team page wrapper — required on every A-Team property ── */</span>
+:root {
+  <span class="k">--accent</span>: <span class="v">#A0252B</span>;  <span class="c">/* A-Team red — core DH pages do NOT set this token */</span>
+}
+
+<span class="c">/* Em color-shift: emphasized phrases render in the A-Team accent.
+   Override browser italic — emphasis comes from color only, never italics. */</span>
+em {
+  <span class="k">font-style</span>:  <span class="v">normal</span>;
+  <span class="k">color</span>:       <span class="v">var(--accent)</span>;
+  <span class="c">/* Contrast-weight compensation: red text reads optically thinner than
+     white at the same font-weight. Five-shadow stack adds ~0.4px ink to
+     every glyph edge so the phrase holds the same visual heft. */</span>
+  <span class="k">text-shadow</span>:
+     0.4px  0     0    <span class="v">currentColor</span>,
+    -0.4px  0     0    <span class="v">currentColor</span>,
+     0      0.4px 0    <span class="v">currentColor</span>,
+     0     -0.4px 0    <span class="v">currentColor</span>,
+     0      0     0.6px <span class="v">currentColor</span>;
+}
+
+<span class="c">/* Brand term protection — multi-word phrases that must never line-break */</span>
+.nobreak { <span class="k">white-space</span>: <span class="v">nowrap</span>; }</pre>
+
+  <div class="two-col" style="margin-top:16px">
+    <div class="rulebox" style="margin-top:0">
+      <h4>Usage: .nobreak</h4>
+      <p>Wrap any multi-word brand term that would become ambiguous if it broke across lines. Primary example:</p>
+      <pre class="code" style="margin-top:8px;font-size:8.5px">Join The &lt;em class=<span class="v">"nobreak"</span>&gt;A-Team&lt;/em&gt;.</pre>
+      <p style="margin-top:8px">Other protected terms: "Business Master Class", "The Compound Effect", "Be The Exception".</p>
+    </div>
+    <div class="rulebox" style="margin-top:0">
+      <h4>Scope boundary</h4>
+      <p>The <code>--accent</code> token and the <code>em</code> color-shift rule must <strong>not</strong> appear on core DH brand pages (home, about, resources). They live exclusively within A-Team job pages and any future A-Team-branded web context. Core DH pages have no brand hue — accent = absent.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;background:#f8f8f8;border:1px solid #e0e0e0;padding:14px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:8px">Live example — A-Team headline with emphasis</div>
+    <div style="font-family:'Inter',sans-serif;font-weight:900;font-size:22px;letter-spacing:-0.02em;text-transform:uppercase;color:var(--ink);line-height:1.1">We Are <em style="font-style:normal;color:#A0252B;text-shadow:0.4px 0 0 #A0252B,-0.4px 0 0 #A0252B,0 0.4px 0 #A0252B,0 -0.4px 0 #A0252B,0 0 0.6px #A0252B">Relentlessly Driven</em>.<br>Are You <em class="nobreak" style="font-style:normal;color:#A0252B;white-space:nowrap;text-shadow:0.4px 0 0 #A0252B,-0.4px 0 0 #A0252B,0 0.4px 0 #A0252B,0 -0.4px 0 #A0252B,0 0 0.6px #A0252B">A-Team</em>?</div>
+  </div>
+
+  <div class="foot"><span>Darren Hardy Brand &amp; Design System</span><span>A-Team Wrapper Rule</span></div>
+</section>
+
+<!-- 8 — FOOTER SYSTEM -->
+<section class="page">
+  <div class="sec">Footer</div>
+  <h2 class="page-h">Footer Logo System</h2>
+  <p class="lead">The footer brand mark appears in three forms. The lockup is standard. The mark alone is used when vertical space is at a premium. All three are shown on both dark and light contexts below.</p>
+
+  <!-- Dark context -->
+  <div style="background:var(--black);padding:32px;margin-top:18px;">
+    <div style="font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey-soft);margin-bottom:20px;font-weight:600;">On Dark (standard site footer)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;align-items:center;">
+
+      <!-- Mark only -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <img src="dh_logo.webp" alt="DH mark" style="width:56px;height:56px;">
+        <div style="font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-soft);font-weight:600;">Mark Only</div>
+      </div>
+
+      <!-- Lockup -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <img src="dh_logo.webp" alt="DH mark" style="width:48px;height:48px;">
+          <span style="font-family:'Inter',sans-serif;font-weight:900;font-size:16px;letter-spacing:.28em;text-transform:uppercase;color:#fff;">Darren Hardy</span>
+        </div>
+        <div style="font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-soft);font-weight:600;">Lockup (standard)</div>
+      </div>
+
+      <!-- Wordmark -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <span style="font-family:'Inter',sans-serif;font-weight:900;font-size:16px;letter-spacing:.28em;text-transform:uppercase;color:#fff;">Darren Hardy</span>
+        <div style="font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-soft);font-weight:600;">Wordmark Only</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Light context -->
+  <div style="background:var(--bone);border:1px solid #e0e0e0;padding:32px;margin-top:12px;">
+    <div style="font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:#9a9a9a;margin-bottom:20px;font-weight:600;">On Light (bone — e.g. print, light-bg microsites)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;align-items:center;">
+
+      <!-- Mark only -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <img src="dh_logo.webp" alt="DH mark" style="width:56px;height:56px;filter:invert(1) brightness(0.15);">
+        <div style="font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a9a9a;font-weight:600;">Mark Only</div>
+      </div>
+
+      <!-- Lockup -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <img src="dh_logo.webp" alt="DH mark" style="width:48px;height:48px;filter:invert(1) brightness(0.15);">
+          <span style="font-family:'Inter',sans-serif;font-weight:900;font-size:16px;letter-spacing:.28em;text-transform:uppercase;color:var(--black);">Darren Hardy</span>
+        </div>
+        <div style="font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a9a9a;font-weight:600;">Lockup (standard)</div>
+      </div>
+
+      <!-- Wordmark -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <span style="font-family:'Inter',sans-serif;font-weight:900;font-size:16px;letter-spacing:.28em;text-transform:uppercase;color:var(--black);">Darren Hardy</span>
+        <div style="font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a9a9a;font-weight:600;">Wordmark Only</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:14px">
+    <div class="mini">
+      <h4>Footer code spec</h4>
+      <p>Lockup: <code>&lt;img src="dh_logo.webp" width="48" height="48"&gt;</code> + <code>&lt;span class="dh-name"&gt;Darren Hardy&lt;/span&gt;</code><br>
+      <code>.dh-name</code>: Inter 900 · 18px · ls 0.28em · uppercase</p>
+    </div>
+    <div class="mini">
+      <h4>Tagline below lockup</h4>
+      <p>"Darren Hardy is the unfair advantage for unusually driven business leaders building something that matters." — always appears below the lockup in the footer, not above. Font: Inter 400 · 12–13px · color: <code>--silver</code> on dark.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>Darren Hardy Brand &amp; Design System</span><span>Footer Logo System</span></div>
+</section>
+
+<!-- 9 — CLOSING -->
+<section class="page dark" style="display:flex;flex-direction:column;justify-content:flex-end;">
+  <div style="flex:1;display:flex;align-items:center;justify-content:flex-start;">
+    <div>
+      <div style="font-family:'Inter',sans-serif;font-weight:900;font-size:80px;line-height:0.86;letter-spacing:-0.05em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.15);">Be The<br>Exception.</div>
+    </div>
+  </div>
+  <div style="border-top:1px solid var(--rule);padding-top:24px;display:flex;justify-content:space-between;align-items:flex-end;">
+    <div>
+      <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:10px;letter-spacing:.38em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:12px;"><span style="display:inline-block;width:26px;height:1px;background:var(--silver);"></span>Darren Hardy</div>
+      <div style="font-family:'Inter',sans-serif;font-weight:400;font-size:10px;color:var(--grey-soft);margin-top:6px;">Brand &amp; Design System · v1.0 · 2025</div>
+    </div>
+    <div style="font-family:'Inter',sans-serif;font-weight:900;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--white);">Darren Hardy</div>
+  </div>
+</section>
+
+</body>
+</html>
