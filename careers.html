@@ -90,6 +90,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+<!-- Preload the LCP image so the browser fetches it in the critical path.
+     The imagesrcset lets mobile pick the smaller variant — no wasted bytes. -->
+<link rel="preload" as="image"
+      href="team-photos/team-group.webp"
+      imagesrcset="team-photos/team-group-mobile.webp 1100w, team-photos/team-group.webp 2200w"
+      imagesizes="100vw">
 <style>
   :root {
     --black: #0a0a0a;
@@ -1794,7 +1801,13 @@
 <main>
 <!-- SUBPAGE HEADER (compact, not a hero) -->
 <section class="subhero">
-  <img class="subhero-bkgd" src="team-photos/team-group.webp" alt="" aria-hidden="true" />
+  <img class="subhero-bkgd"
+       src="team-photos/team-group.webp"
+       srcset="team-photos/team-group-mobile.webp 1100w, team-photos/team-group.webp 2200w"
+       sizes="100vw"
+       width="2200" height="1168"
+       alt="" aria-hidden="true"
+       fetchpriority="high" decoding="async" />
   <div class="container">
     <div class="crumb">
       <a href="home.html">Darren Hardy</a>
@@ -1818,9 +1831,9 @@
         <p class="collage-body">We ideate. We create. We reiterate. We launch greatness. And we hold each other to a standard the rest of the world calls unreasonable. We celebrate that.</p>
       </div>
       <div class="collage-mosaic">
-        <div class="photo tall reveal-scale"><img src="team-photos/team-4.webp" alt="A-Team" loading="lazy" /></div>
-        <div class="photo reveal-scale"><img src="team-photos/team-3.webp" alt="A-Team" loading="lazy" /></div>
-        <div class="photo reveal-scale"><img src="team-photos/retreat-2.webp" alt="A-Team retreat" loading="lazy" /></div>
+        <div class="photo tall reveal-scale"><img src="team-photos/team-4.webp" alt="A-Team" width="1400" height="934" loading="lazy" decoding="async" /></div>
+        <div class="photo reveal-scale"><img src="team-photos/team-3.webp" alt="A-Team" width="1366" height="1366" loading="lazy" decoding="async" /></div>
+        <div class="photo reveal-scale"><img src="team-photos/retreat-2.webp" alt="A-Team retreat" width="1400" height="1054" loading="lazy" decoding="async" /></div>
       </div>
     </div>
   </div>
@@ -1833,17 +1846,13 @@
     <h2 class="recruit-video-title reveal">Why The <em class="nobreak">A-Team</em> Exists.</h2>
   </div>
   <div class="container">
-    <div class="rv-frame reveal reveal-scale">
-      <!-- Vimeo recruiting video — controls=0 lets our overlay UI (pulsing play
-           button + mute button) drive playback via the Vimeo Player SDK. The
-           iframe starts muted (muted=1) so the click handler can request audible
-           playback within the user-gesture chain on first play. -->
-      <iframe id="rv-player"
-              src="https://player.vimeo.com/video/942384836?badge=0&amp;autopause=0&amp;controls=0&amp;muted=1&amp;playsinline=1&amp;player_id=rv-player&amp;app_id=58479"
-              frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              title="A-Team Recruiting Video - V3"></iframe>
+    <div class="rv-frame reveal reveal-scale" data-vimeo-id="942384836">
+      <!-- Vimeo facade: NO iframe in the initial HTML. The dark .rv-frame
+           gradient + pulsing red play button are the "before play" state.
+           On first user click, JS injects the <iframe> AND the player.js
+           script — saves ~400KB of Vimeo framework JS on initial mobile load
+           for users who don't watch. After injection, controls=0 still lets
+           our overlay UI drive playback via the Vimeo Player SDK. -->
       <button class="rv-toggle" type="button" aria-label="Play or pause video">
         <span class="rv-play" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="#ffffff"><polygon points="6,4 20,12 6,20"/></svg>
@@ -2110,7 +2119,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="dh-brand-mark">
-          <img src="dh_logo.png" alt="Darren Hardy" />
+          <img src="dh_logo.png" alt="Darren Hardy" width="3000" height="3000" loading="lazy" decoding="async" />
           <span class="dh-name">Darren Hardy</span>
         </div>
         <p class="tag">Darren Hardy is the unfair advantage for unusually driven business leaders building something that matters.</p>
@@ -2151,7 +2160,7 @@
       </div>
       <div class="footer-col">
         <a class="bmc-corner" href="https://hardybmc.com">
-          <img src="BMC_Logo.png" alt="BMC" />
+          <img src="BMC_Logo.png" alt="BMC" width="1258" height="1279" loading="lazy" decoding="async" />
           <div class="bmc-corner-text">
             <span class="bmc-corner-title">BMC|COLLECTIVE</span>
             <span class="bmc-corner-tag">The Unfair Advantage<br>for Driven Leaders</span>
@@ -2184,8 +2193,9 @@
   </div>
 </div>
 
-<!-- Vimeo Player SDK — drives the A-Team recruiting video overlay UI -->
-<script src="https://player.vimeo.com/api/player.js"></script>
+<!-- Vimeo Player SDK is loaded LAZILY on first play-button click — see the
+     recruiting-video IIFE in the inline <script> block below. Saves ~80KB
+     of JS off the initial mobile load for users who don't click play. -->
 
 <script>
 // ── Team grid build ──
@@ -2216,7 +2226,7 @@ team.forEach(m => {
   const card = document.createElement('div');
   card.className = 'person reveal';
   card.innerHTML = `
-    <div class="person-photo"><img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy" /></div>
+    <div class="person-photo"><img src="${m.photo}" alt="${m.name}, ${m.role}" width="400" height="600" loading="lazy" decoding="async" /></div>
     <div class="person-meta">
       <div class="person-name">${m.name}</div>
       <div class="person-role">${m.role}</div>
@@ -2293,67 +2303,71 @@ team.forEach(m => {
   document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
 })();
 
-// ── A-Team recruiting video (Vimeo SDK + custom overlay UI) ──
-// The iframe loads with controls=0 so OUR overlay drives playback. URL has
-// muted=1 to satisfy browser autoplay policies if we ever switch to autoplay;
-// for click-to-play we unmute inside the user-gesture chain on first click.
-// Pulsing play button at rest → click anywhere on the frame → audible play.
-// Mute/unmute button fades in after first play.
+// ── A-Team recruiting video (Vimeo facade + lazy SDK + custom overlay UI) ──
+// FACADE: no iframe and no player.js script are loaded until the user clicks.
+// First click: inject the iframe (autoplay=1, muted=1 so it starts immediately)
+// + inject player.js. When the SDK is ready, we request audible playback (the
+// same setMuted(false)+play() pattern as the original code). On Vimeo's autoplay
+// failure we leave it muted — the volume button is one tap away.
 (function () {
-  const iframe = document.getElementById('rv-player');
-  const frame  = iframe && iframe.closest('.rv-frame');
+  const frame  = document.querySelector('.rv-frame[data-vimeo-id]');
   const toggle = frame && frame.querySelector('.rv-toggle');
   const volBtn = frame && frame.querySelector('.rv-vol');
-  if (!iframe || !frame || !toggle || !volBtn) return;
+  if (!frame || !toggle || !volBtn) return;
 
-  // Vimeo SDK loads via the <script src=".../player.js"> tag below; if it's
-  // somehow blocked, bail silently — the user can still click the iframe and
-  // use Vimeo's own controls as a fallback (or we'd need to relax controls=0).
-  function ready(cb) {
-    if (window.Vimeo && window.Vimeo.Player) return cb();
-    let tries = 0;
-    const t = setInterval(() => {
-      if (window.Vimeo && window.Vimeo.Player) { clearInterval(t); cb(); }
-      else if (++tries > 50) clearInterval(t); // ~5s timeout
-    }, 100);
+  const VIDEO_ID = frame.getAttribute('data-vimeo-id');
+  let player = null;
+  let initialized = false;
+
+  function buildIframe() {
+    const iframe = document.createElement('iframe');
+    iframe.id = 'rv-player';
+    iframe.src = `https://player.vimeo.com/video/${VIDEO_ID}?badge=0&autopause=0&controls=0&autoplay=1&muted=1&playsinline=1&player_id=rv-player&app_id=58479`;
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share');
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    iframe.setAttribute('title', 'A-Team Recruiting Video');
+    // Insert BEFORE the toggle button so the toggle/play-button overlays it (z-index already set in CSS)
+    frame.insertBefore(iframe, toggle);
+    return iframe;
   }
 
-  ready(() => {
-    const player = new Vimeo.Player(iframe);
+  function loadVimeoSDK() {
+    if (window.Vimeo && window.Vimeo.Player) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://player.vimeo.com/api/player.js';
+      s.async = true;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
 
-    // Iframe URL starts muted — mirror that in the UI so the mute icon is correct
+  function wirePlayer(iframe) {
+    player = new Vimeo.Player(iframe);
+
+    // We injected with muted=1 — mirror that in the UI; will get corrected by
+    // the setMuted(false) attempt below if Vimeo allows audible playback.
     frame.classList.add('is-muted');
 
     const syncMuted = () =>
       player.getMuted().then(m => frame.classList.toggle('is-muted', m));
 
-    toggle.addEventListener('click', () => {
-      if (frame.classList.contains('is-playing')) {
-        player.pause();
-        return;
-      }
-      // Real user click — request audible playback (chain stays inside the gesture)
-      player.setMuted(false)
-        .then(() => player.setVolume(1))
-        .then(() => player.play())
-        .catch(() => {
-          // Browser blocked audible play — fall back to muted so video at least
-          // starts; mute button is one tap away.
-          player.setMuted(true).then(() => player.play()).catch(() => {});
-        });
-    });
+    // Try to upgrade the muted autoplay to audible playback — same intent as
+    // the original click handler, just chained through the SDK-load promise.
+    player.setMuted(false)
+      .then(() => player.setVolume(1))
+      .catch(() => {/* stay muted; volume button is visible */});
 
-    player.on('play', () => {
-      frame.classList.add('is-playing');
-      frame.classList.add('has-played');
-      syncMuted();
-    });
+    player.on('play',  () => { frame.classList.add('is-playing', 'has-played'); syncMuted(); });
     player.on('pause', () => frame.classList.remove('is-playing'));
     player.on('ended', () => frame.classList.remove('is-playing'));
     player.on('volumechange', syncMuted);
 
     volBtn.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (!player) return;
       player.getMuted().then(isMuted => {
         const nextMuted = !isMuted;
         return player.setMuted(nextMuted).then(() => {
@@ -2361,6 +2375,26 @@ team.forEach(m => {
         }).then(() => frame.classList.toggle('is-muted', nextMuted));
       });
     });
+  }
+
+  toggle.addEventListener('click', () => {
+    // First click: hydrate the facade — inject iframe + SDK, wire up player.
+    if (!initialized) {
+      initialized = true;
+      // Optimistic UI: hide the pulsing play button + fade in the volume
+      // button immediately so the user gets feedback while Vimeo loads.
+      frame.classList.add('is-playing', 'has-played');
+      const iframe = buildIframe();
+      loadVimeoSDK().then(() => wirePlayer(iframe)).catch(() => {/* SDK blocked; iframe still autoplays muted */});
+      return;
+    }
+    // Subsequent clicks: pause/play via SDK.
+    if (!player) return;
+    if (frame.classList.contains('is-playing')) {
+      player.pause();
+    } else {
+      player.play().catch(() => {});
+    }
   });
 })();
 
@@ -2426,11 +2460,17 @@ team.forEach(m => {
   const track = document.getElementById('serveTrack');
   if (!track) return;
 
+  // Short-circuit: if the parent section is display:none (members section
+  // currently hidden until photos arrive), skip the DOM build entirely.
+  // Saves the DOM work + image requests for a section the user can't see.
+  const section = track.closest('section');
+  if (section && getComputedStyle(section).display === 'none') return;
+
   const buildTile = (m) => {
     const el = document.createElement('div');
     el.className = 'serve-tile';
     if (m.photo) {
-      el.innerHTML = `<img src="${m.photo}" alt="" loading="lazy" />`;
+      el.innerHTML = `<img src="${m.photo}" alt="" width="400" height="600" loading="lazy" decoding="async" />`;
     } else {
       el.style.width = (m.width || 240) + 'px';
       el.innerHTML = `<div class="serve-placeholder"></div>`;
