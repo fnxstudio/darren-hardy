@@ -18,13 +18,15 @@
 <!-- Canonical -->
 <link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/about.html"> <!-- [MIGRATE] → https://darrenhardy.com/about/ -->
 
-<!-- Preload key above-the-scroll hero assets so they paint with the page,
-     not after the JS-built covers wall has hydrated -->
-<link rel="preload" as="image" href="DH_about_bg.webp" type="image/webp" fetchpriority="high">
-<link rel="preload" as="image" href="DH_about_dh.webp" type="image/webp" fetchpriority="high">
-<!-- The covers-wall DH cutout sits well below the fold but renders slowly
-     once revealed — preload at low priority so it streams in parallel -->
-<link rel="preload" as="image" href="DH_about_wall.webp" type="image/webp">
+<!-- Preload key above-the-fold hero assets so they paint with the page.
+     Phones get tiny resized variants; desktop preloads the full-res ones.
+     Mobile cutoff matches the @media breakpoints used in <picture> below.
+     Note: no preload for the covers-wall DH — it's below the fold and
+     loading it eagerly stole bandwidth from the LCP image. -->
+<link rel="preload" as="image" href="DH_about_dh_m.webp" type="image/webp" media="(max-width: 960px)" fetchpriority="high">
+<link rel="preload" as="image" href="DH_about_bg_m.webp" type="image/webp" media="(max-width: 960px)">
+<link rel="preload" as="image" href="DH_about_dh.webp" type="image/webp" media="(min-width: 961px)" fetchpriority="high">
+<link rel="preload" as="image" href="DH_about_bg.webp" type="image/webp" media="(min-width: 961px)">
 
 <!-- Open Graph -->
 <meta property="og:type"        content="website">
@@ -97,7 +99,7 @@
 <link rel="icon" type="image/png" href="dh_logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --black: #0a0a0a;
@@ -1456,15 +1458,19 @@
   <!-- Wood-panel backdrop (full bleed, under everything) -->
   <div class="hf-bg" aria-hidden="true">
     <picture>
+      <source media="(max-width: 960px)" type="image/webp" srcset="DH_about_bg_m.webp">
+      <source media="(max-width: 960px)" srcset="DH_about_bg_m.png">
       <source type="image/webp" srcset="DH_about_bg.webp">
-      <img src="DH_about_bg.png" alt="" />
+      <img src="DH_about_bg.png" alt="" decoding="async" />
     </picture>
   </div>
-  <!-- DH cutout, anchored hard-right, full opacity -->
+  <!-- DH cutout, anchored hard-right, full opacity. This is the hero LCP element. -->
   <div class="hf-dh" aria-hidden="true">
     <picture>
+      <source media="(max-width: 960px)" type="image/webp" srcset="DH_about_dh_m.webp">
+      <source media="(max-width: 960px)" srcset="DH_about_dh_m.png">
       <source type="image/webp" srcset="DH_about_dh.webp">
-      <img src="DH_about_dh.png" alt="Darren Hardy" />
+      <img src="DH_about_dh.png" alt="Darren Hardy" fetchpriority="high" decoding="async" />
     </picture>
   </div>
   <div class="scroll-cue" aria-hidden="true">
@@ -1505,7 +1511,7 @@
           <source media="(max-width: 960px)" srcset="Wall-DH.png">
           <!-- Desktop: full-length figure -->
           <source type="image/webp" srcset="DH_about_wall.webp">
-          <img src="DH_about_wall.png" alt="Darren Hardy" decoding="async" fetchpriority="high">
+          <img src="DH_about_wall.png" alt="Darren Hardy" loading="lazy" decoding="async">
         </picture>
       </div>
     </div>
