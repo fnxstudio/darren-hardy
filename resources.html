@@ -394,68 +394,125 @@
   }
   .pillars-body strong { color: var(--white); font-weight: 600; }
 
-  .pillars-grid {
+  /* Ecosystem-style horizontal row — spine + nodes + ghost numerals */
+  .pillars-eco {
+    position: relative;
+    padding-top: 56px;
+  }
+  .pillars-eco .spine-track {
+    position: absolute;
+    top: 18px;
+    left: 8.33%;   /* aligns to center of first column (1fr-of-3) */
+    right: 8.33%;  /* aligns to center of last column */
+    height: 1px;
+    background: var(--rule);
+  }
+  .pillars-eco .spine-fill {
+    position: absolute;
+    top: 18px;
+    left: 8.33%;
+    width: 0;
+    height: 1px;
+    background: var(--silver);
+    transition: width 1.4s cubic-bezier(.22,1,.36,1);
+  }
+  .pillars-eco.drawn .spine-fill { width: 83.34%; }
+
+  .pillars-eco-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
-    background: transparent;
-    border: none;
+    padding-top: 56px;
   }
-  @media (max-width: 720px) { .pillars-grid { grid-template-columns: 1fr; } }
 
-  .pillar {
-    background: rgba(20, 20, 20, 0.55);
-    border: 1px solid var(--rule-strong);
-    padding: 56px 40px;
-    min-height: 360px;
-    display: flex;
-    flex-direction: column;
+  .eco-pillar {
     position: relative;
+    padding: 96px 28px 32px;
+    min-height: 320px;
     overflow: hidden;
-    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
   }
-  .pillar::after {
-    content: "";
+  .eco-pillar .node {
     position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.06), transparent 55%);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.35s ease;
+    top: -38px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 9px;
+    height: 9px;
+    background: transparent;
+    border: 1px solid var(--silver);
+    transition: background .35s ease, transform .35s cubic-bezier(.22,1,.36,1), border-color .35s ease;
+    z-index: 2;
   }
-  .pillar:hover {
-    background: rgba(28, 28, 28, 0.85);
-    border-color: rgba(255, 255, 255, 0.28);
-    transform: translateY(-4px);
+  .eco-pillar .node.lit {
+    background: var(--white);
+    border-color: var(--white);
+    transform: translate(-50%, -50%) scale(1.25);
   }
-  .pillar:hover::after { opacity: 1; }
-  .pillar > * { position: relative; z-index: 1; }
 
-  .pillar-num {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    color: var(--grey);
-    text-transform: uppercase;
-    margin-bottom: 36px;
-  }
-  .pillar-word {
+  .eco-pillar .ghost-num {
+    position: absolute;
+    top: 8px;
+    left: 14px;
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(34px, 3.2vw, 54px);
+    font-size: clamp(120px, 13vw, 210px);
+    line-height: 0.86;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--rule-strong);
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+    pointer-events: none;
+    transition: -webkit-text-stroke-color .6s ease;
+    z-index: 0;
+  }
+  .eco-pillar.in .ghost-num,
+  .eco-pillar:hover .ghost-num { -webkit-text-stroke-color: var(--silver); }
+
+  .eco-pillar .col {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+  }
+  .eco-pillar.in .col { opacity: 1; transform: none; }
+
+  .eco-pillar-word {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(34px, 3.4vw, 56px);
     line-height: 1;
     letter-spacing: -0.025em;
     color: var(--white);
     text-transform: uppercase;
-    margin-bottom: 28px;
   }
-  .pillar-body {
+  .eco-pillar-body {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: clamp(15px, 1.1vw, 16px);
     line-height: 1.65;
     color: var(--silver);
+  }
+
+  @media (max-width: 720px) {
+    .pillars-eco { padding-top: 0; }
+    .pillars-eco .spine-track,
+    .pillars-eco .spine-fill { display: none; }
+    .pillars-eco-row { grid-template-columns: 1fr; padding-top: 24px; gap: 8px; }
+    .eco-pillar { padding: 72px 0 28px; min-height: auto; }
+    .eco-pillar .node { display: none; }
+    .eco-pillar .ghost-num { font-size: clamp(96px, 28vw, 150px); top: 0; left: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pillars-eco .spine-fill { transition: none; width: 83.34%; }
+    .eco-pillar .col { opacity: 1; transform: none; transition: none; }
+    .eco-pillar .node { background: var(--white); border-color: var(--white); }
+    .eco-pillar .ghost-num { -webkit-text-stroke-color: var(--silver); }
   }
 
   /* ============ INNER CIRCLE (FEATURED) ============ */
@@ -1254,21 +1311,34 @@
       </div>
       <p class="pillars-body reveal">Every resource below is built around <strong>three forces</strong> that shape exceptional builders from the rest. Pick the edge you and your business need next.</p>
     </div>
-    <div class="pillars-grid">
-      <div class="pillar reveal">
-        <div class="pillar-num">01</div>
-        <div class="pillar-word">Advantage</div>
-        <p class="pillar-body">Insider strategy drawn from 35 years of proximity to industry titans, market makers, and the world's top business builders.</p>
-      </div>
-      <div class="pillar reveal">
-        <div class="pillar-num">02</div>
-        <div class="pillar-word">Application</div>
-        <p class="pillar-body">AI-powered execution engines built to compress time, accelerate implementation, and convert strategy into measurable growth.</p>
-      </div>
-      <div class="pillar reveal">
-        <div class="pillar-num">03</div>
-        <div class="pillar-word">Association</div>
-        <p class="pillar-body">Private access to a global network of elite leaders and extreme achievers who raise your standards and hold you to bigger goals.</p>
+    <div class="pillars-eco">
+      <span class="spine-track"></span>
+      <span class="spine-fill"></span>
+      <div class="pillars-eco-row">
+        <div class="eco-pillar">
+          <span class="node"></span>
+          <span class="ghost-num">01</span>
+          <div class="col">
+            <div class="eco-pillar-word">Advantage</div>
+            <p class="eco-pillar-body">Insider strategy drawn from 35 years of proximity to industry titans, market makers, and the world's top business builders.</p>
+          </div>
+        </div>
+        <div class="eco-pillar">
+          <span class="node"></span>
+          <span class="ghost-num">02</span>
+          <div class="col">
+            <div class="eco-pillar-word">Application</div>
+            <p class="eco-pillar-body">AI-powered execution engines built to compress time, accelerate implementation, and convert strategy into measurable growth.</p>
+          </div>
+        </div>
+        <div class="eco-pillar">
+          <span class="node"></span>
+          <span class="ghost-num">03</span>
+          <div class="col">
+            <div class="eco-pillar-word">Association</div>
+            <p class="eco-pillar-body">Private access to a global network of elite leaders and extreme achievers who raise your standards and hold you to bigger goals.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1514,7 +1584,6 @@
       el.style.transitionDelay = Math.min(i * step, cap) + 's';
     });
   }
-  stagger('.pillars-grid .reveal',  0.08);
   stagger('.featured-grid .reveal', 0.14);
   stagger('.system-stack .reveal',  0.08);
   stagger('.book-grid .reveal',     0.10);
@@ -1533,6 +1602,40 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
   document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
+})();
+
+// ── Pillars ecosystem: spine draws left→right, lighting each node + revealing its column in sequence ──
+(function () {
+  const eco = document.querySelector('.pillars-eco');
+  if (!eco) return;
+  const pillars = [...eco.querySelectorAll('.eco-pillar')];
+  if (!pillars.length) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    eco.classList.add('drawn');
+    pillars.forEach(p => { p.classList.add('in'); p.querySelector('.node').classList.add('lit'); });
+    return;
+  }
+
+  // Sequential timing — the line completes in 1.4s; nodes light at ~25%, 55%, 90% of that draw.
+  function trigger() {
+    eco.classList.add('drawn');
+    [350, 770, 1260].forEach((delay, i) => {
+      setTimeout(() => {
+        const p = pillars[i];
+        if (!p) return;
+        const node = p.querySelector('.node');
+        if (node) node.classList.add('lit');
+        p.classList.add('in');
+      }, delay);
+    });
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) { trigger(); obs.disconnect(); }
+  }, { threshold: 0.35 });
+  obs.observe(eco);
 })();
 </script>
 </body>
