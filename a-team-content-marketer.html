@@ -65,7 +65,13 @@
 <link rel="icon" type="image/webp" href="dh_logo.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+<!-- Preload the LCP hero image so it's fetched before CSS is parsed -->
+<link rel="preload" as="image" href="team-photos/team-group.webp" fetchpriority="high">
+
+<!-- Google Fonts, non-render-blocking (preload -> swap to stylesheet on load) -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"></noscript>
 <style>
   :root {
     --black: #0a0a0a;
@@ -1518,7 +1524,7 @@
   <div class="video-modal-stage">
     <button class="video-modal-close" id="daramiClose" type="button" aria-label="Close video">✕</button>
     <div class="video-modal-frame">
-      <video id="daramiVideo" controls preload="metadata" playsinline>
+      <video id="daramiVideo" controls preload="none" playsinline>
         <source src="https://stream.mux.com/YeQEf18D1fKQ2u4JLUYOnP02aBgQqbXMXN6lrGTjGg1I/capped-1080p.mp4" type="video/mp4">
         Your browser doesn't support embedded video.
       </video>
