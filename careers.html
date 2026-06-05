@@ -631,13 +631,15 @@
     background: radial-gradient(ellipse at center, #1f1d1a 0%, #0d0b09 80%);
     overflow: hidden;
   }
-  .rv-frame video {
+  .rv-frame video,
+  .rv-frame iframe {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     display: block;
     object-fit: cover;
+    border: 0;
   }
   .rv-frame::before {
     content: "";
@@ -1829,14 +1831,16 @@
   </div>
   <div class="container">
     <div class="rv-frame reveal reveal-scale">
-      <video id="rv-player"
-             preload="metadata"
-             playsinline
-             crossorigin="anonymous"
-             poster="https://2518645.fs1.hubspotusercontent-na1.net/hubfs/2518645/a-team_recruiting_video_-_v3%20(1080p).mp4/medium.jpg">
-        <source src="https://stream.mux.com/fpd4mHyYgS00Kg02nQWzbmSg931ppEaq3oEsfjYNMNlro/capped-1080p.mp4" type="video/mp4">
-        Your browser doesn&rsquo;t support embedded video.
-      </video>
+      <!-- Vimeo recruiting video — controls=0 lets our overlay UI (pulsing play
+           button + mute button) drive playback via the Vimeo Player SDK. The
+           iframe starts muted (muted=1) so the click handler can request audible
+           playback within the user-gesture chain on first play. -->
+      <iframe id="rv-player"
+              src="https://player.vimeo.com/video/942384836?badge=0&amp;autopause=0&amp;controls=0&amp;muted=1&amp;playsinline=1&amp;player_id=rv-player&amp;app_id=58479"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              title="A-Team Recruiting Video - V3"></iframe>
       <button class="rv-toggle" type="button" aria-label="Play or pause video">
         <span class="rv-play" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="#ffffff"><polygon points="6,4 20,12 6,20"/></svg>
@@ -2176,6 +2180,9 @@
   </div>
 </div>
 
+<!-- Vimeo Player SDK — drives the A-Team recruiting video overlay UI -->
+<script src="https://player.vimeo.com/api/player.js"></script>
+
 <script>
 // ── Team grid build ──
 // Edit this array to add/remove team members; the filler CTA block at the end
@@ -2282,53 +2289,74 @@ team.forEach(m => {
   document.querySelectorAll('.reveal, .reveal-scale').forEach(el => obs.observe(el));
 })();
 
-// ── A-Team recruiting video (native player + sound toggle) ──
-// Mirrors the BMC VSL pattern: pulsing play button at rest, click anywhere on
-// the frame to play (with sound, since it's a real user gesture), pause icon
-// appears while playing, mute/unmute button fades in after first play.
+// ── A-Team recruiting video (Vimeo SDK + custom overlay UI) ──
+// The iframe loads with controls=0 so OUR overlay drives playback. URL has
+// muted=1 to satisfy browser autoplay policies if we ever switch to autoplay;
+// for click-to-play we unmute inside the user-gesture chain on first click.
+// Pulsing play button at rest → click anywhere on the frame → audible play.
+// Mute/unmute button fades in after first play.
 (function () {
-  const video  = document.getElementById('rv-player');
-  const frame  = video && video.closest('.rv-frame');
+  const iframe = document.getElementById('rv-player');
+  const frame  = iframe && iframe.closest('.rv-frame');
   const toggle = frame && frame.querySelector('.rv-toggle');
   const volBtn = frame && frame.querySelector('.rv-vol');
-  if (!video || !frame || !toggle || !volBtn) return;
+  if (!iframe || !frame || !toggle || !volBtn) return;
 
-  const syncMuted = () => frame.classList.toggle('is-muted', video.muted);
+  // Vimeo SDK loads via the <script src=".../player.js"> tag below; if it's
+  // somehow blocked, bail silently — the user can still click the iframe and
+  // use Vimeo's own controls as a fallback (or we'd need to relax controls=0).
+  function ready(cb) {
+    if (window.Vimeo && window.Vimeo.Player) return cb();
+    let tries = 0;
+    const t = setInterval(() => {
+      if (window.Vimeo && window.Vimeo.Player) { clearInterval(t); cb(); }
+      else if (++tries > 50) clearInterval(t); // ~5s timeout
+    }, 100);
+  }
 
-  toggle.addEventListener('click', () => {
-    if (frame.classList.contains('is-playing')) {
-      video.pause();
-      return;
-    }
-    // Real user click — request audible playback
-    video.muted = false;
-    video.volume = 1;
-    const p = video.play();
-    if (p && p.catch) {
-      p.catch(() => {
-        // Browser autoplay policy blocked audible play — fall back to muted so
-        // the video at least starts; the volume button is then one tap away.
-        video.muted = true;
-        video.play().catch(() => {});
+  ready(() => {
+    const player = new Vimeo.Player(iframe);
+
+    // Iframe URL starts muted — mirror that in the UI so the mute icon is correct
+    frame.classList.add('is-muted');
+
+    const syncMuted = () =>
+      player.getMuted().then(m => frame.classList.toggle('is-muted', m));
+
+    toggle.addEventListener('click', () => {
+      if (frame.classList.contains('is-playing')) {
+        player.pause();
+        return;
+      }
+      // Real user click — request audible playback (chain stays inside the gesture)
+      player.setMuted(false)
+        .then(() => player.setVolume(1))
+        .then(() => player.play())
+        .catch(() => {
+          // Browser blocked audible play — fall back to muted so video at least
+          // starts; mute button is one tap away.
+          player.setMuted(true).then(() => player.play()).catch(() => {});
+        });
+    });
+
+    player.on('play', () => {
+      frame.classList.add('is-playing');
+      frame.classList.add('has-played');
+      syncMuted();
+    });
+    player.on('pause', () => frame.classList.remove('is-playing'));
+    player.on('ended', () => frame.classList.remove('is-playing'));
+    player.on('volumechange', syncMuted);
+
+    volBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      player.getMuted().then(isMuted => {
+        const nextMuted = !isMuted;
+        return player.setMuted(nextMuted).then(() => {
+          if (!nextMuted) return player.setVolume(1);
+        }).then(() => frame.classList.toggle('is-muted', nextMuted));
       });
-    }
-  });
-
-  video.addEventListener('play', () => {
-    frame.classList.add('is-playing');
-    frame.classList.add('has-played');
-    syncMuted();
-  });
-  video.addEventListener('pause', () => frame.classList.remove('is-playing'));
-  video.addEventListener('ended', () => frame.classList.remove('is-playing'));
-  video.addEventListener('volumechange', syncMuted);
-
-  volBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const nextMuted = !video.muted;
-    video.muted = nextMuted;
-    if (!nextMuted) video.volume = 1;
-    syncMuted();
+    });
   });
 })();
 
