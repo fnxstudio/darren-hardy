@@ -364,10 +364,9 @@
   }
   .subhero-sub strong { color: var(--white); font-weight: 600; }
 
-  /* Hero CTAs — solid (filled) and ghost (outlined) variants share size + type */
-  .subhero .btn-solid,
+  /* Hero CTA — ghost (outlined) button (sole CTA variant on this page) */
   .subhero .btn-ghost { margin-top: 40px; }
-  .btn-solid, .btn-ghost {
+  .btn-ghost {
     display: inline-flex;
     align-items: center;
     gap: 14px;
@@ -380,13 +379,12 @@
     text-decoration: none;
     transition: all 0.2s;
     border: 1px solid var(--white);
+    background: transparent;
+    color: var(--white);
   }
-  .btn-solid { background: var(--white); color: var(--black); }
-  .btn-solid:hover { background: transparent; color: var(--white); }
-  .btn-ghost { background: transparent; color: var(--white); }
   .btn-ghost:hover { background: var(--white); color: var(--black); }
-  .btn-solid .arrow, .btn-ghost .arrow { font-weight: 400; transition: transform 0.2s; }
-  .btn-solid:hover .arrow, .btn-ghost:hover .arrow { transform: translateX(3px); }
+  .btn-ghost .arrow { font-weight: 400; transition: transform 0.2s; }
+  .btn-ghost:hover .arrow { transform: translateX(3px); }
 
   /* ============ VALUES — white section bg, bone cards, hover paints to white + reveals definition ============ */
   .values {
@@ -765,7 +763,7 @@
     .recruit-video-title { margin-bottom: 40px; }
   }
 
-  /* ============ COLLAGE — soft-grey bg (matches new about.html .manifesto) ============ */
+  /* ============ COLLAGE — soft-grey bg ============ */
   .collage {
     background: var(--bone-soft);
     padding: 140px 0;
@@ -869,7 +867,7 @@
   }
   .team-body strong { color: var(--black); font-weight: 600; }
 
-  /* Team grid — matches /about.html's .ateam-grid / .ateam-card structure */
+  /* Team grid */
   .team-grid {
     display: grid;
     /* minmax(0, 1fr) — without the 0 minimum, cells expand to fit content
@@ -1131,7 +1129,7 @@
     margin-right: auto;
   }
 
-  /* ============ WHO WE SERVE — light bg, horizontal ticker of members ============ */
+  /* ============ WHO WE SERVE — light bg, horizontal ticker of members (currently display:none — see HTML; restore once member photos arrive) ============ */
   .serve {
     background: var(--bone);
     padding: 140px 0 120px;
@@ -1315,7 +1313,7 @@
     color: var(--muted);
   }
 
-  /* ============ OPEN POSITIONS — soft-grey bg (matches manifesto / collage) ============ */
+  /* ============ OPEN POSITIONS — soft-grey bg (matches the .collage section above) ============ */
   .positions {
     background: var(--bone-soft);
     padding: 120px 0;
@@ -1550,7 +1548,6 @@
   .subhero .crumb,
   .subhero-title,
   .subhero-sub,
-  .subhero .btn-solid,
   .subhero .btn-ghost {
     opacity: 0;
     transform: translateY(14px);
@@ -1559,14 +1556,13 @@
   .subhero .crumb     { animation-delay: 0.15s; }
   .subhero-title      { animation-delay: 0.45s; }
   .subhero-sub        { animation-delay: 0.85s; }
-  .subhero .btn-solid,
   .subhero .btn-ghost { animation-delay: 1.05s; }
   @keyframes subheroIn { to { opacity: 1; transform: translateY(0); } }
 
   /* Honor user OS-level motion preferences */
   @media (prefers-reduced-motion: reduce) {
     .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
-    .subhero .crumb, .subhero-title, .subhero-sub, .subhero .btn-solid, .subhero .btn-ghost {
+    .subhero .crumb, .subhero-title, .subhero-sub, .subhero .btn-ghost {
       opacity: 1; transform: none; animation: none;
     }
   }
