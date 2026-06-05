@@ -1074,14 +1074,13 @@
     justify-content: center;
   }
   .award.award-has-img::before { display: none; }
-  /* Mobile: tighten gap and scale images to viewport */
   @media (max-width: 720px) {
     .awards-grid { gap: 16px; }
     .award.award-has-img { flex: 0 0 26vw; width: 26vw; }
     .awards-grid .award-img,
     .awards-grid .award-img--sm { width: 100%; height: auto; }
-    /* NSA nth-child rule (specificity 0,3,0) beats the line above — override explicitly */
-    .awards-grid .award:nth-child(2) .award-img { width: 100%; height: auto; }
+    /* !important needed — desktop nth-child rule appears later in file and wins by cascade */
+    .awards-grid .award:nth-child(2) .award-img { width: 100%; height: auto !important; }
   }
   .award-img {
     display: block;
@@ -1441,18 +1440,14 @@
     .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
   }
 
-  /* ── Mobile performance ── */
+  /* ── Mobile ── */
   @media (max-width: 768px) {
-    /* Hide B-roll video on mobile — 43MB is too heavy; black bg shows through */
-    .decl-video { display: none; }
-    /* Kill shimmer on mobile — saves a GPU layer */
     .magnet-cta::after { display: none; }
-    /* Slow both marquees to the same speed so they feel consistent */
     .marquee-track,
     .ribbon.light .marquee-track { animation-duration: 36s !important; }
   }
 
-  /* Respect reduced-motion preference */
+  /* Reduced-motion */
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }
     .decl, .identity { animation: none; opacity: 1; transform: none; }
@@ -1892,18 +1887,12 @@ covers.forEach((cover, i) => {
   coversGrid.appendChild(tile);
 });
 
-// Staggered entrance — only when section is in view
-// Use CSS transition-delay + single rAF batch instead of individual setTimeouts,
-// which burst-paint on mobile and cause choppiness.
+// Covers entrance — all tiles appear at once when section comes into view
 const introWall = document.querySelector('.intro-wall');
 const wallObserver = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting) {
-    const tiles = document.querySelectorAll('.c-tile');
-    tiles.forEach((tile, i) => {
-      tile.style.transitionDelay = `${i * 55}ms`;
-    });
     requestAnimationFrame(() => {
-      tiles.forEach(tile => tile.classList.add('visible'));
+      document.querySelectorAll('.c-tile').forEach(tile => tile.classList.add('visible'));
     });
     wallObserver.disconnect();
   }
@@ -1963,8 +1952,8 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   tracks.forEach(t => obs.observe(t));
 })();
 
-// Parallax: desktop only — skip on mobile to avoid unnecessary rAF overhead
-if (window.innerWidth > 880) {
+// Parallax — rAF-throttled, runs on all screen sizes
+(function () {
   let rafPending = false;
   window.addEventListener('scroll', () => {
     if (rafPending) return;
@@ -1977,7 +1966,13 @@ if (window.innerWidth > 880) {
       rafPending = false;
     });
   }, { passive: true });
-}
+})();
+
+// Force video play on mobile — iOS sometimes needs an explicit trigger
+(function () {
+  const v = document.querySelector('.decl-video');
+  if (v) v.play().catch(() => {});
+})();
 </script>
 </body>
 </html>
