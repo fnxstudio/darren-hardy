@@ -1455,33 +1455,19 @@
   }
 
   /* ============ MANIFESTO CLOSE ============ */
-  .manifesto { background: var(--black); border-top: 1px solid var(--rule); }
-  .manifesto .container {
+  .man-close {
     position: relative;
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    padding-top: 140px;
-    padding-bottom: 140px;
-    padding-left: 56px;
+    padding: 100px 0 80px;
   }
-  .man-spine { position: absolute; left: 20px; top: 0; width: 1px; background: var(--rule); }
-  .man-spine i {
-    display: block; width: 1px; height: 100%; background: var(--silver);
-    transform: scaleY(0); transform-origin: top;
-    transition: transform 1.6s cubic-bezier(.22, 1, .36, 1);
-  }
-  .manifesto.in .man-spine i { transform: scaleY(1); }
-
-  .man-wrap { position: relative; }
   .man-node {
-    position: absolute; left: -36px; top: 50%; transform: translate(-50%, -50%);
-    width: 11px; height: 11px; background: var(--white);
+    /* inherits .node sizing/position — slightly larger as the terminus */
+    width: 11px;
+    height: 11px;
   }
   .man-title {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(64px, 10vw, 170px);
+    font-size: clamp(48px, 9vw, 160px);
     line-height: 0.86;
     letter-spacing: -0.05em;
     text-transform: uppercase;
@@ -1490,11 +1476,10 @@
     transform: translateY(30px);
     transition: opacity 1s cubic-bezier(.22, 1, .36, 1), transform 1s cubic-bezier(.22, 1, .36, 1);
   }
-  .manifesto.in .man-title { opacity: 1; transform: none; }
+  .man-close.in .man-title { opacity: 1; transform: none; }
 
   @media (max-width: 720px) {
-    .manifesto .container { min-height: 70vh; padding-top: 100px; padding-bottom: 100px; padding-left: 44px; }
-    .man-spine { left: 14px; }
+    .man-close { padding: 64px 0 48px; }
     .man-node { left: -30px; }
   }
 </style>
@@ -1734,6 +1719,12 @@
         </div>
       </div>
 
+      <!-- Manifesto terminus — spine draws down to this node -->
+      <div class="man-close" id="manifesto">
+        <span class="node man-node"></span>
+        <h2 class="man-title">Be The Exception.</h2>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1752,17 +1743,6 @@
     </picture>
     <p class="magnet-body">And other elite leaders.</p>
     <a class="magnet-cta" href="https://dh.darrenhardy.com/morning-routine" target="_blank" rel="noopener">Get The Free Guide + Audio Series <span class="arrow">→</span></a>
-  </div>
-</section>
-
-<!-- MANIFESTO CLOSE -->
-<section class="manifesto" id="manifesto">
-  <div class="container">
-    <span class="man-spine"><i></i></span>
-    <div class="man-wrap">
-      <span class="man-node"></span>
-      <h2 class="man-title">Be The Exception.</h2>
-    </div>
   </div>
 </section>
 
@@ -1989,17 +1969,20 @@ document.querySelectorAll('.c-tile').forEach(tile => {
 });
 
 // ── Ecosystem (triple-a): scroll-drawn spine + per-pillar reveal ──
+// spine-fill draws through .aaa nodes AND the manifesto terminus (.man-close)
 (function () {
   const stack = document.querySelector('.aaa-stack');
   const fill  = document.querySelector('.spine-fill');
   if (!stack || !fill) return;
   const rows  = [...stack.querySelectorAll('.aaa')];
+  const close = stack.querySelector('.man-close');
   const nodes = [...stack.querySelectorAll('.node')];
 
   const io = new IntersectionObserver((es) => {
     es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.3 });
   rows.forEach(r => io.observe(r));
+  if (close) io.observe(close);
 
   let ticking = false;
   function draw() {
@@ -2068,31 +2051,5 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   obs.observe(section);
 })();
 </script>
-<script>
-  (function () {
-    const man = document.getElementById('manifesto');
-    if (!man) return;
-    const io = new IntersectionObserver((es) => {
-      es.forEach(e => { if (e.isIntersecting) { man.classList.add('in'); io.disconnect(); } });
-    }, { threshold: 0.3 });
-    io.observe(man);
-    setTimeout(function () { man.classList.add('in'); }, 1200);
-
-    function fitSpine() {
-      const node  = man.querySelector('.man-node');
-      const spine = man.querySelector('.man-spine');
-      const cont  = man.querySelector('.container');
-      if (!node || !spine || !cont) return;
-      const cr = cont.getBoundingClientRect();
-      const nr = node.getBoundingClientRect();
-      spine.style.height = ((nr.top + nr.height / 2) - cr.top) + 'px';
-    }
-    window.addEventListener('load', fitSpine);
-    window.addEventListener('resize', fitSpine);
-    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fitSpine); }
-    fitSpine();
-  })();
-</script>
 </body>
 </html>
-
