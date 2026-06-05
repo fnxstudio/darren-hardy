@@ -85,6 +85,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  picture { display: contents; }
 
   html, body {
     background: var(--black);
@@ -1213,7 +1214,7 @@
 <main>
 <!-- SUBPAGE HEADER -->
 <section class="subhero">
-  <img class="subhero-bkgd" src="team-photos/team-group.jpg" alt="" aria-hidden="true" width="543" height="1024" decoding="async" fetchpriority="high" />
+  <picture><source type="image/webp" media="(max-width: 768px)" srcset="team-photos/team-group-mobile.webp"><source type="image/webp" srcset="team-photos/team-group.webp"><img class="subhero-bkgd" src="team-photos/team-group.jpg" alt="" aria-hidden="true" width="543" height="1024" decoding="async" fetchpriority="high" /></picture>
   <div class="container">
     <div class="crumb">
       <a href="home.html">Darren Hardy</a>
@@ -1453,7 +1454,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="dh-brand-mark">
-          <img src="dh_logo.png" alt="Darren Hardy" width="240" height="240" loading="lazy" decoding="async" />
+          <picture><source type="image/webp" srcset="dh_logo.webp"><img src="dh_logo.png" alt="Darren Hardy" width="240" height="240" loading="lazy" decoding="async" /></picture>
           <span class="dh-name">Darren Hardy</span>
         </div>
         <p class="tag">Darren Hardy is the unfair advantage for unusually driven business leaders building something that matters.</p>
@@ -1494,7 +1495,7 @@
       </div>
       <div class="footer-col">
         <a class="bmc-corner" href="https://hardybmc.com">
-          <img src="BMC_Logo.png" alt="BMC" width="240" height="236" loading="lazy" decoding="async" />
+          <picture><source type="image/webp" srcset="BMC_Logo.webp"><img src="BMC_Logo.png" alt="BMC" width="240" height="236" loading="lazy" decoding="async" /></picture>
           <div class="bmc-corner-text">
             <span class="bmc-corner-title">BMC|COLLECTIVE</span>
             <span class="bmc-corner-tag">The Unfair Advantage<br>for Driven Leaders</span>
@@ -1576,7 +1577,7 @@
   const build = (l) => {
     const el = document.createElement('div');
     el.className = 'logo-item';
-    el.innerHTML = `<img class="${l.cls}" src="${encodeURI(l.src)}" alt="${l.alt}" loading="lazy" decoding="async" />`;
+    el.innerHTML = `<picture><source type="image/webp" srcset="${encodeURI(l.src.replace(/\.png$/, ".webp"))}"><img class="${l.cls}" src="${encodeURI(l.src)}" alt="${l.alt}" loading="lazy" decoding="async" /></picture>`;
     return el;
   };
 
