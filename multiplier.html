@@ -8,10 +8,28 @@
   <meta name="description" content="A free diagnostic that reveals the 5 critical roles that multiply growth at scale, and identifies which one is missing from your organization right now.">
   <link rel="icon" type="image/png" href="dh_logo.png">
 
-  <!-- Inter is the BMC / Darren Hardy brand typeface -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Preload above-the-fold hero imagery (CSS backgrounds are otherwise
+       discovered late, which delays LCP) -->
+  <link rel="preload" as="image" href="images/bg-hero.webp" type="image/webp">
+  <link rel="preload" as="image" href="images/hero-cover.webp" type="image/webp" media="(min-width: 901px)">
+
+  <!-- Self-hosted Inter (variable) — no render-blocking Google Fonts request -->
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 900;
+      font-display: swap;
+      src: url(fonts/inter-latin.woff2) format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 900;
+      font-display: swap;
+      src: url(fonts/inter-latin-ext.woff2) format('woff2');
+    }
+  </style>
 
   <style>
     /* ============================================================
@@ -122,7 +140,7 @@
       position: relative;
       overflow: hidden;
       background: var(--ink-2);
-      background-image: url("images/bg-hero.png");  /* purple burst spans the full width */
+      background-image: url("images/bg-hero.webp");  /* purple burst spans the full width */
       background-size: cover;
       background-position: center top;
       color: var(--white);
@@ -160,7 +178,7 @@
       width: 70%;
       padding-bottom: 60%;             /* aspect-ratio box (relative to container width) */
       z-index: 1;
-      background-image: url("images/hero-cover.png");
+      background-image: url("images/hero-cover.webp");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: 0 50%;       /* left-anchored: keeps the cover, crops the right */
@@ -275,13 +293,13 @@
     .form-subnote { text-align: center; color: #fff; font-weight: 700; margin: 24px 0 0; }
 
     /* ===================== ABOUT DARREN (credibility) ===================== */
-    /* Darren is baked into the left of bg-about.png; copy sits on the right.
+    /* Darren is baked into the left of bg-about.webp; copy sits on the right.
        A soft right-side gradient keeps the white text readable. */
     .about {
       background: var(--ink-2);
       background-image:
         linear-gradient(to right, rgba(10,10,10,0) 40%, rgba(10,10,10,.35) 72%),
-        url("images/bg-about.png");
+        url("images/bg-about.webp");
       background-size: cover;
       background-position: left center;
       color: var(--white);
@@ -340,7 +358,7 @@
       .about {
         background-image:
           linear-gradient(rgba(10,10,10,.62), rgba(10,10,10,.62)),
-          url("images/bg-about.png");
+          url("images/bg-about.webp");
         background-position: 28% center;
       }
       .about .about-content { margin-left: 0; max-width: none; }
@@ -366,10 +384,10 @@
         </div>
         <a class="btn" href="#form">Get The Free Diagnostic →</a>
         <p class="subnote">Free. Read it once. Use it forever.</p>
-        <img class="trust-strip" src="images/trust-strip.png" alt="Trusted by 350,000+ business leaders">
+        <img width="1616" height="156" decoding="async" class="trust-strip" src="images/trust-strip.webp" alt="Trusted by 350,000+ business leaders">
       </div>
       <div class="col media">
-        <img src="images/hero-cover.png" alt="Find Your Missing Multiplier diagnostic">
+        <img width="1922" height="1648" decoding="async" src="images/hero-cover.webp" alt="Find Your Missing Multiplier diagnostic">
       </div>
     </div>
   </section>
@@ -386,7 +404,7 @@
         </ul>
       </div>
       <div class="col media">
-        <img src="images/worksheet.png" alt="The Missing Multiplier worksheet">
+        <img width="1215" height="1032" decoding="async" loading="lazy" src="images/worksheet.webp" alt="The Missing Multiplier worksheet">
       </div>
     </div>
   </section>
@@ -403,7 +421,7 @@
   <section class="bonus">
     <div class="wrap cols">
       <div class="col media">
-        <img src="images/bonus-mockup.png" alt="Find Your Missing Multiplier video training">
+        <img width="1080" height="770" decoding="async" loading="lazy" src="images/bonus-mockup.webp" alt="Find Your Missing Multiplier video training">
       </div>
       <div class="col">
         <div class="lead">
@@ -467,7 +485,7 @@
           Executive producer emeritus of SUCCESS TV.<br>
           International bestselling author of <em>The Compound Effect</em>.</p>
         </div>
-        <img class="press" src="images/press-logos.png" alt="Featured in NPR, The New York Times, SUCCESS, Forbes, Inc., CNBC, CNN, Fox News, CBS, and ABC">
+        <img width="2560" height="472" decoding="async" loading="lazy" class="press" src="images/press-logos.webp" alt="Featured in NPR, The New York Times, SUCCESS, Forbes, Inc., CNBC, CNN, Fox News, CBS, and ABC">
       </div>
     </div>
   </section>
@@ -475,12 +493,12 @@
   <!-- ===================== AWARDS ===================== -->
   <section class="awards">
     <div class="wrap row">
-      <div class="badge"><img src="images/award-apple-podcast.png" alt="Top Rated Apple Podcast"></div>
-      <div class="badge"><img src="images/award-reviews.png" alt="21,177 customer reviews"></div>
-      <div class="badge"><img src="images/award-nsa.png" alt="Award Winning - Master of Influence, NSA of America"></div>
-      <div class="badge"><img src="images/award-nyt.png" alt="New York Times Best Seller"></div>
-      <div class="badge"><img src="images/award-blog.png" alt="Top 10 Personal Development Blog, DarrenDaily.com"></div>
-      <div class="badge"><img src="images/award-wsj.png" alt="The Wall Street Journal Best Seller"></div>
+      <div class="badge"><img width="296" height="200" decoding="async" loading="lazy" src="images/award-apple-podcast.webp" alt="Top Rated Apple Podcast"></div>
+      <div class="badge"><img width="272" height="186" decoding="async" loading="lazy" src="images/award-reviews.webp" alt="21,177 customer reviews"></div>
+      <div class="badge"><img width="296" height="200" decoding="async" loading="lazy" src="images/award-nsa.webp" alt="Award Winning - Master of Influence, NSA of America"></div>
+      <div class="badge"><img width="268" height="182" decoding="async" loading="lazy" src="images/award-nyt.webp" alt="New York Times Best Seller"></div>
+      <div class="badge"><img width="296" height="202" decoding="async" loading="lazy" src="images/award-blog.webp" alt="Top 10 Personal Development Blog, DarrenDaily.com"></div>
+      <div class="badge"><img width="270" height="182" decoding="async" loading="lazy" src="images/award-wsj.webp" alt="The Wall Street Journal Best Seller"></div>
     </div>
   </section>
 
