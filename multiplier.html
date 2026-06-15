@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find The ONE Hire That Changes Everything | Darren Hardy</title>
+  <meta name="description" content="A free diagnostic that reveals the 5 critical roles that multiply growth at scale, and identifies which one is missing from your organization right now.">
+  <link rel="icon" type="image/png" href="dh_logo.png">
+
+  <!-- Inter is the BMC / Darren Hardy brand typeface -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       EDIT THESE FIRST — brand tokens used everywhere below
+       ============================================================ */
+    :root {
+      --ink:        #0a0a0a;   /* near-black background / text          */
+      --ink-2:      #1a1a1a;   /* hero/dark section base                */
+      --teal:       #78e4ef;   /* brand accent (the "ONE Hire" color)   */
+      --gold:       #f5ae27;   /* legacy accent (unused)                */
+      --purple:     #4b2c6a;   /* "What's Included" tab + quote band    */
+      --gray-line:  #b8b8b8;   /* eyebrow / tagline text + divider line */
+      --light-bg:   #f5f5f5;   /* light section background              */
+      --white:      #ffffff;
+      --maxw:       1200px;    /* content max width                     */
+    }
+
+    /* All images are local in the ./images folder. Keep that folder
+       next to this HTML file when you deploy. */
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      line-height: 1.49;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+    /* ---- shared section bits ---- */
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gray-line);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 56px;
+      height: 1px;
+      background: var(--gray-line);
+      margin-right: 12px;
+      flex: none;
+    }
+
+    h1, h2 { font-weight: 900; line-height: 1.02; letter-spacing: -0.5px; margin: 0; }
+    h1 { font-size: clamp(40px, 6.5vw, 84px); text-transform: uppercase; }
+    h2 { font-size: clamp(30px, 4vw, 48px); line-height: 1.1; }
+
+    .lead p { font-size: 17px; margin: 0 0 16px; }
+    .lead strong { font-weight: 700; }
+
+    /* ---- CTA buttons ----
+       .btn          = white (hero)
+       .btn.btn-teal = teal  (form submit)                         */
+    .btn {
+      display: inline-block;
+      background: var(--white);
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 18px 36px;
+      border: 0;
+      border-radius: 0;
+      cursor: pointer;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-teal { background: var(--teal); }
+
+    /* ---- teal checkmark list (used by What's Included + Bonus) ---- */
+    .check-list { list-style: none; padding: 0; margin: 0; }
+    .check-list li { position: relative; padding-left: 40px; font-size: 17px; margin-bottom: 20px; }
+    .check-list li:last-child { margin-bottom: 0; }
+    .check-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1px;
+      width: 24px;
+      height: 24px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="%2378e4ef"/><path d="M6.5 12.5l3.2 3.2 7-7" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center / contain;
+    }
+
+    /* ---- two-column layout used by several sections ---- */
+    .cols {
+      display: flex;
+      gap: 56px;
+      align-items: center;
+    }
+    .cols .col { flex: 1 1 0; min-width: 0; }
+    .cols .col.media img { border-radius: 8px; }
+
+    /* ===================== HERO ===================== */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink-2);
+      background-image: url("images/bg-hero.png");  /* purple burst spans the full width */
+      background-size: cover;
+      background-position: center top;
+      color: var(--white);
+    }
+    /* Replicates the original: the tablet is an absolutely-positioned
+       background image (cover-cropped, left-anchored) that overlaps toward
+       the text. Its bright cover sits on the right; its dark left edge is
+       what sits under the headline, so nothing important collides. */
+    .hero .cols {
+      position: relative;
+      display: block;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .hero .col:first-child {
+      position: relative;
+      z-index: 2;
+      width: 56%;
+      min-width: 0;
+      padding: 76px 0;
+    }
+    .hero .eyebrow { letter-spacing: 1.6px; }
+    .hero h1 { color: var(--white); font-size: clamp(38px, 5.2vw, 78px); margin-bottom: 20px; }
+    .hero h1 .accent { color: var(--teal); }
+    .hero .lead p { color: #e8e8e8; max-width: 520px; }
+    .hero .subnote { font-size: 15px; font-weight: 700; color: #fff; margin: 20px 0 16px; }
+    .hero .trust-strip { width: 360px; max-width: 100%; }
+
+    /* tablet: cover-cropped background, anchored bottom-right, left-aligned */
+    .hero .col.media {
+      position: absolute;
+      right: 24px;
+      bottom: 0;
+      width: 70%;
+      padding-bottom: 60%;             /* aspect-ratio box (relative to container width) */
+      z-index: 1;
+      background-image: url("images/hero-cover.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: 0 50%;       /* left-anchored: keeps the cover, crops the right */
+    }
+    .hero .col.media img { display: none; }   /* desktop uses the background; img is for mobile */
+
+    /* ===================== WHAT'S INCLUDED ===================== */
+    .included { background: var(--light-bg); padding: 100px 0; overflow: hidden; }
+    .included .cols { align-items: center; gap: 28px; }
+    .included .card {
+      position: relative;
+      background: #fff;
+      border: 1px solid #b8b8b8;
+      border-radius: 20px;
+      padding: 64px 48px 56px;
+      flex: 0 1 42%;
+      align-self: center;
+    }
+    .included .col.media { flex: 1 1 58%; }
+    .included .col.media img { width: 112%; max-width: none; border-radius: 0; }
+    .included .card-tab {
+      position: absolute;
+      top: -26px;
+      left: 28px;
+      background: var(--purple);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 16px 26px;
+      box-shadow: 0 1px 17px rgba(29,28,29,.16);
+    }
+    .included li strong { font-weight: 700; }
+
+    /* ===================== QUOTE BAND ===================== */
+    /* The purple box is the divider between the grey section above and the
+       white section below — its top half sits on grey, its bottom half on
+       white, split evenly down the middle. */
+    .band {
+      background: linear-gradient(to bottom, var(--light-bg) 50%, var(--white) 50%);
+      padding: 0 24px;
+    }
+    .band-box {
+      background: var(--purple);
+      color: #fff;
+      text-align: center;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 74px 48px;
+    }
+    .band p {
+      font-size: clamp(20px, 2.4vw, 26px);
+      font-weight: 500;
+      line-height: 1.45;
+      max-width: 880px;
+      margin: 0 auto 14px;
+    }
+    .band p:last-child { margin-bottom: 0; }
+
+    /* ===================== BONUS ===================== */
+    .bonus { background: var(--white); padding: 100px 0; }
+    .bonus .lead p:first-child { font-size: 20px; font-weight: 800; color: var(--ink); }
+
+    /* ===================== FORM ===================== */
+    .form-section { background: var(--ink); padding: 90px 0; }
+    .form-section .form-tagline {
+      color: #fff;
+      text-align: center;
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .form-section h3 {
+      color: var(--teal);
+      text-align: center;
+      font-size: clamp(23px, 2.6vw, 30px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0 0 36px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .form-grid input, .form-grid select {
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      padding: 18px 20px;
+      border: 0;
+      border-radius: 2px;
+      background: #fff;
+      color: #333;
+      appearance: none;
+    }
+    .form-grid select { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="%23555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'); background-repeat: no-repeat; background-position: right 16px center; background-size: 20px; }
+    .form-grid input:focus, .form-grid select:focus { outline: 2px solid var(--teal); outline-offset: 0; }
+    .form-disclaimer {
+      text-align: center;
+      font-style: italic;
+      color: #d8d8d8;
+      font-size: 14px;
+      margin: 24px 0 28px;
+    }
+    .form-disclaimer a { color: #b72a30; }
+    .form-section .btn-wrap { text-align: center; }
+    .form-section .btn-teal { min-width: 440px; max-width: 100%; padding: 20px 40px; font-size: 15px; }
+    .form-subnote { text-align: center; color: #fff; font-weight: 700; margin: 24px 0 0; }
+
+    /* ===================== ABOUT DARREN (credibility) ===================== */
+    /* Darren is baked into the left of bg-about.png; copy sits on the right.
+       A soft right-side gradient keeps the white text readable. */
+    .about {
+      background: var(--ink-2);
+      background-image:
+        linear-gradient(to right, rgba(10,10,10,0) 40%, rgba(10,10,10,.35) 72%),
+        url("images/bg-about.png");
+      background-size: cover;
+      background-position: left center;
+      color: var(--white);
+      padding: 120px 0;
+    }
+    .about .about-content { max-width: 600px; margin-left: auto; }  /* right half */
+    .about .eyebrow { color: #d8d8d8; }
+    .about .eyebrow::before { background: #d8d8d8; }
+    .about h2 { color: var(--white); text-transform: uppercase; margin-bottom: 22px; }
+    .about .lead p { color: #e6e6e6; }
+    .about .press { width: 100%; max-width: 560px; margin-top: 40px; }
+
+    /* ===================== AWARDS ===================== */
+    /* Badges are white line-art (transparent) meant to sit on the dark
+       background — no white circle wrapper, or they vanish. */
+    .awards { background: var(--ink); padding: 60px 0 80px; }
+    .awards .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px 36px;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+    }
+    .awards .badge { display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+    .awards .badge img { height: 100px; width: auto; max-width: 100%; }
+
+    /* ===================== FOOTER ===================== */
+    footer { background: #000; color: #cfcfcf; text-align: center; padding: 36px 24px; }
+    footer p { margin: 0; font-size: 13px; letter-spacing: .5px; }
+    footer a { color: #cfcfcf; text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 900px) {
+      .cols { flex-direction: column; gap: 40px; }
+      .hero, .included, .bonus, .about { padding: 64px 0; }
+      /* hero stacks: text, then the tablet sitting flush on the bottom edge
+         (no bottom padding) so it doesn't float in empty space */
+      .hero { padding-bottom: 0; }
+      .hero .cols { max-width: none; padding: 0 24px; }
+      .hero .col:first-child { width: auto; padding: 0 0 8px; }
+      .hero .col.media {
+        position: static;
+        width: auto;
+        padding-bottom: 0;
+        background: none;
+        margin-top: 28px;
+      }
+      .hero .col.media img { display: block; width: 100%; }
+      /* image first on mobile for the bonus section reads better */
+      .bonus .cols { flex-direction: column-reverse; }
+      /* worksheet product spread: full width so it isn't cut off */
+      .included .col.media img { width: 100%; }
+      /* credibility: darken full image and let copy span the width */
+      .about {
+        background-image:
+          linear-gradient(rgba(10,10,10,.62), rgba(10,10,10,.62)),
+          url("images/bg-about.png");
+        background-position: 28% center;
+      }
+      .about .about-content { margin-left: 0; max-width: none; }
+      .awards .row { justify-content: center; gap: 28px; }
+      .awards .badge img { height: 78px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-section .btn-teal { min-width: 0; width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="wrap cols">
+      <div class="col">
+        <div class="eyebrow">For driven business owners with audacious goals</div>
+        <h1>Find The <span class="accent">ONE Hire</span> That Changes Everything</h1>
+        <div class="lead">
+          <p>You are just <strong>one strategic hire away</strong> from radically changing the trajectory of your business, your income, and your lifestyle.</p>
+          <p>This free diagnostic reveals the <strong>5 critical roles that multiply growth at scale</strong>, and identifies which one is missing from your organization right now.</p>
+        </div>
+        <a class="btn" href="#form">Get The Free Diagnostic →</a>
+        <p class="subnote">Free. Read it once. Use it forever.</p>
+        <img class="trust-strip" src="images/trust-strip.png" alt="Trusted by 350,000+ business leaders">
+      </div>
+      <div class="col media">
+        <img src="images/hero-cover.png" alt="Find Your Missing Multiplier diagnostic">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHAT'S INCLUDED ===================== -->
+  <section class="included">
+    <div class="wrap cols">
+      <div class="col card">
+        <div class="card-tab">What's included:</div>
+        <ul class="check-list">
+          <li><strong>The five key seats</strong> that compound a business at scale. (And the four seats most CEOs waste a decade chasing.)</li>
+          <li><strong>A 20-question Yes/No diagnostic</strong> that names which critical seat is missing in your organization right now.</li>
+          <li><strong>The hire profile</strong> to look for in that seat, plus the false positives that fool 9 out of 10 owners, wasting six figures or more per bad hire.</li>
+        </ul>
+      </div>
+      <div class="col media">
+        <img src="images/worksheet.png" alt="The Missing Multiplier worksheet">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUOTE BAND ===================== -->
+  <section class="band">
+    <div class="band-box">
+      <p>There is <strong>one leader in your industry right now</strong> who, dropped into the right seat, would <strong>compound your next decade.</strong></p>
+      <p>They are already valuable somewhere else. The only question is whether you find them before your competitor does.</p>
+    </div>
+  </section>
+
+  <!-- ===================== BONUS ===================== -->
+  <section class="bonus">
+    <div class="wrap cols">
+      <div class="col media">
+        <img src="images/bonus-mockup.png" alt="Find Your Missing Multiplier video training">
+      </div>
+      <div class="col">
+        <div class="lead">
+          <p>Video training BONUS!</p>
+          <p>Darren will walk you through every step to find the one hire that will transform your business.</p>
+          <p>And if you have multiple seats to fill, he'll help you identify the most important one right now.</p>
+          <p>This is the same process he's used to personally mentor top business leaders like:</p>
+        </div>
+        <ul class="check-list">
+          <li>Sidd Pagidipati who <strong>TRIPLED his revenue</strong> from $60M to $180M with one key hire</li>
+          <li>Troy Berg who went from <strong>$1M to $30M</strong> by filling one key seat</li>
+          <li>Kevin Ortner who saw an <strong>11X ROI off his one key hire</strong> in the first year</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FORM ===================== -->
+  <section class="form-section" id="form">
+    <div class="wrap">
+      <div class="form-tagline">You are ONE HIRE away from transforming your business…</div>
+      <h3>Claim your FREE One Hire Diagnostic &amp; Video Training</h3>
+
+      <!-- TODO: point action= at your form handler (HubSpot, Formspree, Netlify, etc.) -->
+      <form action="#" method="post">
+        <div class="form-grid">
+          <input type="text"  name="firstname" placeholder="First Name*" autocomplete="given-name" required>
+          <input type="email" name="email"     placeholder="Email*"      autocomplete="email" required>
+          <select name="role" required>
+            <option value="" disabled selected>Role*</option>
+            <option>Business owner (revenue $0-$500K)</option>
+            <option>Business owner (revenue $500K-$1M)</option>
+            <option>Business owner (revenue $1M-$10M)</option>
+            <option>Business owner (revenue $10M-$50M)</option>
+            <option>Business owner (revenue $50M+)</option>
+            <option>Internal leader/employee</option>
+            <option>Student, retired, other</option>
+          </select>
+          <input type="tel" name="phone" placeholder="Phone" autocomplete="tel">
+        </div>
+
+        <p class="form-disclaimer">We never share your info. Ever. <a href="#">See details.</a></p>
+
+        <div class="btn-wrap">
+          <button type="submit" class="btn btn-teal">Get The Free Diagnostic</button>
+        </div>
+      </form>
+
+      <p class="form-subnote">Free. Read it once. Use it forever.</p>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT DARREN ===================== -->
+  <section class="about">
+    <div class="wrap">
+      <div class="about-content">
+        <div class="eyebrow">Darren Hardy</div>
+        <h2>The Advisor Behind The World's Most Driven Business Builders</h2>
+        <div class="lead">
+          <p>Advisor to 11,738 top CEOs. Publisher emeritus of SUCCESS Magazine.<br>
+          Executive producer emeritus of SUCCESS TV.<br>
+          International bestselling author of <em>The Compound Effect</em>.</p>
+        </div>
+        <img class="press" src="images/press-logos.png" alt="Featured in NPR, The New York Times, SUCCESS, Forbes, Inc., CNBC, CNN, Fox News, CBS, and ABC">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AWARDS ===================== -->
+  <section class="awards">
+    <div class="wrap row">
+      <div class="badge"><img src="images/award-apple-podcast.png" alt="Top Rated Apple Podcast"></div>
+      <div class="badge"><img src="images/award-reviews.png" alt="21,177 customer reviews"></div>
+      <div class="badge"><img src="images/award-nsa.png" alt="Award Winning - Master of Influence, NSA of America"></div>
+      <div class="badge"><img src="images/award-nyt.png" alt="New York Times Best Seller"></div>
+      <div class="badge"><img src="images/award-blog.png" alt="Top 10 Personal Development Blog, DarrenDaily.com"></div>
+      <div class="badge"><img src="images/award-wsj.png" alt="The Wall Street Journal Best Seller"></div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <p>© DARREN HARDY, LLC &nbsp;–&nbsp; ALL RIGHTS RESERVED &nbsp;–&nbsp;
+      <a href="https://dh.darrenhardy.com/privacy">PRIVACY POLICY</a> &nbsp;–&nbsp;
+      <a href="https://dh.darrenhardy.com/terms-of-service">TERMS OF SERVICE</a>
+    </p>
+  </footer>
+
+</body>
+</html>
