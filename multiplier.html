@@ -289,12 +289,14 @@
       font-weight: 700;
       margin-bottom: 16px;
     }
-    .form-section h3 {
+    .form-section h2 {
       color: var(--teal);
       text-align: center;
       font-size: clamp(23px, 2.6vw, 30px);
       font-weight: 800;
       line-height: 1.2;
+      letter-spacing: 0;
+      text-transform: none;
       margin: 0 0 36px;
     }
     .form-grid {
@@ -317,6 +319,7 @@
     }
     .form-grid select { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="%23555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'); background-repeat: no-repeat; background-position: right 16px center; background-size: 20px; }
     .form-grid input:focus, .form-grid select:focus { outline: 2px solid var(--teal); outline-offset: 0; }
+    .form-grid ::placeholder { color: #5c5c5c; opacity: 1; }   /* AA-contrast placeholder */
     .form-disclaimer {
       text-align: center;
       font-style: italic;
@@ -324,7 +327,7 @@
       font-size: 14px;
       margin: 24px 0 28px;
     }
-    .form-disclaimer a { color: #b72a30; }
+    .form-disclaimer a { color: #f0909a; text-decoration: underline; }  /* lightened for AA contrast on dark */
     .form-section .btn-wrap { text-align: center; }
     .form-section .btn-teal { min-width: 440px; max-width: 100%; padding: 20px 40px; font-size: 15px; }
     .form-subnote { text-align: center; color: #fff; font-weight: 700; margin: 24px 0 0; }
@@ -409,6 +412,8 @@
 
 <body>
 
+  <main>
+
   <!-- ===================== HERO ===================== -->
   <section class="hero">
     <div class="wrap cols">
@@ -480,14 +485,14 @@
   <section class="form-section" id="form">
     <div class="wrap">
       <div class="form-tagline">You are ONE HIRE away from transforming your business…</div>
-      <h3>Claim your FREE One Hire Diagnostic &amp; Video Training</h3>
+      <h2>Claim your FREE One Hire Diagnostic &amp; Video Training</h2>
 
       <!-- TODO: point action= at your form handler (HubSpot, Formspree, Netlify, etc.) -->
       <form action="#" method="post">
         <div class="form-grid">
-          <input type="text"  name="firstname" placeholder="First Name*" autocomplete="given-name" required>
-          <input type="email" name="email"     placeholder="Email*"      autocomplete="email" required>
-          <select name="role" required>
+          <input type="text"  name="firstname" placeholder="First Name*" aria-label="First name" autocomplete="given-name" required>
+          <input type="email" name="email"     placeholder="Email*"      aria-label="Email address" autocomplete="email" required>
+          <select name="role" aria-label="Your role" required>
             <option value="" disabled selected>Role*</option>
             <option>Business owner (revenue $0-$500K)</option>
             <option>Business owner (revenue $500K-$1M)</option>
@@ -497,7 +502,7 @@
             <option>Internal leader/employee</option>
             <option>Student, retired, other</option>
           </select>
-          <input type="tel" name="phone" placeholder="Phone" autocomplete="tel">
+          <input type="tel" name="phone" placeholder="Phone" aria-label="Phone number" autocomplete="tel">
         </div>
 
         <p class="form-disclaimer">We never share your info. Ever. <a href="#">See details.</a></p>
@@ -538,6 +543,8 @@
       <div class="badge"><img width="270" height="182" decoding="async" loading="lazy" src="images/award-wsj.webp" alt="The Wall Street Journal Best Seller"></div>
     </div>
   </section>
+
+  </main>
 
   <!-- ===================== FOOTER ===================== -->
   <footer>
