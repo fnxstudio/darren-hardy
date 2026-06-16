@@ -394,12 +394,21 @@
       .bonus .cols { flex-direction: column-reverse; }
       /* worksheet product spread: full width so it isn't cut off */
       .included .col.media img { width: 100%; }
-      /* credibility: darken full image and let copy span the width */
+      /* credibility on mobile: dedicated Darren portrait crop shows bright at
+         the top, copy sits below over a bottom-weighted fade (like the team's
+         pages) */
       .about {
+        padding-top: 340px;
         background-image:
-          linear-gradient(rgba(10,10,10,.62), rgba(10,10,10,.62)),
-          url("images/bg-about.webp");
-        background-position: 28% center;
+          linear-gradient(to bottom,
+            rgba(10,10,10,0) 0%,
+            rgba(10,10,10,0) 34%,
+            rgba(10,10,10,.55) 50%,
+            rgba(10,10,10,.95) 70%,
+            var(--ink) 100%),
+          url("images/about-darren-mobile.webp");
+        background-position: top center;
+        background-size: cover;
       }
       .about .about-content { margin-left: 0; max-width: none; }
       .awards .row { justify-content: center; gap: 28px; }
