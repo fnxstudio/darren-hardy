@@ -351,7 +351,6 @@
     .about h2 { color: var(--white); text-transform: uppercase; margin-bottom: 22px; }
     .about .lead p { color: #e6e6e6; }
     .about .press { width: 100%; max-width: 560px; margin-top: 40px; }
-    .about-photo { display: none; }   /* desktop: Darren comes from the section bg above */
 
     /* ===================== AWARDS ===================== */
     /* Badges are white line-art (transparent) meant to sit on the dark
@@ -395,19 +394,17 @@
       .bonus .cols { flex-direction: column-reverse; }
       /* worksheet product spread: full width so it isn't cut off */
       .included .col.media img { width: 100%; }
-      /* credibility on mobile (matches the original): a full-width photo
-         block stacked above the copy, copy on solid dark below */
+      /* credibility on mobile (matches the original exactly): the original
+         swaps to a dedicated PORTRAIT image as the SECTION background
+         (cover, top-anchored), copy overlaid. Darren sits up top; the
+         purple/dark fade is baked into the image bottom for the copy. */
       .about {
-        background: var(--ink);
-        padding: 0 0 64px;
-      }
-      .about-photo {
-        display: block;
-        min-height: 380px;
-        background-image: url("images/bg-about.webp");
+        background-color: var(--ink);
+        background-image: url("images/bg-about-mobile.webp");
         background-size: cover;
-        background-position: 0 50%;   /* left-center: frames Darren */
-        margin-bottom: 36px;
+        background-position: top center;
+        background-repeat: no-repeat;
+        padding: 360px 0 56px;   /* top space = Darren; copy overlays the faded lower image */
       }
       .about .about-content { margin-left: 0; max-width: none; }
       .about h2 { font-size: 31px; }  /* wraps to 4 lines like the original */
@@ -527,8 +524,6 @@
 
   <!-- ===================== ABOUT DARREN ===================== -->
   <section class="about">
-    <!-- mobile-only photo block (stacked above the copy, like the original) -->
-    <div class="about-photo" role="img" aria-label="Darren Hardy"></div>
     <div class="wrap">
       <div class="about-content">
         <div class="eyebrow">Darren Hardy</div>
