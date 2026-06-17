@@ -603,11 +603,10 @@
 
   .voices-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
   }
-  @media (max-width: 1000px) { .voices-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px)  { .voices-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 720px)  { .voices-grid { grid-template-columns: 1fr; gap: 28px; } }
 
   .voice-card {
     background: var(--white);
@@ -616,10 +615,11 @@
     position: relative;
     overflow: hidden;
   }
-  /* Large editorial photo dominates the top of the card */
+  /* Big editorial portrait dominates the card. Taller 3:4 aspect makes the
+     faces feel feature-sized like the BMC|TC member treatment. */
   .voice-photo {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
     background: var(--bone);
     overflow: hidden;
     position: relative;
@@ -644,29 +644,30 @@
     pointer-events: none;
   }
   .voice-body {
-    padding: 32px 32px 36px;
+    padding: 40px 40px 40px;
     display: flex; flex-direction: column;
-    gap: 24px;
+    gap: 28px;
     position: relative;
   }
+  @media (max-width: 720px) { .voice-body { padding: 32px 28px; } }
   .voice-body::before {
     content: '"';
     position: absolute;
-    top: 10px; left: 28px;
+    top: 14px; left: 36px;
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: 64px;
+    font-size: 84px;
     line-height: 1;
     color: var(--gold-soft);
-    opacity: 0.45;
+    opacity: 0.4;
   }
   .voice-quote {
     font-weight: 500;
-    font-size: 17px;
+    font-size: clamp(18px, 1.45vw, 21px);
     line-height: 1.5;
     color: var(--black);
     flex: 1;
-    padding-top: 22px;
+    padding-top: 30px;
   }
   .voice-quote strong {
     font-weight: 800;
@@ -674,14 +675,14 @@
     letter-spacing: -0.005em;
   }
   .voice-attr {
-    padding-top: 20px;
+    padding-top: 24px;
     border-top: 1px solid var(--rule-dark);
     display: flex; flex-direction: column;
-    gap: 4px;
+    gap: 5px;
   }
   .voice-name {
     font-weight: 700;
-    font-size: 15px;
+    font-size: 16px;
     letter-spacing: 0.04em;
     color: var(--black);
     text-transform: uppercase;
@@ -689,7 +690,7 @@
   }
   .voice-role {
     font-weight: 500;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.02em;
     color: var(--grey-soft);
     line-height: 1.4;
@@ -1754,8 +1755,8 @@
 <!-- VOICES / TESTIMONIALS -->
 <section class="voices" id="members">
   <div class="container">
-    <div class="eyebrow reveal"><span class="pip"></span>From Inside The Association</div>
-    <h2 class="voices-title reveal">What members <em>actually say</em>.</h2>
+    <div class="eyebrow reveal"><span class="pip"></span>Who's In The Room</div>
+    <h2 class="voices-title reveal">Real leaders. <em>Real results.</em></h2>
 
     <div class="voices-grid">
       <div class="voice-card reveal">
