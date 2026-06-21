@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>One Hire · Free Briefing With Darren Hardy</title>
-<meta name="description" content="Free 60-minute briefing. Find the one strategic hire that will compound your next decade. Tuesday, June 23, 9AM PT / 12PM ET.">
+<title>Free Live Broadcast · Find Your Missing Multiplier · With Darren Hardy</title>
+<meta name="description" content="Free 60-minute live broadcast with Darren Hardy. Tuesday, June 23, 9AM PT / 12PM ET. Find the one strategic hire that will compound your next decade.">
 <meta name="author" content="Darren Hardy">
 <meta name="robots" content="index, follow">
 
 <link rel="canonical" href="https://bmc.darrenhardy.com/one-hire">
 <meta property="og:type"        content="website">
-<meta property="og:site_name"   content="One Hire · Free Briefing With Darren Hardy">
-<meta property="og:title"       content="One Hire · Find Your Missing Multiplier">
-<meta property="og:description" content="One hire away from transforming your business. Free 60-min live briefing with Darren Hardy.">
+<meta property="og:site_name"   content="One Hire · Free Live Broadcast With Darren Hardy">
+<meta property="og:title"       content="Find Your Missing Multiplier · Free Live Broadcast">
+<meta property="og:description" content="Tuesday, June 23 · 9AM PT / 12PM ET. The one hire away from your next decade. Live with Darren Hardy. Free.">
 <meta property="og:url"         content="https://bmc.darrenhardy.com/one-hire">
 <meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/og-image.jpg">
 <meta name="twitter:card"        content="summary_large_image">
@@ -56,97 +56,49 @@
     overflow-x: hidden;
   }
 
-  /* ============ TOP NAV ============ */
-  nav.top {
+  /* ============ EVENT BAR (top sticky banner) ============ */
+  .event-bar {
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 50;
-    padding: 14px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 32px;
-    background: rgba(10, 10, 10, 0.78);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--rule);
-  }
-  .nav-brand {
-    display: inline-flex; align-items: center;
-    line-height: 0;
-    text-decoration: none;
-  }
-  .nav-brand img {
-    height: 32px;
-    width: auto;
-    display: block;
-    filter: invert(1);
-    opacity: 0.92;
-    transition: opacity 0.2s;
-  }
-  .nav-brand:hover img { opacity: 1; }
-
-  .nav-links {
-    position: absolute;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    display: flex; gap: 40px; align-items: center;
-    font-weight: 500; font-size: 11px;
-    letter-spacing: 0.24em; text-transform: uppercase;
-  }
-  .nav-links a {
-    color: var(--silver);
-    text-decoration: none;
-    transition: color 0.18s;
-    white-space: nowrap;
-  }
-  .nav-links a:hover { color: var(--white); }
-
-  .nav-cta {
-    display: inline-flex; align-items: center; gap: 10px;
-    border: 1px solid var(--rule-purple);
-    padding: 12px 22px;
-    color: var(--purple);
-    background: transparent;
+    background: var(--purple);
+    color: var(--white);
+    padding: 12px 32px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 24px; flex-wrap: wrap;
     font-weight: 700; font-size: 11px;
     letter-spacing: 0.24em; text-transform: uppercase;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: all 0.2s;
+    text-align: center;
   }
-  .nav-cta:hover { color: var(--white); background: var(--purple); border-color: var(--purple); }
-
-  .nav-burger {
-    display: none; flex-direction: column; justify-content: center; gap: 5px;
-    background: none; border: none; cursor: pointer; padding: 4px;
-  }
-  .nav-burger span {
-    display: block; width: 22px; height: 1.5px;
+  .event-bar .live-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
     background: var(--white);
-    transition: transform 0.25s ease, opacity 0.25s ease;
+    box-shadow: 0 0 8px rgba(255,255,255,0.8);
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
   }
-  .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .nav-burger.open span:nth-child(2) { opacity: 0; }
-  .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-  .nav-mobile {
-    position: absolute; top: 100%; left: 0; right: 0;
-    background: rgba(10, 10, 10, 0.97);
-    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--rule);
-    display: none; flex-direction: column;
+  .event-bar-sep { opacity: 0.55; }
+  .event-bar a {
+    color: var(--white);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+    padding-bottom: 1px;
+    transition: border-color 0.2s;
   }
-  .nav-mobile.open { display: flex; }
-  .nav-mobile a {
-    color: var(--silver); text-decoration: none;
-    font-size: 11px; font-weight: 500;
-    letter-spacing: 0.24em; text-transform: uppercase;
-    padding: 18px 24px; border-bottom: 1px solid var(--rule);
+  .event-bar a:hover { border-bottom-color: var(--white); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
   }
-  .nav-mobile a:last-child { border-bottom: none; }
-
-  @media (max-width: 960px) {
-    nav.top { padding: 14px 24px; }
-    .nav-links, .nav-cta { display: none; }
-    .nav-burger { display: flex; }
+  @media (max-width: 720px) {
+    .event-bar {
+      padding: 10px 16px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      gap: 12px;
+    }
+    .event-bar-sep { display: none; }
   }
 
   /* ============ SECTION DEFAULTS ============ */
@@ -171,34 +123,49 @@
     min-height: 100vh;
     display: flex; align-items: center;
     background:
-      radial-gradient(ellipse at 25% 30%, rgba(139,93,196,0.16), transparent 55%),
-      radial-gradient(ellipse at 75% 75%, rgba(255,255,255,0.04), transparent 55%),
-      linear-gradient(180deg, #0c0b0e 0%, #0a0a0a 60%, #050505 100%);
+      radial-gradient(ellipse at 20% 30%, rgba(139,93,196,0.18), transparent 55%),
+      radial-gradient(ellipse at 80% 75%, rgba(255,255,255,0.04), transparent 55%),
+      linear-gradient(180deg, #0c0b10 0%, #0a0a0a 60%, #050505 100%);
     overflow: hidden;
-    padding: 140px 0 100px;
+    padding: 100px 0 100px;
   }
   .hero::before {
     content: ""; position: absolute; inset: 0;
     background-image: radial-gradient(rgba(255,255,255,0.018) 1px, transparent 1px);
     background-size: 3px 3px;
     pointer-events: none;
+    z-index: 1;
   }
+
   .hero-stage {
-    position: relative; z-index: 2;
+    position: relative; z-index: 3;
     width: 100%; max-width: 1380px;
     margin: 0 auto; padding: 0 48px;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 64px;
+    align-items: center;
   }
-  @media (max-width: 720px) { .hero-stage { padding: 0 24px; } }
+  @media (max-width: 960px) {
+    .hero-stage {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding: 40px 48px 0;
+    }
+  }
+  @media (max-width: 720px) { .hero-stage { padding: 40px 24px 0; } }
 
-  .hero .eyebrow {
+  .hero-content { position: relative; z-index: 3; }
+  .hero-content .eyebrow {
     margin-bottom: 32px;
     opacity: 0; transform: translateY(10px);
     animation: revealUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     animation-delay: 0.2s;
   }
+
   .hero-headline {
     font-weight: 900;
-    font-size: clamp(56px, 9.2vw, 152px);
+    font-size: clamp(48px, 7vw, 116px);
     line-height: 0.92;
     letter-spacing: -0.045em;
     color: var(--white);
@@ -212,11 +179,11 @@
 
   .hero-sub {
     font-weight: 500;
-    font-size: clamp(18px, 1.7vw, 26px);
+    font-size: clamp(18px, 1.55vw, 24px);
     line-height: 1.45;
     color: var(--silver);
     margin: 0 0 24px;
-    max-width: 800px;
+    max-width: 660px;
     opacity: 0; transform: translateY(14px);
     animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     animation-delay: 1.1s;
@@ -228,43 +195,18 @@
     font-size: clamp(15px, 1.2vw, 18px);
     line-height: 1.6;
     color: var(--grey);
-    margin: 0 0 40px;
-    max-width: 740px;
+    margin: 0 0 36px;
+    max-width: 620px;
     opacity: 0; transform: translateY(14px);
     animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 1.5s;
-  }
-
-  .hero-event {
-    display: inline-flex; align-items: center; gap: 14px;
-    padding: 10px 18px;
-    border: 1px solid var(--rule-purple);
-    background: rgba(139,93,196,0.06);
-    color: var(--purple);
-    font-weight: 700; font-size: 11px;
-    letter-spacing: 0.28em; text-transform: uppercase;
-    margin-bottom: 36px;
-    opacity: 0; transform: translateY(14px);
-    animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 1.8s;
-  }
-  .hero-event .live-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--purple);
-    box-shadow: 0 0 8px rgba(139,93,196,0.6);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%      { opacity: 0.4; }
+    animation-delay: 1.4s;
   }
 
   .hero-cta-row {
     display: flex; gap: 18px; flex-wrap: wrap; align-items: center;
     opacity: 0; transform: translateY(12px);
     animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 2.1s;
+    animation-delay: 1.7s;
   }
   @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
 
@@ -282,7 +224,7 @@
   .cta-primary::after {
     content: ''; position: absolute;
     top: 0; left: -80%; width: 55%; height: 100%;
-    background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.30) 50%, transparent 80%);
+    background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.32) 50%, transparent 80%);
     animation: cta-shimmer 4s ease-in-out infinite;
     pointer-events: none;
   }
@@ -308,6 +250,63 @@
   }
   .cta-secondary:hover { color: var(--white); border-bottom-color: var(--white); }
 
+  .hero-stamp {
+    margin-top: 24px;
+    font-weight: 600; font-size: 11px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--grey);
+    opacity: 0;
+    animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 2.0s;
+  }
+  .hero-stamp strong { color: var(--purple); font-weight: 700; }
+
+  /* ===== Hero image side ===== */
+  .hero-image {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #0d0d0d;
+    border: 1px solid var(--rule-purple);
+    opacity: 0;
+    animation: revealUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.7s;
+  }
+  .hero-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+    filter: brightness(0.92) contrast(1.05);
+  }
+  .hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent 55%, rgba(10,10,10,0.6) 100%),
+      linear-gradient(0deg, rgba(139,93,196,0.08), transparent 40%);
+    pointer-events: none;
+  }
+  .hero-image-tag {
+    position: absolute;
+    bottom: 24px; left: 24px;
+    z-index: 2;
+    color: var(--white);
+    font-weight: 700; font-size: 10px;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-image-tag::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--purple);
+    box-shadow: 0 0 12px rgba(139,93,196,0.8);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @media (max-width: 960px) { .hero-image { aspect-ratio: 16 / 10; } }
+
   /* ============ THE TRUTH ============ */
   .truth {
     background:
@@ -325,7 +324,7 @@
     color: var(--white);
     text-transform: uppercase;
     margin: 0 0 56px;
-    max-width: 1180px;
+    max-width: 1200px;
   }
   .truth-title em { font-style: normal; color: var(--purple); }
   .truth-body p {
@@ -348,7 +347,7 @@
   .walkaway .eyebrow { margin-bottom: 52px; }
   .walkaway-title {
     font-weight: 900;
-    font-size: clamp(40px, 5.6vw, 96px);
+    font-size: clamp(38px, 5.4vw, 92px);
     line-height: 0.96;
     letter-spacing: -0.04em;
     color: var(--white);
@@ -420,28 +419,59 @@
     font-size: clamp(19px, 1.6vw, 24px);
     line-height: 1.55;
     color: var(--muted);
-    max-width: 880px;
+    max-width: 920px;
     margin-bottom: 80px;
   }
   .pattern-opening strong { color: var(--black); font-weight: 700; }
 
-  /* Featured (Apple) */
+  /* Featured case (Apple) */
   .pattern-featured {
-    padding: 56px 48px;
     background: var(--white);
     border: 1px solid var(--rule-dark-strong);
     margin-bottom: 56px;
     display: grid;
     grid-template-columns: 1fr 1.3fr;
-    gap: 56px;
-    align-items: center;
+    gap: 0;
+    align-items: stretch;
+    overflow: hidden;
   }
-  @media (max-width: 880px) {
-    .pattern-featured { grid-template-columns: 1fr; gap: 32px; padding: 40px 28px; }
+  @media (max-width: 880px) { .pattern-featured { grid-template-columns: 1fr; } }
+  .pattern-featured-image {
+    background: #1a1a1a;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    position: relative;
   }
+  .pattern-featured-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .pattern-featured-image::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.5) 100%);
+    pointer-events: none;
+  }
+  .pattern-featured-tag-overlay {
+    position: absolute;
+    bottom: 24px; left: 24px;
+    color: var(--white);
+    font-weight: 700; font-size: 10px;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    z-index: 2;
+  }
+  .pattern-featured-content {
+    padding: 56px 48px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+  }
+  @media (max-width: 880px) { .pattern-featured-content { padding: 40px 28px; } }
   .pattern-featured-stat {
     font-weight: 900;
-    font-size: clamp(48px, 7vw, 120px);
+    font-size: clamp(48px, 7vw, 116px);
     line-height: 0.92;
     letter-spacing: -0.04em;
     color: var(--black);
@@ -453,23 +483,74 @@
     letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--grey-soft);
-    margin-top: 12px;
   }
   .pattern-featured-body {
     font-weight: 400;
-    font-size: clamp(17px, 1.4vw, 20px);
+    font-size: clamp(16px, 1.3vw, 19px);
     line-height: 1.6;
     color: var(--muted);
   }
   .pattern-featured-body strong { color: var(--black); font-weight: 700; }
-  .pattern-featured-tag {
-    display: inline-block;
+
+  /* Case study grid */
+  .pattern-cases-label {
+    font-weight: 700; font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    margin-bottom: 28px;
+  }
+  .pattern-cases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 80px;
+  }
+  @media (max-width: 880px) { .pattern-cases { grid-template-columns: 1fr; } }
+  .pattern-case {
+    background: var(--white);
+    border: 1px solid var(--rule-dark-strong);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .pattern-case-image {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: #1a1a1a;
+    position: relative;
+  }
+  .pattern-case-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .pattern-case-body {
+    padding: 28px 28px 32px;
+    display: flex; flex-direction: column;
+    gap: 14px;
+    flex: 1;
+  }
+  .pattern-case-tag {
     font-weight: 700; font-size: 10px;
     letter-spacing: 0.32em;
     color: var(--purple-soft);
     text-transform: uppercase;
-    margin-bottom: 12px;
   }
+  .pattern-case-stat {
+    font-weight: 900;
+    font-size: clamp(28px, 2.6vw, 36px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--black);
+  }
+  .pattern-case-body p {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    flex: 1;
+  }
+  .pattern-case-body p strong { color: var(--black); font-weight: 700; }
 
   /* Mentee rail */
   .pattern-rail-label {
@@ -482,33 +563,56 @@
   .pattern-rail {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 28px;
     margin-bottom: 80px;
   }
   @media (max-width: 880px) { .pattern-rail { grid-template-columns: 1fr; } }
+
   .pattern-mentee {
-    padding: 36px 32px;
     background: var(--white);
     border: 1px solid var(--rule-dark-strong);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .pattern-mentee-photo {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--bone-soft);
+    position: relative;
+  }
+  .pattern-mentee-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    filter: grayscale(15%);
+    transition: filter 0.4s ease, transform 0.5s ease;
+  }
+  .pattern-mentee:hover .pattern-mentee-photo img {
+    filter: grayscale(0%);
+    transform: scale(1.03);
+  }
+  .pattern-mentee-body {
+    padding: 28px 28px 32px;
+    display: flex; flex-direction: column;
+    gap: 12px;
   }
   .pattern-mentee-stat {
     font-weight: 900;
-    font-size: clamp(36px, 4.2vw, 60px);
+    font-size: clamp(28px, 2.6vw, 38px);
     line-height: 1;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.025em;
     color: var(--purple-soft);
-    margin-bottom: 16px;
   }
-  .pattern-mentee-body {
+  .pattern-mentee-detail {
     font-weight: 500;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.5;
     color: var(--muted);
-    margin-bottom: 20px;
-    min-height: 3em;
+    flex: 1;
   }
   .pattern-mentee-name {
-    padding-top: 16px;
+    padding-top: 14px;
     border-top: 1px solid var(--rule-dark);
     font-weight: 700; font-size: 13px;
     letter-spacing: 0.04em;
@@ -522,7 +626,6 @@
     line-height: 1.55;
     color: var(--muted);
     max-width: 920px;
-    margin-bottom: 48px;
   }
   .pattern-close strong { color: var(--black); font-weight: 700; }
 
@@ -535,7 +638,7 @@
   .bonuses .eyebrow { margin-bottom: 52px; }
   .bonuses-title {
     font-weight: 900;
-    font-size: clamp(38px, 5.2vw, 88px);
+    font-size: clamp(36px, 5vw, 84px);
     line-height: 0.96;
     letter-spacing: -0.04em;
     color: var(--white);
@@ -584,7 +687,7 @@
   /* ============ THE LINE (big quote) ============ */
   .theline {
     background:
-      radial-gradient(ellipse at 50% 30%, rgba(139,93,196,0.10), transparent 60%),
+      radial-gradient(ellipse at 50% 30%, rgba(139,93,196,0.12), transparent 60%),
       linear-gradient(180deg, #0a0a0a 0%, #110a14 100%);
     padding: 180px 0;
     border-top: 1px solid var(--rule);
@@ -593,7 +696,7 @@
   .theline .eyebrow { justify-content: center; margin-bottom: 44px; }
   .theline-quote {
     font-weight: 900;
-    font-size: clamp(32px, 4.4vw, 64px);
+    font-size: clamp(32px, 4.4vw, 62px);
     line-height: 1.05;
     letter-spacing: -0.035em;
     color: var(--white);
@@ -612,7 +715,7 @@
   }
   .theline-final strong { color: var(--white); font-weight: 700; }
 
-  /* ============ WHEN & HOW ============ */
+  /* ============ WHEN & HOW (register) ============ */
   .whenhow {
     background:
       radial-gradient(ellipse at 50% 0%, rgba(139,93,196,0.10), transparent 55%),
@@ -623,7 +726,7 @@
   .whenhow .eyebrow { margin-bottom: 52px; }
   .whenhow-title {
     font-weight: 900;
-    font-size: clamp(40px, 5.6vw, 96px);
+    font-size: clamp(38px, 5.2vw, 88px);
     line-height: 0.96;
     letter-spacing: -0.04em;
     color: var(--white);
@@ -809,7 +912,7 @@
   .darren .eyebrow { margin-bottom: 32px; }
   .darren-title {
     font-weight: 900;
-    font-size: clamp(32px, 4.4vw, 64px);
+    font-size: clamp(32px, 4.4vw, 62px);
     line-height: 1;
     letter-spacing: -0.04em;
     color: var(--white);
@@ -855,7 +958,7 @@
   /* ============ FINAL CTA ============ */
   .finalcta {
     background:
-      radial-gradient(ellipse at 50% 30%, rgba(139,93,196,0.12), transparent 60%),
+      radial-gradient(ellipse at 50% 30%, rgba(139,93,196,0.14), transparent 60%),
       linear-gradient(180deg, #0d0a10 0%, #0a0a0a 100%);
     padding: 180px 0 140px;
     border-top: 1px solid var(--rule);
@@ -864,7 +967,7 @@
   .finalcta .eyebrow { justify-content: center; margin-bottom: 52px; }
   .finalcta-title {
     font-weight: 900;
-    font-size: clamp(46px, 7vw, 132px);
+    font-size: clamp(42px, 6.4vw, 116px);
     line-height: 0.95;
     letter-spacing: -0.04em;
     color: var(--white);
@@ -880,7 +983,7 @@
     line-height: 1.55;
     color: var(--silver);
     max-width: 740px;
-    margin: 0 auto 16px;
+    margin: 0 auto 12px;
   }
   .finalcta-body strong { color: var(--white); font-weight: 600; }
 
@@ -950,48 +1053,43 @@
                 transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Push body down so it doesn't sit under the event bar */
+  body { padding-top: 46px; }
+  @media (max-width: 720px) { body { padding-top: 40px; } }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="top">
-  <a class="nav-brand" href="#" aria-label="BMC|COLLECTIVE"><img src="BMC_COLLECTIVE_logo.png" alt="BMC|COLLECTIVE" /></a>
-  <div class="nav-links">
-    <a href="#truth">The Truth</a>
-    <a href="#walkaway">What You'll Get</a>
-    <a href="#pattern">The Pattern</a>
-    <a href="#whenhow">When &amp; How</a>
-  </div>
-  <a class="nav-cta" href="#whenhow">Save My Seat <span>→</span></a>
-  <button class="nav-burger" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('navMobile').classList.toggle('open')">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-mobile" id="navMobile">
-    <a href="#truth">The Truth</a>
-    <a href="#walkaway">What You'll Get</a>
-    <a href="#pattern">The Pattern</a>
-    <a href="#whenhow">When &amp; How</a>
-    <a href="#whenhow">Save My Seat</a>
-  </div>
-</nav>
+<!-- EVENT BAR — opt-in page only; no site nav -->
+<div class="event-bar">
+  <span class="live-dot"></span>
+  <span>Free Live Broadcast</span>
+  <span class="event-bar-sep">·</span>
+  <span>Tue, June 23 · 9AM PT / 12PM ET</span>
+  <span class="event-bar-sep">·</span>
+  <a href="#register">Save My Free Seat →</a>
+</div>
 
 <main>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-stage">
-    <div class="hero-event">
-      <span class="live-dot"></span>
-      Live · Tue, June 23 · 60-Min Free Briefing
+    <div class="hero-content">
+      <div class="eyebrow"><span class="pip"></span>Free 60-Min Briefing With Darren Hardy</div>
+      <h1 class="hero-headline">Find Your<br>Missing <em>Multiplier</em>.</h1>
+      <p class="hero-sub">You've built something real. <strong>You're not stuck.</strong> You're at the ceiling that one specific hire would compound past.</p>
+      <p class="hero-body">In 60 live minutes, Darren shows you the one strategic seat that unlocks the next decade of your business, and gives you the diagnostic to find the person.</p>
+      <div class="hero-cta-row">
+        <a class="cta-primary" href="#register">Save My Free Seat <span>→</span></a>
+        <a class="cta-secondary" href="#truth">Why This Matters <span>↓</span></a>
+      </div>
+      <p class="hero-stamp">Live Broadcast · <strong>Tue, June 23 · 9AM PT / 12PM ET</strong></p>
     </div>
-    <div class="eyebrow"><span class="pip"></span>One Hire Away</div>
-    <h1 class="hero-headline">Find Your<br>Missing <em>Multiplier</em>.</h1>
-    <p class="hero-sub">You are one hire away from <strong>transforming your business</strong> and launching a decade of growth.</p>
-    <p class="hero-body">Discover which of the 5 strategic hires will deliver the highest ROI in your business, and leave with a practical plan to attract, evaluate, and recruit that seat.</p>
-    <div class="hero-cta-row">
-      <a class="cta-primary" href="#whenhow">Save My Free Seat <span>→</span></a>
-      <a class="cta-secondary" href="#truth">Why This Matters <span>↓</span></a>
+    <div class="hero-image">
+      <img src="DH_BMC_2.jpg" alt="Darren Hardy" />
+      <div class="hero-image-tag">Going Live · June 23</div>
     </div>
   </div>
 </section>
@@ -1000,12 +1098,12 @@
 <section class="truth" id="truth">
   <div class="container">
     <div class="eyebrow purple reveal"><span class="pip"></span>The Truth</div>
-    <h2 class="truth-title reveal">Most owners think their growth problem is a <em>people problem</em>. It isn't.</h2>
+    <h2 class="truth-title reveal">You're not struggling. You're at the <em>next ceiling</em>.</h2>
     <div class="truth-body">
-      <p class="reveal">It's a seat problem. They're hiring talented people into the wrong roles, watching them underperform, then blaming the hire. So they go back to the market, spend six figures more, and repeat the same cycle.</p>
-      <p class="reveal"><strong>The constraint was never the talent. It was an unfilled seat with no one accountable for a function that multiplies everything else.</strong></p>
-      <p class="reveal">The Missing Multiplier Briefing is for CEOs and founders who've already built something real, but know a key seat is empty, or filled by the wrong person.</p>
-      <p class="reveal">In this briefing, Darren shows you which seat your business needs right now, and where to find it.</p>
+      <p class="reveal">You wouldn't be reading this if you hadn't already built something real. You have customers, revenue, a team, and a track record of moving things forward when other people would have stalled.</p>
+      <p class="reveal">And yet, something is off. The next level isn't yielding to effort the way the last one did. That's not a sign you're broken. <strong>It's a sign you've hit the ceiling that ambition alone can't push through.</strong></p>
+      <p class="reveal">Every business that compounded across a decade hit this same point. The ones that broke through didn't outwork it. They didn't out-strategy it. <strong>They made one specific move.</strong></p>
+      <p class="reveal">They put the right person in the seat that multiplies everything else. And the next floor became the new floor.</p>
     </div>
   </div>
 </section>
@@ -1014,22 +1112,22 @@
 <section class="walkaway" id="walkaway">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>In 60 Minutes</div>
-    <h2 class="walkaway-title reveal">You'll walk away with three things you didn't have when you walked <em>in</em>.</h2>
+    <h2 class="walkaway-title reveal">What you'll walk away with, <em>live</em>.</h2>
     <div class="walkaway-grid">
       <div class="walkaway-cell reveal">
         <div class="walkaway-num">01</div>
         <h3 class="walkaway-head">Clarity on the <em>Who</em></h3>
-        <p class="walkaway-body">Pinpoint the ONE strategic role that would create the greatest impact in your business right now.</p>
+        <p class="walkaway-body">Pinpoint the one strategic role that would create the greatest compound impact in your business right now.</p>
       </div>
       <div class="walkaway-cell reveal">
         <div class="walkaway-num">02</div>
         <h3 class="walkaway-head">Confidence on the <em>What</em></h3>
-        <p class="walkaway-body">Avoid the 4 hiring traps most CEOs fall into that drain time, payroll, and resources without creating meaningful leverage.</p>
+        <p class="walkaway-body">Avoid the four hiring traps most ambitious CEOs fall into, the ones that drain payroll without creating meaningful leverage.</p>
       </div>
       <div class="walkaway-cell reveal">
         <div class="walkaway-num">03</div>
         <h3 class="walkaway-head">A Plan to <em>Execute</em></h3>
-        <p class="walkaway-body">A proven step-by-step framework to attract, evaluate, and secure your next hire before your competitors do.</p>
+        <p class="walkaway-body">A proven step-by-step framework to attract, evaluate, and secure that hire before your competitors do.</p>
       </div>
     </div>
   </div>
@@ -1039,63 +1137,120 @@
 <section class="pattern" id="pattern">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>The Pattern</div>
-    <h2 class="pattern-title reveal">One key hire. A decade of <em>compounding</em>.</h2>
-    <p class="pattern-opening reveal"><strong>Every successful business has made, or will make, ONE KEY HIRE.</strong> The pattern is the same at every revenue level. The leader who recognizes it first wins the next decade.</p>
+    <h2 class="pattern-title reveal">One hire. A decade of <em>compounding</em>.</h2>
+    <p class="pattern-opening reveal"><strong>Every business that compounded across a decade made one key hire.</strong> The pattern shows up at every revenue level. The leader who recognizes it first wins the next decade.</p>
 
+    <!-- Featured Apple -->
     <div class="pattern-featured reveal">
-      <div>
-        <span class="pattern-featured-tag">Apple · Tim Cook</span>
-        <div class="pattern-featured-stat">$4<em>T</em></div>
-        <div class="pattern-featured-sub">From One Key Hire</div>
+      <div class="pattern-featured-image">
+        <img src="companies/apple-tim-cook.jpg" alt="Apple — Steve Jobs and Tim Cook" />
+        <div class="pattern-featured-tag-overlay">Apple · Tim Cook</div>
       </div>
-      <div class="pattern-featured-body">
-        Steve Jobs brought in Tim Cook, kicking off over two decades of growth and a 10X increase in market cap. <strong>Apple became a $4 trillion company because of ONE KEY HIRE.</strong> The same pattern shows up at Marvel, Netflix, Starbucks, and every category-defining business that compounded across a decade.
+      <div class="pattern-featured-content">
+        <div class="pattern-featured-stat">$4<em>T</em></div>
+        <div class="pattern-featured-sub">Market Cap From One Key Hire</div>
+        <p class="pattern-featured-body">In 1998, Steve Jobs hired Tim Cook out of Compaq to lead operations. Cook installed the supply-chain machine that turned every Apple product launch into a global cash event. <strong>Cook became CEO in 2011 and led Apple from a $350B company to over $4 trillion.</strong> Same vision. Same product line. One hire compounded across two decades.</p>
       </div>
     </div>
 
-    <div class="pattern-rail-label reveal">Darren's mentees, same pattern</div>
+    <!-- Case grid -->
+    <div class="pattern-cases-label reveal">The same pattern, three more companies you know</div>
+    <div class="pattern-cases">
+      <div class="pattern-case reveal">
+        <div class="pattern-case-image">
+          <img src="companies/netflix-ted-sarandos.jpg" alt="Netflix — Ted Sarandos" />
+        </div>
+        <div class="pattern-case-body">
+          <span class="pattern-case-tag">Netflix · Ted Sarandos</span>
+          <div class="pattern-case-stat">DVDs → $300B</div>
+          <p>Reed Hastings brought in Ted Sarandos to run content. <strong>Sarandos built the original-content engine</strong> that transformed Netflix from a DVD mailer into a global studio.</p>
+        </div>
+      </div>
+
+      <div class="pattern-case reveal">
+        <div class="pattern-case-image">
+          <img src="companies/microsoft-satya.jpg" alt="Microsoft — Satya Nadella" />
+        </div>
+        <div class="pattern-case-body">
+          <span class="pattern-case-tag">Microsoft · Satya Nadella</span>
+          <div class="pattern-case-stat">$300B → $3T</div>
+          <p>Bill Gates and the board moved Satya Nadella into the CEO seat. <strong>10X market cap in a decade.</strong> Same company. New seat. New decade.</p>
+        </div>
+      </div>
+
+      <div class="pattern-case reveal">
+        <div class="pattern-case-image">
+          <img src="companies/marvel-kevin-feige.jpg" alt="Marvel — Kevin Feige" />
+        </div>
+        <div class="pattern-case-body">
+          <span class="pattern-case-tag">Marvel · Kevin Feige</span>
+          <div class="pattern-case-stat">$30B+ Box Office</div>
+          <p>Marvel handed the studio over to Kevin Feige. <strong>He architected the Marvel Cinematic Universe</strong>, the most successful film franchise in history.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mentee rail -->
+    <div class="pattern-rail-label reveal">Darren's own mentees · same pattern, today</div>
     <div class="pattern-rail">
       <div class="pattern-mentee reveal">
-        <div class="pattern-mentee-stat">$60M → $180M</div>
-        <p class="pattern-mentee-body">Tripled revenue with one key hire.</p>
-        <div class="pattern-mentee-name">Sidd Pagidipati</div>
+        <div class="pattern-mentee-photo">
+          <img src="mentees/sidd-pagidipati.jpg" alt="Sidd Pagidipati" />
+        </div>
+        <div class="pattern-mentee-body">
+          <div class="pattern-mentee-stat">$60M → $180M</div>
+          <p class="pattern-mentee-detail">Tripled revenue after filling one key seat.</p>
+          <div class="pattern-mentee-name">Sidd Pagidipati</div>
+        </div>
       </div>
+
       <div class="pattern-mentee reveal">
-        <div class="pattern-mentee-stat">$1M → $30M</div>
-        <p class="pattern-mentee-body">Grew 30X by filling one critical seat.</p>
-        <div class="pattern-mentee-name">Troy Berg</div>
+        <div class="pattern-mentee-photo">
+          <img src="mentees/troy-berg.jpg" alt="Troy Berg" />
+        </div>
+        <div class="pattern-mentee-body">
+          <div class="pattern-mentee-stat">$1M → $30M</div>
+          <p class="pattern-mentee-detail">30X growth from one critical hire.</p>
+          <div class="pattern-mentee-name">Troy Berg</div>
+        </div>
       </div>
+
       <div class="pattern-mentee reveal">
-        <div class="pattern-mentee-stat">11X ROI</div>
-        <p class="pattern-mentee-body">Year one return off one key hire.</p>
-        <div class="pattern-mentee-name">Kevin Ortner</div>
+        <div class="pattern-mentee-photo">
+          <img src="mentees/kevin-ortner.jpg" alt="Kevin Ortner" />
+        </div>
+        <div class="pattern-mentee-body">
+          <div class="pattern-mentee-stat">11X ROI</div>
+          <p class="pattern-mentee-detail">Year-one return off the one key hire.</p>
+          <div class="pattern-mentee-name">Kevin Ortner</div>
+        </div>
       </div>
     </div>
 
-    <p class="pattern-close reveal">Darren has seen this pattern at every revenue level from <strong>$1M to $100M+</strong>. He knows exactly how to identify the one key hire that will transform your business, and how to fill it with the right person.</p>
+    <p class="pattern-close reveal">Darren has seen this pattern from <strong>$1M to $100M+</strong>, in every industry, at every stage of growth. <strong>He knows exactly how to identify the one key hire that turns your next level into your new floor, and how to fill it with the right person.</strong></p>
   </div>
 </section>
 
 <!-- BONUSES -->
 <section class="bonuses">
   <div class="container">
-    <div class="eyebrow purple reveal"><span class="pip"></span>You'll Also Receive</div>
-    <h2 class="bonuses-title reveal">Tools to keep building after the <em>briefing</em>.</h2>
+    <div class="eyebrow purple reveal"><span class="pip"></span>Yours, Free, When You Register</div>
+    <h2 class="bonuses-title reveal">Three tools to keep building <em>after the broadcast</em>.</h2>
     <div class="bonuses-grid">
       <div class="bonus-card reveal">
         <div class="bonus-tag">Bonus 01 · PDF</div>
         <h3 class="bonus-head">The One Hire Diagnostic</h3>
-        <p class="bonus-body">Identify the highest-leverage role missing from your organization right now, so you can stop wasting money on the wrong hires.</p>
+        <p class="bonus-body">A guided diagnostic that surfaces the highest-leverage role missing from your organization right now, so you stop paying for the wrong seat.</p>
       </div>
       <div class="bonus-card reveal">
         <div class="bonus-tag">Bonus 02 · App</div>
         <h3 class="bonus-head">The Diagnostic App</h3>
-        <p class="bonus-body">Get an instant diagnosis in minutes, whether you're at your desk or reviewing your team with your leadership group.</p>
+        <p class="bonus-body">Run the diagnostic in minutes, on your phone, at your desk, or in your next leadership meeting. Get an instant read.</p>
       </div>
       <div class="bonus-card reveal">
         <div class="bonus-tag">Bonus 03 · Training</div>
         <h3 class="bonus-head">The Hiring Playbook</h3>
-        <p class="bonus-body">Darren walks you through every step to find the highest-ROI hire for your business, end-to-end.</p>
+        <p class="bonus-body">Darren walks you through every step to find, evaluate, and secure the highest-ROI hire for your business, end-to-end.</p>
       </div>
     </div>
   </div>
@@ -1106,15 +1261,15 @@
   <div class="container">
     <div class="eyebrow purple reveal"><span class="pip"></span>The Line</div>
     <p class="theline-quote reveal">"There is one leader in your industry right now who, dropped into the right seat, would compound your <em>next decade</em>."</p>
-    <p class="theline-final reveal">They are already valuable somewhere else. <strong>The only question is whether you find them before your competitor does.</strong></p>
+    <p class="theline-final reveal">They're already valuable somewhere else. <strong>The only question is whether you find them before your competitor does.</strong></p>
   </div>
 </section>
 
-<!-- WHEN & HOW -->
-<section class="whenhow" id="whenhow">
+<!-- WHEN & HOW (register) -->
+<section class="whenhow" id="register">
   <div class="container">
-    <div class="eyebrow purple reveal"><span class="pip"></span>When &amp; How</div>
-    <h2 class="whenhow-title reveal">Reserve your <em>free seat</em>.</h2>
+    <div class="eyebrow purple reveal"><span class="pip"></span>Register · Free</div>
+    <h2 class="whenhow-title reveal">Save your <em>free seat</em> on the broadcast.</h2>
     <div class="whenhow-grid">
       <div class="whenhow-details reveal">
         <div class="whenhow-row">
@@ -1127,11 +1282,15 @@
         </div>
         <div class="whenhow-row">
           <span class="whenhow-row-label">Format</span>
-          <span class="whenhow-row-value">Live Via Zoom</span>
+          <span class="whenhow-row-value">Live Broadcast Via Zoom</span>
         </div>
         <div class="whenhow-row">
-          <span class="whenhow-row-label">Includes</span>
-          <span class="whenhow-row-value">Diagnostic PDF + App + Training</span>
+          <span class="whenhow-row-label">Hosted By</span>
+          <span class="whenhow-row-value">Darren Hardy</span>
+        </div>
+        <div class="whenhow-row">
+          <span class="whenhow-row-label">Bonuses</span>
+          <span class="whenhow-row-value">Diagnostic PDF + App + Playbook</span>
         </div>
         <div class="whenhow-row">
           <span class="whenhow-row-label">Investment</span>
@@ -1140,7 +1299,7 @@
       </div>
       <div class="whenhow-cta-block reveal">
         <h3 class="whenhow-cta-head">Save My Free Seat + The Diagnostic Bonuses</h3>
-        <p class="whenhow-cta-body">Register now for immediate calendar access, the join link, and the One Hire Diagnostic delivered to your inbox.</p>
+        <p class="whenhow-cta-body">Register now for immediate calendar access, the join link, and the One Hire Diagnostic delivered straight to your inbox.</p>
         <a class="whenhow-cta-button" href="#">Save My Free Seat <span>→</span></a>
         <p class="whenhow-qualifier">For Business Leaders Only</p>
       </div>
@@ -1177,7 +1336,7 @@
       <div class="eyebrow purple reveal"><span class="pip"></span>Hosted By Darren Hardy</div>
       <h2 class="darren-title reveal">The advisor behind the world's most driven <em>builders</em>.</h2>
       <div class="darren-body">
-        <p class="reveal">For 35 years, Darren has sat in the rooms with the world's most admired CEOs and founders, learning what they hire for, who they hire, and what separates a hire that multiplies a company from one that drains it.</p>
+        <p class="reveal">For 35 years, Darren has sat in the rooms with the world's most admired CEOs and founders, watching what they hire for, who they hire, and what separates a hire that multiplies a company from one that drains it.</p>
         <p class="reveal"><strong>He's spent that career studying the one pattern that compounds across every decade of growth: the right person, in the right seat, at the right time.</strong></p>
       </div>
       <ul class="darren-bullets reveal">
@@ -1197,8 +1356,8 @@
     <h2 class="finalcta-title reveal">Find the seat.<br>Find the <em>person</em>.<br>Find the decade.</h2>
     <p class="finalcta-body reveal">Sixty minutes. <strong>Live with Darren.</strong></p>
     <p class="finalcta-body reveal">Tuesday, June 23 · 9AM PT / 12PM ET</p>
-    <a class="finalcta-cta reveal" href="#">Save My Free Seat <span>→</span></a>
-    <p class="finalcta-meta reveal">Free Briefing · Live Via Zoom · Diagnostic Bonuses Included</p>
+    <a class="finalcta-cta reveal" href="#register">Save My Free Seat <span>→</span></a>
+    <p class="finalcta-meta reveal">Free Live Broadcast · Diagnostic Bonuses Included</p>
   </div>
 </section>
 
@@ -1210,8 +1369,6 @@
     <div class="footer-bottom">
       <span>© 2026 Darren Hardy, LLC. All Rights Reserved.</span>
       <div class="legal-links">
-        <a href="https://darrenhardy.com/about.html">About</a>
-        <a href="https://darrenhardy.com/resources.html">Programs</a>
         <a href="https://dh.darrenhardy.com/terms-of-service/">Terms Of Service</a>
         <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
       </div>
