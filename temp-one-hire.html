@@ -363,10 +363,11 @@
     animation-delay: 0.7s;
   }
   .hero-image picture { display: contents; }
-  .hero-image img {
+  .hero-image img,
+  .hero-image video {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center 15%;
+    object-position: center 30%;
     display: block;
   }
   .hero-image::after {
@@ -394,6 +395,47 @@
     animation: pulse 2s ease-in-out infinite;
   }
   @media (max-width: 960px) { .hero-image { aspect-ratio: 16 / 10; } }
+
+  /* ============ TRUST BAR (media logos) ============ */
+  .trust-bar {
+    background: var(--paper);
+    padding: 56px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .trust-bar-label {
+    text-align: center;
+    font-weight: 700; font-size: 10px;
+    letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--grey-soft);
+    margin-bottom: 32px;
+  }
+  .trust-bar-logos {
+    display: flex; align-items: center; justify-content: center;
+    gap: clamp(28px, 5vw, 72px); flex-wrap: wrap;
+    max-width: 1280px; margin: 0 auto;
+    padding: 0 24px;
+  }
+  .trust-logo {
+    height: 22px;
+    width: auto;
+    display: block;
+    /* Color SVGs → make dark on light */
+    filter: brightness(0);
+    opacity: 0.4;
+    transition: opacity 0.2s;
+  }
+  .trust-logo.logo-bw {
+    /* B&W PNGs that are black-on-white → just lower opacity */
+    filter: none;
+    opacity: 0.55;
+  }
+  .trust-logo:hover { opacity: 0.85; }
+  @media (max-width: 640px) {
+    .trust-logo { height: 18px; }
+    .trust-bar-logos { gap: 24px; }
+  }
 
   /* ============ THE TRUTH ============ */
   .truth {
@@ -577,6 +619,63 @@
     color: var(--muted);
   }
   .pattern-featured-body strong { color: var(--black); font-weight: 700; }
+
+  /* SUCCESS cover proof wall — between featured Apple card and case grid */
+  .pattern-proof {
+    margin-bottom: 72px;
+    padding: 40px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .pattern-proof-label {
+    text-align: center;
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--grey-soft);
+    margin-bottom: 28px;
+  }
+  .pattern-proof-label strong { color: var(--purple-soft); font-weight: 700; }
+  .pattern-proof-wall {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 880px) { .pattern-proof-wall { grid-template-columns: repeat(3, 1fr); } }
+  .pattern-proof-cover {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: #0d0d0d;
+  }
+  .pattern-proof-cover img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    display: block;
+    filter: grayscale(60%) brightness(0.95);
+    transition: filter 0.4s ease, transform 0.5s ease;
+  }
+  .pattern-proof-cover:hover img {
+    filter: grayscale(0%) brightness(1);
+    transform: scale(1.04);
+  }
+  .pattern-proof-cap {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 22px 8px 8px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    color: var(--white);
+    font-weight: 700; font-size: 9px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.32s ease, transform 0.32s ease;
+    pointer-events: none;
+  }
+  .pattern-proof-cover:hover .pattern-proof-cap {
+    opacity: 1; transform: translateY(0);
+  }
 
   /* Case study grid */
   .pattern-cases-label {
@@ -1255,12 +1354,28 @@
       <p class="hero-stamp"><span class="live-pulse">Live Broadcast</span> · <strong>Tue, June 23 · 9AM PT / 12PM ET</strong></p>
     </div>
     <div class="hero-image">
-      <picture>
-        <source type="image/webp" srcset="Hero-DH.webp">
-        <img src="Hero-DH.png" alt="Darren Hardy" />
-      </picture>
+      <video autoplay muted loop playsinline preload="auto" poster="DH_BMC_3.jpg" aria-label="Darren Hardy live broadcast preview">
+        <source src="stage-reel.mp4" type="video/mp4">
+      </video>
       <div class="hero-image-tag">Going Live · June 23</div>
     </div>
+  </div>
+</section>
+
+<!-- TRUST BAR — credibility strip with media logos -->
+<section class="trust-bar">
+  <div class="trust-bar-label">Trusted In The Rooms By Leaders Featured In</div>
+  <div class="trust-bar-logos">
+    <img class="trust-logo logo-bw" src="media-logos/success.png" alt="SUCCESS" />
+    <img class="trust-logo" src="media-logos/forbes.svg" alt="Forbes" />
+    <img class="trust-logo" src="media-logos/inc.svg" alt="Inc." />
+    <img class="trust-logo" src="media-logos/cnbc.svg" alt="CNBC" />
+    <img class="trust-logo" src="media-logos/cnn.svg" alt="CNN" />
+    <img class="trust-logo" src="media-logos/fox.svg" alt="Fox" />
+    <img class="trust-logo" src="media-logos/cbs.svg" alt="CBS" />
+    <img class="trust-logo logo-bw" src="media-logos/abc.png" alt="ABC" />
+    <img class="trust-logo logo-bw" src="media-logos/npr.png" alt="NPR" />
+    <img class="trust-logo" src="media-logos/nyt.svg" alt="The New York Times" />
   </div>
 </section>
 
@@ -1323,6 +1438,37 @@
         <div class="pattern-featured-stat">$4<em>T</em></div>
         <div class="pattern-featured-sub">Market Cap From One Key Hire</div>
         <p class="pattern-featured-body">In 1998, Steve Jobs hired Tim Cook out of Compaq to lead operations. Cook installed the supply-chain machine that turned every Apple product launch into a global cash event. <strong>Cook became CEO in 2011 and led Apple from a $350B company to over $4 trillion.</strong> Same vision. Same product line. One hire compounded across two decades.</p>
+      </div>
+    </div>
+
+    <!-- SUCCESS Magazine cover wall — visual proof of Darren's proximity -->
+    <div class="pattern-proof reveal">
+      <p class="pattern-proof-label">Darren's Been Close To <strong>The Leaders Behind Every Story</strong></p>
+      <div class="pattern-proof-wall">
+        <div class="pattern-proof-cover">
+          <img src="covers/SM_11_08_BEZOS.jpg" alt="Jeff Bezos · SUCCESS" loading="lazy" />
+          <div class="pattern-proof-cap">Bezos</div>
+        </div>
+        <div class="pattern-proof-cover">
+          <img src="covers/SM_10_06_JOBS.jpg" alt="Steve Jobs · SUCCESS" loading="lazy" />
+          <div class="pattern-proof-cap">Jobs</div>
+        </div>
+        <div class="pattern-proof-cover">
+          <img src="covers/SM_13_02_MUSK.jpg" alt="Elon Musk · SUCCESS" loading="lazy" />
+          <div class="pattern-proof-cap">Musk</div>
+        </div>
+        <div class="pattern-proof-cover">
+          <img src="covers/SM_14_11_COOK.jpg" alt="Tim Cook · SUCCESS" loading="lazy" />
+          <div class="pattern-proof-cap">Cook</div>
+        </div>
+        <div class="pattern-proof-cover">
+          <img src="covers/SM_11_05_ZUCKERBERG.jpg" alt="Mark Zuckerberg · SUCCESS" loading="lazy" />
+          <div class="pattern-proof-cap">Zuckerberg</div>
+        </div>
+        <div class="pattern-proof-cover">
+          <img src="covers/JackWelch.jpg" alt="Jack Welch · SUCCESS" loading="lazy" />
+          <div class="pattern-proof-cap">Welch</div>
+        </div>
       </div>
     </div>
 
