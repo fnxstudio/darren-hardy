@@ -259,6 +259,95 @@
   }
   .hero-stamp strong { color: var(--purple-soft); font-weight: 700; }
 
+  /* COUNTDOWN — sits below the hero CTAs as a ticking event clock */
+  .countdown {
+    display: flex; gap: 12px;
+    margin: 36px 0 0;
+    max-width: 460px;
+    opacity: 0; transform: translateY(14px);
+    animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 2.1s;
+  }
+  .countdown-cell {
+    flex: 1;
+    padding: 14px 8px 12px;
+    text-align: center;
+    border: 1px solid var(--rule-purple);
+    background: var(--white);
+    position: relative;
+  }
+  .countdown-cell::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--purple);
+    transform: scaleX(0.4);
+    transform-origin: left;
+    opacity: 0.6;
+  }
+  .countdown-num {
+    font-weight: 900;
+    font-size: clamp(28px, 3.2vw, 42px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--purple-soft);
+    font-variant-numeric: tabular-nums;
+    display: block;
+  }
+  .countdown-label {
+    margin-top: 8px;
+    font-weight: 700; font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--grey-soft);
+    display: block;
+  }
+  @media (max-width: 480px) { .countdown { gap: 8px; } .countdown-cell { padding: 12px 4px 10px; } }
+
+  /* LIVE PULSE — inline indicator for "live broadcast" language */
+  .live-pulse {
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .live-pulse::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--purple);
+    box-shadow: 0 0 10px rgba(139,93,196,0.7);
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  /* DECORATIVE SECTION NUMERALS — magazine-spread style */
+  .section-num {
+    position: absolute;
+    top: 60px;
+    right: 32px;
+    font-weight: 900;
+    font-size: clamp(140px, 22vw, 280px);
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+    color: rgba(139, 93, 196, 0.08);
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 880px) {
+    .section-num { top: 36px; right: 18px; font-size: clamp(100px, 28vw, 160px); }
+  }
+  /* Ensure content stays above the decorative numeral */
+  .truth .container,
+  .walkaway .container,
+  .pattern .container,
+  .bonuses .container,
+  .theline .container,
+  .whenhow .container,
+  .finalcta .container { position: relative; z-index: 1; }
+
   /* ===== Hero image side (DH portrait on light gradient frame) ===== */
   .hero-image {
     position: relative;
@@ -1101,6 +1190,19 @@
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  /* STAT POP — bigger entrance for the case-study stats */
+  .stat-pop {
+    opacity: 0;
+    transform: scale(0.78) translateY(20px);
+    transform-origin: left center;
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .stat-pop.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
   /* Push body down so it doesn't sit under the event bar */
   body { padding-top: 46px; }
   @media (max-width: 720px) { body { padding-top: 40px; } }
@@ -1132,7 +1234,25 @@
         <a class="cta-primary" href="#register">Save My Free Seat <span>→</span></a>
         <a class="cta-secondary" href="#truth">Why This Matters <span>↓</span></a>
       </div>
-      <p class="hero-stamp">Live Broadcast · <strong>Tue, June 23 · 9AM PT / 12PM ET</strong></p>
+      <div class="countdown" id="countdown" aria-label="Countdown to live broadcast">
+        <div class="countdown-cell">
+          <span class="countdown-num" data-unit="days">--</span>
+          <span class="countdown-label">Days</span>
+        </div>
+        <div class="countdown-cell">
+          <span class="countdown-num" data-unit="hours">--</span>
+          <span class="countdown-label">Hrs</span>
+        </div>
+        <div class="countdown-cell">
+          <span class="countdown-num" data-unit="minutes">--</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <div class="countdown-cell">
+          <span class="countdown-num" data-unit="seconds">--</span>
+          <span class="countdown-label">Sec</span>
+        </div>
+      </div>
+      <p class="hero-stamp"><span class="live-pulse">Live Broadcast</span> · <strong>Tue, June 23 · 9AM PT / 12PM ET</strong></p>
     </div>
     <div class="hero-image">
       <picture>
@@ -1146,6 +1266,7 @@
 
 <!-- THE TRUTH -->
 <section class="truth" id="truth">
+  <div class="section-num" aria-hidden="true">01</div>
   <div class="container">
     <div class="eyebrow purple reveal"><span class="pip"></span>The Truth</div>
     <h2 class="truth-title reveal">You're not struggling. You're at the <em>next ceiling</em>.</h2>
@@ -1160,6 +1281,7 @@
 
 <!-- WHAT YOU'LL WALK AWAY WITH -->
 <section class="walkaway" id="walkaway">
+  <div class="section-num" aria-hidden="true">02</div>
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>In 60 Minutes</div>
     <h2 class="walkaway-title reveal">What you'll walk away with, <em>live</em>.</h2>
@@ -1185,6 +1307,7 @@
 
 <!-- THE PATTERN -->
 <section class="pattern" id="pattern">
+  <div class="section-num" aria-hidden="true">03</div>
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>The Pattern</div>
     <h2 class="pattern-title reveal">One hire. A decade of <em>compounding</em>.</h2>
@@ -1283,6 +1406,7 @@
 
 <!-- BONUSES -->
 <section class="bonuses">
+  <div class="section-num" aria-hidden="true">04</div>
   <div class="container">
     <div class="eyebrow purple reveal"><span class="pip"></span>Yours, Free, When You Register</div>
     <h2 class="bonuses-title reveal">Three tools to keep building <em>after the broadcast</em>.</h2>
@@ -1308,6 +1432,7 @@
 
 <!-- THE LINE (big quote) -->
 <section class="theline">
+  <div class="section-num" aria-hidden="true">05</div>
   <div class="container">
     <div class="eyebrow purple reveal"><span class="pip"></span>The Line</div>
     <p class="theline-quote reveal">"There is one leader in your industry right now who, dropped into the right seat, would compound your <em>next decade</em>."</p>
@@ -1317,6 +1442,7 @@
 
 <!-- WHEN & HOW (register + form) -->
 <section class="whenhow" id="register">
+  <div class="section-num" aria-hidden="true">06</div>
   <div class="container">
     <div class="eyebrow purple reveal"><span class="pip"></span>Register · Free</div>
     <h2 class="whenhow-title reveal">Save your <em>free seat</em> on the broadcast.</h2>
@@ -1442,6 +1568,7 @@
 </footer>
 
 <script>
+// Reveal-on-scroll for .reveal elements
 (function () {
   const els = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver(entries => {
@@ -1453,6 +1580,71 @@
     });
   }, { threshold: 0.15 });
   els.forEach(el => obs.observe(el));
+})();
+
+// Stat-pop: bigger entrance animation for case-study and mentee stats
+(function () {
+  const stats = document.querySelectorAll(
+    '.pattern-featured-stat, .pattern-case-stat, .pattern-mentee-stat'
+  );
+  stats.forEach(el => el.classList.add('stat-pop'));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  stats.forEach(el => obs.observe(el));
+})();
+
+// Live countdown to the broadcast (Tue, June 23, 2026 · 9AM PT / 12PM ET = 16:00 UTC)
+(function () {
+  const cd = document.getElementById('countdown');
+  if (!cd) return;
+  const target = new Date(Date.UTC(2026, 5, 23, 16, 0, 0)); // month is 0-indexed
+  const out = {
+    days:    cd.querySelector('[data-unit="days"]'),
+    hours:   cd.querySelector('[data-unit="hours"]'),
+    minutes: cd.querySelector('[data-unit="minutes"]'),
+    seconds: cd.querySelector('[data-unit="seconds"]'),
+  };
+  function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
+  function update() {
+    const diff = Math.max(0, target.getTime() - Date.now());
+    const days    = Math.floor(diff / 86400000);
+    const hours   = Math.floor((diff % 86400000) / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+    out.days.textContent    = pad(days);
+    out.hours.textContent   = pad(hours);
+    out.minutes.textContent = pad(minutes);
+    out.seconds.textContent = pad(seconds);
+  }
+  update();
+  setInterval(update, 1000);
+})();
+
+// SUCCESS wall parallax in the Darren section (matches the home.html intro pattern)
+(function () {
+  const wall = document.querySelector('.darren-wall');
+  const section = document.querySelector('.darren-image');
+  if (!wall || !section) return;
+  let rafPending = false;
+  function tick() {
+    const rect = section.getBoundingClientRect();
+    const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+    const offset = Math.max(0, Math.min(1, progress)) * 280;
+    wall.style.transform = 'translateY(-' + offset + 'px)';
+    rafPending = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(tick);
+  }, { passive: true });
+  tick();
 })();
 </script>
 </body>
