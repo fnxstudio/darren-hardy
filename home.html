@@ -1565,18 +1565,19 @@
   }
   .dd-optin.open .dd-eyebrow { animation-delay: 0.20s; }
 
-  /* Red emphasis inside the headline */
-  .dd-hl { color: var(--dd-red); }
-
   .dd-headline {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(28px, 3vw, 34px);
-    line-height: 1.04;
+    /* Sized so each sentence fits one line in the fixed-width panel; vw shrinks
+       it on full-width mobile so the lines never wrap mid-sentence. */
+    font-size: clamp(20px, 5.6vw, 27px);
+    line-height: 1.1;
     letter-spacing: -0.025em;
     color: var(--white);
     margin-bottom: 18px;
   }
+  /* Each sentence sits on its own complete, unbroken line */
+  .dd-headline .dd-line { display: block; white-space: nowrap; }
   .dd-optin.open .dd-headline { animation-delay: 0.24s; }
 
   .dd-promise {
@@ -1697,10 +1698,10 @@
   .dd-check {
     width: 52px; height: 52px;
     display: flex; align-items: center; justify-content: center;
-    border: 1px solid var(--dd-red);
+    border: 1px solid var(--rule-strong);
     border-radius: 50%;
     margin: 6px 0 28px;
-    color: var(--dd-red);
+    color: var(--white);
   }
   .dd-check svg { width: 22px; height: 22px; display: block; }
   .dd-confirm-title {
@@ -2083,7 +2084,7 @@
       <img class="dd-logo dd-reveal" src="DarrenDaily_logo_white.webp" alt="DarrenDaily" width="1235" height="747">
       <div class="dd-accent dd-reveal"></div>
       <div class="dd-eyebrow dd-reveal">DarrenDaily</div>
-      <h2 class="dd-headline dd-reveal" id="ddHeadline">Your <span class="dd-hl">Unfair Advantage</span>, Every Weekday Morning.</h2>
+      <h2 class="dd-headline dd-reveal" id="ddHeadline"><span class="dd-line">Your Unfair Advantage.</span><span class="dd-line">Every Weekday Morning.</span></h2>
       <p class="dd-promise dd-reveal" id="ddPromise">Get one strategic insight from Darren Hardy, delivered to your inbox via private video each weekday morning. Five minutes a day that compound while everyone else scrolls. Yours free.</p>
 
       <form class="dd-form dd-reveal" id="ddForm" novalidate>
