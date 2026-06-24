@@ -1614,13 +1614,23 @@
   .dd-submit .arrow { font-weight: 400; transition: transform 0.2s; }
   .dd-submit:hover .arrow { transform: translateX(3px); }
 
-  /* Microcopy + trust line, combined into one block under the button */
   .dd-micro {
     margin-top: 14px;
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     line-height: 1.55;
     color: var(--grey-soft);
+    text-align: center;
+  }
+  /* Trust line — its own line, bold */
+  .dd-trust {
+    margin-top: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11.5px;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    color: var(--silver);
     text-align: center;
   }
 
@@ -2037,14 +2047,14 @@
 
       <form class="dd-form" id="ddForm" novalidate>
         <div class="dd-field">
-          <input type="text" name="firstname" id="ddFirst" placeholder="First name" autocomplete="given-name" required>
+          <input type="text" name="firstname" id="ddFirst" placeholder="First name *" autocomplete="given-name" required>
         </div>
         <div class="dd-field">
-          <input type="email" name="email" id="ddEmail" placeholder="Email" autocomplete="email" required>
+          <input type="email" name="email" id="ddEmail" placeholder="Email *" autocomplete="email" required>
         </div>
         <div class="dd-field dd-field--select">
           <select name="role" id="ddRole" required>
-            <option value="" disabled selected>Your role</option>
+            <option value="" disabled selected>Your role *</option>
             <option value="owner_0_500k">Business owner (revenue $0–$500K)</option>
             <option value="owner_500k_1m">Business owner (revenue $500K–$1M)</option>
             <option value="owner_1m_10m">Business owner (revenue $1M–$10M)</option>
@@ -2056,7 +2066,8 @@
           <span class="dd-chev" aria-hidden="true">▾</span>
         </div>
         <button type="submit" class="dd-submit">Start My Morning Edge <span class="arrow" aria-hidden="true">→</span></button>
-        <p class="dd-micro">Free. Unsubscribe in one click. We never share your information. Join 350,000+ driven business builders who refuse to start the day without an edge.</p>
+        <p class="dd-micro">* Required. Free. Unsubscribe in one click. We never share your information.</p>
+        <p class="dd-trust">Join 350,000+ driven business builders who refuse to start the day without an edge.</p>
       </form>
     </div>
 
@@ -2343,7 +2354,7 @@ team.forEach(m => {
   const confEl = document.getElementById('ddConfirmState');
   const DELAY  = 20000;                      // 20 seconds on page
   const SCROLL_TRIGGER = 0.70;               // ...or 70% of the page scrolled
-  const FREQUENCY_DAYS = 7;                  // repeat-visit cap: don't auto-show again within N days (1 = daily, 0 = every visit)
+  const FREQUENCY_DAYS = 0;                  // 0 = no cap, shows every visit (for testing). Set to 7 or 1 to re-enable.
   const KEY    = 'ddOptinSeenAbout';         // localStorage timestamp of the last show
   let lastFocus = null, timer = null, shown = false;
 
