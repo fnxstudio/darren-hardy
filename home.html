@@ -277,6 +277,8 @@
     --rule-strong: rgba(255, 255, 255, 0.15);
     --rule-dark: rgba(10, 10, 10, 0.1);
     --rule-dark-strong: rgba(10, 10, 10, 0.18);
+    --dd-red: #a72632;        /* DarrenDaily brand red */
+    --dd-red-deep: #8a1f27;   /* hover/pressed */
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1455,6 +1457,288 @@
     .man-close { padding: 64px 0 48px; }
     .man-node { left: -30px; }
   }
+
+  /* ============ DARRENDAILY SLIDE-IN OPT-IN ============ */
+  /* Proof of concept — matches the home brand (Inter, mono-luxe) with a single
+     restrained DarrenDaily accent (orchid → denim-blue hairline). Not yet wired
+     to HubSpot. Slides in from the right after 20s, once per session. */
+  .dd-optin {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .dd-optin.open { visibility: visible; pointer-events: auto; }
+
+  .dd-optin-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(6, 6, 6, 0.62);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .dd-optin.open .dd-optin-backdrop { opacity: 1; }
+
+  .dd-panel {
+    position: absolute;
+    top: 0; right: 0;
+    height: 100%;
+    width: 460px;
+    max-width: 92vw;
+    background:
+      radial-gradient(ellipse at 70% 0%, rgba(255,255,255,0.05), transparent 60%),
+      linear-gradient(165deg, #121212 0%, #0a0a0a 60%, #0d0d0d 100%);
+    border-left: 1px solid var(--rule-strong);
+    box-shadow: -40px 0 80px rgba(0,0,0,0.55);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 56px 48px 48px;
+    transform: translateX(100%);
+    transition: transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-overflow-scrolling: touch;
+  }
+  .dd-optin.open .dd-panel { transform: translateX(0); }
+
+  /* faint dot texture — same DNA as the hero */
+  .dd-panel::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+  }
+  .dd-panel > * { position: relative; }
+
+  .dd-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    color: var(--silver);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .dd-close:hover { color: var(--white); border-color: var(--rule-strong); transform: rotate(90deg); }
+  .dd-close svg { width: 15px; height: 15px; display: block; }
+
+  /* Staggered reveal of inner content once the panel is open */
+  .dd-panel .dd-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  .dd-optin.open .dd-panel .dd-reveal {
+    animation: ddReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes ddReveal { to { opacity: 1; transform: translateY(0); } }
+
+  .dd-logo {
+    width: 154px;
+    height: auto;
+    display: block;
+    margin-bottom: 26px;
+    opacity: 0.96;
+  }
+  .dd-optin.open .dd-logo { animation-delay: 0.12s; }
+
+  .dd-accent {
+    width: 56px; height: 2px;
+    border-radius: 2px;
+    background: var(--dd-red);
+    margin-bottom: 22px;
+  }
+  .dd-optin.open .dd-accent { animation-delay: 0.16s; }
+
+  .dd-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--dd-red);
+    margin-bottom: 18px;
+  }
+  .dd-optin.open .dd-eyebrow { animation-delay: 0.20s; }
+
+  /* Red emphasis inside the headline */
+  .dd-hl { color: var(--dd-red); }
+
+  .dd-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 3vw, 34px);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    color: var(--white);
+    margin-bottom: 18px;
+  }
+  .dd-optin.open .dd-headline { animation-delay: 0.24s; }
+
+  .dd-promise {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--silver);
+    margin-bottom: 32px;
+  }
+  .dd-optin.open .dd-promise { animation-delay: 0.28s; }
+
+  .dd-form { display: flex; flex-direction: column; gap: 12px; }
+
+  .dd-field { position: relative; }
+  .dd-field input,
+  .dd-field select {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    background: rgba(255,255,255,0.035);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    padding: 16px 18px;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .dd-field input::placeholder { color: var(--grey); }
+  .dd-field input:focus,
+  .dd-field select:focus {
+    outline: none;
+    border-color: rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.06);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
+  }
+  /* required-but-empty after a submit attempt */
+  .dd-form.validated .dd-field input:invalid,
+  .dd-form.validated .dd-field select:invalid {
+    border-color: rgba(192, 102, 120, 0.7);
+  }
+  .dd-field select { color: var(--white); cursor: pointer; padding-right: 40px; }
+  .dd-field select:invalid { color: var(--grey); }      /* placeholder option */
+  .dd-field select option { color: #141414; background: #f5f5f5; }
+  .dd-field--select .dd-chev {
+    position: absolute;
+    top: 50%; right: 16px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--silver);
+    font-size: 11px;
+  }
+  .dd-optin.open .dd-form { animation-delay: 0.32s; }
+
+  .dd-submit {
+    margin-top: 8px;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--dd-red);
+    color: var(--white);
+    border: 1px solid var(--dd-red);
+    padding: 18px 28px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.22s, color 0.22s, border-color 0.22s;
+  }
+  .dd-submit::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -80%;
+    width: 55%; height: 100%;
+    background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.55) 50%, transparent 80%);
+    animation: cta-shimmer 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .dd-submit:hover { background: transparent; color: var(--white); border-color: var(--dd-red); }
+  .dd-submit:hover::after { display: none; }
+  .dd-submit .arrow { font-weight: 400; transition: transform 0.2s; }
+  .dd-submit:hover .arrow { transform: translateX(3px); }
+
+  .dd-micro {
+    margin-top: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    color: var(--grey-soft);
+    text-align: center;
+  }
+  .dd-optin.open .dd-micro { animation-delay: 0.36s; }
+
+  .dd-trust {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--silver);
+  }
+  .dd-optin.open .dd-trust { animation-delay: 0.40s; }
+
+  /* ── Confirmation state ── */
+  .dd-confirm { display: flex; flex-direction: column; }
+  .dd-confirm[hidden] { display: none; }   /* explicit display must yield to [hidden] */
+  .dd-check {
+    width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--dd-red);
+    border-radius: 50%;
+    margin: 6px 0 28px;
+    color: var(--dd-red);
+  }
+  .dd-check svg { width: 22px; height: 22px; display: block; }
+  .dd-confirm-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(30px, 3.4vw, 38px);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    color: var(--white);
+    margin-bottom: 22px;
+  }
+  .dd-confirm-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.62;
+    color: var(--silver);
+    margin-bottom: 24px;
+  }
+  .dd-confirm-body strong { color: var(--white); font-weight: 600; }
+  .dd-sign {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 520px) {
+    .dd-panel { width: 100%; max-width: 100%; padding: 52px 28px 40px; border-left: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dd-panel { transition: transform 0.01s linear; }
+    .dd-optin.open .dd-panel .dd-reveal { animation: none; opacity: 1; transform: none; }
+    .dd-submit::after { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -1779,6 +2063,72 @@
   </div>
 </footer>
 
+<!-- ─────────────────────────────────────────────────────────────
+     DARRENDAILY SLIDE-IN OPT-IN  (proof of concept)
+     Slides in from the right after 20s on page, once per session.
+     NOTE: not yet wired to HubSpot — submit shows the in-experience
+     confirmation only. Wire #ddForm to the HubSpot endpoint on launch.
+     ───────────────────────────────────────────────────────────── -->
+<div class="dd-optin" id="ddOptin" aria-hidden="true">
+  <div class="dd-optin-backdrop" data-dd-close></div>
+  <aside class="dd-panel" role="dialog" aria-modal="true" aria-labelledby="ddHeadline" aria-describedby="ddPromise">
+    <button class="dd-close" type="button" aria-label="Close" data-dd-close>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>
+      </svg>
+    </button>
+
+    <!-- FORM STATE -->
+    <div id="ddFormState">
+      <img class="dd-logo dd-reveal" src="DarrenDaily_logo_white.webp" alt="DarrenDaily" width="1235" height="747">
+      <div class="dd-accent dd-reveal"></div>
+      <div class="dd-eyebrow dd-reveal">DarrenDaily</div>
+      <h2 class="dd-headline dd-reveal" id="ddHeadline">Your <span class="dd-hl">Unfair Advantage</span>, Every Weekday Morning.</h2>
+      <p class="dd-promise dd-reveal" id="ddPromise">Get one strategic insight from Darren Hardy, delivered to your inbox via private video each weekday morning. Five minutes a day that compound while everyone else scrolls. Yours free.</p>
+
+      <form class="dd-form dd-reveal" id="ddForm" novalidate>
+        <div class="dd-field">
+          <input type="text" name="firstname" id="ddFirst" placeholder="First name" autocomplete="given-name" required>
+        </div>
+        <div class="dd-field">
+          <input type="email" name="email" id="ddEmail" placeholder="Email" autocomplete="email" required>
+        </div>
+        <div class="dd-field dd-field--select">
+          <select name="role" id="ddRole" required>
+            <option value="" disabled selected>Your role</option>
+            <option value="owner_0_500k">Business owner (revenue $0–$500K)</option>
+            <option value="owner_500k_1m">Business owner (revenue $500K–$1M)</option>
+            <option value="owner_1m_10m">Business owner (revenue $1M–$10M)</option>
+            <option value="owner_10m_50m">Business owner (revenue $10M–$50M)</option>
+            <option value="owner_50m_plus">Business owner (revenue $50M+)</option>
+            <option value="internal_leader">Internal leader/employee</option>
+            <option value="student_other">Student, retired, other</option>
+          </select>
+          <span class="dd-chev" aria-hidden="true">▾</span>
+        </div>
+        <button type="submit" class="dd-submit">Start My Morning Edge <span class="arrow" aria-hidden="true">→</span></button>
+        <p class="dd-micro">Free. Unsubscribe in one click. We never share your information.</p>
+      </form>
+
+      <p class="dd-trust dd-reveal">Join 350,000+ driven business builders who refuse to start the day without an edge.</p>
+    </div>
+
+    <!-- CONFIRMATION STATE -->
+    <div class="dd-confirm" id="ddConfirmState" hidden>
+      <img class="dd-logo" src="DarrenDaily_logo_white.webp" alt="DarrenDaily" width="1235" height="747">
+      <div class="dd-accent"></div>
+      <div class="dd-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 12.5 9.5 18 20 6.5"/>
+        </svg>
+      </div>
+      <h2 class="dd-confirm-title">Welcome.</h2>
+      <p class="dd-confirm-body">You're now part of the <strong>#BetterEveryDay</strong> movement. Your first message is on its way from <strong>Darren@DarrenDaily.com</strong>. Add that address to your contacts so nothing gets lost. Your journey starts tomorrow.</p>
+      <p class="dd-sign">— Darren</p>
+    </div>
+  </aside>
+</div>
+
 <script>
 // ── Stats count-up — sequential, one at a time, ending on 1.6B ──
 (function () {
@@ -1995,6 +2345,76 @@ document.querySelectorAll('.c-tile').forEach(tile => {
 })();
 
 // Vimeo background video autoplay is handled by background=1 param in the embed URL
+
+// ── DarrenDaily slide-in opt-in (proof of concept) ──
+(function () {
+  const optin   = document.getElementById('ddOptin');
+  if (!optin) return;
+  const panel   = optin.querySelector('.dd-panel');
+  const form    = document.getElementById('ddForm');
+  const formEl  = document.getElementById('ddFormState');
+  const confEl  = document.getElementById('ddConfirmState');
+  const DELAY   = 20000;                 // 20 seconds on page
+  const KEY     = 'ddOptinDismissed';    // once per session
+  let lastFocus = null;
+
+  function open() {
+    if (optin.classList.contains('open')) return;
+    lastFocus = document.activeElement;
+    optin.classList.add('open');
+    optin.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+    // focus the first field once the slide-in settles
+    setTimeout(() => { const f = document.getElementById('ddFirst'); if (f) f.focus(); }, 520);
+  }
+
+  function close() {
+    optin.classList.remove('open');
+    optin.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', onKey);
+    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    if (e.key === 'Tab') trapFocus(e);
+  }
+
+  // Keep keyboard focus inside the panel while it's open
+  function trapFocus(e) {
+    const f = panel.querySelectorAll('a[href], button:not([disabled]), input, select, textarea');
+    const list = [...f].filter(el => el.offsetParent !== null);
+    if (!list.length) return;
+    const first = list[0], last = list[list.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  optin.querySelectorAll('[data-dd-close]').forEach(el => el.addEventListener('click', close));
+
+  // Submit → validate → swap to the in-experience confirmation (no HubSpot yet)
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    form.classList.add('validated');
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    formEl.hidden = true;
+    confEl.hidden = false;
+    panel.scrollTop = 0;
+    const x = panel.querySelector('.dd-close');
+    if (x) x.focus();
+  });
+
+  // Trigger after 20s, once per session (respects an earlier dismissal)
+  let dismissed = false;
+  try { dismissed = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (!dismissed) setTimeout(open, DELAY);
+
+  // Manual trigger for demoing to the team: call ddShowOptin() in the console
+  window.ddShowOptin = open;
+})();
 </script>
 </body>
 </html>
