@@ -2333,7 +2333,7 @@ team.forEach(m => {
 })();
 
 // ── DarrenDaily centered modal opt-in (proof of concept) ──
-// Triggers after 20s OR at 70% scroll depth (whichever fires first), once per session.
+// Triggers after 20s OR at 70% scroll depth OR on exit-intent (whichever fires first).
 (function () {
   const optin  = document.getElementById('ddOptin');
   if (!optin) return;
@@ -2343,14 +2343,25 @@ team.forEach(m => {
   const confEl = document.getElementById('ddConfirmState');
   const DELAY  = 20000;                      // 20 seconds on page
   const SCROLL_TRIGGER = 0.70;               // ...or 70% of the page scrolled
-  const KEY    = 'ddOptinDismissedAbout';    // once per session
+  const FREQUENCY_DAYS = 7;                  // repeat-visit cap: don't auto-show again within N days (1 = daily, 0 = every visit)
+  const KEY    = 'ddOptinSeenAbout';         // localStorage timestamp of the last show
   let lastFocus = null, timer = null, shown = false;
+
+  // Repeat-visitor frequency cap (persists across sessions via localStorage)
+  function recentlyShown() {
+    if (!FREQUENCY_DAYS) return false;
+    try { const t = +localStorage.getItem(KEY); return t && (Date.now() - t) < FREQUENCY_DAYS * 86400000; }
+    catch (e) { return false; }
+  }
+  function remember() { try { localStorage.setItem(KEY, Date.now()); } catch (e) {} }
 
   function open() {
     if (shown) return;
     shown = true;
+    remember();
     clearTimeout(timer);
     window.removeEventListener('scroll', onScroll);
+    document.removeEventListener('mouseout', onExitIntent);
     lastFocus = document.activeElement;
     optin.classList.add('open');
     optin.setAttribute('aria-hidden', 'false');
@@ -2364,7 +2375,6 @@ team.forEach(m => {
     optin.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     document.removeEventListener('keydown', onKey);
-    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
@@ -2388,6 +2398,11 @@ team.forEach(m => {
     if (max > 0 && (window.scrollY || el.scrollTop) / max >= SCROLL_TRIGGER) open();
   }
 
+  // Exit-intent: pointer leaves through the top of the viewport (desktop)
+  function onExitIntent(e) {
+    if (e.clientY <= 0 && !e.relatedTarget && !e.toElement) open();
+  }
+
   optin.querySelectorAll('[data-dd-close]').forEach(el => el.addEventListener('click', close));
 
   form.addEventListener('submit', function (e) {
@@ -2401,11 +2416,12 @@ team.forEach(m => {
     if (x) x.focus();
   });
 
-  let dismissed = false;
-  try { dismissed = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
-  if (!dismissed) {
+  // Trigger after 20s OR at 70% scroll OR on exit-intent (whichever first).
+  // Suppressed for repeat visitors seen within the last FREQUENCY_DAYS.
+  if (!recentlyShown()) {
     timer = setTimeout(open, DELAY);
     window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('mouseout', onExitIntent);
   }
 
   // Manual trigger for demoing to the team: call ddShowOptin() in the console
