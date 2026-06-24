@@ -1495,7 +1495,10 @@
     box-shadow: -40px 0 80px rgba(0,0,0,0.55);
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 56px 48px 48px;
+    padding: 40px 48px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     transform: translateX(100%);
     transition: transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
     -webkit-overflow-scrolling: touch;
@@ -1538,32 +1541,21 @@
   @keyframes ddReveal { to { opacity: 1; transform: translateY(0); } }
 
   .dd-logo {
-    width: 154px;
+    width: 138px;
     height: auto;
     display: block;
-    margin-bottom: 26px;
+    margin-bottom: 16px;
     opacity: 0.96;
   }
   .dd-optin.open .dd-logo { animation-delay: 0.12s; }
 
   .dd-accent {
-    width: 56px; height: 2px;
+    width: 52px; height: 2px;
     border-radius: 2px;
     background: var(--dd-red);
-    margin-bottom: 22px;
+    margin-bottom: 16px;
   }
   .dd-optin.open .dd-accent { animation-delay: 0.16s; }
-
-  .dd-eyebrow {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 11px;
-    letter-spacing: 0.42em;
-    text-transform: uppercase;
-    color: var(--dd-red);
-    margin-bottom: 18px;
-  }
-  .dd-optin.open .dd-eyebrow { animation-delay: 0.20s; }
 
   .dd-headline {
     font-family: 'Inter', sans-serif;
@@ -1574,23 +1566,23 @@
     line-height: 1.1;
     letter-spacing: -0.025em;
     color: var(--white);
-    margin-bottom: 18px;
+    margin-bottom: 13px;
   }
   /* Each sentence sits on its own complete, unbroken line */
   .dd-headline .dd-line { display: block; white-space: nowrap; }
-  .dd-optin.open .dd-headline { animation-delay: 0.24s; }
+  .dd-optin.open .dd-headline { animation-delay: 0.20s; }
 
   .dd-promise {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 14.5px;
+    line-height: 1.55;
     color: var(--silver);
-    margin-bottom: 32px;
+    margin-bottom: 22px;
   }
-  .dd-optin.open .dd-promise { animation-delay: 0.28s; }
+  .dd-optin.open .dd-promise { animation-delay: 0.24s; }
 
-  .dd-form { display: flex; flex-direction: column; gap: 12px; }
+  .dd-form { display: flex; flex-direction: column; gap: 10px; }
 
   .dd-field { position: relative; }
   .dd-field input,
@@ -1604,7 +1596,7 @@
     background: rgba(255,255,255,0.035);
     border: 1px solid var(--rule-strong);
     border-radius: 2px;
-    padding: 16px 18px;
+    padding: 14px 18px;
     transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     -webkit-appearance: none;
     appearance: none;
@@ -1633,10 +1625,10 @@
     color: var(--silver);
     font-size: 11px;
   }
-  .dd-optin.open .dd-form { animation-delay: 0.32s; }
+  .dd-optin.open .dd-form { animation-delay: 0.28s; }
 
   .dd-submit {
-    margin-top: 8px;
+    margin-top: 6px;
     width: 100%;
     display: inline-flex;
     align-items: center;
@@ -1645,7 +1637,7 @@
     background: var(--dd-red);
     color: var(--white);
     border: 1px solid var(--dd-red);
-    padding: 18px 28px;
+    padding: 16px 28px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 12px;
@@ -1670,27 +1662,17 @@
   .dd-submit .arrow { font-weight: 400; transition: transform 0.2s; }
   .dd-submit:hover .arrow { transform: translateX(3px); }
 
+  /* Microcopy + trust line, combined into one block under the button */
   .dd-micro {
-    margin-top: 16px;
+    margin-top: 14px;
     font-family: 'Inter', sans-serif;
     font-size: 11px;
-    line-height: 1.5;
+    line-height: 1.55;
     letter-spacing: 0.04em;
     color: var(--grey-soft);
     text-align: center;
   }
-  .dd-optin.open .dd-micro { animation-delay: 0.36s; }
-
-  .dd-trust {
-    margin-top: 28px;
-    padding-top: 24px;
-    border-top: 1px solid var(--rule);
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    line-height: 1.55;
-    color: var(--silver);
-  }
-  .dd-optin.open .dd-trust { animation-delay: 0.40s; }
+  .dd-optin.open .dd-micro { animation-delay: 0.32s; }
 
   /* ── Confirmation state ── */
   .dd-confirm { display: flex; flex-direction: column; }
@@ -1732,7 +1714,25 @@
   }
 
   @media (max-width: 520px) {
-    .dd-panel { width: 100%; max-width: 100%; padding: 52px 28px 40px; border-left: none; }
+    .dd-panel { width: 100%; max-width: 100%; padding: 36px 28px 32px; border-left: none; }
+  }
+
+  /* Short viewports — compress so the button + microcopy always stay visible
+     without scrolling; top-align so nothing is clipped above the fold. */
+  @media (max-height: 720px) {
+    .dd-panel { justify-content: flex-start; padding-top: 30px; padding-bottom: 26px; }
+    .dd-logo { width: 120px; margin-bottom: 12px; }
+    .dd-accent { margin-bottom: 12px; }
+    .dd-headline { margin-bottom: 10px; }
+    .dd-promise { font-size: 13.5px; margin-bottom: 16px; }
+    .dd-form { gap: 8px; }
+    .dd-field input, .dd-field select { padding: 12px 16px; }
+    .dd-micro { margin-top: 11px; }
+  }
+  @media (max-height: 600px) {
+    .dd-panel { padding-top: 26px; }
+    .dd-logo { width: 104px; margin-bottom: 10px; }
+    .dd-promise { margin-bottom: 12px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -2083,7 +2083,6 @@
     <div id="ddFormState">
       <img class="dd-logo dd-reveal" src="DarrenDaily_logo_white.webp" alt="DarrenDaily" width="1235" height="747">
       <div class="dd-accent dd-reveal"></div>
-      <div class="dd-eyebrow dd-reveal">DarrenDaily</div>
       <h2 class="dd-headline dd-reveal" id="ddHeadline"><span class="dd-line">Your Unfair Advantage.</span><span class="dd-line">Every Weekday Morning.</span></h2>
       <p class="dd-promise dd-reveal" id="ddPromise">Get one strategic insight from Darren Hardy, delivered to your inbox via private video each weekday morning. Five minutes a day that compound while everyone else scrolls. Yours free.</p>
 
@@ -2108,10 +2107,8 @@
           <span class="dd-chev" aria-hidden="true">▾</span>
         </div>
         <button type="submit" class="dd-submit">Start My Morning Edge <span class="arrow" aria-hidden="true">→</span></button>
-        <p class="dd-micro">Free. Unsubscribe in one click. We never share your information.</p>
+        <p class="dd-micro">Free. Unsubscribe in one click. We never share your information. Join 350,000+ driven business builders who refuse to start the day without an edge.</p>
       </form>
-
-      <p class="dd-trust dd-reveal">Join 350,000+ driven business builders who refuse to start the day without an edge.</p>
     </div>
 
     <!-- CONFIRMATION STATE -->
@@ -2356,11 +2353,15 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   const formEl  = document.getElementById('ddFormState');
   const confEl  = document.getElementById('ddConfirmState');
   const DELAY   = 20000;                 // 20 seconds on page
+  const SCROLL_TRIGGER = 0.70;           // ...or 70% of the page scrolled
   const KEY     = 'ddOptinDismissed';    // once per session
-  let lastFocus = null;
+  let lastFocus = null, timer = null, shown = false;
 
   function open() {
-    if (optin.classList.contains('open')) return;
+    if (shown) return;
+    shown = true;
+    clearTimeout(timer);
+    window.removeEventListener('scroll', onScroll);
     lastFocus = document.activeElement;
     optin.classList.add('open');
     optin.setAttribute('aria-hidden', 'false');
@@ -2394,6 +2395,13 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
 
+  // Open once the page is scrolled 70% of the way down
+  function onScroll() {
+    const el = document.documentElement;
+    const max = el.scrollHeight - el.clientHeight;
+    if (max > 0 && (window.scrollY || el.scrollTop) / max >= SCROLL_TRIGGER) open();
+  }
+
   optin.querySelectorAll('[data-dd-close]').forEach(el => el.addEventListener('click', close));
 
   // Submit → validate → swap to the in-experience confirmation (no HubSpot yet)
@@ -2408,10 +2416,13 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     if (x) x.focus();
   });
 
-  // Trigger after 20s, once per session (respects an earlier dismissal)
+  // Trigger after 20s OR at 70% scroll depth (whichever first), once per session
   let dismissed = false;
   try { dismissed = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
-  if (!dismissed) setTimeout(open, DELAY);
+  if (!dismissed) {
+    timer = setTimeout(open, DELAY);
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
 
   // Manual trigger for demoing to the team: call ddShowOptin() in the console
   window.ddShowOptin = open;
