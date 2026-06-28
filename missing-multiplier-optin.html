@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex, nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find Your One Missing Multiplier | Darren Hardy</title>
+  <meta name="description" content="A free 2-minute diagnostic that names the one missing hire — of five key seats — standing between you and a much bigger company.">
+
+  <!-- ===== Launch SEO (inert while noindex above is set) ===== -->
+  <link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/missing-multiplier-optin.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Darren Hardy">
+  <meta property="og:title" content="You're Built to Run a Much Bigger Company">
+  <meta property="og:description" content="One missing hire is the only reason you haven't yet. Take the free 2-minute diagnostic that names the seat — and who fills it.">
+  <meta property="og:image" content="https://fnxstudio.github.io/darren-hardy/images/og-image.jpg">
+
+  <link rel="icon" type="image/png" href="dh_logo.png">
+  <link rel="preload" as="image" href="images/dh-chair-hero.webp" type="image/webp">
+
+  <!-- Self-hosted Inter (variable) -->
+  <style>
+    @font-face{font-family:'Inter';font-style:normal;font-weight:400 900;font-display:swap;src:url(fonts/inter-latin.woff2) format('woff2');}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:400 900;font-display:swap;src:url(fonts/inter-latin-ext.woff2) format('woff2');}
+  </style>
+
+  <style>
+    /* ============================================================
+       BRAND TOKENS — "Missing Multiplier" gold theme
+       Built on the Darren Hardy system (Inter 900, dark surfaces,
+       eyebrow+pip) with a gold accent in place of teal/red.
+       MOBILE-FIRST: base styles target the phone; min-width
+       queries scale up for tablet/desktop.
+       ============================================================ */
+    :root{
+      --ink:#0a0a0a;        /* page bg / primary dark surface  */
+      --ink-2:#111110;      /* hero base                       */
+      --ink-soft:#1a1814;   /* nested dark panels (warm)       */
+      --bone:#f4f1ea;       /* light section bg (warm bone)    */
+      --white:#ffffff;
+      --silver:#b8b8b8;     /* body copy on dark               */
+      --grey:#8c8c8c;
+      --muted:#4a4540;      /* body copy on light              */
+      --gold:#c9a24b;       /* primary gold accent             */
+      --gold-bright:#e6c879;/* lighter gold for text on dark   */
+      --gold-deep:#9a7a2c;  /* gold on light bg                */
+      --rule:rgba(255,255,255,.08);
+      --rule-strong:rgba(255,255,255,.14);
+      --rule-gold:rgba(201,162,75,.30);
+      --maxw:1140px;
+    }
+
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      background:var(--ink);
+      color:var(--silver);
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+    }
+    img{max-width:100%;height:auto;display:block;}
+    a{color:inherit;}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px;}
+
+    /* ---- eyebrow + pip ---- */
+    .eyebrow{
+      font-size:10.5px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;
+      color:var(--gold-bright);display:flex;align-items:center;margin:0 0 22px;line-height:1.5;
+    }
+    .eyebrow::before{content:"";width:26px;height:1px;background:var(--gold);margin-right:13px;flex:none;}
+    .eyebrow.center{justify-content:center;}
+    .eyebrow.dark{color:var(--gold-deep);}
+    .eyebrow.dark::before{background:var(--gold-deep);}
+
+    /* ---- headings ---- */
+    h1,h2{font-weight:900;margin:0;letter-spacing:-.02em;text-transform:uppercase;color:var(--white);}
+    h1{font-size:clamp(33px,8.4vw,68px);line-height:1.02;}
+    h2{font-size:clamp(28px,7vw,50px);line-height:1.04;}
+    .gold{color:var(--gold-bright);}
+    em{font-style:normal;color:var(--gold-bright);font-weight:700;}
+    .nobreak{white-space:nowrap;}
+
+    /* ---- buttons ---- */
+    .btn{
+      display:block;width:100%;text-align:center;text-decoration:none;cursor:pointer;
+      font-weight:800;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+      padding:21px 28px;border:0;border-radius:3px;
+      background:linear-gradient(135deg,var(--gold-bright) 0%,var(--gold) 55%,var(--gold-deep) 100%);
+      color:#1c1402;
+      box-shadow:0 12px 34px -12px rgba(201,162,75,.6);
+      transition:transform .2s ease,box-shadow .2s ease,filter .2s ease;
+    }
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 18px 40px -12px rgba(201,162,75,.72);}
+    .btn:active{transform:translateY(0);}
+
+    .microtrust{margin:15px 0 0;font-size:12.5px;letter-spacing:.04em;color:var(--grey);text-align:center;}
+    .microtrust b{color:var(--silver);font-weight:600;}
+
+    /* ===================== HERO (full-bleed image · bottom copy) ===================== */
+    .hero{
+      position:relative;overflow:hidden;background:var(--ink-2);
+      min-height:100vh;min-height:100svh;
+      display:flex;flex-direction:column;justify-content:flex-end;
+    }
+    .hero-bg{position:absolute;inset:0;z-index:0;
+      background-image:url("images/dh-chair-hero.webp");
+      background-size:cover;background-position:50% 4%;}
+    /* darkening gradient so bottom copy stays legible over the image */
+    .hero-bg::after{content:"";position:absolute;inset:0;
+      background:linear-gradient(to bottom,
+        rgba(10,10,10,.34) 0%, rgba(10,10,10,0) 26%,
+        rgba(10,10,10,.42) 56%, rgba(10,10,10,.85) 84%, rgba(10,10,10,.97) 100%);}
+    /* frosted blur band on the lower portion, fading upward, so copy sits over the chair */
+    .hero-blur{position:absolute;left:0;right:0;bottom:0;height:50%;z-index:1;pointer-events:none;
+      -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
+      -webkit-mask-image:linear-gradient(to top,#000 40%,transparent 100%);
+              mask-image:linear-gradient(to top,#000 40%,transparent 100%);}
+
+    .hero-top{position:absolute;top:0;left:0;right:0;z-index:3;padding:22px 0;}
+    .hero-top .wrap{display:flex;align-items:center;justify-content:flex-start;}
+    .hero-logo{display:flex;align-items:center;gap:10px;}
+    .hero-logo img{width:34px;height:34px;}
+    .hero-logo span{font-weight:900;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--white);}
+
+    .hero-content{position:relative;z-index:3;padding:0 0 38px;}
+    .hero-content .eyebrow{margin-bottom:14px;}
+    .hero h1{margin-bottom:14px;text-shadow:0 2px 30px rgba(0,0,0,.45);}
+    .hero .subline{font-size:16px;color:#fff;font-weight:600;line-height:1.45;margin:0 0 22px;max-width:440px;
+      text-shadow:0 1px 16px rgba(0,0,0,.55);}
+    .hero .cta-block{max-width:430px;}
+    .hero .microtrust{text-align:left;}
+
+    .scroll-cue{position:absolute;right:22px;bottom:30px;z-index:3;width:26px;height:26px;opacity:.8;
+      animation:bob 1.8s ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+    /* ===================== NARRATIVE (dark) ===================== */
+    .story{position:relative;padding:62px 0 66px;background:var(--ink);overflow:hidden;}
+    .story .ghost{
+      position:absolute;top:38px;right:-2%;font-weight:900;font-size:34vw;line-height:.7;
+      color:transparent;-webkit-text-stroke:1px rgba(201,162,75,.10);
+      pointer-events:none;user-select:none;z-index:0;letter-spacing:-.04em;
+    }
+    .story .wrap{position:relative;z-index:1;max-width:720px;}
+    .story h2{margin-bottom:24px;}
+    .story p{font-size:17px;color:var(--silver);margin:0 0 20px;}
+    .story p:last-of-type{margin-bottom:0;}
+    .story p.kicker{font-size:19px;color:var(--white);font-weight:600;line-height:1.5;}
+    .story .brands{color:var(--gold-bright);font-weight:700;}
+
+    /* repel callout */
+    .repel{
+      margin:38px 0 4px;padding:24px 24px 24px 26px;
+      background:var(--ink-soft);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;
+    }
+    .repel .tag{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-bright);margin:0 0 10px;}
+    .repel p{font-size:15.5px;color:var(--silver);margin:0;}
+    .repel b{color:var(--white);font-weight:700;}
+
+    /* ===================== WHAT YOU GET (bone) ===================== */
+    .get{background:var(--bone);color:var(--muted);padding:64px 0 70px;}
+    .get h2{color:#171410;margin-bottom:30px;}
+    .get .intro{font-size:16.5px;color:var(--muted);margin:0 0 30px;max-width:560px;}
+    .checks{list-style:none;padding:0;margin:0 0 38px;}
+    .checks li{position:relative;padding-left:42px;margin-bottom:22px;font-size:16px;color:#322d27;line-height:1.5;}
+    .checks li:last-child{margin-bottom:0;}
+    .checks li strong{color:#171410;font-weight:800;}
+    .checks li::before{
+      content:"";position:absolute;left:0;top:0;width:27px;height:27px;
+      background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="%23c9a24b"/><path d="M6.4 12.4l3.3 3.3 7-7.2" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center/contain;
+    }
+    .get .worksheet{margin:6px auto 0;max-width:420px;
+      filter:drop-shadow(0 26px 50px rgba(20,16,8,.22));}
+
+    /* ===================== ABOUT (dark) ===================== */
+    .about{background:var(--ink);padding:62px 0 58px;text-align:center;}
+    .about h2{font-size:clamp(24px,6vw,40px);margin-bottom:20px;}
+    .about .lead{font-size:16.5px;color:var(--silver);max-width:560px;margin:0 auto;}
+    .about .lead b{color:var(--white);font-weight:700;}
+    .about .press{margin:36px auto 0;max-width:500px;opacity:.9;}
+    .awards{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:20px 26px;margin:36px auto 0;max-width:560px;}
+    .awards img{height:62px;width:auto;}
+
+    /* ===================== FORM (ink) ===================== */
+    .form-section{background:var(--ink-2);
+      background-image:radial-gradient(120% 70% at 50% 0%, rgba(201,162,75,.12) 0%, rgba(201,162,75,0) 60%);
+      padding:64px 0 70px;border-top:1px solid var(--rule);}
+    .form-section .tagline{text-align:center;color:var(--white);font-weight:800;font-size:clamp(20px,5.2vw,30px);line-height:1.2;text-transform:uppercase;letter-spacing:-.01em;margin:0 0 12px;}
+    .form-section .tagline .gold{color:var(--gold-bright);}
+    .form-section .sub{text-align:center;color:var(--silver);font-size:15.5px;max-width:460px;margin:0 auto 34px;}
+    form .grid{display:grid;grid-template-columns:1fr;gap:14px;max-width:460px;margin:0 auto;}
+    form input,form select{
+      width:100%;font:inherit;font-size:16px;padding:17px 18px;border:1px solid var(--rule-strong);
+      border-radius:4px;background:#0e0d0b;color:var(--white);appearance:none;transition:border-color .2s;
+    }
+    form input::placeholder{color:#7e7a73;opacity:1;}
+    form select{color:#7e7a73;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="%23c9a24b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+      background-repeat:no-repeat;background-position:right 15px center;background-size:20px;}
+    form select.filled{color:var(--white);}
+    form input:focus,form select:focus{outline:none;border-color:var(--gold);}
+    .form-cta{max-width:460px;margin:22px auto 0;}
+    .form-disclaimer{text-align:center;font-size:12.5px;color:var(--grey);margin:16px auto 0;max-width:440px;}
+    .form-disclaimer a{color:inherit;text-decoration:underline;}
+
+    /* ===================== FOOTER ===================== */
+    footer{background:#000;color:#8c8c8c;text-align:center;padding:30px 22px;}
+    footer p{margin:0;font-size:12px;letter-spacing:.04em;line-height:1.9;}
+    footer a{color:#8c8c8c;text-decoration:none;}
+    footer a:hover{color:var(--gold-bright);}
+
+    /* ===================== DESKTOP / TABLET SCALE-UP ===================== */
+    @media (min-width:860px){
+      .hero-bg{background-position:50% 20%;}
+      .hero-content{padding:0 0 64px;}
+      .hero-content .wrap{max-width:var(--maxw);}
+      .hero h1{max-width:780px;}
+      .hero .subline{font-size:19px;max-width:520px;}
+      .hero .cta-block{max-width:none;}
+      .btn{display:inline-block;width:auto;min-width:340px;}
+
+      .story{padding:120px 0;}
+      .repel{margin-top:46px;}
+      .get{padding:110px 0;}
+      .get .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;}
+      .get .worksheet{margin:0;max-width:none;}
+      .get h2,.get .intro{max-width:none;}
+      .about{padding:110px 0;}
+      .form-section{padding:110px 0;}
+      .awards img{height:74px;}
+    }
+    @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+  </style>
+</head>
+
+<body>
+<main>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-blur"></div>
+
+    <div class="hero-top">
+      <div class="wrap">
+        <div class="hero-logo">
+          <img src="dh_logo.png" alt="Darren Hardy" width="34" height="34">
+          <span>Darren Hardy</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="wrap">
+        <div class="eyebrow">For driven owners with audacious goals</div>
+        <h1>You're Built to Run a <span class="gold">Much Bigger Company.</span></h1>
+        <p class="subline">One missing hire is the only reason you haven't yet.</p>
+        <div class="cta-block">
+          <a class="btn" href="#start">Start Your Diagnostic &rarr;</a>
+          <p class="microtrust"><b>No cost.</b> Takes 2 minutes. Built for owners with an existing team.</p>
+        </div>
+      </div>
+    </div>
+
+    <svg class="scroll-cue" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true">
+      <path d="M5 8l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </section>
+
+  <!-- ===================== NARRATIVE ===================== -->
+  <section class="story">
+    <div class="ghost" aria-hidden="true">5</div>
+    <div class="wrap">
+      <div class="eyebrow">The seat you can't see</div>
+      <h2>You Can Already See The Bigger Company.</h2>
+      <p class="kicker">The one doing several times what you do now. You're built to run it — that was never the question.</p>
+      <p>Your strategy isn't the limitation. Neither is working harder; you've already proven you can outwork the room. The constraint is structural, and it has a specific shape.</p>
+      <p>Every company that multiplied — <span class="brands">Apple, Netflix, Starbucks</span> — did the same thing. A visionary paired with one exceptional operator dropped into one vital seat. That single pairing is what unlocked the next decade.</p>
+      <p>There are five seats that hand a business the most leverage. Which one matters most depends on you — your strengths, your blind spots, your model. Fill the wrong seat and you stall for years. Fill the right one and the whole company compounds behind it.</p>
+      <p class="kicker">This free 2-minute diagnostic names your seat — and shows you exactly who to put in it.</p>
+
+      <div class="repel">
+        <p class="tag">One honest caveat</p>
+        <p>This isn't for solopreneurs. If the plan is to stay a team of one and keep every decision on your desk, the diagnostic will only tell you things you don't want to hear. It's built for owners ready to <b>stop being the bottleneck</b> and build a company that outgrows them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHAT YOU GET ===================== -->
+  <section class="get">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow dark">What you'll walk away with</div>
+        <h2>Your Missing Seat, Named In Two Minutes.</h2>
+        <p class="intro">No fluff, no 40-page PDF you'll never open. A precise diagnostic and the profile of the one person who changes your trajectory.</p>
+        <ul class="checks">
+          <li><strong>The five leverage seats</strong> that compound a company at scale — and the four most founders waste their best decade chasing instead.</li>
+          <li><strong>A 2-minute Yes/No diagnostic</strong> that names the one seat missing from your organization right now.</li>
+          <li><strong>The exact hire profile</strong> for that seat — plus the false positives that fool 9 of 10 owners into a six-figure mis-hire.</li>
+        </ul>
+      </div>
+      <div>
+        <img class="worksheet" src="images/worksheet.webp" alt="The Missing Multiplier diagnostic worksheet" loading="lazy" width="1215" height="1032">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="about">
+    <div class="wrap">
+      <div class="eyebrow center" style="justify-content:center">Darren Hardy</div>
+      <h2>The Advisor Behind The World's Most Driven Builders</h2>
+      <div class="lead">
+        <p>Advisor to <b>11,738 top CEOs</b>. Publisher emeritus of SUCCESS Magazine. Former executive producer of SUCCESS TV. International bestselling author of <em>The Compound Effect</em>.</p>
+      </div>
+      <img class="press" src="images/press-logos.webp" alt="Featured in NPR, The New York Times, SUCCESS, Forbes, Inc., CNBC, CNN, Fox News, CBS, and ABC" loading="lazy" width="2560" height="472">
+      <div class="awards">
+        <img src="images/award-nyt.webp" alt="New York Times Best Seller" loading="lazy">
+        <img src="images/award-wsj.webp" alt="Wall Street Journal Best Seller" loading="lazy">
+        <img src="images/award-nsa.webp" alt="NSA Master of Influence" loading="lazy">
+        <img src="images/award-apple-podcast.webp" alt="Top Rated Apple Podcast" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FORM ===================== -->
+  <section class="form-section" id="start">
+    <div class="wrap">
+      <p class="tagline">You Are <span class="gold">One Hire</span> Away.</p>
+      <p class="sub">Take the free diagnostic and find the seat that multiplies your next decade.</p>
+
+      <!-- TODO: point action= at your form handler (HubSpot, Formspree, etc.) -->
+      <form action="#" method="post">
+        <div class="grid">
+          <input type="text" name="firstname" placeholder="First Name*" aria-label="First name" autocomplete="given-name" required>
+          <input type="email" name="email" placeholder="Email*" aria-label="Email address" autocomplete="email" required>
+          <select name="revenue" aria-label="Annual revenue" required onchange="this.classList.add('filled')">
+            <option value="" disabled selected>Annual Company Revenue*</option>
+            <option>Under $250K</option>
+            <option>$250K – $1M</option>
+            <option>$1M – $10M</option>
+            <option>$10M – $50M</option>
+            <option>$50M+</option>
+            <option>Not a business owner</option>
+          </select>
+          <input type="tel" name="phone" placeholder="Phone (optional)" aria-label="Phone number" autocomplete="tel">
+        </div>
+
+        <div class="form-cta">
+          <button type="submit" class="btn">Start Your Diagnostic &rarr;</button>
+        </div>
+        <p class="form-disclaimer">We never share your information. Ever. <a href="#">See details.</a></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>© DARREN HARDY, LLC — ALL RIGHTS RESERVED<br>
+    <a href="https://dh.darrenhardy.com/privacy">PRIVACY POLICY</a> &nbsp;·&nbsp;
+    <a href="https://dh.darrenhardy.com/terms-of-service">TERMS OF SERVICE</a>
+  </p>
+</footer>
+
+</body>
+</html>
