@@ -189,14 +189,41 @@
     .get .worksheet{margin:6px auto 0;max-width:420px;
       filter:drop-shadow(0 26px 50px rgba(20,16,8,.22));}
 
-    /* ===================== ABOUT (dark) ===================== */
-    .about{background:var(--ink);padding:62px 0 58px;text-align:center;}
-    .about h2{font-size:clamp(24px,6vw,40px);margin-bottom:20px;}
-    .about .lead{font-size:16.5px;color:var(--silver);max-width:560px;margin:0 auto;}
-    .about .lead b{color:var(--white);font-weight:700;}
-    .about .press{margin:36px auto 0;max-width:500px;opacity:.9;}
-    .awards{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:20px 26px;margin:36px auto 0;max-width:560px;}
-    .awards img{height:62px;width:auto;}
+    /* ===================== ADVISOR — DH + COVERS WALL (ported from home) ===================== */
+    .intro{display:flex;flex-direction:column;}
+    .intro-wall{position:relative;overflow:hidden;background:#000;min-height:62vh;flex:none;}
+    .intro-text{width:100%;background:var(--bone);color:var(--ink);
+      display:flex;flex-direction:column;justify-content:center;padding:56px 28px;}
+    .intro-text .eyebrow{color:var(--gold-deep);margin-bottom:24px;}
+    .intro-text .eyebrow::before{background:var(--gold-deep);}
+    .intro-headline{font-weight:900;font-size:clamp(28px,7vw,52px);line-height:1.02;
+      letter-spacing:-.025em;color:#17120a;text-transform:uppercase;margin:0 0 26px;}
+    .intro-body p{font-weight:400;font-size:16.5px;line-height:1.6;color:var(--muted);margin:0 0 20px;}
+    .intro-body p:first-child{font-weight:600;color:#17120a;}
+    .intro-body p:last-child{margin-bottom:0;}
+    .intro-body em{font-style:normal;color:var(--gold-deep);font-weight:700;}
+
+    #covers-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);
+      grid-auto-rows:118px;grid-auto-flow:dense;gap:2px;will-change:transform;}
+    .c-tile{position:relative;overflow:hidden;background:#0d0d0d;opacity:0;
+      transform:scale(.93) translateY(14px);will-change:opacity,transform;}
+    .c-tile.visible{opacity:1;transform:scale(1) translateY(0);
+      transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1);}
+    .c-wide{grid-column:span 2;} .c-tall{grid-row:span 2;} .c-large{grid-column:span 2;grid-row:span 2;}
+    .c-tile img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;
+      filter:grayscale(100%);transition:filter .4s ease,transform .5s cubic-bezier(.22,1,.36,1);}
+    .c-tile:hover img,.c-tile.tapped img{filter:grayscale(0%);transform:scale(1.05);}
+    .c-cap{position:absolute;left:0;right:0;bottom:0;padding:26px 9px 8px;
+      background:linear-gradient(to top,rgba(0,0,0,.78),transparent);color:#fff;font-size:9px;
+      font-weight:600;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;overflow:hidden;
+      text-overflow:ellipsis;opacity:0;transform:translateY(6px);transition:opacity .32s,transform .32s;pointer-events:none;}
+    .c-tile:hover .c-cap,.c-tile.tapped .c-cap{opacity:1;transform:translateY(0);}
+    .intro-wall::after{content:'';position:absolute;left:0;right:0;bottom:0;height:120px;z-index:5;
+      background:linear-gradient(to bottom,transparent 0%,rgba(10,10,10,.65) 55%,#0a0a0a 100%);pointer-events:none;}
+    .intro-wall .dh-wrap{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:100%;
+      z-index:10;pointer-events:none;display:flex;align-items:flex-end;overflow:hidden;}
+    .intro-wall .dh-wrap img{display:block;height:97%;width:auto;max-height:97%;vertical-align:bottom;
+      filter:drop-shadow(0 8px 40px rgba(0,0,0,.9));}
 
     /* ===================== FORM (ink) ===================== */
     .form-section{background:var(--ink-2);
@@ -246,7 +273,13 @@
       .get .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;}
       .get .worksheet{margin:0;max-width:none;}
       .get h2,.get .intro{max-width:none;}
-      .about{padding:110px 0;}
+      .intro{flex-direction:row;min-height:78vh;}
+      .intro-wall{flex:1;min-height:0;}
+      .intro-text{width:44%;min-width:300px;padding:80px 64px;}
+      .intro-text .eyebrow{margin-bottom:28px;}
+      .intro-headline{font-size:clamp(32px,3.4vw,54px);margin-bottom:38px;}
+      .intro-body p{font-size:clamp(17px,1.4vw,21px);margin-bottom:26px;}
+      #covers-grid{grid-template-columns:repeat(5,1fr);grid-auto-rows:144px;}
       .form-section{padding:110px 0;}
       .awards img{height:74px;}
     }
@@ -326,20 +359,21 @@
     </div>
   </section>
 
-  <!-- ===================== ABOUT ===================== -->
-  <section class="about">
-    <div class="wrap">
-      <div class="eyebrow center" style="justify-content:center">Darren Hardy</div>
-      <h2>The Advisor Behind The World's Most Driven Builders</h2>
-      <div class="lead">
-        <p>Advisor to <b>11,738 top CEOs</b>. Publisher emeritus of SUCCESS Magazine. Former executive producer of SUCCESS TV. International bestselling author of <em>The Compound Effect</em>.</p>
+  <!-- ===================== ADVISOR — DH + COVERS WALL ===================== -->
+  <section class="intro" id="about">
+    <div class="intro-wall">
+      <div id="covers-grid"></div>
+      <div class="dh-wrap">
+        <img src="Wall-DH.webp" alt="Darren Hardy" loading="lazy">
       </div>
-      <img class="press" src="images/press-logos.webp" alt="Featured in NPR, The New York Times, SUCCESS, Forbes, Inc., CNBC, CNN, Fox News, CBS, and ABC" loading="lazy" width="2560" height="472">
-      <div class="awards">
-        <img src="images/award-nyt.webp" alt="New York Times Best Seller" loading="lazy">
-        <img src="images/award-wsj.webp" alt="Wall Street Journal Best Seller" loading="lazy">
-        <img src="images/award-nsa.webp" alt="NSA Master of Influence" loading="lazy">
-        <img src="images/award-apple-podcast.webp" alt="Top Rated Apple Podcast" loading="lazy">
+    </div>
+    <div class="intro-text">
+      <div class="eyebrow">Why Darren Can Make This Claim</div>
+      <h2 class="intro-headline">A Front-Row Seat To How The Greats Actually Scaled</h2>
+      <div class="intro-body">
+        <p>Founding publisher of SUCCESS magazine. Creator of three success-focused TV networks. Bestselling author of <em>The Compound Effect</em>. Trusted advisor to thousands of the world's top CEOs and founders.</p>
+        <p>For 35 years he's been inside the rooms where the industry titans on these covers reveal how they actually decide, build, and scale. He watched the same move repeat: a visionary paired with one key hire in one vital seat.</p>
+        <p>This diagnostic is that pattern, distilled — the through-line behind the companies everyone else only studies from the outside.</p>
       </div>
     </div>
   </section>
@@ -383,6 +417,104 @@
     <a href="https://dh.darrenhardy.com/terms-of-service">TERMS OF SERVICE</a>
   </p>
 </footer>
+
+<!-- Covers wall builder (ported from home.html) -->
+<script>
+const covers = [
+  'JackWelch.jpg','SM_13_05_FORD.jpg','SM_12_01_DOWNEY.jpg',
+  'SM_09_07_BRANSON.jpg','SM_10_06_JOBS.jpg','SM_09_08_FOX.jpg',
+  'SM_08_01_Kiyosaki.jpg','SM_08_02_50.jpg','SM_08_04_OZ.jpg',
+  'SM_08_05_HAWK.jpg','SM_08_06_Deutsch.jpg','SM_10_12_SHRIVER.jpg',
+  'SM_09_02_Powell.jpg','SM_09_03_FOREMAN.jpg','SM_09_04_Maxwell.jpg',
+  'SM_09_05_ORMAN.jpg','SM_09_06_LANCE.jpg','SM_09_01_Robbins.jpg',
+  'SM_09_09_FOSTER_Barcode.jpg','SM_09_10_SERENA_barcode.jpg',
+  'SM_09_11_OSTEEN_barcode.jpg','SM_09_12_DrPHIL.jpg',
+  'SM_12_07_TECHNOLOGY.jpg','SM_10_01_KEYES.jpg','SM_10_02_RAMSEY.jpg',
+  'SM_10_03_HOPKINS.jpg','SM_10_04_COLLINS.jpg','SM_10_05_MICHAELS.jpg',
+  'SM_10_07_COLE.jpg','SM_10_08_JOHNSON.jpg',
+  'SM_10_09_DELL.jpg','SM_10_10_USHER.jpg','SM_10_11_MANNINGS.jpg',
+  'SM_11_01_HOWARD.jpg','SM_11_02_CHAN.jpg','SM_11_03_SCHWAB.jpg',
+  'SM_11_04_SCHULTZ.jpg','SM_12_08_BRANSON.jpg','SM_11_05_ZUCKERBERG.jpg',
+  'SM_11_06_MARTIN.jpg','SM_11_07_DICAPRIO.jpg','SM_11_08_BEZOS.jpg',
+  'SM_11_09_CONNICK.jpg','SM_11_10_OZ.jpg','SM_11_11_CUBAN.jpg',
+  'SM_11_12_SANTA.jpg','SM_12_02_KARDASHIAN.jpg','SM_12_03_BLOOMBERG.jpg',
+  'SM_12_04_LOWE.jpg','SM_12_05_ORMAN.jpg','SM_12_06_JOHANNSON.jpg',
+  'SM_12_09_BURNETT.jpg','SM_12_10_MAXWELL.jpg','SM_12_11_WASHINGTON.jpg',
+  'SM_12_12_COURIC.jpg','SM_13_01_STEWART.jpg','SM_13_02_MUSK.jpg',
+  'SM_13_03_CORCORAN.jpg','SM_13_04_DIAMANDIS.jpg','SM_08_03_Trump.jpg',
+  'SM_14_11_COOK.jpg','Santa1977.jpg','Tony_Hseih.jpg'
+];
+
+function cleanName(f){
+  let n = f.replace(/\.(jpg|jpeg|png|gif|webp)$/i,'');
+  n = n.replace(/^SM_\d+_\d+_/i,'');
+  n = n.replace(/([a-z])([A-Z])/g,'$1 $2');
+  n = n.replace(/[_-]/g,' ');
+  n = n.replace(/\bbarcode\b/gi,'').replace(/\s+/g,' ').trim();
+  n = n.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+  return n;
+}
+
+const featuredTypes = ['large','tall','large','tall','standard'];
+function buildSpreadPool(n){
+  const special = [...Array(4).fill('wide'), ...Array(16).fill('tall')];
+  let s = 0xc0ffee42;
+  for (let i = special.length - 1; i > 0; i--){
+    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+    s ^= s >>> 16;
+    const j = (Math.abs(s) >>> 0) % (i + 1);
+    [special[i], special[j]] = [special[j], special[i]];
+  }
+  const pool = Array(n).fill('standard');
+  const step = (n - 1) / (special.length - 1);
+  special.forEach((type, i) => { pool[Math.round(i * step)] = type; });
+  return pool;
+}
+
+const bodyTypes = buildSpreadPool(covers.length - 5);
+const coversGrid = document.getElementById('covers-grid');
+covers.forEach((cover, i) => {
+  const tile = document.createElement('div');
+  tile.className = 'c-tile';
+  const t = i < 5 ? featuredTypes[i] : bodyTypes[i - 5];
+  if (t === 'wide')  tile.classList.add('c-wide');
+  if (t === 'tall')  tile.classList.add('c-tall');
+  if (t === 'large') tile.classList.add('c-large');
+  const img = document.createElement('img');
+  img.src = `covers/${cover.replace(/\.(jpg|jpeg)$/i,'.webp')}`;
+  img.alt = cleanName(cover);
+  img.loading = i < 12 ? 'eager' : 'lazy';
+  img.decoding = 'async';
+  const cap = document.createElement('div');
+  cap.className = 'c-cap';
+  cap.textContent = cleanName(cover);
+  tile.appendChild(img); tile.appendChild(cap);
+  coversGrid.appendChild(tile);
+});
+
+const introWall = document.querySelector('.intro-wall');
+const wallObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting){
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.c-tile').forEach(tile => tile.classList.add('visible'));
+    });
+    wallObserver.disconnect();
+  }
+}, { threshold: 0.1 });
+wallObserver.observe(introWall);
+
+document.querySelectorAll('.c-tile').forEach(tile => {
+  let ty, tx;
+  tile.addEventListener('touchstart', e => { ty = e.touches[0].clientY; tx = e.touches[0].clientX; }, { passive: true });
+  tile.addEventListener('touchend', e => {
+    if (Math.abs(e.changedTouches[0].clientY - ty) > 8 || Math.abs(e.changedTouches[0].clientX - tx) > 8) return;
+    const active = tile.classList.contains('tapped');
+    document.querySelectorAll('.c-tile.tapped').forEach(t => t.classList.remove('tapped'));
+    if (!active) tile.classList.add('tapped');
+  });
+});
+</script>
 
 </body>
 </html>
