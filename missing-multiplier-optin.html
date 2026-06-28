@@ -84,6 +84,7 @@
 
     /* ---- buttons ---- */
     .btn{
+      position:relative;overflow:hidden;
       display:block;width:100%;text-align:center;text-decoration:none;cursor:pointer;
       font-weight:800;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
       padding:21px 28px;border:0;border-radius:3px;
@@ -92,6 +93,15 @@
       box-shadow:0 12px 34px -12px rgba(201,162,75,.6);
       transition:transform .2s ease,box-shadow .2s ease,filter .2s ease;
     }
+    .btn > span{position:relative;z-index:2;}
+    /* diagonal shine sweeping across on a loop */
+    .btn::after{
+      content:"";position:absolute;top:0;bottom:0;left:-160%;width:70%;z-index:1;pointer-events:none;
+      transform:skewX(-18deg);
+      background:linear-gradient(105deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%);
+      animation:btn-shine 4s ease-in-out infinite;
+    }
+    @keyframes btn-shine{0%{left:-160%}45%{left:170%}100%{left:170%}}
     .btn:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 18px 40px -12px rgba(201,162,75,.72);}
     .btn:active{transform:translateY(0);}
 
@@ -104,19 +114,23 @@
       min-height:100vh;min-height:100svh;
       display:flex;flex-direction:column;justify-content:flex-end;
     }
-    .hero-bg{position:absolute;inset:0;z-index:0;
+    /* MOBILE: Darren scaled down so the whole figure + the chair (the empty seat)
+       sit in frame; copy drops below onto dark, chair stays visible above it. */
+    .hero-bg{position:absolute;inset:0;z-index:0;background-color:#0a0a0a;
       background-image:url("images/dh-chair-hero.webp");
-      background-size:cover;background-position:50% 4%;}
-    /* darkening gradient so bottom copy stays legible over the image */
+      background-repeat:no-repeat;
+      background-size:auto 78%;background-position:center top;}
+    /* gradient: light over the figure, semi over the chair, solid dark under the copy */
     .hero-bg::after{content:"";position:absolute;inset:0;
       background:linear-gradient(to bottom,
-        rgba(10,10,10,.34) 0%, rgba(10,10,10,0) 26%,
-        rgba(10,10,10,.42) 56%, rgba(10,10,10,.85) 84%, rgba(10,10,10,.97) 100%);}
-    /* frosted blur band on the lower portion, fading upward, so copy sits over the chair */
-    .hero-blur{position:absolute;left:0;right:0;bottom:0;height:50%;z-index:1;pointer-events:none;
-      -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
-      -webkit-mask-image:linear-gradient(to top,#000 40%,transparent 100%);
-              mask-image:linear-gradient(to top,#000 40%,transparent 100%);}
+        rgba(10,10,10,.30) 0%, rgba(10,10,10,0) 16%,
+        rgba(10,10,10,0) 60%, rgba(10,10,10,.26) 72%,
+        rgba(10,10,10,.72) 82%, #0a0a0a 90%);}
+    /* faint frost only at the very bottom, behind the copy (not over the chair) */
+    .hero-blur{position:absolute;left:0;right:0;bottom:0;height:24%;z-index:1;pointer-events:none;
+      -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+      -webkit-mask-image:linear-gradient(to top,#000 50%,transparent 100%);
+              mask-image:linear-gradient(to top,#000 50%,transparent 100%);}
 
     .hero-top{position:absolute;top:0;left:0;right:0;z-index:3;padding:22px 0;}
     .hero-top .wrap{display:flex;align-items:center;justify-content:flex-start;}
@@ -213,7 +227,7 @@
 
     /* ===================== DESKTOP / TABLET SCALE-UP ===================== */
     @media (min-width:860px){
-      .hero-bg{background-position:50% 20%;}
+      .hero-bg{background-size:cover;background-position:50% 20%;}
       .hero-content{padding:0 0 64px;}
       .hero-content .wrap{max-width:var(--maxw);}
       .hero h1{max-width:780px;}
@@ -258,7 +272,7 @@
         <h1>You're Built to Run a <span class="gold">Much Bigger Company.</span></h1>
         <p class="subline">One missing hire is the only reason you haven't yet.</p>
         <div class="cta-block">
-          <a class="btn" href="#start">Start Your Diagnostic &rarr;</a>
+          <a class="btn" href="#start"><span>Start Your Diagnostic &rarr;</span></a>
           <p class="microtrust"><b>No cost.</b> Takes 2 minutes. Built for owners with an existing team.</p>
         </div>
       </div>
@@ -349,7 +363,7 @@
         </div>
 
         <div class="form-cta">
-          <button type="submit" class="btn">Start Your Diagnostic &rarr;</button>
+          <button type="submit" class="btn"><span>Start Your Diagnostic &rarr;</span></button>
         </div>
         <p class="form-disclaimer">We never share your information. Ever. <a href="#">See details.</a></p>
       </form>
