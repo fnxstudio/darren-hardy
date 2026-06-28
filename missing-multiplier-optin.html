@@ -104,7 +104,7 @@
     .btn:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 20px 42px -16px rgba(60,198,214,.68);}
     .btn:active{transform:translateY(0);}
 
-    .microtrust{margin:15px 0 0;font-size:12.5px;letter-spacing:.04em;color:var(--grey);text-align:center;text-wrap:balance;}
+    .microtrust{margin:15px 0 0;font-size:10.5px;letter-spacing:.02em;color:var(--grey);text-align:center;}
     .microtrust b{color:var(--silver);font-weight:600;}
 
     /* ===================== HERO (full-bleed image · bottom copy) ===================== */
@@ -119,17 +119,14 @@
       background-image:url("images/dh-chair-hero.webp");
       background-repeat:no-repeat;
       background-size:auto 60%;background-position:center top;
-      /* feather the image's bottom edge so it dissolves into the copy — no hard line */
-      -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 52%,transparent 68%);
-              mask-image:linear-gradient(to bottom,#000 0%,#000 52%,transparent 68%);}
+      /* feather only BELOW his hands so the bottom edge dissolves into the copy — no blur, no hard line */
+      -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 73%);
+              mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 73%);}
     /* light top darken only (for the logo); the image feathers to dark on its own */
     .hero-bg::after{content:"";position:absolute;inset:0;
       background:linear-gradient(to bottom, rgba(10,10,10,.4) 0%, rgba(10,10,10,0) 17%);}
-    /* frosted blur sits over the transition, blurring the chair bottom softly into the copy */
-    .hero-blur{position:absolute;left:0;right:0;top:42%;height:32%;z-index:1;pointer-events:none;
-      -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
-      -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 32%,#000 62%,transparent 100%);
-              mask-image:linear-gradient(to bottom,transparent 0%,#000 32%,#000 62%,transparent 100%);}
+    /* no frosted blur — his hands must stay crisp */
+    .hero-blur{display:none;}
 
     .hero-top{position:absolute;top:0;left:0;right:0;z-index:3;padding:22px 0;}
     .hero-top .wrap{display:flex;align-items:center;justify-content:flex-start;}
@@ -141,8 +138,8 @@
     .hero-content .eyebrow{margin-bottom:14px;color:#fff;
       text-shadow:0 1px 2px rgba(0,0,0,.95),0 0 16px rgba(0,0,0,.8);}
     .hero h1{margin-bottom:14px;text-shadow:0 2px 30px rgba(0,0,0,.45);}
-    .hero .subline{font-size:16px;color:#fff;font-weight:600;line-height:1.45;margin:0 0 22px;max-width:440px;
-      text-wrap:balance;text-shadow:0 1px 16px rgba(0,0,0,.55);}
+    .hero .subline{font-size:13.5px;color:#fff;font-weight:600;line-height:1.45;margin:0 0 22px;max-width:460px;
+      text-shadow:0 1px 16px rgba(0,0,0,.55);}
     .hero .cta-block{max-width:430px;}
     .hero .microtrust{text-align:left;}
 
@@ -275,6 +272,7 @@
       .hero-content .wrap{max-width:var(--maxw);}
       .hero h1{max-width:600px;}
       .hero .subline{font-size:19px;max-width:640px;}
+      .hero .microtrust{font-size:12.5px;}
       .hero .cta-block{max-width:none;}
       .btn{display:inline-block;width:auto;min-width:340px;}
 
@@ -310,10 +308,10 @@
     <div class="hero-content">
       <div class="wrap">
         <h1>You're Built to Run a <span class="gold">Much Bigger Company.</span></h1>
-        <p class="subline">One missing hire is the only reason you&nbsp;haven't&nbsp;yet.</p>
+        <p class="subline">One missing hire is the only reason you haven't yet.</p>
         <div class="cta-block">
           <a class="btn" href="#start"><span>Start Your Diagnostic &rarr;</span></a>
-          <p class="microtrust">No cost. Takes 2 minutes. <b>Built for owners with an existing&nbsp;team.</b></p>
+          <p class="microtrust">No cost. Takes 2 minutes. <b>Built for owners with an existing team.</b></p>
         </div>
       </div>
     </div>
@@ -366,7 +364,7 @@
     </div>
     <div class="intro-text">
       <div class="eyebrow">Why Darren Hardy</div>
-      <h2 class="intro-headline">A Front-Row Seat To How The Greats Actually Scaled</h2>
+      <h2 class="intro-headline">Closed-Door Access To How The Greats Actually Scaled</h2>
       <div class="intro-body">
         <p>Founding publisher of SUCCESS magazine. Creator of three success-focused TV networks. Bestselling author of <em class="book">The Compound Effect</em>. Trusted advisor to thousands of the world's top CEOs and founders.</p>
         <p>For 35 years, Darren Hardy has been inside the rooms where the industry titans on these covers reveal how they actually decide, build, and scale. He watched the same move repeat: a visionary paired with one key hire in one vital seat.</p>
