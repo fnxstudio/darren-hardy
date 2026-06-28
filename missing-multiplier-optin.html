@@ -512,6 +512,22 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     if (!active) tile.classList.add('tapped');
   });
 });
+
+// Parallax — rAF-throttled, runs on all screen sizes (identical to homepage)
+(function () {
+  let rafPending = false;
+  window.addEventListener('scroll', () => {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      const rect = introWall.getBoundingClientRect();
+      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      const offset = Math.max(0, progress * 500);
+      coversGrid.style.transform = `translateY(-${offset}px)`;
+      rafPending = false;
+    });
+  }, { passive: true });
+})();
 </script>
 
 </body>
