@@ -228,11 +228,15 @@
 
     /* ===================== DESKTOP / TABLET SCALE-UP ===================== */
     @media (min-width:860px){
-      .hero-bg{background-size:cover;background-position:50% 20%;}
+      /* full image height (chair stays in frame), DH lands center-right;
+         copy sits left over a left-side scrim that fades before the chair */
+      .hero-bg{background-size:auto 100%;background-position:0% center;}
+      .hero-bg::after{background:
+        linear-gradient(100deg, rgba(10,10,10,.95) 0%, rgba(10,10,10,.84) 26%, rgba(10,10,10,.34) 45%, rgba(10,10,10,0) 62%);}
       .hero-content{padding:0 0 64px;}
       .hero-content .wrap{max-width:var(--maxw);}
-      .hero h1{max-width:780px;}
-      .hero .subline{font-size:19px;max-width:520px;}
+      .hero h1{max-width:600px;}
+      .hero .subline{font-size:19px;max-width:460px;}
       .hero .cta-block{max-width:none;}
       .btn{display:inline-block;width:auto;min-width:340px;}
 
