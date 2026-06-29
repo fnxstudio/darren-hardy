@@ -87,7 +87,7 @@
       display:block;width:100%;text-align:center;text-decoration:none;cursor:pointer;
       font-weight:800;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
       padding:21px 28px;border:0;border-radius:3px;
-      background:linear-gradient(135deg,#a6f0f8 0%,#78e4ef 50%,#3cc6d6 100%);
+      background:#78e4ef;
       color:#07272b;
       box-shadow:0 14px 34px -16px rgba(60,198,214,.55);
       transition:transform .2s ease,box-shadow .2s ease,filter .2s ease;
@@ -118,6 +118,26 @@
     .btn.btn-sm{width:auto;flex:none;padding:13px 22px;font-size:11px;letter-spacing:.13em;box-shadow:none;}
     .btn.btn-sm::after{display:none;}   /* no looping shine in the persistent bar */
     @media (max-width:460px){ .sticky-brand span{display:none;} }
+
+    /* ---- exit-intent popup ---- */
+    .exit-pop{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+      padding:24px;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease;}
+    .exit-pop.open{opacity:1;visibility:visible;}
+    .exit-pop-scrim{position:absolute;inset:0;background:rgba(4,4,4,.8);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
+    .exit-pop-card{position:relative;z-index:1;background:var(--ink-2);border:1px solid var(--rule-strong);
+      border-radius:10px;max-width:460px;width:100%;padding:48px 38px 30px;text-align:center;
+      transform:translateY(16px) scale(.98);transition:transform .3s ease;box-shadow:0 30px 90px -20px rgba(0,0,0,.85);}
+    .exit-pop.open .exit-pop-card{transform:translateY(0) scale(1);}
+    .exit-pop-x{position:absolute;top:10px;right:14px;background:none;border:0;color:var(--grey);
+      font-size:26px;line-height:1;cursor:pointer;padding:6px;}
+    .exit-pop-x:hover{color:#fff;}
+    .exit-pop .eyebrow{margin-bottom:18px;}
+    .exit-pop-title{font-size:clamp(27px,6vw,38px);margin:0 0 14px;}
+    .exit-pop-body{color:var(--silver);font-size:16px;line-height:1.55;margin:0 auto 28px;max-width:360px;}
+    .exit-pop .btn{max-width:340px;margin:0 auto;}
+    .exit-pop-dismiss{display:block;margin:15px auto 0;background:none;border:0;color:var(--grey);
+      font-size:12px;letter-spacing:.04em;cursor:pointer;}
+    .exit-pop-dismiss:hover{color:var(--silver);}
 
     .microtrust{margin:15px 0 0;font-size:10.5px;letter-spacing:.02em;color:var(--grey);text-align:center;}
     .microtrust b{color:var(--silver);font-weight:600;}
@@ -446,6 +466,19 @@
   </p>
 </footer>
 
+<!-- Exit-intent popup -->
+<div class="exit-pop" id="exitPop" role="dialog" aria-modal="true" aria-labelledby="exitPopTitle" aria-hidden="true">
+  <div class="exit-pop-scrim" data-close></div>
+  <div class="exit-pop-card">
+    <button class="exit-pop-x" data-close aria-label="Close">&times;</button>
+    <div class="eyebrow center" style="justify-content:center">One last thing</div>
+    <h2 class="exit-pop-title" id="exitPopTitle">Don't Leave The Seat Empty.</h2>
+    <p class="exit-pop-body">It takes 2 minutes to name the one hire that changes your trajectory. No cost, no fluff.</p>
+    <a class="btn" href="#start" data-close><span>Start The Diagnostic &rarr;</span></a>
+    <button class="exit-pop-dismiss" data-close>Not right now</button>
+  </div>
+</div>
+
 <!-- Covers wall builder (ported from home.html) -->
 <script>
 const covers = [
@@ -568,6 +601,42 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     nav.classList.toggle('visible', !entries[0].isIntersecting);
   }, { threshold: 0 });
   io.observe(anchor);
+})();
+
+// Exit-intent popup — once per session, fires on leave (desktop) or quick scroll-up (mobile)
+(function () {
+  const pop = document.getElementById('exitPop');
+  if (!pop) return;
+  let shown = false;
+  function open() {
+    if (shown || sessionStorage.getItem('mmExitShown')) return;
+    shown = true;
+    try { sessionStorage.setItem('mmExitShown', '1'); } catch (e) {}
+    pop.classList.add('open');
+    pop.setAttribute('aria-hidden', 'false');
+  }
+  function close() {
+    pop.classList.remove('open');
+    pop.setAttribute('aria-hidden', 'true');
+  }
+  pop.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', close));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  // give them a moment of engagement before it can fire
+  setTimeout(function () {
+    // Desktop: cursor exits the top of the viewport
+    document.addEventListener('mouseout', e => {
+      if (!e.relatedTarget && e.clientY <= 0) open();
+    });
+    // Mobile: scrolled down then flicked back up toward the top
+    let lastY = window.scrollY, maxY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      maxY = Math.max(maxY, y);
+      if (maxY > 600 && y < lastY - 22 && y < 280) open();
+      lastY = y;
+    }, { passive: true });
+  }, 4000);
 })();
 </script>
 
