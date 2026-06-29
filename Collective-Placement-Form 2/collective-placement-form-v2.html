@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Collective · Member Placement Questionnaire</title>
+<meta name="description" content="Tell us where you are and we'll put you in the right room, with the right people, on the right work. Member placement intake for THE COLLECTIVE.">
+<meta name="author" content="Darren Hardy">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+  /* ============ FONTS ============ */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin-ext.woff2) format('woff2');
+  }
+
+  /* ============ BMC | COLLECTIVE TOKENS ============ */
+  :root {
+    --black:        #0a0a0a;
+    --ink:          #141414;
+    --ink-soft:     #1a181f;
+    --surface-card: #0e0c12;
+    --white:        #ffffff;
+    --bone:         #f5f5f5;
+    --silver:       #b8b8b8;
+    --grey:         #8a8a8a;
+    --muted:        #444444;
+
+    --bmc-cyan:     #78e4ef;
+    --bmc-cyan-rgb: 120, 228, 239;
+    --bmc-plum:     #4b2c6a;
+    --bmc-plum-rgb: 75, 44, 106;
+    --bmc-purple-rgb:  156, 39, 172;
+    --bmc-magenta-rgb: 214, 42, 143;
+    --gold:         #f5b301;
+
+    --rule:        rgba(255, 255, 255, 0.09);
+    --rule-strong: rgba(255, 255, 255, 0.16);
+    --radius: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    position: relative;
+    min-height: 100vh;
+    padding: 48px 24px 72px;
+    background:
+      radial-gradient(120% 80% at 78% -8%, rgba(var(--bmc-purple-rgb), 0.16), transparent 60%),
+      radial-gradient(100% 70% at 8% 4%, rgba(var(--bmc-magenta-rgb), 0.10), transparent 55%),
+      var(--black);
+  }
+
+  em {
+    font-style: normal;
+    color: var(--bmc-cyan);
+    text-shadow:
+      0.4px 0 0 currentColor, -0.4px 0 0 currentColor,
+      0 0.4px 0 currentColor,  0 -0.4px 0 currentColor,
+      0 0 0.6px currentColor;
+  }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+  /* ============ SHELL ============ */
+  .wz { max-width: 600px; margin: 0 auto; }
+
+  .wz-brandbar {
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 26px;
+  }
+  .wz-brandbar img { height: 56px; width: auto; display: block; opacity: 0.92; }
+
+  /* ============ PROGRESS ============ */
+  .wz-progress { margin-bottom: 16px; transition: opacity 0.3s; }
+  .wz-progress[hidden] { display: none; }
+  .wz-progress-meta {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--grey);
+    margin-bottom: 10px;
+  }
+  .wz-pct { color: var(--bmc-cyan); }
+  .wz-track {
+    height: 4px; width: 100%;
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 99px; overflow: hidden;
+  }
+  .wz-fill {
+    height: 100%; width: 0;
+    background: var(--bmc-cyan);
+    border-radius: 99px;
+    box-shadow: 0 0 12px rgba(var(--bmc-cyan-rgb), 0.55);
+    transition: width 0.45s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  /* ============ CARD ============ */
+  .wz-card {
+    background: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 40px 40px 32px;
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+    display: flex; flex-direction: column;
+  }
+  .wz-card::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(80% 90% at 100% 0%, rgba(var(--bmc-cyan-rgb), 0.05), transparent 60%);
+    pointer-events: none;
+  }
+
+  /* ============ SCREENS ============ */
+  .wz-screen { display: none; flex: 1; flex-direction: column; position: relative; z-index: 1; }
+  .wz-screen.is-active { display: flex; animation: wz-fade 0.4s cubic-bezier(.16, 1, .3, 1); }
+  @keyframes wz-fade {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .wz-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--bmc-cyan);
+    margin: 0 0 18px;
+  }
+  .wz-eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--bmc-cyan); opacity: 0.7; }
+
+  .wz-title {
+    font-size: clamp(21px, 3.4vw, 28px);
+    font-weight: 800; line-height: 1.2;
+    letter-spacing: -0.01em; color: var(--white);
+    margin: 0 0 8px; max-width: 30ch;
+  }
+  .wz-lead { font-size: 14px; color: var(--grey); line-height: 1.55; margin: 0 0 26px; max-width: 46ch; }
+  .wz-fields { margin-top: 8px; }
+
+  /* ============ INTRO ============ */
+  .wz-intro { text-align: left; }
+  .wz-h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 900; line-height: 1.04;
+    text-transform: uppercase; letter-spacing: -0.01em;
+    margin: 0 0 16px; color: var(--white);
+  }
+  .wz-sub { font-size: 16px; line-height: 1.65; color: var(--silver); margin: 0 0 22px; max-width: 44ch; }
+  .wz-time {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--grey);
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 4px;
+  }
+  .wz-time svg { stroke: var(--bmc-cyan); }
+
+  /* ============ FIELDS ============ */
+  .cf-field { margin-bottom: 20px; }
+  .cf-field:last-child { margin-bottom: 0; }
+  .cf-label { display: block; font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--white); line-height: 1.4; }
+  .cf-hint { display: block; font-size: 13px; color: var(--grey); margin-bottom: 10px; line-height: 1.5; }
+  .cf-multi-note { font-size: 11px; color: var(--grey); margin-left: 8px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  input[type="text"], input[type="url"], input[type="email"], input[type="tel"],
+  select, textarea {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; color: var(--white);
+    background: var(--ink-soft);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    line-height: 1.5;
+    transition: border-color 0.16s, box-shadow 0.16s, background 0.16s;
+    -webkit-appearance: none; appearance: none;
+  }
+  textarea { resize: vertical; min-height: 120px; }
+  input::placeholder, textarea::placeholder { color: #5f5f66; }
+  input:hover, select:hover, textarea:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.4); }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--bmc-cyan);
+    box-shadow: 0 0 0 3px rgba(var(--bmc-cyan-rgb), 0.18);
+    background: var(--ink);
+  }
+  select {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2378e4ef' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px; cursor: pointer;
+  }
+  select option { background: var(--ink); color: var(--white); }
+  select:invalid { color: #5f5f66; }
+
+  /* Checkbox cards */
+  .cf-check { display: flex; flex-direction: column; gap: 8px; }
+  .cf-check label {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 15px; color: var(--silver); cursor: pointer;
+    padding: 13px 15px;
+    background: var(--ink-soft);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    transition: border-color 0.16s, color 0.16s, background 0.16s;
+    line-height: 1.4;
+  }
+  .cf-check label:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.45); color: var(--white); }
+  .cf-check input { margin-top: 2px; accent-color: var(--bmc-cyan); width: 16px; height: 16px; flex: none; }
+  .cf-check label:has(input:checked) { border-color: var(--bmc-cyan); color: var(--white); background: rgba(var(--bmc-cyan-rgb), 0.07); }
+
+  /* ============ NAV / BUTTONS ============ */
+  .wz-nav {
+    margin-top: auto; padding-top: 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .wz-intro .wz-nav { padding-top: 18px; justify-content: flex-start; }
+
+  .wz-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    padding: 14px 28px; border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, opacity 0.2s;
+  }
+  .wz-btn-solid { background: var(--white); color: var(--black); border: 1px solid var(--white); }
+  .wz-btn-solid:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
+  .wz-btn-ghost { background: transparent; color: var(--bmc-cyan); border: 1px solid rgba(var(--bmc-cyan-rgb), 0.5); }
+  .wz-btn-ghost:hover { background: var(--bmc-cyan); color: var(--black); border-color: var(--bmc-cyan); }
+  .wz-btn-text {
+    background: none; border: none; color: var(--grey);
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer;
+    padding: 14px 6px; transition: color 0.18s;
+  }
+  .wz-btn-text:hover { color: var(--white); }
+
+  /* ============ THANKS ============ */
+  .wz-thanks { text-align: center; align-items: center; justify-content: center; padding: 24px 0; }
+  .wz-thanks .wz-eyebrow { justify-content: center; }
+  .wz-thanks h2 {
+    font-size: clamp(28px, 5vw, 42px); font-weight: 900;
+    text-transform: uppercase; letter-spacing: -0.01em;
+    margin: 0 0 16px; color: var(--white);
+  }
+  .wz-thanks p { font-size: 16px; color: var(--silver); margin: 8px 0; line-height: 1.65; max-width: 42ch; }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 560px) {
+    body { padding: 28px 16px 48px; }
+    .wz-card { padding: 30px 22px 26px; min-height: 440px; }
+    .cf-row { grid-template-columns: 1fr; gap: 0; }
+    .cf-row .cf-field { margin-bottom: 20px; }
+    .wz-btn { padding: 14px 22px; }
+    .wz-nav { gap: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, .wz-screen.is-active { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<h1 class="sr-only">The Collective — Member placement questionnaire</h1>
+
+<div class="wz" id="wz">
+  <div class="wz-brandbar">
+    <picture>
+      <source srcset="THE COLLECTIVE_logo_white.webp" type="image/webp">
+      <img src="THE COLLECTIVE_logo_white.png" alt="THE COLLECTIVE" width="400" height="56">
+    </picture>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="wz-progress" id="wz-progress" hidden>
+    <div class="wz-progress-meta">
+      <span id="wz-step-label">Step 1 of 9</span>
+      <span class="wz-pct" id="wz-pct">11%</span>
+    </div>
+    <div class="wz-track"><div class="wz-fill" id="wz-fill"></div></div>
+  </div>
+
+  <div class="wz-card">
+
+    <!-- ===== INTRO ===== -->
+    <section class="wz-screen wz-intro is-active" data-screen="intro">
+      <p class="wz-eyebrow">The Collective</p>
+      <h2 class="wz-h1">Member placement questionnaire</h2>
+      <p class="wz-sub">The faster you tell us where you are, the faster we put you in the <em>right room</em>, with the <em>right people</em>, on the <em>right work</em>.</p>
+      <p class="wz-time">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        9 quick steps · about 5 – 7 minutes
+      </p>
+      <div class="wz-nav">
+        <button class="wz-btn wz-btn-solid" data-action="begin">Begin</button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 1 ===== -->
+    <section class="wz-screen wz-step" data-step="1">
+      <p class="wz-eyebrow">Confirm your details</p>
+      <h2 class="wz-title">First — where do we reach you?</h2>
+      <div class="wz-fields">
+        <div class="cf-field">
+          <label class="cf-label" for="qb-email">Confirm email</label>
+          <input type="email" id="qb-email" placeholder="you@company.com">
+        </div>
+        <div class="cf-field">
+          <label class="cf-label" for="qb-phone">Best mobile phone number</label>
+          <input type="tel" id="qb-phone" placeholder="(555) 123-4567">
+        </div>
+      </div>
+      <div class="wz-nav">
+        <button class="wz-btn-text" data-action="back">Back</button>
+        <button class="wz-btn wz-btn-solid" data-action="next">Continue</button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 2 ===== -->
+    <section class="wz-screen wz-step" data-step="2">
+      <p class="wz-eyebrow">Your business</p>
+      <h2 class="wz-title">Tell us about your business.</h2>
+      <div class="wz-fields">
+        <div class="cf-field">
+          <label class="cf-label" for="qb-company">Company name</label>
+          <input type="text" id="qb-company" placeholder="Your company">
+        </div>
+        <div class="cf-field">
+          <label class="cf-label" for="qb-linkedin">LinkedIn URL <span class="cf-multi-note">optional</span></label>
+          <input type="url" id="qb-linkedin" placeholder="linkedin.com/in/...">
+        </div>
+        <div class="cf-field">
+          <label class="cf-label" for="qb-industry">Industry</label>
+          <select id="qb-industry">
+            <option value="">Select your industry</option>
+            <option>Professional services</option>
+            <option>Real estate</option>
+            <option>Financial services</option>
+            <option>Healthcare / medical</option>
+            <option>Tech / SaaS</option>
+            <option>E-commerce / retail</option>
+            <option>Manufacturing</option>
+            <option>Construction / trades</option>
+            <option>Marketing / agency</option>
+            <option>Coaching / consulting</option>
+            <option>Education / training</option>
+            <option>Food &amp; beverage</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="wz-nav">
+        <button class="wz-btn-text" data-action="back">Back</button>
+        <button class="wz-btn wz-btn-solid" data-action="next">Continue</button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 3 ===== -->
+    <section class="wz-screen wz-step" data-step="3">
+      <p class="wz-eyebrow">Your business</p>
+      <h2 class="wz-title">How big is what you're running?</h2>
+      <p class="wz-lead">So we size your tools and strategies to where you actually are.</p>
+      <div class="wz-fields">
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label" for="qb-revenue">Annual revenue</label>
+            <select id="qb-revenue">
+              <option value="">Select range</option>
+              <option>Under $500K</option>
+              <option>$500K – $1M</option>
+              <option>$1M – $5M</option>
+              <option>$5M – $10M</option>
+              <option>$10M – $25M</option>
+              <option>$25M+</option>
+            </select>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="qb-team">Number of employees</label>
+            <select id="qb-team">
+              <option value="">Select team size</option>
+              <option>Solo (just me)</option>
+              <option>2 – 10</option>
+              <option>11 – 25</option>
+              <option>26 – 50</option>
+              <option>51 – 100</option>
+              <option>100+</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="wz-nav">
+        <button class="wz-btn-text" data-action="back">Back</button>
+        <button class="wz-btn wz-btn-solid" data-action="next">Continue</button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 4 ===== -->
+    <section class="wz-screen wz-step" data-step="4">
+      <p class="wz-eyebrow">About you</p>
+      <h2 class="wz-title">A little about you.</h2>
+      <p class="wz-lead">All optional. Skip anything you'd rather not share.</p>
+      <div class="wz-fields">
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label" for="qb-age">Age</label>
+            <select id="qb-age">
+              <option value="">Select</option>
+              <option>Under 30</option>
+              <option>30 – 39</option>
+              <option>40 – 49</option>
+              <option>50 – 59</option>
+              <option>60 – 69</option>
+              <option>70+</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="qb-gender">Gender</label>
+            <select id="qb-gender">
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label" for="qb-marital">Marital status</label>
+            <select id="qb-marital">
+              <option value="">Select</option>
+              <option>Single</option>
+              <option>Married</option>
+              <option>Divorced</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="qb-children">Children &amp; ages</label>
+            <input type="text" id="qb-children" placeholder="e.g. 2 kids, 8 and 11. Or none.">
+          </div>
+        </div>
+      </div>
+      <div class="wz-nav">
+        <button class="wz-btn-text" data-action="back">Back</button>
+        <button class="wz-btn wz-btn-solid" data-action="next">Continue</button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 5 ===== -->
+    <section class="wz-screen wz-step" data-step="5">
+      <p class="wz-eyebrow">Where you are right now</p>
+      <h2 class="wz-title">Where are you right now?</h2>
+      <div class="wz-fields">
+        <div class="cf-field">
+          <label class="cf-label" for="qb-ai">How AI-fluent are you right now?</label>
+          <span class="cf-hint">So we send you tools and prompts that match where you are.</span>
+          <select id="qb-ai">
+            <option value="">Select your level</option>
+            <option>Just getting started</option>
+            <option>Use it weekly for basic tasks</option>
+            <option>Use it daily across my business</option>
+            <option>Power user / building custom workflows</option>
+          </select>
+        </div>
+        <div class="cf-field">
+          <label class="cf-label" for="qb-bottleneck">What is your #1 bottleneck right now?</label>
+          <span class="cf-hint">Pick the one that's costing you the most.</span>
+          <select id="qb-bottleneck">
+            <option value="">Select your bottleneck</option>
+            <option>Sales &amp; revenue growth</option>
+            <option>Marketing &amp; lead generation</option>
+            <option>Hiring &amp; building an A-team</option>
+            <option>Operations &amp; systems</option>
+            <option>AI &amp; technology adoption</option>
+            <option>Leadership &amp; culture</option>
+            <option>Scaling &amp; growth</option>
+            <option>Mindset &amp; decision-making</option>
+          </select>
+        </div>
+      </div>
+      <div class="wz-nav">
+        <button class="wz-btn-text" data-action="back">Back</button>
+        <button class="wz-btn wz-btn-solid" data-action="next">Continue</button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 6 ===== -->
+    <section class="wz-screen wz-step" data-step="6">
+      <p class="wz-eyebrow">Where you are right now</p>
+      <h2 class="wz-title">What do you want most from The Collective?</h2>
+      <p class="wz-lead">Choose up to 2 — we'll place you around what matters most.</p>
+      <div class="wz-fields">
+        <div class="cf-check">
+          <label><input type="checkbox" name="wantb"> A community of operators at my level</label>
+          <label><input type="checkbox" name="wantb"> Peers at the next revenue level above me</label>
+          <label><input type="checkbox" name="wantb"> Industry-specific peers</label>
+          <label><input type="checkbox" name="wantb"> AI tools &amp; execution systems I can use immediately</label>
+          <label><input type="checkbox" name="wantb"> Accountability and momentum</label>
+        </div>
+      </div>
+      <div class="wz-nav">
+        <button class="wz-btn-text" data-action="back">Back</button>
+        <button class="wz-btn wz-btn-solid" data-action="next">Continue</button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 7 ===== -->
+    <section class="wz-screen wz-step" data-step="7">
+      <p class="wz-eyebrow">What you're working on</p>
+      <h2 class="wz-title">What's the biggest opportunity in front of you?</h2>
+      <p class="wz-lead">Be specific. The thing that, if you got it right, would change the year.</p>
+      <div class="wz-fields">
+        <div class="cf-field">
+          <textarea id="qb-opp" placeholder="e.g. We're about to launch a new product line that could double revenue..."></textarea>
+        </div>
+      </div>
+      <div class="wz-nav">
+        <button class="wz-btn-text" data-action="back">Back</button>
+        <button class="wz-btn wz-btn-solid" data-action="next">Continue</button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 8 ===== -->
+    <section class="wz-screen wz-step" data-step="8">
+      <p class="wz-eyebrow">What you're working on</p>
+      <h2 class="wz-title">And the biggest challenge?</h2>
+      <p class="wz-lead">The thing that keeps you up at night or has you stuck.</p>
+      <div class="wz-fields">
+        <div class="cf-field">
+          <textarea id="qb-chall" placeholder="e.g. I'm the bottleneck. I can't get out of the day-to-day to focus on growth..."></textarea>
+        </div>
+      </div>
+      <div class="wz-nav">
+        <button class="wz-btn-text" data-action="back">Back</button>
+        <button class="wz-btn wz-btn-solid" data-action="next">Continue</button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 9 ===== -->
+    <section class="wz-screen wz-step" data-step="9">
+      <p class="wz-eyebrow">Your commitment</p>
+      <h2 class="wz-title">One last thing.</h2>
+      <p class="wz-lead">In the next 30 days, what's the ONE result that has you fist pumping "Hell yes!"?</p>
+      <div class="wz-fields">
+        <div class="cf-field">
+          <textarea id="qb-one" placeholder="e.g. Close the $250K deal that's been sitting in the pipeline..."></textarea>
+        </div>
+      </div>
+      <div class="wz-nav">
+        <button class="wz-btn-text" data-action="back">Back</button>
+        <button class="wz-btn wz-btn-solid" data-action="submit">Place me in The Collective</button>
+      </div>
+    </section>
+
+    <!-- ===== THANKS ===== -->
+    <section class="wz-screen wz-thanks" data-screen="thanks">
+      <p class="wz-eyebrow">The Collective</p>
+      <h2>You're in.</h2>
+      <p>Watch your inbox in the next 24 hours.</p>
+      <p>Darren and Brenda are building your first 30 days around what you just told us.</p>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  (function () {
+    var TOTAL = 9;
+    var steps = Array.prototype.slice.call(document.querySelectorAll('.wz-step'));
+    var intro = document.querySelector('[data-screen="intro"]');
+    var thanks = document.querySelector('[data-screen="thanks"]');
+    var progress = document.getElementById('wz-progress');
+    var fill = document.getElementById('wz-fill');
+    var stepLabel = document.getElementById('wz-step-label');
+    var pct = document.getElementById('wz-pct');
+    var card = document.querySelector('.wz-card');
+
+    var current = 0; // 0 = intro, 1..9 = steps, -1 = thanks
+
+    function activate(el) {
+      [intro, thanks].concat(steps).forEach(function (s) { s.classList.remove('is-active'); });
+      el.classList.add('is-active');
+      // Re-trigger entrance animation
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    }
+
+    function scrollUp() {
+      var top = card.getBoundingClientRect().top + window.scrollY - 24;
+      if (top < window.scrollY) window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+
+    function render() {
+      if (current === 0) {
+        activate(intro);
+        progress.setAttribute('hidden', '');
+      } else if (current === -1) {
+        activate(thanks);
+        progress.setAttribute('hidden', '');
+      } else {
+        activate(steps[current - 1]);
+        progress.removeAttribute('hidden');
+        var p = Math.round((current / TOTAL) * 100);
+        fill.style.width = p + '%';
+        stepLabel.textContent = 'Step ' + current + ' of ' + TOTAL;
+        pct.textContent = p + '%';
+      }
+    }
+
+    function go(n) { current = n; render(); scrollUp(); }
+
+    document.querySelectorAll('[data-action]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var action = btn.getAttribute('data-action');
+        if (action === 'begin') go(1);
+        else if (action === 'next') go(Math.min(current + 1, TOTAL));
+        else if (action === 'back') go(current - 1); // step 1 -> 0 (intro)
+        else if (action === 'submit') go(-1);
+      });
+    });
+
+    // Enter advances on single-line inputs (not textareas)
+    document.querySelectorAll('input').forEach(function (inp) {
+      inp.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          var active = steps[current - 1];
+          if (!active) return;
+          var nextBtn = active.querySelector('[data-action="next"], [data-action="submit"]');
+          if (nextBtn) nextBtn.click();
+        }
+      });
+    });
+
+    // "Choose up to 2" limiter
+    var boxes = document.querySelectorAll('input[name="wantb"]');
+    boxes.forEach(function (b) {
+      b.addEventListener('change', function () {
+        var checked = document.querySelectorAll('input[name="wantb"]:checked');
+        if (checked.length > 2) { b.checked = false; }
+      });
+    });
+
+    render();
+  })();
+</script>
+</body>
+</html>

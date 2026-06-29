@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Collective · Member Placement Questionnaire</title>
+<meta name="description" content="Tell us where you are and we'll put you in the right room, with the right people, on the right work. Member placement intake for THE COLLECTIVE.">
+<meta name="author" content="Darren Hardy">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+  /* ============ FONTS ============ */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin-ext.woff2) format('woff2');
+  }
+
+  /* ============ BMC | COLLECTIVE TOKENS ============ */
+  :root {
+    --black:        #0a0a0a;
+    --ink:          #141414;
+    --ink-soft:     #1a181f;
+    --surface-card: #0e0c12;
+    --white:        #ffffff;
+    --bone:         #f5f5f5;
+    --silver:       #b8b8b8;
+    --grey:         #8a8a8a;
+    --muted:        #444444;
+
+    --bmc-cyan:     #78e4ef;
+    --bmc-cyan-rgb: 120, 228, 239;
+    --bmc-plum:     #4b2c6a;
+    --bmc-plum-rgb: 75, 44, 106;
+    --bmc-purple-rgb:  156, 39, 172;
+    --bmc-magenta-rgb: 214, 42, 143;
+    --gold:         #f5b301;
+
+    --rule:        rgba(255, 255, 255, 0.09);
+    --rule-strong: rgba(255, 255, 255, 0.16);
+    --radius: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Ambient wash — purple/magenta radial depth, background only */
+  body {
+    position: relative;
+    min-height: 100vh;
+    padding: 56px 24px 80px;
+    background:
+      radial-gradient(120% 80% at 78% -8%, rgba(var(--bmc-purple-rgb), 0.16), transparent 60%),
+      radial-gradient(100% 70% at 8% 4%, rgba(var(--bmc-magenta-rgb), 0.10), transparent 55%),
+      var(--black);
+  }
+
+  em {
+    font-style: normal;
+    color: var(--bmc-cyan);
+    text-shadow:
+      0.4px 0 0 currentColor, -0.4px 0 0 currentColor,
+      0 0.4px 0 currentColor,  0 -0.4px 0 currentColor,
+      0 0 0.6px currentColor;
+  }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+  /* ============ SHELL ============ */
+  .cf-shell { max-width: 720px; margin: 0 auto; }
+
+  .cf-brandbar {
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px;
+  }
+  .cf-brandbar img {
+    height: 30px; width: auto; display: block;
+    opacity: 0.92;
+  }
+
+  .cf-wrap {
+    background: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 8px;
+  }
+
+  /* ============ HEAD ============ */
+  .cf-head {
+    padding: 40px 40px 36px;
+    background: var(--surface-card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .cf-head::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(80% 120% at 100% 0%, rgba(var(--bmc-cyan-rgb), 0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .cf-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--bmc-cyan);
+    margin: 0 0 18px;
+  }
+  .cf-eyebrow::before {
+    content: ""; width: 22px; height: 1px;
+    background: var(--bmc-cyan); opacity: 0.7;
+  }
+  .cf-h1 {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 900; line-height: 1.05;
+    text-transform: uppercase; letter-spacing: -0.01em;
+    margin: 0 0 16px; color: var(--white);
+  }
+  .cf-sub {
+    font-size: 16px; line-height: 1.65; color: var(--silver);
+    margin: 0; max-width: 540px; font-weight: 400;
+  }
+
+  /* ============ BODY / SECTIONS ============ */
+  .cf-body { padding: 8px 40px 36px; }
+
+  .cf-section { margin: 36px 0 0; padding-top: 30px; border-top: 1px solid var(--rule); }
+
+  .cf-contact-section {
+    margin-top: 8px; padding: 26px 32px;
+    background: var(--surface-card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+  }
+
+  .cf-section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--bmc-cyan);
+    margin: 0 0 14px;
+  }
+  .cf-section-hint { font-size: 14px; color: var(--grey); margin: -6px 0 18px; line-height: 1.5; }
+
+  .cf-field { margin-bottom: 22px; }
+  .cf-field:last-child { margin-bottom: 0; }
+
+  .cf-label {
+    display: block; font-size: 15px; font-weight: 700;
+    margin-bottom: 8px; color: var(--white); line-height: 1.4;
+  }
+  .cf-num { color: var(--bmc-cyan); margin-right: 7px; font-weight: 700; }
+  .cf-hint { display: block; font-size: 13px; color: var(--grey); margin-bottom: 10px; line-height: 1.5; }
+  .cf-multi-note {
+    font-size: 11px; color: var(--grey); margin-left: 8px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+
+  .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ============ INPUTS ============ */
+  input[type="text"], input[type="url"], input[type="email"], input[type="tel"],
+  select, textarea {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; color: var(--white);
+    background: var(--ink-soft);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    line-height: 1.5;
+    transition: border-color 0.16s, box-shadow 0.16s, background 0.16s;
+    -webkit-appearance: none; appearance: none;
+  }
+  textarea { resize: vertical; min-height: 86px; }
+
+  input::placeholder, textarea::placeholder { color: #5f5f66; }
+
+  input:hover, select:hover, textarea:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.4); }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--bmc-cyan);
+    box-shadow: 0 0 0 3px rgba(var(--bmc-cyan-rgb), 0.18);
+    background: var(--ink);
+  }
+
+  /* Custom select chevron (cyan) */
+  select {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2378e4ef' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px; cursor: pointer;
+  }
+  select option { background: var(--ink); color: var(--white); }
+  select:invalid, select option[value=""] { color: #5f5f66; }
+
+  /* ============ CHECKBOX CARDS ============ */
+  .cf-check { display: flex; flex-direction: column; gap: 8px; }
+  .cf-check label {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 15px; color: var(--silver); cursor: pointer;
+    padding: 13px 15px;
+    background: var(--ink-soft);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    transition: border-color 0.16s, color 0.16s, background 0.16s;
+    line-height: 1.4;
+  }
+  .cf-check label:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.45); color: var(--white); }
+  .cf-check input { margin-top: 2px; accent-color: var(--bmc-cyan); width: 16px; height: 16px; flex: none; }
+  .cf-check label:has(input:checked) {
+    border-color: var(--bmc-cyan);
+    color: var(--white);
+    background: rgba(var(--bmc-cyan-rgb), 0.07);
+  }
+
+  /* ============ FOOTER / CTA ============ */
+  .cf-footer {
+    margin-top: 38px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: center; align-items: center;
+  }
+  .cf-time {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--grey);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .cf-time svg { stroke: var(--bmc-cyan); }
+
+  /* Time chip sitting under the intro sub-headline */
+  .cf-time-top { position: relative; z-index: 1; margin-top: 20px; }
+
+  /* Solid CTA — page-closing conversion (per BMC CTA system) */
+  .cf-submit {
+    background: var(--white); color: var(--black);
+    border: 1px solid var(--white);
+    padding: 15px 30px;
+    border-radius: var(--radius);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .cf-submit:hover {
+    background: transparent; color: var(--bmc-cyan);
+    border-color: var(--bmc-cyan);
+  }
+
+  /* ============ THANKS ============ */
+  .cf-thanks {
+    display: none;
+    max-width: 720px; margin: 0 auto;
+    padding: 56px 44px;
+    background: var(--surface-card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cf-thanks::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(70% 120% at 50% 0%, rgba(var(--bmc-cyan-rgb), 0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .cf-thanks.show { display: block; }
+  .cf-thanks .cf-eyebrow { justify-content: center; }
+  .cf-thanks h2 {
+    font-size: clamp(26px, 4vw, 38px); font-weight: 900;
+    text-transform: uppercase; letter-spacing: -0.01em;
+    margin: 0 0 16px; color: var(--white);
+  }
+  .cf-thanks p { font-size: 16px; color: var(--silver); margin: 8px 0; line-height: 1.65; }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 600px) {
+    body { padding: 32px 16px 56px; }
+    .cf-head { padding: 32px 24px 28px; }
+    .cf-body { padding: 8px 24px 28px; }
+    .cf-contact-section { padding: 22px 22px; }
+    .cf-row { grid-template-columns: 1fr; gap: 0; }
+    .cf-row .cf-field { margin-bottom: 22px; }
+    .cf-footer { flex-direction: column; align-items: stretch; }
+    .cf-submit { width: 100%; }
+    .cf-thanks { padding: 44px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<h1 class="sr-only">The Collective — Member placement questionnaire</h1>
+
+<div class="cf-shell" id="cf-form11">
+  <div class="cf-brandbar">
+    <picture>
+      <source srcset="THE COLLECTIVE_logo_white.webp" type="image/webp">
+      <img src="THE COLLECTIVE_logo_white.png" alt="THE COLLECTIVE" width="200" height="30">
+    </picture>
+  </div>
+
+  <div class="cf-wrap">
+    <div class="cf-head">
+      <p class="cf-eyebrow">The Collective</p>
+      <h2 class="cf-h1">Member placement questionnaire</h2>
+      <p class="cf-sub">7 minutes. The faster you tell us where you are, the faster we put you in the <em>right room</em>, with the <em>right people</em>, on the <em>right work</em>.</p>
+      <span class="cf-time cf-time-top">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        About 5 – 7 minutes
+      </span>
+    </div>
+
+    <div class="cf-body">
+      <div class="cf-contact-section">
+        <p class="cf-section-label">Confirm your details</p>
+        <div class="cf-row">
+          <div class="cf-field" style="margin-bottom: 0;">
+            <label class="cf-label" for="qb-email">Confirm email</label>
+            <input type="email" id="qb-email" placeholder="you@company.com">
+          </div>
+          <div class="cf-field" style="margin-bottom: 0;">
+            <label class="cf-label" for="qb-phone">Best mobile phone number</label>
+            <input type="tel" id="qb-phone" placeholder="(555) 123-4567">
+          </div>
+        </div>
+      </div>
+
+      <div class="cf-section">
+        <p class="cf-section-label">Tell us about your business</p>
+
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label" for="qb-company"><span class="cf-num">1.</span>Company name</label>
+            <input type="text" id="qb-company" placeholder="Your company">
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="qb-linkedin"><span class="cf-num">2.</span>LinkedIn URL <span class="cf-multi-note">optional</span></label>
+            <input type="url" id="qb-linkedin" placeholder="linkedin.com/in/...">
+          </div>
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="qb-industry"><span class="cf-num">3.</span>Industry</label>
+          <select id="qb-industry">
+            <option value="">Select your industry</option>
+            <option>Professional services</option>
+            <option>Real estate</option>
+            <option>Financial services</option>
+            <option>Healthcare / medical</option>
+            <option>Tech / SaaS</option>
+            <option>E-commerce / retail</option>
+            <option>Manufacturing</option>
+            <option>Construction / trades</option>
+            <option>Marketing / agency</option>
+            <option>Coaching / consulting</option>
+            <option>Education / training</option>
+            <option>Food &amp; beverage</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label" for="qb-revenue"><span class="cf-num">4.</span>Annual revenue</label>
+            <span class="cf-hint">So we can customize your tools to grow to the next level.</span>
+            <select id="qb-revenue">
+              <option value="">Select range</option>
+              <option>Under $500K</option>
+              <option>$500K – $1M</option>
+              <option>$1M – $5M</option>
+              <option>$5M – $10M</option>
+              <option>$10M – $25M</option>
+              <option>$25M+</option>
+            </select>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="qb-team"><span class="cf-num">5.</span>Number of employees</label>
+            <span class="cf-hint">So strategies fit the size of what you're running.</span>
+            <select id="qb-team">
+              <option value="">Select team size</option>
+              <option>Solo (just me)</option>
+              <option>2 – 10</option>
+              <option>11 – 25</option>
+              <option>26 – 50</option>
+              <option>51 – 100</option>
+              <option>100+</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="cf-section">
+        <p class="cf-section-label">About you</p>
+        <p class="cf-section-hint">All optional. Skip anything you'd rather not share.</p>
+
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label" for="qb-age"><span class="cf-num">6.</span>Age</label>
+            <select id="qb-age">
+              <option value="">Select</option>
+              <option>Under 30</option>
+              <option>30 – 39</option>
+              <option>40 – 49</option>
+              <option>50 – 59</option>
+              <option>60 – 69</option>
+              <option>70+</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="qb-gender"><span class="cf-num">7.</span>Gender</label>
+            <select id="qb-gender">
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label" for="qb-marital"><span class="cf-num">8.</span>Marital status</label>
+            <select id="qb-marital">
+              <option value="">Select</option>
+              <option>Single</option>
+              <option>Married</option>
+              <option>Divorced</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="qb-children"><span class="cf-num">9.</span>Children &amp; ages</label>
+            <input type="text" id="qb-children" placeholder="e.g. 2 kids, ages 8 and 11. Or none.">
+          </div>
+        </div>
+      </div>
+
+      <div class="cf-section">
+        <p class="cf-section-label">Where you are right now</p>
+
+        <div class="cf-field">
+          <label class="cf-label" for="qb-ai"><span class="cf-num">10.</span>How AI-fluent are you right now?</label>
+          <span class="cf-hint">So we send you tools and prompts that match where you are.</span>
+          <select id="qb-ai">
+            <option value="">Select your level</option>
+            <option>Just getting started</option>
+            <option>Use it weekly for basic tasks</option>
+            <option>Use it daily across my business</option>
+            <option>Power user / building custom workflows</option>
+          </select>
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="qb-bottleneck"><span class="cf-num">11.</span>What is your #1 bottleneck right now?</label>
+          <span class="cf-hint">Pick the one that's costing you the most right now.</span>
+          <select id="qb-bottleneck">
+            <option value="">Select your bottleneck</option>
+            <option>Sales &amp; revenue growth</option>
+            <option>Marketing &amp; lead generation</option>
+            <option>Hiring &amp; building an A-team</option>
+            <option>Operations &amp; systems</option>
+            <option>AI &amp; technology adoption</option>
+            <option>Leadership &amp; culture</option>
+            <option>Scaling &amp; growth</option>
+            <option>Mindset &amp; decision-making</option>
+          </select>
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label"><span class="cf-num">12.</span>What do you want most from The Collective? <span class="cf-multi-note">choose up to 2</span></label>
+          <div class="cf-check">
+            <label><input type="checkbox" name="wantb"> A community of operators at my level</label>
+            <label><input type="checkbox" name="wantb"> Peers at the next revenue level above me</label>
+            <label><input type="checkbox" name="wantb"> Industry-specific peers</label>
+            <label><input type="checkbox" name="wantb"> AI tools &amp; execution systems I can use immediately</label>
+            <label><input type="checkbox" name="wantb"> Accountability and momentum</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="cf-section">
+        <p class="cf-section-label">What you're working on</p>
+
+        <div class="cf-field">
+          <label class="cf-label" for="qb-opp"><span class="cf-num">13.</span>What is the biggest opportunity in front of you right now?</label>
+          <span class="cf-hint">Be specific. What's the thing that, if you got it right, would change the year?</span>
+          <textarea id="qb-opp" placeholder="e.g. We're about to launch a new product line that could double revenue..."></textarea>
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="qb-chall"><span class="cf-num">14.</span>What is the biggest challenge in front of you right now?</label>
+          <span class="cf-hint">The thing that keeps you up at night or has you stuck.</span>
+          <textarea id="qb-chall" placeholder="e.g. I'm the bottleneck. I can't get out of the day-to-day to focus on growth..."></textarea>
+        </div>
+      </div>
+
+      <div class="cf-section">
+        <p class="cf-section-label">Your commitment</p>
+
+        <div class="cf-field">
+          <label class="cf-label" for="qb-one"><span class="cf-num">15.</span>In the next 30 days, what's the ONE result that has you fist pumping "Hell yes!"?</label>
+          <textarea id="qb-one"></textarea>
+        </div>
+      </div>
+
+      <div class="cf-footer">
+        <button class="cf-submit" id="cf-submit-btnb">Place me in The Collective</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cf-thanks" id="cf-thanksb">
+  <p class="cf-eyebrow">The Collective</p>
+  <h2>You're in.</h2>
+  <p>Watch your inbox in the next 24 hours.</p>
+  <p>Darren and Brenda are building your first 30 days around what you just told us.</p>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('cf-submit-btnb');
+    var form = document.getElementById('cf-form11');
+    var thanks = document.getElementById('cf-thanksb');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        form.style.display = 'none';
+        thanks.classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+    var boxes = document.querySelectorAll('input[name="wantb"]');
+    boxes.forEach(function (b) {
+      b.addEventListener('change', function () {
+        var checked = document.querySelectorAll('input[name="wantb"]:checked');
+        if (checked.length > 2) { b.checked = false; }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
