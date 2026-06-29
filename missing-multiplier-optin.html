@@ -104,6 +104,21 @@
     .btn:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 20px 42px -16px rgba(60,198,214,.68);}
     .btn:active{transform:translateY(0);}
 
+    /* ---- sticky CTA nav (appears on scroll past hero button) ---- */
+    .sticky-cta{position:fixed;top:0;left:0;right:0;z-index:60;
+      background:rgba(10,10,10,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--rule);
+      transform:translateY(-100%);visibility:hidden;
+      transition:transform .35s cubic-bezier(.4,0,.2,1),visibility .35s;}
+    .sticky-cta.visible{transform:translateY(0);visibility:visible;}
+    .sticky-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0;}
+    .sticky-brand{display:flex;align-items:center;gap:9px;text-decoration:none;flex:none;}
+    .sticky-brand img{width:30px;height:30px;}
+    .sticky-brand span{font-weight:900;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#fff;white-space:nowrap;}
+    .btn.btn-sm{width:auto;flex:none;padding:13px 22px;font-size:11px;letter-spacing:.13em;box-shadow:none;}
+    .btn.btn-sm::after{display:none;}   /* no looping shine in the persistent bar */
+    @media (max-width:460px){ .sticky-brand span{display:none;} }
+
     .microtrust{margin:15px 0 0;font-size:10.5px;letter-spacing:.02em;color:var(--grey);text-align:center;}
     .microtrust b{color:var(--silver);font-weight:600;}
 
@@ -289,6 +304,18 @@
 </head>
 
 <body>
+
+<!-- Sticky CTA — slides in once the hero button scrolls out of view -->
+<nav class="sticky-cta">
+  <div class="wrap sticky-cta-inner">
+    <a class="sticky-brand" href="#top" aria-label="Darren Hardy">
+      <img src="dh_logo.png" alt="" width="30" height="30">
+      <span>Darren Hardy</span>
+    </a>
+    <a class="btn btn-sm" href="#start"><span>Start Your Diagnostic &rarr;</span></a>
+  </div>
+</nav>
+
 <main>
 
   <!-- ===================== HERO ===================== -->
@@ -530,6 +557,17 @@ document.querySelectorAll('.c-tile').forEach(tile => {
       rafPending = false;
     });
   }, { passive: true });
+})();
+
+// Sticky CTA — show once the hero button has scrolled up out of view
+(function () {
+  const nav = document.querySelector('.sticky-cta');
+  const anchor = document.querySelector('.hero .cta-block');
+  if (!nav || !anchor || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    nav.classList.toggle('visible', !entries[0].isIntersecting);
+  }, { threshold: 0 });
+  io.observe(anchor);
 })();
 </script>
 
