@@ -160,9 +160,10 @@
       /* feather only BELOW his hands so the bottom edge dissolves into the copy — no blur, no hard line */
       -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 73%);
               mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 73%);}
-    /* light top darken only (for the logo); the image feathers to dark on its own */
+    /* top darken (logo) + a soft dark fade BELOW his hands into the copy */
     .hero-bg::after{content:"";position:absolute;inset:0;
-      background:linear-gradient(to bottom, rgba(10,10,10,.4) 0%, rgba(10,10,10,0) 17%);}
+      background:linear-gradient(to bottom, rgba(10,10,10,.4) 0%, rgba(10,10,10,0) 17%,
+        rgba(10,10,10,0) 56%, rgba(10,10,10,.5) 67%, #0a0a0a 76%);}
     /* no frosted blur — his hands must stay crisp */
     .hero-blur{display:none;}
 
@@ -268,19 +269,6 @@
       .intro-wall::before{content:'';position:absolute;top:0;bottom:0;right:0;width:140px;z-index:5;
         pointer-events:none;background:linear-gradient(to right,transparent 0%,rgba(10,10,10,.55) 60%,#0a0a0a 100%);}
     }
-
-    /* ===================== MEDIA RIBBON (exact copy from home.html) ===================== */
-    .ribbon{background:var(--ink);padding:48px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);overflow:hidden;}
-    .ribbon-label{font-family:'Inter',sans-serif;font-weight:600;font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--silver);text-align:center;margin-bottom:32px;}
-    .marquee{overflow:hidden;white-space:nowrap;}
-    .marquee-track{display:inline-flex;flex-wrap:nowrap;gap:80px;animation:marquee 32s linear infinite;padding-left:80px;will-change:transform;transform:translateZ(0);backface-visibility:hidden;}
-    .marquee-track.paused{animation-play-state:paused;}
-    .marquee-item{font-family:'Inter',sans-serif;font-weight:700;font-size:22px;letter-spacing:.18em;text-transform:uppercase;color:var(--silver);flex-shrink:0;display:flex;align-items:center;}
-    .media-logo{height:28px;width:auto;display:block;filter:brightness(0) invert(1);opacity:.65;}
-    .media-logo.logo-bw{filter:invert(1);}
-    @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-    @media (max-width:768px){ .marquee-track{animation-duration:36s !important;} }
-    @media (prefers-reduced-motion:reduce){ .marquee-track{animation:none;} }
 
     /* ===================== FINAL CTA (ink) ===================== */
     .final-cta{background:var(--ink-2);
@@ -424,34 +412,6 @@
     </div>
   </section>
 
-  <!-- ===================== MEDIA RIBBON (exact copy from home.html) ===================== -->
-  <div class="ribbon">
-    <div class="ribbon-label">Sought-After Media Contributor</div>
-    <div class="marquee">
-      <div class="marquee-track">
-        <span class="marquee-item"><picture><source type="image/webp" srcset="media-logos/success.webp"><img src="media-logos/success.png" alt="SUCCESS" class="media-logo logo-bw"></picture></span>
-        <span class="marquee-item"><img src="media-logos/forbes.svg" alt="Forbes" class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/inc.svg" alt="Inc." class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/cnbc.svg" alt="CNBC" class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/cnn.svg" alt="CNN" class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/fox.svg" alt="Fox" class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/cbs.svg" alt="CBS" class="media-logo"></span>
-        <span class="marquee-item"><picture><source type="image/webp" srcset="media-logos/abc.webp"><img src="media-logos/abc.png" alt="ABC" class="media-logo logo-bw"></picture></span>
-        <span class="marquee-item"><picture><source type="image/webp" srcset="media-logos/npr.webp"><img src="media-logos/npr.png" alt="NPR" class="media-logo logo-bw"></picture></span>
-        <span class="marquee-item"><img src="media-logos/nyt.svg" alt="The New York Times" class="media-logo"></span>
-        <span class="marquee-item"><picture><source type="image/webp" srcset="media-logos/success.webp"><img src="media-logos/success.png" alt="SUCCESS" class="media-logo logo-bw"></picture></span>
-        <span class="marquee-item"><img src="media-logos/forbes.svg" alt="Forbes" class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/inc.svg" alt="Inc." class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/cnbc.svg" alt="CNBC" class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/cnn.svg" alt="CNN" class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/fox.svg" alt="Fox" class="media-logo"></span>
-        <span class="marquee-item"><img src="media-logos/cbs.svg" alt="CBS" class="media-logo"></span>
-        <span class="marquee-item"><picture><source type="image/webp" srcset="media-logos/abc.webp"><img src="media-logos/abc.png" alt="ABC" class="media-logo logo-bw"></picture></span>
-        <span class="marquee-item"><picture><source type="image/webp" srcset="media-logos/npr.webp"><img src="media-logos/npr.png" alt="NPR" class="media-logo logo-bw"></picture></span>
-        <span class="marquee-item"><img src="media-logos/nyt.svg" alt="The New York Times" class="media-logo"></span>
-      </div>
-    </div>
-  </div>
 
   <!-- ===================== FINAL CTA ===================== -->
   <section class="final-cta" id="start">
@@ -611,16 +571,6 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     nav.classList.toggle('visible', !entries[0].isIntersecting);
   }, { threshold: 0 });
   io.observe(anchor);
-})();
-
-// Pause marquees when off-screen — frees GPU (from home.html)
-(function () {
-  const tracks = document.querySelectorAll('.marquee-track');
-  if (!tracks.length || !('IntersectionObserver' in window)) return;
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { e.target.classList.toggle('paused', !e.isIntersecting); });
-  }, { rootMargin: '0px 0px 100px 0px' });
-  tracks.forEach(t => obs.observe(t));
 })();
 
 // Exit-intent popup — once per session, fires on leave (desktop) or quick scroll-up (mobile)
