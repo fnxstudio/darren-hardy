@@ -185,41 +185,30 @@
       animation:bob 1.8s ease-in-out infinite;}
     @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 
-    /* ===================== NARRATIVE (dark) ===================== */
-    .story{position:relative;padding:62px 0 66px;background:var(--ink);overflow:hidden;}
+    /* ===================== NARRATIVE (light / bone) ===================== */
+    .story{position:relative;padding:62px 0 66px;background:var(--bone);overflow:hidden;}
     .story .ghost{
       position:absolute;top:38px;right:-2%;font-weight:900;font-size:34vw;line-height:.7;
-      color:transparent;-webkit-text-stroke:1px rgba(120,228,239,.14);
+      color:transparent;-webkit-text-stroke:1px rgba(14,106,110,.12);
       pointer-events:none;user-select:none;z-index:0;letter-spacing:-.04em;
     }
     .story .wrap{position:relative;z-index:1;max-width:720px;}
-    .story h2{margin-bottom:24px;}
-    .story p{font-size:17px;color:var(--silver);margin:0 0 20px;}
+    .story .eyebrow{color:var(--gold-deep);}
+    .story .eyebrow::before{background:var(--gold-deep);}
+    .story h2{margin-bottom:24px;color:#17120a;}
+    .story p{font-size:17px;color:var(--muted);margin:0 0 20px;}
     .story p:last-of-type{margin-bottom:0;}
-    .story p.kicker{font-size:19px;color:var(--white);font-weight:600;line-height:1.5;}
-    .story .brands{color:var(--gold-bright);font-weight:700;}
+    .story p.kicker{font-size:19px;color:#17120a;font-weight:600;line-height:1.5;}
+    .story .brands{color:var(--gold-deep);font-weight:700;}
 
-    /* repel callout */
+    /* repel callout — dark card on the light section, for emphasis */
     .repel{
       margin:38px 0 4px;padding:24px 24px 24px 26px;
-      background:var(--ink-soft);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;
+      background:var(--ink-2);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;
     }
     .repel .tag{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-bright);margin:0 0 10px;}
     .repel p{font-size:15.5px;color:var(--silver);margin:0;}
     .repel b{color:var(--white);font-weight:700;}
-
-    /* ===================== WHAT YOU GET (bone) ===================== */
-    .get{background:var(--bone);color:var(--muted);padding:64px 0 70px;}
-    .get h2{color:#171410;margin-bottom:30px;}
-    .get .intro{font-size:16.5px;color:var(--muted);margin:0 0 30px;max-width:560px;}
-    .checks{list-style:none;padding:0;margin:0 0 38px;}
-    .checks li{position:relative;padding-left:42px;margin-bottom:22px;font-size:16px;color:#322d27;line-height:1.5;}
-    .checks li:last-child{margin-bottom:0;}
-    .checks li strong{color:#171410;font-weight:800;}
-    .checks li::before{
-      content:"";position:absolute;left:0;top:0;width:27px;height:27px;
-      background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="%231fa6b2"/><path d="M6.4 12.4l3.3 3.3 7-7.2" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center/contain;
-    }
 
     /* ===================== ADVISOR — DH + COVERS WALL (identical to homepage) ===================== */
     .intro{display:flex;min-height:70vh;}
@@ -241,11 +230,8 @@
     .intro-body em{font-style:normal;color:var(--gold-deep);font-weight:700;}
     .intro-body em.book{font-style:italic;color:inherit;font-weight:inherit;}
     /* credibility seals — bestseller badges on the bone column (grayscale + multiply blend) */
-    .intro-seals{display:flex;flex-wrap:wrap;align-items:center;gap:18px 26px;margin-top:40px;}
-    .intro-seals img{height:46px;width:auto;display:block;mix-blend-mode:multiply;
-      filter:grayscale(1) contrast(.6) brightness(1.05);opacity:.8;}
-    .intro-seals img.nyt{height:62px;}
-    .intro-seals img.invert{filter:grayscale(1) invert(1) contrast(.6) brightness(1.1);}
+    .intro-seals{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:22px 34px;margin-top:42px;}
+    .intro-seals img{height:56px;width:auto;display:block;filter:brightness(0);opacity:.5;}
 
     #covers-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);
       grid-auto-rows:144px;grid-auto-flow:dense;gap:2px;will-change:transform;}
@@ -289,10 +275,11 @@
     @media (min-width:860px){
       /* full image height (chair stays in frame), DH lands center-right;
          copy sits left over a left-side scrim that fades before the chair */
-      .hero-bg{background-size:auto 100%;background-position:0% center;
+      .hero-bg{background-size:auto 112%;background-position:80% 42%;
         -webkit-mask-image:none;mask-image:none;}
       .hero-bg::after{background:
-        linear-gradient(100deg, rgba(10,10,10,.95) 0%, rgba(10,10,10,.84) 26%, rgba(10,10,10,.34) 45%, rgba(10,10,10,0) 62%);}
+        linear-gradient(to bottom, rgba(10,10,10,.22) 0%, rgba(10,10,10,0) 24%, rgba(10,10,10,0) 52%, rgba(10,10,10,.5) 76%, rgba(10,10,10,.92) 100%),
+        linear-gradient(90deg, rgba(10,10,10,.52) 0%, rgba(10,10,10,.14) 30%, rgba(10,10,10,0) 50%);}
       .hero-blur{display:none;}   /* no bottom blur over the picture on desktop */
       .hero-content{padding:0 0 64px;}
       .hero-content .wrap{max-width:var(--maxw);}
@@ -304,9 +291,6 @@
 
       .story{padding:120px 0;}
       .repel{margin-top:46px;}
-      .get{padding:110px 0;}
-      .get .wrap{max-width:840px;}
-      .get h2,.get .intro{max-width:none;}
       .final-cta{padding:120px 0;}
       .awards img{height:74px;}
     }
@@ -378,20 +362,6 @@
     </div>
   </section>
 
-  <!-- ===================== WHAT YOU GET ===================== -->
-  <section class="get">
-    <div class="wrap">
-      <div class="eyebrow dark">What you'll walk away with</div>
-      <h2>Your Missing Seat, Named In Two Minutes.</h2>
-      <p class="intro">No fluff, no 40-page PDF you'll never open. A precise diagnostic and the profile of the one person who changes your trajectory.</p>
-      <ul class="checks">
-        <li><strong>The five leverage seats</strong> that compound a company at scale, plus the four that most founders waste their best decade chasing instead.</li>
-        <li><strong>A 2-minute Yes/No diagnostic</strong> that names the one seat missing from your organization right now.</li>
-        <li><strong>The exact hire profile</strong> for that seat, plus the false positives that fool 9 of 10 owners into a six-figure mis-hire.</li>
-      </ul>
-    </div>
-  </section>
-
   <!-- ===================== ADVISOR — DH + COVERS WALL ===================== -->
   <section class="intro" id="about">
     <div class="intro-wall">
@@ -409,10 +379,9 @@
         <p>This diagnostic is that pattern, distilled: the through-line behind the companies everyone else only studies from the outside.</p>
       </div>
       <div class="intro-seals">
-        <img class="nyt" src="nyt-bestseller.webp" alt="New York Times Bestseller" loading="lazy">
-        <img src="wsj-bestseller.webp" alt="Wall Street Journal Bestseller" loading="lazy">
-        <img class="invert" src="usatoday-bestseller.webp" alt="USA Today Bestseller" loading="lazy">
-        <img src="amazon-bestseller.webp" alt="Amazon: 21,177 Five-Star Reviews" loading="lazy">
+        <img src="images/award-nsa.webp" alt="NSA Master of Influence Award" loading="lazy">
+        <img src="images/award-apple-podcast.webp" alt="Top Rated Apple Podcast Award" loading="lazy">
+        <img src="images/award-reviews.webp" alt="Amazon: 21,177 Customer Reviews" loading="lazy">
       </div>
     </div>
   </section>
