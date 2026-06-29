@@ -209,26 +209,25 @@
     /* ===================== ADVISOR — DH + COVERS WALL (identical to homepage) ===================== */
     .intro{display:flex;min-height:70vh;}
     .intro-wall{flex:1;position:relative;overflow:hidden;background:#000;}
-    .intro-text{width:44%;min-width:300px;background:var(--bone);color:var(--ink);
+    .intro-text{width:44%;min-width:300px;background:#0a0a0a;color:var(--silver);
       display:flex;flex-direction:column;justify-content:center;padding:80px 64px;}
-    .intro-text .eyebrow{color:var(--gold-deep);margin-bottom:28px;}
-    .intro-text .eyebrow::before{background:var(--gold-deep);}
+    .intro-text .eyebrow{margin-bottom:28px;}
     @media (max-width:880px){
       .intro{flex-direction:column;}
       .intro-wall{flex:none;min-height:60vh;}
       .intro-text{width:100%;padding:56px 32px;}
     }
     .intro-headline{font-weight:900;font-size:clamp(32px,4vw,58px);line-height:1.0;
-      letter-spacing:-.03em;color:#17120a;text-transform:uppercase;margin:0 0 48px;}
-    .intro-body p{font-weight:400;font-size:clamp(18px,1.55vw,24px);line-height:1.55;color:var(--muted);margin:0 0 28px;}
-    .intro-body p:first-child{font-weight:500;color:#17120a;}
+      letter-spacing:-.03em;color:var(--white);text-transform:uppercase;margin:0 0 48px;}
+    .intro-body p{font-weight:400;font-size:clamp(18px,1.55vw,24px);line-height:1.55;color:var(--silver);margin:0 0 28px;}
+    .intro-body p:first-child{font-weight:500;color:var(--white);}
     .intro-body p:last-child{margin-bottom:0;}
-    .intro-body em{font-style:normal;color:var(--gold-deep);font-weight:700;}
+    .intro-body em{font-style:normal;color:var(--gold-bright);font-weight:700;}
     .intro-body em.book{font-style:italic;color:inherit;font-weight:inherit;}
-    /* credibility seals — bestseller badges on the bone column (grayscale + multiply blend) */
-    .intro-seals{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:30px 46px;margin-top:46px;}
-    .intro-seals img{height:74px;width:auto;display:block;filter:brightness(0);opacity:.5;}
-    .intro-seals img.badge{filter:grayscale(1) contrast(.5) brightness(1.1);opacity:.62;mix-blend-mode:multiply;}
+    /* media logos — sought-after contributor, white on the dark column */
+    .intro-seals{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:30px 48px;margin-top:48px;}
+    .intro-seals img{height:34px;width:auto;display:block;filter:brightness(0) invert(1);opacity:.72;}
+    .intro-seals img.logo-bw{filter:invert(1);}
 
     #covers-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);
       grid-auto-rows:144px;grid-auto-flow:dense;gap:2px;will-change:transform;}
@@ -288,8 +287,8 @@
     @media (min-width:860px){
       /* full image height (chair stays in frame), DH lands center-right;
          copy sits left over a left-side scrim that fades before the chair */
-      /* zoom to create room, push DH RIGHT; position-y high so his head stays in frame */
-      .hero-bg{background-size:auto 132%;background-position:0% 22%;
+      /* modest zoom: DH right-of-center while keeping his head AND the chair in frame */
+      .hero-bg{background-size:auto 110%;background-position:0% 55%;
         -webkit-mask-image:none;mask-image:none;}
       .hero-bg::after{background:
         linear-gradient(to bottom, rgba(10,10,10,.18) 0%, rgba(10,10,10,0) 26%, rgba(10,10,10,0) 86%, rgba(10,10,10,.5) 100%);}
@@ -363,7 +362,7 @@
     <div class="wrap">
       <div class="eyebrow">The seat you can't see</div>
         <h2>You Can Already See The Bigger Company.</h2>
-        <p class="kicker">The one doing several times what you do now. You're built to run it. That was never the question.</p>
+        <p class="kicker">The one doing several times what you do now.<br><br>You're built to run it.<br>That was never the question.</p>
         <p>Your strategy isn't the limitation. Neither is working harder; you've already proven you can outwork the room. The constraint is structural, and it has a specific shape.</p>
         <p>Every company that multiplied, <span class="brands">Apple, Netflix, Starbucks</span>, did the same thing. A visionary paired with one exceptional operator dropped into one vital seat. That single pairing is what unlocked the next decade.</p>
         <p>There are five seats that hand a business the most leverage. Which one matters most depends on you: <span class="brands">your strengths, your blind spots, your model</span>. Fill the wrong seat and you stall for years. Fill the right one and the whole company compounds behind it.</p>
@@ -394,14 +393,16 @@
         <p>This diagnostic is that pattern, distilled: the through-line behind the companies everyone else only studies from the outside.</p>
       </div>
       <div class="intro-seals">
-        <img class="badge" src="images/award-nyt.webp" alt="New York Times Best Seller" loading="lazy">
-        <img src="images/award-wsj.webp" alt="Wall Street Journal Best Seller" loading="lazy">
-        <img class="badge" src="usatoday-bestseller.webp" alt="USA Today Best Seller" loading="lazy">
-        <img class="badge" src="BnN_bestseller.webp" alt="Barnes &amp; Noble Bestseller" loading="lazy">
-        <img src="images/award-nsa.webp" alt="NSA Master of Influence Award" loading="lazy">
-        <img src="images/award-apple-podcast.webp" alt="Top Rated Apple Podcast Award" loading="lazy">
-        <img src="images/award-blog.webp" alt="Top 10 Personal Development Blog" loading="lazy">
-        <img src="images/award-reviews.webp" alt="Amazon: 21,177 Customer Reviews" loading="lazy">
+        <img src="media-logos/nyt.svg" alt="The New York Times" loading="lazy">
+        <img src="media-logos/forbes.svg" alt="Forbes" loading="lazy">
+        <img src="media-logos/cnbc.svg" alt="CNBC" loading="lazy">
+        <img src="media-logos/inc.svg" alt="Inc." loading="lazy">
+        <img class="logo-bw" src="media-logos/success.webp" alt="SUCCESS" loading="lazy">
+        <img src="media-logos/cnn.svg" alt="CNN" loading="lazy">
+        <img src="media-logos/fox.svg" alt="Fox" loading="lazy">
+        <img src="media-logos/cbs.svg" alt="CBS" loading="lazy">
+        <img class="logo-bw" src="media-logos/abc.webp" alt="ABC" loading="lazy">
+        <img class="logo-bw" src="media-logos/npr.webp" alt="NPR" loading="lazy">
       </div>
     </div>
   </section>
