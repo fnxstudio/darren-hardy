@@ -187,24 +187,28 @@
       animation:bob 1.8s ease-in-out infinite;}
     @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 
-    /* ===================== NARRATIVE (dark) ===================== */
+    /* ===================== NARRATIVE (dark section · light copy box) ===================== */
     .story{position:relative;padding:62px 0 66px;background:var(--ink);overflow:hidden;}
     .story .ghost{
-      position:absolute;top:38px;right:-2%;font-weight:900;font-size:34vw;line-height:.7;
-      color:transparent;-webkit-text-stroke:1px rgba(120,228,239,.14);
+      position:absolute;top:30px;right:-2%;font-weight:900;font-size:30vw;line-height:.7;
+      color:transparent;-webkit-text-stroke:1px rgba(120,228,239,.16);
       pointer-events:none;user-select:none;z-index:0;letter-spacing:-.04em;
     }
-    .story .wrap{position:relative;z-index:1;max-width:720px;}
-    .story h2{margin-bottom:24px;}
-    .story p{font-size:17px;color:var(--silver);margin:0 0 20px;}
+    .story .wrap{position:relative;z-index:1;max-width:760px;}
+    .story-box{background:var(--bone);border-radius:14px;padding:42px 34px;
+      box-shadow:0 30px 70px -28px rgba(0,0,0,.7);}
+    .story .eyebrow{color:var(--gold-deep);}
+    .story .eyebrow::before{background:var(--gold-deep);}
+    .story h2{margin-bottom:24px;color:#17120a;}
+    .story p{font-size:17px;color:var(--muted);margin:0 0 20px;}
     .story p:last-of-type{margin-bottom:0;}
-    .story p.kicker{font-size:19px;color:var(--white);font-weight:600;line-height:1.5;}
-    .story .brands{color:var(--gold-bright);font-weight:700;}
+    .story p.kicker{font-size:19px;color:#17120a;font-weight:600;line-height:1.5;}
+    .story .brands{color:var(--gold-deep);font-weight:700;}
 
-    /* repel callout */
+    /* repel callout — dark inset within the light box */
     .repel{
-      margin:38px 0 4px;padding:24px 24px 24px 26px;
-      background:var(--ink-soft);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;
+      margin:34px 0 0;padding:24px 24px 24px 26px;
+      background:var(--ink-2);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;
     }
     .repel .tag{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-bright);margin:0 0 10px;}
     .repel p{font-size:15.5px;color:var(--silver);margin:0;}
@@ -255,6 +259,17 @@
       z-index:10;pointer-events:none;display:flex;align-items:flex-end;overflow:hidden;}
     .intro-wall .dh-wrap img{display:block;height:96%;width:auto;max-width:none;max-height:96%;vertical-align:bottom;
       filter:drop-shadow(0 8px 40px rgba(0,0,0,.9));}
+    .intro-wall .dh-wrap .dh-desktop{display:none;}   /* mobile keeps the bust cutout */
+
+    /* DESKTOP advisor: fuller-body DH (proportional, not a giant bust) + tighter section */
+    @media (min-width:881px){
+      .intro{min-height:58vh;}
+      .intro-wall .dh-wrap .dh-mobile{display:none;}
+      .intro-wall .dh-wrap .dh-desktop{display:block;height:90%;max-height:90%;}
+      .intro-headline{font-size:clamp(30px,2.9vw,44px);margin-bottom:30px;}
+      .intro-body p{font-size:clamp(16px,1.25vw,19px);margin-bottom:22px;}
+      .intro-text{padding:60px 54px;}
+    }
 
     /* ===================== FINAL CTA (ink) ===================== */
     .final-cta{background:var(--ink-2);
@@ -352,17 +367,19 @@
   <section class="story">
     <div class="ghost" aria-hidden="true">5</div>
     <div class="wrap">
-      <div class="eyebrow">The seat you can't see</div>
-      <h2>You Can Already See The Bigger Company.</h2>
-      <p class="kicker">The one doing several times what you do now. You're built to run it. That was never the question.</p>
-      <p>Your strategy isn't the limitation. Neither is working harder; you've already proven you can outwork the room. The constraint is structural, and it has a specific shape.</p>
-      <p>Every company that multiplied, <span class="brands">Apple, Netflix, Starbucks</span>, did the same thing. A visionary paired with one exceptional operator dropped into one vital seat. That single pairing is what unlocked the next decade.</p>
-      <p>There are five seats that hand a business the most leverage. Which one matters most depends on you: your strengths, your blind spots, your model. Fill the wrong seat and you stall for years. Fill the right one and the whole company compounds behind it.</p>
-      <p class="kicker">This no-cost 2-minute diagnostic names your seat, and shows you exactly who to put in it.</p>
+      <div class="story-box">
+        <div class="eyebrow">The seat you can't see</div>
+        <h2>You Can Already See The Bigger Company.</h2>
+        <p class="kicker">The one doing several times what you do now. You're built to run it. That was never the question.</p>
+        <p>Your strategy isn't the limitation. Neither is working harder; you've already proven you can outwork the room. The constraint is structural, and it has a specific shape.</p>
+        <p>Every company that multiplied, <span class="brands">Apple, Netflix, Starbucks</span>, did the same thing. A visionary paired with one exceptional operator dropped into one vital seat. That single pairing is what unlocked the next decade.</p>
+        <p>There are five seats that hand a business the most leverage. Which one matters most depends on you: your strengths, your blind spots, your model. Fill the wrong seat and you stall for years. Fill the right one and the whole company compounds behind it.</p>
+        <p class="kicker">This no-cost 2-minute diagnostic names your seat, and shows you exactly who to put in it.</p>
 
-      <div class="repel">
-        <p class="tag">Important note</p>
-        <p><b>This is not for solopreneurs.</b> If you don't yet have a team, this is too early for you and the diagnostic will only give you a false signal you are not yet ready for. It's built for owners ready to add a critical seat and build a company that outgrows them.</p>
+        <div class="repel">
+          <p class="tag">Important note</p>
+          <p><b>This is not for solopreneurs.</b> If you don't yet have a team, this is too early for you and the diagnostic will only give you a false signal you are not yet ready for. It's built for owners ready to add a critical seat and build a company that outgrows them.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -372,7 +389,8 @@
     <div class="intro-wall">
       <div id="covers-grid"></div>
       <div class="dh-wrap">
-        <img src="Wall-DH.webp" alt="Darren Hardy" loading="lazy">
+        <img class="dh-mobile" src="Wall-DH.webp" alt="Darren Hardy" loading="lazy">
+        <img class="dh-desktop" src="DH_about_wall.webp" alt="Darren Hardy" loading="lazy">
       </div>
     </div>
     <div class="intro-text">
