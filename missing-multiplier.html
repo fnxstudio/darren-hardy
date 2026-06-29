@@ -157,13 +157,13 @@
       background-image:url("images/dh-chair-hero.webp");
       background-repeat:no-repeat;
       background-size:auto 60%;background-position:center top;
-      /* feather only BELOW his hands so the bottom edge dissolves into the copy — no blur, no hard line */
-      -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 73%);
-              mask-image:linear-gradient(to bottom,#000 0%,#000 58%,transparent 73%);}
-    /* top darken (logo) + a soft dark fade BELOW his hands into the copy */
+      /* long, gradual feather BELOW his hands so the bottom edge dissolves into the copy — no hard line */
+      -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 56%,transparent 84%);
+              mask-image:linear-gradient(to bottom,#000 0%,#000 56%,transparent 84%);}
+    /* top darken (logo) + a long soft dark fade BELOW his hands into the copy */
     .hero-bg::after{content:"";position:absolute;inset:0;
       background:linear-gradient(to bottom, rgba(10,10,10,.4) 0%, rgba(10,10,10,0) 17%,
-        rgba(10,10,10,0) 56%, rgba(10,10,10,.5) 67%, #0a0a0a 76%);}
+        rgba(10,10,10,0) 55%, rgba(10,10,10,.3) 65%, rgba(10,10,10,.72) 74%, #0a0a0a 84%);}
     /* no frosted blur — his hands must stay crisp */
     .hero-blur{display:none;}
 
@@ -188,26 +188,23 @@
       animation:bob 1.8s ease-in-out infinite;}
     @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 
-    /* ===================== NARRATIVE (dark section · light copy box) ===================== */
+    /* ===================== NARRATIVE (dark) ===================== */
     .story{position:relative;padding:62px 0 66px;background:var(--ink);overflow:hidden;}
-    .story .wrap{position:relative;z-index:1;max-width:760px;}
-    .story-box{background:#e9e4d6;border-radius:0;padding:42px 34px;}
-    .story .eyebrow{color:var(--gold-deep);}
-    .story .eyebrow::before{background:var(--gold-deep);}
-    .story h2{margin-bottom:24px;color:#17120a;}
-    .story p{font-size:17px;color:var(--muted);margin:0 0 20px;}
+    .story .wrap{position:relative;z-index:1;max-width:720px;}
+    .story h2{margin-bottom:24px;}
+    .story p{font-size:17px;color:var(--silver);margin:0 0 20px;}
     .story p:last-of-type{margin-bottom:0;}
-    .story p.kicker{font-size:19px;color:#17120a;font-weight:600;line-height:1.5;}
-    .story .brands{color:var(--gold-deep);font-weight:700;}
+    .story p.kicker{font-size:19px;color:var(--white);font-weight:600;line-height:1.5;}
+    .story .brands{color:var(--gold-bright);font-weight:700;}
 
-    /* repel callout — teal panel inset within the cream box */
+    /* repel callout — dark inset */
     .repel{
-      margin:34px 0 0;padding:24px 26px;
-      background:var(--gold-deep);border-radius:0;
+      margin:38px 0 4px;padding:24px 24px 24px 26px;
+      background:var(--ink-soft);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;
     }
-    .repel .tag{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#bdeff4;margin:0 0 10px;}
-    .repel p{font-size:15.5px;color:#e9f7f7;margin:0;}
-    .repel b{color:#ffffff;font-weight:700;}
+    .repel .tag{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-bright);margin:0 0 10px;}
+    .repel p{font-size:15.5px;color:var(--silver);margin:0;}
+    .repel b{color:var(--white);font-weight:700;}
 
     /* ===================== ADVISOR — DH + COVERS WALL (identical to homepage) ===================== */
     .intro{display:flex;min-height:70vh;}
@@ -229,12 +226,9 @@
     .intro-body em{font-style:normal;color:var(--gold-deep);font-weight:700;}
     .intro-body em.book{font-style:italic;color:inherit;font-weight:inherit;}
     /* credibility seals — bestseller badges on the bone column (grayscale + multiply blend) */
-    .intro-seals{display:flex;flex-direction:column;align-items:center;gap:26px;margin-top:42px;}
-    .seals-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;}
-    .seals-main{gap:28px 46px;} .seals-rest{gap:18px 32px;}
-    .intro-seals img{width:auto;display:block;filter:brightness(0);opacity:.5;}
+    .intro-seals{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:30px 46px;margin-top:46px;}
+    .intro-seals img{height:74px;width:auto;display:block;filter:brightness(0);opacity:.5;}
     .intro-seals img.badge{filter:grayscale(1) contrast(.5) brightness(1.1);opacity:.62;mix-blend-mode:multiply;}
-    .seals-main img{height:76px;} .seals-rest img{height:44px;}
 
     #covers-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);
       grid-auto-rows:144px;grid-auto-flow:dense;gap:2px;will-change:transform;}
@@ -367,8 +361,7 @@
   <!-- ===================== NARRATIVE ===================== -->
   <section class="story">
     <div class="wrap">
-      <div class="story-box">
-        <div class="eyebrow">The seat you can't see</div>
+      <div class="eyebrow">The seat you can't see</div>
         <h2>You Can Already See The Bigger Company.</h2>
         <p class="kicker">The one doing several times what you do now. You're built to run it. That was never the question.</p>
         <p>Your strategy isn't the limitation. Neither is working harder; you've already proven you can outwork the room. The constraint is structural, and it has a specific shape.</p>
@@ -380,7 +373,6 @@
           <p class="tag">Important note</p>
           <p><b>This is not for solopreneurs.</b> If you don't yet have a team, this is too early for you and the diagnostic will only give you a false signal you are not yet ready for. It's built for owners ready to add a critical seat and build a company that outgrows them.</p>
         </div>
-      </div>
     </div>
   </section>
 
@@ -402,18 +394,14 @@
         <p>This diagnostic is that pattern, distilled: the through-line behind the companies everyone else only studies from the outside.</p>
       </div>
       <div class="intro-seals">
-        <div class="seals-row seals-main">
-          <img class="badge" src="images/award-nyt.webp" alt="New York Times Best Seller" loading="lazy">
-          <img src="images/award-wsj.webp" alt="Wall Street Journal Best Seller" loading="lazy">
-          <img class="badge" src="usatoday-bestseller.webp" alt="USA Today Best Seller" loading="lazy">
-        </div>
-        <div class="seals-row seals-rest">
-          <img class="badge" src="BnN_bestseller.webp" alt="Barnes &amp; Noble Bestseller" loading="lazy">
-          <img src="images/award-nsa.webp" alt="NSA Master of Influence Award" loading="lazy">
-          <img src="images/award-apple-podcast.webp" alt="Top Rated Apple Podcast Award" loading="lazy">
-          <img src="images/award-blog.webp" alt="Top 10 Personal Development Blog" loading="lazy">
-          <img src="images/award-reviews.webp" alt="Amazon: 21,177 Customer Reviews" loading="lazy">
-        </div>
+        <img class="badge" src="images/award-nyt.webp" alt="New York Times Best Seller" loading="lazy">
+        <img src="images/award-wsj.webp" alt="Wall Street Journal Best Seller" loading="lazy">
+        <img class="badge" src="usatoday-bestseller.webp" alt="USA Today Best Seller" loading="lazy">
+        <img class="badge" src="BnN_bestseller.webp" alt="Barnes &amp; Noble Bestseller" loading="lazy">
+        <img src="images/award-nsa.webp" alt="NSA Master of Influence Award" loading="lazy">
+        <img src="images/award-apple-podcast.webp" alt="Top Rated Apple Podcast Award" loading="lazy">
+        <img src="images/award-blog.webp" alt="Top 10 Personal Development Blog" loading="lazy">
+        <img src="images/award-reviews.webp" alt="Amazon: 21,177 Customer Reviews" loading="lazy">
       </div>
     </div>
   </section>
