@@ -189,14 +189,8 @@
 
     /* ===================== NARRATIVE (dark section · light copy box) ===================== */
     .story{position:relative;padding:62px 0 66px;background:var(--ink);overflow:hidden;}
-    .story .ghost{
-      position:absolute;top:30px;right:-2%;font-weight:900;font-size:30vw;line-height:.7;
-      color:transparent;-webkit-text-stroke:1px rgba(120,228,239,.16);
-      pointer-events:none;user-select:none;z-index:0;letter-spacing:-.04em;
-    }
     .story .wrap{position:relative;z-index:1;max-width:760px;}
-    .story-box{background:var(--bone);border-radius:14px;padding:42px 34px;
-      box-shadow:0 30px 70px -28px rgba(0,0,0,.7);}
+    .story-box{background:#e9e4d6;border-radius:0;padding:42px 34px;}
     .story .eyebrow{color:var(--gold-deep);}
     .story .eyebrow::before{background:var(--gold-deep);}
     .story h2{margin-bottom:24px;color:#17120a;}
@@ -261,14 +255,18 @@
       filter:drop-shadow(0 8px 40px rgba(0,0,0,.9));}
     .intro-wall .dh-wrap .dh-desktop{display:none;}   /* mobile keeps the bust cutout */
 
-    /* DESKTOP advisor: fuller-body DH (proportional, not a giant bust) + tighter section */
+    /* DESKTOP advisor — matches darrenhardy.com/about: full-height DH over the wall */
     @media (min-width:881px){
-      .intro{min-height:58vh;}
+      .intro{min-height:100vh;}
+      .intro-text{width:56%;padding:120px 64px;}
+      .intro-headline{font-size:clamp(34px,3.2vw,52px);margin-bottom:34px;}
+      .intro-body p{font-size:clamp(15px,1.05vw,17.5px);margin-bottom:18px;}
+      .intro-wall .dh-wrap{height:103%;}
       .intro-wall .dh-wrap .dh-mobile{display:none;}
-      .intro-wall .dh-wrap .dh-desktop{display:block;height:90%;max-height:90%;}
-      .intro-headline{font-size:clamp(30px,2.9vw,44px);margin-bottom:30px;}
-      .intro-body p{font-size:clamp(16px,1.25vw,19px);margin-bottom:22px;}
-      .intro-text{padding:60px 54px;}
+      .intro-wall .dh-wrap .dh-desktop{display:block;height:100%;max-height:100%;}
+      /* right-side vignette blends the wall into the copy column */
+      .intro-wall::before{content:'';position:absolute;top:0;bottom:0;right:0;width:140px;z-index:5;
+        pointer-events:none;background:linear-gradient(to right,transparent 0%,rgba(10,10,10,.55) 60%,#0a0a0a 100%);}
     }
 
     /* ===================== FINAL CTA (ink) ===================== */
@@ -365,7 +363,6 @@
 
   <!-- ===================== NARRATIVE ===================== -->
   <section class="story">
-    <div class="ghost" aria-hidden="true">5</div>
     <div class="wrap">
       <div class="story-box">
         <div class="eyebrow">The seat you can't see</div>
