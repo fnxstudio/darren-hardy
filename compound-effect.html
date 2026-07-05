@@ -889,19 +889,62 @@
   .co-body { flex: 1; overflow-y: auto; position: relative; display: flex; flex-direction: column; }
   .co-mount { flex: 1; display: flex; flex-direction: column; }
   .co-frame { width: 100%; flex: 1; border: 0; min-height: 520px; display: block; }
-  .co-placeholder {
-    margin: auto; padding: 52px 36px; text-align: center;
-    display: flex; flex-direction: column; align-items: center; gap: 15px;
+
+  /* preview flag */
+  .co-flag {
+    font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--grey-soft); background: var(--bone);
+    border-bottom: 1px solid var(--line);
+    padding: 9px 30px; text-align: center;
   }
-  .co-lock {
-    width: 48px; height: 48px; border-radius: 50%;
-    background: var(--bone); display: flex; align-items: center; justify-content: center;
-    color: var(--red);
+
+  /* preview form */
+  .co-form { padding: 24px 30px 30px; }
+  .co-group { margin-bottom: 22px; }
+  .co-group-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-bottom: 12px; }
+  .co-field { display: block; margin-bottom: 10px; }
+  .co-field > span { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; color: var(--muted); margin-bottom: 5px; }
+  .co-field input, .co-field select {
+    width: 100%; font-family: inherit; font-size: 14px; color: var(--ink);
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 11px 12px; transition: border-color 0.18s ease, box-shadow 0.18s ease;
   }
-  .co-lock svg { width: 20px; height: 20px; }
-  .co-ph-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 17px; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); }
-  .co-ph-body { font-size: 14px; line-height: 1.6; color: var(--muted); max-width: 32ch; }
-  .co-placeholder .btn { margin-top: 8px; }
+  .co-field input:focus, .co-field select:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(224,40,38,0.12); }
+  .co-field input::placeholder { color: #b8b4b0; }
+  .co-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .co-row-3 { display: grid; grid-template-columns: 1.3fr 0.8fr 0.9fr; gap: 10px; }
+  .co-bump {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 14px; border: 1px dashed var(--red); border-radius: var(--radius);
+    background: rgba(224,40,38,0.04); margin-bottom: 22px; cursor: pointer;
+  }
+  .co-bump input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--red); flex: none; cursor: pointer; }
+  .co-bump-text { font-size: 13.5px; line-height: 1.45; color: var(--ink); }
+  .co-bump-text strong { font-weight: 700; }
+  .co-bump-text em { color: var(--red); font-weight: 700; font-style: normal; }
+  .co-summary { border-top: 1px solid var(--line); padding-top: 16px; margin-bottom: 18px; }
+  .co-sum-row { display: flex; justify-content: space-between; font-size: 13.5px; color: var(--muted); margin-bottom: 8px; }
+  .co-free { color: var(--red); font-weight: 600; }
+  .co-sum-total { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px; color: var(--ink); text-transform: uppercase; letter-spacing: 0.02em; padding-top: 10px; border-top: 1px solid var(--line); margin-top: 4px; margin-bottom: 0; }
+  .co-submit { width: 100%; justify-content: center; padding: 17px; margin-top: 4px; }
+  .co-lock-sm { width: 14px; height: 14px; }
+  .co-fine { text-align: center; font-size: 11px; line-height: 1.5; color: var(--grey-soft); margin-top: 12px; }
+  .btn-ghost-red { background: transparent; color: var(--red); border: 1px solid var(--red); }
+  .btn-ghost-red:hover { background: var(--red); color: #fff; }
+
+  /* confirmation */
+  .co-confirm { padding: 60px 34px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .co-check { width: 66px; height: 66px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; animation: coPop 0.45s cubic-bezier(0.22,1.4,0.5,1) both; }
+  .co-check svg { width: 32px; height: 32px; stroke: #fff; stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes coPop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .co-confirm-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 25px; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); }
+  .co-confirm-sub { font-size: 15px; color: var(--muted); line-height: 1.5; }
+  .co-confirm-sub strong { color: var(--ink); }
+  .co-confirm-order { width: 100%; border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; display: flex; flex-direction: column; gap: 11px; margin: 8px 0; }
+  .co-confirm-order > div { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+  .co-confirm-order strong { color: var(--ink); font-weight: 700; }
+  .co-confirm-note { font-size: 13px; line-height: 1.55; color: var(--muted); }
+  .co-confirm .btn { margin-top: 8px; }
   .co-trust {
     padding: 15px 30px; border-top: 1px solid var(--line);
     font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
@@ -1319,14 +1362,75 @@
 
   <div class="co-body">
     <div class="co-mount" id="spiffyMount">
-      <!-- Spiffy checkout iframe is injected here once SPIFFY_CHECKOUT_URL is set -->
-      <div class="co-placeholder" id="coPlaceholder">
-        <div class="co-lock">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
+      <!-- Real Spiffy checkout iframe is injected here once SPIFFY_CHECKOUT_URL is set;
+           the preview below is hidden automatically the moment that happens. -->
+      <div class="co-preview" id="coPreview">
+        <div class="co-flag">Preview &middot; your live Spiffy form loads here once connected</div>
+
+        <form class="co-form" id="coForm" novalidate>
+          <div class="co-group">
+            <div class="co-group-title">Contact</div>
+            <label class="co-field"><span>Email</span><input type="email" placeholder="you@company.com" autocomplete="email"></label>
+          </div>
+
+          <div class="co-group">
+            <div class="co-group-title">Shipping Address</div>
+            <label class="co-field"><span>Full name</span><input type="text" placeholder="Jane Founder" autocomplete="name"></label>
+            <label class="co-field"><span>Address</span><input type="text" placeholder="123 Market Street" autocomplete="address-line1"></label>
+            <label class="co-field"><span>Apt, suite (optional)</span><input type="text" autocomplete="address-line2"></label>
+            <div class="co-row-3">
+              <label class="co-field"><span>City</span><input type="text" autocomplete="address-level2"></label>
+              <label class="co-field"><span>State</span><input type="text" autocomplete="address-level1"></label>
+              <label class="co-field"><span>ZIP</span><input type="text" inputmode="numeric" autocomplete="postal-code"></label>
+            </div>
+            <label class="co-field"><span>Country</span>
+              <select autocomplete="country-name"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option></select>
+            </label>
+          </div>
+
+          <!-- Order bump — Spiffy "addon offer" lives here -->
+          <label class="co-bump" for="coBump">
+            <input type="checkbox" id="coBump">
+            <span class="co-bump-text"><strong>Add the audiobook edition</strong>, narrated by Darren. Listen on the drive, read at your desk. <em>+$12.00</em></span>
+          </label>
+
+          <div class="co-group">
+            <div class="co-group-title">Payment</div>
+            <label class="co-field"><span>Card number</span><input type="text" inputmode="numeric" placeholder="1234 1234 1234 1234" autocomplete="cc-number"></label>
+            <div class="co-row-2">
+              <label class="co-field"><span>Expiry</span><input type="text" placeholder="MM / YY" autocomplete="cc-exp"></label>
+              <label class="co-field"><span>CVC</span><input type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc"></label>
+            </div>
+          </div>
+
+          <div class="co-summary">
+            <div class="co-sum-row"><span>The Compound Effect</span><span>$19.99</span></div>
+            <div class="co-sum-row co-sum-bump" hidden><span>Audiobook edition</span><span>$12.00</span></div>
+            <div class="co-sum-row"><span>Shipping</span><span class="co-free">Free</span></div>
+            <div class="co-sum-row co-sum-total"><span>Total</span><span id="coTotal">$19.99</span></div>
+          </div>
+
+          <button type="submit" class="btn btn-solid co-submit" id="coSubmit">
+            <svg class="co-lock-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
+            Complete Purchase &middot; <span id="coBtnTotal">$19.99</span>
+          </button>
+          <p class="co-fine">Preview only. No card is charged. Spiffy handles the real, secure payment once connected.</p>
+        </form>
+
+        <div class="co-confirm" id="coConfirm" hidden>
+          <div class="co-check">
+            <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+          </div>
+          <p class="co-confirm-title">Order Confirmed</p>
+          <p class="co-confirm-sub">Your copy of <strong>The Compound Effect</strong> is on its way.</p>
+          <div class="co-confirm-order">
+            <div><span>Order</span><strong id="coOrderNo">#DH-000000</strong></div>
+            <div><span>Total paid</span><strong id="coConfirmTotal">$19.99</strong></div>
+            <div><span>Ships to</span><strong>Your address</strong></div>
+          </div>
+          <p class="co-confirm-note">A receipt is on its way to your inbox. The compounding starts with the next decision you make differently.</p>
+          <button type="button" class="btn btn-ghost-red" id="coDone">Back To The Book</button>
         </div>
-        <p class="co-ph-title">Complete Your Order Here</p>
-        <p class="co-ph-body">Billing, shipping, and payment, all on this page. No redirect, no leaving the site.</p>
-        <a class="btn btn-solid" id="coFallback" href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect" target="_blank" rel="noopener">Continue To Checkout <span class="arw">→</span></a>
       </div>
     </div>
   </div>
@@ -1560,7 +1664,41 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   if (!overlay || !drawer || !mount) return;
   let lastFocus = null;
 
-  // Inject the Spiffy checkout the first time the drawer opens (lazy).
+  // ── Preview checkout (demo only; replaced by the real Spiffy embed on connect) ──
+  const preview     = document.getElementById('coPreview');
+  const form        = document.getElementById('coForm');
+  const confirmView = document.getElementById('coConfirm');
+  const bump        = document.getElementById('coBump');
+  const BASE = 19.99, BUMP = 12.00;
+  const money = n => '$' + n.toFixed(2);
+  const orderTotal = () => BASE + (bump && bump.checked ? BUMP : 0);
+
+  function syncTotals() {
+    const t = money(orderTotal());
+    ['coTotal', 'coBtnTotal'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.textContent = t;
+    });
+    const bumpRow = document.querySelector('.co-sum-bump');
+    if (bumpRow) bumpRow.hidden = !(bump && bump.checked);
+  }
+  function resetPreview() {
+    if (!form || !confirmView) return;
+    form.hidden = false; confirmView.hidden = true;
+    if (bump) bump.checked = false;
+    syncTotals();
+  }
+  if (bump) bump.addEventListener('change', syncTotals);
+  if (form) form.addEventListener('submit', e => {
+    e.preventDefault();
+    const on = document.getElementById('coOrderNo');
+    const ct = document.getElementById('coConfirmTotal');
+    if (on) on.textContent = '#DH-' + Math.floor(100000 + Math.random() * 899999);
+    if (ct) ct.textContent = money(orderTotal());
+    form.hidden = true; confirmView.hidden = false;
+    const body = drawer.querySelector('.co-body'); if (body) body.scrollTop = 0;
+  });
+
+  // ── Real Spiffy embed (lazy, on first open) ──
   function mountSpiffy() {
     if (mount.dataset.mounted || !window.SPIFFY_CHECKOUT_URL) return;
     const frame = document.createElement('iframe');
@@ -1569,8 +1707,7 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     frame.title = 'Secure checkout — The Compound Effect';
     frame.setAttribute('allow', 'payment *');
     mount.insertBefore(frame, mount.firstChild);
-    const ph = document.getElementById('coPlaceholder');
-    if (ph) ph.style.display = 'none';
+    if (preview) preview.style.display = 'none';
     mount.dataset.mounted = '1';
   }
 
@@ -1584,6 +1721,7 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     drawer.setAttribute('aria-hidden', 'false');
     document.body.classList.add('co-open');
     mountSpiffy();
+    if (!mount.dataset.mounted) resetPreview(); // preview mode only
     closeBtn.focus();
   }
 
@@ -1599,6 +1737,8 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   document.querySelectorAll('[data-open-checkout]').forEach(el =>
     el.addEventListener('click', openDrawer)
   );
+  const done = document.getElementById('coDone');
+  if (done) done.addEventListener('click', closeDrawer);
   closeBtn.addEventListener('click', closeDrawer);
   overlay.addEventListener('click', closeDrawer);
   document.addEventListener('keydown', e => {
