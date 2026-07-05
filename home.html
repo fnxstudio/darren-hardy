@@ -2359,24 +2359,18 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   const confEl  = document.getElementById('ddConfirmState');
   const DELAY   = 20000;                 // 20 seconds on page
   const SCROLL_TRIGGER = 0.70;           // ...or 70% of the page scrolled
-  const FREQUENCY_DAYS = 0;              // 0 = no cap, shows every visit (for testing). Set to 7 or 1 to re-enable.
-  const KEY     = 'ddOptinSeen';         // localStorage timestamp of the last show
   let lastFocus = null, timer = null, shown = false;
 
-  // Repeat-visitor frequency cap (persists across sessions via localStorage)
-  function recentlyShown() {
-    if (!FREQUENCY_DAYS) return false;
-    try { const t = +localStorage.getItem(KEY); return t && (Date.now() - t) < FREQUENCY_DAYS * 86400000; }
-    catch (e) { return false; }
-  }
-  function remember() { try { localStorage.setItem(KEY, Date.now()); } catch (e) {} }
-  // No cap (testing): wipe any stale "last seen" timestamp from an earlier capped session
-  if (!FREQUENCY_DAYS) { try { localStorage.removeItem(KEY); } catch (e) {} }
+  // Once a visitor submits OR closes the opt-in, hide it for the rest of the calendar
+  // day. Shared site-wide via one localStorage key. Eligible again the next day.
+  var DAY_KEY = 'ddOptinDismissed';
+  function todayStamp() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  function dismissedToday() { try { return localStorage.getItem(DAY_KEY) === todayStamp(); } catch (e) { return false; } }
+  function markDismissed() { try { localStorage.setItem(DAY_KEY, todayStamp()); } catch (e) {} }
 
   function open() {
-    if (shown) return;
+    if (shown || dismissedToday()) return;
     shown = true;
-    remember();
     clearTimeout(timer);
     window.removeEventListener('scroll', onScroll);
     lastFocus = document.activeElement;
@@ -2393,6 +2387,7 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     optin.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     document.removeEventListener('keydown', onKey);
+    markDismissed();               // once closed, don't show again today
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
@@ -2425,6 +2420,7 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     e.preventDefault();
     form.classList.add('validated');
     if (!form.checkValidity()) { form.reportValidity(); return; }
+    markDismissed();               // a signup counts as done for today
     formEl.hidden = true;
     confEl.hidden = false;
     panel.scrollTop = 0;
@@ -2432,9 +2428,9 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     if (x) x.focus();
   });
 
-  // Trigger after 20s OR at 70% scroll depth (whichever first).
-  // Suppressed for repeat visitors seen within the last FREQUENCY_DAYS.
-  if (!recentlyShown()) {
+  // Trigger after 20s OR at 70% scroll depth (whichever first) — unless the visitor
+  // already dismissed or submitted the opt-in earlier today.
+  if (!dismissedToday()) {
     timer = setTimeout(open, DELAY);
     window.addEventListener('scroll', onScroll, { passive: true });
   }
