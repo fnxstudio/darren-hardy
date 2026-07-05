@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Compound Effect · Darren Hardy</title>
+<meta name="description" content="The Compound Effect by Darren Hardy — the operating manual on the small, disciplined choices that compound into an unfair advantage. Over 1 million copies sold. New York Times bestseller.">
+<meta name="author" content="Darren Hardy">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- ─────────────────────────────────────────────────────────────
+     MIGRATION NOTE FOR DEV TEAM
+     When this site moves to DarrenHardy.com, update the canonical +
+     OG/Twitter URLs below marked [MIGRATE].
+     ───────────────────────────────────────────────────────────── -->
+<link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/compound-effect.html"> <!-- [MIGRATE] → https://darrenhardy.com/compound-effect -->
+
+<!-- Open Graph -->
+<meta property="og:type"        content="book">
+<meta property="og:site_name"   content="Darren Hardy">
+<meta property="og:title"       content="The Compound Effect · Darren Hardy">
+<meta property="og:description" content="No gimmicks. No hyperbole. Just the truth on success. The operating manual on the small, disciplined choices that compound into an unfair advantage.">
+<meta property="og:url"         content="https://fnxstudio.github.io/darren-hardy/compound-effect.html"> <!-- [MIGRATE] -->
+<meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/ce-front-cover.png"> <!-- [MIGRATE] -->
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@DARRENHARDY">
+<meta name="twitter:title"       content="The Compound Effect · Darren Hardy">
+<meta name="twitter:description" content="No gimmicks. No hyperbole. Just the truth on success.">
+
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preload" as="image" href="ce-front-cover.webp" type="image/webp">
+
+<style>
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin-ext.woff2) format('woff2');
+  }
+
+  :root {
+    /* Compound Effect core (from the 10th Anniversary cover) */
+    --red:        #E02826;
+    --red-deep:   #B01E1C;
+    --ink:        #231F20;
+    --black:      #0a0a0a;
+    --white:      #ffffff;
+    --paper:      #fbfaf8;
+    --bone:       #f5f5f5;
+    --silver:     #b8b8b8;
+    --grey:       #888888;
+    --grey-soft:  #6a6a6a;
+    --muted:      #6b6b6b;
+    --line:       #e6e4e2;
+    --gold:       #f5b301;
+
+    /* Dark-section rules (shared with darrenhardy.com shell) */
+    --rule:            rgba(255, 255, 255, 0.08);
+    --rule-strong:     rgba(255, 255, 255, 0.15);
+    --rule-dark:       rgba(10, 10, 10, 0.1);
+    --rule-dark-strong:rgba(10, 10, 10, 0.18);
+
+    --radius: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+  html, body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* No italics anywhere — emphasis shifts to red */
+  em { font-style: normal; color: var(--red); }
+
+  a { color: inherit; }
+
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 720px) { .container { padding: 0 24px; } }
+
+  /* ============ EYEBROW ============ */
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow .pip {
+    display: inline-block;
+    width: 26px; height: 2px;
+    background: var(--red);
+  }
+
+  /* ============ SHARED HEADINGS ============ */
+  .h-sec {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(30px, 4.4vw, 52px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    border-radius: var(--radius);
+    padding: 19px 34px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .btn .arw { transition: transform 0.2s ease; }
+  .btn:hover .arw { transform: translateX(4px); }
+  .btn-solid { background: var(--red); color: #fff; border: 1px solid var(--red); }
+  .btn-solid:hover { background: var(--red-deep); border-color: var(--red-deep); }
+  .btn-ghost-dark { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4); }
+  .btn-ghost-dark:hover { background: #fff; color: var(--ink); border-color: #fff; }
+
+  /* ============ TOP NAVIGATION (site shell) ============ */
+  nav.top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 20px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 40px;
+    background: rgba(10, 10, 10, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-left, .nav-right {
+    display: flex;
+    gap: 36px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+  .nav-left { justify-content: flex-end; }
+  .nav-right { justify-content: flex-start; }
+  .nav-left a, .nav-right a {
+    color: var(--silver);
+    text-decoration: none;
+    transition: color 0.18s;
+  }
+  .nav-left a:hover, .nav-right a:hover { color: var(--white); }
+  .nav-brand {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.32em;
+    color: var(--white);
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .nav-burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .nav-burger span {
+    display: block; width: 22px; height: 1.5px;
+    background: var(--white);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .nav-mobile {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: rgba(10, 10, 10, 0.97);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+    display: none;
+    flex-direction: column;
+  }
+  .nav-mobile.open { display: flex; }
+  .nav-mobile a {
+    color: var(--silver);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--rule);
+    transition: color 0.18s;
+  }
+  .nav-mobile a:last-child { border-bottom: none; }
+  .nav-mobile a:active { color: var(--white); }
+  @media (max-width: 960px) {
+    nav.top { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .nav-left, .nav-right { display: none; }
+    .nav-burger { display: flex; }
+  }
+
+  /* ============ HERO (dark ink) ============ */
+  .hero {
+    background: var(--ink);
+    color: var(--white);
+    padding: 168px 0 96px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(1100px 620px at 78% 12%, rgba(224,40,38,0.14), transparent 60%),
+      linear-gradient(180deg, #2a2526 0%, var(--ink) 55%, #1c1819 100%);
+    pointer-events: none;
+  }
+  .hero .container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: 72px;
+  }
+  .hero-eyebrow { color: var(--red); margin-bottom: 30px; }
+  .hero h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(44px, 6.4vw, 92px);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+  .hero h1 em { color: #ff4b3e; } /* red brightened for dark bg */
+  .hero-lede {
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.6;
+    color: #cfcac6;
+    max-width: 30em;
+    margin-bottom: 34px;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 40px;
+  }
+  .hero-meta .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--red); }
+  .hero-rating { display: inline-flex; align-items: center; gap: 8px; color: var(--white); }
+  .hero-stars {
+    position: relative;
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.22);
+  }
+  .hero-stars::before {
+    content: "★★★★★";
+    position: absolute; left: 0; top: 0;
+    width: 94%; overflow: hidden; white-space: nowrap;
+    color: var(--gold);
+  }
+  .hero-cta { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .hero-cta .note { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey); font-weight: 700; }
+
+  .hero-cover {
+    position: relative;
+    justify-self: center;
+  }
+  .hero-cover img {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border-radius: 3px;
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.4),
+      0 30px 70px rgba(0,0,0,0.55);
+    transform: perspective(1400px) rotateY(-11deg) rotateX(1.5deg);
+    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .hero-cover:hover img { transform: perspective(1400px) rotateY(-6deg) rotateX(1deg); }
+  .hero-cover::after {
+    content: "";
+    position: absolute;
+    left: 6%; right: 6%; bottom: -26px; height: 40px;
+    background: rgba(0,0,0,0.5);
+    filter: blur(26px);
+    border-radius: 50%;
+    z-index: -1;
+  }
+
+  @media (max-width: 900px) {
+    .hero { padding: 132px 0 72px; }
+    .hero .container { grid-template-columns: 1fr; gap: 48px; text-align: left; }
+    .hero-cover { order: -1; justify-self: start; }
+    .hero-cover img { max-width: 260px; transform: none; box-shadow: 0 24px 54px rgba(0,0,0,0.5); }
+    .hero-cover:hover img { transform: none; }
+  }
+
+  /* ============ IMPACT BAND ============ */
+  .impact { background: var(--paper); padding: 88px 0; border-bottom: 1px solid var(--line); }
+  .impact-head { text-align: center; max-width: 40em; margin: 0 auto 60px; }
+  .impact-head .eyebrow { justify-content: center; margin-bottom: 22px; }
+  .impact-lede {
+    margin-top: 26px;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+  .impact-stat { position: relative; padding: 0 12px; }
+  .impact-stat + .impact-stat::before {
+    content: "";
+    position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 1px; background: var(--line);
+  }
+  .impact-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(40px, 5vw, 66px);
+    line-height: 0.95;
+    color: var(--red);
+    letter-spacing: -0.03em;
+  }
+  .impact-num-sub { font-size: 0.42em; color: var(--silver); font-weight: 700; letter-spacing: 0; }
+  .impact-stars {
+    position: relative;
+    display: inline-block;
+    font-size: 17px;
+    letter-spacing: 2px;
+    color: #dcd8d3;
+    margin-top: 8px;
+  }
+  .impact-stars::before {
+    content: "★★★★★";
+    position: absolute; left: 0; top: 0;
+    width: 94%; overflow: hidden; white-space: nowrap;
+    color: var(--gold);
+  }
+  .impact-label {
+    margin-top: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  @media (max-width: 720px) {
+    .impact { padding: 60px 0; }
+    .impact-grid { grid-template-columns: 1fr 1fr; gap: 44px 20px; }
+    .impact-stat:nth-child(3)::before { display: none; }
+  }
+
+  /* ============ SECTION SHELLS ============ */
+  .sec { padding: 96px 0; }
+  @media (max-width: 720px) { .sec { padding: 64px 0; } }
+  .sec-paper { background: var(--paper); }
+  .sec-bone  { background: var(--bone); }
+
+  /* ============ PREMISE ============ */
+  .premise .eyebrow { margin-bottom: 26px; }
+  .premise .h-sec { max-width: 14ch; margin-bottom: 40px; }
+  .premise-body {
+    max-width: 40em;
+  }
+  .premise-body p {
+    font-size: clamp(17px, 1.35vw, 20px);
+    line-height: 1.68;
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+  .premise-body p:first-child { color: var(--ink); font-weight: 500; }
+  .premise-body p:last-child { margin-bottom: 0; }
+  .pullquote {
+    margin: 56px 0 0;
+    padding: 4px 0 4px 28px;
+    border-left: 3px solid var(--red);
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(22px, 2.8vw, 34px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-transform: uppercase;
+    max-width: 20ch;
+  }
+  .pullquote span { color: var(--red); }
+
+  /* ============ FIVE FORCES ============ */
+  .forces .sec-head { margin-bottom: 56px; }
+  .forces .eyebrow { margin-bottom: 24px; }
+  .forces-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .force {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 34px 26px 40px;
+    background: var(--white);
+    transition: background 0.25s ease;
+    position: relative;
+  }
+  .force:hover { background: var(--paper); }
+  .force-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--red);
+    margin-bottom: 44px;
+    display: block;
+  }
+  .force-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .force-body { font-size: 14.5px; line-height: 1.6; color: var(--muted); }
+  @media (max-width: 900px) {
+    .forces-grid { grid-template-columns: 1fr 1fr; }
+    .force-num { margin-bottom: 24px; }
+  }
+  @media (max-width: 520px) { .forces-grid { grid-template-columns: 1fr; } }
+
+  /* ============ TAKEAWAYS ============ */
+  .takeaways .sec-head { margin-bottom: 48px; }
+  .takeaways .eyebrow { margin-bottom: 24px; }
+  .take-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 56px;
+  }
+  .take {
+    display: flex;
+    gap: 18px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .take-mark {
+    flex: none;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+  }
+  .take-mark svg { width: 13px; height: 13px; stroke: #fff; stroke-width: 2.4; fill: none; }
+  .take p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .take p em { color: var(--red); font-weight: 600; }
+  @media (max-width: 760px) { .take-grid { grid-template-columns: 1fr; gap: 0; } }
+
+  /* ============ INTRO — SPLIT (covers wall — verbatim from homepage) ============ */
+  .intro { display: flex; min-height: 70vh; }
+  .intro-wall { flex: 1; position: relative; overflow: hidden; background: #000; }
+  .intro-text {
+    width: 44%;
+    min-width: 300px;
+    background: var(--bone);
+    color: var(--black);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px;
+  }
+  .intro .eyebrow { color: var(--grey-soft); }
+  .intro .eyebrow .pip { background: var(--grey-soft); }
+  @media (max-width: 880px) {
+    .intro { flex-direction: column; }
+    .intro-wall { flex: none; min-height: 60vh; }
+    .intro-text { width: 100%; padding: 56px 32px; }
+  }
+
+  #covers-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: 144px;
+    grid-auto-flow: dense;
+    gap: 2px;
+    will-change: transform;
+  }
+  .c-tile {
+    position: relative;
+    overflow: hidden;
+    background: #0d0d0d;
+    opacity: 0;
+    transform: scale(0.93) translateY(14px);
+    will-change: opacity, transform;
+    cursor: pointer;
+  }
+  .c-tile.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition:
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .c-wide  { grid-column: span 2; }
+  .c-tall  { grid-row:    span 2; }
+  .c-large { grid-column: span 2; grid-row: span 2; }
+  .c-tile img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    filter: grayscale(100%);
+    transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .c-tile:hover img, .c-tile.tapped img {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+  }
+  .c-cap {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 28px 10px 9px;
+    background: linear-gradient(to top, rgba(0,0,0,0.78), transparent);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.32s ease, transform 0.32s ease;
+    pointer-events: none;
+  }
+  .c-tile:hover .c-cap, .c-tile.tapped .c-cap { opacity: 1; transform: translateY(0); }
+  .intro-wall::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(10,10,10,0.65) 55%, #0a0a0a 100%);
+    pointer-events: none;
+    z-index: 5;
+  }
+  .intro-wall .dh-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .intro-wall .dh-wrap img {
+    display: block;
+    height: 96%;
+    width: auto;
+    max-height: 96%;
+    vertical-align: bottom;
+    filter: drop-shadow(0 8px 40px rgba(0,0,0,0.9));
+  }
+  .intro-text .eyebrow { margin-bottom: 28px; }
+  .intro-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(32px, 4vw, 58px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--black);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .intro-headline em { color: var(--red); }
+  .intro-body p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(17px, 1.4vw, 21px);
+    line-height: 1.55;
+    color: var(--muted);
+    margin-bottom: 24px;
+    max-width: none;
+  }
+  .intro-body p:first-child { font-weight: 500; color: var(--black); }
+  .intro-body p:last-child { margin-bottom: 0; }
+
+  /* ============ WHO FOR / NOT FOR ============ */
+  .filter-sec { background: var(--ink); color: var(--white); }
+  .filter-head { max-width: 44em; margin-bottom: 52px; }
+  .filter-head .eyebrow { color: var(--red); margin-bottom: 22px; }
+  .filter-head .h-sec { color: var(--white); margin-bottom: 24px; }
+  .filter-lede { font-size: clamp(16px, 1.3vw, 19px); line-height: 1.6; color: #cfcac6; }
+  .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .filter-col { border: 1px solid var(--rule-strong); border-radius: var(--radius); padding: 32px 34px 20px; background: rgba(255,255,255,0.015); }
+  .filter-col.is-for { border-top: 3px solid var(--red); }
+  .filter-col.is-not { border-top: 3px solid rgba(255,255,255,0.22); }
+  .filter-tag {
+    font-family: 'Inter', sans-serif; font-weight: 900; font-size: 12px;
+    letter-spacing: 0.24em; text-transform: uppercase; margin-bottom: 20px;
+  }
+  .is-for .filter-tag { color: var(--red); }
+  .is-not .filter-tag { color: var(--silver); }
+  .filter-col ul { list-style: none; }
+  .filter-col li {
+    position: relative; padding: 14px 0 14px 34px;
+    font-size: 16px; line-height: 1.5;
+    border-bottom: 1px solid var(--rule);
+  }
+  .filter-col li:last-child { border-bottom: none; }
+  .filter-col li::before { position: absolute; left: 0; top: 13px; font-size: 15px; font-weight: 700; }
+  .is-for li { color: #e7e3df; }
+  .is-for li::before { content: "\2713"; color: var(--red); }
+  .is-not li { color: #9a9490; }
+  .is-not li::before { content: "\2715"; color: #6a6460; }
+  @media (max-width: 760px) { .filter-grid { grid-template-columns: 1fr; } }
+
+  /* ============ TESTIMONIAL WALL ============ */
+  .praise .sec-head { text-align: center; max-width: 42em; margin: 0 auto 56px; }
+  .praise .eyebrow { justify-content: center; margin-bottom: 22px; }
+  .praise-sub { margin-top: 22px; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.6; color: var(--muted); }
+  .tw-band {
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
+    text-align: center; margin: 0 0 40px;
+  }
+  .tw-band span { color: var(--red); }
+  .tw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .tw-card {
+    display: flex; flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .tw-card:hover { border-color: var(--red); transform: translateY(-3px); box-shadow: 0 18px 40px rgba(35,31,32,0.10); }
+  .tw-photo { position: relative; aspect-ratio: 16 / 11; overflow: hidden; background: var(--ink); }
+  .tw-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 24%; display: block; }
+  .tw-chip {
+    position: absolute; top: 12px; left: 12px; z-index: 2;
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 6px 10px; border-radius: var(--radius);
+    background: rgba(255,255,255,0.92); color: var(--red);
+    border: 1px solid var(--red);
+  }
+  .tw-stars {
+    position: absolute; bottom: 10px; left: 14px; z-index: 2;
+    font-size: 13px; letter-spacing: 1.5px; color: var(--gold);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  }
+  .tw-body { padding: 26px 26px 24px; display: flex; flex-direction: column; flex: 1; }
+  .tw-quote { font-size: 16px; line-height: 1.55; color: var(--ink); margin-bottom: 22px; }
+  .tw-quote em { color: var(--red); font-weight: 600; }
+  .tw-rule { height: 1px; background: var(--line); margin-top: auto; margin-bottom: 16px; }
+  .tw-name { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+  .tw-title { font-size: 12px; color: var(--muted); margin-top: 6px; letter-spacing: 0.02em; }
+  @media (max-width: 900px) { .tw-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px) { .tw-grid { grid-template-columns: 1fr; } }
+
+  /* ============ FINAL CTA ============ */
+  .final {
+    background: var(--ink);
+    color: var(--white);
+    padding: 104px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .final::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(900px 520px at 20% 0%, rgba(224,40,38,0.16), transparent 60%);
+    pointer-events: none;
+  }
+  .final .container {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 56px;
+  }
+  .final-cover img {
+    display: block;
+    width: 190px; height: auto;
+    border-radius: 3px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.55);
+  }
+  .final .eyebrow { color: var(--red); margin-bottom: 24px; }
+  .final h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(34px, 4.6vw, 60px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .final h2 em { color: #ff4b3e; }
+  .final-sub {
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.55;
+    color: #cfcac6;
+    margin-bottom: 34px;
+    max-width: 26em;
+  }
+  .final-cta { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; margin-bottom: 22px; }
+  .final-fine {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  @media (max-width: 760px) {
+    .final { padding: 72px 0; }
+    .final .container { grid-template-columns: 1fr; gap: 36px; }
+    .final-cover img { width: 150px; }
+  }
+
+  /* ============ FOOTER (site shell) ============ */
+  footer { background: var(--black); color: var(--silver); padding: 80px 0 40px; }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+    gap: 56px;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  @media (max-width: 1080px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 48px; } }
+  @media (max-width: 640px)  { .footer-grid { grid-template-columns: 1fr; } }
+  .dh-brand-mark { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .dh-brand-mark img { width: 42px; height: 42px; border-radius: 50%; }
+  .dh-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .footer-brand .tag { font-size: 14px; line-height: 1.6; color: var(--grey); max-width: 30em; margin-bottom: 24px; }
+  .footer-brand .socials { display: flex; gap: 21px; flex-wrap: wrap; }
+  .footer-brand .socials a { color: var(--silver); transition: color 0.2s; }
+  .footer-brand .socials a svg { width: 18px; height: 18px; fill: currentColor; display: block; }
+  .footer-brand .socials a:hover { color: var(--white); }
+  .footer-col h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 13px; font-size: 14px; }
+  .footer-col li a { color: var(--silver); text-decoration: none; transition: color 0.2s; }
+  .footer-col li a:hover { color: var(--white); }
+  .bmc-corner { display: flex; gap: 14px; align-items: flex-start; text-decoration: none; }
+  .bmc-corner img { width: 44px; height: 44px; border-radius: 6px; flex: none; }
+  .bmc-corner-text { display: flex; flex-direction: column; gap: 4px; }
+  .bmc-corner-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: 0.14em; color: var(--white); }
+  .bmc-corner-tag { font-size: 12px; line-height: 1.45; color: var(--grey); }
+  .bmc-corner-cta { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-top: 6px; }
+  .footer-bottom {
+    max-width: 1080px;
+    margin: 56px auto 0;
+    padding: 28px 32px 0;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--grey);
+  }
+  .footer-bottom .legal-links { display: flex; gap: 24px; }
+  .footer-bottom a { color: var(--grey); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--white); }
+  @media (max-width: 640px) { .footer-bottom { flex-direction: column; gap: 20px; text-align: center; } }
+
+  /* ============ SCROLL REVEAL ============ */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+    html { scroll-behavior: auto; }
+    .hero-cover img { transform: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top">
+  <div class="nav-left">
+    <a href="about.html">About</a>
+    <a href="resources.html">Resources</a>
+  </div>
+  <a class="nav-brand" href="home.html">Darren Hardy</a>
+  <div class="nav-right">
+    <a href="https://darrendaily.com/">Daily Mentoring</a>
+    <a href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect">Get The Book</a>
+  </div>
+  <button class="nav-burger" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('navMobile').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-mobile" id="navMobile">
+    <a href="about.html">About</a>
+    <a href="resources.html">Resources</a>
+    <a href="https://darrendaily.com/">Daily Mentoring</a>
+    <a href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect">Get The Book</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-copy">
+      <div class="eyebrow hero-eyebrow"><span class="pip"></span>The Compound Effect · 10th Anniversary Edition</div>
+      <h1>No Gimmicks.<br>No Hyperbole.<br>Just The <em>Truth</em><br>On Success.</h1>
+      <p class="hero-lede">This is not another personal-development book. It's the operating manual on the small, disciplined choices that compound into an unfair advantage. Over a million people have run the system. It endures because it tells the truth.</p>
+      <div class="hero-meta">
+        <span>1M+ Copies Sold</span>
+        <span class="dot"></span>
+        <span>21,000+ Amazon Ratings</span>
+        <span class="dot"></span>
+        <span class="hero-rating">4.7<span class="hero-stars" aria-hidden="true">★★★★★</span></span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect">Get Your Copy <span class="arw">→</span></a>
+        <span class="note">$19.99 · Ships Worldwide</span>
+      </div>
+    </div>
+    <div class="hero-cover">
+      <img src="ce-front-cover.webp" alt="The Compound Effect by Darren Hardy — 10th Anniversary Edition" width="1100" height="1623" fetchpriority="high">
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT BAND -->
+<section class="impact" id="impact">
+  <div class="container">
+    <div class="impact-head reveal">
+      <div class="eyebrow"><span class="pip"></span>The Impact</div>
+      <h2 class="h-sec">A Movement. Not A Motivational Book.</h2>
+      <p class="impact-lede">For more than a decade, The Compound Effect has been the book serious operators hand to the person they most want to see win. The proof isn't in the promises. It's in the numbers, and the following they built.</p>
+    </div>
+    <div class="impact-grid reveal">
+      <div class="impact-stat">
+        <div class="impact-num">1M+</div>
+        <div class="impact-label">Copies Sold Worldwide</div>
+      </div>
+      <div class="impact-stat">
+        <div class="impact-num">21K+</div>
+        <div class="impact-label">Amazon Ratings</div>
+      </div>
+      <div class="impact-stat">
+        <div class="impact-num">4.7<span class="impact-num-sub">/5</span></div>
+        <div class="impact-stars" aria-label="4.7 out of 5 stars">★★★★★</div>
+        <div class="impact-label">Average Reader Rating</div>
+      </div>
+      <div class="impact-stat">
+        <div class="impact-num">#1</div>
+        <div class="impact-label">New York Times Bestseller</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREMISE -->
+<section class="sec premise sec-paper">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow"><span class="pip"></span>The Premise</div>
+      <h2 class="h-sec">Success Isn't A Strike Of Luck. It's A Slope.</h2>
+    </div>
+    <div class="premise-body reveal">
+      <p>You already know there's no secret formula. You built what you have the hard way, one decision at a time, doing the things most people won't. The Compound Effect is the operating system underneath that.</p>
+      <p>Every choice sets a trajectory. Small, smart choices, plus consistency, plus time. That's the entire equation. For a while it looks like nothing is happening. Then, seemingly all at once, it looks like everything.</p>
+      <p>Darren Hardy strips out the hype and hands you the mechanism: how to run that system on purpose instead of leaving your results to default, and how to point its full force at the goals that actually matter to you.</p>
+      <blockquote class="pullquote">You'll never change your life until you change something you <span>do daily.</span></blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR / NOT FOR -->
+<section class="sec filter-sec">
+  <div class="container">
+    <div class="filter-head reveal">
+      <div class="eyebrow"><span class="pip"></span>Read This First</div>
+      <h2 class="h-sec">Who It's For. And Who It Isn't.</h2>
+      <p class="filter-lede">This is not personal development. No affirmations. No pep talk. No "live your best life." If that's what you came for, put it down now. If you came to build, keep reading.</p>
+    </div>
+    <div class="filter-grid reveal">
+      <div class="filter-col is-for">
+        <div class="filter-tag">For</div>
+        <ul>
+          <li>Founders, CEOs, and operators who already win, and intend to win bigger</li>
+          <li>Doers who back bold ambition with obsessive, consistent action</li>
+          <li>People who want the mechanism, not the motivation</li>
+          <li>Anyone hunting the half-tenth of edge that compounds into a lead</li>
+          <li>Leaders who would rather be told the truth than be made to feel good</li>
+        </ul>
+      </div>
+      <div class="filter-col is-not">
+        <div class="filter-tag">Not For</div>
+        <ul>
+          <li>Anyone looking for a hack, a shortcut, or an overnight anything</li>
+          <li>Fans of hype, hustle quotes, and stage-lit motivation</li>
+          <li>People who want to feel inspired for an afternoon and change nothing</li>
+          <li>Readers who mistake activity for progress</li>
+          <li>The comfortable, the casual, the someday crowd</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIVE FORCES -->
+<section class="sec forces">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow"><span class="pip"></span>Inside The Book</div>
+      <h2 class="h-sec">The Five Forces That Compound</h2>
+    </div>
+    <div class="forces-grid reveal">
+      <div class="force">
+        <span class="force-num">01</span>
+        <div class="force-name">Choices</div>
+        <p class="force-body">Every result traces back to a choice. Most get made on autopilot. Own them deliberately, and you own the outcome.</p>
+      </div>
+      <div class="force">
+        <span class="force-num">02</span>
+        <div class="force-name">Habits</div>
+        <p class="force-body">Root out the quiet habits derailing your progress, and install the few key disciplines that drive real results.</p>
+      </div>
+      <div class="force">
+        <span class="force-num">03</span>
+        <div class="force-name">Momentum</div>
+        <p class="force-body">The elusive force that makes the hard become effortless. Catch it, and you become almost impossible to stop.</p>
+      </div>
+      <div class="force">
+        <span class="force-num">04</span>
+        <div class="force-name">Influences</div>
+        <p class="force-body">Your input, your associations, your environment. What you let in quietly decides what you become.</p>
+      </div>
+      <div class="force">
+        <span class="force-num">05</span>
+        <div class="force-name">Acceleration</div>
+        <p class="force-body">The moment most people quit is the exact moment the gap opens. Push through it, and you pull away.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAKEAWAYS -->
+<section class="sec takeaways sec-bone">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow"><span class="pip"></span>What You'll Walk Away With</div>
+      <h2 class="h-sec">The Advantages Inside</h2>
+    </div>
+    <div class="take-grid reveal">
+      <div class="take">
+        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+        <p>How to win, every time: the No. 1 strategy to achieve any goal and <em>out-execute any competitor</em>, even one smarter, more talented, or more experienced.</p>
+      </div>
+      <div class="take">
+        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+        <p>How to find and <em>eradicate the bad habits</em> (some you can't even see) that are quietly derailing your progress.</p>
+      </div>
+      <div class="take">
+        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+        <p>How to painlessly <em>install the few key disciplines</em> required for major results.</p>
+      </div>
+      <div class="take">
+        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+        <p>The real, lasting keys to <em>motivation</em>: how to get yourself to do the things you don't feel like doing.</p>
+      </div>
+      <div class="take">
+        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+        <p>How to capture the elusive, awesome force of <em>momentum</em>, and become unstoppable.</p>
+      </div>
+      <div class="take">
+        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+        <p>The acceleration secrets of superachievers: the <em>unfair advantage</em>, and how to build your own.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO — DH + COVERS WALL (verbatim structure from homepage) -->
+<section class="intro" id="author">
+
+  <!-- Covers wall — full bleed -->
+  <div class="intro-wall">
+    <div id="covers-grid"></div>
+    <div class="dh-wrap">
+      <img src="Wall-DH.webp" alt="Darren Hardy" loading="lazy">
+    </div>
+  </div>
+
+  <!-- Copy -->
+  <div class="intro-text">
+    <div class="eyebrow"><span class="pip"></span>The Author</div>
+    <h2 class="intro-headline">35 Years At The Center Of Success. <em>Distilled.</em></h2>
+    <div class="intro-body">
+      <p>Darren Hardy spent decades as the central curator of the success media industry: founding publisher of SUCCESS magazine, creator of three success-focused television networks, and close counsel to thousands of the world's top CEOs, founders, and industry titans.</p>
+      <p>He has heard it all, seen it all, and tested most of it. Every leader on this wall is someone whose patterns he studied up close.</p>
+      <p>The Compound Effect is the essence of what he found: the core principles that actually drive extraordinary results, with the hype stripped out.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- TESTIMONIALS — big-photo wall -->
+<section class="sec praise sec-paper" id="praise">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow"><span class="pip"></span>The Following</div>
+      <h2 class="h-sec">The People Who Build Swear By It</h2>
+      <p class="praise-sub">Bestselling authors, chairmen, and a million operators who don't have time for hype. They didn't need a pep talk. They needed the truth, and they came back to hand it to someone else.</p>
+    </div>
+
+    <p class="tw-band">Endorsed by the authors who <span>define the category</span></p>
+    <div class="tw-grid reveal">
+      <article class="tw-card">
+        <div class="tw-photo">
+          <img class="tw-img" src="portraits/ce-t-bach.png" alt="David Bach" width="800" height="550" loading="lazy" decoding="async">
+          <span class="tw-chip">Bestselling Author</span>
+        </div>
+        <div class="tw-body">
+          <p class="tw-quote">&ldquo;A real program, with real tools that can <em>change your life</em> and make your dreams a reality. A new bible for the self-improvement space.&rdquo;</p>
+          <div class="tw-rule"></div>
+          <div class="tw-name">David Bach</div>
+          <div class="tw-title">10x New York Times Bestselling Author</div>
+        </div>
+      </article>
+
+      <article class="tw-card">
+        <div class="tw-photo">
+          <img class="tw-img" src="portraits/ce-t-eker.png" alt="T. Harv Eker" width="800" height="550" loading="lazy" decoding="async">
+          <span class="tw-chip">Bestselling Author</span>
+        </div>
+        <div class="tw-body">
+          <p class="tw-quote">&ldquo;This book will help you <em>beat the competition</em>, rise above your challenges, and create the life you deserve.&rdquo;</p>
+          <div class="tw-rule"></div>
+          <div class="tw-name">T. Harv Eker</div>
+          <div class="tw-title">Author, Secrets of the Millionaire Mind</div>
+        </div>
+      </article>
+
+      <article class="tw-card">
+        <div class="tw-photo">
+          <img class="tw-img" src="portraits/ce-t-ferrazzi.png" alt="Keith Ferrazzi" width="800" height="550" loading="lazy" decoding="async">
+          <span class="tw-chip">Bestselling Author</span>
+        </div>
+        <div class="tw-body">
+          <p class="tw-quote">&ldquo;This is your <em>operation manual</em> for success. Read it, apply it, and watch what compounds.&rdquo;</p>
+          <div class="tw-rule"></div>
+          <div class="tw-name">Keith Ferrazzi</div>
+          <div class="tw-title">Author, Never Eat Alone</div>
+        </div>
+      </article>
+
+      <article class="tw-card">
+        <div class="tw-photo">
+          <img class="tw-img" src="portraits/ce-t-deutsch.png" alt="Donny Deutsch" width="800" height="550" loading="lazy" decoding="async">
+          <span class="tw-chip">Chairman &middot; TV Host</span>
+        </div>
+        <div class="tw-body">
+          <p class="tw-quote">&ldquo;Darren will show you the way to your own <em>greater success</em>, happiness, and fulfillment.&rdquo;</p>
+          <div class="tw-rule"></div>
+          <div class="tw-name">Donny Deutsch</div>
+          <div class="tw-title">Chairman &amp; Television Host</div>
+        </div>
+      </article>
+
+      <article class="tw-card">
+        <div class="tw-photo">
+          <img class="tw-img" src="portraits/ce-t-maxwell.png" alt="John C. Maxwell" width="800" height="550" loading="lazy" decoding="async">
+          <span class="tw-chip">Leadership Author</span>
+        </div>
+        <div class="tw-body">
+          <p class="tw-quote">&ldquo;A <em>must-read</em> for success seekers. The principles here are simple, proven, and powerful.&rdquo;</p>
+          <div class="tw-rule"></div>
+          <div class="tw-name">John C. Maxwell</div>
+          <div class="tw-title">Leadership Author &amp; Speaker</div>
+        </div>
+      </article>
+
+      <article class="tw-card">
+        <div class="tw-photo">
+          <img class="tw-img" src="portraits/ce-t-r1.png" alt="Verified reader" width="800" height="550" loading="lazy" decoding="async">
+          <span class="tw-chip">Manufacturing</span>
+          <span class="tw-stars" aria-label="5 stars">★★★★★</span>
+        </div>
+        <div class="tw-body">
+          <p class="tw-quote">&ldquo;I've read a hundred business books. This is the one I <em>re-read every January</em> and hand to every new hire.&rdquo;</p>
+          <div class="tw-rule"></div>
+          <div class="tw-name">Verified Reader</div>
+          <div class="tw-title">Founder &middot; Industrial Manufacturing</div>
+        </div>
+      </article>
+
+      <article class="tw-card">
+        <div class="tw-photo">
+          <img class="tw-img" src="portraits/ce-t-r2.png" alt="Verified reader" width="800" height="550" loading="lazy" decoding="async">
+          <span class="tw-chip">Professional Services</span>
+          <span class="tw-stars" aria-label="5 stars">★★★★★</span>
+        </div>
+        <div class="tw-body">
+          <p class="tw-quote">&ldquo;No fluff. No fads. Just the disciplines that <em>actually move the needle</em>, laid out so I could run them Monday.&rdquo;</p>
+          <div class="tw-rule"></div>
+          <div class="tw-name">Verified Reader</div>
+          <div class="tw-title">Managing Partner &middot; Advisory Firm</div>
+        </div>
+      </article>
+
+      <article class="tw-card">
+        <div class="tw-photo">
+          <img class="tw-img" src="portraits/ce-t-r3.png" alt="Verified reader" width="800" height="550" loading="lazy" decoding="async">
+          <span class="tw-chip">Founder &amp; CEO</span>
+          <span class="tw-stars" aria-label="5 stars">★★★★★</span>
+        </div>
+        <div class="tw-body">
+          <p class="tw-quote">&ldquo;It didn't motivate me. It <em>re-engineered how I make decisions</em>. The revenue followed.&rdquo;</p>
+          <div class="tw-rule"></div>
+          <div class="tw-name">Verified Reader</div>
+          <div class="tw-title">Founder &amp; CEO &middot; SaaS</div>
+        </div>
+      </article>
+
+      <article class="tw-card">
+        <div class="tw-photo">
+          <img class="tw-img" src="portraits/ce-t-r4.png" alt="Verified reader" width="800" height="550" loading="lazy" decoding="async">
+          <span class="tw-chip">Financial Services</span>
+          <span class="tw-stars" aria-label="5 stars">★★★★★</span>
+        </div>
+        <div class="tw-body">
+          <p class="tw-quote">&ldquo;The only success book that treats you like an adult. It <em>respects your time</em> and tells you the truth.&rdquo;</p>
+          <div class="tw-rule"></div>
+          <div class="tw-name">Verified Reader</div>
+          <div class="tw-title">Principal &middot; Wealth Management</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="container">
+    <div class="final-cover">
+      <img src="ce-front-cover.webp" alt="The Compound Effect by Darren Hardy" width="1100" height="1623" loading="lazy">
+    </div>
+    <div class="final-copy">
+      <div class="eyebrow"><span class="pip"></span>Get The Book</div>
+      <h2>Start The <em>Compounding.</em></h2>
+      <p class="final-sub">Over one million readers have run this system. The advantage begins the moment you make the first decision differently.</p>
+      <div class="final-cta">
+        <a class="btn btn-solid" href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect">Get Your Copy <span class="arw">→</span></a>
+      </div>
+      <div class="final-fine">$19.99 · 10th Anniversary Edition · New York Times Bestseller · Ships Worldwide</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="dh-brand-mark">
+        <img src="dh_logo.webp" alt="Darren Hardy" width="200" height="200" loading="lazy">
+        <span class="dh-name">Darren Hardy</span>
+      </div>
+      <p class="tag">Darren Hardy is the unfair advantage for unusually driven business leaders building something that matters.</p>
+      <div class="socials">
+        <a href="https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ" title="YouTube" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/darrenhardy/" title="LinkedIn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/DarrenHardyFan/" title="Facebook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/darrenhardy/" title="Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="https://twitter.com/DARRENHARDY" title="X" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="https://darrendaily.com/">Daily Mentoring</a></li>
+        <li><a href="https://darrendailyondemand.com/">Podcast</a></li>
+        <li><a href="https://store.darrenhardy.com/">Books</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Support</h3>
+      <ul>
+        <li><a href="https://helpme.darrenhardy.com/">Help Center</a></li>
+        <li><a href="careers.html">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <a class="bmc-corner" href="https://hardybmc.com">
+        <img src="BMC_Logo.png" alt="BMC" />
+        <div class="bmc-corner-text">
+          <span class="bmc-corner-title">BMC|COLLECTIVE</span>
+          <span class="bmc-corner-tag">The Unfair Advantage<br>for Driven Leaders</span>
+          <span class="bmc-corner-cta">Explore Further <span class="arrow">&#8599;</span></span>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© Darren Hardy, LLC. All Rights Reserved.</span>
+    <div class="legal-links">
+      <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
+      <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Covers grid (verbatim logic from homepage) ──
+const covers = [
+  'JackWelch.jpg','SM_13_05_FORD.jpg','SM_12_01_DOWNEY.jpg',
+  'SM_09_07_BRANSON.jpg','SM_10_06_JOBS.jpg',
+  'SM_09_08_FOX.jpg',
+  'SM_08_01_Kiyosaki.jpg','SM_08_02_50.jpg','SM_08_04_OZ.jpg',
+  'SM_08_05_HAWK.jpg','SM_08_06_Deutsch.jpg','SM_10_12_SHRIVER.jpg',
+  'SM_09_02_Powell.jpg','SM_09_03_FOREMAN.jpg','SM_09_04_Maxwell.jpg',
+  'SM_09_05_ORMAN.jpg','SM_09_06_LANCE.jpg','SM_09_01_Robbins.jpg',
+  'SM_09_09_FOSTER_Barcode.jpg','SM_09_10_SERENA_barcode.jpg',
+  'SM_09_11_OSTEEN_barcode.jpg','SM_09_12_DrPHIL.jpg',
+  'SM_12_07_TECHNOLOGY.jpg','SM_10_01_KEYES.jpg','SM_10_02_RAMSEY.jpg',
+  'SM_10_03_HOPKINS.jpg','SM_10_04_COLLINS.jpg','SM_10_05_MICHAELS.jpg',
+  'SM_10_07_COLE.jpg','SM_10_08_JOHNSON.jpg',
+  'SM_10_09_DELL.jpg','SM_10_10_USHER.jpg','SM_10_11_MANNINGS.jpg',
+  'SM_11_01_HOWARD.jpg','SM_11_02_CHAN.jpg','SM_11_03_SCHWAB.jpg',
+  'SM_11_04_SCHULTZ.jpg','SM_12_08_BRANSON.jpg','SM_11_05_ZUCKERBERG.jpg',
+  'SM_11_06_MARTIN.jpg','SM_11_07_DICAPRIO.jpg','SM_11_08_BEZOS.jpg',
+  'SM_11_09_CONNICK.jpg','SM_11_10_OZ.jpg','SM_11_11_CUBAN.jpg',
+  'SM_11_12_SANTA.jpg','SM_12_02_KARDASHIAN.jpg','SM_12_03_BLOOMBERG.jpg',
+  'SM_12_04_LOWE.jpg','SM_12_05_ORMAN.jpg','SM_12_06_JOHANNSON.jpg',
+  'SM_12_09_BURNETT.jpg','SM_12_10_MAXWELL.jpg','SM_12_11_WASHINGTON.jpg',
+  'SM_12_12_COURIC.jpg','SM_13_01_STEWART.jpg','SM_13_02_MUSK.jpg',
+  'SM_13_03_CORCORAN.jpg','SM_13_04_DIAMANDIS.jpg','SM_08_03_Trump.jpg',
+  'SM_14_11_COOK.jpg','Santa1977.jpg','Tony_Hseih.jpg'
+];
+
+function cleanName(f) {
+  let n = f.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '');
+  n = n.replace(/^SM_\d+_\d+_/i, '');
+  n = n.replace(/([a-z])([A-Z])/g, '$1 $2');
+  n = n.replace(/[_-]/g, ' ');
+  n = n.replace(/\bbarcode\b/gi, '').replace(/\s+/g, ' ').trim();
+  n = n.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+  return n;
+}
+
+const featuredTypes = ['large', 'tall', 'large', 'tall', 'standard'];
+
+function buildSpreadPool(n) {
+  const special = [...Array(4).fill('wide'), ...Array(16).fill('tall')];
+  let s = 0xc0ffee42;
+  for (let i = special.length - 1; i > 0; i--) {
+    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+    s ^= s >>> 16;
+    const j = (Math.abs(s) >>> 0) % (i + 1);
+    [special[i], special[j]] = [special[j], special[i]];
+  }
+  const pool = Array(n).fill('standard');
+  const step = (n - 1) / (special.length - 1);
+  special.forEach((type, i) => { pool[Math.round(i * step)] = type; });
+  return pool;
+}
+
+const bodyTypes = buildSpreadPool(covers.length - 5);
+const coversGrid = document.getElementById('covers-grid');
+
+covers.forEach((cover, i) => {
+  const tile = document.createElement('div');
+  tile.className = 'c-tile';
+  const t = i < 5 ? featuredTypes[i] : bodyTypes[i - 5];
+  if (t === 'wide')  tile.classList.add('c-wide');
+  if (t === 'tall')  tile.classList.add('c-tall');
+  if (t === 'large') tile.classList.add('c-large');
+
+  const img     = document.createElement('img');
+  img.src       = `covers/${cover.replace(/\.(jpg|jpeg)$/i, '.webp')}`;
+  img.alt       = cleanName(cover);
+  img.loading   = i < 12 ? 'eager' : 'lazy';
+  img.decoding  = 'async';
+
+  const cap       = document.createElement('div');
+  cap.className   = 'c-cap';
+  cap.textContent = cleanName(cover);
+
+  tile.appendChild(img);
+  tile.appendChild(cap);
+  coversGrid.appendChild(tile);
+});
+
+// Covers entrance — all tiles appear at once when section comes into view
+const introWall = document.querySelector('.intro-wall');
+const wallObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.c-tile').forEach(tile => tile.classList.add('visible'));
+    });
+    wallObserver.disconnect();
+  }
+}, { threshold: 0.1 });
+wallObserver.observe(introWall);
+
+// Touch tap-to-color
+document.querySelectorAll('.c-tile').forEach(tile => {
+  let ty, tx;
+  tile.addEventListener('touchstart', e => {
+    ty = e.touches[0].clientY;
+    tx = e.touches[0].clientX;
+  }, { passive: true });
+  tile.addEventListener('touchend', e => {
+    if (Math.abs(e.changedTouches[0].clientY - ty) > 8 ||
+        Math.abs(e.changedTouches[0].clientX - tx) > 8) return;
+    const active = tile.classList.contains('tapped');
+    document.querySelectorAll('.c-tile.tapped').forEach(t => t.classList.remove('tapped'));
+    if (!active) tile.classList.add('tapped');
+  });
+});
+
+// Parallax — rAF-throttled
+(function () {
+  let rafPending = false;
+  window.addEventListener('scroll', () => {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      const rect = introWall.getBoundingClientRect();
+      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      const offset = Math.max(0, progress * 500);
+      coversGrid.style.transform = `translateY(-${offset}px)`;
+      rafPending = false;
+    });
+  }, { passive: true });
+})();
+
+// ── Scroll reveal ──
+(function () {
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(el => obs.observe(el));
+})();
+</script>
+</body>
+</html>
