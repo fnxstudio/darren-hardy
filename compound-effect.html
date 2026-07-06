@@ -453,46 +453,50 @@
   /* ============ FIVE FORCES ============ */
   .forces .sec-head { margin-bottom: 56px; }
   .forces .eyebrow { margin-bottom: 24px; }
-  .forces-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--line);
-    border-left: 1px solid var(--line);
-  }
+  /* Five Forces — arrow progression that rises as it compounds */
+  .forces-grid { display: flex; align-items: stretch; border-bottom: 1px solid var(--line); }
   .force {
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    padding: 34px 26px 40px;
+    flex: 1 1 0; min-width: 0; position: relative;
+    padding: 30px 30px 34px 26px;
     background: var(--white);
+    border-top: 2px solid var(--line);
     transition: background 0.25s ease;
-    position: relative;
   }
   .force:hover { background: var(--paper); }
+  /* accretion: the red top-accent fills further at each stage */
+  .force::before { content: ""; position: absolute; top: -2px; left: 0; height: 2px; background: var(--red); }
+  .force:nth-child(1)::before { width: 20%; }
+  .force:nth-child(2)::before { width: 40%; }
+  .force:nth-child(3)::before { width: 60%; }
+  .force:nth-child(4)::before { width: 80%; }
+  .force:nth-child(5)::before { width: 100%; }
+  /* red arrow bridging each stage to the next */
+  .force:not(:last-child)::after {
+    content: "\2192"; position: absolute; top: 26px; right: -9px; z-index: 2;
+    color: var(--red); font-size: 18px; font-weight: 700; line-height: 1;
+    background: var(--white); padding: 1px 0;
+  }
   .force-num {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    color: var(--red);
-    margin-bottom: 44px;
-    display: block;
+    font-family: 'Inter', sans-serif; font-weight: 900; font-size: 13px;
+    letter-spacing: 0.12em; color: var(--red); margin-bottom: 40px; display: block;
   }
   .force-name {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: 20px;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    margin-bottom: 14px;
+    font-family: 'Inter', sans-serif; font-weight: 900; font-size: 20px;
+    text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 14px;
   }
   .force-body { font-size: 14.5px; line-height: 1.6; color: var(--muted); }
-  @media (max-width: 900px) {
-    .forces-grid { grid-template-columns: 1fr 1fr; }
-    .force-num { margin-bottom: 24px; }
+  @media (max-width: 760px) {
+    .forces-grid { flex-direction: column; border-bottom: none; }
+    .force { border-top: none; border-left: 2px solid var(--line); padding: 24px 0 30px 30px; }
+    .force::before { top: 0; left: -2px; }
+    .force:nth-child(1)::before { width: 2px; height: 24%; }
+    .force:nth-child(2)::before { width: 2px; height: 44%; }
+    .force:nth-child(3)::before { width: 2px; height: 64%; }
+    .force:nth-child(4)::before { width: 2px; height: 84%; }
+    .force:nth-child(5)::before { width: 2px; height: 100%; }
+    .force:not(:last-child)::after { content: "\2193"; top: auto; bottom: -12px; right: auto; left: -1px; transform: translateX(-50%); padding: 0 1px; }
+    .force-num { margin-bottom: 14px; }
   }
-  @media (max-width: 520px) { .forces-grid { grid-template-columns: 1fr; } }
 
   /* ============ TAKEAWAYS ============ */
   .takeaways .sec-head { margin-bottom: 48px; }
@@ -663,18 +667,18 @@
   /* ============ WHO FOR / NOT FOR ============ */
   .filter-sec { background: var(--ink); color: var(--white); }
   .filter-head { max-width: 44em; margin-bottom: 52px; }
-  .filter-head .eyebrow { color: var(--red); margin-bottom: 22px; }
+  .filter-head .eyebrow { color: var(--white); margin-bottom: 22px; }
   .filter-head .h-sec { color: var(--white); margin-bottom: 24px; }
   .filter-lede { font-size: clamp(16px, 1.3vw, 19px); line-height: 1.6; color: #cfcac6; }
   .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .filter-col { border: 1px solid var(--rule-strong); border-radius: var(--radius); padding: 32px 34px 20px; background: rgba(255,255,255,0.015); }
-  .filter-col.is-for { border-top: 3px solid var(--red); }
+  .filter-col.is-for { border-top: 3px solid var(--white); }
   .filter-col.is-not { border-top: 3px solid rgba(255,255,255,0.22); }
   .filter-tag {
     font-family: 'Inter', sans-serif; font-weight: 900; font-size: 12px;
     letter-spacing: 0.24em; text-transform: uppercase; margin-bottom: 20px;
   }
-  .is-for .filter-tag { color: var(--red); }
+  .is-for .filter-tag { color: var(--white); }
   .is-not .filter-tag { color: var(--silver); }
   .filter-col ul { list-style: none; }
   .filter-col li {
@@ -685,7 +689,7 @@
   .filter-col li:last-child { border-bottom: none; }
   .filter-col li::before { position: absolute; left: 0; top: 13px; font-size: 15px; font-weight: 700; }
   .is-for li { color: #e7e3df; }
-  .is-for li::before { content: "\2713"; color: var(--red); }
+  .is-for li::before { content: "\2713"; color: var(--white); }
   .is-not li { color: #9a9490; }
   .is-not li::before { content: "\2715"; color: #6a6460; }
   @media (max-width: 760px) { .filter-grid { grid-template-columns: 1fr; } }
@@ -1233,30 +1237,6 @@
   </div>
 </section>
 
-<!-- INTRO — DH + COVERS WALL (verbatim structure from homepage) -->
-<section class="intro" id="author">
-
-  <!-- Covers wall — full bleed -->
-  <div class="intro-wall">
-    <div id="covers-grid"></div>
-    <div class="dh-wrap">
-      <img src="Wall-DH.webp" alt="Darren Hardy" loading="lazy">
-    </div>
-  </div>
-
-  <!-- Copy -->
-  <div class="intro-text">
-    <div class="eyebrow"><span class="pip"></span>The Author</div>
-    <h2 class="intro-headline">35 Years At The Center Of Success. <em>Distilled.</em></h2>
-    <div class="intro-body">
-      <p>Darren Hardy spent decades as the central curator of the success media industry: founding publisher of SUCCESS magazine, creator of three success-focused television networks, and close counsel to thousands of the world's top CEOs, founders, and industry titans.</p>
-      <p>He has heard it all, seen it all, and tested most of it. Every leader on this wall is someone whose patterns he studied up close.</p>
-      <p>The Compound Effect is the essence of what he found: the core principles that actually drive extraordinary results, with the hype stripped out.</p>
-    </div>
-  </div>
-
-</section>
-
 <!-- TESTIMONIALS — big-photo wall -->
 <section class="sec praise sec-paper" id="praise">
   <div class="container">
@@ -1390,6 +1370,30 @@
       </article>
     </div>
   </div>
+</section>
+
+<!-- INTRO — DH + COVERS WALL (verbatim structure from homepage) -->
+<section class="intro" id="author">
+
+  <!-- Covers wall — full bleed -->
+  <div class="intro-wall">
+    <div id="covers-grid"></div>
+    <div class="dh-wrap">
+      <img src="Wall-DH.webp" alt="Darren Hardy" loading="lazy">
+    </div>
+  </div>
+
+  <!-- Copy -->
+  <div class="intro-text">
+    <div class="eyebrow"><span class="pip"></span>The Author</div>
+    <h2 class="intro-headline">35 Years At The Center Of Success. <em>Distilled.</em></h2>
+    <div class="intro-body">
+      <p>Darren Hardy spent decades as the central curator of the success media industry: founding publisher of SUCCESS magazine, creator of three success-focused television networks, and close counsel to thousands of the world's top CEOs, founders, and industry titans.</p>
+      <p>He has heard it all, seen it all, and tested most of it. Every leader on this wall is someone whose patterns he studied up close.</p>
+      <p>The Compound Effect is the essence of what he found: the core principles that actually drive extraordinary results, with the hype stripped out.</p>
+    </div>
+  </div>
+
 </section>
 
 <!-- FINAL CTA -->
