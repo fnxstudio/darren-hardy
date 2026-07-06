@@ -400,18 +400,22 @@
     .impact-stat:nth-child(3)::before { display: none; }
   }
 
-  /* ============ SOCIAL PROOF (big-photo readers, under the stats) ============ */
-  .sp { background: var(--white); border-bottom: 1px solid var(--line); padding: 80px 0; }
-  .sp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px 34px; }
-  .sp-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .sp-photo { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; border-radius: 5px; background: var(--ink); margin-bottom: 22px; display: block; }
-  .sp-stars { color: var(--gold); font-size: 15px; letter-spacing: 2px; margin-bottom: 14px; }
-  .sp-quote { font-size: 18px; line-height: 1.5; font-weight: 500; color: var(--ink); margin-bottom: 18px; }
-  .sp-quote em { color: var(--red); font-weight: 600; }
-  .sp-name { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
-  .sp-role { font-size: 12.5px; color: var(--muted); margin-top: 5px; }
-  @media (max-width: 900px) { .sp-grid { grid-template-columns: 1fr 1fr; gap: 44px 24px; } }
-  @media (max-width: 560px) { .sp { padding: 56px 0; } .sp-grid { grid-template-columns: 1fr; gap: 48px; } .sp-photo { max-width: 320px; margin-left: auto; margin-right: auto; } }
+  /* ============ SOCIAL PROOF (full-bleed row of 5 readers, text overlaid) ============ */
+  .sp { padding: 0; background: var(--ink); }
+  .sp-grid { display: flex; }
+  .sp-card { flex: 1 1 0; min-width: 0; position: relative; overflow: hidden; height: clamp(500px, 66vh, 720px); }
+  .sp-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 26%; display: block; }
+  .sp-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,6,8,0.92) 3%, rgba(8,6,8,0.6) 30%, rgba(8,6,8,0.08) 52%, transparent 68%); }
+  .sp-content { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 26px 24px 30px; color: #fff; }
+  .sp-stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 12px; }
+  .sp-quote { font-size: clamp(15px, 1.15vw, 17px); line-height: 1.45; font-weight: 500; color: #fff; margin-bottom: 16px; }
+  .sp-quote em { color: #ff5a4d; font-weight: 600; }
+  .sp-name { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; }
+  .sp-role { font-size: 12px; color: rgba(255,255,255,0.72); margin-top: 5px; }
+  @media (max-width: 820px) {
+    .sp-grid { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+    .sp-card { flex: 0 0 82%; scroll-snap-align: start; height: 60vh; min-height: 440px; }
+  }
 
   /* ============ SECTION SHELLS ============ */
   .sec { padding: 96px 0; }
@@ -1080,53 +1084,54 @@
   </div>
 </section>
 
-<!-- SOCIAL PROOF (big-photo readers, under the stats) -->
+<!-- SOCIAL PROOF (full-bleed row of 5 readers, text overlaid) -->
 <section class="sp">
-  <div class="container">
-    <div class="sp-grid reveal">
-      <div class="sp-card">
-        <img class="sp-photo" src="portraits/ce-face-1.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+  <div class="sp-grid reveal">
+    <figure class="sp-card">
+      <img class="sp-photo" src="portraits/ce-face-1.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+      <figcaption class="sp-content">
         <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="sp-quote">&ldquo;Six years in, and it&rsquo;s still the first book I <em>re-read every January</em>. It compounds.&rdquo;</p>
+        <p class="sp-quote">&ldquo;The first book I <em>re-read every January</em>. It compounds.&rdquo;</p>
         <div class="sp-name">Verified Reader</div>
         <div class="sp-role">Founder &middot; Manufacturing</div>
-      </div>
-      <div class="sp-card">
-        <img class="sp-photo" src="portraits/ce-face-2.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+      </figcaption>
+    </figure>
+    <figure class="sp-card">
+      <img class="sp-photo" src="portraits/ce-face-2.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+      <figcaption class="sp-content">
         <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="sp-quote">&ldquo;No pep talk. Just the few disciplines that <em>actually move the needle</em>.&rdquo;</p>
+        <p class="sp-quote">&ldquo;No pep talk. Just the disciplines that <em>move the needle</em>.&rdquo;</p>
         <div class="sp-name">Verified Reader</div>
         <div class="sp-role">Owner &middot; Professional Services</div>
-      </div>
-      <div class="sp-card">
-        <img class="sp-photo" src="portraits/ce-face-3.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+      </figcaption>
+    </figure>
+    <figure class="sp-card">
+      <img class="sp-photo" src="portraits/ce-face-3.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+      <figcaption class="sp-content">
         <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="sp-quote">&ldquo;I&rsquo;ve bought <em>nine copies</em>. My whole leadership team runs on it.&rdquo;</p>
+        <p class="sp-quote">&ldquo;I&rsquo;ve bought <em>nine copies</em> for my leadership team.&rdquo;</p>
         <div class="sp-name">Verified Reader</div>
         <div class="sp-role">CEO &middot; SaaS</div>
-      </div>
-      <div class="sp-card">
-        <img class="sp-photo" src="portraits/ce-face-4.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+      </figcaption>
+    </figure>
+    <figure class="sp-card">
+      <img class="sp-photo" src="portraits/ce-face-4.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+      <figcaption class="sp-content">
         <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="sp-quote">&ldquo;It changed <em>one habit</em>. That one habit changed my entire year.&rdquo;</p>
+        <p class="sp-quote">&ldquo;One habit changed. <em>My entire year</em> changed.&rdquo;</p>
         <div class="sp-name">Verified Reader</div>
         <div class="sp-role">Operator &middot; Logistics</div>
-      </div>
-      <div class="sp-card">
-        <img class="sp-photo" src="portraits/ce-face-5.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+      </figcaption>
+    </figure>
+    <figure class="sp-card">
+      <img class="sp-photo" src="portraits/ce-face-5.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+      <figcaption class="sp-content">
         <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="sp-quote">&ldquo;The only business book I&rsquo;ve read cover to cover <em>three times</em>.&rdquo;</p>
+        <p class="sp-quote">&ldquo;I&rsquo;ve read it cover to cover, <em>three times</em>.&rdquo;</p>
         <div class="sp-name">Verified Reader</div>
         <div class="sp-role">Founder &middot; E-commerce</div>
-      </div>
-      <div class="sp-card">
-        <img class="sp-photo" src="portraits/ce-face-6.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
-        <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="sp-quote">&ldquo;My revenue is up because my <em>daily choices</em> are different. Full stop.&rdquo;</p>
-        <div class="sp-name">Verified Reader</div>
-        <div class="sp-role">President &middot; Field Services</div>
-      </div>
-    </div>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
