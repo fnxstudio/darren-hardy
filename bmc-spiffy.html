@@ -2525,7 +2525,7 @@ color: var(--grey);
   .bco-coming-sub { font-size: 14px; line-height: 1.6; color: #6b6b6b; max-width: 342px; margin: 0; }
   .bco-coming-event { margin-top: 6px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #8a8a8a; }
   .bco-coming-event strong { color: var(--bco-teal); font-weight: 700; }
-  /* Fallback link — revealed if the checkout doesn't render within BMC_FALLBACK_MS */
+  /* Fallback link — shown while the drawer is open, hidden once Spiffy's form renders */
   .bco-fallback[hidden] { display: none !important; }
   .bco-fallback { padding: 12px 20px; text-align: center; font-size: 12.5px; line-height: 1.4; color: #6b6b6b; background: var(--bone); border-top: 1px solid #e6e4e2; }
   .bco-fallback a { color: var(--bco-teal); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
@@ -3851,9 +3851,10 @@ color: var(--grey);
     </div>
   </div>
 
-  <!-- Safety net: revealed if the checkout hasn't rendered within BMC_FALLBACK_MS
-       (Spiffy slow / down / not yet connected). The href is static so it works even if
-       scripts fail. Change this URL if the direct checkout ever moves. -->
+  <!-- Safety net: shown immediately while the drawer is open, hidden only once the real
+       Spiffy checkout reports ready. So it's always present in the coming-soon / failed
+       states. The href is static so it works even if scripts fail. Change this URL if the
+       direct checkout ever moves. -->
   <div class="bco-fallback" id="bcoFallback" hidden>
     Checkout not loading? <a href="https://secure.darrenhardy.com/checkout/bmc-collective">Click here to complete your order</a> &rarr;
   </div>
@@ -3878,11 +3879,6 @@ window.BMC_SPIFFY_CHECKOUT = {
   annual:  ""  // TODO(dev): Spiffy Annual  checkout URL — e.g. "https://darrenhardy.spiffy.co/checkout/bmc-collective-annual"
 };
 
-/* Fallback safety net: if the checkout hasn't rendered within this many milliseconds
-   (Spiffy slow / down / not yet connected), the drawer reveals a direct link to the
-   secure checkout so a sale is never lost. 30000 = 30 seconds. */
-window.BMC_FALLBACK_MS = 30000;
-
 (function () {
   const overlay  = document.getElementById('bcoOverlay');
   const drawer   = document.getElementById('bcoDrawer');
@@ -3898,7 +3894,6 @@ window.BMC_FALLBACK_MS = 30000;
   const upsell      = document.getElementById('bcoUpsell');
   const comingSoon  = document.getElementById('bcoComingSoon');
   const fallback    = document.getElementById('bcoFallback');
-  let   fallbackTimer = null;
 
   const PLANS = {
     monthly: { base: 895,  unit: '/mo', bump: 250,  sumBase: '$895/mo',   bumpStr: '+$250/mo',   planLabel: 'BMC|COLLECTIVE · Monthly', confirmLabel: 'Monthly' },
@@ -3958,19 +3953,12 @@ window.BMC_FALLBACK_MS = 30000;
     if (comingSoon) comingSoon.hidden = false;
   }
 
-  // Safety net: start a timer on every drawer open. If the Spiffy checkout hasn't
-  // reported ready before it fires, reveal the direct-checkout fallback link so a sale
-  // is never lost. SpiffyJS 'form:ready' (wired in the loader block) cancels it.
-  function armFallback() {
-    clearTimeout(fallbackTimer);
-    if (fallback) fallback.hidden = true;
-    const ms = window.BMC_FALLBACK_MS || 30000;
-    fallbackTimer = setTimeout(function () { if (fallback) fallback.hidden = false; }, ms);
-  }
-  window.bcoCheckoutReady = function () {
-    clearTimeout(fallbackTimer);
-    if (fallback) fallback.hidden = true;
-  };
+  // Show the direct-checkout link immediately whenever the drawer opens — if a visitor
+  // is seeing this drawer without a working checkout, they get an escape hatch right
+  // away (no waiting). SpiffyJS 'form:ready' (wired in the loader block) hides it once a
+  // live form actually renders, so it only lingers in the coming-soon / failed states.
+  function showFallback() { if (fallback) fallback.hidden = false; }
+  window.bcoCheckoutReady = function () { if (fallback) fallback.hidden = true; };
 
   function goConfirm() {
     setText('bcoOrderNo', '#BMC-' + Math.floor(100000 + Math.random() * 899999));
@@ -4055,12 +4043,11 @@ window.BMC_FALLBACK_MS = 30000;
     document.body.classList.add('bco-open');
     mountSpiffy();
     if (!mount.dataset.mounted) showComingSoon();  // Spiffy not connected -> coming-soon panel
-    armFallback();                                  // 30s safety net -> direct checkout link
+    showFallback();                                 // show the direct-checkout link immediately
     closeBtn.focus();
   }
 
   function closeDrawer() {
-    clearTimeout(fallbackTimer);
     if (fallback) fallback.hidden = true;
     overlay.classList.remove('open');
     drawer.classList.remove('open');
@@ -4113,7 +4100,7 @@ window.BMC_FALLBACK_MS = 30000;
     });
     spiffy.load('YOUR_SPIFFY_SUBDOMAIN'); // TODO(dev): e.g. 'darrenhardy'
 
-    // When the real checkout finishes rendering, cancel the 30s fallback link.
+    // When the real checkout finishes rendering, hide the direct-checkout fallback link.
     spiffy.on('form:ready', function () { if (window.bcoCheckoutReady) window.bcoCheckoutReady(); });
 
     /* OPTIONAL: keep the buyer in the drawer on the BMC confirmation screen instead
