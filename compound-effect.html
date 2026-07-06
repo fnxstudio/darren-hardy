@@ -148,6 +148,18 @@
   .btn-ghost-dark { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4); }
   .btn-ghost-dark:hover { background: #fff; color: var(--ink); border-color: #fff; }
 
+  /* ============ STICKY CTA (replaces the nav) ============ */
+  .sticky-cta { position: fixed; top: 0; left: 0; right: 0; z-index: 70; transform: translateY(-101%); transition: transform 0.34s cubic-bezier(0.22,1,0.36,1); background: rgba(12,10,12,0.92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .sticky-cta.visible { transform: translateY(0); }
+  .sticky-cta-inner { max-width: 1080px; margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .sticky-cta-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff; white-space: nowrap; }
+  .sticky-cta .btn { padding: 13px 24px; font-size: 11px; }
+  @media (max-width: 600px) {
+    .sticky-cta-inner { padding: 10px 20px; gap: 12px; }
+    .sticky-cta-title { font-size: 10.5px; letter-spacing: 0.08em; }
+    .sticky-cta .btn { padding: 11px 15px; letter-spacing: 0.14em; }
+  }
+
   /* ============ TOP NAVIGATION (site shell) ============ */
   nav.top {
     position: fixed;
@@ -240,7 +252,7 @@
   .hero {
     background: var(--ink);
     color: var(--white);
-    padding: 168px 0 96px;
+    padding: 76px 0 96px;
     position: relative;
     overflow: hidden;
   }
@@ -335,7 +347,7 @@
   }
 
   @media (max-width: 900px) {
-    .hero { padding: 132px 0 72px; }
+    .hero { padding: 56px 0 72px; }
     .hero .container { grid-template-columns: 1fr; gap: 48px; text-align: left; }
     .hero-cover { order: -1; justify-self: start; }
     .hero-cover img { max-width: 260px; transform: none; box-shadow: 0 24px 54px rgba(0,0,0,0.5); }
@@ -1090,27 +1102,13 @@
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="top">
-  <div class="nav-left">
-    <a href="about.html">About</a>
-    <a href="resources.html">Resources</a>
+<!-- STICKY CTA — slides in once the hero's Get Your Copy button scrolls past -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="sticky-cta-inner">
+    <span class="sticky-cta-title">The Compound Effect</span>
+    <a class="btn btn-solid" href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect" data-open-checkout>Get Your Copy <span class="arw">→</span></a>
   </div>
-  <a class="nav-brand" href="home.html">Darren Hardy</a>
-  <div class="nav-right">
-    <a href="https://darrendaily.com/">Daily Mentoring</a>
-    <a href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect" data-open-checkout>Get The Book</a>
-  </div>
-  <button class="nav-burger" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('navMobile').classList.toggle('open')">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-mobile" id="navMobile">
-    <a href="about.html">About</a>
-    <a href="resources.html">Resources</a>
-    <a href="https://darrendaily.com/">Daily Mentoring</a>
-    <a href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect" data-open-checkout>Get The Book</a>
-  </div>
-</nav>
+</div>
 
 <main>
 
@@ -2100,6 +2098,17 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   window.addEventListener('scroll', () => { if (!raf) { raf = true; requestAnimationFrame(update); } }, { passive: true });
   window.addEventListener('resize', update);
   update();
+})();
+
+// ── Sticky CTA: reveal once the hero's Get Your Copy button scrolls out of view ──
+(function () {
+  const sticky  = document.getElementById('stickyCta');
+  const heroCta = document.querySelector('.hero [data-open-checkout]');
+  if (!sticky || !heroCta) return;
+  const obs = new IntersectionObserver((entries) => {
+    sticky.classList.toggle('visible', !entries[0].isIntersecting);
+  }, { threshold: 0 });
+  obs.observe(heroCta);
 })();
 
 /* ── Prefer Spiffy's NATIVE POPUP instead of this in-page slide-in? ──
