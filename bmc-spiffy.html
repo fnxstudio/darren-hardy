@@ -2519,12 +2519,13 @@ color: var(--grey);
   /* "Checkout opening soon" placeholder — shown until Spiffy is connected */
   .bco-coming[hidden] { display: none !important; }
   .bco-coming { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; padding: 64px 34px 72px; min-height: 100%; }
-  .bco-coming-icon { width: 62px; height: 62px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bco-teal); background: rgba(var(--bmc-cyan-rgb),0.10); border: 1px solid rgba(var(--bmc-cyan-rgb),0.32); }
-  .bco-coming-icon svg { width: 28px; height: 28px; }
+  .bco-coming-spin { width: 42px; height: 42px; border-radius: 50%; border: 3px solid rgba(var(--bmc-cyan-rgb),0.25); border-top-color: var(--bco-teal); animation: bco-spin 0.8s linear infinite; }
+  @keyframes bco-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .bco-coming-spin { animation: none; } }
   .bco-coming-title { font-weight: 900; font-size: 20px; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); }
   .bco-coming-sub { font-size: 14px; line-height: 1.6; color: #6b6b6b; max-width: 342px; margin: 0; }
-  .bco-coming-event { margin-top: 6px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #8a8a8a; }
-  .bco-coming-event strong { color: var(--bco-teal); font-weight: 700; }
+  .bco-coming-sub a { color: var(--bco-teal); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .bco-coming-sub a:hover { color: #0b5560; }
   /* Fallback link — shown while the drawer is open, hidden once Spiffy's form renders */
   .bco-fallback[hidden] { display: none !important; }
   .bco-fallback { padding: 12px 20px; text-align: center; font-size: 12.5px; line-height: 1.4; color: #6b6b6b; background: var(--bone); border-top: 1px solid #e6e4e2; }
@@ -3838,15 +3839,14 @@ color: var(--grey);
         </div>
       </div>
 
-      <!-- Shown until Spiffy is connected (blank URLs / no loader). The real Spiffy
-           checkout replaces this automatically once BMC_SPIFFY_CHECKOUT + loader are set. -->
+      <!-- No embedded checkout yet (blank URLs / no loader): show a "redirecting" panel
+           and send the visitor to the direct checkout; the link below is the manual
+           fallback if the auto-redirect is blocked. Once Spiffy is connected, the real
+           checkout mounts here instead and this panel never shows. -->
       <div class="bco-coming" id="bcoComingSoon" hidden>
-        <div class="bco-coming-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-        </div>
-        <div class="bco-coming-title">Checkout Opening Soon</div>
-        <p class="bco-coming-sub">Enrollment for <strong>BMC|COLLECTIVE</strong> opens here shortly. Our secure checkout is being finalized&nbsp;&mdash; please check back soon to reserve your seat.</p>
-        <div class="bco-coming-event">Next BMC Live Event <strong>Oct 19&ndash;21, 2026</strong></div>
+        <div class="bco-coming-spin" aria-hidden="true"></div>
+        <div class="bco-coming-title">Redirecting to checkout</div>
+        <p class="bco-coming-sub">Checkout not loading? <a href="https://secure.darrenhardy.com/checkout/bmc-collective">Click here to complete your order</a> &rarr;</p>
       </div>
     </div>
   </div>
@@ -3894,6 +3894,7 @@ window.BMC_SPIFFY_CHECKOUT = {
   const upsell      = document.getElementById('bcoUpsell');
   const comingSoon  = document.getElementById('bcoComingSoon');
   const fallback    = document.getElementById('bcoFallback');
+  let   redirectTimer = null;
 
   const PLANS = {
     monthly: { base: 895,  unit: '/mo', bump: 250,  sumBase: '$895/mo',   bumpStr: '+$250/mo',   planLabel: 'BMC|COLLECTIVE · Monthly', confirmLabel: 'Monthly' },
@@ -3946,11 +3947,18 @@ window.BMC_SPIFFY_CHECKOUT = {
     syncTotals();
   }
 
-  // Not-connected state: hide the (fake) preview form and show the branded
-  // "checkout opening soon" panel. No fake purchase is possible in this state.
-  function showComingSoon() {
+  // No embedded checkout available: hide the (fake) preview, show the "Redirecting to
+  // checkout" panel, and send the visitor to the direct checkout after a short beat.
+  // The panel's link is the manual fallback if the auto-redirect is blocked. Closing the
+  // drawer cancels the redirect.
+  function showRedirect() {
     if (preview) preview.style.display = 'none';
     if (comingSoon) comingSoon.hidden = false;
+    clearTimeout(redirectTimer);
+    redirectTimer = setTimeout(function () {
+      const link = comingSoon && comingSoon.querySelector('a');
+      if (link) window.location.href = link.href;
+    }, 1200);
   }
 
   // Show the direct-checkout link immediately whenever the drawer opens — if a visitor
@@ -4042,12 +4050,16 @@ window.BMC_SPIFFY_CHECKOUT = {
     drawer.setAttribute('aria-hidden', 'false');
     document.body.classList.add('bco-open');
     mountSpiffy();
-    if (!mount.dataset.mounted) showComingSoon();  // Spiffy not connected -> coming-soon panel
-    showFallback();                                 // show the direct-checkout link immediately
+    if (mount.dataset.mounted) {
+      showFallback();     // connected: manual safety-net link (hidden once Spiffy is ready)
+    } else {
+      showRedirect();     // no embedded checkout: redirect panel -> direct checkout
+    }
     closeBtn.focus();
   }
 
   function closeDrawer() {
+    clearTimeout(redirectTimer);                   // don't redirect if they closed the drawer
     if (fallback) fallback.hidden = true;
     overlay.classList.remove('open');
     drawer.classList.remove('open');
