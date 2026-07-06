@@ -2516,6 +2516,15 @@ color: var(--grey);
   .bco-frame { width: 100%; flex: 1; border: 0; min-height: 560px; display: block; }
   /* SpiffyJS injects its embed here once connected — fill the mount like the iframe did */
   .bco-mount .spiffy-checkout__container { width: 100%; flex: 1; min-height: 560px; display: block; }
+  /* "Checkout opening soon" placeholder — shown until Spiffy is connected */
+  .bco-coming[hidden] { display: none !important; }
+  .bco-coming { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; padding: 64px 34px 72px; min-height: 100%; }
+  .bco-coming-icon { width: 62px; height: 62px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bco-teal); background: rgba(var(--bmc-cyan-rgb),0.10); border: 1px solid rgba(var(--bmc-cyan-rgb),0.32); }
+  .bco-coming-icon svg { width: 28px; height: 28px; }
+  .bco-coming-title { font-weight: 900; font-size: 20px; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); }
+  .bco-coming-sub { font-size: 14px; line-height: 1.6; color: #6b6b6b; max-width: 342px; margin: 0; }
+  .bco-coming-event { margin-top: 6px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #8a8a8a; }
+  .bco-coming-event strong { color: var(--bco-teal); font-weight: 700; }
   .bco-form { padding: 22px 30px 30px; }
   .bco-plan-title, .bco-group-title { font-weight: 900; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-bottom: 12px; }
   .bco-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
@@ -3626,7 +3635,7 @@ color: var(--grey);
      RESERVE YOUR SEAT — Spiffy checkout drawer (in-page slide-in)
      To activate: set the Monthly + Annual URLs in window.BMC_SPIFFY_CHECKOUT
      and paste the SpiffyJS loader (both near the bottom of this file).
-     Until then, the drawer shows a branded preview (no real charge).
+     Until then, the drawer shows a "checkout opening soon" panel.
      ───────────────────────────────────────────────────────────── -->
 <div class="bco-overlay" id="bcoOverlay" hidden></div>
 <aside class="bco-drawer" id="bcoDrawer" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Reserve your seat — BMC|COLLECTIVE">
@@ -3642,7 +3651,8 @@ color: var(--grey);
   <div class="bco-body">
     <div class="bco-mount" id="bcoMount">
       <!-- SpiffyJS injects the real checkout here once the plan's URL is set in
-           window.BMC_SPIFFY_CHECKOUT; the preview below hides automatically then. -->
+           window.BMC_SPIFFY_CHECKOUT; the coming-soon panel hides automatically then.
+           (The #bcoPreview form below stays hidden in this file — bmc.html is the mock.) -->
       <div class="bco-preview" id="bcoPreview">
         <div class="bco-flag">Preview &middot; your live Spiffy form loads here once connected</div>
 
@@ -3822,6 +3832,17 @@ color: var(--grey);
           <button type="button" class="bco-ghost" id="bcoDone">Back To The Page</button>
         </div>
       </div>
+
+      <!-- Shown until Spiffy is connected (blank URLs / no loader). The real Spiffy
+           checkout replaces this automatically once BMC_SPIFFY_CHECKOUT + loader are set. -->
+      <div class="bco-coming" id="bcoComingSoon" hidden>
+        <div class="bco-coming-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        </div>
+        <div class="bco-coming-title">Checkout Opening Soon</div>
+        <p class="bco-coming-sub">Enrollment for <strong>BMC|COLLECTIVE</strong> opens here shortly. Our secure checkout is being finalized&nbsp;&mdash; please check back soon to reserve your seat.</p>
+        <div class="bco-coming-event">Next BMC Live Event <strong>Oct 19&ndash;21, 2026</strong></div>
+      </div>
     </div>
   </div>
 
@@ -3834,8 +3855,9 @@ color: var(--grey);
    ───────────────────────────────────────────────────────────────
    TWO checkouts: Spiffy can't preselect a payment plan via URL
    parameter, so Monthly and Annual must be SEPARATE Spiffy checkouts.
-   Paste each checkout URL below. Leave blank to keep the branded
-   preview — the page stays a working mock until both are filled.
+   Paste each checkout URL below. Leave blank and the drawer shows a
+   branded "checkout opening soon" panel (no fake purchase) until both
+   are filled and the loader is connected.
    The SpiffyJS loader + config live at the very bottom of this file;
    set the account subdomain there too.
    ═══════════════════════════════════════════════════════════════ */
@@ -3857,6 +3879,7 @@ window.BMC_SPIFFY_CHECKOUT = {
   const confirmView = document.getElementById('bcoConfirm');
   const bump        = document.getElementById('bcoBump');
   const upsell      = document.getElementById('bcoUpsell');
+  const comingSoon  = document.getElementById('bcoComingSoon');
 
   const PLANS = {
     monthly: { base: 895,  unit: '/mo', bump: 250,  sumBase: '$895/mo',   bumpStr: '+$250/mo',   planLabel: 'BMC|COLLECTIVE · Monthly', confirmLabel: 'Monthly' },
@@ -3907,6 +3930,13 @@ window.BMC_SPIFFY_CHECKOUT = {
     confirmView.hidden = true;
     if (bump) bump.checked = false;
     syncTotals();
+  }
+
+  // Not-connected state: hide the (fake) preview form and show the branded
+  // "checkout opening soon" panel. No fake purchase is possible in this state.
+  function showComingSoon() {
+    if (preview) preview.style.display = 'none';
+    if (comingSoon) comingSoon.hidden = false;
   }
 
   function goConfirm() {
@@ -3963,7 +3993,7 @@ window.BMC_SPIFFY_CHECKOUT = {
 
   function mountSpiffy() {
     const url = window.BMC_SPIFFY_CHECKOUT && window.BMC_SPIFFY_CHECKOUT[plan];
-    if (!url) return;                 // no URL set yet -> keep the branded preview (mock mode)
+    if (!url) return;                 // no URL set yet -> leave the coming-soon panel showing
     // clear any prior plan's embed, then inject the SpiffyJS container
     mount.querySelectorAll('.spiffy-checkout__container').forEach(n => n.remove());
     const el = document.createElement('div');
@@ -3974,6 +4004,7 @@ window.BMC_SPIFFY_CHECKOUT = {
     // If the container renders empty, confirm the dynamic-mount call with support@spiffy.co.
     if (window.spiffy && spiffy.checkout) spiffy.checkout(url);
     if (preview) preview.style.display = 'none';
+    if (comingSoon) comingSoon.hidden = true;   // real checkout replaces the coming-soon panel
     mount.dataset.mounted = '1';
     mount.dataset.plan = plan;   // remember which plan is mounted (guards redundant re-renders)
   }
@@ -3990,7 +4021,7 @@ window.BMC_SPIFFY_CHECKOUT = {
     drawer.setAttribute('aria-hidden', 'false');
     document.body.classList.add('bco-open');
     mountSpiffy();
-    if (!mount.dataset.mounted) resetPreview();
+    if (!mount.dataset.mounted) showComingSoon();  // Spiffy not connected -> coming-soon panel
     closeBtn.focus();
   }
 
@@ -4025,8 +4056,8 @@ window.BMC_SPIFFY_CHECKOUT = {
         <script> and paste it immediately BELOW this comment.
      2) Set the account subdomain in spiffy.load('...') below.
      Until the loader is present, window.spiffy is undefined and the
-     block below no-ops — the drawer keeps showing the branded preview,
-     so the page stays a working mock.
+     block below no-ops — the drawer shows the "checkout opening soon"
+     panel (no fake purchase) instead of a live form.
      NOTE (hardybmc.com is behind Cloudflare): keep Rocket Loader OFF
      for this page and exclude SpiffyJS from any JS defer/combine, or
      the config→load order breaks. Purge the cache after deploy.
