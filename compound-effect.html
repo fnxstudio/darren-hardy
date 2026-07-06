@@ -451,32 +451,31 @@
   /* ============ FIVE FORCES ============ */
   .forces .sec-head { margin-bottom: 56px; }
   .forces .eyebrow { margin-bottom: 24px; }
-  /* Five Forces — arrow progression that rises as it compounds */
-  .forces-grid { display: flex; align-items: stretch; border-bottom: 1px solid var(--line); }
+  /* Five Forces — interlocking chevrons that compound (BMCC arrow-ribbon pattern) */
+  .forces-grid { display: flex; align-items: stretch; }
   .force {
-    flex: 1 1 0; min-width: 0; position: relative;
-    padding: 30px 30px 34px 26px;
-    background: var(--white);
-    border-top: 2px solid var(--line);
-    transition: background 0.25s ease;
+    flex: 1 1 0; min-width: 0;
+    display: flex; flex-direction: column;
+    padding: 30px 28px 34px 44px;
+    margin-left: -22px;
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%, 22px 50%);
+    transition: filter 0.25s ease;
   }
-  .force:hover { background: var(--paper); }
-  /* accretion: the red top-accent fills further at each stage */
-  .force::before { content: ""; position: absolute; top: -2px; left: 0; height: 2px; background: var(--red); }
-  .force:nth-child(1)::before { width: 20%; }
-  .force:nth-child(2)::before { width: 40%; }
-  .force:nth-child(3)::before { width: 60%; }
-  .force:nth-child(4)::before { width: 80%; }
-  .force:nth-child(5)::before { width: 100%; }
-  /* red arrow bridging each stage to the next */
-  .force:not(:last-child)::after {
-    content: "\2192"; position: absolute; top: 26px; right: -9px; z-index: 2;
-    color: var(--red); font-size: 18px; font-weight: 700; line-height: 1;
-    background: var(--white); padding: 1px 0;
+  .force:first-child {
+    margin-left: 0;
+    padding-left: 30px;
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);
   }
+  /* graduated warm-grey fills deepen as the forces compound */
+  .force:nth-child(1) { background: #efece7; }
+  .force:nth-child(2) { background: #e6e1da; }
+  .force:nth-child(3) { background: #ddd6ce; }
+  .force:nth-child(4) { background: #d3cbc1; }
+  .force:nth-child(5) { background: #c9c0b5; }
+  .force:hover { filter: brightness(0.97); }
   .force-num {
     font-family: 'Inter', sans-serif; font-weight: 900; font-size: 13px;
-    letter-spacing: 0.12em; color: var(--red); margin-bottom: 40px; display: block;
+    letter-spacing: 0.16em; color: var(--red); margin-bottom: 32px; display: block;
   }
   .force-name {
     font-family: 'Inter', sans-serif; font-weight: 900; font-size: 20px;
@@ -484,16 +483,17 @@
   }
   .force-body { font-size: 14.5px; line-height: 1.6; color: var(--muted); }
   @media (max-width: 760px) {
-    .forces-grid { flex-direction: column; border-bottom: none; }
-    .force { border-top: none; border-left: 2px solid var(--line); padding: 24px 0 30px 30px; }
-    .force::before { top: 0; left: -2px; }
-    .force:nth-child(1)::before { width: 2px; height: 24%; }
-    .force:nth-child(2)::before { width: 2px; height: 44%; }
-    .force:nth-child(3)::before { width: 2px; height: 64%; }
-    .force:nth-child(4)::before { width: 2px; height: 84%; }
-    .force:nth-child(5)::before { width: 2px; height: 100%; }
-    .force:not(:last-child)::after { content: "\2193"; top: auto; bottom: -12px; right: auto; left: -1px; transform: translateX(-50%); padding: 0 1px; }
-    .force-num { margin-bottom: 14px; }
+    .forces-grid { flex-direction: column; }
+    .force {
+      margin-left: 0; margin-top: -22px;
+      padding: 42px 26px 46px;
+      clip-path: polygon(0 0, 50% 22px, 100% 0, 100% calc(100% - 22px), 50% 100%, 0 calc(100% - 22px));
+    }
+    .force:first-child {
+      margin-top: 0; padding-left: 26px;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 22px), 50% 100%, 0 calc(100% - 22px));
+    }
+    .force-num { margin-bottom: 12px; }
   }
 
   /* ============ TAKEAWAYS ============ */
