@@ -726,12 +726,12 @@
   @media (max-width: 640px) { .awards-sec { padding: 36px 0; } .award-badge { height: 56px; } .award-badge--nyt { height: 80px; } .awards-row { gap: 26px 30px; } }
 
   /* ============ WHY IT WORKS (five forces + advantages, two-column) ============ */
-  .works { background: var(--ink); color: #fff; padding: 96px 0; }
-  .works em { font-style: normal; color: #ff4b3e; }
+  .works { background: #e9e6e0; color: var(--ink); padding: 96px 0; }
+  .works em { font-style: normal; color: var(--red); }
   .works-grid { display: grid; grid-template-columns: 1.12fr 1fr; gap: 60px; align-items: start; }
   .works .eyebrow { margin-bottom: 22px; }
-  .works-headline { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(34px, 4.6vw, 62px); line-height: 0.97; letter-spacing: -0.025em; text-transform: uppercase; color: #fff; margin-bottom: 20px; }
-  .works-lead { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.5; color: #cfcac6; margin-bottom: 40px; max-width: 34em; }
+  .works-headline { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(34px, 4.6vw, 62px); line-height: 0.97; letter-spacing: -0.025em; text-transform: uppercase; color: var(--ink); margin-bottom: 20px; }
+  .works-lead { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.5; color: #5f5952; margin-bottom: 40px; max-width: 34em; }
   /* compact chevron progression */
   .works-forces { display: flex; align-items: stretch; margin-bottom: 46px; }
   .wf { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; padding: 20px 6px 22px 22px; margin-left: -16px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%, 16px 50%); }
@@ -747,12 +747,12 @@
   /* advantages checklist */
   .works-adv-label { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
   .works-adv { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; margin-bottom: 38px; }
-  .works-adv .take { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .works-adv .take { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.10); }
   .works-adv-check { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; margin-top: 1px; }
   .works-adv-check svg { width: 11px; height: 11px; stroke: #fff; stroke-width: 2.6; fill: none; }
-  .works-adv p { font-size: 13.5px; line-height: 1.4; color: #e7e3df; }
-  .works-close { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(20px, 2.4vw, 30px); line-height: 1.15; text-transform: uppercase; letter-spacing: -0.01em; color: #fff; }
-  .works-image img { width: 100%; height: auto; border-radius: 6px; display: block; }
+  .works-adv p { font-size: 13.5px; line-height: 1.4; color: #33302c; }
+  .works-close { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(20px, 2.4vw, 30px); line-height: 1.15; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); }
+  .works-image img { width: 100%; height: auto; border-radius: 6px; display: block; box-shadow: 0 20px 44px rgba(0,0,0,0.14); }
   @media (max-width: 900px) {
     .works { padding: 64px 0; }
     .works-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -2100,15 +2100,25 @@ document.querySelectorAll('.c-tile').forEach(tile => {
   update();
 })();
 
-// ── Sticky CTA: reveal once the hero's Get Your Copy button scrolls out of view ──
+// ── Sticky CTA: hidden on load; slides in only once the hero's Get Your Copy
+//    button has scrolled up past the top of the viewport ──
 (function () {
   const sticky  = document.getElementById('stickyCta');
   const heroCta = document.querySelector('.hero [data-open-checkout]');
   if (!sticky || !heroCta) return;
-  const obs = new IntersectionObserver((entries) => {
-    sticky.classList.toggle('visible', !entries[0].isIntersecting);
-  }, { threshold: 0 });
-  obs.observe(heroCta);
+  let ticking = false;
+  function update() {
+    ticking = false;
+    // Show only after the button's bottom edge has passed above the viewport top.
+    const passed = heroCta.getBoundingClientRect().bottom <= 0;
+    sticky.classList.toggle('visible', passed);
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update(); // set correct initial state (hidden at top of page)
 })();
 
 /* ── Prefer Spiffy's NATIVE POPUP instead of this in-page slide-in? ──
