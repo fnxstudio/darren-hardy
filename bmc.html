@@ -2481,7 +2481,7 @@ color: var(--grey);
 }</style>
 <style id="bmc-checkout-css">
   /* ===== BMC|COLLECTIVE checkout drawer (Spiffy slide-in preview) ===== */
-  .bco-confirm[hidden], .bco-upsell[hidden], .bco-sum-bump[hidden], .bco-pm-panel[hidden] { display: none !important; }
+  .bco-confirm[hidden], .bco-upsell[hidden], .bco-sum-bump[hidden], .bco-pm-panel[hidden], .bco-pm[hidden] { display: none !important; }
   .bco-overlay { position: fixed; inset: 0; background: rgba(4,3,8,0.66); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease; z-index: 120; }
   .bco-overlay.open { opacity: 1; }
   .bco-drawer {
@@ -2555,6 +2555,7 @@ color: var(--grey);
   .bco-brand.paypal { background: #fff; border: 1px solid #e0ddda; font-style: italic; }
   .bco-brand.paypal i { color: #003087; } .bco-brand.paypal em { color: #009cde; font-style: italic; }
   .bco-brand.gpay { background: #fff; border: 1px solid #e0ddda; color: #5f6368; height: 22px; padding: 0 9px; border-radius: 11px; letter-spacing: 0.02em; }
+  .bco-brand.applepay { background: #fff; border: 1px solid #e0ddda; color: #111; height: 22px; padding: 0 10px; border-radius: 11px; font-weight: 700; letter-spacing: 0.02em; }
   .bco-mc { display: block; }
   .bco-more { font-size: 11px; color: #9a9a9a; margin-left: 2px; }
   .bco-pm-panel { padding: 6px 16px 16px; }
@@ -3730,6 +3731,16 @@ color: var(--grey);
                 </div>
               </div>
 
+              <label class="bco-pm" data-method="applepay" hidden>
+                <input type="radio" name="bcoPay" value="applepay">
+                <span class="bco-pm-radio"></span>
+                <span class="bco-pm-name">Apple Pay</span>
+                <span class="bco-pm-mark"><span class="bco-brand applepay">&#63743;&nbsp;Pay</span></span>
+              </label>
+              <div class="bco-pm-panel" data-for="applepay" hidden>
+                <p class="bco-pm-note">You&rsquo;ll complete your enrollment securely with Apple Pay.</p>
+              </div>
+
               <label class="bco-pm" data-method="googlepay">
                 <input type="radio" name="bcoPay" value="googlepay">
                 <span class="bco-pm-radio"></span>
@@ -3898,15 +3909,29 @@ window.BMC_SPIFFY_CHECKOUT_URL = ""; // e.g. "https://darrenhardy.spiffy.co/chec
     el.addEventListener('click', () => selectPlan(el.getAttribute('data-plan')))
   );
 
-  // Payment method selector (PayPal / Card / Google Pay) — expands the chosen panel
-  document.querySelectorAll('.bco-pm').forEach(pm => {
-    pm.addEventListener('click', () => {
-      const method = pm.getAttribute('data-method');
-      document.querySelectorAll('.bco-pm').forEach(x => x.classList.toggle('sel', x === pm));
-      document.querySelectorAll('.bco-pm-panel').forEach(p => { p.hidden = p.getAttribute('data-for') !== method; });
-      const r = pm.querySelector('input'); if (r) r.checked = true;
-    });
-  });
+  // Payment method selector (PayPal / Card / device wallet) — expands the chosen panel
+  function selectMethod(method) {
+    document.querySelectorAll('.bco-pm').forEach(x => x.classList.toggle('sel', x.getAttribute('data-method') === method));
+    document.querySelectorAll('.bco-pm-panel').forEach(p => { p.hidden = p.getAttribute('data-for') !== method; });
+    const r = document.querySelector('.bco-pm[data-method="' + method + '"] input');
+    if (r) r.checked = true;
+  }
+  document.querySelectorAll('.bco-pm').forEach(pm =>
+    pm.addEventListener('click', () => selectMethod(pm.getAttribute('data-method')))
+  );
+  // Default payment method by device — mirrors Spiffy auto-selecting the native wallet
+  (function initWallet() {
+    const ua = navigator.userAgent || '', plat = navigator.platform || '';
+    const isApple = /iPhone|iPad|iPod|Mac/i.test(plat) || /iPhone|iPad|iPod|Macintosh/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+    const applePay = document.querySelector('.bco-pm[data-method="applepay"]');
+    const googlePay = document.querySelector('.bco-pm[data-method="googlepay"]');
+    // show the device-native wallet, hide the other
+    if (applePay)  applePay.hidden  = !isApple;
+    if (googlePay) googlePay.hidden = isApple;
+    // pre-select: native wallet on wallet-capable devices, otherwise Credit/Debit Card
+    selectMethod(isApple ? 'applepay' : (isAndroid ? 'googlepay' : 'card'));
+  })();
   if (bump) bump.addEventListener('change', syncTotals);
   if (form) form.addEventListener('submit', e => {
     e.preventDefault();
