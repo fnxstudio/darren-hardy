@@ -2503,64 +2503,69 @@ color: var(--grey);
   .bco-sub { font-size: 12.5px; color: var(--silver); margin-top: 6px; }
   .bco-event { margin-top: 12px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--silver); }
   .bco-event strong { color: var(--bmc-cyan); font-weight: 700; }
-  .bco-flag { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-soft); background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 9px 30px; text-align: center; }
-  .bco-body { flex: 1; overflow-y: auto; }
+  /* ---- Body: white form on a light sheet (header stays dark) ---- */
+  .bco-drawer { --bco-teal: #0a7482; }  /* accessible cyan-family accent for text/borders on white */
+  .bco-flag { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8a8a; background: var(--bone); border-bottom: 1px solid #e6e4e2; padding: 9px 30px; text-align: center; }
+  .bco-body { flex: 1; overflow-y: auto; background: var(--white); color: var(--ink); }
   .bco-mount { display: flex; flex-direction: column; min-height: 100%; }
   .bco-frame { width: 100%; flex: 1; border: 0; min-height: 560px; display: block; }
   .bco-form { padding: 22px 30px 30px; }
-  .bco-plan-title, .bco-group-title { font-weight: 900; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); margin-bottom: 12px; }
+  .bco-plan-title, .bco-group-title { font-weight: 900; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-bottom: 12px; }
   .bco-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
-  .bco-plan { position: relative; border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius); padding: 16px 14px; cursor: pointer; background: rgba(255,255,255,0.015); transition: border-color 0.2s, background 0.2s; }
-  .bco-plan:hover { border-color: rgba(var(--bmc-cyan-rgb),0.5); }
-  .bco-plan.sel { border-color: var(--bmc-cyan); background: rgba(var(--bmc-cyan-rgb),0.06); }
+  .bco-plan { position: relative; border: 1px solid #e0ddda; border-radius: var(--radius); padding: 16px 14px; cursor: pointer; background: var(--white); transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; }
+  .bco-plan:hover { border-color: var(--bco-teal); }
+  .bco-plan.sel { border-color: var(--bco-teal); background: rgba(var(--bmc-cyan-rgb),0.10); box-shadow: 0 0 0 1px var(--bco-teal); }
   .bco-plan input { position: absolute; opacity: 0; pointer-events: none; }
-  .bco-plan-name { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--silver); }
-  .bco-plan-price { font-weight: 900; font-size: 22px; color: var(--white); margin-top: 6px; letter-spacing: -0.01em; }
-  .bco-plan-price span { font-size: 12px; font-weight: 600; color: var(--silver); letter-spacing: 0; }
-  .bco-plan-note { font-size: 10px; color: var(--bmc-cyan); font-weight: 700; letter-spacing: 0.06em; margin-top: 6px; text-transform: uppercase; }
+  .bco-plan-name { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #6b6b6b; }
+  .bco-plan-price { font-weight: 900; font-size: 22px; color: var(--ink); margin-top: 6px; letter-spacing: -0.01em; }
+  .bco-plan-price span { font-size: 12px; font-weight: 600; color: #9a9a9a; letter-spacing: 0; }
+  .bco-plan-note { font-size: 10px; color: var(--bco-teal); font-weight: 700; letter-spacing: 0.06em; margin-top: 6px; text-transform: uppercase; }
   .bco-plan-badge { position: absolute; top: -9px; right: 10px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--black); background: var(--bmc-cyan); padding: 3px 8px; border-radius: 3px; }
   .bco-group { margin-bottom: 22px; }
   .bco-field { display: block; margin-bottom: 10px; }
-  .bco-field > span { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; color: var(--silver); margin-bottom: 5px; }
-  .bco-field input, .bco-field select { width: 100%; font-family: inherit; font-size: 14px; color: var(--white); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius); padding: 11px 12px; transition: border-color 0.18s ease, box-shadow 0.18s ease; }
-  .bco-field input::placeholder { color: #5c5c66; }
-  .bco-field input:focus, .bco-field select:focus { outline: none; border-color: var(--bmc-cyan); box-shadow: 0 0 0 3px rgba(var(--bmc-cyan-rgb),0.16); }
-  .bco-field select option { background: var(--ink); color: var(--white); }
+  .bco-field > span { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; color: #6b6b6b; margin-bottom: 5px; }
+  .bco-field input, .bco-field select { width: 100%; font-family: inherit; font-size: 14px; color: var(--ink); background: var(--white); border: 1px solid #d9d6d3; border-radius: var(--radius); padding: 11px 12px; transition: border-color 0.18s ease, box-shadow 0.18s ease; }
+  .bco-field input::placeholder { color: #b0aca8; }
+  .bco-field input:focus, .bco-field select:focus { outline: none; border-color: var(--bco-teal); box-shadow: 0 0 0 3px rgba(var(--bmc-cyan-rgb),0.22); }
+  .bco-field select option { background: var(--white); color: var(--ink); }
   .bco-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .bco-row-3 { display: grid; grid-template-columns: 1.3fr 0.8fr 0.9fr; gap: 10px; }
-  .bco-bump { display: flex; gap: 12px; align-items: flex-start; padding: 15px; border: 1px dashed var(--bmc-cyan); border-radius: var(--radius); background: rgba(var(--bmc-cyan-rgb),0.05); margin-bottom: 22px; cursor: pointer; }
-  .bco-bump input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--bmc-cyan); flex: none; cursor: pointer; }
-  .bco-bump-text { font-size: 13px; line-height: 1.5; color: var(--text-on-dark); }
-  .bco-bump-text strong { color: var(--white); font-weight: 700; }
-  .bco-bump-text em { color: var(--bmc-cyan); font-weight: 700; font-style: normal; white-space: nowrap; }
-  .bco-summary { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; margin-bottom: 20px; }
-  .bco-sum-row { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; color: var(--silver); margin-bottom: 9px; }
-  .bco-sum-row > span:last-child { color: var(--text-on-dark); white-space: nowrap; }
-  .bco-sum-total { font-weight: 900; font-size: 16px; color: var(--white); text-transform: uppercase; letter-spacing: 0.02em; padding-top: 11px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 4px; margin-bottom: 0; }
-  .bco-sum-total > span:last-child { color: var(--bmc-cyan); }
-  .bco-submit { width: 100%; justify-content: center; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; background: var(--bmc-cyan); color: var(--black); border: 1px solid var(--bmc-cyan); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; padding: 18px; border-radius: var(--radius); transition: background 0.2s, color 0.2s; }
-  .bco-submit:hover { background: transparent; color: var(--bmc-cyan); }
+  .bco-bump { display: flex; gap: 12px; align-items: flex-start; padding: 15px; border: 1px dashed var(--bco-teal); border-radius: var(--radius); background: rgba(var(--bmc-cyan-rgb),0.08); margin-bottom: 22px; cursor: pointer; }
+  .bco-bump input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--bco-teal); flex: none; cursor: pointer; }
+  .bco-bump-text { font-size: 13px; line-height: 1.5; color: var(--ink); }
+  .bco-bump-text strong { color: var(--ink); font-weight: 700; }
+  .bco-bump-text em { color: var(--bco-teal); font-weight: 700; font-style: normal; white-space: nowrap; }
+  .bco-summary { border-top: 1px solid #e6e4e2; padding-top: 16px; margin-bottom: 20px; }
+  .bco-sum-row { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; color: #6b6b6b; margin-bottom: 9px; }
+  .bco-sum-row > span:last-child { color: var(--ink); white-space: nowrap; }
+  .bco-sum-total { font-weight: 900; font-size: 16px; color: var(--ink); text-transform: uppercase; letter-spacing: 0.02em; padding-top: 11px; border-top: 1px solid #e6e4e2; margin-top: 4px; margin-bottom: 0; }
+  .bco-sum-total > span:last-child { color: var(--bco-teal); }
+  .bco-submit { width: 100%; justify-content: center; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; background: var(--bmc-cyan); color: var(--black); border: 1px solid var(--bmc-cyan); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; padding: 18px; border-radius: var(--radius); transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .bco-submit:hover { background: var(--bco-teal); color: var(--white); border-color: var(--bco-teal); }
   .bco-lock-sm { width: 14px; height: 14px; }
-  .bco-guarantee { display: flex; align-items: center; gap: 14px; justify-content: center; margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); }
-  .bco-guarantee img { width: 62px; height: 62px; flex: none; }
-  .bco-guarantee-text { font-size: 12px; line-height: 1.5; color: var(--silver); }
-  .bco-guarantee-text strong { display: block; color: var(--white); font-weight: 700; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
-  .bco-fine { text-align: center; font-size: 11px; line-height: 1.5; color: var(--grey-soft); margin-top: 14px; }
+  .bco-guarantee { display: flex; align-items: flex-start; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e6e4e2; }
+  .bco-guarantee img { width: 58px; height: 58px; flex: none; }
+  .bco-guarantee-body { flex: 1; }
+  .bco-guarantee-title { font-weight: 900; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+  .bco-guarantee-body p { font-size: 12.5px; line-height: 1.55; color: #555; margin-bottom: 8px; }
+  .bco-guarantee-body p:last-child { margin-bottom: 0; }
+  .bco-guarantee-body strong { color: var(--ink); font-weight: 700; }
+  .bco-fine { text-align: center; font-size: 11px; line-height: 1.5; color: #999; margin-top: 14px; }
   .bco-confirm { padding: 58px 34px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
   .bco-check { width: 66px; height: 66px; border-radius: 50%; background: var(--bmc-cyan); display: flex; align-items: center; justify-content: center; animation: bcoPop 0.45s cubic-bezier(0.22,1.4,0.5,1) both; }
   .bco-check svg { width: 32px; height: 32px; stroke: var(--black); stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
   @keyframes bcoPop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .bco-confirm-title { font-weight: 900; font-size: 25px; text-transform: uppercase; letter-spacing: -0.01em; color: var(--white); }
-  .bco-confirm-sub { font-size: 15px; color: var(--silver); line-height: 1.5; }
-  .bco-confirm-sub strong { color: var(--text-on-dark); }
-  .bco-confirm-order { width: 100%; border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius); padding: 16px 18px; display: flex; flex-direction: column; gap: 11px; margin: 8px 0; }
-  .bco-confirm-order > div { display: flex; justify-content: space-between; font-size: 13px; color: var(--silver); }
-  .bco-confirm-order strong { color: var(--white); font-weight: 700; }
-  .bco-confirm-note { font-size: 13px; line-height: 1.55; color: var(--silver); }
-  .bco-ghost { background: transparent; color: var(--bmc-cyan); border: 1px solid var(--bmc-cyan); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; padding: 15px 28px; border-radius: var(--radius); cursor: pointer; margin-top: 8px; transition: background 0.2s, color 0.2s; }
-  .bco-ghost:hover { background: var(--bmc-cyan); color: var(--black); }
-  .bco-trust { padding: 15px 30px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey-soft); text-align: center; }
-  .bco-trust strong { color: var(--text-on-dark); font-weight: 700; }
+  .bco-confirm-title { font-weight: 900; font-size: 25px; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); }
+  .bco-confirm-sub { font-size: 15px; color: #6b6b6b; line-height: 1.5; }
+  .bco-confirm-sub strong { color: var(--ink); }
+  .bco-confirm-order { width: 100%; border: 1px solid #e6e4e2; border-radius: var(--radius); padding: 16px 18px; display: flex; flex-direction: column; gap: 11px; margin: 8px 0; }
+  .bco-confirm-order > div { display: flex; justify-content: space-between; font-size: 13px; color: #6b6b6b; }
+  .bco-confirm-order strong { color: var(--ink); font-weight: 700; }
+  .bco-confirm-note { font-size: 13px; line-height: 1.55; color: #6b6b6b; }
+  .bco-ghost { background: transparent; color: var(--bco-teal); border: 1px solid var(--bco-teal); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; padding: 15px 28px; border-radius: var(--radius); cursor: pointer; margin-top: 8px; transition: background 0.2s, color 0.2s; }
+  .bco-ghost:hover { background: var(--bco-teal); color: var(--white); }
+  .bco-trust { padding: 15px 30px; border-top: 1px solid #e6e4e2; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #999; text-align: center; background: var(--bone); }
+  .bco-trust strong { color: var(--ink); font-weight: 700; }
   body.bco-open { overflow: hidden; }
   @media (max-width: 540px) { .bco-drawer { width: 100%; } }
 </style>
@@ -3611,10 +3616,13 @@ color: var(--grey);
             <label class="bco-field"><span>Country</span><select autocomplete="country-name"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option></select></label>
           </div>
 
-          <!-- Order bump — VIP + Accelerator upsell -->
+          <!-- Order bump — VIP + Accelerator upsell.
+               NOTE: the live checkout lists this add-on by name/price only and does not
+               publish what it includes. Paste the real VIP + Accelerator inclusions here
+               when available; kept generic (no invented features) until then. -->
           <label class="bco-bump" for="bcoBump">
             <input type="checkbox" id="bcoBump">
-            <span class="bco-bump-text"><strong>Add VIP + Accelerator.</strong> Front-row seating, the private VIP reception, and the pre-event Accelerator intensive. <em id="bcoBumpPrice">+$250/mo</em></span>
+            <span class="bco-bump-text"><strong>Yes! Add VIP + Accelerator.</strong> The premium upgrade to your BMC|COLLECTIVE enrollment. <em id="bcoBumpPrice">+$250/mo</em></span>
           </label>
 
           <div class="bco-group">
@@ -3638,8 +3646,12 @@ color: var(--grey);
           </button>
 
           <div class="bco-guarantee">
-            <img src="fit_guarantee_seal.webp?v=2" alt="The Fit Guarantee — 30 Day Full Refund" width="62" height="62" loading="lazy" decoding="async">
-            <div class="bco-guarantee-text"><strong>The Fit Guarantee</strong>30 days. Full refund. No questions, no friction.</div>
+            <img src="fit_guarantee_seal.webp?v=2" alt="The Fit Guarantee — 30 Day Full Refund" width="58" height="58" loading="lazy" decoding="async">
+            <div class="bco-guarantee-body">
+              <div class="bco-guarantee-title">The Fit Guarantee</div>
+              <p>BMC|COLLECTIVE works because the people inside are intensely committed to growth and building something that matters. If that&rsquo;s not you, we don&rsquo;t want you here either.</p>
+              <p>So we make leaving easy. Inside 30 days, contact member services. <strong>Full refund. No questions. No friction. No awkwardness.</strong></p>
+            </div>
           </div>
 
           <p class="bco-fine">Preview only. No card is charged. Spiffy handles the real, secure payment once connected.</p>
