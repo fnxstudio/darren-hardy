@@ -709,7 +709,9 @@
   .awards-sec { background: var(--white); padding: 46px 0; }
   .awards-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: clamp(30px, 5vw, 60px); }
   .award-badge { display: block; width: auto; height: clamp(62px, 7vw, 86px); mix-blend-mode: multiply; filter: grayscale(1) contrast(0.92) brightness(1.02); opacity: 0.9; }
-  @media (max-width: 640px) { .awards-sec { padding: 36px 0; } .award-badge { height: 56px; } .awards-row { gap: 26px 30px; } }
+  /* NYT seal carries extra whitespace in its canvas — size it up to match visually */
+  .award-badge--nyt { height: clamp(90px, 10vw, 122px); }
+  @media (max-width: 640px) { .awards-sec { padding: 36px 0; } .award-badge { height: 56px; } .award-badge--nyt { height: 80px; } .awards-row { gap: 26px 30px; } }
 
   /* ============ WHO FOR / NOT FOR ============ */
   .filter-sec { background: var(--ink); color: var(--white); }
@@ -1397,11 +1399,11 @@
 <section class="awards-sec" aria-label="Bestseller badges">
   <div class="container">
     <div class="awards-row reveal">
-      <img class="award-badge" src="nyt-bestseller.webp" alt="New York Times Best Seller" loading="lazy" decoding="async">
+      <img class="award-badge award-badge--nyt" src="nyt-bestseller.webp" alt="New York Times Best Seller" loading="lazy" decoding="async">
       <img class="award-badge" src="wsj-bestseller.webp" alt="Wall Street Journal Bestseller" loading="lazy" decoding="async">
+      <img class="award-badge" src="amazon-bestseller.webp" alt="Amazon — 21,177 five-star reviews" loading="lazy" decoding="async">
       <img class="award-badge" src="usatoday-bestseller.webp" alt="USA Today Best Seller" loading="lazy" decoding="async">
       <img class="award-badge" src="BnN_bestseller.webp" alt="Barnes &amp; Noble Bestseller" loading="lazy" decoding="async">
-      <img class="award-badge" src="amazon-bestseller.webp" alt="Amazon — 21,177 five-star reviews" loading="lazy" decoding="async">
     </div>
   </div>
 </section>
