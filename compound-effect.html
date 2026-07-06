@@ -713,6 +713,44 @@
   .award-badge--nyt { height: clamp(90px, 10vw, 122px); }
   @media (max-width: 640px) { .awards-sec { padding: 36px 0; } .award-badge { height: 56px; } .award-badge--nyt { height: 80px; } .awards-row { gap: 26px 30px; } }
 
+  /* ============ WHY IT WORKS (five forces + advantages, two-column) ============ */
+  .works { background: var(--ink); color: #fff; padding: 96px 0; }
+  .works em { font-style: normal; color: #ff4b3e; }
+  .works-grid { display: grid; grid-template-columns: 1.12fr 1fr; gap: 60px; align-items: start; }
+  .works .eyebrow { margin-bottom: 22px; }
+  .works-headline { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(34px, 4.6vw, 62px); line-height: 0.97; letter-spacing: -0.025em; text-transform: uppercase; color: #fff; margin-bottom: 20px; }
+  .works-lead { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.5; color: #cfcac6; margin-bottom: 40px; max-width: 34em; }
+  /* compact chevron progression */
+  .works-forces { display: flex; align-items: stretch; margin-bottom: 46px; }
+  .wf { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; padding: 20px 6px 22px 22px; margin-left: -16px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%, 16px 50%); }
+  .wf:first-child { margin-left: 0; padding-left: 18px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%); }
+  .wf:nth-child(1) { background: #C0231F; }
+  .wf:nth-child(2) { background: #B11E1B; }
+  .wf:nth-child(3) { background: #A11916; }
+  .wf:nth-child(4) { background: #911512; }
+  .wf:nth-child(5) { background: #81110F; }
+  .wf-num { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 11px; letter-spacing: 0.12em; color: #fff; margin-bottom: 18px; }
+  .wf-name { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 10.5px; text-transform: uppercase; letter-spacing: -0.01em; color: #fff; margin-bottom: 6px; line-height: 1.05; }
+  .wf-text { font-size: 10.5px; line-height: 1.32; color: rgba(255,255,255,0.86); }
+  /* advantages checklist */
+  .works-adv-label { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
+  .works-adv { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; margin-bottom: 38px; }
+  .works-adv .take { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .works-adv-check { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  .works-adv-check svg { width: 11px; height: 11px; stroke: #fff; stroke-width: 2.6; fill: none; }
+  .works-adv p { font-size: 13.5px; line-height: 1.4; color: #e7e3df; }
+  .works-close { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(20px, 2.4vw, 30px); line-height: 1.15; text-transform: uppercase; letter-spacing: -0.01em; color: #fff; }
+  .works-image img { width: 100%; height: auto; border-radius: 6px; display: block; }
+  @media (max-width: 900px) {
+    .works { padding: 64px 0; }
+    .works-grid { grid-template-columns: 1fr; gap: 40px; }
+    .works-forces { flex-direction: column; }
+    .wf { margin-left: 0; margin-top: -18px; padding: 34px 22px 20px; clip-path: polygon(0 0, 50% 18px, 100% 0, 100% calc(100% - 18px), 50% 100%, 0 calc(100% - 18px)); }
+    .wf:first-child { margin-top: 0; padding-left: 22px; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), 50% 100%, 0 calc(100% - 18px)); }
+    .wf-num { margin-bottom: 8px; } .wf-name { font-size: 16px; } .wf-text { font-size: 13px; }
+    .works-adv { grid-template-columns: 1fr; }
+  }
+
   /* ============ WHO FOR / NOT FOR ============ */
   .filter-sec { background: var(--ink); color: var(--white); }
   .filter-head { max-width: 44em; margin-bottom: 52px; }
@@ -1335,74 +1373,38 @@
   </div>
 </section>
 
-<!-- FIVE FORCES -->
-<section class="sec forces">
+<!-- WHY IT WORKS (five forces + advantages, two-column) -->
+<section class="works">
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow"><span class="pip"></span>Inside The Book</div>
-      <h2 class="h-sec">The Five Forces That Compound</h2>
-    </div>
-    <div class="forces-grid reveal">
-      <div class="force">
-        <span class="force-num">01</span>
-        <div class="force-name">Choices</div>
-        <p class="force-body">Every result traces back to a choice. Most get made on autopilot. Own them deliberately, and you own the outcome.</p>
-      </div>
-      <div class="force">
-        <span class="force-num">02</span>
-        <div class="force-name">Habits</div>
-        <p class="force-body">Root out the quiet habits derailing your progress, and install the few key disciplines that drive real results.</p>
-      </div>
-      <div class="force">
-        <span class="force-num">03</span>
-        <div class="force-name">Momentum</div>
-        <p class="force-body">The elusive force that makes the hard become effortless. Catch it, and you become almost impossible to stop.</p>
-      </div>
-      <div class="force">
-        <span class="force-num">04</span>
-        <div class="force-name">Influences</div>
-        <p class="force-body">Your input, your associations, your environment. What you let in quietly decides what you become.</p>
-      </div>
-      <div class="force">
-        <span class="force-num">05</span>
-        <div class="force-name">Acceleration</div>
-        <p class="force-body">The moment most people quit is the exact moment the gap opens. Push through it, and you pull away.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <div class="works-grid">
+      <div class="works-text">
+        <div class="eyebrow reveal"><span class="pip"></span>Why It Works</div>
+        <h2 class="works-headline reveal">The Five Forces That <em>Compound</em>.</h2>
+        <p class="works-lead reveal">Every extraordinary result runs on the same five forces. Master them, and success stops being luck.</p>
 
-<!-- TAKEAWAYS -->
-<section class="sec takeaways sec-bone">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow"><span class="pip"></span>What You'll Walk Away With</div>
-      <h2 class="h-sec">The Advantages Inside</h2>
-    </div>
-    <div class="take-grid reveal">
-      <div class="take">
-        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
-        <p>How to win, every time: the No. 1 strategy to achieve any goal and <em>out-execute any competitor</em>, even one smarter, more talented, or more experienced.</p>
+        <div class="works-forces reveal">
+          <div class="wf"><span class="wf-num">01</span><div class="wf-name">Choices</div><p class="wf-text">Own them, own the outcome.</p></div>
+          <div class="wf"><span class="wf-num">02</span><div class="wf-name">Habits</div><p class="wf-text">Install the vital few.</p></div>
+          <div class="wf"><span class="wf-num">03</span><div class="wf-name">Momentum</div><p class="wf-text">Catch it, stay unstoppable.</p></div>
+          <div class="wf"><span class="wf-num">04</span><div class="wf-name">Influences</div><p class="wf-text">Guard what you let in.</p></div>
+          <div class="wf"><span class="wf-num">05</span><div class="wf-name">Acceleration</div><p class="wf-text">Push where others quit.</p></div>
+        </div>
+
+        <div class="works-adv-label reveal">The Advantages Inside</div>
+        <div class="works-adv reveal">
+          <div class="take"><span class="works-adv-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span><p>Win, every time &mdash; <em>out-execute any competitor</em>.</p></div>
+          <div class="take"><span class="works-adv-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span><p><em>Eradicate the hidden habits</em> derailing you.</p></div>
+          <div class="take"><span class="works-adv-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span><p><em>Install the few key disciplines</em> that matter.</p></div>
+          <div class="take"><span class="works-adv-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span><p>The real, lasting keys to <em>motivation</em>.</p></div>
+          <div class="take"><span class="works-adv-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span><p>Capture <em>momentum</em>, and become unstoppable.</p></div>
+          <div class="take"><span class="works-adv-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span><p>Build your own <em>unfair advantage</em>.</p></div>
+        </div>
+
+        <p class="works-close reveal">Small choices, compounded, become an <em>unfair advantage</em>.</p>
       </div>
-      <div class="take">
-        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
-        <p>How to find and <em>eradicate the bad habits</em> (some you can't even see) that are quietly derailing your progress.</p>
-      </div>
-      <div class="take">
-        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
-        <p>How to painlessly <em>install the few key disciplines</em> required for major results.</p>
-      </div>
-      <div class="take">
-        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
-        <p>The real, lasting keys to <em>motivation</em>: how to get yourself to do the things you don't feel like doing.</p>
-      </div>
-      <div class="take">
-        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
-        <p>How to capture the elusive, awesome force of <em>momentum</em>, and become unstoppable.</p>
-      </div>
-      <div class="take">
-        <span class="take-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
-        <p>The acceleration secrets of superachievers: the <em>unfair advantage</em>, and how to build your own.</p>
+
+      <div class="works-image reveal">
+        <img src="portraits/ce-dh-placeholder.png" alt="Darren Hardy with The Compound Effect" width="1000" height="1240" loading="lazy" decoding="async">
       </div>
     </div>
   </div>
