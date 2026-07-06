@@ -914,6 +914,32 @@
   .co-field input::placeholder { color: #b8b4b0; }
   .co-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .co-row-3 { display: grid; grid-template-columns: 1.3fr 0.8fr 0.9fr; gap: 10px; }
+  /* payment method selector (mirrors Spiffy's multi-option cart) */
+  .co-pay { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .co-pm { display: flex; align-items: center; gap: 12px; padding: 15px 16px; cursor: pointer; border-bottom: 1px solid #eceae8; flex-wrap: wrap; row-gap: 12px; }
+  .co-pm-panel + .co-pm { border-top: 1px solid #eceae8; }
+  .co-pm input { position: absolute; opacity: 0; pointer-events: none; }
+  .co-pm-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #c9c6c2; flex: none; position: relative; transition: border-color 0.2s; }
+  .co-pm.sel { background: rgba(224,40,38,0.05); }
+  .co-pm.sel .co-pm-radio { border-color: var(--red); }
+  .co-pm.sel .co-pm-radio::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--red); }
+  .co-pm-name { font-weight: 700; font-size: 14px; color: var(--ink); flex: 1 1 auto; white-space: nowrap; }
+  .co-pm-mark { display: inline-flex; align-items: center; margin-left: auto; }
+  .co-brands { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .co-brand { display: inline-flex; align-items: center; justify-content: center; height: 18px; padding: 0 5px; border-radius: 3px; font-size: 10px; font-weight: 800; line-height: 1; }
+  .co-brand.visa { color: #1a1f71; background: #fff; border: 1px solid var(--line); font-style: italic; }
+  .co-brand.amex { color: #fff; background: #2e77bc; }
+  .co-brand.disc { color: #23201f; background: #fff; border: 1px solid var(--line); }
+  .co-brand.disc b { color: #f26e21; }
+  .co-brand.paypal { background: #fff; border: 1px solid var(--line); font-style: italic; }
+  .co-brand.paypal i { color: #003087; } .co-brand.paypal em { color: #009cde; font-style: italic; }
+  .co-brand.gpay { background: #fff; border: 1px solid var(--line); color: #5f6368; height: 22px; padding: 0 9px; border-radius: 11px; letter-spacing: 0.02em; }
+  .co-brand.applepay { background: #fff; border: 1px solid var(--line); color: #111; height: 22px; padding: 0 10px; border-radius: 11px; font-weight: 700; letter-spacing: 0.02em; }
+  .co-mc { display: block; }
+  .co-more { font-size: 11px; color: #9a9a9a; margin-left: 2px; }
+  .co-pm-panel { padding: 6px 16px 16px; }
+  .co-pm-note { font-size: 13px; line-height: 1.5; color: var(--muted); padding: 2px 0; }
+  .co-pay-secure { text-align: center; margin-top: 14px; font-size: 12px; color: #5a8f3c; letter-spacing: 0.01em; }
   .co-bump {
     display: flex; gap: 12px; align-items: flex-start;
     padding: 14px; border: 1px dashed var(--red); border-radius: var(--radius);
@@ -1397,11 +1423,58 @@
 
           <div class="co-group">
             <div class="co-group-title">Payment</div>
-            <label class="co-field"><span>Card number</span><input type="text" inputmode="numeric" placeholder="1234 1234 1234 1234" autocomplete="cc-number"></label>
-            <div class="co-row-2">
-              <label class="co-field"><span>Expiry</span><input type="text" placeholder="MM / YY" autocomplete="cc-exp"></label>
-              <label class="co-field"><span>CVC</span><input type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc"></label>
+            <div class="co-pay">
+              <label class="co-pm" data-method="paypal">
+                <input type="radio" name="coPay" value="paypal">
+                <span class="co-pm-radio"></span>
+                <span class="co-pm-name">PayPal</span>
+                <span class="co-pm-mark"><span class="co-brand paypal"><i>Pay</i><em>Pal</em></span></span>
+              </label>
+              <div class="co-pm-panel" data-for="paypal" hidden>
+                <p class="co-pm-note">You&rsquo;ll be securely redirected to PayPal to complete your purchase.</p>
+              </div>
+
+              <label class="co-pm sel" data-method="card">
+                <input type="radio" name="coPay" value="card" checked>
+                <span class="co-pm-radio"></span>
+                <span class="co-pm-name">Credit / Debit Card</span>
+                <span class="co-pm-mark"><span class="co-brands">
+                  <span class="co-brand visa">VISA</span>
+                  <svg class="co-mc" width="24" height="16" viewBox="0 0 24 16" aria-hidden="true"><circle cx="9.5" cy="8" r="6.5" fill="#EB001B"/><circle cx="14.5" cy="8" r="6.5" fill="#F79E1B"/><path d="M12 3.1a6.5 6.5 0 0 0 0 9.8 6.5 6.5 0 0 0 0-9.8z" fill="#FF5F00"/></svg>
+                  <span class="co-brand amex">AMEX</span>
+                  <span class="co-brand disc">DISC<b>&#9679;</b>VER</span>
+                  <span class="co-more">&amp; more&hellip;</span>
+                </span></span>
+              </label>
+              <div class="co-pm-panel" data-for="card">
+                <label class="co-field"><span>Card number</span><input type="text" inputmode="numeric" placeholder="1234 1234 1234 1234" autocomplete="cc-number"></label>
+                <div class="co-row-2">
+                  <label class="co-field"><span>Expiry</span><input type="text" placeholder="MM / YY" autocomplete="cc-exp"></label>
+                  <label class="co-field"><span>CVC</span><input type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc"></label>
+                </div>
+              </div>
+
+              <label class="co-pm" data-method="applepay" hidden>
+                <input type="radio" name="coPay" value="applepay">
+                <span class="co-pm-radio"></span>
+                <span class="co-pm-name">Apple Pay</span>
+                <span class="co-pm-mark"><span class="co-brand applepay">&#63743;&nbsp;Pay</span></span>
+              </label>
+              <div class="co-pm-panel" data-for="applepay" hidden>
+                <p class="co-pm-note">You&rsquo;ll complete your purchase securely with Apple Pay.</p>
+              </div>
+
+              <label class="co-pm" data-method="googlepay">
+                <input type="radio" name="coPay" value="googlepay">
+                <span class="co-pm-radio"></span>
+                <span class="co-pm-name">Google Pay</span>
+                <span class="co-pm-mark"><span class="co-brand gpay">G&nbsp;Pay</span></span>
+              </label>
+              <div class="co-pm-panel" data-for="googlepay" hidden>
+                <p class="co-pm-note">You&rsquo;ll complete your purchase securely with Google Pay.</p>
+              </div>
             </div>
+            <div class="co-pay-secure">&#128274; All payments are secured by 256-bit encryption</div>
           </div>
 
           <div class="co-summary">
@@ -1689,6 +1762,29 @@ document.querySelectorAll('.c-tile').forEach(tile => {
     syncTotals();
   }
   if (bump) bump.addEventListener('change', syncTotals);
+
+  // Payment method selector (PayPal / Card / device wallet)
+  function selectMethod(method) {
+    document.querySelectorAll('.co-pm').forEach(x => x.classList.toggle('sel', x.getAttribute('data-method') === method));
+    document.querySelectorAll('.co-pm-panel').forEach(p => { p.hidden = p.getAttribute('data-for') !== method; });
+    const r = document.querySelector('.co-pm[data-method="' + method + '"] input');
+    if (r) r.checked = true;
+  }
+  document.querySelectorAll('.co-pm').forEach(pm =>
+    pm.addEventListener('click', () => selectMethod(pm.getAttribute('data-method')))
+  );
+  // Default payment method by device — mirrors Spiffy auto-selecting the native wallet
+  (function initWallet() {
+    const ua = navigator.userAgent || '', plat = navigator.platform || '';
+    const isApple = /iPhone|iPad|iPod|Mac/i.test(plat) || /iPhone|iPad|iPod|Macintosh/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+    const applePay = document.querySelector('.co-pm[data-method="applepay"]');
+    const googlePay = document.querySelector('.co-pm[data-method="googlepay"]');
+    if (applePay)  applePay.hidden  = !isApple;
+    if (googlePay) googlePay.hidden = isApple;
+    selectMethod(isApple ? 'applepay' : (isAndroid ? 'googlepay' : 'card'));
+  })();
+
   if (form) form.addEventListener('submit', e => {
     e.preventDefault();
     const on = document.getElementById('coOrderNo');
