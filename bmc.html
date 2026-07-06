@@ -2481,7 +2481,7 @@ color: var(--grey);
 }</style>
 <style id="bmc-checkout-css">
   /* ===== BMC|COLLECTIVE checkout drawer (Spiffy slide-in preview) ===== */
-  .bco-confirm[hidden], .bco-sum-bump[hidden] { display: none !important; }
+  .bco-confirm[hidden], .bco-upsell[hidden], .bco-sum-bump[hidden] { display: none !important; }
   .bco-overlay { position: fixed; inset: 0; background: rgba(4,3,8,0.66); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease; z-index: 120; }
   .bco-overlay.open { opacity: 1; }
   .bco-drawer {
@@ -2574,6 +2574,34 @@ color: var(--grey);
   .bco-confirm-note { font-size: 13px; line-height: 1.55; color: #6b6b6b; }
   .bco-ghost { background: transparent; color: var(--bco-teal); border: 1px solid var(--bco-teal); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; padding: 15px 28px; border-radius: var(--radius); cursor: pointer; margin-top: 8px; transition: background 0.2s, color 0.2s; }
   .bco-ghost:hover { background: var(--bco-teal); color: var(--white); }
+  /* ---- Upsell page (shown when VIP is NOT checked) ---- */
+  .bco-upsell { padding: 22px 30px 30px; }
+  .bco-up-flag { text-align: center; font-weight: 900; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bco-teal); margin-bottom: 16px; }
+  .bco-up-hero { border-radius: 6px; padding: 28px 22px 26px; text-align: center; color: #fff; border: 1px solid rgba(var(--bmc-cyan-rgb),0.28);
+    background:
+      radial-gradient(ellipse 95% 70% at 15% 0%, rgba(var(--bmc-purple-rgb),0.60), transparent 62%),
+      radial-gradient(ellipse 85% 70% at 92% 100%, rgba(var(--bmc-magenta-rgb),0.38), transparent 60%),
+      linear-gradient(160deg, #1b1528, #0d0b13);
+  }
+  .bco-up-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--bmc-cyan); margin-bottom: 12px; }
+  .bco-up-title { font-weight: 900; font-size: clamp(26px, 8vw, 32px); line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; }
+  .bco-up-title span { color: var(--bmc-cyan); }
+  .bco-up-sub { font-weight: 800; font-size: 13px; letter-spacing: 0.02em; text-transform: uppercase; margin-top: 8px; color: #e8e6ef; }
+  .bco-up-sub span { color: var(--bmc-cyan); }
+  .bco-up-lead { font-size: 13px; line-height: 1.5; color: #cec8da; margin: 16px auto 0; max-width: 34ch; }
+  .bco-up-stat { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0; padding: 14px 16px; border: 1px solid rgba(var(--bmc-cyan-rgb),0.45); border-radius: 6px; background: rgba(255,255,255,0.03); }
+  .bco-up-stat strong { font-size: 30px; font-weight: 900; color: #fff; letter-spacing: -0.01em; }
+  .bco-up-stat span { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bmc-cyan); text-align: left; line-height: 1.35; }
+  .bco-up-checks { background: #fff; border-radius: 6px; padding: 16px 18px; text-align: left; }
+  .bco-up-checks ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+  .bco-up-checks li { position: relative; padding-left: 26px; font-size: 12.5px; line-height: 1.4; color: var(--ink); }
+  .bco-up-checks li::before { content: "\2713"; position: absolute; left: 0; top: 0; color: var(--bco-teal); font-weight: 900; }
+  .bco-up-checks li strong { font-weight: 700; }
+  .bco-up-tag { margin-top: 18px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #cec8da; }
+  .bco-up-tag span { color: var(--bmc-cyan); }
+  .bco-up-actions { margin-top: 20px; }
+  .bco-up-decline { display: block; width: 100%; margin-top: 14px; padding: 6px; background: none; border: none; color: #999; font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.06em; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s; }
+  .bco-up-decline:hover { color: var(--ink); }
   .bco-trust { padding: 15px 30px; border-top: 1px solid #e6e4e2; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #999; text-align: center; background: var(--bone); }
   .bco-trust strong { color: var(--ink); font-weight: 700; }
   body.bco-open { overflow: hidden; }
@@ -3673,6 +3701,32 @@ color: var(--grey);
           <p class="bco-fine">Preview only. No card is charged. Spiffy handles the real, secure payment once connected.</p>
         </form>
 
+        <!-- Upsell page — shown only when the VIP box was NOT checked on the form -->
+        <div class="bco-upsell" id="bcoUpsell" hidden>
+          <div class="bco-up-flag">Wait &mdash; One&#8209;Time Upgrade</div>
+          <div class="bco-up-hero">
+            <div class="bco-up-eyebrow">Exclusive Upgrade</div>
+            <div class="bco-up-title">Add <span>VIP</span> Access</div>
+            <div class="bco-up-sub">+ 4-Week Business Mastery <span>Accelerator</span></div>
+            <p class="bco-up-lead">Work live with Darren and other VIP elite operators implementing BMC strategies to produce at least:</p>
+            <div class="bco-up-stat"><strong>$25,000+</strong><span>In New Revenue<br>In 90 Days</span></div>
+            <div class="bco-up-checks">
+              <ul>
+                <li><strong>Turn BMC strategies into real revenue, fast</strong></li>
+                <li>VIP Q&amp;A during BMC with Darren</li>
+                <li>Four weeks of live implementation with Darren after BMC</li>
+                <li>Watch Darren diagnose and advise real businesses, live</li>
+                <li>The VIP Red Hot Leather Handbook</li>
+              </ul>
+            </div>
+            <div class="bco-up-tag">More <span>Access.</span> More <span>Guidance.</span> More <span>Results.</span></div>
+          </div>
+          <div class="bco-up-actions">
+            <button type="button" class="bco-submit" id="bcoUpYes">Yes! Add VIP Access &middot; <span id="bcoUpPrice">+$250/mo</span></button>
+            <button type="button" class="bco-up-decline" id="bcoUpNo">No thanks, complete my order without VIP</button>
+          </div>
+        </div>
+
         <div class="bco-confirm" id="bcoConfirm" hidden>
           <div class="bco-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
           <p class="bco-confirm-title">Seat Reserved</p>
@@ -3716,6 +3770,7 @@ window.BMC_SPIFFY_CHECKOUT_URL = ""; // e.g. "https://darrenhardy.spiffy.co/chec
   const form        = document.getElementById('bcoForm');
   const confirmView = document.getElementById('bcoConfirm');
   const bump        = document.getElementById('bcoBump');
+  const upsell      = document.getElementById('bcoUpsell');
 
   const PLANS = {
     monthly: { base: 895,  unit: '/mo', bump: 250,  sumBase: '$895/mo',   bumpStr: '+$250/mo',   planLabel: 'BMC|COLLECTIVE · Monthly', confirmLabel: 'Monthly' },
@@ -3733,6 +3788,7 @@ window.BMC_SPIFFY_CHECKOUT_URL = ""; // e.g. "https://darrenhardy.spiffy.co/chec
     setText('bcoSumBase', p.sumBase);
     setText('bcoBumpPrice', p.bumpStr);
     setText('bcoSumBump', p.bumpStr);
+    setText('bcoUpPrice', p.bumpStr);
     setText('bcoTotal', money(dueToday()));
     const bumpRow = document.querySelector('.bco-sum-bump');
     if (bumpRow) bumpRow.hidden = !(bump && bump.checked);
@@ -3748,11 +3804,25 @@ window.BMC_SPIFFY_CHECKOUT_URL = ""; // e.g. "https://darrenhardy.spiffy.co/chec
     syncTotals();
   }
 
+  function scrollBodyTop() { const b = drawer.querySelector('.bco-body'); if (b) b.scrollTop = 0; }
+
   function resetPreview() {
     if (!form || !confirmView) return;
-    form.hidden = false; confirmView.hidden = true;
+    form.hidden = false;
+    if (upsell) upsell.hidden = true;
+    confirmView.hidden = true;
     if (bump) bump.checked = false;
     syncTotals();
+  }
+
+  function goConfirm() {
+    setText('bcoOrderNo', '#BMC-' + Math.floor(100000 + Math.random() * 899999));
+    setText('bcoConfirmPlan', PLANS[plan].confirmLabel);
+    setText('bcoConfirmTotal', money(dueToday()));
+    form.hidden = true;
+    if (upsell) upsell.hidden = true;
+    confirmView.hidden = false;
+    scrollBodyTop();
   }
 
   document.querySelectorAll('.bco-plan').forEach(el =>
@@ -3761,12 +3831,16 @@ window.BMC_SPIFFY_CHECKOUT_URL = ""; // e.g. "https://darrenhardy.spiffy.co/chec
   if (bump) bump.addEventListener('change', syncTotals);
   if (form) form.addEventListener('submit', e => {
     e.preventDefault();
-    setText('bcoOrderNo', '#BMC-' + Math.floor(100000 + Math.random() * 899999));
-    setText('bcoConfirmPlan', PLANS[plan].confirmLabel);
-    setText('bcoConfirmTotal', money(dueToday()));
-    form.hidden = true; confirmView.hidden = false;
-    const body = drawer.querySelector('.bco-body'); if (body) body.scrollTop = 0;
+    if (bump && bump.checked) { goConfirm(); return; }  // VIP already added -> straight to confirmation
+    // VIP not selected -> show the one-time upsell first
+    form.hidden = true;
+    if (upsell) upsell.hidden = false;
+    scrollBodyTop();
   });
+  const upYes = document.getElementById('bcoUpYes');
+  const upNo  = document.getElementById('bcoUpNo');
+  if (upYes) upYes.addEventListener('click', () => { if (bump) bump.checked = true; syncTotals(); goConfirm(); });
+  if (upNo)  upNo.addEventListener('click', goConfirm);
 
   function mountSpiffy() {
     if (mount.dataset.mounted || !window.BMC_SPIFFY_CHECKOUT_URL) return;
