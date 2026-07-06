@@ -2481,7 +2481,7 @@ color: var(--grey);
 }</style>
 <style id="bmc-checkout-css">
   /* ===== BMC|COLLECTIVE checkout drawer (Spiffy slide-in preview) ===== */
-  .bco-confirm[hidden], .bco-upsell[hidden], .bco-sum-bump[hidden] { display: none !important; }
+  .bco-confirm[hidden], .bco-upsell[hidden], .bco-sum-bump[hidden], .bco-pm-panel[hidden] { display: none !important; }
   .bco-overlay { position: fixed; inset: 0; background: rgba(4,3,8,0.66); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease; z-index: 120; }
   .bco-overlay.open { opacity: 1; }
   .bco-drawer {
@@ -2535,6 +2535,32 @@ color: var(--grey);
   .bco-field select option { background: var(--white); color: var(--ink); }
   .bco-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .bco-row-3 { display: grid; grid-template-columns: 1.3fr 0.8fr 0.9fr; gap: 10px; }
+  /* payment method selector (mirrors Spiffy's multi-option cart) */
+  .bco-pay { border: 1px solid #e0ddda; border-radius: 6px; overflow: hidden; }
+  .bco-pm { display: flex; align-items: center; gap: 12px; padding: 15px 16px; cursor: pointer; border-bottom: 1px solid #eceae8; flex-wrap: wrap; row-gap: 12px; }
+  .bco-pm-panel + .bco-pm { border-top: 1px solid #eceae8; }
+  .bco-pm input { position: absolute; opacity: 0; pointer-events: none; }
+  .bco-pm-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #c9c6c2; flex: none; position: relative; transition: border-color 0.2s; }
+  .bco-pm.sel { background: rgba(var(--bmc-cyan-rgb),0.06); }
+  .bco-pm.sel .bco-pm-radio { border-color: var(--bco-teal); }
+  .bco-pm.sel .bco-pm-radio::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--bco-teal); }
+  .bco-pm-name { font-weight: 700; font-size: 14px; color: var(--ink); flex: 1 1 auto; white-space: nowrap; }
+  .bco-pm-mark { display: inline-flex; align-items: center; margin-left: auto; }
+  .bco-brands { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .bco-brand { display: inline-flex; align-items: center; justify-content: center; height: 18px; padding: 0 5px; border-radius: 3px; font-size: 10px; font-weight: 800; line-height: 1; }
+  .bco-brand.visa { color: #1a1f71; background: #fff; border: 1px solid #e0ddda; font-style: italic; }
+  .bco-brand.amex { color: #fff; background: #2e77bc; }
+  .bco-brand.disc { color: #23201f; background: #fff; border: 1px solid #e0ddda; }
+  .bco-brand.disc b { color: #f26e21; }
+  .bco-brand.paypal { background: #fff; border: 1px solid #e0ddda; font-style: italic; }
+  .bco-brand.paypal i { color: #003087; } .bco-brand.paypal em { color: #009cde; font-style: italic; }
+  .bco-brand.gpay { background: #fff; border: 1px solid #e0ddda; color: #5f6368; height: 22px; padding: 0 9px; border-radius: 11px; letter-spacing: 0.02em; }
+  .bco-mc { display: block; }
+  .bco-more { font-size: 11px; color: #9a9a9a; margin-left: 2px; }
+  .bco-pm-panel { padding: 6px 16px 16px; }
+  .bco-pm-panel .bco-field:first-child > span { margin-top: 0; }
+  .bco-pm-note { font-size: 13px; line-height: 1.5; color: #6b6b6b; padding: 2px 0; }
+  .bco-pay-secure { text-align: center; margin-top: 14px; font-size: 12px; color: #5a8f3c; letter-spacing: 0.01em; }
   .bco-bump { display: flex; gap: 12px; align-items: flex-start; padding: 15px; border: 1px dashed var(--bco-teal); border-radius: var(--radius); background: rgba(var(--bmc-cyan-rgb),0.08); margin-bottom: 22px; cursor: pointer; }
   .bco-bump input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--bco-teal); flex: none; cursor: pointer; }
   .bco-bump-text { font-size: 13px; line-height: 1.5; color: var(--ink); }
@@ -3673,11 +3699,48 @@ color: var(--grey);
 
           <div class="bco-group">
             <div class="bco-group-title">Payment</div>
-            <label class="bco-field"><span>Card number</span><input type="text" inputmode="numeric" placeholder="1234 1234 1234 1234" autocomplete="cc-number"></label>
-            <div class="bco-row-2">
-              <label class="bco-field"><span>Expiry</span><input type="text" placeholder="MM / YY" autocomplete="cc-exp"></label>
-              <label class="bco-field"><span>CVC</span><input type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc"></label>
+            <div class="bco-pay">
+              <label class="bco-pm" data-method="paypal">
+                <input type="radio" name="bcoPay" value="paypal">
+                <span class="bco-pm-radio"></span>
+                <span class="bco-pm-name">PayPal</span>
+                <span class="bco-pm-mark"><span class="bco-brand paypal"><i>Pay</i><em>Pal</em></span></span>
+              </label>
+              <div class="bco-pm-panel" data-for="paypal" hidden>
+                <p class="bco-pm-note">You&rsquo;ll be securely redirected to PayPal to complete your enrollment.</p>
+              </div>
+
+              <label class="bco-pm sel" data-method="card">
+                <input type="radio" name="bcoPay" value="card" checked>
+                <span class="bco-pm-radio"></span>
+                <span class="bco-pm-name">Credit / Debit Card</span>
+                <span class="bco-pm-mark"><span class="bco-brands">
+                  <span class="bco-brand visa">VISA</span>
+                  <svg class="bco-mc" width="24" height="16" viewBox="0 0 24 16" aria-hidden="true"><circle cx="9.5" cy="8" r="6.5" fill="#EB001B"/><circle cx="14.5" cy="8" r="6.5" fill="#F79E1B"/><path d="M12 3.1a6.5 6.5 0 0 0 0 9.8 6.5 6.5 0 0 0 0-9.8z" fill="#FF5F00"/></svg>
+                  <span class="bco-brand amex">AMEX</span>
+                  <span class="bco-brand disc">DISC<b>&#9679;</b>VER</span>
+                  <span class="bco-more">&amp; more&hellip;</span>
+                </span></span>
+              </label>
+              <div class="bco-pm-panel" data-for="card">
+                <label class="bco-field"><span>Card number</span><input type="text" inputmode="numeric" placeholder="1234 1234 1234 1234" autocomplete="cc-number"></label>
+                <div class="bco-row-2">
+                  <label class="bco-field"><span>Expiry</span><input type="text" placeholder="MM / YY" autocomplete="cc-exp"></label>
+                  <label class="bco-field"><span>CVC</span><input type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc"></label>
+                </div>
+              </div>
+
+              <label class="bco-pm" data-method="googlepay">
+                <input type="radio" name="bcoPay" value="googlepay">
+                <span class="bco-pm-radio"></span>
+                <span class="bco-pm-name">Google Pay</span>
+                <span class="bco-pm-mark"><span class="bco-brand gpay">G&nbsp;Pay</span></span>
+              </label>
+              <div class="bco-pm-panel" data-for="googlepay" hidden>
+                <p class="bco-pm-note">You&rsquo;ll complete your enrollment securely with Google Pay.</p>
+              </div>
             </div>
+            <div class="bco-pay-secure">&#128274; All payments are secured by 256-bit encryption</div>
           </div>
 
           <div class="bco-summary">
@@ -3834,6 +3897,16 @@ window.BMC_SPIFFY_CHECKOUT_URL = ""; // e.g. "https://darrenhardy.spiffy.co/chec
   document.querySelectorAll('.bco-plan').forEach(el =>
     el.addEventListener('click', () => selectPlan(el.getAttribute('data-plan')))
   );
+
+  // Payment method selector (PayPal / Card / Google Pay) — expands the chosen panel
+  document.querySelectorAll('.bco-pm').forEach(pm => {
+    pm.addEventListener('click', () => {
+      const method = pm.getAttribute('data-method');
+      document.querySelectorAll('.bco-pm').forEach(x => x.classList.toggle('sel', x === pm));
+      document.querySelectorAll('.bco-pm-panel').forEach(p => { p.hidden = p.getAttribute('data-for') !== method; });
+      const r = pm.querySelector('input'); if (r) r.checked = true;
+    });
+  });
   if (bump) bump.addEventListener('change', syncTotals);
   if (form) form.addEventListener('submit', e => {
     e.preventDefault();
