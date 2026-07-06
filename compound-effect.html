@@ -400,20 +400,18 @@
     .impact-stat:nth-child(3)::before { display: none; }
   }
 
-  /* ============ SOCIAL PROOF STRIP (under the stats) ============ */
-  .sp { background: var(--white); border-bottom: 1px solid var(--line); padding: 72px 0; }
-  .sp-head { text-align: center; margin-bottom: 44px; }
-  .sp-head .eyebrow { justify-content: center; margin-bottom: 18px; }
-  .sp-headline { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(24px, 3vw, 38px); line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; color: var(--ink); }
-  .sp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-  .sp-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 8px; }
-  .sp-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: center 30%; border: 2px solid var(--line); margin-bottom: 16px; background: var(--ink); }
-  .sp-stars { color: var(--gold); font-size: 13px; letter-spacing: 2px; margin-bottom: 14px; }
-  .sp-quote { font-size: 16px; line-height: 1.5; color: var(--ink); margin-bottom: 16px; max-width: 30ch; }
+  /* ============ SOCIAL PROOF (big-photo readers, under the stats) ============ */
+  .sp { background: var(--white); border-bottom: 1px solid var(--line); padding: 80px 0; }
+  .sp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px 34px; }
+  .sp-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .sp-photo { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; border-radius: 5px; background: var(--ink); margin-bottom: 22px; display: block; }
+  .sp-stars { color: var(--gold); font-size: 15px; letter-spacing: 2px; margin-bottom: 14px; }
+  .sp-quote { font-size: 18px; line-height: 1.5; font-weight: 500; color: var(--ink); margin-bottom: 18px; }
   .sp-quote em { color: var(--red); font-weight: 600; }
   .sp-name { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
-  .sp-role { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  @media (max-width: 760px) { .sp { padding: 56px 0; } .sp-grid { grid-template-columns: 1fr; gap: 44px; } }
+  .sp-role { font-size: 12.5px; color: var(--muted); margin-top: 5px; }
+  @media (max-width: 900px) { .sp-grid { grid-template-columns: 1fr 1fr; gap: 44px 24px; } }
+  @media (max-width: 560px) { .sp { padding: 56px 0; } .sp-grid { grid-template-columns: 1fr; gap: 48px; } .sp-photo { max-width: 320px; margin-left: auto; margin-right: auto; } }
 
   /* ============ SECTION SHELLS ============ */
   .sec { padding: 96px 0; }
@@ -1082,34 +1080,51 @@
   </div>
 </section>
 
-<!-- SOCIAL PROOF (under the stats) -->
+<!-- SOCIAL PROOF (big-photo readers, under the stats) -->
 <section class="sp">
   <div class="container">
-    <div class="sp-head reveal">
-      <div class="eyebrow"><span class="pip"></span>Loved By Readers</div>
-      <h2 class="sp-headline">Don't Take Our Word For It.</h2>
-    </div>
     <div class="sp-grid reveal">
       <div class="sp-card">
-        <img class="sp-avatar" src="portraits/ce-avatar-1.png" alt="Verified reader" width="72" height="72" loading="lazy" decoding="async">
+        <img class="sp-photo" src="portraits/ce-face-1.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
         <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
         <p class="sp-quote">&ldquo;Six years in, and it&rsquo;s still the first book I <em>re-read every January</em>. It compounds.&rdquo;</p>
         <div class="sp-name">Verified Reader</div>
         <div class="sp-role">Founder &middot; Manufacturing</div>
       </div>
       <div class="sp-card">
-        <img class="sp-avatar" src="portraits/ce-avatar-2.png" alt="Verified reader" width="72" height="72" loading="lazy" decoding="async">
+        <img class="sp-photo" src="portraits/ce-face-2.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
         <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
         <p class="sp-quote">&ldquo;No pep talk. Just the few disciplines that <em>actually move the needle</em>.&rdquo;</p>
         <div class="sp-name">Verified Reader</div>
         <div class="sp-role">Owner &middot; Professional Services</div>
       </div>
       <div class="sp-card">
-        <img class="sp-avatar" src="portraits/ce-avatar-3.png" alt="Verified reader" width="72" height="72" loading="lazy" decoding="async">
+        <img class="sp-photo" src="portraits/ce-face-3.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
         <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
         <p class="sp-quote">&ldquo;I&rsquo;ve bought <em>nine copies</em>. My whole leadership team runs on it.&rdquo;</p>
         <div class="sp-name">Verified Reader</div>
         <div class="sp-role">CEO &middot; SaaS</div>
+      </div>
+      <div class="sp-card">
+        <img class="sp-photo" src="portraits/ce-face-4.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+        <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p class="sp-quote">&ldquo;It changed <em>one habit</em>. That one habit changed my entire year.&rdquo;</p>
+        <div class="sp-name">Verified Reader</div>
+        <div class="sp-role">Operator &middot; Logistics</div>
+      </div>
+      <div class="sp-card">
+        <img class="sp-photo" src="portraits/ce-face-5.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+        <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p class="sp-quote">&ldquo;The only business book I&rsquo;ve read cover to cover <em>three times</em>.&rdquo;</p>
+        <div class="sp-name">Verified Reader</div>
+        <div class="sp-role">Founder &middot; E-commerce</div>
+      </div>
+      <div class="sp-card">
+        <img class="sp-photo" src="portraits/ce-face-6.png" alt="Verified reader" width="640" height="800" loading="lazy" decoding="async">
+        <div class="sp-stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p class="sp-quote">&ldquo;My revenue is up because my <em>daily choices</em> are different. Full stop.&rdquo;</p>
+        <div class="sp-name">Verified Reader</div>
+        <div class="sp-role">President &middot; Field Services</div>
       </div>
     </div>
   </div>
