@@ -2479,6 +2479,91 @@ color: var(--grey);
 .section-dark, .section-ink { padding: var(--section-pad-mobile) 0; }
 .ribbon-section { padding: 20px 0 30px; }
 }</style>
+<style id="bmc-checkout-css">
+  /* ===== BMC|COLLECTIVE checkout drawer (Spiffy slide-in preview) ===== */
+  .bco-confirm[hidden], .bco-sum-bump[hidden] { display: none !important; }
+  .bco-overlay { position: fixed; inset: 0; background: rgba(4,3,8,0.66); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease; z-index: 120; }
+  .bco-overlay.open { opacity: 1; }
+  .bco-drawer {
+    position: fixed; top: 0; right: 0; height: 100%; width: 500px; max-width: 100vw;
+    background: var(--surface-card); color: var(--text-on-dark);
+    z-index: 130; display: flex; flex-direction: column;
+    transform: translateX(100%); transition: transform 0.42s cubic-bezier(0.22,1,0.36,1);
+    box-shadow: -24px 0 70px rgba(0,0,0,0.6);
+    border-left: 1px solid rgba(var(--bmc-cyan-rgb), 0.18);
+    font-family: 'Inter', sans-serif;
+  }
+  .bco-drawer.open { transform: none; }
+  .bco-close { position: absolute; top: 15px; right: 15px; width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.03); color: var(--silver); border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: color 0.2s, border-color 0.2s; z-index: 3; }
+  .bco-close:hover { border-color: var(--bmc-cyan); color: var(--bmc-cyan); }
+  .bco-head { padding: 30px 30px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); background: linear-gradient(180deg, rgba(var(--bmc-cyan-rgb),0.05), transparent); }
+  .bco-eyebrow { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--bmc-cyan); margin-bottom: 16px; }
+  .bco-eyebrow .bco-pip { width: 22px; height: 1px; background: var(--bmc-cyan); }
+  .bco-title { font-weight: 900; font-size: 21px; letter-spacing: -0.01em; text-transform: uppercase; color: var(--white); }
+  .bco-sub { font-size: 12.5px; color: var(--silver); margin-top: 6px; }
+  .bco-event { margin-top: 12px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--silver); }
+  .bco-event strong { color: var(--bmc-cyan); font-weight: 700; }
+  .bco-flag { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-soft); background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 9px 30px; text-align: center; }
+  .bco-body { flex: 1; overflow-y: auto; }
+  .bco-mount { display: flex; flex-direction: column; min-height: 100%; }
+  .bco-frame { width: 100%; flex: 1; border: 0; min-height: 560px; display: block; }
+  .bco-form { padding: 22px 30px 30px; }
+  .bco-plan-title, .bco-group-title { font-weight: 900; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); margin-bottom: 12px; }
+  .bco-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .bco-plan { position: relative; border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius); padding: 16px 14px; cursor: pointer; background: rgba(255,255,255,0.015); transition: border-color 0.2s, background 0.2s; }
+  .bco-plan:hover { border-color: rgba(var(--bmc-cyan-rgb),0.5); }
+  .bco-plan.sel { border-color: var(--bmc-cyan); background: rgba(var(--bmc-cyan-rgb),0.06); }
+  .bco-plan input { position: absolute; opacity: 0; pointer-events: none; }
+  .bco-plan-name { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--silver); }
+  .bco-plan-price { font-weight: 900; font-size: 22px; color: var(--white); margin-top: 6px; letter-spacing: -0.01em; }
+  .bco-plan-price span { font-size: 12px; font-weight: 600; color: var(--silver); letter-spacing: 0; }
+  .bco-plan-note { font-size: 10px; color: var(--bmc-cyan); font-weight: 700; letter-spacing: 0.06em; margin-top: 6px; text-transform: uppercase; }
+  .bco-plan-badge { position: absolute; top: -9px; right: 10px; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--black); background: var(--bmc-cyan); padding: 3px 8px; border-radius: 3px; }
+  .bco-group { margin-bottom: 22px; }
+  .bco-field { display: block; margin-bottom: 10px; }
+  .bco-field > span { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; color: var(--silver); margin-bottom: 5px; }
+  .bco-field input, .bco-field select { width: 100%; font-family: inherit; font-size: 14px; color: var(--white); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius); padding: 11px 12px; transition: border-color 0.18s ease, box-shadow 0.18s ease; }
+  .bco-field input::placeholder { color: #5c5c66; }
+  .bco-field input:focus, .bco-field select:focus { outline: none; border-color: var(--bmc-cyan); box-shadow: 0 0 0 3px rgba(var(--bmc-cyan-rgb),0.16); }
+  .bco-field select option { background: var(--ink); color: var(--white); }
+  .bco-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .bco-row-3 { display: grid; grid-template-columns: 1.3fr 0.8fr 0.9fr; gap: 10px; }
+  .bco-bump { display: flex; gap: 12px; align-items: flex-start; padding: 15px; border: 1px dashed var(--bmc-cyan); border-radius: var(--radius); background: rgba(var(--bmc-cyan-rgb),0.05); margin-bottom: 22px; cursor: pointer; }
+  .bco-bump input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--bmc-cyan); flex: none; cursor: pointer; }
+  .bco-bump-text { font-size: 13px; line-height: 1.5; color: var(--text-on-dark); }
+  .bco-bump-text strong { color: var(--white); font-weight: 700; }
+  .bco-bump-text em { color: var(--bmc-cyan); font-weight: 700; font-style: normal; white-space: nowrap; }
+  .bco-summary { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; margin-bottom: 20px; }
+  .bco-sum-row { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; color: var(--silver); margin-bottom: 9px; }
+  .bco-sum-row > span:last-child { color: var(--text-on-dark); white-space: nowrap; }
+  .bco-sum-total { font-weight: 900; font-size: 16px; color: var(--white); text-transform: uppercase; letter-spacing: 0.02em; padding-top: 11px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 4px; margin-bottom: 0; }
+  .bco-sum-total > span:last-child { color: var(--bmc-cyan); }
+  .bco-submit { width: 100%; justify-content: center; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; background: var(--bmc-cyan); color: var(--black); border: 1px solid var(--bmc-cyan); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; padding: 18px; border-radius: var(--radius); transition: background 0.2s, color 0.2s; }
+  .bco-submit:hover { background: transparent; color: var(--bmc-cyan); }
+  .bco-lock-sm { width: 14px; height: 14px; }
+  .bco-guarantee { display: flex; align-items: center; gap: 14px; justify-content: center; margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .bco-guarantee img { width: 62px; height: 62px; flex: none; }
+  .bco-guarantee-text { font-size: 12px; line-height: 1.5; color: var(--silver); }
+  .bco-guarantee-text strong { display: block; color: var(--white); font-weight: 700; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+  .bco-fine { text-align: center; font-size: 11px; line-height: 1.5; color: var(--grey-soft); margin-top: 14px; }
+  .bco-confirm { padding: 58px 34px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .bco-check { width: 66px; height: 66px; border-radius: 50%; background: var(--bmc-cyan); display: flex; align-items: center; justify-content: center; animation: bcoPop 0.45s cubic-bezier(0.22,1.4,0.5,1) both; }
+  .bco-check svg { width: 32px; height: 32px; stroke: var(--black); stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes bcoPop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .bco-confirm-title { font-weight: 900; font-size: 25px; text-transform: uppercase; letter-spacing: -0.01em; color: var(--white); }
+  .bco-confirm-sub { font-size: 15px; color: var(--silver); line-height: 1.5; }
+  .bco-confirm-sub strong { color: var(--text-on-dark); }
+  .bco-confirm-order { width: 100%; border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius); padding: 16px 18px; display: flex; flex-direction: column; gap: 11px; margin: 8px 0; }
+  .bco-confirm-order > div { display: flex; justify-content: space-between; font-size: 13px; color: var(--silver); }
+  .bco-confirm-order strong { color: var(--white); font-weight: 700; }
+  .bco-confirm-note { font-size: 13px; line-height: 1.55; color: var(--silver); }
+  .bco-ghost { background: transparent; color: var(--bmc-cyan); border: 1px solid var(--bmc-cyan); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; padding: 15px 28px; border-radius: var(--radius); cursor: pointer; margin-top: 8px; transition: background 0.2s, color 0.2s; }
+  .bco-ghost:hover { background: var(--bmc-cyan); color: var(--black); }
+  .bco-trust { padding: 15px 30px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey-soft); text-align: center; }
+  .bco-trust strong { color: var(--text-on-dark); font-weight: 700; }
+  body.bco-open { overflow: hidden; }
+  @media (max-width: 540px) { .bco-drawer { width: 100%; } }
+</style>
 </head>
 <body>
 
@@ -3201,14 +3286,14 @@ color: var(--grey);
         <div class="price-label">Pay Monthly</div>
         <div class="price-num">$895</div>
         <p class="price-desc">12-month commitment.<br/>Reserved BMC seat. Immediate COLLECTIVE activation.</p>
-        <a href="https://secure.darrenhardy.com/checkout/bmc-collective" class="price-cta price-cta--ghost">Reserve Your Seat &rarr;</a>
+        <a href="https://secure.darrenhardy.com/checkout/bmc-collective" class="price-cta price-cta--ghost" data-open-checkout data-plan="monthly">Reserve Your Seat &rarr;</a>
       </div>
       <div class="price-card">
         <div class="price-badge">Save $745</div>
         <div class="price-label">Pay Annually</div>
         <div class="price-num">$9,995</div>
         <p class="price-desc">12 months of access.<br/>Reserved BMC seat. Immediate COLLECTIVE activation.</p>
-        <a href="https://secure.darrenhardy.com/checkout/bmc-collective" class="price-cta price-cta--ghost">Reserve Your Seat &rarr;</a>
+        <a href="https://secure.darrenhardy.com/checkout/bmc-collective" class="price-cta price-cta--ghost" data-open-checkout data-plan="annual">Reserve Your Seat &rarr;</a>
       </div>
     </div>
 
@@ -3462,6 +3547,252 @@ color: var(--grey);
 </footer>
 
 <script src="bmc.js?v=21" defer></script>
+
+<!-- ─────────────────────────────────────────────────────────────
+     RESERVE YOUR SEAT — Spiffy checkout drawer (in-page slide-in)
+     To activate: paste your Spiffy checkout URL into
+     window.BMC_SPIFFY_CHECKOUT_URL in the script below. Until then,
+     the drawer shows a branded preview (no real charge).
+     ───────────────────────────────────────────────────────────── -->
+<div class="bco-overlay" id="bcoOverlay" hidden></div>
+<aside class="bco-drawer" id="bcoDrawer" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Reserve your seat — BMC|COLLECTIVE">
+  <button class="bco-close" id="bcoClose" aria-label="Close">&#10005;</button>
+
+  <div class="bco-head">
+    <div class="bco-eyebrow"><span class="bco-pip"></span>Reserve Your Seat</div>
+    <div class="bco-title">BMC|COLLECTIVE</div>
+    <div class="bco-sub">Your BMC seat, plus a full year inside THE COLLECTIVE.</div>
+    <div class="bco-event">Next BMC Live Event <strong>Oct 19&ndash;21, 2026</strong></div>
+  </div>
+
+  <div class="bco-body">
+    <div class="bco-mount" id="bcoMount">
+      <!-- Real Spiffy checkout iframe injected here once BMC_SPIFFY_CHECKOUT_URL is set;
+           the preview below hides automatically the moment that happens. -->
+      <div class="bco-preview" id="bcoPreview">
+        <div class="bco-flag">Preview &middot; your live Spiffy form loads here once connected</div>
+
+        <form class="bco-form" id="bcoForm" novalidate>
+          <div class="bco-plan-title">Choose Your Plan</div>
+          <div class="bco-plans">
+            <label class="bco-plan" data-plan="monthly">
+              <input type="radio" name="bcoPlan" value="monthly">
+              <div class="bco-plan-name">Pay Monthly</div>
+              <div class="bco-plan-price">$895<span>/mo</span></div>
+              <div class="bco-plan-note">12-month commitment</div>
+            </label>
+            <label class="bco-plan" data-plan="annual">
+              <span class="bco-plan-badge">Save $745</span>
+              <input type="radio" name="bcoPlan" value="annual">
+              <div class="bco-plan-name">Pay Annually</div>
+              <div class="bco-plan-price">$9,995<span>/yr</span></div>
+              <div class="bco-plan-note">Best value</div>
+            </label>
+          </div>
+
+          <div class="bco-group">
+            <div class="bco-group-title">Contact</div>
+            <div class="bco-row-2">
+              <label class="bco-field"><span>First name</span><input type="text" autocomplete="given-name"></label>
+              <label class="bco-field"><span>Last name</span><input type="text" autocomplete="family-name"></label>
+            </div>
+            <label class="bco-field"><span>Email</span><input type="email" placeholder="you@company.com" autocomplete="email"></label>
+            <label class="bco-field"><span>Phone</span><input type="tel" placeholder="(555) 000-0000" autocomplete="tel"></label>
+          </div>
+
+          <div class="bco-group">
+            <div class="bco-group-title">Billing Address</div>
+            <label class="bco-field"><span>Street address</span><input type="text" autocomplete="address-line1"></label>
+            <div class="bco-row-3">
+              <label class="bco-field"><span>City</span><input type="text" autocomplete="address-level2"></label>
+              <label class="bco-field"><span>State</span><input type="text" autocomplete="address-level1"></label>
+              <label class="bco-field"><span>ZIP</span><input type="text" inputmode="numeric" autocomplete="postal-code"></label>
+            </div>
+            <label class="bco-field"><span>Country</span><select autocomplete="country-name"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option></select></label>
+          </div>
+
+          <!-- Order bump — VIP + Accelerator upsell -->
+          <label class="bco-bump" for="bcoBump">
+            <input type="checkbox" id="bcoBump">
+            <span class="bco-bump-text"><strong>Add VIP + Accelerator.</strong> Front-row seating, the private VIP reception, and the pre-event Accelerator intensive. <em id="bcoBumpPrice">+$250/mo</em></span>
+          </label>
+
+          <div class="bco-group">
+            <div class="bco-group-title">Payment</div>
+            <label class="bco-field"><span>Card number</span><input type="text" inputmode="numeric" placeholder="1234 1234 1234 1234" autocomplete="cc-number"></label>
+            <div class="bco-row-2">
+              <label class="bco-field"><span>Expiry</span><input type="text" placeholder="MM / YY" autocomplete="cc-exp"></label>
+              <label class="bco-field"><span>CVC</span><input type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc"></label>
+            </div>
+          </div>
+
+          <div class="bco-summary">
+            <div class="bco-sum-row"><span id="bcoSumPlan">BMC|COLLECTIVE &middot; Monthly</span><span id="bcoSumBase">$895/mo</span></div>
+            <div class="bco-sum-row bco-sum-bump" hidden><span>VIP + Accelerator</span><span id="bcoSumBump">+$250/mo</span></div>
+            <div class="bco-sum-row bco-sum-total"><span>Due Today</span><span id="bcoTotal">$895</span></div>
+          </div>
+
+          <button type="submit" class="bco-submit" id="bcoSubmit">
+            <svg class="bco-lock-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
+            Reserve My Seat
+          </button>
+
+          <div class="bco-guarantee">
+            <img src="fit_guarantee_seal.webp?v=2" alt="The Fit Guarantee — 30 Day Full Refund" width="62" height="62" loading="lazy" decoding="async">
+            <div class="bco-guarantee-text"><strong>The Fit Guarantee</strong>30 days. Full refund. No questions, no friction.</div>
+          </div>
+
+          <p class="bco-fine">Preview only. No card is charged. Spiffy handles the real, secure payment once connected.</p>
+        </form>
+
+        <div class="bco-confirm" id="bcoConfirm" hidden>
+          <div class="bco-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+          <p class="bco-confirm-title">Seat Reserved</p>
+          <p class="bco-confirm-sub">Your seat at the <strong>Business Master Class</strong> is reserved, and THE COLLECTIVE is now active.</p>
+          <div class="bco-confirm-order">
+            <div><span>Confirmation</span><strong id="bcoOrderNo">#BMC-000000</strong></div>
+            <div><span>Plan</span><strong id="bcoConfirmPlan">Monthly</strong></div>
+            <div><span>Due today</span><strong id="bcoConfirmTotal">$895</strong></div>
+          </div>
+          <p class="bco-confirm-note">A welcome email with your COLLECTIVE access and event details is on its way. Be the exception.</p>
+          <button type="button" class="bco-ghost" id="bcoDone">Back To The Page</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bco-trust">🔒 Encrypted &amp; Secure &nbsp;&middot;&nbsp; Powered by <strong>Spiffy</strong></div>
+</aside>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   SPIFFY CHECKOUT — CONNECT HERE  (one line to go live)
+   ───────────────────────────────────────────────────────────────
+   Paste your Spiffy checkout URL for BMC|COLLECTIVE below. The real
+   Spiffy form (fields + purchase button + confirmation) then replaces
+   the preview inside this drawer. Leave blank to keep the preview.
+   Note: plan (Monthly/Annual) is passed as ?plan= on the URL, in case
+   your Spiffy checkout preselects from it; otherwise it's ignored.
+   ═══════════════════════════════════════════════════════════════ */
+window.BMC_SPIFFY_CHECKOUT_URL = ""; // e.g. "https://darrenhardy.spiffy.co/checkout/bmc-collective"
+
+(function () {
+  const overlay  = document.getElementById('bcoOverlay');
+  const drawer   = document.getElementById('bcoDrawer');
+  const closeBtn = document.getElementById('bcoClose');
+  const mount    = document.getElementById('bcoMount');
+  if (!overlay || !drawer || !mount) return;
+  let lastFocus = null;
+
+  const preview     = document.getElementById('bcoPreview');
+  const form        = document.getElementById('bcoForm');
+  const confirmView = document.getElementById('bcoConfirm');
+  const bump        = document.getElementById('bcoBump');
+
+  const PLANS = {
+    monthly: { base: 895,  unit: '/mo', bump: 250,  sumBase: '$895/mo',   bumpStr: '+$250/mo',   planLabel: 'BMC|COLLECTIVE · Monthly', confirmLabel: 'Monthly' },
+    annual:  { base: 9995, unit: '/yr', bump: 2990, sumBase: '$9,995/yr', bumpStr: '+$2,990/yr', planLabel: 'BMC|COLLECTIVE · Annual',  confirmLabel: 'Annual'  }
+  };
+  let plan = 'monthly';
+  const money = n => '$' + n.toLocaleString('en-US');
+  const dueToday = () => PLANS[plan].base + (bump && bump.checked ? PLANS[plan].bump : 0);
+
+  function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+
+  function syncTotals() {
+    const p = PLANS[plan];
+    setText('bcoSumPlan', p.planLabel);
+    setText('bcoSumBase', p.sumBase);
+    setText('bcoBumpPrice', p.bumpStr);
+    setText('bcoSumBump', p.bumpStr);
+    setText('bcoTotal', money(dueToday()));
+    const bumpRow = document.querySelector('.bco-sum-bump');
+    if (bumpRow) bumpRow.hidden = !(bump && bump.checked);
+  }
+
+  function selectPlan(next) {
+    plan = PLANS[next] ? next : 'monthly';
+    document.querySelectorAll('.bco-plan').forEach(el => {
+      const on = el.getAttribute('data-plan') === plan;
+      el.classList.toggle('sel', on);
+      const radio = el.querySelector('input'); if (radio) radio.checked = on;
+    });
+    syncTotals();
+  }
+
+  function resetPreview() {
+    if (!form || !confirmView) return;
+    form.hidden = false; confirmView.hidden = true;
+    if (bump) bump.checked = false;
+    syncTotals();
+  }
+
+  document.querySelectorAll('.bco-plan').forEach(el =>
+    el.addEventListener('click', () => selectPlan(el.getAttribute('data-plan')))
+  );
+  if (bump) bump.addEventListener('change', syncTotals);
+  if (form) form.addEventListener('submit', e => {
+    e.preventDefault();
+    setText('bcoOrderNo', '#BMC-' + Math.floor(100000 + Math.random() * 899999));
+    setText('bcoConfirmPlan', PLANS[plan].confirmLabel);
+    setText('bcoConfirmTotal', money(dueToday()));
+    form.hidden = true; confirmView.hidden = false;
+    const body = drawer.querySelector('.bco-body'); if (body) body.scrollTop = 0;
+  });
+
+  function mountSpiffy() {
+    if (mount.dataset.mounted || !window.BMC_SPIFFY_CHECKOUT_URL) return;
+    const url = window.BMC_SPIFFY_CHECKOUT_URL +
+      (window.BMC_SPIFFY_CHECKOUT_URL.indexOf('?') === -1 ? '?' : '&') + 'plan=' + plan;
+    const frame = document.createElement('iframe');
+    frame.className = 'bco-frame';
+    frame.src = url;
+    frame.title = 'Secure checkout — BMC|COLLECTIVE';
+    frame.setAttribute('allow', 'payment *');
+    mount.insertBefore(frame, mount.firstChild);
+    if (preview) preview.style.display = 'none';
+    mount.dataset.mounted = '1';
+  }
+
+  function openDrawer(e, trigger) {
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    const wanted = trigger && trigger.getAttribute('data-plan');
+    selectPlan(wanted || plan);
+    overlay.hidden = false;
+    void overlay.offsetWidth;
+    overlay.classList.add('open');
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('bco-open');
+    mountSpiffy();
+    if (!mount.dataset.mounted) resetPreview();
+    closeBtn.focus();
+  }
+
+  function closeDrawer() {
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('bco-open');
+    setTimeout(() => { overlay.hidden = true; }, 340);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('[data-open-checkout]').forEach(el =>
+    el.addEventListener('click', e => openDrawer(e, el))
+  );
+  const done = document.getElementById('bcoDone');
+  if (done) done.addEventListener('click', closeDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+
+  selectPlan('monthly');
+})();
+</script>
 
 </body>
 </html>
