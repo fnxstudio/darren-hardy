@@ -1,0 +1,402 @@
+<!--
+  ============================================================================
+  HARDY CLUB — "THIS WEEK" WEEKLY EMAIL TEMPLATE  (light / white theme)
+  ============================================================================
+  Purpose : Weekly member email with TWO event tiers:
+              • SECTION 1 — open to ALL Hardy Club members
+              • SECTION 2 — The Collective (TC) members only
+  Handoff : Portable, email-safe HTML for a HubSpot dev to convert into a
+            HubSpot email template / drag-and-drop modules.
+
+  BRAND (matches temp-hardy-club-invite.html / bmc.css tokens):
+    • Background  : white #ffffff, light cards on bone #f5f5f5
+    • Hardy Club  : GOLD   — rule #c9a96a, text #9a7a33 (deepened for AA on white)
+    • The Collective : PURPLE — fill #8B5DC4, text #6E3DA6 (deepened for AA on white)
+    • Text        : ink #141414 (headings) / muted #444444 (body) / grey #6a6a6a (labels)
+    • Type        : Inter, falling back to Arial/Helvetica in email clients.
+
+  EMAIL-SAFETY NOTES FOR THE DEV:
+    • All layout is <table role="presentation"> — do not swap to <div> grids.
+    • All critical styling is INLINE. The <style> block is progressive
+      enhancement only (responsive stacking); Outlook/Gmail may strip it.
+    • Images use ABSOLUTE https URLs (GitHub Pages mirror). Swap to your CDN /
+      HubSpot file-manager URLs before sending. Always keep alt text.
+    • Buttons are "bulletproof" (VML for Outlook + styled anchor for the rest).
+    • HubSpot tokens are shown as {{ ... }} placeholders — wire to real fields.
+
+  MODULE MAP (for HubSpot conversion):
+    [1] Preheader        — hidden preview text
+    [2] Header           — Hardy Club logo + gold rule
+    [3] Issue band       — "THIS WEEK" + week-of date
+    [4] Intro            — greeting + one-line context
+    [5] SECTION 1 (GOLD) — "Open to all members" + REPEATABLE event card
+    [6] SECTION 2 (PURPLE)— "The Collective · members only" + REPEATABLE event card
+    [7] Non-member CTA    — "Not in The Collective yet?" → join link
+    [8] Footer           — address, unsubscribe, view-in-browser (CAN-SPAM)
+  ============================================================================
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>Hardy Club — This Week</title>
+
+  <!--[if mso]>
+  <noscript><xml><o:OfficeDocumentSettings>
+    <o:PixelsPerInch>96</o:PixelsPerInch>
+  </o:OfficeDocumentSettings></xml></noscript>
+  <![endif]-->
+
+  <style>
+    /* ---- Client resets ---- */
+    body, table, td, a { -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    table, td { mso-table-lspace:0pt; mso-table-rspace:0pt; }
+    img { -ms-interpolation-mode:bicubic; border:0; height:auto; line-height:100%; outline:none; text-decoration:none; }
+    table { border-collapse:collapse !important; }
+    body { margin:0 !important; padding:0 !important; width:100% !important; }
+    a { text-decoration:none; }
+
+    /* ---- Web font (ignored by most clients → Arial fallback inline) ---- */
+    @media screen {
+      @font-face {
+        font-family:'Inter';
+        font-style:normal; font-weight:400 900; font-display:swap;
+        src:url(https://fnxstudio.github.io/darren-hardy/fonts/inter-latin.woff2) format('woff2');
+      }
+    }
+
+    /* ---- Responsive (progressive enhancement) ---- */
+    @media only screen and (max-width:620px) {
+      .email-container { width:100% !important; }
+      .px { padding-left:24px !important; padding-right:24px !important; }
+      .stack { display:block !important; width:100% !important; }
+      .event-date-cell { padding-bottom:6px !important; }
+      .h1 { font-size:26px !important; line-height:1.15 !important; }
+      .hide-mobile { display:none !important; }
+    }
+  </style>
+</head>
+
+<body style="margin:0; padding:0; background-color:#ffffff; font-family:'Inter',Arial,Helvetica,sans-serif;">
+
+  <!-- ===================== [1] PREHEADER (hidden) ===================== -->
+  <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#ffffff; opacity:0;">
+    This week in Hardy Club — {{ preheader_text }}
+    &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+  </div>
+
+  <!-- ===================== OUTER WRAPPER ===================== -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;">
+    <tr>
+      <td align="center" style="padding:0;">
+
+        <!-- View in browser (CAN-SPAM friendly) -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px;">
+          <tr>
+            <td align="center" class="px" style="padding:14px 40px 0 40px; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#9a9a9a;">
+              <a href="{{ view_as_page_url }}" style="color:#9a9a9a; text-decoration:underline;">View in your browser</a>
+            </td>
+          </tr>
+        </table>
+
+        <!-- ===================== [2] HEADER — HARDY CLUB ===================== -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px;">
+          <tr>
+            <td align="center" class="px" style="padding:34px 40px 26px 40px;">
+              <!-- Hardy Club logo (dark logo reads well on white). Swap to hosted URL. -->
+              <img src="https://fnxstudio.github.io/darren-hardy/HC_logo.png"
+                   width="150" alt="Hardy Club"
+                   style="display:block; width:150px; max-width:150px; height:auto; margin:0 auto;">
+            </td>
+          </tr>
+          <!-- Gold hairline rule = Hardy Club signature -->
+          <tr>
+            <td class="px" style="padding:0 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td height="1" style="height:1px; line-height:1px; font-size:1px; background-color:#c9a96a;">&nbsp;</td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+
+        <!-- ===================== [3] ISSUE BAND ===================== -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px; background-color:#f5f5f5;">
+          <tr>
+            <td align="center" class="px" style="padding:22px 40px 24px 40px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+              <div class="h1" style="font-size:30px; font-weight:800; letter-spacing:-0.02em; text-transform:uppercase; color:#141414; line-height:1.1;">
+                This Week
+              </div>
+              <div style="font-size:12px; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:#6a6a6a; padding-top:10px;">
+                Week of {{ week_of_date }}
+              </div>
+            </td>
+          </tr>
+        </table>
+
+        <!-- ===================== [4] INTRO ===================== -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px; background-color:#ffffff;">
+          <tr>
+            <td class="px" style="padding:34px 40px 6px 40px; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:16px; line-height:1.65; color:#444444;">
+              <p style="margin:0 0 16px 0;">{{ contact.firstname | default: "Hey there" }} —</p>
+              <p style="margin:0;">
+                Here's everything happening across Hardy Club this week. The first set
+                is open to every member; the second is exclusive to The Collective.
+                Replays post to the portal within 24 hours.
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- ============================================================= -->
+        <!-- [5] SECTION 1 — OPEN TO ALL HARDY CLUB MEMBERS  (GOLD accent)  -->
+        <!-- ============================================================= -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px; background-color:#ffffff;">
+          <!-- Section header -->
+          <tr>
+            <td class="px" style="padding:30px 40px 4px 40px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+              <div style="font-size:11px; font-weight:600; letter-spacing:0.32em; text-transform:uppercase; color:#9a7a33;">
+                Open to All Members
+              </div>
+              <div style="font-size:20px; font-weight:800; letter-spacing:-0.01em; color:#141414; padding-top:8px;">
+                Hardy Club &mdash; This Week
+              </div>
+            </td>
+          </tr>
+
+          <!-- ▼▼▼ EVENT CARD (REPEATABLE — Section 1) ▼▼▼ -->
+          <!-- DEV: make this a repeater/loop. Fields: day, date, time, title, host, description, rsvp_url -->
+          <tr>
+            <td class="px" style="padding:14px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f5f5; border-left:3px solid #c9a96a;">
+                <tr>
+                  <td style="padding:20px 22px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td class="stack event-date-cell" width="150" valign="top" style="width:150px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                          <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#9a7a33;">Tuesday</div>
+                          <div style="font-size:22px; font-weight:800; color:#141414; padding-top:4px; line-height:1.1;">Jul 8</div>
+                          <div style="font-size:13px; font-weight:500; color:#6a6a6a; padding-top:4px;">12:00 PM ET</div>
+                        </td>
+                        <td class="stack" valign="top" style="font-family:'Inter',Arial,Helvetica,sans-serif;">
+                          <div style="font-size:17px; font-weight:700; color:#141414; line-height:1.3;">Weekly Momentum Call</div>
+                          <div style="font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#9a7a33; padding-top:5px;">with Darren Hardy</div>
+                          <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Kick off the week with the one focus that will move your business most — open to every Hardy Club member.</div>
+                          <div style="padding-top:14px;">
+                            <a href="{{ event.rsvp_url }}" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#9a7a33; text-decoration:none;">Save my seat &rarr;</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- ▲▲▲ /EVENT CARD ▲▲▲ -->
+
+          <!-- SAMPLE EVENT 2 (Section 1) -->
+          <tr>
+            <td class="px" style="padding:14px 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f5f5; border-left:3px solid #c9a96a;">
+                <tr>
+                  <td style="padding:20px 22px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td class="stack event-date-cell" width="150" valign="top" style="width:150px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                          <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#9a7a33;">Thursday</div>
+                          <div style="font-size:22px; font-weight:800; color:#141414; padding-top:4px; line-height:1.1;">Jul 10</div>
+                          <div style="font-size:13px; font-weight:500; color:#6a6a6a; padding-top:4px;">2:00 PM ET</div>
+                        </td>
+                        <td class="stack" valign="top" style="font-family:'Inter',Arial,Helvetica,sans-serif;">
+                          <div style="font-size:17px; font-weight:700; color:#141414; line-height:1.3;">Open Q&amp;A: Ask Me Anything</div>
+                          <div style="font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#9a7a33; padding-top:5px;">Live</div>
+                          <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Bring any question — strategy, mindset, or execution — and get a straight answer live.</div>
+                          <div style="padding-top:14px;">
+                            <a href="#" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#9a7a33; text-decoration:none;">Save my seat &rarr;</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- END SECTION 1 EVENTS -->
+        </table>
+
+        <!-- Section divider -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px; background-color:#ffffff;">
+          <tr>
+            <td class="px" style="padding:18px 40px 0 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td height="1" style="height:1px; line-height:1px; font-size:1px; background-color:#e6e6e6;">&nbsp;</td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+
+        <!-- ============================================================= -->
+        <!-- [6] SECTION 2 — THE COLLECTIVE · MEMBERS ONLY (PURPLE accent)  -->
+        <!-- ============================================================= -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px; background-color:#ffffff;">
+          <!-- Section header -->
+          <tr>
+            <td class="px" style="padding:28px 40px 4px 40px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+              <div style="font-size:11px; font-weight:600; letter-spacing:0.32em; text-transform:uppercase; color:#6E3DA6;">
+                The Collective
+                <span style="display:inline-block; margin-left:8px; padding:3px 8px; background-color:#8B5DC4; color:#ffffff; font-size:9px; font-weight:700; letter-spacing:0.16em; border-radius:3px; vertical-align:middle;">Members Only</span>
+              </div>
+              <div style="font-size:20px; font-weight:800; letter-spacing:-0.01em; color:#141414; padding-top:8px;">
+                The Collective &mdash; This Week
+              </div>
+            </td>
+          </tr>
+
+          <!-- ▼▼▼ EVENT CARD (REPEATABLE — Section 2) ▼▼▼ -->
+          <tr>
+            <td class="px" style="padding:14px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f5f5; border-left:3px solid #8B5DC4;">
+                <tr>
+                  <td style="padding:20px 22px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td class="stack event-date-cell" width="150" valign="top" style="width:150px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                          <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#6E3DA6;">Wednesday</div>
+                          <div style="font-size:22px; font-weight:800; color:#141414; padding-top:4px; line-height:1.1;">Jul 9</div>
+                          <div style="font-size:13px; font-weight:500; color:#6a6a6a; padding-top:4px;">1:00 PM ET</div>
+                        </td>
+                        <td class="stack" valign="top" style="font-family:'Inter',Arial,Helvetica,sans-serif;">
+                          <div style="font-size:17px; font-weight:700; color:#141414; line-height:1.3;">Hot Seat: Scaling Past the Founder Bottleneck</div>
+                          <div style="font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#6E3DA6; padding-top:5px;">with Darren Hardy</div>
+                          <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Bring your #1 constraint. Three members get a live diagnosis and a 90-day plan on the spot.</div>
+                          <div style="padding-top:14px;">
+                            <a href="{{ event.rsvp_url }}" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#6E3DA6; text-decoration:none;">Save my seat &rarr;</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- ▲▲▲ /EVENT CARD ▲▲▲ -->
+
+          <!-- SAMPLE EVENT 2 (Section 2) -->
+          <tr>
+            <td class="px" style="padding:14px 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f5f5; border-left:3px solid #8B5DC4;">
+                <tr>
+                  <td style="padding:20px 22px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td class="stack event-date-cell" width="150" valign="top" style="width:150px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                          <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#6E3DA6;">Friday</div>
+                          <div style="font-size:22px; font-weight:800; color:#141414; padding-top:4px; line-height:1.1;">Jul 11</div>
+                          <div style="font-size:13px; font-weight:500; color:#6a6a6a; padding-top:4px;">9:00 AM ET</div>
+                        </td>
+                        <td class="stack" valign="top" style="font-family:'Inter',Arial,Helvetica,sans-serif;">
+                          <div style="font-size:17px; font-weight:700; color:#141414; line-height:1.3;">Member Roundtable: Q3 Planning</div>
+                          <div style="font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#6E3DA6; padding-top:5px;">Peer-led</div>
+                          <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Small-group breakout to pressure-test your next-quarter priorities with fellow operators.</div>
+                          <div style="padding-top:14px;">
+                            <a href="#" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#6E3DA6; text-decoration:none;">Save my seat &rarr;</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- END SECTION 2 EVENTS -->
+        </table>
+
+        <!-- ===================== [7] NON-MEMBER CTA ===================== -->
+        <!--
+          Speaks to readers NOT yet in The Collective.
+          DEV (optional): wrap in smart content so it only renders for contacts
+          NOT on the "Collective Member" list.
+        -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px; background-color:#ffffff;">
+          <tr>
+            <td class="px" style="padding:30px 40px 10px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f3eefb; border:1px solid #8B5DC4;">
+                <tr>
+                  <td align="center" style="padding:34px 30px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                    <div style="font-size:11px; font-weight:600; letter-spacing:0.32em; text-transform:uppercase; color:#6E3DA6;">Not in The Collective yet?</div>
+                    <div style="font-size:22px; font-weight:800; color:#141414; line-height:1.25; padding-top:14px;">
+                      Those rooms are for members only.
+                    </div>
+                    <div style="font-size:15px; line-height:1.6; color:#444444; padding-top:12px; max-width:400px; margin:0 auto;">
+                      The Collective is Darren Hardy's inner circle of serious operators — live hot seats, roundtables, and direct access. See if there's a seat for you.
+                    </div>
+
+                    <!-- Bulletproof button (purple) -->
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:24px auto 0 auto;">
+                      <tr>
+                        <td align="center" bgcolor="#8B5DC4" style="border-radius:4px;">
+                          <!--[if mso]>
+                          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ join_collective_url }}" style="height:48px;v-text-anchor:middle;width:280px;" arcsize="8%" strokecolor="#8B5DC4" fillcolor="#8B5DC4">
+                            <w:anchorlock/>
+                            <center style="color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:2px;">JOIN THE COLLECTIVE</center>
+                          </v:roundrect>
+                          <![endif]-->
+                          <!--[if !mso]><!-->
+                          <a href="{{ join_collective_url }}" style="display:inline-block; padding:15px 34px; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:13px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#ffffff; text-decoration:none; border-radius:4px;">
+                            Join The Collective
+                          </a>
+                          <!--<![endif]-->
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+
+        <!-- ===================== [8] FOOTER ===================== -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px; background-color:#ffffff;">
+          <!-- Gold rule -->
+          <tr>
+            <td class="px" style="padding:26px 40px 0 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td height="1" style="height:1px; line-height:1px; font-size:1px; background-color:#c9a96a;">&nbsp;</td></tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" class="px" style="padding:24px 40px 6px 40px;">
+              <img src="https://fnxstudio.github.io/darren-hardy/HC_logo.png" width="110" alt="Hardy Club" style="display:block; width:110px; height:auto; margin:0 auto;">
+            </td>
+          </tr>
+          <tr>
+            <td align="center" class="px" style="padding:10px 40px 4px 40px; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; line-height:1.7; color:#6a6a6a;">
+              You're receiving this because you're part of the Hardy Club community.<br>
+              {{ site_settings.company_name }} · {{ site_settings.company_street_address_1 }}, {{ site_settings.company_city }}, {{ site_settings.company_state }} {{ site_settings.company_zip }}
+            </td>
+          </tr>
+          <tr>
+            <td align="center" class="px" style="padding:8px 40px 40px 40px; font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; letter-spacing:0.06em; color:#9a9a9a;">
+              <a href="{{ unsubscribe_link }}" style="color:#6a6a6a; text-decoration:underline;">Manage preferences</a>
+              &nbsp;&nbsp;·&nbsp;&nbsp;
+              <a href="{{ unsubscribe_link_all }}" style="color:#6a6a6a; text-decoration:underline;">Unsubscribe</a>
+            </td>
+          </tr>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+  <!-- ===================== /OUTER WRAPPER ===================== -->
+
+</body>
+</html>
