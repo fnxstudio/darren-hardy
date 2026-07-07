@@ -21,18 +21,27 @@
       enhancement only (responsive stacking); Outlook/Gmail may strip it.
     • Images use ABSOLUTE https URLs (GitHub Pages mirror). Swap to your CDN /
       HubSpot file-manager URLs before sending. Always keep alt text.
-    • Buttons are "bulletproof" (VML for Outlook + styled anchor for the rest).
+    • The header + host photos are "bulletproof" background images: the
+      `background` attribute + inline CSS for modern clients, PLUS a <v:...>
+      VML block for Outlook. Keep BOTH — don't strip the MSO comments.
+    • Buttons are bulletproof (VML for Outlook + styled anchor for the rest).
     • HubSpot tokens are shown as {{ ... }} placeholders — wire to real fields.
 
   MODULE MAP (for HubSpot conversion):
     [1] Preheader        — hidden preview text
-    [2] Header           — Hardy Club logo + gold rule
+    [2] Header           — member-collage bg + gold shield + HARDY CLUB
     [3] Issue band       — "THIS WEEK" + week-of date
     [4] Intro            — greeting + one-line context
     [5] SECTION 1 (GOLD) — "Open to all members" + REPEATABLE event card
-    [6] SECTION 2 (PURPLE)— "The Collective · members only" + REPEATABLE event card
+    [6] SECTION 2 (PURPLE)— TC logo + members-only + REPEATABLE event card
     [7] Non-member CTA    — "Not in The Collective yet?" → join link
     [8] Footer           — address, unsubscribe, view-in-browser (CAN-SPAM)
+
+  EVENT CARD FIELDS (make the card a repeater/loop):
+    day_date_time (e.g. "Tue · Jul 8 · 12:00 PM ET"), title, description,
+    rsvp_url, host_name, host_title, host_photo_url
+    → host_photo_url is a LARGE PORTRAIT (full card height). Supply ~2x:
+      380x520 or taller. NOT a circle. Face toward top (bg-position center top).
   ============================================================================
 -->
 <!DOCTYPE html>
@@ -74,7 +83,7 @@
       .email-container { width:100% !important; }
       .px { padding-left:24px !important; padding-right:24px !important; }
       .stack { display:block !important; width:100% !important; }
-      .event-date-cell { padding-bottom:6px !important; }
+      .host-photo { width:100% !important; height:240px !important; }
       .h1 { font-size:26px !important; line-height:1.15 !important; }
       .hide-mobile { display:none !important; }
     }
@@ -183,43 +192,34 @@
           </tr>
 
           <!-- ▼▼▼ EVENT CARD (REPEATABLE — Section 1) ▼▼▼ -->
-          <!-- DEV: make this a repeater/loop. Fields per event:
-               day, date, time, title, description, rsvp_url,
-               host_name, host_title, host_photo_url (rectangular headshot — NOT a circle). -->
+          <!-- Big host photo (full card height, left) + details (right). -->
           <tr>
             <td class="px" style="padding:14px 40px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f5f5; border-left:3px solid #c9a96a;">
                 <tr>
-                  <td style="padding:20px 22px;">
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                      <tr>
-                        <td class="stack event-date-cell" width="150" valign="top" style="width:150px; font-family:'Inter',Arial,Helvetica,sans-serif;">
-                          <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#9a7a33;">Tuesday</div>
-                          <div style="font-size:22px; font-weight:800; color:#141414; padding-top:4px; line-height:1.1;">Jul 8</div>
-                          <div style="font-size:13px; font-weight:500; color:#6a6a6a; padding-top:4px;">12:00 PM ET</div>
-                        </td>
-                        <td class="stack" valign="top" style="font-family:'Inter',Arial,Helvetica,sans-serif;">
-                          <div style="font-size:17px; font-weight:700; color:#141414; line-height:1.3;">Weekly Momentum Call</div>
-                          <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Kick off the week with the one focus that will move your business most — open to every Hardy Club member.</div>
-                          <!-- Host lockup: rectangular photo (NOT a circle) + name spot -->
-                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="padding-top:16px;">
-                            <tr>
-                              <td width="64" valign="top" style="width:64px;">
-                                <img src="https://placehold.co/128x152/ececec/9a7a33?text=Host+Photo" width="64" height="76" alt="{{ event.host_name }}" style="display:block; width:64px; height:76px; border-radius:4px;">
-                              </td>
-                              <td valign="middle" style="padding-left:14px; font-family:'Inter',Arial,Helvetica,sans-serif;">
-                                <div style="font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#9a7a33;">Hosted by</div>
-                                <div style="font-size:15px; font-weight:700; color:#141414; padding-top:3px;">Darren Hardy</div>
-                                <div style="font-size:12px; font-weight:500; color:#6a6a6a; padding-top:2px;">Founder, Hardy Club</div>
-                              </td>
-                            </tr>
-                          </table>
-                          <div style="padding-top:16px;">
-                            <a href="{{ event.rsvp_url }}" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#9a7a33; text-decoration:none;">Save my seat &rarr;</a>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
+                  <!-- HOST PHOTO — fills full card height -->
+                  <td class="stack host-photo" width="190" valign="top" background="https://placehold.co/380x520/e9e4f2/9a7a33?text=Host+Photo"
+                      style="width:190px; background-image:url('https://placehold.co/380x520/e9e4f2/9a7a33?text=Host+Photo'); background-position:center top; background-size:cover; background-color:#e9e4f2;">
+                    <!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" stroke="false" style="width:190px;height:264px;">
+                      <v:fill type="frame" src="https://placehold.co/380x520/e9e4f2/9a7a33?text=Host+Photo" origin="0.5,0" position="0.5,0" />
+                    </v:rect>
+                    <![endif]-->
+                    <div style="min-height:240px; font-size:0; line-height:0;">&nbsp;</div>
+                  </td>
+                  <!-- DETAILS -->
+                  <td class="stack" valign="top" style="padding:20px 22px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                    <div style="font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#9a7a33;">Tue &middot; Jul 8 &middot; 12:00 PM ET</div>
+                    <div style="font-size:18px; font-weight:700; color:#141414; line-height:1.3; padding-top:8px;">Weekly Momentum Call</div>
+                    <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Kick off the week with the one focus that will move your business most — open to every Hardy Club member.</div>
+                    <div style="padding-top:16px;">
+                      <div style="font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#9a7a33;">Hosted by</div>
+                      <div style="font-size:15px; font-weight:700; color:#141414; padding-top:3px;">Darren Hardy</div>
+                      <div style="font-size:12px; font-weight:500; color:#6a6a6a; padding-top:2px;">Founder, Hardy Club</div>
+                    </div>
+                    <div style="padding-top:16px;">
+                      <a href="{{ event.rsvp_url }}" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#9a7a33; text-decoration:none;">Save my seat &rarr;</a>
+                    </div>
                   </td>
                 </tr>
               </table>
@@ -232,36 +232,27 @@
             <td class="px" style="padding:14px 40px 8px 40px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f5f5; border-left:3px solid #c9a96a;">
                 <tr>
-                  <td style="padding:20px 22px;">
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                      <tr>
-                        <td class="stack event-date-cell" width="150" valign="top" style="width:150px; font-family:'Inter',Arial,Helvetica,sans-serif;">
-                          <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#9a7a33;">Thursday</div>
-                          <div style="font-size:22px; font-weight:800; color:#141414; padding-top:4px; line-height:1.1;">Jul 10</div>
-                          <div style="font-size:13px; font-weight:500; color:#6a6a6a; padding-top:4px;">2:00 PM ET</div>
-                        </td>
-                        <td class="stack" valign="top" style="font-family:'Inter',Arial,Helvetica,sans-serif;">
-                          <div style="font-size:17px; font-weight:700; color:#141414; line-height:1.3;">Open Q&amp;A: Ask Me Anything</div>
-                          <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Bring any question — strategy, mindset, or execution — and get a straight answer live.</div>
-                          <!-- Host lockup: rectangular photo (NOT a circle) + name spot -->
-                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="padding-top:16px;">
-                            <tr>
-                              <td width="64" valign="top" style="width:64px;">
-                                <img src="https://placehold.co/128x152/ececec/9a7a33?text=Host+Photo" width="64" height="76" alt="Darren Hardy" style="display:block; width:64px; height:76px; border-radius:4px;">
-                              </td>
-                              <td valign="middle" style="padding-left:14px; font-family:'Inter',Arial,Helvetica,sans-serif;">
-                                <div style="font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#9a7a33;">Hosted by</div>
-                                <div style="font-size:15px; font-weight:700; color:#141414; padding-top:3px;">Darren Hardy</div>
-                                <div style="font-size:12px; font-weight:500; color:#6a6a6a; padding-top:2px;">Founder, Hardy Club</div>
-                              </td>
-                            </tr>
-                          </table>
-                          <div style="padding-top:16px;">
-                            <a href="#" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#9a7a33; text-decoration:none;">Save my seat &rarr;</a>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
+                  <td class="stack host-photo" width="190" valign="top" background="https://placehold.co/380x520/e9e4f2/9a7a33?text=Host+Photo"
+                      style="width:190px; background-image:url('https://placehold.co/380x520/e9e4f2/9a7a33?text=Host+Photo'); background-position:center top; background-size:cover; background-color:#e9e4f2;">
+                    <!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" stroke="false" style="width:190px;height:264px;">
+                      <v:fill type="frame" src="https://placehold.co/380x520/e9e4f2/9a7a33?text=Host+Photo" origin="0.5,0" position="0.5,0" />
+                    </v:rect>
+                    <![endif]-->
+                    <div style="min-height:240px; font-size:0; line-height:0;">&nbsp;</div>
+                  </td>
+                  <td class="stack" valign="top" style="padding:20px 22px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                    <div style="font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#9a7a33;">Thu &middot; Jul 10 &middot; 2:00 PM ET</div>
+                    <div style="font-size:18px; font-weight:700; color:#141414; line-height:1.3; padding-top:8px;">Open Q&amp;A: Ask Me Anything</div>
+                    <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Bring any question — strategy, mindset, or execution — and get a straight answer live.</div>
+                    <div style="padding-top:16px;">
+                      <div style="font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#9a7a33;">Hosted by</div>
+                      <div style="font-size:15px; font-weight:700; color:#141414; padding-top:3px;">Darren Hardy</div>
+                      <div style="font-size:12px; font-weight:500; color:#6a6a6a; padding-top:2px;">Founder, Hardy Club</div>
+                    </div>
+                    <div style="padding-top:16px;">
+                      <a href="#" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#9a7a33; text-decoration:none;">Save my seat &rarr;</a>
+                    </div>
                   </td>
                 </tr>
               </table>
@@ -304,36 +295,27 @@
             <td class="px" style="padding:14px 40px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f5f5; border-left:3px solid #8B5DC4;">
                 <tr>
-                  <td style="padding:20px 22px;">
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                      <tr>
-                        <td class="stack event-date-cell" width="150" valign="top" style="width:150px; font-family:'Inter',Arial,Helvetica,sans-serif;">
-                          <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#6E3DA6;">Wednesday</div>
-                          <div style="font-size:22px; font-weight:800; color:#141414; padding-top:4px; line-height:1.1;">Jul 9</div>
-                          <div style="font-size:13px; font-weight:500; color:#6a6a6a; padding-top:4px;">1:00 PM ET</div>
-                        </td>
-                        <td class="stack" valign="top" style="font-family:'Inter',Arial,Helvetica,sans-serif;">
-                          <div style="font-size:17px; font-weight:700; color:#141414; line-height:1.3;">Hot Seat: Scaling Past the Founder Bottleneck</div>
-                          <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Bring your #1 constraint. Three members get a live diagnosis and a 90-day plan on the spot.</div>
-                          <!-- Host lockup: rectangular photo (NOT a circle) + name spot -->
-                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="padding-top:16px;">
-                            <tr>
-                              <td width="64" valign="top" style="width:64px;">
-                                <img src="https://placehold.co/128x152/ececec/6E3DA6?text=Host+Photo" width="64" height="76" alt="{{ event.host_name }}" style="display:block; width:64px; height:76px; border-radius:4px;">
-                              </td>
-                              <td valign="middle" style="padding-left:14px; font-family:'Inter',Arial,Helvetica,sans-serif;">
-                                <div style="font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#6E3DA6;">Hosted by</div>
-                                <div style="font-size:15px; font-weight:700; color:#141414; padding-top:3px;">Darren Hardy</div>
-                                <div style="font-size:12px; font-weight:500; color:#6a6a6a; padding-top:2px;">Founder, Hardy Club</div>
-                              </td>
-                            </tr>
-                          </table>
-                          <div style="padding-top:16px;">
-                            <a href="{{ event.rsvp_url }}" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#6E3DA6; text-decoration:none;">Save my seat &rarr;</a>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
+                  <td class="stack host-photo" width="190" valign="top" background="https://placehold.co/380x520/ece7f5/6E3DA6?text=Host+Photo"
+                      style="width:190px; background-image:url('https://placehold.co/380x520/ece7f5/6E3DA6?text=Host+Photo'); background-position:center top; background-size:cover; background-color:#ece7f5;">
+                    <!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" stroke="false" style="width:190px;height:264px;">
+                      <v:fill type="frame" src="https://placehold.co/380x520/ece7f5/6E3DA6?text=Host+Photo" origin="0.5,0" position="0.5,0" />
+                    </v:rect>
+                    <![endif]-->
+                    <div style="min-height:240px; font-size:0; line-height:0;">&nbsp;</div>
+                  </td>
+                  <td class="stack" valign="top" style="padding:20px 22px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                    <div style="font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#6E3DA6;">Wed &middot; Jul 9 &middot; 1:00 PM ET</div>
+                    <div style="font-size:18px; font-weight:700; color:#141414; line-height:1.3; padding-top:8px;">Hot Seat: Scaling Past the Founder Bottleneck</div>
+                    <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Bring your #1 constraint. Three members get a live diagnosis and a 90-day plan on the spot.</div>
+                    <div style="padding-top:16px;">
+                      <div style="font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#6E3DA6;">Hosted by</div>
+                      <div style="font-size:15px; font-weight:700; color:#141414; padding-top:3px;">Darren Hardy</div>
+                      <div style="font-size:12px; font-weight:500; color:#6a6a6a; padding-top:2px;">Founder, Hardy Club</div>
+                    </div>
+                    <div style="padding-top:16px;">
+                      <a href="{{ event.rsvp_url }}" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#6E3DA6; text-decoration:none;">Save my seat &rarr;</a>
+                    </div>
                   </td>
                 </tr>
               </table>
@@ -346,36 +328,27 @@
             <td class="px" style="padding:14px 40px 8px 40px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f5f5; border-left:3px solid #8B5DC4;">
                 <tr>
-                  <td style="padding:20px 22px;">
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                      <tr>
-                        <td class="stack event-date-cell" width="150" valign="top" style="width:150px; font-family:'Inter',Arial,Helvetica,sans-serif;">
-                          <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#6E3DA6;">Friday</div>
-                          <div style="font-size:22px; font-weight:800; color:#141414; padding-top:4px; line-height:1.1;">Jul 11</div>
-                          <div style="font-size:13px; font-weight:500; color:#6a6a6a; padding-top:4px;">9:00 AM ET</div>
-                        </td>
-                        <td class="stack" valign="top" style="font-family:'Inter',Arial,Helvetica,sans-serif;">
-                          <div style="font-size:17px; font-weight:700; color:#141414; line-height:1.3;">Member Roundtable: Q3 Planning</div>
-                          <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Small-group breakout to pressure-test your next-quarter priorities with fellow operators.</div>
-                          <!-- Host lockup: rectangular photo (NOT a circle) + name spot -->
-                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="padding-top:16px;">
-                            <tr>
-                              <td width="64" valign="top" style="width:64px;">
-                                <img src="https://placehold.co/128x152/ececec/6E3DA6?text=Host+Photo" width="64" height="76" alt="Guest Facilitator" style="display:block; width:64px; height:76px; border-radius:4px;">
-                              </td>
-                              <td valign="middle" style="padding-left:14px; font-family:'Inter',Arial,Helvetica,sans-serif;">
-                                <div style="font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#6E3DA6;">Hosted by</div>
-                                <div style="font-size:15px; font-weight:700; color:#141414; padding-top:3px;">Guest Facilitator</div>
-                                <div style="font-size:12px; font-weight:500; color:#6a6a6a; padding-top:2px;">The Collective</div>
-                              </td>
-                            </tr>
-                          </table>
-                          <div style="padding-top:16px;">
-                            <a href="#" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#6E3DA6; text-decoration:none;">Save my seat &rarr;</a>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
+                  <td class="stack host-photo" width="190" valign="top" background="https://placehold.co/380x520/ece7f5/6E3DA6?text=Host+Photo"
+                      style="width:190px; background-image:url('https://placehold.co/380x520/ece7f5/6E3DA6?text=Host+Photo'); background-position:center top; background-size:cover; background-color:#ece7f5;">
+                    <!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" stroke="false" style="width:190px;height:264px;">
+                      <v:fill type="frame" src="https://placehold.co/380x520/ece7f5/6E3DA6?text=Host+Photo" origin="0.5,0" position="0.5,0" />
+                    </v:rect>
+                    <![endif]-->
+                    <div style="min-height:240px; font-size:0; line-height:0;">&nbsp;</div>
+                  </td>
+                  <td class="stack" valign="top" style="padding:20px 22px; font-family:'Inter',Arial,Helvetica,sans-serif;">
+                    <div style="font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#6E3DA6;">Fri &middot; Jul 11 &middot; 9:00 AM ET</div>
+                    <div style="font-size:18px; font-weight:700; color:#141414; line-height:1.3; padding-top:8px;">Member Roundtable: Q3 Planning</div>
+                    <div style="font-size:14px; line-height:1.6; color:#444444; padding-top:10px;">Small-group breakout to pressure-test your next-quarter priorities with fellow operators.</div>
+                    <div style="padding-top:16px;">
+                      <div style="font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#6E3DA6;">Hosted by</div>
+                      <div style="font-size:15px; font-weight:700; color:#141414; padding-top:3px;">Guest Facilitator</div>
+                      <div style="font-size:12px; font-weight:500; color:#6a6a6a; padding-top:2px;">The Collective</div>
+                    </div>
+                    <div style="padding-top:16px;">
+                      <a href="#" style="font-family:'Inter',Arial,Helvetica,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#6E3DA6; text-decoration:none;">Save my seat &rarr;</a>
+                    </div>
                   </td>
                 </tr>
               </table>
@@ -441,7 +414,7 @@
           </tr>
           <tr>
             <td align="center" class="px" style="padding:24px 40px 6px 40px;">
-              <img src="https://fnxstudio.github.io/darren-hardy/HC_logo.png" width="110" alt="Hardy Club" style="display:block; width:110px; height:auto; margin:0 auto;">
+              <img src="https://fnxstudio.github.io/darren-hardy/HC_logo.png" width="70" alt="Hardy Club" style="display:block; width:70px; height:auto; margin:0 auto;">
             </td>
           </tr>
           <tr>
