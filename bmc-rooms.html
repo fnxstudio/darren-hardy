@@ -220,19 +220,50 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 .hero-meta .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bmc-cyan); box-shadow: 0 0 0 4px rgba(var(--bmc-cyan-rgb),0.18); }
 
 /* ============================================================
-   REASSURANCE / POSITIONING BAND
+   THE EXPERIENCE — single narrative + photo collage
    ============================================================ */
-.band { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--rule); }
-.band-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 100px); align-items: center;
+.story { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--rule); }
+.story-head { max-width: 900px; margin: 0 auto; text-align: center; }
+.story-head h2 { font-size: clamp(30px, 4vw, 56px); text-transform: uppercase; margin: 20px 0 26px; }
+.story-head .lead { max-width: 780px; margin: 0 auto; }
+.story-head .lead + .lead { margin-top: 18px; }
+
+.story-gallery {
+  display: grid; grid-template-columns: 1.55fr 1fr; grid-template-rows: repeat(2, 220px);
+  gap: 18px; margin: 56px 0 46px;
 }
-.band-grid h2 { font-size: clamp(28px, 3.4vw, 46px); text-transform: uppercase; margin: 20px 0 22px; }
-.band-grid p + p { margin-top: 18px; }
-.band-callout {
-  border-left: 2px solid var(--bmc-cyan); padding: 6px 0 6px 24px; margin-top: 30px;
-  font-size: clamp(18px, 1.7vw, 23px); line-height: 1.45; font-weight: 700; color: var(--white);
+.story-fig { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--rule); }
+.story-fig--main { grid-row: 1 / 3; }
+.story-fig img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ph {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  background:
+    radial-gradient(ellipse 80% 80% at 50% 32%, rgba(var(--bmc-purple-rgb), 0.22), transparent 65%),
+    linear-gradient(160deg, #16121d, #0c0b10);
 }
-@media (max-width: 860px) { .band-grid { grid-template-columns: 1fr; } }
+.ph svg { width: 38px; height: 38px; color: rgba(var(--bmc-cyan-rgb), 0.55); }
+.ph span { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--silver); }
+.story-fig--main .ph svg { width: 52px; height: 52px; }
+.story-fig--main .ph span { font-size: 14px; }
+.ph::after {
+  content: "PLACEHOLDER"; position: absolute; top: 12px; left: 12px;
+  font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; color: var(--grey-soft);
+  border: 1px dashed var(--muted); border-radius: 99px; padding: 3px 8px;
+}
+.story-fig figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 44px 18px 15px;
+  font-size: 12.5px; line-height: 1.45; color: var(--text-on-dark);
+  background: linear-gradient(180deg, transparent, rgba(10,10,10,0.9));
+}
+.story-callout {
+  max-width: 760px; margin: 0 auto; text-align: center;
+  border-top: 1px solid var(--rule-cyan); padding-top: 30px;
+  font-size: clamp(19px, 1.9vw, 26px); line-height: 1.4; font-weight: 700; color: var(--white);
+}
+@media (max-width: 760px) {
+  .story-gallery { grid-template-columns: 1fr; grid-template-rows: none; }
+  .story-fig, .story-fig--main { grid-row: auto; aspect-ratio: 16 / 10; }
+}
 
 /* ============================================================
    HOW IT WORKS
@@ -413,10 +444,22 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 .faq-head { text-align: center; margin-bottom: 50px; }
 .faq-head h2 { font-size: clamp(26px, 3.2vw, 44px); text-transform: uppercase; margin-top: 16px; }
 .faq-list { max-width: 820px; margin: 0 auto; }
-.faq-item { border-top: 1px solid var(--rule); padding: 26px 0; }
+.faq-item { border-top: 1px solid var(--rule); }
 .faq-item:last-child { border-bottom: 1px solid var(--rule); }
-.faq-q { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
-.faq-a { font-size: 15px; line-height: 1.7; color: var(--silver); }
+.faq-q {
+  list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 26px 0; font-size: 18px; font-weight: 700; color: var(--white);
+  transition: color .2s;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-item:hover .faq-q { color: var(--bmc-cyan); }
+.faq-chevron { width: 20px; height: 20px; color: var(--bmc-cyan); flex: none; transition: transform .3s cubic-bezier(.16,1,.3,1); }
+.faq-item[open] .faq-chevron { transform: rotate(180deg); }
+.faq-a { font-size: 15px; line-height: 1.7; color: var(--silver); padding: 0 44px 28px 0; }
+.faq-a a { color: var(--bmc-cyan); text-decoration: underline; text-underline-offset: 2px; }
+.faq-item[open] .faq-a { animation: faqReveal .4s cubic-bezier(.16,1,.3,1); }
+@keyframes faqReveal { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .faq-chevron { transition: none; } .faq-item[open] .faq-a { animation: none; } }
 
 /* ============================================================
    FOOTER
@@ -495,22 +538,42 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
   </div>
 </section>
 
-<!-- ===== POSITIONING BAND ===== -->
-<section class="band bmc-wash">
+<!-- ===== THE EXPERIENCE ===== -->
+<section class="story bmc-wash bmc-wash--center" id="experience">
   <div class="container">
-    <div class="band-grid">
-      <div class="reveal">
-        <div class="eyebrow"><span class="pip"></span>The Virtual Program Is Extraordinary</div>
-        <h2>Every Seat Is A <em class="key">Great Seat</em>.</h2>
-        <p class="lead">Business Master Class was built for the screen. Three days of the exact strategies and systems today&rsquo;s titans use to dominate their categories &mdash; delivered live, in high definition, wherever you are. Thousands of builders will experience it from their office, their home, their favorite chair. And it will move the needle for every one of them.</p>
-      </div>
-      <div class="reveal">
-        <div class="eyebrow"><span class="pip"></span>Some Seats Are Unforgettable</div>
-        <h2>The Room Changes <em class="key">Everything</em>.</h2>
-        <p class="lead">But there&rsquo;s a different kind of magic when you experience it shoulder-to-shoulder with other builders &mdash; pausing to trade notes, arguing the hard calls over lunch, walking out with relationships that compound for years. That&rsquo;s what a Hosted Room is. Not a replacement for the virtual event. An amplifier of it.</p>
-        <div class="band-callout">The program teaches you what to build.<br/>The room is where you find the people to build it with.</div>
-      </div>
+    <div class="story-head reveal">
+      <div class="eyebrow eyebrow--center"><span class="pip"></span>The Experience</div>
+      <h2>Every Seat Is A Great Seat.<br/>Some Are <em class="key">Unforgettable</em>.</h2>
+      <p class="lead">Business Master Class was built for the screen. Three days of the exact strategies and systems today&rsquo;s titans use to dominate their categories &mdash; delivered live, in high definition, wherever you are. Thousands of builders will experience it from their office, their home, their favorite chair, and it will move the needle for every one of them.</p>
+      <p class="lead">But there&rsquo;s a different kind of magic when you watch it shoulder-to-shoulder with other builders &mdash; pausing to trade notes, arguing the hard calls over dinner, walking out with relationships that compound for years. That&rsquo;s what a Hosted Room is: not a replacement for the virtual event, but an amplifier of it.</p>
     </div>
+
+    <!-- Swap each .ph placeholder for <img src="..." alt="..."> when real photos are ready -->
+    <div class="story-gallery reveal">
+      <figure class="story-fig story-fig--main">
+        <div class="ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span>BMC Watch Room</span>
+        </div>
+        <figcaption>The big screen, the whole room dialed in &mdash; Business Master Class, watched together.</figcaption>
+      </figure>
+      <figure class="story-fig">
+        <div class="ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11h18M12 11V3M6 3v4M18 3v4M5 11a7 7 0 0 0 14 0M4 21h16"/></svg>
+          <span>Dinner &amp; Debate</span>
+        </div>
+        <figcaption>Builders trading notes and pressure-testing ideas over dinner between sessions.</figcaption>
+      </figure>
+      <figure class="story-fig">
+        <div class="ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>In-Person Connection</span>
+        </div>
+        <figcaption>The handshakes, introductions, and relationships that compound for years.</figcaption>
+      </figure>
+    </div>
+
+    <div class="story-callout reveal">The program teaches you what to build.<br/>The room is where you find the <em class="key">people to build it with</em>.</div>
   </div>
 </section>
 
@@ -855,26 +918,26 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
       <h2>Before You Claim A Seat</h2>
     </div>
     <div class="faq-list reveal">
-      <div class="faq-item">
-        <div class="faq-q">Do I still need my own Business Master Class ticket?</div>
+      <details class="faq-item" open>
+        <summary class="faq-q"><span>Do I still need my own Business Master Class ticket?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
         <div class="faq-a">Yes. A Hosted Room is where you watch the live program &mdash; not a substitute for it. Every attendee holds their own BMC ticket. The Room simply adds the in-person experience on top of the seat you already have.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Is the virtual event somehow &ldquo;less than&rdquo; being in a Room?</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q"><span>Is the virtual event somehow &ldquo;less than&rdquo; being in a Room?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
         <div class="faq-a">Not at all. Business Master Class was engineered for the screen, and the vast majority of members will experience it virtually &mdash; and get everything the program promises. A Room is for builders who simply want more than the program: the people, the debate, and the relationships that come from watching it side-by-side.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Who runs these Rooms?</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q"><span>Who runs these Rooms?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
         <div class="faq-a">Members of the community &mdash; not Darren Hardy and not the <em class="key nobreak">A-Team</em>. Each Room is opened, hosted, and run by a fellow BMC|COLLECTIVE member who wanted to experience the event with others in their city. It&rsquo;s grassroots by design.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">What does it cost to attend a Room?</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q"><span>What does it cost to attend a Room?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
         <div class="faq-a">That&rsquo;s set by each host &mdash; some Rooms are free gatherings, others cover a shared venue, meals, or lodging. When you request a seat, your host will walk you through exactly what&rsquo;s included before you commit.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">My city isn&rsquo;t listed. Now what?</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q"><span>My city isn&rsquo;t listed. Now what?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
         <div class="faq-a">Two options: watch a nearby Room fill up and grab a travel seat, or open your own. Hosting is easier than you think &mdash; <a href="#host">start here</a> and we&rsquo;ll help you get it off the ground.</div>
-      </div>
+      </details>
     </div>
   </div>
 </section>
