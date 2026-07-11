@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BMC|COLLECTIVE · Hosted Rooms — Experience Business Master Class In Person</title>
-<meta name="description" content="During Business Master Class this October, driven builders across the country are opening their cities. Watch the live program together on the big screen, then network in person. Find a Hosted Room near you — or host your own.">
+<title>BMC|COLLECTIVE · Hosted Rooms · Experience Business Master Class In Person</title>
+<meta name="description" content="During Business Master Class this October, driven builders across the country are opening their cities. Watch the live program together on the big screen, then network in person. Find a Hosted Room near you, or host your own.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/bmc-rooms.html">
 <link rel="icon" href="favicon.png">
@@ -12,13 +12,13 @@
 <!-- Open Graph -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="BMC|COLLECTIVE">
-<meta property="og:title"       content="Don't Just Watch It. Live It — In The Room.">
+<meta property="og:title"       content="Don't Just Watch It. Live It. In The Room.">
 <meta property="og:description" content="During Business Master Class this October, community members are hosting in-person Rooms across the country. Watch the live program together, then build in person.">
 <meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/og-image.jpg">
 
 <style id="bmc-css">
 /* ============================================================
-   FONTS — self-hosted Inter (never Google CDN)
+   FONTS - self-hosted Inter (never Google CDN)
    ============================================================ */
 @font-face {
   font-family: 'Inter';
@@ -223,7 +223,7 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 .hero-meta .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bmc-cyan); box-shadow: 0 0 0 4px rgba(var(--bmc-cyan-rgb),0.18); }
 
 /* ============================================================
-   THE EXPERIENCE — single narrative + photo collage
+   THE EXPERIENCE - single narrative + photo collage
    ============================================================ */
 .story { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--rule); }
 .story-head { max-width: 900px; margin: 0 auto; text-align: center; }
@@ -231,50 +231,33 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 .story-head .lead { max-width: 780px; margin: 0 auto; }
 .story-head .lead + .lead { margin-top: 18px; }
 
-/* image slider */
-.slider { position: relative; margin: 56px 0 46px; }
-.slider-track {
-  display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
-  scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; padding-bottom: 2px;
-}
-.slider-track::-webkit-scrollbar { display: none; }
-.slide {
-  flex: 0 0 auto; width: 86%; aspect-ratio: 16 / 10; scroll-snap-align: start;
-  position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--rule);
+/* parallax image gallery */
+.pgallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 58px 0 48px; }
+.pcol { display: flex; flex-direction: column; gap: 16px; will-change: transform; }
+.ptile {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  border: 1px solid rgba(20,10,30,0.10);
+  background: linear-gradient(160deg, #ece6f4, #ddd4ec);
   display: flex; align-items: center; justify-content: center;
-  background:
-    radial-gradient(ellipse 80% 80% at 50% 35%, rgba(var(--bmc-purple-rgb), 0.22), transparent 65%),
-    linear-gradient(160deg, #16121d, #0c0b10);
 }
-img.slide { object-fit: cover; }
-.slide .ph-icon { width: 46px; height: 46px; color: rgba(var(--bmc-cyan-rgb), 0.5); }
-.slide .ph-mark {
-  position: absolute; top: 14px; left: 14px;
+.ptile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ptile .ph-icon { width: 40px; height: 40px; color: rgba(var(--bmc-plum-rgb), 0.5); }
+.ptile .ph-mark {
+  position: absolute; top: 12px; left: 12px;
   font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey-soft);
-  border: 1px dashed var(--muted); border-radius: 99px; padding: 3px 9px;
+  border: 1px dashed rgba(20,10,30,0.22); border-radius: 99px; padding: 3px 9px;
 }
-.slider-arrow {
-  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
-  width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
-  background: rgba(10,10,10,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--rule-cyan); color: var(--bmc-cyan);
-  display: flex; align-items: center; justify-content: center; transition: opacity .2s, background .2s, color .2s;
+.ptile.t-tall { aspect-ratio: 3 / 4; }
+.ptile.t-wide { aspect-ratio: 4 / 3; }
+.ptile.t-sq   { aspect-ratio: 1 / 1; }
+@media (max-width: 760px) {
+  .pgallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .pcol { transform: none !important; gap: 12px; }
 }
-.slider-arrow:hover { background: var(--bmc-cyan); color: var(--black); }
-.slider-arrow svg { width: 22px; height: 22px; }
-.slider-prev { left: 14px; } .slider-next { right: 14px; }
-.slider-arrow[disabled] { opacity: 0; pointer-events: none; }
-.slider-dots { display: flex; justify-content: center; gap: 9px; margin-top: 24px; }
-.slider-dots button { width: 8px; height: 8px; border-radius: 99px; border: none; background: rgba(255,255,255,0.22); cursor: pointer; padding: 0; transition: all .25s cubic-bezier(.16,1,.3,1); }
-.slider-dots button.active { background: var(--bmc-cyan); width: 24px; }
 .story-callout {
   max-width: 760px; margin: 0 auto; text-align: center;
   border-top: 1px solid var(--rule-cyan); padding-top: 30px;
   font-size: clamp(19px, 1.9vw, 26px); line-height: 1.4; font-weight: 700; color: var(--white);
-}
-@media (min-width: 761px) {
-  .slide { width: min(66%, 820px); }
 }
 
 /* ============================================================
@@ -485,7 +468,7 @@ img.slide { object-fit: cover; }
 .legal-links a:hover { color: var(--silver); }
 
 /* ============================================================
-   STUDIO45 — exclusive flagship band
+   STUDIO45 - exclusive flagship band
    ============================================================ */
 .studio { padding: clamp(90px, 11vw, 150px) 0; }
 .studio-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: clamp(40px, 5vw, 76px); align-items: center; }
@@ -537,7 +520,7 @@ img.slide { object-fit: cover; }
 }
 
 /* ============================================================
-   SECTION THEMES — light (bone) + rich plum
+   SECTION THEMES - light (bone) + rich plum
    ============================================================ */
 /* ---- LIGHT / BONE ---- */
 .theme-light { background: var(--bone); color: var(--ink-text); border-top: 1px solid rgba(0,0,0,0.07); }
@@ -557,19 +540,6 @@ img.slide { object-fit: cover; }
 .theme-light .btn-ghost:hover { background: var(--bmc-plum); color: #fff; }
 .theme-light .btn-solid { background: var(--ink-text); color: #fff; border-color: var(--ink-text); }
 .theme-light .btn-solid:hover { background: transparent; color: var(--bmc-plum); border-color: var(--bmc-plum); }
-/* slider on bone */
-.theme-light .slide {
-  border-color: rgba(20,10,30,0.10);
-  background:
-    radial-gradient(ellipse 80% 80% at 50% 35%, rgba(var(--bmc-plum-rgb), 0.12), transparent 65%),
-    linear-gradient(160deg, #ece6f4, #ded5ec);
-}
-.theme-light .slide .ph-icon { color: rgba(var(--bmc-plum-rgb), 0.55); }
-.theme-light .slide .ph-mark { color: var(--grey-soft); border-color: rgba(20,10,30,0.22); }
-.theme-light .slider-arrow { background: rgba(255,255,255,0.78); border-color: var(--bmc-plum); color: var(--bmc-plum); }
-.theme-light .slider-arrow:hover { background: var(--bmc-plum); color: #fff; }
-.theme-light .slider-dots button { background: rgba(20,10,30,0.18); }
-.theme-light .slider-dots button.active { background: var(--bmc-plum); }
 .theme-light .story-callout { color: var(--ink-text); border-top-color: rgba(var(--bmc-plum-rgb), 0.4); }
 /* faq on bone */
 .theme-light .faq-item { border-top-color: rgba(20,10,30,0.1); }
@@ -640,8 +610,8 @@ img.slide { object-fit: cover; }
   <div class="container">
     <div class="hero-inner reveal">
       <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE &middot; Business Master Class &middot; October 2026</div>
-      <h1>Don&rsquo;t Just Watch It.<br/>Live It &mdash; <em class="key">In The Room</em>.</h1>
-      <p class="hero-sub"><strong>Business Master Class streams live to the world this October.</strong> Across the country, driven builders are opening their cities &mdash; gathering their local tribe to watch the program together on the big screen, then break bread and build in person.</p>
+      <h1>Don&rsquo;t Just Watch It.<br/>Live It. <em class="key">In The Room</em>.</h1>
+      <p class="hero-sub"><strong>Business Master Class streams live to the world this October.</strong> Across the country, driven builders are opening their cities, gathering their local tribe to watch the program together on the big screen, then break bread and build in person.</p>
       <p class="hero-sub" style="margin-top:16px;">Same world-class program. One unforgettable difference: <em class="key">the people beside you.</em></p>
       <div class="hero-cta-row">
         <a href="#rooms" class="btn btn-solid">Find A Room Near You &rarr;</a>
@@ -662,37 +632,45 @@ img.slide { object-fit: cover; }
     <div class="story-head reveal">
       <div class="eyebrow eyebrow--center"><span class="pip"></span>The Experience</div>
       <h2>Every Seat Is A Great Seat.<br/>Some Are <em class="key">Unforgettable</em>.</h2>
-      <p class="lead">Business Master Class was built for the screen. Three days of the exact strategies and systems today&rsquo;s titans use to dominate their categories &mdash; delivered live, in high definition, wherever you are. Thousands of builders will experience it from their office, their home, their favorite chair, and it will move the needle for every one of them.</p>
-      <p class="lead">But there&rsquo;s a different kind of magic when you watch it shoulder-to-shoulder with other builders &mdash; pausing to trade notes, arguing the hard calls over dinner, walking out with relationships that compound for years. That&rsquo;s what a Hosted Room is: not a replacement for the virtual event, but an amplifier of it.</p>
+      <p class="lead">Business Master Class was built for the screen. Three days of the exact strategies and systems today&rsquo;s titans use to dominate their categories, delivered live, in high definition, wherever you are. Thousands of builders will experience it from their office, their home, their favorite chair, and it will move the needle for every one of them.</p>
+      <p class="lead">But there&rsquo;s a different kind of magic when you watch it shoulder-to-shoulder with other builders: pausing to trade notes, arguing the hard calls over dinner, walking out with relationships that compound for years. That&rsquo;s what a Hosted Room is: not a replacement for the virtual event, but an amplifier of it.</p>
     </div>
 
-    <!-- Swap each placeholder <div class="slide">…</div> for <img class="slide" src="..." alt=""> when real event photos are ready -->
-    <div class="slider reveal" data-slider>
-      <div class="slider-track" data-track>
-        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+    <!-- PARALLAX GALLERY. Swap each <div class="ptile t-*">...</div> for <img class="ptile t-*" src="room-photos/room-01.webp" alt=""> when real event photos are ready. Keep the t-tall / t-wide / t-sq class for shape, or drop it and set your own aspect-ratio. -->
+    <div class="pgallery reveal" data-parallax-gallery>
+      <div class="pcol" data-speed="0.05">
+        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="ptile t-wide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="ptile t-sq"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
       </div>
-      <button class="slider-arrow slider-prev" data-prev type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
-      <button class="slider-arrow slider-next" data-next type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
-      <div class="slider-dots" data-dots aria-hidden="true"></div>
+      <div class="pcol" data-speed="-0.06">
+        <div class="ptile t-wide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="ptile t-wide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+      </div>
+      <div class="pcol" data-speed="0.035">
+        <div class="ptile t-sq"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="ptile t-wide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+      </div>
     </div>
 
     <div class="story-callout reveal">The program teaches you what to build.<br/>The room is where you find the <em class="key">people to build it with</em>.</div>
   </div>
 </section>
 
-<!-- ===== STUDIO45 — exclusive flagship ===== -->
+<!-- ===== STUDIO45 - exclusive flagship ===== -->
 <section class="studio theme-plum" id="studio45">
   <div class="container">
     <div class="studio-grid">
       <div class="studio-copy reveal">
         <div class="studio-badge"><span class="pip"></span>The Flagship &middot; By Application Only</div>
         <h2>Studio45</h2>
-        <div class="studio-tag">Where Darren Delivers It &mdash;<br/>Live, In The Building With You.</div>
-        <p class="lead">One room isn&rsquo;t a watch party at all. At <strong>Studio45</strong>, you&rsquo;re in the same space as Darren Hardy while he delivers Business Master Class in person &mdash; the broadcast the rest of the world is watching is being created just feet from where you sit. It is the single most exclusive way to experience BMC, and seats are almost never open.</p>
+        <div class="studio-tag">Where Darren Delivers It.<br/>Live, In The Building With You.</div>
+        <p class="lead">One room isn&rsquo;t a watch party at all. At <strong>Studio45</strong>, you&rsquo;re in the same space as Darren Hardy while he delivers Business Master Class in person. The broadcast the rest of the world is watching is being created just feet from where you sit. It is the single most exclusive way to experience BMC, and seats are almost never open.</p>
         <div class="studio-chips">
           <span>Darren Delivers Live</span>
           <span>Same Building, In Person</span>
@@ -708,7 +686,7 @@ img.slide { object-fit: cover; }
         </div>
         <div class="studio-cta-row">
           <a href="mailto:studio45@darrenhardy.com?subject=Studio45%20Waiting%20List" class="btn btn-solid">Join The Waiting List &rarr;</a>
-          <span class="studio-note">Applications reviewed personally. Expect to wait &mdash; that&rsquo;s the point.</span>
+          <span class="studio-note">Applications reviewed personally. Expect to wait. That&rsquo;s the point.</span>
         </div>
       </div>
       <figure class="studio-visual reveal">
@@ -735,12 +713,12 @@ img.slide { object-fit: cover; }
       <div class="step">
         <span class="step-num">STEP 01</span>
         <h3>Reserve Your BMC Seat</h3>
-        <p>Every attendee holds their own Business Master Class ticket &mdash; that&rsquo;s your access to the live program. If you&rsquo;re not registered yet, grab your seat first, then come find your Room.</p>
+        <p>Every attendee holds their own Business Master Class ticket. That&rsquo;s your access to the live program. If you&rsquo;re not registered yet, grab your seat first, then come find your Room.</p>
       </div>
       <div class="step">
         <span class="step-num">STEP 02</span>
         <h3>Join A Room In Your City</h3>
-        <p>Browse the Rooms below and request a seat with a local host. They&rsquo;ll confirm the venue, the schedule, and what to bring. Seats are limited by the room &mdash; the earlier you claim yours, the better.</p>
+        <p>Browse the Rooms below and request a seat with a local host. They&rsquo;ll confirm the venue, the schedule, and what to bring. Seats are limited by the room, so the earlier you claim yours, the better.</p>
       </div>
       <div class="step">
         <span class="step-num">STEP 03</span>
@@ -759,13 +737,13 @@ img.slide { object-fit: cover; }
         <div class="eyebrow"><span class="pip"></span>The Rooms &middot; October 2026</div>
         <h2>Find Your City. Claim Your Seat.</h2>
       </div>
-      <p class="lead">Beyond Studio45, the experience is community-driven. Each Room is opened and run by a fellow member &mdash; not the <em class="key nobreak">A-Team</em>, not Darren &mdash; just driven builders who&rsquo;d rather watch it together.</p>
+      <p class="lead">Beyond Studio45, the experience is community-driven. Each Room is opened and run by a fellow member, not the <em class="key nobreak">A-Team</em>, not Darren. Just driven builders who&rsquo;d rather watch it together.</p>
     </div>
     <div class="events-count reveal"><span class="live-dot"></span>7 Rooms open &middot; more cities added weekly</div>
 
     <div class="events-grid">
 
-      <!-- FEATURED — Beach The Exception -->
+      <!-- FEATURED - Beach The Exception -->
       <article class="ev ev-featured reveal" data-seats="20" data-taken="13">
         <div class="ev-inner">
           <div class="ev-left">
@@ -778,12 +756,12 @@ img.slide { object-fit: cover; }
             </div>
             <div class="eyebrow"><span class="pip"></span>Adirondacks &middot; Lakefront</div>
             <h2 class="ev-name">Beach The Exception</h2>
-            <p class="ev-tag">Three days on the water. The full Business Master Class on the big screen by day &mdash; lakeside masterminds, bonfires, and real conversation by night. A working retreat for builders who want the program <em class="key">and</em> the tribe.</p>
+            <p class="ev-tag">Three days on the water. The full Business Master Class on the big screen by day, then lakeside masterminds, bonfires, and real conversation by night. A working retreat for builders who want the program <em class="key">and</em> the tribe.</p>
             <div class="ev-meta">
               <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Oct 14&ndash;16, 2026</div>
               <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg>Private Lakefront Lodge</div>
             </div>
-            <span class="flag-note">Placeholder details &mdash; confirm date, venue &amp; agenda from Thomas&rsquo; event PDF.</span>
+            <span class="flag-note">Placeholder details: confirm date, venue &amp; agenda from Thomas&rsquo; event PDF.</span>
           </div>
           <div class="ev-right">
             <div class="ev-host">
@@ -1017,7 +995,7 @@ img.slide { object-fit: cover; }
       <div class="why-card">
         <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <h3>Your Local Tribe</h3>
-        <p>Walk out with a network of driven builders in your own city &mdash; people you can actually meet for coffee next month, not just a name in a chat window.</p>
+        <p>Walk out with a network of driven builders in your own city. People you can actually meet for coffee next month, not just a name in a chat window.</p>
       </div>
       <div class="why-card">
         <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -1032,7 +1010,7 @@ img.slide { object-fit: cover; }
       <div class="why-card">
         <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <h3>An Unforgettable Three Days</h3>
-        <p>Bonfires, rooftops, lakefronts, lofts. Every host brings their own flavor &mdash; so the program you&rsquo;ll never forget happens somewhere you won&rsquo;t either.</p>
+        <p>Bonfires, rooftops, lakefronts, lofts. Every host brings their own flavor, so the program you&rsquo;ll never forget happens somewhere you won&rsquo;t either.</p>
       </div>
     </div>
   </div>
@@ -1044,7 +1022,7 @@ img.slide { object-fit: cover; }
     <div class="host-inner reveal">
       <div class="eyebrow eyebrow--center"><span class="pip"></span>Open Your City</div>
       <h2>Want To Host<br/>A Room?</h2>
-      <p class="lead">Don&rsquo;t see your city? Open it. Hosting a Room is how the most connected builders in the community are made. You bring the space and the invitation &mdash; we&rsquo;ll help you fill the seats. It&rsquo;s community-driven, member-led, and yours to shape.</p>
+      <p class="lead">Don&rsquo;t see your city? Open it. Hosting a Room is how the most connected builders in the community are made. You bring the space and the invitation, and we&rsquo;ll help you fill the seats. It&rsquo;s community-driven, member-led, and yours to shape.</p>
       <div class="host-points">
         <span>You pick the venue &amp; the vibe</span>
         <span>We help you spread the word</span>
@@ -1066,23 +1044,23 @@ img.slide { object-fit: cover; }
     <div class="faq-list reveal">
       <details class="faq-item" open>
         <summary class="faq-q"><span>Do I still need my own Business Master Class ticket?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
-        <div class="faq-a">Yes. A Hosted Room is where you watch the live program &mdash; not a substitute for it. Every attendee holds their own BMC ticket. The Room simply adds the in-person experience on top of the seat you already have.</div>
+        <div class="faq-a">Yes. A Hosted Room is where you watch the live program, not a substitute for it. Every attendee holds their own BMC ticket. The Room simply adds the in-person experience on top of the seat you already have.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q"><span>Is the virtual event somehow &ldquo;less than&rdquo; being in a Room?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
-        <div class="faq-a">Not at all. Business Master Class was engineered for the screen, and the vast majority of members will experience it virtually &mdash; and get everything the program promises. A Room is for builders who simply want more than the program: the people, the debate, and the relationships that come from watching it side-by-side.</div>
+        <div class="faq-a">Not at all. Business Master Class was engineered for the screen, and the vast majority of members will experience it virtually, and get everything the program promises. A Room is for builders who simply want more than the program: the people, the debate, and the relationships that come from watching it side-by-side.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q"><span>Who runs these Rooms?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
-        <div class="faq-a">Members of the community &mdash; not Darren Hardy and not the <em class="key nobreak">A-Team</em>. Each Room is opened, hosted, and run by a fellow BMC|COLLECTIVE member who wanted to experience the event with others in their city. It&rsquo;s grassroots by design.</div>
+        <div class="faq-a">Members of the community, not Darren Hardy and not the <em class="key nobreak">A-Team</em>. Each Room is opened, hosted, and run by a fellow BMC|COLLECTIVE member who wanted to experience the event with others in their city. It&rsquo;s grassroots by design.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q"><span>What does it cost to attend a Room?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
-        <div class="faq-a">That&rsquo;s set by each host &mdash; some Rooms are free gatherings, others cover a shared venue, meals, or lodging. When you request a seat, your host will walk you through exactly what&rsquo;s included before you commit.</div>
+        <div class="faq-a">That&rsquo;s set by each host. Some Rooms are free gatherings, others cover a shared venue, meals, or lodging. When you request a seat, your host will walk you through exactly what&rsquo;s included before you commit.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q"><span>My city isn&rsquo;t listed. Now what?</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
-        <div class="faq-a">Two options: watch a nearby Room fill up and grab a travel seat, or open your own. Hosting is easier than you think &mdash; <a href="#host">start here</a> and we&rsquo;ll help you get it off the ground.</div>
+        <div class="faq-a">Two options: watch a nearby Room fill up and grab a travel seat, or open your own. Hosting is easier than you think. <a href="#host">Start here</a> and we&rsquo;ll help you get it off the ground.</div>
       </details>
     </div>
   </div>
@@ -1142,47 +1120,28 @@ if (reduce) {
   document.querySelectorAll('.ev').forEach(function (n) { io.observe(n); });
 }
 
-/* Image slider */
-document.querySelectorAll('[data-slider]').forEach(function (slider) {
-  var track = slider.querySelector('[data-track]');
-  var slides = [].slice.call(track.children);
-  var prev = slider.querySelector('[data-prev]');
-  var next = slider.querySelector('[data-next]');
-  var dotsWrap = slider.querySelector('[data-dots]');
-  if (!slides.length) return;
-
-  slides.forEach(function (s, i) {
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.setAttribute('aria-label', 'Go to photo ' + (i + 1));
-    b.addEventListener('click', function () { go(i); });
-    dotsWrap.appendChild(b);
-  });
-  var dots = [].slice.call(dotsWrap.children);
-
-  function step() {
-    return slides.length > 1
-      ? slides[1].getBoundingClientRect().left - slides[0].getBoundingClientRect().left
-      : track.clientWidth;
+/* Parallax image gallery */
+(function () {
+  var g = document.querySelector('[data-parallax-gallery]');
+  if (!g || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cols = [].slice.call(g.querySelectorAll('.pcol'));
+  var ticking = false;
+  function draw() {
+    ticking = false;
+    if (window.innerWidth <= 760) { cols.forEach(function (c) { c.style.transform = ''; }); return; }
+    var rect = g.getBoundingClientRect();
+    var delta = (rect.top + rect.height / 2) - (window.innerHeight / 2);
+    cols.forEach(function (c) {
+      var sp = parseFloat(c.getAttribute('data-speed')) || 0;
+      var y = Math.max(-38, Math.min(38, delta * sp));
+      c.style.transform = 'translateY(' + y.toFixed(1) + 'px)';
+    });
   }
-  function index() { return Math.round(track.scrollLeft / step()); }
-  var smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function go(i) {
-    i = Math.max(0, Math.min(slides.length - 1, i));
-    track.scrollTo({ left: i * step(), behavior: smooth ? 'smooth' : 'auto' });
-  }
-  function update() {
-    var idx = index();
-    dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
-    if (prev) prev.toggleAttribute('disabled', track.scrollLeft <= 2);
-    if (next) next.toggleAttribute('disabled', track.scrollLeft >= track.scrollWidth - track.clientWidth - 2);
-  }
-  if (prev) prev.addEventListener('click', function () { go(index() - 1); });
-  if (next) next.addEventListener('click', function () { go(index() + 1); });
-  track.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
-});
+  function onScroll() { if (!ticking) { ticking = true; window.requestAnimationFrame(draw); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  draw();
+})();
 </script>
 </body>
 </html>
