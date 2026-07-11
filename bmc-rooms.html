@@ -228,41 +228,50 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 .story-head .lead { max-width: 780px; margin: 0 auto; }
 .story-head .lead + .lead { margin-top: 18px; }
 
-.story-gallery {
-  display: grid; grid-template-columns: 1.55fr 1fr; grid-template-rows: repeat(2, 220px);
-  gap: 18px; margin: 56px 0 46px;
+/* image slider */
+.slider { position: relative; margin: 56px 0 46px; }
+.slider-track {
+  display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; padding-bottom: 2px;
 }
-.story-fig { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--rule); }
-.story-fig--main { grid-row: 1 / 3; }
-.story-fig img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.ph {
-  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+.slider-track::-webkit-scrollbar { display: none; }
+.slide {
+  flex: 0 0 auto; width: 86%; aspect-ratio: 16 / 10; scroll-snap-align: start;
+  position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
   background:
-    radial-gradient(ellipse 80% 80% at 50% 32%, rgba(var(--bmc-purple-rgb), 0.22), transparent 65%),
+    radial-gradient(ellipse 80% 80% at 50% 35%, rgba(var(--bmc-purple-rgb), 0.22), transparent 65%),
     linear-gradient(160deg, #16121d, #0c0b10);
 }
-.ph svg { width: 38px; height: 38px; color: rgba(var(--bmc-cyan-rgb), 0.55); }
-.ph span { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--silver); }
-.story-fig--main .ph svg { width: 52px; height: 52px; }
-.story-fig--main .ph span { font-size: 14px; }
-.ph::after {
-  content: "PLACEHOLDER"; position: absolute; top: 12px; left: 12px;
-  font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; color: var(--grey-soft);
-  border: 1px dashed var(--muted); border-radius: 99px; padding: 3px 8px;
+img.slide { object-fit: cover; }
+.slide .ph-icon { width: 46px; height: 46px; color: rgba(var(--bmc-cyan-rgb), 0.5); }
+.slide .ph-mark {
+  position: absolute; top: 14px; left: 14px;
+  font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey-soft);
+  border: 1px dashed var(--muted); border-radius: 99px; padding: 3px 9px;
 }
-.story-fig figcaption {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 44px 18px 15px;
-  font-size: 12.5px; line-height: 1.45; color: var(--text-on-dark);
-  background: linear-gradient(180deg, transparent, rgba(10,10,10,0.9));
+.slider-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+  width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
+  background: rgba(10,10,10,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--rule-cyan); color: var(--bmc-cyan);
+  display: flex; align-items: center; justify-content: center; transition: opacity .2s, background .2s, color .2s;
 }
+.slider-arrow:hover { background: var(--bmc-cyan); color: var(--black); }
+.slider-arrow svg { width: 22px; height: 22px; }
+.slider-prev { left: 14px; } .slider-next { right: 14px; }
+.slider-arrow[disabled] { opacity: 0; pointer-events: none; }
+.slider-dots { display: flex; justify-content: center; gap: 9px; margin-top: 24px; }
+.slider-dots button { width: 8px; height: 8px; border-radius: 99px; border: none; background: rgba(255,255,255,0.22); cursor: pointer; padding: 0; transition: all .25s cubic-bezier(.16,1,.3,1); }
+.slider-dots button.active { background: var(--bmc-cyan); width: 24px; }
 .story-callout {
   max-width: 760px; margin: 0 auto; text-align: center;
   border-top: 1px solid var(--rule-cyan); padding-top: 30px;
   font-size: clamp(19px, 1.9vw, 26px); line-height: 1.4; font-weight: 700; color: var(--white);
 }
-@media (max-width: 760px) {
-  .story-gallery { grid-template-columns: 1fr; grid-template-rows: none; }
-  .story-fig, .story-fig--main { grid-row: auto; aspect-ratio: 16 / 10; }
+@media (min-width: 761px) {
+  .slide { width: min(66%, 820px); }
 }
 
 /* ============================================================
@@ -548,29 +557,18 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
       <p class="lead">But there&rsquo;s a different kind of magic when you watch it shoulder-to-shoulder with other builders &mdash; pausing to trade notes, arguing the hard calls over dinner, walking out with relationships that compound for years. That&rsquo;s what a Hosted Room is: not a replacement for the virtual event, but an amplifier of it.</p>
     </div>
 
-    <!-- Swap each .ph placeholder for <img src="..." alt="..."> when real photos are ready -->
-    <div class="story-gallery reveal">
-      <figure class="story-fig story-fig--main">
-        <div class="ph">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          <span>BMC Watch Room</span>
-        </div>
-        <figcaption>The big screen, the whole room dialed in &mdash; Business Master Class, watched together.</figcaption>
-      </figure>
-      <figure class="story-fig">
-        <div class="ph">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11h18M12 11V3M6 3v4M18 3v4M5 11a7 7 0 0 0 14 0M4 21h16"/></svg>
-          <span>Dinner &amp; Debate</span>
-        </div>
-        <figcaption>Builders trading notes and pressure-testing ideas over dinner between sessions.</figcaption>
-      </figure>
-      <figure class="story-fig">
-        <div class="ph">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <span>In-Person Connection</span>
-        </div>
-        <figcaption>The handshakes, introductions, and relationships that compound for years.</figcaption>
-      </figure>
+    <!-- Swap each placeholder <div class="slide">…</div> for <img class="slide" src="..." alt=""> when real event photos are ready -->
+    <div class="slider reveal" data-slider>
+      <div class="slider-track" data-track>
+        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <div class="slide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+      </div>
+      <button class="slider-arrow slider-prev" data-prev type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="slider-arrow slider-next" data-next type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+      <div class="slider-dots" data-dots aria-hidden="true"></div>
     </div>
 
     <div class="story-callout reveal">The program teaches you what to build.<br/>The room is where you find the <em class="key">people to build it with</em>.</div>
@@ -995,6 +993,48 @@ if (reduce) {
   document.querySelectorAll('.reveal, .stagger').forEach(function (n) { io.observe(n); });
   document.querySelectorAll('.ev').forEach(function (n) { io.observe(n); });
 }
+
+/* Image slider */
+document.querySelectorAll('[data-slider]').forEach(function (slider) {
+  var track = slider.querySelector('[data-track]');
+  var slides = [].slice.call(track.children);
+  var prev = slider.querySelector('[data-prev]');
+  var next = slider.querySelector('[data-next]');
+  var dotsWrap = slider.querySelector('[data-dots]');
+  if (!slides.length) return;
+
+  slides.forEach(function (s, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Go to photo ' + (i + 1));
+    b.addEventListener('click', function () { go(i); });
+    dotsWrap.appendChild(b);
+  });
+  var dots = [].slice.call(dotsWrap.children);
+
+  function step() {
+    return slides.length > 1
+      ? slides[1].getBoundingClientRect().left - slides[0].getBoundingClientRect().left
+      : track.clientWidth;
+  }
+  function index() { return Math.round(track.scrollLeft / step()); }
+  var smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function go(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    track.scrollTo({ left: i * step(), behavior: smooth ? 'smooth' : 'auto' });
+  }
+  function update() {
+    var idx = index();
+    dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+    if (prev) prev.toggleAttribute('disabled', track.scrollLeft <= 2);
+    if (next) next.toggleAttribute('disabled', track.scrollLeft >= track.scrollWidth - track.clientWidth - 2);
+  }
+  if (prev) prev.addEventListener('click', function () { go(index() - 1); });
+  if (next) next.addEventListener('click', function () { go(index() + 1); });
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+});
 </script>
 </body>
 </html>
