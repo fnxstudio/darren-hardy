@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BMC|COLLECTIVE · Hosted Rooms — Experience Business Master Class In Person</title>
+<meta name="description" content="During Business Master Class this October, driven builders across the country are opening their cities. Watch the live program together on the big screen, then network in person. Find a Hosted Room near you — or host your own.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/bmc-rooms.html">
+<link rel="icon" href="favicon.png">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="BMC|COLLECTIVE">
+<meta property="og:title"       content="Don't Just Watch It. Live It — In The Room.">
+<meta property="og:description" content="During Business Master Class this October, community members are hosting in-person Rooms across the country. Watch the live program together, then build in person.">
+<meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/og-image.jpg">
+
+<style id="bmc-css">
+/* ============================================================
+   FONTS — self-hosted Inter (never Google CDN)
+   ============================================================ */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url(fonts/inter-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url(fonts/inter-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  --black:        #0a0a0a;
+  --ink:          #141414;
+  --ink-soft:     #1c1c1c;
+  --white:        #ffffff;
+  --bone:         #f5f5f5;
+  --silver:       #b8b8b8;
+  --grey:         #888888;
+  --grey-soft:    #6a6a6a;
+  --muted:        #444444;
+  --surface-card: #0e0c12;
+  --surface-card-2:#121019;
+  --text-on-dark: #f1f1f4;
+
+  --bmc-cyan-rgb:    120, 228, 239;
+  --bmc-cyan:        rgb(var(--bmc-cyan-rgb));
+  --bmc-cyan-soft:   rgba(var(--bmc-cyan-rgb), 0.85);
+  --rule-cyan:       rgba(var(--bmc-cyan-rgb), 0.32);
+  --bmc-plum-rgb:    75, 44, 106;
+  --bmc-plum:        rgb(var(--bmc-plum-rgb));
+  --bmc-purple-rgb:  156, 39, 172;
+  --bmc-purple:      rgb(var(--bmc-purple-rgb));
+  --bmc-magenta-rgb: 214, 42, 143;
+  --bmc-magenta:     rgb(var(--bmc-magenta-rgb));
+  --gold:            #f5b301;
+
+  --rule:            rgba(255,255,255,0.08);
+  --rule-strong:     rgba(255,255,255,0.15);
+  --radius:          4px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+html, body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+section { position: relative; scroll-margin-top: 110px; }
+.container { max-width: 1380px; margin: 0 auto; padding: 0 48px; }
+@media (max-width: 720px) { .container { padding: 0 24px; } }
+
+em { font-style: normal; }
+em.key {
+  font-style: normal;
+  color: var(--bmc-cyan);
+  text-shadow:
+    0.4px 0 0 currentColor, -0.4px 0 0 currentColor,
+    0 0.4px 0 currentColor, 0 -0.4px 0 currentColor,
+    0 0 0.6px currentColor;
+}
+.nobreak { white-space: nowrap; }
+
+/* ============================================================
+   AMBIENT WASH (background depth only)
+   ============================================================ */
+.bmc-wash { position: relative; overflow: hidden; }
+.bmc-wash::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 22% 30%, rgba(var(--bmc-purple-rgb), 0.20), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 80% 78%, rgba(var(--bmc-magenta-rgb), 0.13), transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.bmc-wash--center::before {
+  background:
+    radial-gradient(ellipse 65% 50% at 50% 26%, rgba(var(--bmc-purple-rgb), 0.22), transparent 65%),
+    radial-gradient(ellipse 80% 60% at 50% 92%, rgba(var(--bmc-magenta-rgb), 0.11), transparent 70%);
+}
+.bmc-wash > * { position: relative; z-index: 1; }
+
+/* ============================================================
+   TYPOGRAPHY HELPERS
+   ============================================================ */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--bmc-cyan);
+}
+.eyebrow .pip { width: 26px; height: 2px; background: var(--bmc-cyan); display: inline-block; }
+.eyebrow--plum { color: var(--bmc-plum); }
+.eyebrow--plum .pip { background: var(--bmc-plum); }
+.eyebrow--center { justify-content: center; }
+
+h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
+.h-section { font-size: clamp(30px, 4vw, 60px); text-transform: uppercase; }
+
+.lead { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.7; color: var(--silver); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 17px 32px; border-radius: var(--radius); cursor: pointer;
+  transition: all .25s cubic-bezier(.16,1,.3,1); border: 1px solid transparent; white-space: nowrap;
+}
+.btn-solid { background: var(--white); color: var(--black); border-color: var(--white); }
+.btn-solid:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
+.btn-ghost { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
+.btn-ghost:hover { background: var(--bmc-cyan); color: var(--black); }
+.btn-sm { padding: 12px 22px; font-size: 11px; letter-spacing: 0.2em; }
+.btn-block { width: 100%; }
+
+/* ============================================================
+   STICKY BAR
+   ============================================================ */
+.sticky-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 14px 48px;
+  background: rgba(10,10,10,0.72);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent; transition: border-color .3s, background .3s;
+}
+.sticky-bar.scrolled { border-bottom-color: var(--rule); background: rgba(10,10,10,0.9); }
+.sticky-brand img { height: 26px; width: auto; }
+.sticky-nav { display: flex; gap: 30px; margin-left: auto; margin-right: 8px; }
+.sticky-nav a {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.04em; color: var(--silver);
+  transition: color .2s; padding: 6px 0;
+}
+.sticky-nav a:hover { color: var(--white); }
+.sticky-cta {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--bmc-cyan); border: 1px solid var(--bmc-cyan); border-radius: var(--radius);
+  padding: 11px 20px; transition: all .25s;
+}
+.sticky-cta:hover { background: var(--bmc-cyan); color: var(--black); }
+.cta-mobile { display: none; }
+@media (max-width: 1080px) { .sticky-nav { display: none; } }
+@media (max-width: 720px) {
+  .sticky-bar { padding: 12px 24px; }
+  .sticky-brand img { height: 22px; }
+  .cta-desk { display: none; } .cta-mobile { display: inline; }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 150px 0 90px; overflow: hidden;
+}
+.hero-bkgd {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.30; z-index: 0;
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(ellipse 70% 55% at 30% 22%, rgba(var(--bmc-purple-rgb), 0.30), transparent 62%),
+    radial-gradient(ellipse 80% 60% at 82% 85%, rgba(var(--bmc-magenta-rgb), 0.18), transparent 66%),
+    linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.35) 40%, var(--black) 100%);
+  pointer-events: none;
+}
+.hero .container { position: relative; z-index: 2; }
+.hero-inner { max-width: 940px; }
+.hero h1 {
+  font-size: clamp(42px, 6vw, 92px); text-transform: uppercase; margin: 22px 0 26px;
+}
+.hero-sub { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; color: var(--text-on-dark); max-width: 680px; }
+.hero-sub strong { color: var(--white); font-weight: 700; }
+.hero-cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 28px; margin-top: 40px; }
+.hero-meta {
+  display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 46px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--silver);
+}
+.hero-meta span { display: inline-flex; align-items: center; gap: 9px; }
+.hero-meta .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bmc-cyan); box-shadow: 0 0 0 4px rgba(var(--bmc-cyan-rgb),0.18); }
+
+/* ============================================================
+   REASSURANCE / POSITIONING BAND
+   ============================================================ */
+.band { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--rule); }
+.band-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 100px); align-items: center;
+}
+.band-grid h2 { font-size: clamp(28px, 3.4vw, 46px); text-transform: uppercase; margin: 20px 0 22px; }
+.band-grid p + p { margin-top: 18px; }
+.band-callout {
+  border-left: 2px solid var(--bmc-cyan); padding: 6px 0 6px 24px; margin-top: 30px;
+  font-size: clamp(18px, 1.7vw, 23px); line-height: 1.45; font-weight: 700; color: var(--white);
+}
+@media (max-width: 860px) { .band-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   HOW IT WORKS
+   ============================================================ */
+.how { padding: clamp(80px, 10vw, 130px) 0; }
+.how-head { text-align: center; max-width: 720px; margin: 0 auto 64px; }
+.how-head h2 { font-size: clamp(30px, 4vw, 56px); text-transform: uppercase; margin: 20px 0 18px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.step {
+  background: var(--surface-card); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 40px 34px; transition: border-color .3s, transform .3s;
+}
+.step:hover { border-color: var(--rule-cyan); transform: translateY(-4px); }
+.step-num {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.2em; color: var(--bmc-cyan);
+  display: inline-block; margin-bottom: 18px;
+}
+.step h3 { font-size: 21px; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0; }
+.step p { font-size: 15px; line-height: 1.65; color: var(--silver); }
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+.events { padding: clamp(70px, 8vw, 110px) 0 clamp(90px, 10vw, 140px); }
+.events-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 20px; }
+.events-head h2 { font-size: clamp(30px, 4vw, 56px); text-transform: uppercase; margin-top: 16px; max-width: 720px; }
+.events-head .lead { max-width: 420px; }
+.events-count {
+  display: inline-flex; align-items: center; gap: 10px; margin: 30px 0 44px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--silver);
+}
+.events-count .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bmc-cyan); animation: pulse 2.2s infinite; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(var(--bmc-cyan-rgb),0.5);} 70% { box-shadow: 0 0 0 8px rgba(var(--bmc-cyan-rgb),0);} }
+
+.events-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+/* --- base card --- */
+.ev {
+  position: relative; display: flex; flex-direction: column;
+  background: var(--surface-card); border: 1px solid var(--rule); border-radius: var(--radius);
+  overflow: hidden; transition: border-color .3s, transform .3s, box-shadow .3s;
+}
+.ev:hover { border-color: var(--rule-cyan); transform: translateY(-5px); box-shadow: 0 30px 60px -30px rgba(0,0,0,0.7); }
+/* iconic city photo behind each card, faded to solid dark for legibility */
+.ev:not(.ev-featured)::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(180deg, rgba(10,10,10,0.22) 0%, rgba(10,10,10,0.48) 34%, rgba(14,12,18,0.90) 64%, var(--surface-card) 86%),
+    var(--bg, none);
+  background-size: cover, cover;
+  background-position: center top, center top;
+  background-repeat: no-repeat;
+  transition: transform .6s cubic-bezier(.16,1,.3,1);
+}
+.ev:not(.ev-featured):hover::before { transform: scale(1.055); }
+.ev > * { position: relative; z-index: 1; }
+.ev-name, .ev-city { text-shadow: 0 2px 20px rgba(0,0,0,0.6); }
+.ev-tag { text-shadow: 0 1px 14px rgba(0,0,0,0.5); }
+.ev-top { padding: 30px 30px 0; }
+.ev-locrow { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 20px; }
+.ev-city { display: flex; align-items: center; gap: 11px; font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); }
+.ev-city svg { width: 15px; height: 15px; color: var(--bmc-cyan); flex: none; }
+.ev-state { color: var(--grey); font-weight: 600; letter-spacing: 0.14em; }
+
+.ev-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 6px 11px; border-radius: 99px; white-space: nowrap;
+}
+.badge-open { background: var(--bmc-cyan); color: var(--black); }
+.badge-few { background: rgba(var(--bmc-magenta-rgb), 0.16); color: #ff9dd4; border: 1px solid rgba(var(--bmc-magenta-rgb),0.4); }
+.badge-featured { background: linear-gradient(90deg, var(--bmc-purple), var(--bmc-magenta)); color: var(--white); }
+
+.ev-name { font-size: clamp(24px, 2.4vw, 30px); text-transform: uppercase; margin-bottom: 12px; letter-spacing: -0.01em; }
+.ev-tag { font-size: 15px; line-height: 1.6; color: var(--silver); min-height: 48px; }
+
+.ev-meta { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 22px 0 4px; }
+.ev-meta div { display: flex; align-items: center; gap: 9px; font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em; color: var(--silver); }
+.ev-meta svg { width: 15px; height: 15px; color: var(--bmc-cyan); flex: none; }
+
+/* host */
+.ev-host { display: flex; align-items: center; gap: 14px; padding: 24px 30px; margin-top: 24px; border-top: 1px solid var(--rule); }
+.ev-host img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: center top; border: 1px solid var(--rule-strong); flex: none; }
+.ev-host-info .lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bmc-cyan); margin-bottom: 3px; }
+.ev-host-info .nm { font-size: 16px; font-weight: 700; color: var(--white); }
+.ev-host-info .ttl { font-size: 12.5px; color: var(--grey); margin-top: 1px; }
+
+/* attendees + seats */
+.ev-foot { padding: 22px 30px 30px; margin-top: auto; }
+.ev-people { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.avatars { display: flex; }
+.avatars img, .avatars .more {
+  width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid var(--surface-card);
+  margin-left: -11px;
+}
+.avatars img:first-child, .avatars .more:first-child { margin-left: 0; }
+.avatars .more {
+  display: flex; align-items: center; justify-content: center; background: var(--ink-soft);
+  color: var(--bmc-cyan); font-size: 11px; font-weight: 700; margin-left: -11px;
+}
+.ev-people .who { font-size: 13px; color: var(--silver); line-height: 1.4; }
+.ev-people .who strong { color: var(--white); font-weight: 700; }
+
+.seatbar { height: 6px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.seatbar span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--bmc-cyan), var(--bmc-cyan-soft)); width: 0; transition: width 1.1s cubic-bezier(.16,1,.3,1); }
+.seat-line { display: flex; justify-content: space-between; align-items: center; margin: 12px 0 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; }
+.seat-line .open { color: var(--bmc-cyan); text-transform: uppercase; letter-spacing: 0.1em; }
+.seat-line .total { color: var(--grey); }
+
+/* featured card spans full width */
+.ev-featured { grid-column: 1 / -1; }
+.ev-featured .ev-inner { display: grid; grid-template-columns: 1.15fr 1fr; }
+.ev-featured .ev-left {
+  position: relative; padding: 46px 46px 40px; overflow: hidden;
+  background:
+    radial-gradient(ellipse 90% 80% at 90% 100%, rgba(var(--bmc-magenta-rgb),0.20), transparent 62%),
+    linear-gradient(165deg, rgba(10,10,10,0.28) 0%, rgba(10,10,10,0.50) 52%, rgba(14,12,18,0.86) 100%),
+    url(city-bg/lake-george.webp) center/cover no-repeat;
+  border-right: 1px solid var(--rule);
+}
+.ev-featured .ev-name { font-size: clamp(30px, 3.6vw, 48px); margin: 16px 0 16px; }
+.ev-featured .ev-tag { font-size: 17px; color: var(--text-on-dark); min-height: 0; max-width: 480px; }
+.ev-featured .ev-meta { margin: 30px 0 0; gap: 12px 28px; }
+.ev-featured .ev-right { display: flex; flex-direction: column; justify-content: space-between; padding: 40px 40px 36px; }
+.ev-featured .ev-host { margin: 0 0 26px; padding: 0 0 26px; border-top: none; border-bottom: 1px solid var(--rule); }
+.ev-featured .ev-host img { width: 62px; height: 62px; }
+.ev-featured .ev-foot { padding: 0; margin: 0; }
+.flag-note {
+  display: inline-block; margin-top: 26px; font-size: 11px; letter-spacing: 0.04em;
+  color: var(--grey-soft); border: 1px dashed var(--muted); border-radius: var(--radius); padding: 8px 12px;
+}
+@media (max-width: 980px) {
+  .events-grid { grid-template-columns: 1fr; }
+  .ev-featured .ev-inner { grid-template-columns: 1fr; }
+  .ev-featured .ev-left { border-right: none; border-bottom: 1px solid var(--rule); }
+}
+
+/* ============================================================
+   WHY IN PERSON
+   ============================================================ */
+.why { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--rule); }
+.why-head { text-align: center; max-width: 760px; margin: 0 auto 60px; }
+.why-head h2 { font-size: clamp(30px, 4vw, 56px); text-transform: uppercase; margin: 20px 0 18px; }
+.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.why-card { padding: 34px 28px; border: 1px solid var(--rule); border-radius: var(--radius); background: rgba(255,255,255,0.015); transition: border-color .3s, transform .3s; }
+.why-card:hover { border-color: var(--rule-cyan); transform: translateY(-4px); }
+.why-icon { width: 42px; height: 42px; color: var(--bmc-cyan); margin-bottom: 20px; }
+.why-card h3 { font-size: 18px; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0; }
+.why-card p { font-size: 14px; line-height: 1.6; color: var(--silver); }
+@media (max-width: 980px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .why-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   HOST CTA
+   ============================================================ */
+.host-cta { padding: clamp(90px, 11vw, 160px) 0; text-align: center; border-top: 1px solid var(--rule); }
+.host-inner { max-width: 820px; margin: 0 auto; }
+.host-cta h2 { font-size: clamp(34px, 5vw, 76px); text-transform: uppercase; margin: 24px 0 24px; }
+.host-cta .lead { max-width: 620px; margin: 0 auto 40px; }
+.host-points { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 14px; margin-bottom: 46px; }
+.host-points span {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--silver);
+  border: 1px solid var(--rule-strong); border-radius: 99px; padding: 9px 18px;
+}
+.host-points span::before { content: "✓ "; color: var(--bmc-cyan); font-weight: 700; }
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq { padding: clamp(70px, 8vw, 110px) 0 clamp(90px, 10vw, 130px); border-top: 1px solid var(--rule); }
+.faq-head { text-align: center; margin-bottom: 50px; }
+.faq-head h2 { font-size: clamp(26px, 3.2vw, 44px); text-transform: uppercase; margin-top: 16px; }
+.faq-list { max-width: 820px; margin: 0 auto; }
+.faq-item { border-top: 1px solid var(--rule); padding: 26px 0; }
+.faq-item:last-child { border-bottom: 1px solid var(--rule); }
+.faq-q { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+.faq-a { font-size: 15px; line-height: 1.7; color: var(--silver); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer-minimal { padding: 48px 0; border-top: 1px solid var(--rule); }
+.footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
+.footer-brand img { height: 22px; width: auto; opacity: 0.85; }
+.footer-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; font-size: 12px; color: var(--grey); }
+.legal-links { display: flex; gap: 20px; }
+.legal-links a { color: var(--grey); text-decoration: underline; text-underline-offset: 3px; transition: color .2s; }
+.legal-links a:hover { color: var(--silver); }
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.reveal.in { opacity: 1; transform: none; }
+.stagger > * { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+.stagger.in > * { opacity: 1; transform: none; }
+.stagger.in > *:nth-child(2) { transition-delay: .08s; }
+.stagger.in > *:nth-child(3) { transition-delay: .16s; }
+.stagger.in > *:nth-child(4) { transition-delay: .24s; }
+.stagger.in > *:nth-child(5) { transition-delay: .32s; }
+.stagger.in > *:nth-child(6) { transition-delay: .40s; }
+.stagger.in > *:nth-child(7) { transition-delay: .48s; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+  .reveal, .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .seatbar span { transition: none !important; }
+  .events-count .live-dot { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== STICKY BAR ===== -->
+<div class="sticky-bar" id="stickyBar" role="banner">
+  <a href="#hero" class="sticky-brand" aria-label="BMC COLLECTIVE">
+    <img src="BMC_COLLECTIVE_logo_white.webp?v=2" alt="BMC|COLLECTIVE" width="1400" height="272" decoding="async" />
+  </a>
+  <nav class="sticky-nav" aria-label="Page sections">
+    <a href="#rooms">The Rooms</a>
+    <a href="#how">How It Works</a>
+    <a href="#why">Why In Person</a>
+    <a href="#host">Host One</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <a href="#rooms" class="sticky-cta">
+    <span class="cta-desk">Find Your Room &rarr;</span>
+    <span class="cta-mobile">Find A Room &rarr;</span>
+  </a>
+</div>
+
+<main>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <img class="hero-bkgd" src="DH_BMC_stage_background.webp" alt="" width="2400" height="1339" fetchpriority="high" decoding="async" />
+  <div class="container">
+    <div class="hero-inner reveal">
+      <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE &middot; Business Master Class &middot; October 2026</div>
+      <h1>Don&rsquo;t Just Watch It.<br/>Live It &mdash; <em class="key">In The Room</em>.</h1>
+      <p class="hero-sub"><strong>Business Master Class streams live to the world this October.</strong> Across the country, driven builders are opening their cities &mdash; gathering their local tribe to watch the program together on the big screen, then break bread and build in person.</p>
+      <p class="hero-sub" style="margin-top:16px;">Same world-class program. One unforgettable difference: <em class="key">the people beside you.</em></p>
+      <div class="hero-cta-row">
+        <a href="#rooms" class="btn btn-solid">Find A Room Near You &rarr;</a>
+        <a href="#host" class="btn btn-ghost">Host Your Own City &rarr;</a>
+      </div>
+      <div class="hero-meta">
+        <span><span class="dot"></span>7 Cities Hosting</span>
+        <span><span class="dot"></span>Community-Hosted</span>
+        <span><span class="dot"></span>Bring Your Own BMC Ticket</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POSITIONING BAND ===== -->
+<section class="band bmc-wash">
+  <div class="container">
+    <div class="band-grid">
+      <div class="reveal">
+        <div class="eyebrow"><span class="pip"></span>The Virtual Program Is Extraordinary</div>
+        <h2>Every Seat Is A <em class="key">Great Seat</em>.</h2>
+        <p class="lead">Business Master Class was built for the screen. Three days of the exact strategies and systems today&rsquo;s titans use to dominate their categories &mdash; delivered live, in high definition, wherever you are. Thousands of builders will experience it from their office, their home, their favorite chair. And it will move the needle for every one of them.</p>
+      </div>
+      <div class="reveal">
+        <div class="eyebrow"><span class="pip"></span>Some Seats Are Unforgettable</div>
+        <h2>The Room Changes <em class="key">Everything</em>.</h2>
+        <p class="lead">But there&rsquo;s a different kind of magic when you experience it shoulder-to-shoulder with other builders &mdash; pausing to trade notes, arguing the hard calls over lunch, walking out with relationships that compound for years. That&rsquo;s what a Hosted Room is. Not a replacement for the virtual event. An amplifier of it.</p>
+        <div class="band-callout">The program teaches you what to build.<br/>The room is where you find the people to build it with.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="how-head reveal">
+      <div class="eyebrow eyebrow--center"><span class="pip"></span>How It Works</div>
+      <h2>Three Steps To The Room</h2>
+      <p class="lead">A Hosted Room is simple by design. You bring your BMC ticket. A local host brings the room, the screen, and the people.</p>
+    </div>
+    <div class="steps stagger">
+      <div class="step">
+        <span class="step-num">STEP 01</span>
+        <h3>Reserve Your BMC Seat</h3>
+        <p>Every attendee holds their own Business Master Class ticket &mdash; that&rsquo;s your access to the live program. If you&rsquo;re not registered yet, grab your seat first, then come find your Room.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">STEP 02</span>
+        <h3>Join A Room In Your City</h3>
+        <p>Browse the Rooms below and request a seat with a local host. They&rsquo;ll confirm the venue, the schedule, and what to bring. Seats are limited by the room &mdash; the earlier you claim yours, the better.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">STEP 03</span>
+        <h3>Watch Together. Build In Person.</h3>
+        <p>Show up. Watch all three days on the big screen with your local tribe. Debate the ideas, work the exercises together, and leave with a network of driven builders in your own backyard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EVENTS ===== -->
+<section class="events bmc-wash bmc-wash--center" id="rooms">
+  <div class="container">
+    <div class="events-head reveal">
+      <div>
+        <div class="eyebrow"><span class="pip"></span>The Rooms &middot; October 2026</div>
+        <h2>Find Your City. Claim Your Seat.</h2>
+      </div>
+      <p class="lead">Each Room is opened and run by a fellow member of the community &mdash; not the <em class="key nobreak">A-Team</em>, not Darren. Just driven builders who&rsquo;d rather experience this together.</p>
+    </div>
+    <div class="events-count reveal"><span class="live-dot"></span>7 Rooms open &middot; more cities added weekly</div>
+
+    <div class="events-grid">
+
+      <!-- FEATURED — Beach The Exception -->
+      <article class="ev ev-featured reveal" data-seats="20" data-taken="13">
+        <div class="ev-inner">
+          <div class="ev-left">
+            <div class="ev-locrow">
+              <span class="ev-city">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Lake George <span class="ev-state">&middot; NY</span>
+              </span>
+              <span class="ev-badge badge-featured">Flagship Room</span>
+            </div>
+            <div class="eyebrow"><span class="pip"></span>Adirondacks &middot; Lakefront</div>
+            <h2 class="ev-name">Beach The Exception</h2>
+            <p class="ev-tag">Three days on the water. The full Business Master Class on the big screen by day &mdash; lakeside masterminds, bonfires, and real conversation by night. A working retreat for builders who want the program <em class="key">and</em> the tribe.</p>
+            <div class="ev-meta">
+              <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Oct 14&ndash;16, 2026</div>
+              <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg>Private Lakefront Lodge</div>
+            </div>
+            <span class="flag-note">Placeholder details &mdash; confirm date, venue &amp; agenda from Thomas&rsquo; event PDF.</span>
+          </div>
+          <div class="ev-right">
+            <div class="ev-host">
+              <img src="hc-members/Thomas-Petersen.jpg" alt="Thomas Petersen" loading="lazy" decoding="async" />
+              <div class="ev-host-info">
+                <div class="lbl">Hosted By</div>
+                <div class="nm">Thomas Petersen</div>
+                <div class="ttl">BMC|COLLECTIVE Member</div>
+              </div>
+            </div>
+            <div class="ev-foot">
+              <div class="ev-people">
+                <div class="avatars">
+                  <img src="dan_mumm.webp" alt="" loading="lazy"><img src="maria_oliver.webp" alt="" loading="lazy"><img src="gerald_leonard.webp" alt="" loading="lazy"><img src="rebecca_jones.webp" alt="" loading="lazy"><img src="spencer_ford.webp" alt="" loading="lazy"><span class="more">+8</span>
+                </div>
+                <div class="who"><strong>13 builders</strong> joining so far</div>
+              </div>
+              <div class="seatbar"><span data-fill></span></div>
+              <div class="seat-line"><span class="open">7 seats open</span><span class="total">13 / 20 claimed</span></div>
+              <a href="#host" class="btn btn-solid btn-block">Request A Seat &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Park City, UT -->
+      <article class="ev reveal" data-seats="16" data-taken="9" style="--bg:url(city-bg/park-city.webp)">
+        <div class="ev-top">
+          <div class="ev-locrow">
+            <span class="ev-city">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              Park City <span class="ev-state">&middot; UT</span>
+            </span>
+            <span class="ev-badge badge-open">Seats Open</span>
+          </div>
+          <h3 class="ev-name">Summit Sessions</h3>
+          <p class="ev-tag">Mountain-lodge reset. Big-screen BMC, fireside strategy circles, and a hike between sessions to think it through.</p>
+          <div class="ev-meta">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Oct 14&ndash;16, 2026</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>Mountain Lodge</div>
+          </div>
+        </div>
+        <div class="ev-host">
+          <img src="hc-members/John-Gluch.jpg" alt="John Gluch" loading="lazy" decoding="async" />
+          <div class="ev-host-info"><div class="lbl">Hosted By</div><div class="nm">John Gluch</div><div class="ttl">BMC|COLLECTIVE Member</div></div>
+        </div>
+        <div class="ev-foot">
+          <div class="ev-people">
+            <div class="avatars"><img src="michael_kara.webp" alt="" loading="lazy"><img src="jeannie_henderson.webp" alt="" loading="lazy"><img src="dan_tripp.webp" alt="" loading="lazy"><span class="more">+6</span></div>
+            <div class="who"><strong>9 builders</strong> joining</div>
+          </div>
+          <div class="seatbar"><span data-fill></span></div>
+          <div class="seat-line"><span class="open">7 seats open</span><span class="total">9 / 16 claimed</span></div>
+          <a href="#host" class="btn btn-ghost btn-block btn-sm">Request A Seat &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Scottsdale, AZ -->
+      <article class="ev reveal" data-seats="24" data-taken="18" style="--bg:url(city-bg/scottsdale.webp)">
+        <div class="ev-top">
+          <div class="ev-locrow">
+            <span class="ev-city">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              Scottsdale <span class="ev-state">&middot; AZ</span>
+            </span>
+            <span class="ev-badge badge-few">Filling Fast</span>
+          </div>
+          <h3 class="ev-name">Desert Dominance</h3>
+          <p class="ev-tag">A production studio built for focus. Cinema screen, catered days, and a room full of operators who came to work.</p>
+          <div class="ev-meta">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Oct 14&ndash;16, 2026</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>Private Studio</div>
+          </div>
+        </div>
+        <div class="ev-host">
+          <img src="hc-members/Kelly-Cort.jpg" alt="Kelly Cort" loading="lazy" decoding="async" />
+          <div class="ev-host-info"><div class="lbl">Hosted By</div><div class="nm">Kelly Cort</div><div class="ttl">BMC|COLLECTIVE Member</div></div>
+        </div>
+        <div class="ev-foot">
+          <div class="ev-people">
+            <div class="avatars"><img src="angelina_feichko.webp" alt="" loading="lazy"><img src="suzanne_grady.webp" alt="" loading="lazy"><img src="emeka_ikechi.webp" alt="" loading="lazy"><img src="zach_holmes.webp" alt="" loading="lazy"><span class="more">+14</span></div>
+            <div class="who"><strong>18 builders</strong> joining</div>
+          </div>
+          <div class="seatbar"><span data-fill></span></div>
+          <div class="seat-line"><span class="open">6 seats open</span><span class="total">18 / 24 claimed</span></div>
+          <a href="#host" class="btn btn-ghost btn-block btn-sm">Request A Seat &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Atlanta, GA -->
+      <article class="ev reveal" data-seats="30" data-taken="22" style="--bg:url(city-bg/atlanta.webp)">
+        <div class="ev-top">
+          <div class="ev-locrow">
+            <span class="ev-city">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              Atlanta <span class="ev-state">&middot; GA</span>
+            </span>
+            <span class="ev-badge badge-few">Filling Fast</span>
+          </div>
+          <h3 class="ev-name">The Atlanta Room</h3>
+          <p class="ev-tag">Downtown loft, floor-to-ceiling windows, and the Southeast&rsquo;s most driven builders under one roof for three days.</p>
+          <div class="ev-meta">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Oct 14&ndash;16, 2026</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>Downtown Loft</div>
+          </div>
+        </div>
+        <div class="ev-host">
+          <img src="hc-members/Michael-Soler.jpg" alt="Michael Soler" loading="lazy" decoding="async" />
+          <div class="ev-host-info"><div class="lbl">Hosted By</div><div class="nm">Michael Soler</div><div class="ttl">BMC|COLLECTIVE Member</div></div>
+        </div>
+        <div class="ev-foot">
+          <div class="ev-people">
+            <div class="avatars"><img src="gerald_leonard.webp" alt="" loading="lazy"><img src="mike_keesee.webp" alt="" loading="lazy"><img src="rebecca_jones.webp" alt="" loading="lazy"><img src="dan_mumm.webp" alt="" loading="lazy"><span class="more">+18</span></div>
+            <div class="who"><strong>22 builders</strong> joining</div>
+          </div>
+          <div class="seatbar"><span data-fill></span></div>
+          <div class="seat-line"><span class="open">8 seats open</span><span class="total">22 / 30 claimed</span></div>
+          <a href="#host" class="btn btn-ghost btn-block btn-sm">Request A Seat &rarr;</a>
+        </div>
+      </article>
+
+      <!-- San Diego, CA -->
+      <article class="ev reveal" data-seats="18" data-taken="14" style="--bg:url(city-bg/san-diego.webp)">
+        <div class="ev-top">
+          <div class="ev-locrow">
+            <span class="ev-city">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              San Diego <span class="ev-state">&middot; CA</span>
+            </span>
+            <span class="ev-badge badge-few">Filling Fast</span>
+          </div>
+          <h3 class="ev-name">Coast &amp; Conquer</h3>
+          <p class="ev-tag">Beachfront by morning, breakthroughs by afternoon. BMC on the big screen with sand between your toes and sharp minds beside you.</p>
+          <div class="ev-meta">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Oct 14&ndash;16, 2026</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>Beachfront Villa</div>
+          </div>
+        </div>
+        <div class="ev-host">
+          <img src="hc-members/Rae-Llasos.jpg" alt="Rae Llasos" loading="lazy" decoding="async" />
+          <div class="ev-host-info"><div class="lbl">Hosted By</div><div class="nm">Rae Llasos</div><div class="ttl">BMC|COLLECTIVE Member</div></div>
+        </div>
+        <div class="ev-foot">
+          <div class="ev-people">
+            <div class="avatars"><img src="maria_oliver.webp" alt="" loading="lazy"><img src="spencer_ford.webp" alt="" loading="lazy"><img src="jeannie_henderson.webp" alt="" loading="lazy"><span class="more">+11</span></div>
+            <div class="who"><strong>14 builders</strong> joining</div>
+          </div>
+          <div class="seatbar"><span data-fill></span></div>
+          <div class="seat-line"><span class="open">4 seats open</span><span class="total">14 / 18 claimed</span></div>
+          <a href="#host" class="btn btn-ghost btn-block btn-sm">Request A Seat &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Seattle, WA -->
+      <article class="ev reveal" data-seats="14" data-taken="6" style="--bg:url(city-bg/seattle.webp)">
+        <div class="ev-top">
+          <div class="ev-locrow">
+            <span class="ev-city">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              Seattle <span class="ev-state">&middot; WA</span>
+            </span>
+            <span class="ev-badge badge-open">Seats Open</span>
+          </div>
+          <h3 class="ev-name">Rain Or Shine</h3>
+          <p class="ev-tag">A waterfront workspace, bottomless coffee, and a tight circle of builders who show up rain or shine. Intimate by design.</p>
+          <div class="ev-meta">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Oct 14&ndash;16, 2026</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>Waterfront Workspace</div>
+          </div>
+        </div>
+        <div class="ev-host">
+          <img src="hc-members/Heather-Roxburgh.jpg" alt="Heather Roxburgh" loading="lazy" decoding="async" />
+          <div class="ev-host-info"><div class="lbl">Hosted By</div><div class="nm">Heather Roxburgh</div><div class="ttl">BMC|COLLECTIVE Member</div></div>
+        </div>
+        <div class="ev-foot">
+          <div class="ev-people">
+            <div class="avatars"><img src="rebecca_jones.webp" alt="" loading="lazy"><img src="michael_kara.webp" alt="" loading="lazy"><img src="dan_tripp.webp" alt="" loading="lazy"><span class="more">+3</span></div>
+            <div class="who"><strong>6 builders</strong> joining</div>
+          </div>
+          <div class="seatbar"><span data-fill></span></div>
+          <div class="seat-line"><span class="open">8 seats open</span><span class="total">6 / 14 claimed</span></div>
+          <a href="#host" class="btn btn-ghost btn-block btn-sm">Request A Seat &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Miami, FL -->
+      <article class="ev reveal" data-seats="26" data-taken="20" style="--bg:url(city-bg/miami.webp)">
+        <div class="ev-top">
+          <div class="ev-locrow">
+            <span class="ev-city">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              Miami <span class="ev-state">&middot; FL</span>
+            </span>
+            <span class="ev-badge badge-few">Filling Fast</span>
+          </div>
+          <h3 class="ev-name">Miami Heat</h3>
+          <p class="ev-tag">Rooftop energy, skyline views, and the highest-tempo Room of the week. Come for the program, stay for the after-hours deals.</p>
+          <div class="ev-meta">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Oct 14&ndash;16, 2026</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>Rooftop Lounge</div>
+          </div>
+        </div>
+        <div class="ev-host">
+          <img src="hc-members/Igor-Chernetskiy.jpg" alt="Igor Chernetskiy" loading="lazy" decoding="async" />
+          <div class="ev-host-info"><div class="lbl">Hosted By</div><div class="nm">Igor Chernetskiy</div><div class="ttl">BMC|COLLECTIVE Member</div></div>
+        </div>
+        <div class="ev-foot">
+          <div class="ev-people">
+            <div class="avatars"><img src="emeka_ikechi.webp" alt="" loading="lazy"><img src="zach_holmes.webp" alt="" loading="lazy"><img src="angelina_feichko.webp" alt="" loading="lazy"><img src="mike_keesee.webp" alt="" loading="lazy"><span class="more">+16</span></div>
+            <div class="who"><strong>20 builders</strong> joining</div>
+          </div>
+          <div class="seatbar"><span data-fill></span></div>
+          <div class="seat-line"><span class="open">6 seats open</span><span class="total">20 / 26 claimed</span></div>
+          <a href="#host" class="btn btn-ghost btn-block btn-sm">Request A Seat &rarr;</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY IN PERSON ===== -->
+<section class="why" id="why">
+  <div class="container">
+    <div class="why-head reveal">
+      <div class="eyebrow eyebrow--center"><span class="pip"></span>Why The Room</div>
+      <h2>The Screen Delivers The Strategy.<br/>The Room Delivers The <em class="key">Multiplier</em>.</h2>
+    </div>
+    <div class="why-grid stagger">
+      <div class="why-card">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <h3>Your Local Tribe</h3>
+        <p>Walk out with a network of driven builders in your own city &mdash; people you can actually meet for coffee next month, not just a name in a chat window.</p>
+      </div>
+      <div class="why-card">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <h3>Real-Time Debate</h3>
+        <p>Pause. Argue. Pressure-test the ideas against real operators before you bet your business on them. The best insights happen between the sessions.</p>
+      </div>
+      <div class="why-card">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <h3>Built-In Accountability</h3>
+        <p>Commit your next moves out loud, to people who&rsquo;ll remember. The room turns three days of notes into a plan you actually execute.</p>
+      </div>
+      <div class="why-card">
+        <svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <h3>An Unforgettable Three Days</h3>
+        <p>Bonfires, rooftops, lakefronts, lofts. Every host brings their own flavor &mdash; so the program you&rsquo;ll never forget happens somewhere you won&rsquo;t either.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOST CTA ===== -->
+<section class="host-cta bmc-wash bmc-wash--center" id="host">
+  <div class="container">
+    <div class="host-inner reveal">
+      <div class="eyebrow eyebrow--center"><span class="pip"></span>Open Your City</div>
+      <h2>Want To Host<br/>A Room?</h2>
+      <p class="lead">Don&rsquo;t see your city? Open it. Hosting a Room is how the most connected builders in the community are made. You bring the space and the invitation &mdash; we&rsquo;ll help you fill the seats. It&rsquo;s community-driven, member-led, and yours to shape.</p>
+      <div class="host-points">
+        <span>You pick the venue &amp; the vibe</span>
+        <span>We help you spread the word</span>
+        <span>Every guest brings their own BMC ticket</span>
+        <span>As intimate or as big as you want</span>
+      </div>
+      <a href="mailto:collective@darrenhardy.com?subject=I%20want%20to%20host%20a%20BMC%20Room" class="btn btn-solid">Become A Host &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-head reveal">
+      <div class="eyebrow eyebrow--center"><span class="pip"></span>Good Questions</div>
+      <h2>Before You Claim A Seat</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <div class="faq-q">Do I still need my own Business Master Class ticket?</div>
+        <div class="faq-a">Yes. A Hosted Room is where you watch the live program &mdash; not a substitute for it. Every attendee holds their own BMC ticket. The Room simply adds the in-person experience on top of the seat you already have.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is the virtual event somehow &ldquo;less than&rdquo; being in a Room?</div>
+        <div class="faq-a">Not at all. Business Master Class was engineered for the screen, and the vast majority of members will experience it virtually &mdash; and get everything the program promises. A Room is for builders who simply want more than the program: the people, the debate, and the relationships that come from watching it side-by-side.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Who runs these Rooms?</div>
+        <div class="faq-a">Members of the community &mdash; not Darren Hardy and not the <em class="key nobreak">A-Team</em>. Each Room is opened, hosted, and run by a fellow BMC|COLLECTIVE member who wanted to experience the event with others in their city. It&rsquo;s grassroots by design.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What does it cost to attend a Room?</div>
+        <div class="faq-a">That&rsquo;s set by each host &mdash; some Rooms are free gatherings, others cover a shared venue, meals, or lodging. When you request a seat, your host will walk you through exactly what&rsquo;s included before you commit.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">My city isn&rsquo;t listed. Now what?</div>
+        <div class="faq-a">Two options: watch a nearby Room fill up and grab a travel seat, or open your own. Hosting is easier than you think &mdash; <a href="#host">start here</a> and we&rsquo;ll help you get it off the ground.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer-minimal">
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#hero" class="footer-brand" aria-label="BMC COLLECTIVE">
+        <img src="BMC_COLLECTIVE_logo_white.webp?v=2" alt="BMC|COLLECTIVE" width="1400" height="272" loading="lazy" decoding="async" />
+      </a>
+      <div class="footer-bottom">
+        <span>&copy; Darren Hardy, LLC. All Rights Reserved.</span>
+        <div class="legal-links">
+          <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
+          <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Sticky bar shadow on scroll */
+var bar = document.getElementById('stickyBar');
+window.addEventListener('scroll', function () {
+  bar.classList.toggle('scrolled', window.scrollY > 12);
+}, { passive: true });
+
+/* Scroll reveal + seat-bar fill */
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function fillSeats(el) {
+  var seats = +el.getAttribute('data-seats');
+  var taken = +el.getAttribute('data-taken');
+  var bar = el.querySelector('[data-fill]');
+  if (bar && seats > 0) bar.style.width = Math.round((taken / seats) * 100) + '%';
+}
+
+if (reduce) {
+  document.querySelectorAll('.reveal, .stagger').forEach(function (n) { n.classList.add('in'); });
+  document.querySelectorAll('.ev').forEach(fillSeats);
+} else {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        if (e.target.classList.contains('ev')) fillSeats(e.target);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal, .stagger').forEach(function (n) { io.observe(n); });
+  document.querySelectorAll('.ev').forEach(function (n) { io.observe(n); });
+}
+</script>
+</body>
+</html>
