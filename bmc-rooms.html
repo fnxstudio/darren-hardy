@@ -269,9 +269,14 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .step {
   background: var(--surface-card); border: 1px solid var(--rule); border-radius: var(--radius);
-  padding: 40px 34px; transition: border-color .3s, transform .3s;
+  padding: 40px 34px;
 }
-.step:hover { border-color: var(--rule-cyan); transform: translateY(-4px); }
+.step-link {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 18px;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.03em; color: var(--bmc-plum);
+  text-decoration: none; transition: gap .2s;
+}
+.step-link:hover { text-decoration: underline; text-underline-offset: 3px; gap: 11px; }
 .step-num {
   font-size: 13px; font-weight: 700; letter-spacing: 0.2em; color: var(--bmc-cyan);
   display: inline-block; margin-bottom: 18px;
@@ -490,9 +495,9 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 }
 .studio-chips span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--bmc-cyan); }
 .studio-host { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
-.studio-host .sh-mark {
-  width: 56px; height: 56px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.25); font-weight: 900; font-size: 19px; color: var(--white);
+.studio-host .sh-photo {
+  width: 66px; height: 66px; border-radius: 50%; flex: none;
+  object-fit: cover; object-position: center 20%; border: 1px solid rgba(255,255,255,0.28);
 }
 .studio-host .sh-info .lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bmc-cyan); margin-bottom: 3px; }
 .studio-host .sh-info .nm { font-size: 15.5px; font-weight: 700; color: var(--white); }
@@ -531,7 +536,6 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 .theme-light .eyebrow .pip { background: var(--bmc-plum); }
 /* steps */
 .theme-light .step { background: #fff; border-color: rgba(20,10,30,0.08); }
-.theme-light .step:hover { border-color: rgba(var(--bmc-plum-rgb),0.45); }
 .theme-light .step h3 { color: var(--ink-text); }
 .theme-light .step p { color: var(--body-light); }
 .theme-light .step-num { color: var(--bmc-plum); }
@@ -590,9 +594,9 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
     <img src="BMC_COLLECTIVE_logo_white.webp?v=2" alt="BMC|COLLECTIVE" width="1400" height="272" decoding="async" />
   </a>
   <nav class="sticky-nav" aria-label="Page sections">
+    <a href="#how">How It Works</a>
     <a href="#studio45">Studio45</a>
     <a href="#rooms">The Rooms</a>
-    <a href="#how">How It Works</a>
     <a href="#host">Host One</a>
     <a href="#faq">FAQ</a>
   </nav>
@@ -662,6 +666,35 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
   </div>
 </section>
 
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how theme-light" id="how">
+  <div class="container">
+    <div class="how-head reveal">
+      <div class="eyebrow eyebrow--center"><span class="pip"></span>How It Works</div>
+      <h2>Three Steps To The Room</h2>
+      <p class="lead">A Hosted Room is simple by design. You bring your BMC ticket. A local host brings the room, the screen, and the people.</p>
+    </div>
+    <div class="steps stagger">
+      <div class="step">
+        <span class="step-num">STEP 01</span>
+        <h3>Reserve Your BMC Seat</h3>
+        <p>Every attendee holds their own Business Master Class ticket. That&rsquo;s your access to the live program. If you&rsquo;re not registered yet, grab your seat first, then come find your Room.</p>
+        <a class="step-link" href="https://www.hardybmc.com/">Get My BMC Seat &rarr;</a>
+      </div>
+      <div class="step">
+        <span class="step-num">STEP 02</span>
+        <h3>Join A Room In Your City</h3>
+        <p>Browse the Rooms below and request a seat with a local host. They&rsquo;ll confirm the venue, the schedule, and what to bring. Seats are limited by the room, so the earlier you claim yours, the better.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">STEP 03</span>
+        <h3>Watch Together. Build In Person.</h3>
+        <p>Show up. Watch all three days on the big screen with your local tribe. Debate the ideas, work the exercises together, and leave with a network of driven builders in your own backyard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== STUDIO45 - exclusive flagship ===== -->
 <section class="studio theme-plum" id="studio45">
   <div class="container">
@@ -678,7 +711,7 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
           <span>By Application</span>
         </div>
         <div class="studio-host">
-          <div class="sh-mark">B</div>
+          <img class="sh-photo" src="team-photos/brenda.webp" alt="Brenda" loading="lazy" decoding="async" />
           <div class="sh-info">
             <div class="lbl">Hosted By</div>
             <div class="nm">Brenda &amp; the <em class="nobreak">A-Team</em></div>
@@ -697,34 +730,6 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
           <div class="l2">The room where the broadcast is born.</div>
         </figcaption>
       </figure>
-    </div>
-  </div>
-</section>
-
-<!-- ===== HOW IT WORKS ===== -->
-<section class="how theme-light" id="how">
-  <div class="container">
-    <div class="how-head reveal">
-      <div class="eyebrow eyebrow--center"><span class="pip"></span>How It Works</div>
-      <h2>Three Steps To The Room</h2>
-      <p class="lead">A Hosted Room is simple by design. You bring your BMC ticket. A local host brings the room, the screen, and the people.</p>
-    </div>
-    <div class="steps stagger">
-      <div class="step">
-        <span class="step-num">STEP 01</span>
-        <h3>Reserve Your BMC Seat</h3>
-        <p>Every attendee holds their own Business Master Class ticket. That&rsquo;s your access to the live program. If you&rsquo;re not registered yet, grab your seat first, then come find your Room.</p>
-      </div>
-      <div class="step">
-        <span class="step-num">STEP 02</span>
-        <h3>Join A Room In Your City</h3>
-        <p>Browse the Rooms below and request a seat with a local host. They&rsquo;ll confirm the venue, the schedule, and what to bring. Seats are limited by the room, so the earlier you claim yours, the better.</p>
-      </div>
-      <div class="step">
-        <span class="step-num">STEP 03</span>
-        <h3>Watch Together. Build In Person.</h3>
-        <p>Show up. Watch all three days on the big screen with your local tribe. Debate the ideas, work the exercises together, and leave with a network of driven builders in your own backyard.</p>
-      </div>
     </div>
   </div>
 </section>
