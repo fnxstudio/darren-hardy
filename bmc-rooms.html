@@ -241,6 +241,7 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
   display: flex; align-items: center; justify-content: center;
 }
 .ptile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+img.ptile { display: block; width: 100%; height: 100%; object-fit: cover; }
 .ptile .ph-icon { width: 40px; height: 40px; color: rgba(var(--bmc-plum-rgb), 0.5); }
 .ptile .ph-mark {
   position: absolute; top: 12px; left: 12px;
@@ -251,8 +252,11 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 .ptile.t-wide { aspect-ratio: 4 / 3; }
 .ptile.t-sq   { aspect-ratio: 1 / 1; }
 @media (max-width: 760px) {
-  .pgallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .pcol { transform: none !important; gap: 12px; }
+  .pgallery { grid-template-columns: 1fr; gap: 14px; }
+  .pcol { transform: none !important; gap: 14px; }
+}
+@media (min-width: 761px) {
+  .pgallery .pcol:nth-child(2) { margin-top: 42px; }
 }
 .story-callout {
   max-width: 760px; margin: 0 auto; text-align: center;
@@ -641,22 +645,16 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
     <!-- PARALLAX GALLERY. Swap each <div class="ptile t-*">...</div> for <img class="ptile t-*" src="room-photos/room-01.webp" alt=""> when real event photos are ready. Keep the t-tall / t-wide / t-sq class for shape, or drop it and set your own aspect-ratio. -->
     <div class="pgallery reveal" data-parallax-gallery>
       <div class="pcol" data-speed="0.05">
-        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="ptile t-wide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="ptile t-sq"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <img class="ptile t-wide" src="room-photos/room-02.webp" alt="Members watching Business Master Class together in a hosted Room" loading="lazy" decoding="async" />
+        <img class="ptile t-wide" src="room-photos/room-03.webp" alt="Members working through the material together" loading="lazy" decoding="async" />
       </div>
       <div class="pcol" data-speed="-0.06">
-        <img class="ptile t-wide" src="room-photos/room-01.webp" alt="BMC members gathered for dinner at an in-person Room" loading="lazy" decoding="async" />
-        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="ptile t-wide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <img class="ptile t-wide" src="room-photos/room-01.webp" alt="Members gathered for dinner at an in-person Room" loading="lazy" decoding="async" />
+        <img class="ptile t-wide" src="room-photos/room-05.webp" alt="Members meeting up in the hotel lobby" loading="lazy" decoding="async" />
       </div>
       <div class="pcol" data-speed="0.035">
-        <div class="ptile t-sq"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="ptile t-wide"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
-        <div class="ptile t-tall"><span class="ph-mark">Photo</span><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-5-5-6 6-2-2-5 5"/></svg></div>
+        <img class="ptile t-wide" src="room-photos/room-04.webp" alt="Members sharing a meal on the patio" loading="lazy" decoding="async" />
+        <img class="ptile t-wide" src="room-photos/room-06.webp" alt="Members celebrating together" loading="lazy" decoding="async" />
       </div>
     </div>
 
@@ -722,7 +720,7 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
       </div>
       <figure class="studio-visual reveal">
         <span class="sv-wait">Waiting List Only</span>
-        <img src="DH_BMC_stage.webp" alt="Darren Hardy delivering Business Master Class live on stage" loading="lazy" decoding="async" />
+        <img src="room-photos/dh-studio45.webp" alt="Darren Hardy in the studio with members at Business Master Class" style="object-position: 56% center;" loading="lazy" decoding="async" />
         <figcaption class="sv-cap">
           <div class="l1">Studio45 &middot; In Person With Darren</div>
           <div class="l2">The room where the broadcast is born.</div>
