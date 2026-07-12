@@ -170,7 +170,7 @@ h1, h2, h3 { font-weight: 900; line-height: 1.02; letter-spacing: -0.01em; }
 .sticky-brand img { height: 26px; width: auto; }
 .sticky-nav { display: flex; gap: 30px; margin-left: auto; margin-right: 8px; }
 .sticky-nav a {
-  font-size: 12px; font-weight: 500; letter-spacing: 0.04em; color: var(--silver);
+  font-size: 10px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--silver);
   transition: color .2s; padding: 6px 0;
 }
 .sticky-nav a:hover { color: var(--white); }
@@ -340,6 +340,7 @@ img.ptile { display: block; width: 100%; height: 100%; object-fit: cover; }
 .badge-open { background: var(--bmc-cyan); color: var(--black); }
 .badge-few { background: rgba(var(--bmc-magenta-rgb), 0.16); color: #ff9dd4; border: 1px solid rgba(var(--bmc-magenta-rgb),0.4); }
 .badge-featured { background: linear-gradient(90deg, var(--bmc-purple), var(--bmc-magenta)); color: var(--white); }
+.badge-full { background: rgba(255,255,255,0.14); color: var(--text-on-dark); border: 1px solid rgba(255,255,255,0.30); }
 
 .ev-name { font-size: clamp(24px, 2.4vw, 30px); text-transform: uppercase; margin-bottom: 12px; letter-spacing: -0.01em; }
 .ev-tag { font-size: 15px; line-height: 1.6; color: var(--silver); min-height: 48px; }
@@ -383,6 +384,8 @@ img.ptile { display: block; width: 100%; height: 100%; object-fit: cover; }
 .seat-line { display: flex; justify-content: space-between; align-items: center; margin: 12px 0 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; }
 .seat-line .open { color: var(--bmc-cyan); text-transform: uppercase; letter-spacing: 0.1em; }
 .seat-line .total { color: var(--grey); }
+.seat-line .full-label { color: var(--silver); text-transform: uppercase; letter-spacing: 0.08em; }
+.ev.is-full .seatbar span { background: linear-gradient(90deg, rgba(var(--bmc-magenta-rgb), 0.75), rgba(var(--bmc-purple-rgb), 0.85)); }
 
 /* featured card spans full width */
 .ev-featured { grid-column: 1 / -1; }
@@ -740,7 +743,7 @@ img.ptile { display: block; width: 100%; height: 100%; object-fit: cover; }
       </div>
       <p class="lead">Beyond Studio45, the experience is community-driven. Each Room is opened and run by a fellow member, not the <em class="nobreak">A-Team</em>, not Darren. Just driven builders who&rsquo;d rather watch it together.</p>
     </div>
-    <div class="events-count reveal"><span class="live-dot"></span>7 Rooms open &middot; more cities added weekly</div>
+    <div class="events-count reveal"><span class="live-dot"></span>7 Rooms live &middot; 2 already full &middot; more cities added weekly</div>
 
     <div class="events-grid">
 
@@ -886,14 +889,14 @@ img.ptile { display: block; width: 100%; height: 100%; object-fit: cover; }
       </article>
 
       <!-- San Diego, CA -->
-      <article class="ev reveal" data-seats="18" data-taken="14" style="--bg:url(city-bg/san-diego.webp)">
+      <article class="ev is-full reveal" data-seats="18" data-taken="18" style="--bg:url(city-bg/san-diego.webp)">
         <div class="ev-top">
           <div class="ev-locrow">
             <span class="ev-city">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
               San Diego <span class="ev-state">&middot; CA</span>
             </span>
-            <span class="ev-badge badge-few">Filling Fast</span>
+            <span class="ev-badge badge-full">Full &middot; Waitlist</span>
           </div>
           <h3 class="ev-name">Coast &amp; Conquer</h3>
           <p class="ev-tag">Beachfront by morning, breakthroughs by afternoon. BMC on the big screen with sand between your toes and sharp minds beside you.</p>
@@ -908,12 +911,12 @@ img.ptile { display: block; width: 100%; height: 100%; object-fit: cover; }
         </div>
         <div class="ev-foot">
           <div class="ev-people">
-            <div class="avatars"><img src="maria_oliver.webp" alt="" loading="lazy"><img src="spencer_ford.webp" alt="" loading="lazy"><img src="jeannie_henderson.webp" alt="" loading="lazy"><span class="more">+11</span></div>
-            <div class="who"><strong>14 builders</strong> joining</div>
+            <div class="avatars"><img src="maria_oliver.webp" alt="" loading="lazy"><img src="spencer_ford.webp" alt="" loading="lazy"><img src="jeannie_henderson.webp" alt="" loading="lazy"><span class="more">+15</span></div>
+            <div class="who"><strong>18 builders</strong> confirmed</div>
           </div>
           <div class="seatbar"><span data-fill></span></div>
-          <div class="seat-line"><span class="open">4 seats open</span><span class="total">14 / 18 claimed</span></div>
-          <a href="#host" class="btn btn-ghost btn-block btn-sm">Request A Seat &rarr;</a>
+          <div class="seat-line"><span class="full-label">Room Full</span><span class="total">18 / 18 claimed</span></div>
+          <a href="#host" class="btn btn-ghost btn-block btn-sm">Join The Waitlist &rarr;</a>
         </div>
       </article>
 
@@ -950,14 +953,14 @@ img.ptile { display: block; width: 100%; height: 100%; object-fit: cover; }
       </article>
 
       <!-- Miami, FL -->
-      <article class="ev reveal" data-seats="26" data-taken="20" style="--bg:url(city-bg/miami.webp)">
+      <article class="ev is-full reveal" data-seats="26" data-taken="26" style="--bg:url(city-bg/miami.webp)">
         <div class="ev-top">
           <div class="ev-locrow">
             <span class="ev-city">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
               Miami <span class="ev-state">&middot; FL</span>
             </span>
-            <span class="ev-badge badge-few">Filling Fast</span>
+            <span class="ev-badge badge-full">Full &middot; Waitlist</span>
           </div>
           <h3 class="ev-name">Miami Heat</h3>
           <p class="ev-tag">Rooftop energy, skyline views, and the highest-tempo Room of the week. Come for the immersion, stay for the after-hours deals.</p>
@@ -972,12 +975,12 @@ img.ptile { display: block; width: 100%; height: 100%; object-fit: cover; }
         </div>
         <div class="ev-foot">
           <div class="ev-people">
-            <div class="avatars"><img src="emeka_ikechi.webp" alt="" loading="lazy"><img src="zach_holmes.webp" alt="" loading="lazy"><img src="angelina_feichko.webp" alt="" loading="lazy"><img src="mike_keesee.webp" alt="" loading="lazy"><span class="more">+16</span></div>
-            <div class="who"><strong>20 builders</strong> joining</div>
+            <div class="avatars"><img src="emeka_ikechi.webp" alt="" loading="lazy"><img src="zach_holmes.webp" alt="" loading="lazy"><img src="angelina_feichko.webp" alt="" loading="lazy"><img src="mike_keesee.webp" alt="" loading="lazy"><span class="more">+22</span></div>
+            <div class="who"><strong>26 builders</strong> confirmed</div>
           </div>
           <div class="seatbar"><span data-fill></span></div>
-          <div class="seat-line"><span class="open">6 seats open</span><span class="total">20 / 26 claimed</span></div>
-          <a href="#host" class="btn btn-ghost btn-block btn-sm">Request A Seat &rarr;</a>
+          <div class="seat-line"><span class="full-label">Room Full</span><span class="total">26 / 26 claimed</span></div>
+          <a href="#host" class="btn btn-ghost btn-block btn-sm">Join The Waitlist &rarr;</a>
         </div>
       </article>
 
