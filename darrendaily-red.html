@@ -137,33 +137,23 @@
   /* ============ NAV ============ */
   nav.top {
     position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 40px; padding: 14px 40px;
+    display: flex; align-items: center; justify-content: space-between; padding: 14px 40px;
     background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--line);
   }
-  .nav-left, .nav-right { display: flex; gap: 30px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; }
-  .nav-left { justify-content: flex-end; }
-  .nav-right { justify-content: flex-start; align-items: center; }
-  .nav-left a, .nav-right a.txt { color: var(--muted); text-decoration: none; transition: color .18s; }
-  .nav-left a:hover, .nav-right a.txt:hover { color: var(--blue); }
   .nav-brand { display: flex; align-items: center; text-decoration: none; white-space: nowrap; line-height: 1; }
   .nav-brand img { height: 34px; width: auto; display: block; }
   .nav-cta {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--blue); color: #fff !important; padding: 11px 20px; border-radius: var(--radius);
-    letter-spacing: 0.16em; border: 2px solid var(--blue); transition: background .2s, color .2s;
+    font-weight: 700; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    border: 2px solid var(--blue);
+    transition: background .2s, color .2s, opacity .35s var(--ease), transform .35s var(--ease);
+    opacity: 0; transform: translateY(-8px); pointer-events: none;
   }
+  .nav-cta.show { opacity: 1; transform: none; pointer-events: auto; }
   .nav-cta:hover { background: transparent; color: var(--blue) !important; }
-  .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-  .nav-burger span { width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .25s, opacity .25s; }
-  .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-burger.open span:nth-child(2) { opacity: 0; }
-  .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  .nav-mobile { position: absolute; top: 100%; left: 0; right: 0; background: rgba(255, 255, 255, 0.98); border-bottom: 1px solid var(--line); display: none; flex-direction: column; }
-  .nav-mobile.open { display: flex; }
-  .nav-mobile a { color: var(--muted); text-decoration: none; font-weight: 700; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; padding: 16px 24px; border-bottom: 1px solid var(--line-soft); }
-  .nav-mobile a:last-child { border-bottom: none; color: var(--blue); }
-  @media (max-width: 980px) { nav.top { display: flex; justify-content: space-between; padding: 12px 22px; } .nav-left, .nav-right { display: none; } .nav-burger { display: flex; } }
+  @media (max-width: 720px) { nav.top { padding: 12px 22px; } .nav-brand img { height: 30px; } }
 
   /* ============ HERO ============ */
   .hero { padding: 168px 0 96px; overflow: hidden; }
@@ -398,12 +388,12 @@
   .tw-head h2 em { font-style: normal; color: var(--azure); }
   .tw-head p { color: var(--mist-on-dark); font-size: clamp(16px, 1.3vw, 19px); line-height: 1.55; margin-top: 22px; }
   .tw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .tcard { position: relative; background: #131d33; border: 1px solid rgba(255,255,255,0.09); border-radius: 8px; overflow: hidden; box-shadow: 0 30px 60px -34px rgba(0,0,0,0.6); transition: transform .25s var(--ease), border-color .25s; }
+  .tcard { position: relative; background: var(--navy-2); border: 1px solid rgba(255,255,255,0.10); border-radius: 8px; overflow: hidden; box-shadow: 0 30px 60px -34px rgba(0,0,0,0.6); transition: transform .25s var(--ease), border-color .25s; }
   .tcard:hover { transform: translateY(-5px); border-color: rgba(var(--blue-rgb), 0.55); }
-  .tphoto { position: relative; aspect-ratio: 1 / 0.68; overflow: hidden; background: #0d1526; }
-  .tphoto::before { content: ""; position: absolute; inset: 0; z-index: 1; background: radial-gradient(ellipse 70% 70% at 50% 35%, rgba(var(--blue-rgb),0.42), transparent 68%); }
-  .tphoto img { position: relative; z-index: 0; width: 100%; display: block; filter: grayscale(1) contrast(1.04) brightness(1.02); }
-  .tphoto::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, rgba(19,29,51,0) 55%, rgba(19,29,51,0.85) 100%), linear-gradient(180deg, rgba(167,38,50,0.16), rgba(167,38,50,0.02)); }
+  .tphoto { position: relative; aspect-ratio: 1 / 0.68; overflow: hidden; background: radial-gradient(ellipse 90% 82% at 50% 30%, rgba(var(--blue-rgb),0.62) 0%, rgba(var(--blue-rgb),0.12) 46%, transparent 74%), var(--navy-2); }
+  .tphoto::before { content: none; }
+  .tphoto img { position: relative; z-index: 1; width: 100%; display: block; -webkit-mask-image: radial-gradient(ellipse 72% 78% at 50% 40%, #000 54%, transparent 90%); mask-image: radial-gradient(ellipse 72% 78% at 50% 40%, #000 54%, transparent 90%); }
+  .tphoto::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, transparent 60%, var(--navy-2) 100%); }
   .tchip { position: absolute; top: 14px; right: 14px; z-index: 3; font-weight: 800; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--azure); padding: 6px 11px; border-radius: var(--radius); border: 1px solid rgba(var(--blue-rgb),0.85); background: rgba(10,14,24,0.35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
   .tbody { padding: 24px 26px 28px; }
   .tquote { font-size: 15.5px; line-height: 1.55; color: #eaeef6; font-weight: 500; }
@@ -474,7 +464,7 @@
   @media (max-width: 560px) { .dd-row { grid-template-columns: 1fr; } }
 
   /* ============ FOOTER ============ */
-  footer { background: var(--navy); color: #b7c1d3; padding: 70px 0 40px; }
+  footer { background: #0a0a0a; color: #b7c1d3; padding: 70px 0 40px; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 40px; }
   .foot-brand .fb-logo { height: 46px; width: auto; display: block; }
   .foot-brand .tag { font-size: 14px; line-height: 1.6; color: #9ba7bc; margin-top: 20px; max-width: 320px; }
@@ -500,26 +490,10 @@
 
 <!-- ============ NAV ============ -->
 <nav class="top">
-  <div class="nav-left">
-    <a href="#about">How It Works</a>
-    <a href="#voice">What You Get</a>
-    <a href="#voices">Members</a>
-  </div>
   <a class="nav-brand" href="#top">
     <img src="dd-logo-ink.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
   </a>
-  <div class="nav-right">
-    <a class="txt" href="https://darrendailyondemand.com/">Podcast</a>
-    <a class="nav-cta" href="#join">Join Free <span>&rarr;</span></a>
-  </div>
-  <button class="nav-burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-  <div class="nav-mobile" id="navMobile">
-    <a href="#about">How It Works</a>
-    <a href="#voice">What You Get</a>
-    <a href="#voices">Members</a>
-    <a href="https://darrendailyondemand.com/">Podcast</a>
-    <a href="#join">Join Free &rarr;</a>
-  </div>
+  <a class="nav-cta" id="navCta" href="#join">Start now <span>&rarr;</span></a>
 </nav>
 
 <main id="top">
@@ -994,11 +968,20 @@
 </main>
 
 <script>
-  // Mobile nav
+  // Reveal the nav Join button only after the hero CTA has scrolled above the viewport
   (function () {
-    var b = document.getElementById('burger'), m = document.getElementById('navMobile');
-    b.addEventListener('click', function () { b.classList.toggle('open'); m.classList.toggle('open'); });
-    m.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { b.classList.remove('open'); m.classList.remove('open'); }); });
+    var cta = document.getElementById('navCta');
+    var heroCta = document.querySelector('.hero-actions .btn');
+    if (!cta || !heroCta) return;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      cta.classList.toggle('show', heroCta.getBoundingClientRect().bottom < 0);
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
   })();
 
   // Scroll reveal
