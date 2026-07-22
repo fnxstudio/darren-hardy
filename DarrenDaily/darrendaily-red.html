@@ -161,9 +161,8 @@
   }
   .nav-brand { display: flex; align-items: center; text-decoration: none; white-space: nowrap; line-height: 1; }
   .nav-brand img { height: 34px; width: auto; display: block; }
-  .nav-brand .logo-ink { display: none; }
-  nav.top.solid .nav-brand .logo-white { display: none; }
-  nav.top.solid .nav-brand .logo-ink { display: block; }
+  .nav-brand .logo-white { display: none; }
+  .nav-brand .logo-ink { display: block; }
   .nav-cta {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--blue); color: #fff !important; padding: 11px 20px; border-radius: var(--radius);
@@ -172,30 +171,25 @@
     transition: background .2s, color .2s;
   }
   .nav-cta:hover { background: transparent; color: var(--blue) !important; }
-  nav.top:not(.solid) .nav-cta:hover { color: #fff !important; border-color: #fff; }
   @media (max-width: 720px) { nav.top { padding: 12px 22px; } .nav-brand img { height: 30px; } .nav-cta { padding: 10px 16px; font-size: 10px; } }
 
-  /* ============ HERO (full-bleed image) ============ */
-  .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; padding: 132px 0 80px; }
-  .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 72% center; z-index: 0; }
-  .hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background:
-      linear-gradient(90deg, rgba(9,11,15,0.90) 0%, rgba(9,11,15,0.72) 30%, rgba(9,11,15,0.32) 56%, rgba(9,11,15,0) 80%),
-      linear-gradient(180deg, rgba(9,11,15,0.40) 0%, rgba(9,11,15,0) 26%, rgba(9,11,15,0) 66%, rgba(9,11,15,0.5) 100%); }
+  /* ============ HERO (light — image placeholder pending) ============ */
+  .hero { position: relative; min-height: 82vh; display: flex; align-items: center; overflow: hidden; padding: 150px 0 90px;
+    background: radial-gradient(ellipse 58% 80% at 84% 36%, rgba(var(--blue-rgb), 0.08), transparent 60%), var(--paper); }
   .hero .container { position: relative; z-index: 2; width: 100%; }
-  .hero-copy { max-width: 620px; }
-  .hero .eyebrow { color: var(--azure); opacity: 0; transform: translateY(10px); animation: revealUp .7s var(--ease) forwards; animation-delay: .5s; }
-  .hero .eyebrow .pip { background: var(--azure); }
-  .hero h1 { color: #fff; font-size: clamp(36px, 4.6vw, 70px); margin: 22px 0 0; text-transform: uppercase; text-wrap: balance; text-shadow: 0 2px 34px rgba(0,0,0,0.42); opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: .9s; }
-  .hero h1 .l2 { color: var(--azure); }
-  .hero h1 .dot { color: var(--azure); }
-  .hero-sub { font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: rgba(255,255,255,0.88); margin: 26px 0 0; max-width: 520px; text-shadow: 0 1px 16px rgba(0,0,0,0.5); opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: 1.5s; }
-  .hero-sub b { color: #fff; font-weight: 700; }
+  .hero-copy { max-width: 660px; }
+  .hero .eyebrow { color: var(--blue); opacity: 0; transform: translateY(10px); animation: revealUp .7s var(--ease) forwards; animation-delay: .5s; }
+  .hero .eyebrow .pip { background: var(--blue); }
+  .hero h1 { color: var(--ink); font-size: clamp(36px, 4.6vw, 70px); margin: 22px 0 0; text-transform: uppercase; text-wrap: balance; opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: .9s; }
+  .hero h1 .l2 { color: var(--blue); }
+  .hero h1 .dot { color: var(--blue); }
+  .hero-sub { font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: var(--muted); margin: 26px 0 0; max-width: 520px; opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: 1.5s; }
+  .hero-sub b { color: var(--ink); font-weight: 700; }
   .hero-sub-m { display: none; }
   .hero-actions { display: flex; align-items: center; gap: 26px; margin-top: 34px; flex-wrap: wrap; opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: 1.9s; }
-  .hero-actions .btn-line { color: #fff; border-bottom-color: var(--azure); }
-  .hero-actions .btn-line:hover { color: var(--azure); }
-  .scroll-cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 3; color: rgba(255,255,255,0.65); opacity: 0; animation: fadeIn 1s ease forwards; animation-delay: 2.5s; }
+  .hero-actions .btn-line { color: var(--ink); border-bottom-color: var(--blue); }
+  .hero-actions .btn-line:hover { color: var(--blue); }
+  .scroll-cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 3; color: var(--soft); opacity: 0; animation: fadeIn 1s ease forwards; animation-delay: 2.5s; }
   .scroll-cue svg { width: 22px; height: 22px; display: block; animation: scrollBob 2.2s ease-in-out infinite; }
   @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
   @keyframes fadeIn { to { opacity: 1; } }
@@ -205,12 +199,8 @@
     .scroll-cue svg { animation: none; }
   }
   @media (max-width: 980px) {
-    .hero { min-height: 92vh; align-items: flex-end; padding: 96px 0 72px; }
-    .hero-img { object-position: 52% center; }
-    .hero::after { background:
-      linear-gradient(90deg, rgba(9,11,15,0.92) 0%, rgba(9,11,15,0.70) 34%, rgba(9,11,15,0.28) 64%, rgba(9,11,15,0.05) 84%),
-      linear-gradient(180deg, rgba(9,11,15,0.42) 0%, rgba(9,11,15,0.05) 30%, rgba(9,11,15,0.50) 76%, rgba(9,11,15,0.92) 100%); }
-    .hero-copy { max-width: 560px; }
+    .hero { min-height: auto; align-items: center; padding: 128px 0 80px; }
+    .hero-copy { max-width: 100%; }
     .hero h1 { font-size: clamp(28px, 7.6vw, 44px); }
     .hero-sub { display: none; }
     .hero-sub-m { display: block; }
@@ -545,7 +535,7 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <img class="hero-img" src="dd-hero.webp" alt="Darren Hardy on the DarrenDaily set" width="2400" height="1351" fetchpriority="high">
+  <!-- TODO: new hero image goes here (full-bleed .hero-img); section is styled light in the meantime -->
   <div class="container">
     <div class="hero-copy">
       <div class="eyebrow"><span class="pip"></span>Daily Mentoring with Darren Hardy</div>
@@ -742,8 +732,8 @@
           </div>
         </div>
         <div class="rd-payoff">
-          <p>That's not motivation. It's calibration.</p>
-          <p>The single highest-leverage <b>five minutes</b> of your day.</p>
+          <p>That's not motivation. <b>It's calibration.</b></p>
+          <p>The single highest-leverage five minutes of your day.</p>
           <a class="btn" href="#join">Join DarrenDaily Now <span class="arrow">&rarr;</span></a>
         </div>
       </div>
