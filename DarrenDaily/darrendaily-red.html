@@ -287,14 +287,13 @@
   .bio-row .rl { font-size: 14.5px; line-height: 1.45; color: var(--muted); }
   @media (max-width: 900px) { .bio { padding: 84px 0; } .bio-grid { grid-template-columns: 1fr; gap: 44px; } }
 
-  /* ============ AWARDS / SEALS (BMCC pattern) ============ */
-  .seals-band { background: var(--mist); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); padding: 44px 0; }
-  .seals { --seal-h: 86px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 28px clamp(24px, 3.5vw, 52px); }
+  /* ============ AWARDS / SEALS (inside the vantage panel, BMCC pattern) ============ */
+  .seals { --seal-h: 62px; display: flex; align-items: center; flex-wrap: wrap; gap: 22px 30px; margin-top: 44px; }
   .seal { height: var(--seal-h); width: auto; object-fit: contain; display: block; opacity: 0.45; }
   .seal[src*="amazon"] { height: calc(var(--seal-h) * 0.82); }
   .seal[src*="nyt"] { height: calc(var(--seal-h) * 1.05); }
-  @media (max-width: 860px) { .seals { justify-content: center; gap: 28px 40px; --seal-h: 64px; } }
-  @media (max-width: 480px) { .seals { --seal-h: 54px; } }
+  @media (max-width: 900px) { .seals { justify-content: center; gap: 20px 26px; --seal-h: 56px; margin-top: 38px; } }
+  @media (max-width: 480px) { .seals { --seal-h: 48px; } }
 
   /* ============ FILTER: MORE / SHARPER READ ============ */
   .filter { background: var(--paper); padding: 128px 0; position: relative; }
@@ -367,10 +366,10 @@
   .vcard::after { content: ""; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--blue); transform: scaleY(0); transform-origin: top; transition: transform .3s var(--ease); }
   .vcard:hover { transform: translateY(-6px); box-shadow: 0 32px 62px -32px rgba(20,23,28,0.32); border-color: rgba(var(--blue-rgb), 0.5); }
   .vcard:hover::after { transform: scaleY(1); }
-  .vcard .vn { display: block; font-weight: 900; font-size: clamp(54px, 4.4vw, 74px); line-height: 1; color: transparent; -webkit-text-stroke: 1.5px rgba(var(--blue-rgb), 0.45); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; transition: -webkit-text-stroke-color .35s ease; }
-  .vcard:hover .vn { -webkit-text-stroke-color: var(--blue); }
-  .vcard h3 { font-size: 25px; font-weight: 800; margin: 10px 0 14px; letter-spacing: -0.025em; text-transform: uppercase; }
-  .vcard p { font-size: 16px; line-height: 1.6; color: var(--muted); }
+  .vcard .vn { position: absolute; top: 50%; right: -10px; transform: translateY(-50%); font-weight: 900; font-size: clamp(140px, 14vw, 230px); line-height: 0.86; color: transparent; -webkit-text-stroke: 1.5px rgba(var(--blue-rgb), 0.26); letter-spacing: -0.06em; font-variant-numeric: tabular-nums; transition: -webkit-text-stroke-color .35s ease; pointer-events: none; user-select: none; }
+  .vcard:hover .vn { -webkit-text-stroke-color: rgba(var(--blue-rgb), 0.6); }
+  .vcard h3 { position: relative; z-index: 1; font-size: 25px; font-weight: 800; margin: 0 0 14px; letter-spacing: -0.025em; text-transform: uppercase; }
+  .vcard p { position: relative; z-index: 1; font-size: 16px; line-height: 1.6; color: var(--muted); }
   .vcard em { color: var(--blue); font-style: normal; font-weight: 600; }
   @media (max-width: 720px) { .voice-grid { grid-template-columns: 1fr; gap: 16px; } }
 
@@ -417,8 +416,8 @@
   }
 
   /* ============ NUMBERS BAND ============ */
-  .numbers { padding: 116px 0; overflow: hidden; background: linear-gradient(135deg, var(--navy) 0%, var(--blue-deep) 55%, var(--blue) 100%); }
-  .numbers::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 50% 60% at 82% 8%, rgba(255,255,255,0.14), transparent 60%); }
+  .numbers { padding: 116px 0; overflow: hidden; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 58%, var(--navy) 100%); }
+  .numbers::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 50% 60% at 16% 8%, rgba(255,255,255,0.14), transparent 60%); }
   .numbers .container { position: relative; z-index: 1; }
   .numbers-head { text-align: center; margin-bottom: 62px; }
   .numbers-head .eyebrow { justify-content: center; }
@@ -648,17 +647,11 @@
       <p>He didn't read about the people on these covers. He put them there.</p>
     </div>
     <div class="intro-stats">
-      <div><div class="is-n">35 yrs</div><div class="is-l">At the center of it</div></div>
-      <div><div class="is-n">11,000+</div><div class="is-l">Leaders advised</div></div>
+      <div><div class="is-n">35 yrs</div><div class="is-l">At the center of success</div></div>
+      <div><div class="is-n">11,000+</div><div class="is-l">Business leaders advised</div></div>
       <div><div class="is-n">SUCCESS</div><div class="is-l">Founding publisher</div></div>
     </div>
-  </div>
-</section>
-
-<!-- ============ AWARDS / SEALS (BMCC pattern) ============ -->
-<div class="seals-band">
-  <div class="container">
-    <div class="seals reveal" aria-label="Awards and bestseller recognition">
+    <div class="seals" aria-label="Awards and bestseller recognition">
       <img class="seal" src="seals/seal-dd.webp" alt="Award-Winning, Top 10 Personal Development Blog, DarrenDaily" loading="lazy">
       <img class="seal" src="seals/seal-amazon.webp" alt="Amazon, 21,177 Five-Star Customer Reviews" loading="lazy">
       <img class="seal" src="seals/seal-nsa.webp" alt="Award-Winning, Master of Influence, NSA of America" loading="lazy">
@@ -667,7 +660,7 @@
       <img class="seal" src="seals/seal-wsj.webp" alt="Wall Street Journal Bestseller" loading="lazy">
     </div>
   </div>
-</div>
+</section>
 
 <!-- ============ FILTER: MORE / SHARPER READ ============ -->
 <section class="filter" id="truth">
