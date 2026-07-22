@@ -340,6 +340,24 @@
   .lightbox-close svg { width: 26px; height: 26px; stroke: #fff; stroke-width: 2.2; fill: none; }
   .lightbox-video { position: relative; aspect-ratio: 16 / 9; background: #0c0e12; border-radius: 8px; overflow: hidden; box-shadow: 0 50px 120px -30px rgba(0,0,0,0.8); }
   .lightbox-video iframe, .lightbox-video video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  /* Branded custom player controls (Vimeo native bar hidden via controls=0) */
+  .lb-toggle { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; margin: 0; padding: 0; background: transparent; cursor: pointer; z-index: 2; }
+  .lb-play { position: absolute; bottom: 24px; right: 24px; width: 82px; height: 82px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 26px rgba(0,0,0,0.4); z-index: 3; pointer-events: none; transition: opacity .3s ease; }
+  .lb-play::after { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(var(--blue-rgb), 0.55); animation: ddRingPulse 1.6s cubic-bezier(0.25, 0.6, 0.3, 1) infinite; pointer-events: none; }
+  .lb-play svg { width: 30px; height: 30px; margin-left: 4px; fill: #fff; }
+  .lb-pause { position: absolute; bottom: 40px; right: 40px; color: var(--blue); display: flex; opacity: 0; transition: opacity .3s ease; pointer-events: none; z-index: 3; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6)); }
+  .lb-pause svg { width: 46px; height: 46px; display: block; fill: currentColor; }
+  .lb-vol { position: absolute; bottom: 30px; left: 30px; border: 0; margin: 0; padding: 0; background: transparent; color: var(--blue); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 4; opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .2s ease; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+  .lb-vol:hover { transform: scale(1.1); }
+  .lb-vol svg { width: 32px; height: 32px; display: block; }
+  .lightbox-video.is-playing .lb-play { opacity: 0; }
+  .lightbox-video.is-playing .lb-pause { opacity: 1; }
+  .lightbox-video.has-played .lb-vol { opacity: 1; pointer-events: auto; }
+  .lb-vol-off { display: none; }
+  .lightbox-video.is-muted .lb-vol-on { display: none; }
+  .lightbox-video.is-muted .lb-vol-off { display: block; }
+  @media (prefers-reduced-motion: reduce) { .lb-play::after { animation: none; } }
+  @media (max-width: 600px) { .lb-play { width: 60px; height: 60px; bottom: 14px; right: 14px; } .lb-play svg { width: 22px; height: 22px; } .lb-pause { bottom: 24px; right: 24px; } .lb-pause svg { width: 34px; height: 34px; } }
   @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes lbRise { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
 
@@ -958,9 +976,19 @@
     <button class="lightbox-close" type="button" data-lb-close aria-label="Close preview">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
-    <!-- Lazy Vimeo: the player iframe is injected by JS only when the lightbox opens,
-         so the video costs ZERO bytes on initial page load. Vimeo id in data-vimeo-id. -->
-    <div class="lightbox-video" data-vimeo-id="277017410"></div>
+    <!-- Lazy Vimeo with branded custom controls (Vimeo native bar hidden via controls=0).
+         Player iframe + SDK are injected only when the lightbox opens -> zero bytes on
+         initial page load. Vimeo id in data-vimeo-id. -->
+    <div class="lightbox-video" data-vimeo-id="277017410">
+      <button class="lb-toggle" type="button" aria-label="Play or pause">
+        <span class="lb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></span>
+        <span class="lb-pause" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+      </button>
+      <button class="lb-vol" type="button" aria-label="Mute or unmute">
+        <span class="lb-vol-on" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a8.5 8.5 0 0 1 0 13"/></svg></span>
+        <span class="lb-vol-off" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/><line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/></svg></span>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1149,21 +1177,68 @@
     var lb = document.getElementById('previewLightbox');
     if (!lb) return;
     var wrap = lb.querySelector('.lightbox-video');
+    var toggle = wrap.querySelector('.lb-toggle');
+    var volBtn = wrap.querySelector('.lb-vol');
     var lastFocus = null;
+    var player = null;      // Vimeo.Player instance for the mounted iframe
+    var sdkLoading = false;
+    function state(cls, on) { wrap.classList.toggle(cls, on); }
+    // Vimeo Player SDK (~190KB) is lazy-loaded on first open, never on page load
+    function loadSDK(cb) {
+      if (window.Vimeo && window.Vimeo.Player) { cb(); return; }
+      if (sdkLoading) {
+        var t = setInterval(function () { if (window.Vimeo && window.Vimeo.Player) { clearInterval(t); cb(); } }, 50);
+        return;
+      }
+      sdkLoading = true;
+      var s = document.createElement('script');
+      s.src = 'https://player.vimeo.com/api/player.js';
+      s.onload = cb;
+      document.head.appendChild(s);
+    }
+    function wirePlayer(iframe) {
+      loadSDK(function () {
+        player = new window.Vimeo.Player(iframe);
+        var syncMuted = function () { return player.getMuted().then(function (m) { state('is-muted', m); }).catch(function () {}); };
+        player.on('play', function () { state('is-playing', true); state('has-played', true); syncMuted(); });
+        player.on('pause', function () { state('is-playing', false); });
+        player.on('ended', function () { state('is-playing', false); });
+        player.on('volumechange', syncMuted);
+        syncMuted();
+      });
+    }
     function mountVideo() {
       var id = wrap.getAttribute('data-vimeo-id');
       if (!id || wrap.querySelector('iframe')) return; // no id set yet, or already mounted
       var iframe = document.createElement('iframe');
-      iframe.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&color=a72632&title=0&byline=0&portrait=0&dnt=1';
+      iframe.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&controls=0&title=0&byline=0&portrait=0&badge=0&autopause=0&dnt=1';
       iframe.allow = 'autoplay; fullscreen; picture-in-picture';
       iframe.setAttribute('allowfullscreen', '');
       iframe.setAttribute('title', "Darren Hardy on who DarrenDaily is for");
-      wrap.appendChild(iframe);
+      wrap.insertBefore(iframe, wrap.firstChild); // iframe sits under the control overlay
+      state('is-playing', true); state('has-played', true); // optimistic (autoplay); SDK events reconcile
+      wirePlayer(iframe);
     }
     function unmountVideo() {
       var iframe = wrap.querySelector('iframe');
       if (iframe) iframe.remove(); // tearing it down stops playback and frees the player
+      if (player) { try { player.destroy(); } catch (e) {} player = null; }
+      state('is-playing', false); state('has-played', false); state('is-muted', false);
     }
+    if (toggle) toggle.addEventListener('click', function () {
+      if (!player) return;
+      if (wrap.classList.contains('is-playing')) { player.pause(); return; }
+      player.setMuted(false).catch(function () {});   // an explicit play always wants sound
+      player.setVolume(1).catch(function () {});
+      player.play().catch(function () {});
+    });
+    if (volBtn) volBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (!player) return;
+      var mute = !wrap.classList.contains('is-muted');
+      state('is-muted', mute);                                   // instant icon feedback
+      (mute ? player.setMuted(true) : player.setMuted(false).then(function () { return player.setVolume(1); })).catch(function () {});
+    });
     function open(ev) {
       if (ev) ev.preventDefault();
       lastFocus = document.activeElement;
