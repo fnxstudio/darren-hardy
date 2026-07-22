@@ -316,8 +316,12 @@
   .dset-body h2 { color: #fff; font-size: clamp(28px, 3.4vw, 50px); text-transform: uppercase; margin: 18px 0 0; text-wrap: balance; }
   .dset-body p { color: var(--mist-on-dark); font-size: clamp(15px, 1.3vw, 18px); line-height: 1.55; margin: 18px 0 0; max-width: 460px; }
   .dset-play { display: inline-flex; align-items: center; gap: 16px; margin-top: 30px; text-decoration: none; }
-  .dset-play .pbtn { width: 66px; height: 66px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 34px -10px rgba(var(--blue-rgb), 0.7); transition: transform .2s var(--ease), background .2s; }
-  .dset-play:hover .pbtn { transform: scale(1.06); background: var(--blue-deep); }
+  .dset-play .pbtn { position: relative; width: 66px; height: 66px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 34px -10px rgba(var(--blue-rgb), 0.7); transition: background .2s; animation: ddBtnPulse 1.6s ease-in-out infinite; }
+  .dset-play .pbtn::after { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(var(--blue-rgb), 0.55); animation: ddRingPulse 1.6s cubic-bezier(0.25, 0.6, 0.3, 1) infinite; pointer-events: none; }
+  .dset-play:hover .pbtn { background: var(--blue-deep); }
+  @keyframes ddBtnPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes ddRingPulse { 0% { box-shadow: 0 0 0 0 rgba(var(--blue-rgb), 0.5); } 70% { box-shadow: 0 0 0 26px rgba(var(--blue-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--blue-rgb), 0); } }
+  @media (prefers-reduced-motion: reduce) { .dset-play .pbtn, .dset-play .pbtn::after { animation: none; } }
   .dset-play .pbtn svg { width: 22px; height: 22px; fill: #fff; margin-left: 3px; }
   .dset-play .ptext { color: #fff; font-weight: 800; font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase; }
   @media (max-width: 760px) {
@@ -460,6 +464,7 @@
   .who-close { text-align: center; max-width: 680px; margin: 60px auto 0; }
   .who-close p { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; color: var(--muted); }
   .who-close p b { color: var(--ink); }
+  .who-close .who-tribe { margin-top: 18px; font-size: clamp(19px, 1.7vw, 24px); }
   .who-play { display: inline-flex; align-items: center; gap: 16px; margin-top: 30px; text-decoration: none; }
   .who-play .pbtn { width: 60px; height: 60px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 34px -10px rgba(var(--blue-rgb), 0.7); transition: transform .2s var(--ease), background .2s; }
   .who-play:hover .pbtn { transform: scale(1.06); background: var(--blue-deep); }
@@ -841,7 +846,8 @@
       </div>
     </div>
     <div class="who-close reveal">
-      <p>We are the crazy, hardworking believers who change things and push the human race forward. There's a reason you found your way here. Embrace it, and welcome home. <b>You have finally found your tribe.</b></p>
+      <p>We are the crazy, hardworking believers who change things and push the human race forward. There's a reason you found your way here. Embrace it, and welcome home.</p>
+      <p class="who-tribe"><b>You have finally found your tribe.</b></p>
     </div>
     <div class="dset-card reveal" id="preview">
       <!-- Darren's "who this is for" message. Play button opens the lightbox (swap in the real tribe/manifesto embed on launch). -->
