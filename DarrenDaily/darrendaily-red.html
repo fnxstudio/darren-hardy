@@ -271,12 +271,14 @@
   .intro-stats .is-l { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft); margin-top: 7px; max-width: 120px; line-height: 1.35; }
 
   /* ============ BIO / PROXIMITY ============ */
-  .bio { background: var(--mist); padding: 132px 0; }
+  .bio { background: #0a0a0a; padding: 132px 0; position: relative; overflow: hidden; }
+  .bio::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 60% at 12% 0%, rgba(var(--blue-rgb), 0.16), transparent 60%); }
+  .bio .container { position: relative; z-index: 1; }
   .bio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-  .bio h2 { font-size: clamp(32px, 4vw, 58px); text-transform: uppercase; margin: 22px 0 0; text-wrap: balance; }
-  .bio h2 em { font-style: normal; color: var(--blue); }
-  .bio-body p { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.62; color: var(--muted); margin-top: 22px; }
-  .bio-body p b { color: var(--ink); font-weight: 600; }
+  .bio h2 { color: #fff; font-size: clamp(32px, 4vw, 58px); text-transform: uppercase; margin: 22px 0 0; text-wrap: balance; }
+  .bio h2 em { font-style: normal; color: var(--azure); }
+  .bio-body p { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.62; color: rgba(255,255,255,0.72); margin-top: 22px; }
+  .bio-body p b { color: #fff; font-weight: 600; }
   .bio-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 24px 60px -34px rgba(20,23,28,0.5); padding: 46px 44px; position: relative; }
   .bio-card .flag { position: absolute; top: -15px; left: 44px; }
   .bio-quote { font-size: clamp(22px, 2.2vw, 30px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.22; color: var(--ink); }
@@ -324,7 +326,7 @@
   @media (max-width: 860px) { .filter { padding: 84px 0; } .filter-grid { grid-template-columns: 1fr; } .filter-vs { display: none; } .fbox { padding: 40px 30px; } }
 
   /* ============ DD SET - watch a morning ============ */
-  .dset { background: var(--paper); padding: 40px 0 132px; }
+  #movement .dset-card { margin-top: 60px; }
   .dset-card { position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 40px 90px -40px rgba(20,23,28,0.55); border: 1px solid var(--line); }
   .dset-card img { width: 100%; display: block; aspect-ratio: 21 / 9; object-fit: cover; object-position: center 32%; }
   .dset-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,17,32,0.86) 0%, rgba(11,17,32,0.55) 42%, rgba(11,17,32,0.10) 72%, rgba(11,17,32,0) 100%); }
@@ -420,20 +422,20 @@
   }
 
   /* ============ NUMBERS BAND ============ */
-  .numbers { padding: 116px 0; overflow: hidden; background: #0a0a0a; }
-  .numbers::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 65% at 50% 0%, rgba(var(--blue-rgb), 0.14), transparent 62%); }
+  .numbers { padding: 116px 0; overflow: hidden; background: var(--mist); }
+  .numbers::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 65% at 50% 0%, rgba(var(--blue-rgb), 0.05), transparent 62%); }
   .numbers .container { position: relative; z-index: 1; }
   .numbers-head { text-align: center; margin-bottom: 62px; }
   .numbers-head .eyebrow { justify-content: center; }
-  .numbers-head h2 { color: #fff; font-size: clamp(30px, 3.6vw, 52px); text-transform: uppercase; margin-top: 18px; }
-  .numbers-head h2 em { font-style: normal; color: var(--azure); }
+  .numbers-head h2 { color: var(--ink); font-size: clamp(30px, 3.6vw, 52px); text-transform: uppercase; margin-top: 18px; }
+  .numbers-head h2 em { font-style: normal; color: var(--blue); }
   .numbers-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
   .nstat { text-align: center; padding: 0 20px; }
-  .numbers-grid .nstat + .nstat { border-left: 1px solid rgba(255,255,255,0.18); }
-  .nstat .n { font-weight: 900; font-size: clamp(46px, 5.6vw, 82px); letter-spacing: -0.05em; color: #fff; line-height: 0.9; }
-  .nstat .n b { color: var(--azure); font-weight: 900; }
-  .nstat .l { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.82); margin-top: 16px; }
-  @media (max-width: 860px) { .numbers-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 0; } .numbers-grid .nstat:nth-child(odd) { border-left: none; } .numbers-grid .nstat:nth-child(even) { border-left: 1px solid rgba(255,255,255,0.18); } .nstat:last-child { grid-column: 1 / -1; border-left: none; } }
+  .numbers-grid .nstat + .nstat { border-left: 1px solid var(--line); }
+  .nstat .n { font-weight: 900; font-size: clamp(46px, 5.6vw, 82px); letter-spacing: -0.05em; color: var(--ink); line-height: 0.9; }
+  .nstat .n b { color: var(--blue); font-weight: 900; }
+  .nstat .l { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 16px; }
+  @media (max-width: 860px) { .numbers-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 0; } .numbers-grid .nstat:nth-child(odd) { border-left: none; } .numbers-grid .nstat:nth-child(even) { border-left: 1px solid var(--line); } .nstat:last-child { grid-column: 1 / -1; border-left: none; } }
 
   /* ============ TESTIMONIALS - BMCC cards, DD branding (navy + blue glow) ============ */
   .tw { background: var(--paper); padding: 128px 0; overflow: hidden; }
@@ -579,7 +581,7 @@
 <section class="numbers" id="numbers">
   <div class="container">
     <div class="numbers-head reveal">
-      <div class="eyebrow on-dark"><span class="pip"></span>The Movement</div>
+      <div class="eyebrow blue"><span class="pip"></span>The Movement</div>
       <h2>Five minutes. <em>Compounded.</em></h2>
     </div>
     <div class="numbers-grid stagger">
@@ -596,7 +598,7 @@
 <section class="bio">
   <div class="container bio-grid">
     <div class="reveal reveal-left">
-      <div class="eyebrow"><span class="pip"></span>Your Unfair Advantage</div>
+      <div class="eyebrow on-dark"><span class="pip"></span>Your Unfair Advantage</div>
       <h2>Proximity is the <em>advantage</em>.</h2>
       <div class="bio-body">
         <p><b>The people who compound fastest aren't the ones with the most information.</b> They're the ones standing closest to someone who has already seen it work.</p>
@@ -719,26 +721,6 @@
         <div class="vn">04</div>
         <h3>A little quirky</h3>
         <p>The Friday Funnies. The occasional WTF. Because a morning should have some life in it: a calibration of mind <em>and</em> spirit, not a lecture.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ DD SET - watch a morning ============ -->
-<section class="dset" id="preview">
-  <div class="container">
-    <div class="dset-card reveal">
-      <!-- Real DarrenDaily set frame. Play button opens the preview lightbox (swap in the real episode embed on launch). -->
-      <img src="dd-mug.webp" alt="Darren Hardy on the DarrenDaily garden set, holding a DarrenDaily mug">
-      <div class="dset-scrim"></div>
-      <div class="dset-body">
-        <div class="eyebrow on-dark"><span class="pip"></span>See A Real Morning</div>
-        <h2>This is what a<br>morning looks like.</h2>
-        <p>Five minutes, one idea, every weekday, 260 days a year. No studio, no teleprompter, no hype. Just the read you want before the day starts.</p>
-        <a class="dset-play" href="#preview" data-preview-open data-video="episode" aria-haspopup="dialog">
-          <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
-          <span class="ptext">Preview an episode</span>
-        </a>
       </div>
     </div>
   </div>
@@ -884,10 +866,20 @@
     </div>
     <div class="who-close reveal">
       <p>We are the crazy, hardworking believers who change things and push the human race forward. There's a reason you found your way here. Embrace it, and welcome home. <b>You have finally found your tribe.</b></p>
-      <a class="who-play" href="#preview" data-preview-open data-video="tribe" aria-haspopup="dialog">
-        <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="ptext">Hear it from Darren himself</span>
-      </a>
+    </div>
+    <div class="dset-card reveal" id="preview">
+      <!-- Darren's "who this is for" message. Play button opens the lightbox (swap in the real tribe/manifesto embed on launch). -->
+      <img src="dd-mug.webp" alt="Darren Hardy on the DarrenDaily garden set, holding a DarrenDaily mug">
+      <div class="dset-scrim"></div>
+      <div class="dset-body">
+        <div class="eyebrow on-dark"><span class="pip"></span>In His Own Words</div>
+        <h2>Hear it from<br>Darren himself.</h2>
+        <p>Two minutes on exactly who this is for, and who it isn't, straight from Darren. If it lands the way you think it will, you already know you're one of us.</p>
+        <a class="dset-play" href="#" data-preview-open data-video="tribe" aria-haspopup="dialog">
+          <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="ptext">Play Darren's message</span>
+        </a>
+      </div>
     </div>
   </div>
 </section>
