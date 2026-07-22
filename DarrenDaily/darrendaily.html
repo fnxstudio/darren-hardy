@@ -137,12 +137,20 @@
   /* ============ NAV ============ */
   nav.top {
     position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-    display: flex; align-items: center; justify-content: space-between; padding: 14px 40px;
+    display: flex; align-items: center; justify-content: space-between; padding: 16px 40px;
+    background: transparent; border-bottom: 1px solid transparent;
+    transition: background .3s var(--ease), border-color .3s var(--ease), padding .3s var(--ease);
+  }
+  nav.top.solid {
+    padding: 14px 40px;
     background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--line);
   }
   .nav-brand { display: flex; align-items: center; text-decoration: none; white-space: nowrap; line-height: 1; }
   .nav-brand img { height: 34px; width: auto; display: block; }
+  .nav-brand .logo-ink { display: none; }
+  nav.top.solid .nav-brand .logo-white { display: none; }
+  nav.top.solid .nav-brand .logo-ink { display: block; }
   .nav-cta {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--blue); color: #fff !important; padding: 11px 20px; border-radius: var(--radius);
@@ -155,58 +163,42 @@
   .nav-cta:hover { background: transparent; color: var(--blue) !important; }
   @media (max-width: 720px) { nav.top { padding: 12px 22px; } .nav-brand img { height: 30px; } }
 
-  /* ============ HERO ============ */
-  .hero { padding: 168px 0 96px; overflow: hidden; }
-  .hero::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  /* ============ HERO (full-bleed image) ============ */
+  .hero { position: relative; min-height: 92vh; display: flex; align-items: center; overflow: hidden; }
+  .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 72% center; z-index: 0; }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
     background:
-      radial-gradient(ellipse 60% 55% at 88% 6%, rgba(var(--blue-rgb), 0.10), transparent 58%),
-      radial-gradient(ellipse 70% 60% at 6% 104%, rgba(var(--blue-rgb), 0.05), transparent 60%),
-      linear-gradient(180deg, #ffffff 0%, var(--mist) 100%);
-  }
-  .hero .container { position: relative; z-index: 1; }
-  .hero-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 56px; align-items: center; }
-  .hero-copy { max-width: 640px; }
-  .hero h1 { font-size: clamp(46px, 6.3vw, 104px); margin: 26px 0 0; text-transform: uppercase; text-wrap: balance; }
-  .hero h1 .l2 { color: var(--blue); }
+      linear-gradient(90deg, rgba(9,11,15,0.90) 0%, rgba(9,11,15,0.72) 30%, rgba(9,11,15,0.32) 56%, rgba(9,11,15,0) 80%),
+      linear-gradient(180deg, rgba(9,11,15,0.40) 0%, rgba(9,11,15,0) 26%, rgba(9,11,15,0) 66%, rgba(9,11,15,0.5) 100%); }
+  .hero .container { position: relative; z-index: 2; width: 100%; }
+  .hero-copy { max-width: 620px; }
+  .hero .eyebrow { color: var(--azure); }
+  .hero .eyebrow .pip { background: var(--azure); }
+  .hero h1 { color: #fff; font-size: clamp(36px, 4.6vw, 70px); margin: 22px 0 0; text-transform: uppercase; text-wrap: balance; text-shadow: 0 2px 34px rgba(0,0,0,0.42); }
+  .hero h1 .l2 { color: var(--azure); }
   .hero h1 .dot { color: var(--azure); }
-  .hero-sub { font-size: clamp(18px, 1.5vw, 21px); line-height: 1.55; color: var(--muted); margin: 30px 0 0; max-width: 540px; }
-  .hero-sub b { color: var(--ink); font-weight: 700; }
-  .hero-actions { display: flex; align-items: center; gap: 28px; margin-top: 38px; flex-wrap: wrap; }
-  .hero-trust { display: flex; align-items: stretch; gap: 0; margin-top: 40px; flex-wrap: wrap; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: rgba(255,255,255,0.5); }
-  .hero-trust .titem { padding: 16px 22px; font-size: 12px; color: var(--soft); letter-spacing: 0.01em; line-height: 1.35; border-right: 1px solid var(--line); }
+  .hero-sub { font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: rgba(255,255,255,0.88); margin: 26px 0 0; max-width: 520px; text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
+  .hero-sub b { color: #fff; font-weight: 700; }
+  .hero-actions { display: flex; align-items: center; gap: 26px; margin-top: 34px; flex-wrap: wrap; }
+  .hero-actions .btn-line { color: #fff; border-bottom-color: var(--azure); }
+  .hero-actions .btn-line:hover { color: var(--azure); }
+  .hero-trust { display: inline-flex; align-items: stretch; margin-top: 38px; flex-wrap: wrap; border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius); overflow: hidden; background: rgba(255,255,255,0.07); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .hero-trust .titem { padding: 15px 20px; font-size: 12px; color: rgba(255,255,255,0.72); letter-spacing: 0.01em; line-height: 1.35; border-right: 1px solid rgba(255,255,255,0.2); }
   .hero-trust .titem:last-child { border-right: none; }
-  .hero-trust .tnum { display: block; font-weight: 900; font-size: 22px; color: var(--ink); letter-spacing: -0.03em; margin-bottom: 3px; }
-  .hero-trust .titem.g .tnum { color: var(--blue); }
-  .hero-photo { position: relative; }
-  .hero-photo .frame { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: 0 40px 80px -30px rgba(20, 23, 28, 0.5); aspect-ratio: 5 / 6; border: 1px solid var(--line); }
-  /* Placeholder on a red backdrop, grayscaled to fit the cool palette.
-     Remove the filter once a neutral / soft-background photo is shot. */
-  .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; display: block; filter: grayscale(1) contrast(1.03) brightness(1.02); }
-  .hero-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 24px; background: radial-gradient(ellipse 72% 58% at 50% 40%, rgba(var(--blue-rgb), 0.12), transparent 72%), var(--fog); color: var(--soft); }
-  .hero-ph svg { width: 72px; height: 72px; opacity: 0.55; }
-  .hero-ph .hph-t { font-weight: 800; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-  .hero-ph .hph-s { font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--soft); }
-  .hero-photo .corner-tab { position: absolute; top: 0; left: 0; z-index: 3; }
-  .hero-badge {
-    position: absolute; left: -20px; bottom: 28px; z-index: 3; background: #fff; border-radius: var(--radius); padding: 15px 20px;
-    box-shadow: 0 20px 44px -18px rgba(20, 23, 28, 0.45); display: flex; align-items: center; gap: 14px; max-width: 264px; border: 1px solid var(--line);
-  }
-  .hero-badge .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--azure); flex-shrink: 0; box-shadow: 0 0 0 4px rgba(var(--blue-rgb),0.16); }
-  .hero-badge p { font-size: 12.5px; line-height: 1.4; color: var(--muted); }
-  .hero-badge b { color: var(--ink); }
+  .hero-trust .tnum { display: block; font-weight: 900; font-size: 22px; color: #fff; letter-spacing: -0.03em; margin-bottom: 3px; }
+  .hero-trust .titem.g .tnum { color: var(--azure); }
+  .hero-flag { position: absolute; top: 90px; right: 40px; z-index: 2; }
   @media (max-width: 980px) {
-    .hero { padding: 124px 0 60px; text-align: center; }
-    .hero-grid { grid-template-columns: 1fr; gap: 44px; }
-    .hero-copy { max-width: 640px; margin: 0 auto; }
+    .hero { min-height: 90vh; text-align: center; }
+    .hero-img { object-position: 66% center; }
+    .hero::after { background: linear-gradient(180deg, rgba(9,11,15,0.5) 0%, rgba(9,11,15,0.14) 28%, rgba(9,11,15,0.35) 58%, rgba(9,11,15,0.92) 100%); }
+    .hero-copy { max-width: 600px; margin: 0 auto; padding-top: 42vh; }
     .hero .eyebrow { justify-content: center; }
     .hero-sub { margin-left: auto; margin-right: auto; }
     .hero-actions, .hero-trust { justify-content: center; }
-    .hero-trust { display: inline-flex; }
-    .hero-photo { max-width: 400px; margin: 0 auto; }
-    .hero-badge { left: 50%; transform: translateX(-50%); bottom: -22px; }
+    .hero-flag { top: 72px; right: 22px; }
   }
-  @media (max-width: 520px) { .hero-trust { flex-direction: column; } .hero-trust .titem { border-right: none; border-bottom: 1px solid var(--line); } .hero-trust .titem:last-child { border-bottom: none; } }
+  @media (max-width: 520px) { .hero-trust { flex-direction: column; } .hero-trust .titem { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); } .hero-trust .titem:last-child { border-bottom: none; } }
 
   /* ============ AS FEATURED IN ============ */
   .featured { background: var(--paper); padding: 44px 0; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
@@ -498,7 +490,8 @@
 <!-- ============ NAV ============ -->
 <nav class="top">
   <a class="nav-brand" href="#top">
-    <img src="dd-logo-ink.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
+    <img class="logo-white" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
+    <img class="logo-ink" src="dd-logo-ink.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
   </a>
   <a class="nav-cta" id="navCta" href="#join">Start now <span>&rarr;</span></a>
 </nav>
@@ -507,9 +500,11 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="container hero-grid">
+  <img class="hero-img" src="dd-hero.webp" alt="Darren Hardy on the DarrenDaily set" width="2400" height="1351" fetchpriority="high">
+  <span class="hero-flag flag">New every weekday &middot; 5 min</span>
+  <div class="container">
     <div class="hero-copy reveal">
-      <div class="eyebrow blue"><span class="pip"></span>Daily Mentoring with Darren Hardy</div>
+      <div class="eyebrow"><span class="pip"></span>Daily Mentoring with Darren Hardy</div>
       <h1>35 Years Behind<br>Closed Doors.<br><span class="l2">5 Minutes In<br>Your Morning<span class="dot">.</span></span></h1>
       <p class="hero-sub">One strategic idea, drawn from 35 years behind the closed doors of the world's best, watching how they build, decide, and win. It arrives every weekday morning: straight, a little unusual, small enough to use before the day gets going. <b>Free. Never a single ad.</b></p>
       <div class="hero-actions">
@@ -520,23 +515,6 @@
         <div class="titem g"><span class="tnum">350K+</span>achievers who refuse<br>to start the day blind</div>
         <div class="titem"><span class="tnum">260</span>mornings a year,<br>five minutes each</div>
         <div class="titem"><span class="tnum">0</span>ads. your attention<br>is never for sale</div>
-      </div>
-    </div>
-    <div class="hero-photo reveal">
-      <div class="frame">
-        <!-- HERO IMAGE PLACEHOLDER. Drop in the real Darren portrait here when
-             ready: neutral / soft / window-light background, open "mentor"
-             posture, 5:6 portrait. Replace this .hero-ph block with an <img>. -->
-        <div class="hero-ph" role="img" aria-label="Darren Hardy portrait placeholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="4.2"/><path d="M4 20.5c0-4.2 3.6-6.4 8-6.4s8 2.2 8 6.4"/></svg>
-          <div class="hph-t">Portrait of Darren</div>
-          <div class="hph-s">Image placeholder &middot; 5:6</div>
-        </div>
-      </div>
-      <div class="corner-tab"><span class="flag">New every weekday &middot; 5 min</span></div>
-      <div class="hero-badge">
-        <span class="dot"></span>
-        <p>Tomorrow's message is already written. <b>It's waiting for your inbox.</b></p>
       </div>
     </div>
   </div>
@@ -680,10 +658,8 @@
 <section class="dset">
   <div class="container">
     <div class="dset-card reveal">
-      <!-- PLACEHOLDER: dd-morning-orchid.png (the DarrenDaily set: garden,
-           orchid, coffee). SWAP for the real video thumbnail (Darren on the
-           set, blue shirt) and wire the play button to the sample video. -->
-      <img src="dd-morning-orchid.png" alt="The DarrenDaily set: a garden morning with an orchid and coffee">
+      <!-- Real DarrenDaily set frame. Wire the play button below to the sample video on launch. -->
+      <img src="dd-set.webp" alt="Darren Hardy filming DarrenDaily on the garden set">
       <div class="dset-scrim"></div>
       <div class="dset-body">
         <div class="eyebrow on-dark"><span class="pip"></span>See A Real Morning</div>
@@ -1006,15 +982,18 @@
 </main>
 
 <script>
-  // Reveal the nav Join button only after the hero CTA has scrolled above the viewport
+  // Nav: transparent over the hero image, solid + Join button once it scrolls past
   (function () {
     var cta = document.getElementById('navCta');
-    var heroCta = document.querySelector('.hero-actions .btn');
-    if (!cta || !heroCta) return;
+    var nav = document.querySelector('nav.top');
+    var hero = document.querySelector('.hero');
+    if (!cta || !nav || !hero) return;
     var ticking = false;
     function update() {
       ticking = false;
-      cta.classList.toggle('show', heroCta.getBoundingClientRect().bottom < 0);
+      var past = hero.getBoundingClientRect().bottom <= 64;
+      nav.classList.toggle('solid', past);
+      cta.classList.toggle('show', past);
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
     window.addEventListener('scroll', onScroll, { passive: true });
