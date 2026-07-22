@@ -304,7 +304,7 @@
   /* ============ DD SET - watch a morning ============ */
   .dset { background: var(--paper); padding: 40px 0 132px; }
   .dset-card { position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 40px 90px -40px rgba(20,23,28,0.55); border: 1px solid var(--line); }
-  .dset-card img { width: 100%; display: block; aspect-ratio: 21 / 9; object-fit: cover; }
+  .dset-card img { width: 100%; display: block; aspect-ratio: 21 / 9; object-fit: cover; object-position: center 32%; }
   .dset-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,17,32,0.86) 0%, rgba(11,17,32,0.55) 42%, rgba(11,17,32,0.10) 72%, rgba(11,17,32,0) 100%); }
   .dset-body { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 clamp(28px, 5vw, 72px); max-width: 640px; }
   .dset-body h2 { color: #fff; font-size: clamp(28px, 3.4vw, 50px); text-transform: uppercase; margin: 18px 0 0; text-wrap: balance; }
@@ -319,6 +319,24 @@
     .dset-scrim { background: linear-gradient(180deg, rgba(11,17,32,0.30) 0%, rgba(11,17,32,0.55) 45%, rgba(11,17,32,0.94) 100%); }
     .dset-body { justify-content: flex-end; padding-bottom: 40px; max-width: none; }
   }
+
+  /* ============ PREVIEW LIGHTBOX ============ */
+  .lightbox { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; padding: 24px; }
+  .lightbox.open { display: flex; }
+  .lightbox-backdrop { position: absolute; inset: 0; background: rgba(10,12,16,0.88); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: lbFade .25s var(--ease); }
+  .lightbox-dialog { position: relative; z-index: 1; width: min(980px, 100%); animation: lbRise .3s var(--ease); }
+  .lightbox-close { position: absolute; top: -46px; right: -2px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: none; border: 0; color: #fff; cursor: pointer; opacity: .82; transition: opacity .15s; }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-close svg { width: 26px; height: 26px; stroke: #fff; stroke-width: 2.2; fill: none; }
+  .lightbox-video { position: relative; aspect-ratio: 16 / 9; background: #0c0e12; border-radius: 8px; overflow: hidden; box-shadow: 0 50px 120px -30px rgba(0,0,0,0.8); }
+  .lightbox-video iframe, .lightbox-video video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  /* PLACEHOLDER — remove .lb-ph and drop the real embed (iframe/video) into .lightbox-video on launch */
+  .lb-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center; padding: 24px; background: radial-gradient(120% 120% at 50% 40%, rgba(var(--blue-rgb),0.16) 0%, rgba(12,14,18,0) 60%); }
+  .lb-ph .pbtn { width: 76px; height: 76px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 40px -12px rgba(var(--blue-rgb), 0.7); }
+  .lb-ph .pbtn svg { width: 26px; height: 26px; fill: #fff; margin-left: 4px; }
+  .lb-ph p { color: rgba(255,255,255,0.62); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; }
+  @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes lbRise { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
 
   /* ============ WHAT YOU GET - styled numbered cards ============ */
   .voice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 56px; }
@@ -640,16 +658,16 @@
 <section class="dset">
   <div class="container">
     <div class="dset-card reveal">
-      <!-- Real DarrenDaily set frame. Wire the play button below to the sample video on launch. -->
-      <img src="dd-set.webp" alt="Darren Hardy filming DarrenDaily on the garden set">
+      <!-- Real DarrenDaily set frame. Play button opens the preview lightbox (swap in the real episode embed on launch). -->
+      <img src="dd-mug.webp" alt="Darren Hardy on the DarrenDaily garden set, holding a DarrenDaily mug">
       <div class="dset-scrim"></div>
       <div class="dset-body">
         <div class="eyebrow on-dark"><span class="pip"></span>See A Real Morning</div>
         <h2>This is what a<br>morning looks like.</h2>
-        <p>Five minutes, one idea, filmed most weekdays from the garden. No studio, no teleprompter, no hype. Just the read you want before the day starts.</p>
-        <a class="dset-play" href="#join">
+        <p>Five minutes, one idea, every weekday, 260 days a year. No studio, no teleprompter, no hype. Just the read you want before the day starts.</p>
+        <a class="dset-play" href="#preview" data-preview-open aria-haspopup="dialog">
           <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
-          <span class="ptext">Watch a sample</span>
+          <span class="ptext">Preview an episode</span>
         </a>
       </div>
     </div>
@@ -942,6 +960,24 @@
 
 </main>
 
+<!-- ============ PREVIEW LIGHTBOX (placeholder video) ============ -->
+<div class="lightbox" id="previewLightbox" aria-hidden="true">
+  <div class="lightbox-backdrop" data-lb-close></div>
+  <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="DarrenDaily episode preview">
+    <button class="lightbox-close" type="button" data-lb-close aria-label="Close preview">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="lightbox-video">
+      <!-- PLACEHOLDER: replace this .lb-ph block with the real embed, e.g.
+           <iframe src="https://player.vimeo.com/video/XX\" allow="autoplay; fullscreen" allowfullscreen></iframe> -->
+      <div class="lb-ph">
+        <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+        <p>Sample episode coming soon</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   // Nav: transparent over the hero image, solid + Join button once it scrolls past
   (function () {
@@ -1106,6 +1142,37 @@
       f.style.display = 'none';
       t.classList.add('show');
       t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  })();
+
+  // Preview lightbox: open from the "Preview an episode" play button, close on backdrop / X / Esc
+  (function () {
+    var lb = document.getElementById('previewLightbox');
+    if (!lb) return;
+    var lastFocus = null;
+    function open(ev) {
+      if (ev) ev.preventDefault();
+      lastFocus = document.activeElement;
+      lb.classList.add('open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      var close = lb.querySelector('.lightbox-close');
+      if (close) close.focus();
+    }
+    function close() {
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    document.querySelectorAll('[data-preview-open]').forEach(function (o) {
+      o.addEventListener('click', open);
+    });
+    lb.querySelectorAll('[data-lb-close]').forEach(function (c) {
+      c.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && lb.classList.contains('open')) close();
     });
   })();
 </script>
