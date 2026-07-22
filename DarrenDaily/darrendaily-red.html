@@ -340,11 +340,6 @@
   .lightbox-close svg { width: 26px; height: 26px; stroke: #fff; stroke-width: 2.2; fill: none; }
   .lightbox-video { position: relative; aspect-ratio: 16 / 9; background: #0c0e12; border-radius: 8px; overflow: hidden; box-shadow: 0 50px 120px -30px rgba(0,0,0,0.8); }
   .lightbox-video iframe, .lightbox-video video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  /* PLACEHOLDER — remove .lb-ph and drop the real embed (iframe/video) into .lightbox-video on launch */
-  .lb-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center; padding: 24px; background: radial-gradient(120% 120% at 50% 40%, rgba(var(--blue-rgb),0.16) 0%, rgba(12,14,18,0) 60%); }
-  .lb-ph .pbtn { width: 76px; height: 76px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 40px -12px rgba(var(--blue-rgb), 0.7); }
-  .lb-ph .pbtn svg { width: 26px; height: 26px; fill: #fff; margin-left: 4px; }
-  .lb-ph p { color: rgba(255,255,255,0.62); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; }
   @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes lbRise { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
 
@@ -964,14 +959,8 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <!-- Lazy Vimeo: the player iframe is injected by JS only when the lightbox opens,
-         so the video costs ZERO bytes on initial page load. To wire it up, put the
-         numeric Vimeo video id in data-vimeo-id below (e.g. data-vimeo-id="1234567890"). -->
-    <div class="lightbox-video" data-vimeo-id="277017410">
-      <div class="lb-ph">
-        <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
-        <p>Video coming soon</p>
-      </div>
-    </div>
+         so the video costs ZERO bytes on initial page load. Vimeo id in data-vimeo-id. -->
+    <div class="lightbox-video" data-vimeo-id="277017410"></div>
   </div>
 </div>
 
@@ -1165,7 +1154,7 @@
       var id = wrap.getAttribute('data-vimeo-id');
       if (!id || wrap.querySelector('iframe')) return; // no id set yet, or already mounted
       var iframe = document.createElement('iframe');
-      iframe.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&title=0&byline=0&portrait=0&dnt=1';
+      iframe.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&color=a72632&title=0&byline=0&portrait=0&dnt=1';
       iframe.allow = 'autoplay; fullscreen; picture-in-picture';
       iframe.setAttribute('allowfullscreen', '');
       iframe.setAttribute('title', "Darren Hardy on who DarrenDaily is for");
