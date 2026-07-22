@@ -416,8 +416,8 @@
   }
 
   /* ============ NUMBERS BAND ============ */
-  .numbers { padding: 116px 0; overflow: hidden; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 58%, var(--navy) 100%); }
-  .numbers::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 50% 60% at 16% 8%, rgba(255,255,255,0.14), transparent 60%); }
+  .numbers { padding: 116px 0; overflow: hidden; background: #0a0a0a; }
+  .numbers::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 65% at 50% 0%, rgba(var(--blue-rgb), 0.14), transparent 62%); }
   .numbers .container { position: relative; z-index: 1; }
   .numbers-head { text-align: center; margin-bottom: 62px; }
   .numbers-head .eyebrow { justify-content: center; }
@@ -1038,6 +1038,8 @@
         el.textContent = Math.round(ease(p) * end).toLocaleString('en-US');
         if (p < 1) requestAnimationFrame(tick);
       })(t0);
+      // Guarantee the final value even if rAF is throttled (background tab etc.)
+      setTimeout(function () { el.textContent = end.toLocaleString('en-US'); }, 1300);
     }
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
