@@ -288,18 +288,18 @@
   @media (max-width: 900px) { .bio { padding: 84px 0; } .bio-grid { grid-template-columns: 1fr; gap: 44px; } }
 
   /* ============ AWARDS / SEALS (inside the vantage panel, BMCC pattern) ============ */
-  .seals { --seal-h: 62px; display: flex; align-items: center; flex-wrap: wrap; gap: 22px 30px; margin-top: 44px; }
-  .seal { height: var(--seal-h); width: auto; object-fit: contain; display: block; opacity: 0.45; }
+  .seals { --seal-h: 62px; display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; align-items: center; gap: 30px 20px; margin-top: 44px; }
+  .seal { height: var(--seal-h); width: auto; max-width: 100%; object-fit: contain; display: block; opacity: 0.45; }
   .seal[src*="amazon"] { height: calc(var(--seal-h) * 0.82); }
   .seal[src*="nyt"] { height: calc(var(--seal-h) * 1.05); }
-  @media (max-width: 900px) { .seals { justify-content: center; gap: 20px 26px; --seal-h: 56px; margin-top: 38px; } }
-  @media (max-width: 480px) { .seals { --seal-h: 48px; } }
+  @media (max-width: 900px) { .seals { gap: 26px 16px; --seal-h: 56px; margin-top: 38px; } }
+  @media (max-width: 480px) { .seals { --seal-h: 46px; } }
 
   /* ============ FILTER: MORE / SHARPER READ ============ */
-  .filter { background: var(--paper); padding: 128px 0; position: relative; }
+  .filter { background: var(--mist); padding: 128px 0; position: relative; }
   .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; position: relative; }
   .fbox { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 54px 46px; box-shadow: 0 2px 18px rgba(20,23,28,0.05); }
-  .fbox--noise { background: var(--mist); }
+  .fbox--noise { background: rgba(255,255,255,0.55); }
   .fbox--signal { border-color: rgba(var(--blue-rgb), 0.55); box-shadow: 0 24px 54px -30px rgba(var(--blue-rgb), 0.5); }
   .fbox .feyebrow { font-weight: 800; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 12px; }
   .fbox--noise .feyebrow { color: var(--soft); }
@@ -360,8 +360,12 @@
   @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes lbRise { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
 
-  /* ============ WHAT YOU GET - styled numbered cards ============ */
-  .voice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 56px; }
+  /* ============ WHAT YOU GET - pivot lead + styled numbered cards (inside the filter section) ============ */
+  .voice-lead { text-align: center; margin-top: 108px; }
+  .voice-lead h3 { font-size: clamp(24px, 2.7vw, 40px); font-weight: 900; letter-spacing: -0.025em; text-transform: uppercase; }
+  .voice-lead h3 em { font-style: normal; color: var(--blue); }
+  .voice-lead p { font-size: 17px; line-height: 1.55; color: var(--muted); margin-top: 12px; }
+  .voice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 44px; }
   .vcard { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 44px 40px 46px; transition: transform .25s var(--ease), box-shadow .25s, border-color .25s; overflow: hidden; }
   .vcard::after { content: ""; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--blue); transform: scaleY(0); transform-origin: top; transition: transform .3s var(--ease); }
   .vcard:hover { transform: translateY(-6px); box-shadow: 0 32px 62px -32px rgba(20,23,28,0.32); border-color: rgba(var(--blue-rgb), 0.5); }
@@ -378,19 +382,19 @@
     background: radial-gradient(ellipse 70% 55% at 80% 0%, rgba(var(--blue-rgb), 0.30), transparent 62%), linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 100%); }
   .rd-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: stretch; }
   .rd-content h2 { color: #fff; font-size: clamp(32px, 3.8vw, 56px); text-transform: uppercase; margin-top: 22px; text-wrap: balance; }
-  .rd-content h2 em { font-style: normal; color: #f4b2b7; }
+  .rd-content h2 em { font-style: normal; color: var(--azure); }
   .rd-sub { margin-top: 20px; font-size: clamp(16px, 1.4vw, 19px); font-weight: 700; color: #fff; }
   .rd-flow { display: flex; margin-top: 36px; }
   .rd-step { flex: 1; padding: 20px 28px 22px 22px; margin-right: 6px;
     background: linear-gradient(135deg, rgba(var(--blue-rgb), 0.42), rgba(var(--blue-rgb), 0.16));
     clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%); }
   .rd-step:last-child { margin-right: 0; clip-path: none; border-radius: 0 var(--radius) var(--radius) 0; }
-  .rd-n { display: block; font-weight: 800; font-size: 11px; letter-spacing: 0.22em; color: #f4b2b7; }
+  .rd-n { display: block; font-weight: 800; font-size: 11px; letter-spacing: 0.22em; color: var(--azure); }
   .rd-step p { margin-top: 12px; font-size: 14px; line-height: 1.45; color: #fff; font-weight: 600; }
   .rd-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; padding-top: 34px; border-top: 1px solid rgba(255,255,255,0.14); }
   .rd-h { font-weight: 800; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; }
   .rd-h--without { color: rgba(255,255,255,0.45); }
-  .rd-h--with { color: #f4b2b7; }
+  .rd-h--with { color: var(--azure); }
   .rd-compare p { font-size: 15.5px; line-height: 1.5; margin-bottom: 10px; }
   .rd-compare > div:first-child p { color: rgba(255,255,255,0.55); }
   .rd-compare > div:last-child p { color: #fff; font-weight: 600; }
@@ -402,7 +406,7 @@
   .rd-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 28%; display: block; }
   .apple-note { margin-top: 48px; padding: 26px 28px; border-radius: var(--radius); display: flex; gap: 18px; align-items: flex-start;
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-left: 4px solid var(--azure); }
-  .apple-note .badge { font-weight: 800; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #f4b2b7; white-space: nowrap; padding-top: 2px; }
+  .apple-note .badge { font-weight: 800; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--azure); white-space: nowrap; padding-top: 2px; }
   .apple-note p { font-size: 14.5px; line-height: 1.55; color: var(--mist-on-dark); }
   .apple-note b { color: #fff; }
   @media (max-width: 880px) {
@@ -422,12 +426,12 @@
   .numbers-head { text-align: center; margin-bottom: 62px; }
   .numbers-head .eyebrow { justify-content: center; }
   .numbers-head h2 { color: #fff; font-size: clamp(30px, 3.6vw, 52px); text-transform: uppercase; margin-top: 18px; }
-  .numbers-head h2 em { font-style: normal; color: #f4b2b7; }
+  .numbers-head h2 em { font-style: normal; color: var(--azure); }
   .numbers-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
   .nstat { text-align: center; padding: 0 20px; }
   .numbers-grid .nstat + .nstat { border-left: 1px solid rgba(255,255,255,0.18); }
   .nstat .n { font-weight: 900; font-size: clamp(46px, 5.6vw, 82px); letter-spacing: -0.05em; color: #fff; line-height: 0.9; }
-  .nstat .n b { color: #f4b2b7; font-weight: 900; }
+  .nstat .n b { color: var(--azure); font-weight: 900; }
   .nstat .l { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.82); margin-top: 16px; }
   @media (max-width: 860px) { .numbers-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 0; } .numbers-grid .nstat:nth-child(odd) { border-left: none; } .numbers-grid .nstat:nth-child(even) { border-left: 1px solid rgba(255,255,255,0.18); } .nstat:last-child { grid-column: 1 / -1; border-left: none; } }
 
@@ -582,7 +586,7 @@
       <div class="nstat"><div class="n"><b><span class="cnt" data-count="350">350</span>K+</b></div><div class="l">Driven business builders</div></div>
       <div class="nstat"><div class="n"><span class="cnt" data-count="5">5</span><b>min</b></div><div class="l">Every weekday</div></div>
       <div class="nstat"><div class="n"><span class="cnt" data-count="260">260</span></div><div class="l">Mornings a year</div></div>
-      <div class="nstat"><div class="n"><span class="cnt" data-count="3000">3,000</span><b>+</b></div><div class="l">Episodes and counting</div></div>
+      <div class="nstat"><div class="n"><span class="cnt" data-count="3214">3,214</span><b>+</b></div><div class="l">Episodes and counting</div></div>
       <div class="nstat"><div class="n"><b>0</b></div><div class="l">Ads. Ever.</div></div>
     </div>
   </div>
@@ -648,7 +652,7 @@
     </div>
     <div class="intro-stats">
       <div><div class="is-n">35 yrs</div><div class="is-l">At the center of success</div></div>
-      <div><div class="is-n">11,000+</div><div class="is-l">Business leaders advised</div></div>
+      <div><div class="is-n">11,463+</div><div class="is-l">Business leaders advised</div></div>
       <div><div class="is-n">SUCCESS</div><div class="is-l">Founding publisher</div></div>
     </div>
     <div class="seals" aria-label="Awards and bestseller recognition">
@@ -691,36 +695,9 @@
         <p class="payoff">That's the whole point of DarrenDaily.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ DD SET - watch a morning ============ -->
-<section class="dset" id="preview">
-  <div class="container">
-    <div class="dset-card reveal">
-      <!-- Real DarrenDaily set frame. Play button opens the preview lightbox (swap in the real episode embed on launch). -->
-      <img src="dd-mug.webp" alt="Darren Hardy on the DarrenDaily garden set, holding a DarrenDaily mug">
-      <div class="dset-scrim"></div>
-      <div class="dset-body">
-        <div class="eyebrow on-dark"><span class="pip"></span>See A Real Morning</div>
-        <h2>This is what a<br>morning looks like.</h2>
-        <p>Five minutes, one idea, every weekday, 260 days a year. No studio, no teleprompter, no hype. Just the read you want before the day starts.</p>
-        <a class="dset-play" href="#preview" data-preview-open data-video="episode" aria-haspopup="dialog">
-          <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
-          <span class="ptext">Preview an episode</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ WHAT YOU GET ============ -->
-<section class="sec mist" id="voice">
-  <div class="container">
-    <div class="sec-head center reveal">
-      <div class="eyebrow blue center"><span class="pip"></span>What You Actually Get</div>
-      <h2 class="sec-title">Not information. <em class="key">Clarity.</em></h2>
-      <p class="sec-lead">One idea, made for the morning. Here's what five minutes actually feels like.</p>
+    <div class="voice-lead reveal">
+      <h3>Not information. <em>Clarity.</em></h3>
+      <p>One idea, made for the morning. Here's what five minutes actually feels like.</p>
     </div>
     <div class="voice-grid stagger">
       <div class="vcard">
@@ -742,6 +719,26 @@
         <div class="vn">04</div>
         <h3>A little quirky</h3>
         <p>The Friday Funnies. The occasional WTF. Because a morning should have some life in it: a calibration of mind <em>and</em> spirit, not a lecture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DD SET - watch a morning ============ -->
+<section class="dset" id="preview">
+  <div class="container">
+    <div class="dset-card reveal">
+      <!-- Real DarrenDaily set frame. Play button opens the preview lightbox (swap in the real episode embed on launch). -->
+      <img src="dd-mug.webp" alt="Darren Hardy on the DarrenDaily garden set, holding a DarrenDaily mug">
+      <div class="dset-scrim"></div>
+      <div class="dset-body">
+        <div class="eyebrow on-dark"><span class="pip"></span>See A Real Morning</div>
+        <h2>This is what a<br>morning looks like.</h2>
+        <p>Five minutes, one idea, every weekday, 260 days a year. No studio, no teleprompter, no hype. Just the read you want before the day starts.</p>
+        <a class="dset-play" href="#preview" data-preview-open data-video="episode" aria-haspopup="dialog">
+          <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="ptext">Preview an episode</span>
+        </a>
       </div>
     </div>
   </div>
