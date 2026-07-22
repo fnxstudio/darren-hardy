@@ -99,10 +99,23 @@
     background: var(--blue); color: #fff; border: 2px solid var(--blue);
     transition: background .2s var(--ease), color .2s, transform .2s, box-shadow .2s;
     box-shadow: 0 14px 30px -12px rgba(var(--blue-rgb), 0.5);
+    position: relative; overflow: hidden;
   }
   .btn:hover { background: transparent; color: var(--blue); transform: translateY(-2px); box-shadow: 0 18px 36px -14px rgba(var(--blue-rgb), 0.4); }
   .btn .arrow { transition: transform .2s var(--ease); }
   .btn:hover .arrow { transform: translateX(5px); }
+  .btn::after { content: ""; position: absolute; top: 0; left: -80%; width: 60%; height: 100%;
+    background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.25) 50%, transparent 80%);
+    animation: cta-shimmer 4s ease-in-out infinite; pointer-events: none; }
+  .btn:hover::after { opacity: 0; }
+  @keyframes cta-shimmer {
+    0%   { left: -80%; opacity: 1; }
+    38%  { left: 110%; opacity: 1; }
+    39%  { left: 110%; opacity: 0; }
+    99%  { left: -80%; opacity: 0; }
+    100% { left: -80%; opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn::after { animation: none; opacity: 0; } }
 
   .btn-line {
     display: inline-flex; align-items: center; gap: 9px;
@@ -121,7 +134,10 @@
   }
 
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.reveal-left { transform: translateY(30px) translateX(-36px); }
+  .reveal.reveal-right { transform: translateY(30px) translateX(36px); }
   .reveal.in { opacity: 1; transform: none; }
+  @media (max-width: 860px) { .reveal.reveal-left, .reveal.reveal-right { transform: translateY(30px); } }
   .stagger > * { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
   .stagger.in > * { opacity: 1; transform: none; }
   .stagger.in > *:nth-child(2) { transition-delay: .08s; }
@@ -148,17 +164,22 @@
   .nav-brand .logo-ink { display: none; }
   nav.top.solid .nav-brand .logo-white { display: none; }
   nav.top.solid .nav-brand .logo-ink { display: block; }
+  .nav-links { position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.85); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+  nav.top.solid .nav-links a { color: var(--muted); }
+  nav.top.solid .nav-links a:hover { color: var(--ink); }
   .nav-cta {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--blue); color: #fff !important; padding: 11px 20px; border-radius: var(--radius);
     font-weight: 700; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
     border: 2px solid var(--blue);
-    transition: background .2s, color .2s, opacity .35s var(--ease), transform .35s var(--ease);
-    opacity: 0; transform: translateY(-8px); pointer-events: none;
+    transition: background .2s, color .2s;
   }
-  .nav-cta.show { opacity: 1; transform: none; pointer-events: auto; }
   .nav-cta:hover { background: transparent; color: var(--blue) !important; }
-  @media (max-width: 720px) { nav.top { padding: 12px 22px; } .nav-brand img { height: 30px; } }
+  nav.top:not(.solid) .nav-cta:hover { color: #fff !important; border-color: #fff; }
+  @media (max-width: 900px) { .nav-links { display: none; } }
+  @media (max-width: 720px) { nav.top { padding: 12px 22px; } .nav-brand img { height: 30px; } .nav-cta { padding: 10px 16px; font-size: 10px; } }
 
   /* ============ HERO (full-bleed image) ============ */
   .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; padding: 132px 0 80px; }
@@ -169,26 +190,37 @@
       linear-gradient(180deg, rgba(9,11,15,0.40) 0%, rgba(9,11,15,0) 26%, rgba(9,11,15,0) 66%, rgba(9,11,15,0.5) 100%); }
   .hero .container { position: relative; z-index: 2; width: 100%; }
   .hero-copy { max-width: 620px; }
-  .hero .eyebrow { color: var(--azure); }
+  .hero .eyebrow { color: var(--azure); opacity: 0; transform: translateY(10px); animation: revealUp .7s var(--ease) forwards; animation-delay: .5s; }
   .hero .eyebrow .pip { background: var(--azure); }
-  .hero h1 { color: #fff; font-size: clamp(36px, 4.6vw, 70px); margin: 22px 0 0; text-transform: uppercase; text-wrap: balance; text-shadow: 0 2px 34px rgba(0,0,0,0.42); }
+  .hero h1 { color: #fff; font-size: clamp(36px, 4.6vw, 70px); margin: 22px 0 0; text-transform: uppercase; text-wrap: balance; text-shadow: 0 2px 34px rgba(0,0,0,0.42); opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: .9s; }
   .hero h1 .l2 { color: var(--azure); }
   .hero h1 .dot { color: var(--azure); }
-  .hero-sub { font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: rgba(255,255,255,0.88); margin: 26px 0 0; max-width: 520px; text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
+  .hero-sub { font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: rgba(255,255,255,0.88); margin: 26px 0 0; max-width: 520px; text-shadow: 0 1px 16px rgba(0,0,0,0.5); opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: 1.5s; }
   .hero-sub b { color: #fff; font-weight: 700; }
-  .hero-actions { display: flex; align-items: center; gap: 26px; margin-top: 34px; flex-wrap: wrap; }
+  .hero-sub-m { display: none; }
+  .hero-actions { display: flex; align-items: center; gap: 26px; margin-top: 34px; flex-wrap: wrap; opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: 1.9s; }
   .hero-actions .btn-line { color: #fff; border-bottom-color: var(--azure); }
   .hero-actions .btn-line:hover { color: var(--azure); }
-  @media (max-width: 980px) {
-    .hero { min-height: 90vh; text-align: center; align-items: flex-end; padding: 100px 0 64px; }
-    .hero-img { object-position: 66% center; }
-    .hero::after { background: linear-gradient(180deg, rgba(9,11,15,0.5) 0%, rgba(9,11,15,0.14) 28%, rgba(9,11,15,0.35) 58%, rgba(9,11,15,0.92) 100%); }
-    .hero-copy { max-width: 600px; margin: 0 auto; }
-    .hero .eyebrow { justify-content: center; }
-    .hero-sub { margin-left: auto; margin-right: auto; }
-    .hero-actions, .hero-trust { justify-content: center; }
+  .scroll-cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 3; color: rgba(255,255,255,0.65); opacity: 0; animation: fadeIn 1s ease forwards; animation-delay: 2.5s; }
+  .scroll-cue svg { width: 22px; height: 22px; display: block; animation: scrollBob 2.2s ease-in-out infinite; }
+  @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { to { opacity: 1; } }
+  @keyframes scrollBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero .eyebrow, .hero h1, .hero-sub, .hero-actions, .scroll-cue { animation: none; opacity: 1; transform: none; }
+    .scroll-cue svg { animation: none; }
   }
-  @media (max-width: 520px) { .hero-trust { flex-direction: column; } .hero-trust .titem { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); } .hero-trust .titem:last-child { border-bottom: none; } }
+  @media (max-width: 980px) {
+    .hero { min-height: 92vh; align-items: flex-end; padding: 96px 0 72px; }
+    .hero-img { object-position: 52% center; }
+    .hero::after { background:
+      linear-gradient(90deg, rgba(9,11,15,0.92) 0%, rgba(9,11,15,0.70) 34%, rgba(9,11,15,0.28) 64%, rgba(9,11,15,0.05) 84%),
+      linear-gradient(180deg, rgba(9,11,15,0.42) 0%, rgba(9,11,15,0.05) 30%, rgba(9,11,15,0.50) 76%, rgba(9,11,15,0.92) 100%); }
+    .hero-copy { max-width: 560px; }
+    .hero h1 { font-size: clamp(28px, 7.6vw, 44px); }
+    .hero-sub { display: none; }
+    .hero-sub-m { display: block; }
+  }
 
   /* ============ AS FEATURED IN ============ */
   .featured { background: var(--paper); padding: 44px 0; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
@@ -255,18 +287,14 @@
   .bio-row .rl { font-size: 14.5px; line-height: 1.45; color: var(--muted); }
   @media (max-width: 900px) { .bio { padding: 84px 0; } .bio-grid { grid-template-columns: 1fr; gap: 44px; } }
 
-  /* ============ BESTSELLER RIBBON ============ */
-  .ribbon.light { background: var(--paper); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); padding: 30px 0; overflow: hidden; }
-  .ribbon .ribbon-label { text-align: center; font-weight: 700; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--soft); margin-bottom: 22px; }
-  .marquee { overflow: hidden; white-space: nowrap; }
-  .marquee-track { display: inline-flex; flex-wrap: nowrap; gap: 100px; padding-left: 100px; animation: marquee 30s linear infinite; will-change: transform; }
-  .marquee-track.paused { animation-play-state: paused; }
-  .marquee-item { flex-shrink: 0; display: flex; align-items: center; }
-  .bestseller-badge { height: 64px; width: auto; display: block; mix-blend-mode: multiply; filter: grayscale(1) contrast(0.62) brightness(1.08); opacity: 0.8; }
-  .bestseller-badge--nyt { height: 90px; }
-  .bestseller-badge--invert { filter: grayscale(1) invert(1) contrast(0.62) brightness(1.08); }
-  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-  @media (max-width: 720px) { .marquee-track { gap: 40px; padding-left: 40px; } .bestseller-badge { height: 48px; } .bestseller-badge--nyt { height: 68px; } }
+  /* ============ AWARDS / SEALS (BMCC pattern) ============ */
+  .seals-band { background: var(--paper); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); padding: 44px 0; }
+  .seals { --seal-h: 86px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 28px clamp(24px, 3.5vw, 52px); }
+  .seal { height: var(--seal-h); width: auto; object-fit: contain; display: block; opacity: 0.45; }
+  .seal[src*="amazon"] { height: calc(var(--seal-h) * 0.82); }
+  .seal[src*="nyt"] { height: calc(var(--seal-h) * 1.05); }
+  @media (max-width: 860px) { .seals { justify-content: center; gap: 28px 40px; --seal-h: 64px; } }
+  @media (max-width: 480px) { .seals { --seal-h: 54px; } }
 
   /* ============ FILTER: MORE / SHARPER READ ============ */
   .filter { background: var(--paper); padding: 128px 0; position: relative; }
@@ -346,29 +374,47 @@
   .vcard em { color: var(--blue); font-style: normal; font-weight: 600; }
   @media (max-width: 720px) { .voice-grid { grid-template-columns: 1fr; gap: 16px; } }
 
-  /* ============ MID CTA BAND ============ */
-  .midcta { background: linear-gradient(120deg, var(--navy) 0%, var(--navy-2) 100%); padding: 76px 0; text-align: center; overflow: hidden; }
-  .midcta::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 90% at 50% 0%, rgba(var(--blue-rgb), 0.28), transparent 65%); }
-  .midcta .container { position: relative; z-index: 1; }
-  .midcta p { color: #fff; font-size: clamp(22px, 2.7vw, 36px); font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; text-wrap: balance; }
-  .midcta p em { font-style: normal; color: #f4b2b7; }
-  .midcta .btn { margin-top: 30px; }
-
-  /* ============ WHY MORNING / RITUAL ============ */
-  .morning-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: flex-start; }
-  .ritual-steps { display: grid; gap: 0; position: relative; }
-  .rstep { display: flex; gap: 22px; align-items: flex-start; padding: 22px 0; border-bottom: 1px solid var(--line); }
-  .rstep:last-child { border-bottom: none; }
-  .rstep .rnum { flex-shrink: 0; width: 48px; height: 48px; border-radius: var(--radius); background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; }
-  .rstep:nth-child(2) .rnum { background: var(--navy); }
-  .rstep:nth-child(3) .rnum { background: var(--azure); }
-  .rstep h4 { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; }
-  .rstep p { font-size: 15px; line-height: 1.55; color: var(--muted); margin-top: 6px; }
-  .apple-note { margin-top: 34px; padding: 26px 28px; border-radius: var(--radius); background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--blue); display: flex; gap: 18px; align-items: flex-start; box-shadow: 0 14px 34px -22px rgba(20,23,28,0.4); }
-  .apple-note .badge { font-weight: 800; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); white-space: nowrap; padding-top: 2px; }
-  .apple-note p { font-size: 14.5px; line-height: 1.55; color: var(--muted); }
-  .apple-note b { color: var(--ink); }
-  @media (max-width: 880px) { .morning-grid { grid-template-columns: 1fr; gap: 40px; } }
+  /* ============ WHY MORNING / RITUAL (dark, BMCC secret-weapon style) ============ */
+  .ritual-dark { color: #fff; padding: 128px 0; overflow: hidden;
+    background: radial-gradient(ellipse 70% 55% at 80% 0%, rgba(var(--blue-rgb), 0.30), transparent 62%), linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 100%); }
+  .rd-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: stretch; }
+  .rd-content h2 { color: #fff; font-size: clamp(32px, 3.8vw, 56px); text-transform: uppercase; margin-top: 22px; text-wrap: balance; }
+  .rd-content h2 em { font-style: normal; color: #f4b2b7; }
+  .rd-sub { margin-top: 20px; font-size: clamp(16px, 1.4vw, 19px); font-weight: 700; color: #fff; }
+  .rd-flow { display: flex; margin-top: 36px; }
+  .rd-step { flex: 1; padding: 20px 28px 22px 22px; margin-right: 6px;
+    background: linear-gradient(135deg, rgba(var(--blue-rgb), 0.42), rgba(var(--blue-rgb), 0.16));
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%); }
+  .rd-step:last-child { margin-right: 0; clip-path: none; border-radius: 0 var(--radius) var(--radius) 0; }
+  .rd-n { display: block; font-weight: 800; font-size: 11px; letter-spacing: 0.22em; color: #f4b2b7; }
+  .rd-step p { margin-top: 12px; font-size: 14px; line-height: 1.45; color: #fff; font-weight: 600; }
+  .rd-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; padding-top: 34px; border-top: 1px solid rgba(255,255,255,0.14); }
+  .rd-h { font-weight: 800; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; }
+  .rd-h--without { color: rgba(255,255,255,0.45); }
+  .rd-h--with { color: #f4b2b7; }
+  .rd-compare p { font-size: 15.5px; line-height: 1.5; margin-bottom: 10px; }
+  .rd-compare > div:first-child p { color: rgba(255,255,255,0.55); }
+  .rd-compare > div:last-child p { color: #fff; font-weight: 600; }
+  .rd-payoff { margin-top: 40px; padding-top: 34px; border-top: 1px solid rgba(255,255,255,0.14); text-align: center; }
+  .rd-payoff p { font-size: clamp(16px, 1.5vw, 20px); color: var(--mist-on-dark); line-height: 1.6; }
+  .rd-payoff p b { color: #fff; }
+  .rd-payoff .btn { margin-top: 26px; }
+  .rd-photo { border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 40px 90px -40px rgba(0,0,0,0.8); }
+  .rd-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 28%; display: block; }
+  .apple-note { margin-top: 48px; padding: 26px 28px; border-radius: var(--radius); display: flex; gap: 18px; align-items: flex-start;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-left: 4px solid var(--azure); }
+  .apple-note .badge { font-weight: 800; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #f4b2b7; white-space: nowrap; padding-top: 2px; }
+  .apple-note p { font-size: 14.5px; line-height: 1.55; color: var(--mist-on-dark); }
+  .apple-note b { color: #fff; }
+  @media (max-width: 880px) {
+    .ritual-dark { padding: 84px 0; }
+    .rd-grid { grid-template-columns: 1fr; gap: 40px; }
+    .rd-photo { max-height: 440px; }
+    .rd-flow { flex-direction: column; }
+    .rd-step { clip-path: none; margin-right: 0; margin-bottom: 6px; border-left: 3px solid rgba(var(--blue-rgb), 0.85); border-radius: 0; }
+    .rd-step:last-child { border-radius: 0; }
+    .apple-note { flex-direction: column; gap: 10px; }
+  }
 
   /* ============ COMPOUND EFFECT ============ */
   .ce { background: var(--mist); }
@@ -427,15 +473,28 @@
   @media (max-width: 900px) { .tw { padding: 84px 0; } .tw-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 600px) { .tw-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; } }
 
-  /* ============ TRIBE / MOVEMENT ============ */
-  .tribe-collage { position: relative; border-radius: var(--radius); overflow: hidden; margin-top: 10px; box-shadow: 0 30px 70px -34px rgba(20,23,28,0.5); border: 1px solid var(--line); }
-  .tribe-collage img { width: 100%; display: block; }
-  .tribe-collage::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16,20,28,0) 28%, rgba(16,20,28,0.74) 100%); }
-  .tribe-overlay { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 44px 46px; }
-  .tribe-overlay .manifesto { color: #fff; font-size: clamp(19px, 2vw, 27px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.26; max-width: 780px; }
-  .tribe-overlay .manifesto em { font-style: normal; color: #eba6ac; }
-  .tribe-overlay .welcome { color: rgba(255,255,255,0.82); font-size: 14.5px; margin-top: 16px; letter-spacing: 0.02em; }
-  @media (max-width: 620px) { .tribe-overlay { padding: 26px 22px; } }
+  /* ============ WHO FOR / NOT FOR (BMCC 'Not For Everyone' pattern) ============ */
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 56px; }
+  .who-card { border-radius: var(--radius); padding: 50px 44px; }
+  .who-card h3 { font-size: clamp(20px, 1.9vw, 26px); letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 24px; }
+  .who-card--for { background: #fff; border: 1px solid rgba(var(--blue-rgb), 0.55); box-shadow: 0 24px 54px -30px rgba(var(--blue-rgb), 0.5); }
+  .who-card--for h3 { color: var(--blue); }
+  .who-card--not { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 100%); border: 1px solid rgba(255,255,255,0.08); }
+  .who-card--not h3 { color: #fff; }
+  .who-item { display: flex; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line-soft); font-size: 15.5px; line-height: 1.5; color: var(--muted); }
+  .who-card--not .who-item { border-top-color: rgba(255,255,255,0.10); color: rgba(255,255,255,0.72); }
+  .who-mark { font-weight: 900; flex-shrink: 0; }
+  .who-card--for .who-mark { color: var(--blue); }
+  .who-card--not .who-mark { color: rgba(255,255,255,0.4); }
+  .who-close { text-align: center; max-width: 680px; margin: 60px auto 0; }
+  .who-close p { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; color: var(--muted); }
+  .who-close p b { color: var(--ink); }
+  .who-play { display: inline-flex; align-items: center; gap: 16px; margin-top: 30px; text-decoration: none; }
+  .who-play .pbtn { width: 60px; height: 60px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 34px -10px rgba(var(--blue-rgb), 0.7); transition: transform .2s var(--ease), background .2s; }
+  .who-play:hover .pbtn { transform: scale(1.06); background: var(--blue-deep); }
+  .who-play .pbtn svg { width: 20px; height: 20px; fill: #fff; margin-left: 3px; }
+  .who-play .ptext { color: var(--ink); font-weight: 800; font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase; }
+  @media (max-width: 860px) { .who-grid { grid-template-columns: 1fr; } .who-card { padding: 40px 30px; } }
 
 
   /* ============ FINAL CTA ============ */
@@ -498,7 +557,13 @@
     <img class="logo-white" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
     <img class="logo-ink" src="dd-logo-ink.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
   </a>
-  <a class="nav-cta" id="navCta" href="#join">Start now <span>&rarr;</span></a>
+  <div class="nav-links">
+    <a href="#about">The Vantage</a>
+    <a href="#preview">Preview</a>
+    <a href="#voices">Members</a>
+    <a href="#ritual">Why Morning</a>
+  </div>
+  <a class="nav-cta" id="navCta" href="#join">Join free <span>&rarr;</span></a>
 </nav>
 
 <main id="top">
@@ -507,14 +572,35 @@
 <section class="hero">
   <img class="hero-img" src="dd-hero.webp" alt="Darren Hardy on the DarrenDaily set" width="2400" height="1351" fetchpriority="high">
   <div class="container">
-    <div class="hero-copy reveal">
+    <div class="hero-copy">
       <div class="eyebrow"><span class="pip"></span>Daily Mentoring with Darren Hardy</div>
       <h1>35 Years Behind<br>Closed Doors.<br><span class="l2">5 Minutes In<br>Your Morning<span class="dot">.</span></span></h1>
-      <p class="hero-sub">One strategic idea, drawn from 35 years behind the closed doors of the world's best, watching how they build, decide, and win. It arrives every weekday morning: straight, a little unusual, small enough to use before the day gets going. <b>Free. Never a single ad.</b></p>
+      <p class="hero-sub"><b>One strategic idea, every weekday morning.</b> Drawn from 35 years behind closed doors with the world's best: straight, a little unusual, small enough to use before the day gets going. <b>Free. Never a single ad.</b></p>
+      <p class="hero-sub hero-sub-m"><b>One strategic idea, every weekday morning.</b> From 35 years behind closed doors with the world's best. <b>Free. No ads.</b></p>
       <div class="hero-actions">
-        <a class="btn" href="#join">Start Tomorrow Morning <span class="arrow">&rarr;</span></a>
+        <a class="btn" href="#join">Join DarrenDaily Now <span class="arrow">&rarr;</span></a>
         <a class="btn-line" href="#about">How it works <span class="arrow">&rarr;</span></a>
       </div>
+    </div>
+  </div>
+  <a href="#numbers" class="scroll-cue" aria-label="Scroll down">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+  </a>
+</section>
+
+<!-- ============ NUMBERS BAND ============ -->
+<section class="numbers" id="numbers">
+  <div class="container">
+    <div class="numbers-head reveal">
+      <div class="eyebrow on-dark"><span class="pip"></span>The Movement</div>
+      <h2>Five minutes. <em>Compounded.</em></h2>
+    </div>
+    <div class="numbers-grid stagger">
+      <div class="nstat"><div class="n"><b><span class="cnt" data-count="350">350</span>K+</b></div><div class="l">Driven business builders</div></div>
+      <div class="nstat"><div class="n"><span class="cnt" data-count="5">5</span><b>min</b></div><div class="l">Every weekday</div></div>
+      <div class="nstat"><div class="n"><span class="cnt" data-count="260">260</span></div><div class="l">Mornings a year</div></div>
+      <div class="nstat"><div class="n"><span class="cnt" data-count="72">72</span><b>hr</b></div><div class="l">Until each idea expires</div></div>
+      <div class="nstat"><div class="n"><b>0</b></div><div class="l">Ads. Ever.</div></div>
     </div>
   </div>
 </section>
@@ -522,16 +608,16 @@
 <!-- ============ BIO / PROXIMITY ============ -->
 <section class="bio">
   <div class="container bio-grid">
-    <div class="reveal">
+    <div class="reveal reveal-left">
       <div class="eyebrow"><span class="pip"></span>Your Unfair Advantage</div>
       <h2>Proximity is the <em>advantage</em>.</h2>
       <div class="bio-body">
-        <p>The people who compound fastest aren't the ones with the most information. They're the ones standing closest to someone who has already seen it work.</p>
-        <p>DarrenDaily is built on a lifetime of that proximity: decades spent in the confidence of the CEOs and founders everyone else only reads about.</p>
-        <p><b>It hands you that vantage, five minutes at a time.</b> Not the highlight reel, but one clear idea, distilled from patterns that took decades to see and made simple enough to use today.</p>
+        <p><b>The people who compound fastest aren't the ones with the most information.</b> They're the ones standing closest to someone who has already seen it work.</p>
+        <p>DarrenDaily is built on a lifetime of that proximity: decades in the confidence of the CEOs and founders everyone else only reads about.</p>
+        <p><b>It hands you that vantage, five minutes at a time.</b> One clear idea, distilled from patterns that took decades to see.</p>
       </div>
     </div>
-    <div class="reveal">
+    <div class="reveal reveal-right">
       <div class="bio-card">
         <span class="flag">The whole point</span>
         <p class="bio-quote">The last thing you need is more information. What's rare is a <em>clear read on it</em>, and one idea worth acting on before the day starts.</p>
@@ -541,23 +627,6 @@
           <div class="bio-row"><span class="rn">0</span><span class="rl">No ads, no sponsors, nothing to sell you. Just the idea.</span></div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ NUMBERS BAND ============ -->
-<section class="numbers">
-  <div class="container">
-    <div class="numbers-head reveal">
-      <div class="eyebrow on-dark"><span class="pip"></span>The Movement</div>
-      <h2>Five minutes. <em>Compounded.</em></h2>
-    </div>
-    <div class="numbers-grid stagger">
-      <div class="nstat"><div class="n"><b>350K+</b></div><div class="l">Driven business builders</div></div>
-      <div class="nstat"><div class="n">5<b>min</b></div><div class="l">Every weekday</div></div>
-      <div class="nstat"><div class="n">260</div><div class="l">Mornings a year</div></div>
-      <div class="nstat"><div class="n">72<b>hr</b></div><div class="l">Until each idea expires</div></div>
-      <div class="nstat"><div class="n"><b>0</b></div><div class="l">Ads. Ever.</div></div>
     </div>
   </div>
 </section>
@@ -591,7 +660,7 @@
     <div class="eyebrow blue"><span class="pip"></span>The Vantage</div>
     <h2 class="intro-headline">Behind the covers, behind <em>closed doors.</em></h2>
     <div class="intro-body">
-      <p>For 35 years, Darren sat at the center of the success media industry as founding publisher of SUCCESS. That seat opened doors no coach or consultant ever gets: the founders and self-made billionaires everyone else only studies took his call and shared the real playbook, not the PR version.</p>
+      <p><b>For 35 years, Darren sat at the center of the success media industry</b> as founding publisher of SUCCESS. The founders and self-made billionaires everyone else only studies took his call, and shared the real playbook, not the PR version.</p>
       <p>He didn't read about the people on these covers. He put them there.</p>
     </div>
     <div class="intro-stats">
@@ -602,21 +671,16 @@
   </div>
 </section>
 
-<!-- ============ BESTSELLER RIBBON ============ -->
-<div class="ribbon light">
-  <div class="ribbon-label">International Bestselling Author</div>
-  <div class="marquee">
-    <div class="marquee-track">
-      <span class="marquee-item"><img src="amazon-bestseller.webp" alt="Amazon Bestseller" class="bestseller-badge" loading="lazy"></span>
-      <span class="marquee-item"><img src="nyt-bestseller.webp" alt="New York Times Bestseller" class="bestseller-badge bestseller-badge--nyt" loading="lazy"></span>
-      <span class="marquee-item"><img src="BnN_bestseller.webp" alt="Barnes and Noble Bestseller" class="bestseller-badge" loading="lazy"></span>
-      <span class="marquee-item"><img src="wsj-bestseller.webp" alt="Wall Street Journal Bestseller" class="bestseller-badge" loading="lazy"></span>
-      <span class="marquee-item"><img src="usatoday-bestseller.webp" alt="USA Today Bestseller" class="bestseller-badge bestseller-badge--invert" loading="lazy"></span>
-      <span class="marquee-item"><img src="amazon-bestseller.webp" alt="Amazon Bestseller" class="bestseller-badge" loading="lazy"></span>
-      <span class="marquee-item"><img src="nyt-bestseller.webp" alt="New York Times Bestseller" class="bestseller-badge bestseller-badge--nyt" loading="lazy"></span>
-      <span class="marquee-item"><img src="BnN_bestseller.webp" alt="Barnes and Noble Bestseller" class="bestseller-badge" loading="lazy"></span>
-      <span class="marquee-item"><img src="wsj-bestseller.webp" alt="Wall Street Journal Bestseller" class="bestseller-badge" loading="lazy"></span>
-      <span class="marquee-item"><img src="usatoday-bestseller.webp" alt="USA Today Bestseller" class="bestseller-badge bestseller-badge--invert" loading="lazy"></span>
+<!-- ============ AWARDS / SEALS (BMCC pattern) ============ -->
+<div class="seals-band">
+  <div class="container">
+    <div class="seals reveal" aria-label="Awards and bestseller recognition">
+      <img class="seal" src="seals/seal-dd.webp" alt="Award-Winning, Top 10 Personal Development Blog, DarrenDaily" loading="lazy">
+      <img class="seal" src="seals/seal-amazon.webp" alt="Amazon, 21,177 Five-Star Customer Reviews" loading="lazy">
+      <img class="seal" src="seals/seal-nsa.webp" alt="Award-Winning, Master of Influence, NSA of America" loading="lazy">
+      <img class="seal" src="seals/seal-nyt.webp" alt="New York Times Best Seller" loading="lazy">
+      <img class="seal" src="seals/seal-ddod.webp" alt="Award-Winning, Top Rated Apple Podcast, DarrenDaily On Demand" loading="lazy">
+      <img class="seal" src="seals/seal-wsj.webp" alt="Wall Street Journal Bestseller" loading="lazy">
     </div>
   </div>
 </div>
@@ -654,7 +718,7 @@
 </section>
 
 <!-- ============ DD SET - watch a morning ============ -->
-<section class="dset">
+<section class="dset" id="preview">
   <div class="container">
     <div class="dset-card reveal">
       <!-- Real DarrenDaily set frame. Play button opens the preview lightbox (swap in the real episode embed on launch). -->
@@ -664,7 +728,7 @@
         <div class="eyebrow on-dark"><span class="pip"></span>See A Real Morning</div>
         <h2>This is what a<br>morning looks like.</h2>
         <p>Five minutes, one idea, every weekday, 260 days a year. No studio, no teleprompter, no hype. Just the read you want before the day starts.</p>
-        <a class="dset-play" href="#preview" data-preview-open aria-haspopup="dialog">
+        <a class="dset-play" href="#preview" data-preview-open data-video="episode" aria-haspopup="dialog">
           <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
           <span class="ptext">Preview an episode</span>
         </a>
@@ -706,44 +770,48 @@
   </div>
 </section>
 
-<!-- ============ MID CTA ============ -->
-<section class="midcta">
-  <div class="container reveal">
-    <p>Tomorrow's idea is already made.<br>It's <em>waiting on you.</em></p>
-    <a class="btn" href="#join">Start Tomorrow Morning <span class="arrow">&rarr;</span></a>
-  </div>
-</section>
-
-<!-- ============ WHY MORNING / THE RITUAL ============ -->
-<section class="sec paper" id="ritual">
+<!-- ============ WHY MORNING / THE RITUAL (dark) ============ -->
+<section class="ritual-dark" id="ritual">
   <div class="container">
-    <div class="morning-grid">
-      <div class="reveal">
-        <div class="eyebrow"><span class="pip"></span>Why Morning</div>
-        <h2 class="sec-title">How you start the day<br><em class="key">decides the day.</em></h2>
-        <p class="sec-lead">What you feed your mind first thing is what it spends the rest of the day trying to validate. Get one strong idea in before the noise, before the inbox, the news, the scroll, and the whole day tilts in your favor.</p>
-        <p class="sec-lead" style="margin-top:16px">That's not motivation. It's calibration. And it's the single highest-leverage five minutes you'll spend all day.</p>
-        <div class="apple-note">
-          <span class="badge">An apple a day</span>
-          <p>DarrenDaily is a practice, not a library. Each message expires in <b>72 hours</b>, because seven apples on Sunday isn't the same as one a day. The compound effect only works if you show up <b>daily</b>. <b>#NeverMiss.</b></p>
+    <div class="rd-grid">
+      <div class="rd-content reveal reveal-left">
+        <div class="eyebrow on-dark"><span class="pip"></span>Why Morning</div>
+        <h2>How you start the day <em>decides the day.</em></h2>
+        <p class="rd-sub">What you feed your mind first, it spends all day trying to validate.</p>
+        <div class="rd-flow stagger">
+          <div class="rd-step"><span class="rd-n">01</span><p>Reach for this first. Before the world gets a vote.</p></div>
+          <div class="rd-step"><span class="rd-n">02</span><p>Five minutes, with your coffee. One private video.</p></div>
+          <div class="rd-step"><span class="rd-n">03</span><p>Install one move. Then go win the day.</p></div>
+        </div>
+        <div class="rd-compare">
+          <div>
+            <h5 class="rd-h rd-h--without">Without It</h5>
+            <p>Scroll-fed mornings.</p>
+            <p>Someone else's agenda first.</p>
+            <p>Motivation that runs out.</p>
+            <p>Reacting all day.</p>
+          </div>
+          <div>
+            <h5 class="rd-h rd-h--with">With DarrenDaily</h5>
+            <p>One strong idea first.</p>
+            <p>Calibrated, not motivated.</p>
+            <p>A filter for the noise.</p>
+            <p>The day tilts your way.</p>
+          </div>
+        </div>
+        <div class="rd-payoff">
+          <p>That's not motivation. It's calibration.</p>
+          <p>The single highest-leverage <b>five minutes</b> of your day.</p>
+          <a class="btn" href="#join">Join DarrenDaily Now <span class="arrow">&rarr;</span></a>
         </div>
       </div>
-      <div class="reveal">
-        <div class="ritual-steps">
-          <div class="rstep">
-            <div class="rnum">1</div>
-            <div><h4>Reach for this first</h4><p>Before the world gets a vote. This is the input that sets the filter for everything after it.</p></div>
-          </div>
-          <div class="rstep">
-            <div class="rnum">2</div>
-            <div><h4>Five minutes, with your coffee</h4><p>A private video, one idea, made for the morning. Anchor it to your first cup and it becomes automatic.</p></div>
-          </div>
-          <div class="rstep">
-            <div class="rnum">3</div>
-            <div><h4>Install one move, then go win</h4><p>You leave with a single, decision-grade thing to use that day. Not someday. Today.</p></div>
-          </div>
-        </div>
+      <div class="rd-photo reveal reveal-right">
+        <img src="dd-ritual.webp" alt="Darren Hardy on the DarrenDaily garden set holding the red DarrenDaily journal" loading="lazy">
       </div>
+    </div>
+    <div class="apple-note reveal">
+      <span class="badge">An apple a day</span>
+      <p>DarrenDaily is a practice, not a library. Each message expires in <b>72 hours</b>, because seven apples on Sunday isn't the same as one a day. The compound effect only works if you show up <b>daily</b>. <b>#NeverMiss.</b></p>
     </div>
   </div>
 </section>
@@ -751,14 +819,14 @@
 <!-- ============ COMPOUND EFFECT ============ -->
 <section class="sec ce">
   <div class="container ce-grid">
-    <div class="reveal">
+    <div class="reveal reveal-left">
       <div class="eyebrow"><span class="pip"></span>The Compound Effect</div>
       <h2 class="sec-title">Small choices,<br><em class="key">compounded.</em></h2>
       <p class="sec-lead">Success isn't a dramatic leap. It's small, smart choices, made consistently, compounding quietly over time. One five-minute idea won't change your life. Two hundred and sixty of them, installed one morning at a time, will.</p>
       <p class="ce-anchor">It's the principle Darren wrote the bestseller on. <b>DarrenDaily is how you live it</b>, one morning at a time.</p>
       <a class="btn" href="#join">Start compounding tomorrow <span class="arrow">&rarr;</span></a>
     </div>
-    <div class="reveal">
+    <div class="reveal reveal-right">
       <div class="ce-viz">
         <span class="ce-tag">The math of consistency</span>
         <svg class="ce-curve" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
@@ -858,21 +926,40 @@
   </div>
 </section>
 
-<!-- ============ TRIBE / MOVEMENT ============ -->
+<!-- ============ WHO FOR / NOT FOR ============ -->
 <section class="sec mist" id="movement">
   <div class="container">
     <div class="sec-head center reveal">
       <div class="eyebrow blue center"><span class="pip"></span>Who You'll Sit With</div>
-      <h2 class="sec-title">You've found <em class="key">your tribe.</em></h2>
-      <p class="sec-lead">Strivers. People for whom good enough isn't good enough. Every morning, hundreds of thousands of them wake up and start the day right here, together.</p>
+      <h2 class="sec-title">Not for everyone. <em class="key">By design.</em></h2>
+      <p class="sec-lead">Every morning, hundreds of thousands of strivers start the day right here, together. Here's how you know you're one of us.</p>
     </div>
-    <div class="tribe-collage reveal">
-      <!-- PLACEHOLDER: header-collage.jpg (real member faces). -->
-      <img src="header-collage.jpg" alt="A grid of DarrenDaily community members from around the world" loading="lazy">
-      <div class="tribe-overlay">
-        <p class="manifesto">We take risks. We step forward. We stay accountable and get made <em>better every day.</em> We're not for the settled or the satisfied, and if that lands with you, you're already one of us.</p>
-        <p class="welcome">There's a reason you found your way here. Embrace it, and welcome home.</p>
+    <div class="who-grid">
+      <div class="who-card who-card--for reveal reveal-left">
+        <h3>DarrenDaily is for you if&hellip;</h3>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You're a striver. For you, good enough is not good enough.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You have bold visions and audacious goals, and you back them with relentless, consistent action.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You take risks, step forward, and stand counted and accountable.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You'd rather invent your fate than accept the current state of affairs.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You know being an achiever is hard work. And you love the work.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You want to be pushed, prodded, and made Better Every Day.</span></div>
       </div>
+      <div class="who-card who-card--not reveal reveal-right">
+        <h3>It's not for you if&hellip;</h3>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You're content. Satisfied. Settled.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You go with the flow, bend with the wind, travel with the current.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You believe in luck. We make our own.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You're timid or faint of heart. That's most of the world, and that's okay.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>"Crazy" and "insane" sound like insults to you, not compliments.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You'd rather watch the people who change things than be one.</span></div>
+      </div>
+    </div>
+    <div class="who-close reveal">
+      <p>We are the crazy, hardworking believers who change things and push the human race forward. There's a reason you found your way here. Embrace it, and welcome home. <b>You have finally found your tribe.</b></p>
+      <a class="who-play" href="#preview" data-preview-open data-video="tribe" aria-haspopup="dialog">
+        <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ptext">Hear it from Darren himself</span>
+      </a>
     </div>
   </div>
 </section>
@@ -975,34 +1062,58 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <div class="lightbox-video">
-      <!-- PLACEHOLDER: replace this .lb-ph block with the real embed, e.g.
-           <iframe src="https://player.vimeo.com/video/XX\" allow="autoplay; fullscreen" allowfullscreen></iframe> -->
+      <!-- PLACEHOLDER: replace this .lb-ph block with the real embed on launch.
+           Two triggers open this lightbox, tagged data-video="episode" (sample episode)
+           and data-video="tribe" (Darren's manifesto video). Swap the embed src on open
+           via the data-video attribute once both videos have URLs, e.g.
+           <iframe src="https://player.vimeo.com/video/XX" allow="autoplay; fullscreen" allowfullscreen></iframe> -->
       <div class="lb-ph">
         <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
-        <p>Sample episode coming soon</p>
+        <p>Video coming soon</p>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  // Nav: transparent over the hero image, solid + Join button once it scrolls past
+  // Nav: transparent over the hero image, solid once it scrolls past (CTA always visible)
   (function () {
-    var cta = document.getElementById('navCta');
     var nav = document.querySelector('nav.top');
     var hero = document.querySelector('.hero');
-    if (!cta || !nav || !hero) return;
+    if (!nav || !hero) return;
     var ticking = false;
     function update() {
       ticking = false;
-      var past = hero.getBoundingClientRect().bottom <= 64;
-      nav.classList.toggle('solid', past);
-      cta.classList.toggle('show', past);
+      nav.classList.toggle('solid', hero.getBoundingClientRect().bottom <= 64);
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     update();
+  })();
+
+  // Count-up stats (BMCC-style): .cnt[data-count] animates from 0 when scrolled into view
+  (function () {
+    var els = document.querySelectorAll('.cnt[data-count]');
+    if (!els.length) return;
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !('IntersectionObserver' in window)) return; // markup already shows final values
+    var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
+    function animate(el) {
+      var end = parseFloat(el.dataset.count);
+      var t0 = performance.now();
+      (function tick(now) {
+        var p = Math.min((now - t0) / 1100, 1);
+        el.textContent = Math.round(ease(p) * end);
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { animate(entry.target); obs.unobserve(entry.target); }
+      });
+    }, { threshold: 0.45 });
+    els.forEach(function (el) { obs.observe(el); });
   })();
 
   // Scroll reveal
@@ -1128,16 +1239,6 @@
         rafPending = false;
       });
     }, { passive: true });
-  })();
-
-  // Pause marquee when off-screen
-  (function () {
-    var tracks = document.querySelectorAll('.marquee-track');
-    if (!tracks.length) return;
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { e.target.classList.toggle('paused', !e.isIntersecting); });
-    }, { rootMargin: '0px 0px 100px 0px' });
-    tracks.forEach(function (t) { obs.observe(t); });
   })();
 
   // Opt-in form - in-experience confirmation (wire #ddForm to HubSpot on launch)
