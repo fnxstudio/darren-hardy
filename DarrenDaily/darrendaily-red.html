@@ -179,11 +179,6 @@
   .hero-actions { display: flex; align-items: center; gap: 26px; margin-top: 34px; flex-wrap: wrap; }
   .hero-actions .btn-line { color: #fff; border-bottom-color: var(--azure); }
   .hero-actions .btn-line:hover { color: var(--azure); }
-  .hero-trust { display: inline-flex; align-items: stretch; margin-top: 38px; flex-wrap: wrap; border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius); overflow: hidden; background: rgba(255,255,255,0.07); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-  .hero-trust .titem { padding: 15px 20px; font-size: 12px; color: rgba(255,255,255,0.72); letter-spacing: 0.01em; line-height: 1.35; border-right: 1px solid rgba(255,255,255,0.2); }
-  .hero-trust .titem:last-child { border-right: none; }
-  .hero-trust .tnum { display: block; font-weight: 900; font-size: 22px; color: #fff; letter-spacing: -0.03em; margin-bottom: 3px; }
-  .hero-trust .titem.g .tnum { color: var(--azure); }
   @media (max-width: 980px) {
     .hero { min-height: 90vh; text-align: center; align-items: flex-end; padding: 100px 0 64px; }
     .hero-img { object-position: 66% center; }
@@ -344,11 +339,20 @@
   .vcard::after { content: ""; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--blue); transform: scaleY(0); transform-origin: top; transition: transform .3s var(--ease); }
   .vcard:hover { transform: translateY(-6px); box-shadow: 0 32px 62px -32px rgba(20,23,28,0.32); border-color: rgba(var(--blue-rgb), 0.5); }
   .vcard:hover::after { transform: scaleY(1); }
-  .vcard .vn { display: block; font-weight: 900; font-size: clamp(44px, 3.6vw, 58px); line-height: 1; color: rgba(var(--blue-rgb), 0.24); letter-spacing: -0.04em; }
+  .vcard .vn { display: block; font-weight: 900; font-size: clamp(54px, 4.4vw, 74px); line-height: 1; color: transparent; -webkit-text-stroke: 1.5px rgba(var(--blue-rgb), 0.45); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; transition: -webkit-text-stroke-color .35s ease; }
+  .vcard:hover .vn { -webkit-text-stroke-color: var(--blue); }
   .vcard h3 { font-size: 25px; font-weight: 800; margin: 10px 0 14px; letter-spacing: -0.025em; text-transform: uppercase; }
   .vcard p { font-size: 16px; line-height: 1.6; color: var(--muted); }
   .vcard em { color: var(--blue); font-style: normal; font-weight: 600; }
   @media (max-width: 720px) { .voice-grid { grid-template-columns: 1fr; gap: 16px; } }
+
+  /* ============ MID CTA BAND ============ */
+  .midcta { background: linear-gradient(120deg, var(--navy) 0%, var(--navy-2) 100%); padding: 76px 0; text-align: center; overflow: hidden; }
+  .midcta::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 90% at 50% 0%, rgba(var(--blue-rgb), 0.28), transparent 65%); }
+  .midcta .container { position: relative; z-index: 1; }
+  .midcta p { color: #fff; font-size: clamp(22px, 2.7vw, 36px); font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; text-wrap: balance; }
+  .midcta p em { font-style: normal; color: #f4b2b7; }
+  .midcta .btn { margin-top: 30px; }
 
   /* ============ WHY MORNING / RITUAL ============ */
   .morning-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: flex-start; }
@@ -511,11 +515,6 @@
         <a class="btn" href="#join">Start Tomorrow Morning <span class="arrow">&rarr;</span></a>
         <a class="btn-line" href="#about">How it works <span class="arrow">&rarr;</span></a>
       </div>
-      <div class="hero-trust">
-        <div class="titem g"><span class="tnum">350K+</span>achievers who refuse<br>to start the day blind</div>
-        <div class="titem"><span class="tnum">260</span>mornings a year,<br>five minutes each</div>
-        <div class="titem"><span class="tnum">0</span>ads. your attention<br>is never for sale</div>
-      </div>
     </div>
   </div>
 </section>
@@ -528,7 +527,7 @@
       <h2>Proximity is the <em>advantage</em>.</h2>
       <div class="bio-body">
         <p>The people who compound fastest aren't the ones with the most information. They're the ones standing closest to someone who has already seen it work.</p>
-        <p>DarrenDaily is built on 35 years of access no coach, consultant, or professor ever had: founding publisher of SUCCESS, in the confidence of the CEOs and founders everyone else only reads about.</p>
+        <p>DarrenDaily is built on a lifetime of that proximity: decades spent in the confidence of the CEOs and founders everyone else only reads about.</p>
         <p><b>It hands you that vantage, five minutes at a time.</b> Not the highlight reel, but one clear idea, distilled from patterns that took decades to see and made simple enough to use today.</p>
       </div>
     </div>
@@ -537,9 +536,9 @@
         <span class="flag">The whole point</span>
         <p class="bio-quote">The last thing you need is more information. What's rare is a <em>clear read on it</em>, and one idea worth acting on before the day starts.</p>
         <div class="bio-rows">
-          <div class="bio-row"><span class="rn">5<span style="font-size:.5em">min</span></span><span class="rl">One idea, distilled clean enough to act on before your first cup is finished.</span></div>
+          <div class="bio-row"><span class="rn">5<span style="font-size:.5em">min</span></span><span class="rl">One idea by private video. Watched, understood, done.</span></div>
           <div class="bio-row"><span class="rn">1</span><span class="rl">A single decision-grade move to install that day, not a framework to memorize.</span></div>
-          <div class="bio-row"><span class="rn">0</span><span class="rl">Ads, sponsors, or noise. Your attention is never for sale here.</span></div>
+          <div class="bio-row"><span class="rn">0</span><span class="rl">No ads, no sponsors, nothing to sell you. Just the idea.</span></div>
         </div>
       </div>
     </div>
@@ -554,10 +553,10 @@
       <h2>Five minutes. <em>Compounded.</em></h2>
     </div>
     <div class="numbers-grid stagger">
-      <div class="nstat"><div class="n"><b>350K+</b></div><div class="l">Driven achievers</div></div>
+      <div class="nstat"><div class="n"><b>350K+</b></div><div class="l">Driven business builders</div></div>
       <div class="nstat"><div class="n">5<b>min</b></div><div class="l">Every weekday</div></div>
       <div class="nstat"><div class="n">260</div><div class="l">Mornings a year</div></div>
-      <div class="nstat"><div class="n">500+</div><div class="l">Mornings together</div></div>
+      <div class="nstat"><div class="n">72<b>hr</b></div><div class="l">Until each idea expires</div></div>
       <div class="nstat"><div class="n"><b>0</b></div><div class="l">Ads. Ever.</div></div>
     </div>
   </div>
@@ -593,7 +592,7 @@
     <h2 class="intro-headline">Behind the covers, behind <em>closed doors.</em></h2>
     <div class="intro-body">
       <p>For 35 years, Darren sat at the center of the success media industry as founding publisher of SUCCESS. That seat opened doors no coach or consultant ever gets: the founders and self-made billionaires everyone else only studies took his call and shared the real playbook, not the PR version.</p>
-      <p>DarrenDaily hands you one idea from those playbooks, every weekday morning.</p>
+      <p>He didn't read about the people on these covers. He put them there.</p>
     </div>
     <div class="intro-stats">
       <div><div class="is-n">35 yrs</div><div class="is-l">At the center of it</div></div>
@@ -645,7 +644,7 @@
         <h3>A read from <em>behind closed doors</em></h3>
         <p class="lead">The interpretation, from someone the world's best actually let in.</p>
         <p class="item">Thirty-five years of watching the very best decide.</p>
-        <p class="item">The real playbook, not the PR version.</p>
+        <p class="item">What the best actually do, not what they post.</p>
         <p class="item">The pattern behind the noise, named plainly.</p>
         <p class="item">The one move worth making today, and why.</p>
         <p class="payoff">That's the whole point of DarrenDaily.</p>
@@ -704,6 +703,14 @@
         <p>The Friday Funnies. The occasional WTF. Because a morning should have some life in it: a calibration of mind <em>and</em> spirit, not a lecture.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============ MID CTA ============ -->
+<section class="midcta">
+  <div class="container reveal">
+    <p>Tomorrow's idea is already made.<br>It's <em>waiting on you.</em></p>
+    <a class="btn" href="#join">Start Tomorrow Morning <span class="arrow">&rarr;</span></a>
   </div>
 </section>
 
@@ -894,7 +901,7 @@
         <option value="student_other">Student, retired, other</option>
       </select>
       <button type="submit" class="btn">Start My Morning Edge <span class="arrow">&rarr;</span></button>
-      <p class="dd-micro">Join 350,000+ driven achievers. Free. Unsubscribe in one click. We never share your information, and we never run ads.</p>
+      <p class="dd-micro">Join 350,000+ driven business builders who refuse to start the day without an edge. Free. Unsubscribe in one click. We never share your information, and we never run ads.</p>
     </form>
 
     <div class="dd-thanks" id="ddThanks">
