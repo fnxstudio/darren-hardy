@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-hero="v5" data-headline="a">
+<html lang="en" data-hero="v5" data-headline="a" data-tw="blue">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -600,6 +600,13 @@
     <span class="admin-seg" data-toggle="headline">
       <button type="button" data-val="a" class="active">35 Years</button>
       <button type="button" data-val="b">Access</button>
+    </span>
+  </span>
+  <span class="admin-group"><span>Testimonials</span>
+    <span class="admin-seg" data-toggle="tw">
+      <button type="button" data-val="red">Red</button>
+      <button type="button" data-val="blue" class="active">Blue</button>
+      <button type="button" data-val="grey">Grey</button>
     </span>
   </span>
   <span class="admin-note">Not public. For DH review only.</span>
@@ -1328,12 +1335,18 @@
     function setH() { root.style.setProperty('--admin-h', bar.offsetHeight + 'px'); }
     setH();
     window.addEventListener('resize', setH);
+    function swapTestimonials(color) {
+      document.querySelectorAll('.tphoto img').forEach(function (img) {
+        img.src = img.src.replace(/-studio-(red|blue|grey)\.webp/, '-studio-' + color + '.webp');
+      });
+    }
     bar.querySelectorAll('.admin-seg').forEach(function (seg) {
-      var attr = 'data-' + seg.getAttribute('data-toggle'); // data-hero | data-headline
+      var toggle = seg.getAttribute('data-toggle'); // hero | headline | tw
       seg.querySelectorAll('button').forEach(function (b) {
         b.addEventListener('click', function () {
-          root.setAttribute(attr, b.getAttribute('data-val'));
+          root.setAttribute('data-' + toggle, b.getAttribute('data-val'));
           seg.querySelectorAll('button').forEach(function (x) { x.classList.toggle('active', x === b); });
+          if (toggle === 'tw') swapTestimonials(b.getAttribute('data-val'));
           window.dispatchEvent(new Event('resize')); // re-fit the tribe headline for the new metrics
         });
       });
