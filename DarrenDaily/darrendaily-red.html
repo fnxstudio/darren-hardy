@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-font="dh" data-hero="v5" data-headline="a">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,6 +41,11 @@
   @font-face {
     font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap;
     src: url(fonts/inter-latin-ext.woff2) format('woff2');
+  }
+  /* DD brand display face (darrendaily.com uses Oswald for headings). Loaded for the admin font toggle. */
+  @font-face {
+    font-family: 'Oswald'; font-style: normal; font-weight: 200 700; font-display: swap;
+    src: url(fonts/oswald.woff2) format('woff2');
   }
 
   :root {
@@ -286,6 +291,7 @@
   .bio-body p b { color: var(--ink); font-weight: 600; }
   .bio-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 24px 60px -34px rgba(20,23,28,0.5); padding: 64px 56px; position: relative; }
   .bio-card .bio-quote { font-size: clamp(24px, 2.6vw, 38px); font-weight: 900; letter-spacing: -0.025em; line-height: 1.18; color: var(--ink); margin: 0; }
+  .bio-card .bio-quote em { font-style: normal; color: var(--accent); }
   .bio-attrib { margin-top: 28px; }
   .bio-attrib-name { display: block; font-weight: 800; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); }
   .bio-attrib-src { display: block; margin-top: 5px; font-style: italic; font-size: 14px; color: var(--soft); }
@@ -406,7 +412,6 @@
   .rd-payoff p { font-size: clamp(16px, 1.5vw, 20px); color: var(--mist-on-dark); line-height: 1.6; }
   .rd-payoff p b { color: #fff; }
   .rd-payoff .btn { margin-top: 26px; }
-  .rd-urgency { margin-top: 18px; font-size: 14px; color: rgba(255,255,255,0.62); }
   .rd-photo { border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 40px 90px -40px rgba(0,0,0,0.8); }
   .rd-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 28%; display: block; }
   .apple-note { margin-top: 48px; padding: 26px 28px; border-radius: var(--radius); display: flex; gap: 18px; align-items: flex-start;
@@ -545,9 +550,73 @@
   .footer-bottom a:hover { color: #b7c1d3; }
   @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 34px; } .foot-brand { grid-column: 1 / -1; } }
   @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
+  /* ============ ADMIN PREVIEW (temporary — remove before public launch) ============ */
+  .admin-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    display: flex; align-items: center; gap: 12px 22px; flex-wrap: wrap;
+    padding: 8px 20px; background: #14171c; color: #fff;
+    font-family: 'Inter', sans-serif; box-shadow: 0 2px 12px rgba(0,0,0,0.35); }
+  .admin-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800;
+    letter-spacing: 0.14em; text-transform: uppercase; color: #ffce3a; }
+  .admin-tag::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #ffce3a; }
+  .admin-group { display: inline-flex; align-items: center; gap: 9px; }
+  .admin-group > span:first-child { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9aa2b0; }
+  .admin-seg { display: inline-flex; gap: 3px; padding: 3px; background: #22262e; border-radius: 8px; }
+  .admin-seg button { appearance: none; border: 0; background: transparent; color: #c7ccd6; cursor: pointer;
+    font: inherit; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 6px; transition: background .15s, color .15s; }
+  .admin-seg button:hover { color: #fff; }
+  .admin-seg button.active { background: var(--accent-bright); color: #fff; }
+  .admin-note { margin-left: auto; font-size: 11px; color: #6b7280; }
+  body.admin-on nav.top, body.admin-on nav.top.solid { top: var(--admin-h, 46px); }
+  @media (max-width: 820px) { .admin-note { display: none; } }
+
+  /* ---- Typeface toggle: DD brand uses Oswald for display/headings ---- */
+  :root[data-font="dd"] h1, :root[data-font="dd"] h2, :root[data-font="dd"] h3,
+  :root[data-font="dd"] .who-tribe, :root[data-font="dd"] .bio-quote,
+  :root[data-font="dd"] .n, :root[data-font="dd"] .is-n {
+    font-family: 'Oswald', sans-serif; font-weight: 700; letter-spacing: 0; }
+
+  /* ---- Hero image toggle (crossfade between the current shot and the garden options) ---- */
+  .hero-img { opacity: 0; transition: opacity .45s ease; }
+  :root[data-hero="v5"] .hero-v5,
+  :root[data-hero="chair1"] .hero-chair1,
+  :root[data-hero="chair3"] .hero-chair3 { opacity: 1; }
+  .hero-chair1, .hero-chair3 { object-position: 50% center; }
+  :root[data-hero="chair1"] .hero::after, :root[data-hero="chair3"] .hero::after {
+    background: linear-gradient(90deg, rgba(243,245,248,0.97) 0%, rgba(243,245,248,0.82) 30%, rgba(243,245,248,0.34) 50%, rgba(243,245,248,0) 66%); }
+  @media (max-width: 980px) { .hero-chair1, .hero-chair3 { object-position: 76% center; } }
+
+  /* ---- Headline toggle ---- */
+  .hl-b { display: none; }
+  :root[data-headline="b"] .hl-a { display: none; }
+  :root[data-headline="b"] .hl-b { display: block; }
 </style>
 </head>
 <body>
+
+<!-- ADMIN PREVIEW ONLY — temporary review scaffolding, remove before public launch -->
+<div class="admin-bar" id="adminBar">
+  <span class="admin-tag">Admin Preview Only</span>
+  <span class="admin-group"><span>Typeface</span>
+    <span class="admin-seg" data-toggle="font">
+      <button type="button" data-val="dh" class="active">DH &middot; Inter</button>
+      <button type="button" data-val="dd">DD &middot; Oswald</button>
+    </span>
+  </span>
+  <span class="admin-group"><span>Hero image</span>
+    <span class="admin-seg" data-toggle="hero">
+      <button type="button" data-val="v5" class="active">Current</button>
+      <button type="button" data-val="chair1">Garden &middot; Profile</button>
+      <button type="button" data-val="chair3">Garden &middot; Facing</button>
+    </span>
+  </span>
+  <span class="admin-group"><span>Headline</span>
+    <span class="admin-seg" data-toggle="headline">
+      <button type="button" data-val="a" class="active">35 Years</button>
+      <button type="button" data-val="b">Access</button>
+    </span>
+  </span>
+  <span class="admin-note">Not public. For DH review only.</span>
+</div>
 
 <!-- ============ NAV ============ -->
 <nav class="top">
@@ -562,11 +631,14 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <img class="hero-img" src="dd-hero-black-v5.webp" alt="Darren Hardy" width="2400" height="1340" fetchpriority="high">
+  <img class="hero-img hero-v5" src="dd-hero-black-v5.webp" alt="Darren Hardy" width="2400" height="1340" fetchpriority="high">
+  <img class="hero-img hero-chair1" src="hero-chair1.webp" alt="Darren Hardy" width="1926" height="1075" loading="lazy">
+  <img class="hero-img hero-chair3" src="hero-chair3.webp" alt="Darren Hardy" width="1926" height="1075" loading="lazy">
   <div class="container">
     <div class="hero-copy">
       <div class="eyebrow"><span class="pip"></span>Daily Mentoring with Darren Hardy</div>
-      <h1><span class="l2">35 Years Behind<br>Closed Doors<span class="dot">.</span></span><br>5 Minutes In<br>Your Morning.</h1>
+      <h1 class="hl-a"><span class="l2">35 Years Behind<br>Closed Doors<span class="dot">.</span></span><br>5 Minutes In<br>Your Morning.</h1>
+      <h1 class="hl-b"><span class="l2">Access To The<br>Inaccessible<span class="dot">.</span></span><br>Five Minutes<br>Every Morning.</h1>
       <p class="hero-sub"><b>One strategic idea, delivered every weekday morning.</b> Distilled from 35 years behind closed doors with the world's best. Straight. A little unusual. Occasionally uncomfortable. Small enough to install before the day gets going. <b>Free. Never a single ad.</b></p>
       <p class="hero-sub hero-sub-m"><b>One strategic idea, delivered every weekday morning.</b> From 35 years behind closed doors with the world's best. Straight. Occasionally uncomfortable. <b>Free. No ads.</b></p>
       <div class="hero-actions">
@@ -611,7 +683,7 @@
     </div>
     <div class="reveal reveal-right">
       <div class="bio-card">
-        <blockquote class="bio-quote">&ldquo;New or more information is not what you need. A new plan of action is.&rdquo;</blockquote>
+        <blockquote class="bio-quote">&ldquo;New or more information is not what you need. <em>A new plan of action is.</em>&rdquo;</blockquote>
         <div class="bio-attrib">
           <span class="bio-attrib-name">Darren Hardy</span>
           <span class="bio-attrib-src">The Compound Effect</span>
@@ -648,11 +720,11 @@
   </div>
   <div class="intro-text">
     <div class="eyebrow accent"><span class="pip"></span>The Vantage</div>
-    <h2 class="intro-headline">Behind the covers, behind <em>closed doors.</em></h2>
+    <h2 class="intro-headline">Behind the covers. Behind <em>closed doors.</em></h2>
     <div class="intro-body">
-      <p><b>For 35 years I sat at the centerpiece of the success media industry.</b> Founding publisher of SUCCESS magazine. Executive producer of three success-focused television networks.</p>
-      <p>Nearly every iconic founder and self-made billionaire who built something extraordinary from nothing took my call. They opened their vault doors. Not the PR version.</p>
-      <p>I didn't read about the people on these covers. I put them there.</p>
+      <p><b>For 35 years, Darren sat at the centerpiece of the success media industry.</b> Founding publisher of SUCCESS magazine. Executive producer of three success-focused television networks.</p>
+      <p>Nearly every iconic founder and self-made billionaire who built something extraordinary from nothing took his call. They opened their vault doors. Not the PR version.</p>
+      <p>He didn't read about the people on these covers. He put them there.</p>
     </div>
     <div class="intro-stats">
       <div><div class="is-n">35 yrs</div><div class="is-l">At the centerpiece of success</div></div>
@@ -758,7 +830,6 @@
           <p>That's not motivation. <b>It's calibration.</b></p>
           <p>The single highest-leverage five minutes of your day.</p>
           <a class="btn ondark" href="#join">Start My Mornings Now <span class="arrow">&rarr;</span></a>
-          <p class="rd-urgency">Every message expires in 72 hours. Miss it and it's gone.</p>
         </div>
       </div>
       <div class="rd-photo reveal reveal-right">
@@ -777,8 +848,8 @@
   <div class="container">
     <div class="tw-head reveal">
       <div class="eyebrow accent center"><span class="pip"></span>From The Community</div>
-      <h2>350,000 mornings, <em>one habit.</em></h2>
-      <p>Owners and leaders across every industry start the day the same way.</p>
+      <h2>350,000 mornings. <em>One habit.</em></h2>
+      <p>Owners and leaders across every industry start the day the same way. Different businesses, different stages, one shared five minutes before the world gets a vote.</p>
     </div>
     <!-- DEMO testimonials: real member photos (AI-restyled to the red studio look) + real names.
          QUOTES are placeholders. TITLES/COMPANIES are real for John Gluch, Zach Holmes,
@@ -892,7 +963,7 @@
     </div>
     <div class="who-close reveal">
       <p>We are the crazy, hardworking believers who change things and push the human race forward. There's a reason you read this far. Embrace it. Welcome home.</p>
-      <p class="who-tribe">You have finally found <em>your people.</em></p>
+      <p class="who-tribe">You have finally found <em>your tribe.</em></p>
     </div>
     <div class="dset-card reveal" id="preview">
       <!-- Darren's "who this is for" message. Play button opens the lightbox (swap in the real tribe/manifesto embed on launch). -->
@@ -1250,14 +1321,37 @@
       var avail = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       var w = el.scrollWidth;
       if (!w) return;
-      var size = 80 * (avail * 0.94) / w;
-      size = Math.max(14, Math.min(56, size));
+      var size = 80 * (avail * 0.92) / w;
+      size = Math.max(14, Math.min(40, size));
       el.style.fontSize = size + 'px';
     }
     fit();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     var t;
     window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fit, 80); });
+  })();
+</script>
+
+<script>
+  /* Admin preview toggles (temporary — remove with the .admin-bar markup before public launch) */
+  (function () {
+    var bar = document.getElementById('adminBar');
+    if (!bar) return;
+    document.body.classList.add('admin-on');
+    var root = document.documentElement;
+    function setH() { root.style.setProperty('--admin-h', bar.offsetHeight + 'px'); }
+    setH();
+    window.addEventListener('resize', setH);
+    bar.querySelectorAll('.admin-seg').forEach(function (seg) {
+      var attr = 'data-' + seg.getAttribute('data-toggle'); // data-font | data-hero
+      seg.querySelectorAll('button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          root.setAttribute(attr, b.getAttribute('data-val'));
+          seg.querySelectorAll('button').forEach(function (x) { x.classList.toggle('active', x === b); });
+          window.dispatchEvent(new Event('resize')); // re-fit the tribe headline for the new metrics
+        });
+      });
+    });
   })();
 </script>
 
