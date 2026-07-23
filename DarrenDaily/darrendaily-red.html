@@ -366,28 +366,25 @@
   @keyframes lbRise { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
 
   /* ============ WHAT YOU GET - pivot lead + styled numbered cards (inside the filter section) ============ */
-  /* ============ VOICE - "what it feels like" numbered spine (DarrenHardy.com ecosystem style) ============ */
-  .voice-spine { background: #0b0d10; color: #fff; padding: 120px 0; overflow: hidden; }
-  .voice-lead { text-align: center; max-width: 680px; margin: 0 auto; }
-  .voice-lead h3 { font-size: clamp(24px, 2.7vw, 40px); font-weight: 900; letter-spacing: -0.025em; text-transform: uppercase; color: #fff; }
-  .voice-lead h3 em { font-style: normal; color: var(--accent-bright); }
-  .voice-lead p { font-size: 17px; line-height: 1.55; color: rgba(255,255,255,0.58); margin-top: 12px; }
-  .spine { position: relative; max-width: 880px; margin: 68px auto 0; padding-left: 40px; }
-  .spine-track { position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: rgba(255,255,255,0.12); }
-  .spine-fill { position: absolute; left: 0; top: 0; width: 100%; height: 0; background: var(--accent-bright); }
-  .spine-row { position: relative; display: grid; grid-template-columns: clamp(90px, 11vw, 150px) 1fr; gap: clamp(18px, 4vw, 50px); align-items: center; padding: clamp(28px, 5vw, 52px) 0; }
-  .spine-row + .spine-row { border-top: 1px solid rgba(255,255,255,0.08); }
-  .spine-row::before { content: ""; position: absolute; left: -30px; top: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; border: 2px solid rgba(255,255,255,0.4); background: #0b0d10; z-index: 2; }
-  .spine-n { font-weight: 900; font-size: clamp(72px, 11vw, 150px); line-height: 0.82; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,0.22); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
-  .spine-c h3 { font-size: clamp(21px, 2.3vw, 30px); font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: #fff; margin: 0 0 12px; }
-  .spine-c p { font-size: clamp(15px, 1.3vw, 17px); line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0; max-width: 48ch; }
-  @media (max-width: 640px) {
-    .voice-spine { padding: 84px 0; }
-    .spine { padding-left: 30px; }
-    .spine-track { left: 6px; }
-    .spine-row { grid-template-columns: 1fr; gap: 8px; padding: 26px 0; }
-    .spine-row::before { left: -24px; }
-    .spine-n { font-size: 60px; }
+  /* ============ VOICE - "what it feels like" horizontal numbered spine (DarrenHardy.com ecosystem style) ============ */
+  .voice-spine { background: #0b0d10; color: #fff; padding: 104px 0; overflow: hidden; }
+  .spine { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 5vw, 60px); max-width: 1080px; margin: 0 auto; padding-top: 42px; }
+  .spine-track { position: absolute; top: 7px; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.12); }
+  .spine-fill { position: absolute; top: 0; left: 0; height: 100%; width: var(--fill, 0%); background: var(--accent-bright); }
+  .spine-row { position: relative; }
+  .spine-row::before { content: ""; position: absolute; top: -35px; left: 5px; transform: translate(-50%, -50%); width: 11px; height: 11px; border: 2px solid rgba(255,255,255,0.45); background: #0b0d10; z-index: 2; }
+  .spine-n { font-weight: 900; font-size: clamp(64px, 8vw, 116px); line-height: 0.9; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,0.22); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; margin-bottom: 16px; }
+  .spine-c h3 { font-size: clamp(19px, 1.9vw, 25px); font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: #fff; margin: 0 0 12px; }
+  .spine-c p { font-size: clamp(14.5px, 1.2vw, 16px); line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0; }
+  @media (max-width: 760px) {
+    .voice-spine { padding: 76px 0; }
+    .spine { grid-template-columns: 1fr; gap: 0; padding-top: 0; padding-left: 4px; }
+    .spine-track { top: 6px; bottom: 6px; left: 6px; right: auto; width: 2px; height: auto; }
+    .spine-fill { width: 2px; height: var(--fill, 0%); }
+    .spine-row { padding: 26px 0 26px 34px; }
+    .spine-row + .spine-row { border-top: 1px solid rgba(255,255,255,0.08); }
+    .spine-row::before { top: 44px; left: 6px; }
+    .spine-n { font-size: 58px; margin-bottom: 10px; }
   }
 
   /* ============ WHY MORNING / RITUAL (dark, BMCC secret-weapon style) ============ */
@@ -781,10 +778,6 @@
 <!-- ============ WHAT IT FEELS LIKE - numbered spine (DarrenHardy.com ecosystem style) ============ -->
 <section class="voice-spine">
   <div class="container">
-    <div class="voice-lead reveal">
-      <h3>Not information. <em>Clarity.</em></h3>
-      <p>One idea, made for the morning. Here's what five minutes actually feels like.</p>
-    </div>
     <div class="spine">
       <span class="spine-track" aria-hidden="true"><span class="spine-fill" id="spineFill"></span></span>
       <div class="spine-row reveal">
@@ -1386,8 +1379,8 @@
     function draw() {
       ticking = false;
       var r = spine.getBoundingClientRect();
-      var pct = (window.innerHeight * 0.6 - r.top) / r.height;
-      fill.style.height = Math.max(0, Math.min(1, pct)) * 100 + '%';
+      var pct = (window.innerHeight * 0.7 - r.top) / (window.innerHeight * 0.5);
+      fill.style.setProperty('--fill', Math.max(0, Math.min(1, pct)) * 100 + '%');
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }
     window.addEventListener('scroll', onScroll, { passive: true });
