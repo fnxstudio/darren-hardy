@@ -20,6 +20,12 @@
   src:url("hidden-profits-assets/fonts/Inter-Variable.woff2") format("woff2");
   font-weight:100 900; font-style:normal; font-display:swap;
 }
+/* metric-matched fallback so the swap to Inter causes no layout shift (CLS) */
+@font-face{
+  font-family:"Inter Fallback";
+  src:local("Arial");
+  ascent-override:90.44%; descent-override:22.52%; line-gap-override:0%; size-adjust:107.12%;
+}
 
 /* ---------- Design tokens ---------- */
 :root{
@@ -36,7 +42,7 @@
   --bg-black:#000000;
 
   --maxw:1200px;
-  --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  --font-sans:"Inter","Inter Fallback",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
 
 /* ---------- Reset ---------- */
@@ -356,11 +362,16 @@ button,input,select,textarea{font-family:inherit}
   .bio__content h2{font-size:40px}
 }
 @media (max-width:900px){
+  /* Mobile hero: DH image on top (above the fold), copy + CTA below */
+  .hero{min-height:0}
   .hero__grid{flex-direction:column;align-items:stretch;min-height:0}
-  .hero__copy{flex-basis:auto;max-width:none;align-self:auto;padding:64px 0 32px}
+  .hero__media{order:-1;width:100%;justify-content:center}
+  .hero__media img{width:100%;height:auto;max-height:34vh;object-fit:cover;object-position:50% 16%}
+  .hero__copy{flex-basis:auto;max-width:none;align-self:auto;padding:18px 0 26px}
+  .hero__eyebrow{margin-bottom:12px}
   .hero__eyebrow,.hero__sub{max-width:none}
-  .hero__media{width:100%;justify-content:center}
-  .hero__media img{width:100%;height:440px;object-fit:cover;object-position:top center}
+  .hero__sub{margin-bottom:22px}
+  .hero__tag{margin-bottom:14px}
   .whynow .section-head{text-align:center}
   /* bio: image becomes a top banner, copy stacks below on a solid panel */
   .bio{background:none;padding:0}
@@ -370,7 +381,7 @@ button,input,select,textarea{font-family:inherit}
 }
 @media (max-width:767px){
   body{font-size:16px}
-  .hero h1{font-size:40px}
+  .hero h1{font-size:33px}
   .section-head{font-size:34px;margin-bottom:36px}
   .briefing__head{font-size:34px}
   .bio__content h2{font-size:30px}
