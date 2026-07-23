@@ -366,23 +366,29 @@
   @keyframes lbRise { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
 
   /* ============ WHAT YOU GET - pivot lead + styled numbered cards (inside the filter section) ============ */
-  .voice-lead { text-align: center; margin-top: 108px; }
-  .voice-lead h3 { font-size: clamp(24px, 2.7vw, 40px); font-weight: 900; letter-spacing: -0.025em; text-transform: uppercase; }
-  .voice-lead h3 em { font-style: normal; color: var(--accent); }
-  .voice-lead p { font-size: 17px; line-height: 1.55; color: var(--muted); margin-top: 12px; }
-  .voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 44px; }
-  .vcard { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 44px 40px 46px; transition: transform .25s var(--ease), box-shadow .25s, border-color .25s; overflow: hidden; }
-  .vcard::after { content: ""; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform .3s var(--ease); }
-  .vcard:hover { transform: translateY(-6px); box-shadow: 0 32px 62px -32px rgba(20,23,28,0.32); border-color: rgba(var(--accent-rgb), 0.5); }
-  .vcard:hover::after { transform: scaleY(1); }
-  .vcard .vn { position: absolute; top: 50%; right: -10px; transform: translateY(-50%); font-weight: 900; font-size: clamp(140px, 14vw, 230px); line-height: 0.86; color: transparent; -webkit-text-stroke: 1px rgba(var(--accent-rgb), 0.10); letter-spacing: -0.06em; font-variant-numeric: tabular-nums; transition: -webkit-text-stroke-color .35s ease; pointer-events: none; user-select: none; }
-  .vcard:hover .vn { -webkit-text-stroke-color: rgba(var(--accent-rgb), 0.22); }
-  .vcard h3 { position: relative; z-index: 1; font-size: 25px; font-weight: 800; margin: 0 0 14px; letter-spacing: -0.025em; text-transform: uppercase; }
-  .vcard p { position: relative; z-index: 1; font-size: 16px; line-height: 1.6; color: var(--ink); }
-  .vcard .vfoot-star { color: var(--accent); font-weight: 700; }
-  .vcard .vfoot { position: relative; z-index: 1; margin-top: 16px; font-size: 12px; font-style: italic; color: var(--soft); }
-  .vcard em { color: var(--accent); font-style: normal; font-weight: 600; }
-  @media (max-width: 720px) { .voice-grid { grid-template-columns: 1fr; gap: 16px; } }
+  /* ============ VOICE - "what it feels like" numbered spine (DarrenHardy.com ecosystem style) ============ */
+  .voice-spine { background: #0b0d10; color: #fff; padding: 120px 0; overflow: hidden; }
+  .voice-lead { text-align: center; max-width: 680px; margin: 0 auto; }
+  .voice-lead h3 { font-size: clamp(24px, 2.7vw, 40px); font-weight: 900; letter-spacing: -0.025em; text-transform: uppercase; color: #fff; }
+  .voice-lead h3 em { font-style: normal; color: var(--accent-bright); }
+  .voice-lead p { font-size: 17px; line-height: 1.55; color: rgba(255,255,255,0.58); margin-top: 12px; }
+  .spine { position: relative; max-width: 880px; margin: 68px auto 0; padding-left: 40px; }
+  .spine-track { position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: rgba(255,255,255,0.12); }
+  .spine-fill { position: absolute; left: 0; top: 0; width: 100%; height: 0; background: var(--accent-bright); }
+  .spine-row { position: relative; display: grid; grid-template-columns: clamp(90px, 11vw, 150px) 1fr; gap: clamp(18px, 4vw, 50px); align-items: center; padding: clamp(28px, 5vw, 52px) 0; }
+  .spine-row + .spine-row { border-top: 1px solid rgba(255,255,255,0.08); }
+  .spine-row::before { content: ""; position: absolute; left: -30px; top: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; border: 2px solid rgba(255,255,255,0.4); background: #0b0d10; z-index: 2; }
+  .spine-n { font-weight: 900; font-size: clamp(72px, 11vw, 150px); line-height: 0.82; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,0.22); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+  .spine-c h3 { font-size: clamp(21px, 2.3vw, 30px); font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: #fff; margin: 0 0 12px; }
+  .spine-c p { font-size: clamp(15px, 1.3vw, 17px); line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0; max-width: 48ch; }
+  @media (max-width: 640px) {
+    .voice-spine { padding: 84px 0; }
+    .spine { padding-left: 30px; }
+    .spine-track { left: 6px; }
+    .spine-row { grid-template-columns: 1fr; gap: 8px; padding: 26px 0; }
+    .spine-row::before { left: -24px; }
+    .spine-n { font-size: 60px; }
+  }
 
   /* ============ WHY MORNING / RITUAL (dark, BMCC secret-weapon style) ============ */
   .ritual-dark { color: #fff; padding: 128px 0; overflow: hidden;
@@ -768,26 +774,38 @@
         <p class="payoff">That's the whole point of DarrenDaily.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============ WHAT IT FEELS LIKE - numbered spine (DarrenHardy.com ecosystem style) ============ -->
+<section class="voice-spine">
+  <div class="container">
     <div class="voice-lead reveal">
       <h3>Not information. <em>Clarity.</em></h3>
       <p>One idea, made for the morning. Here's what five minutes actually feels like.</p>
     </div>
-    <div class="voice-grid stagger">
-      <div class="vcard">
-        <div class="vn">01</div>
-        <h3>Straight, no fluff</h3>
-        <p>It lands the way a mentor puts it across the table. Direct. Honest. Every so often the thing you were hoping he wouldn't say.</p>
+    <div class="spine">
+      <span class="spine-track" aria-hidden="true"><span class="spine-fill" id="spineFill"></span></span>
+      <div class="spine-row reveal">
+        <div class="spine-n">01</div>
+        <div class="spine-c">
+          <h3>Straight, no fluff</h3>
+          <p>It lands the way a mentor puts it across the table. Direct. Honest. Every so often the thing you were hoping he wouldn't say.</p>
+        </div>
       </div>
-      <div class="vcard">
-        <div class="vn">02</div>
-        <h3>What others miss</h3>
-        <p>The angle you didn't consider. From someone who was in the room when the very best operated, cameras off. Some mornings it's a strategy. Some mornings it's a WTF.<span class="vfoot-star">*</span></p>
-        <p class="vfoot">*Wild Thought for Today</p>
+      <div class="spine-row reveal">
+        <div class="spine-n">02</div>
+        <div class="spine-c">
+          <h3>What others miss</h3>
+          <p>The angle you didn't consider. From someone who was in the room when the very best operated, cameras off.</p>
+        </div>
       </div>
-      <div class="vcard">
-        <div class="vn">03</div>
-        <h3>Complex made simple</h3>
-        <p>One idea. Cut clean enough to use before you finish your first cup. No framework to memorize. Just the move.</p>
+      <div class="spine-row reveal">
+        <div class="spine-n">03</div>
+        <div class="spine-c">
+          <h3>Complex made simple</h3>
+          <p>One idea. Cut clean enough to use before you finish your first cup. No framework to memorize. Just the move.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1354,6 +1372,26 @@
         });
       });
     });
+  })();
+</script>
+
+<script>
+  /* Scroll-draw the numbered spine (fills as the section passes the viewport) */
+  (function () {
+    var spine = document.querySelector('.spine');
+    var fill = document.getElementById('spineFill');
+    if (!spine || !fill) return;
+    var ticking = false;
+    function draw() {
+      ticking = false;
+      var r = spine.getBoundingClientRect();
+      var pct = (window.innerHeight * 0.6 - r.top) / r.height;
+      fill.style.height = Math.max(0, Math.min(1, pct)) * 100 + '%';
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    draw();
   })();
 </script>
 
