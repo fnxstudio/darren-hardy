@@ -48,7 +48,7 @@
     --mist:       #f3f5f8;
     --ink:        #14171c;
     --muted:      #545c68;
-    --soft:       #838d9b;
+    --soft:       #616a78;
     --line:       rgba(20, 23, 28, 0.12);
     --line-soft:  rgba(20, 23, 28, 0.07);
     --blue:       #a72632;
@@ -234,7 +234,6 @@
 
   /* ============ SECTION SCAFFOLD ============ */
   .sec { padding: 132px 0; }
-  .sec.paper { background: var(--paper); }
   .sec.mist  { background: var(--mist); }
   .sec-head { max-width: 760px; }
   .sec-head.center { margin: 0 auto; text-align: center; }
@@ -388,7 +387,7 @@
   .rd-n { display: block; font-weight: 800; font-size: 11px; letter-spacing: 0.22em; color: var(--azure); }
   .rd-step p { margin-top: 12px; font-size: 14px; line-height: 1.45; color: #fff; font-weight: 600; }
   .rd-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; padding-top: 34px; border-top: 1px solid rgba(255,255,255,0.14); }
-  .rd-h { font-weight: 800; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; }
+  .rd-h { font-weight: 800; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin: 0 0 16px; }
   .rd-h--without { color: rgba(255,255,255,0.45); }
   .rd-h--with { color: var(--azure); }
   .rd-compare p { font-size: 15.5px; line-height: 1.5; margin-bottom: 10px; }
@@ -451,7 +450,7 @@
   .tbody { padding: 24px 26px 28px; }
   .tquote { font-size: 15.5px; line-height: 1.55; color: #eaeef6; font-weight: 500; }
   .tname { margin-top: 18px; font-weight: 800; font-size: 14px; letter-spacing: 0.01em; color: #fff; }
-  .tname span { display: block; font-weight: 600; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft); margin-top: 4px; }
+  .tname span { display: block; font-weight: 600; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #a7b0bf; margin-top: 4px; }
   .trule { width: 30px; height: 3px; border-radius: 2px; background: var(--blue); margin-top: 18px; }
   @media (max-width: 900px) { .tw { padding: 84px 0; } .tw-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 600px) { .tw-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; } }
@@ -474,11 +473,6 @@
   .who-close p b { color: var(--ink); }
   .who-close .who-tribe { margin-top: 28px; font-size: clamp(24px, 2.7vw, 40px); font-weight: 900; letter-spacing: -0.025em; line-height: 1.12; text-transform: uppercase; color: var(--ink); text-wrap: balance; }
   .who-close .who-tribe em { font-style: normal; color: var(--blue); white-space: nowrap; }
-  .who-play { display: inline-flex; align-items: center; gap: 16px; margin-top: 30px; text-decoration: none; }
-  .who-play .pbtn { width: 60px; height: 60px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 34px -10px rgba(var(--blue-rgb), 0.7); transition: transform .2s var(--ease), background .2s; }
-  .who-play:hover .pbtn { transform: scale(1.06); background: var(--blue-deep); }
-  .who-play .pbtn svg { width: 20px; height: 20px; fill: #fff; margin-left: 3px; }
-  .who-play .ptext { color: var(--ink); font-weight: 800; font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase; }
   @media (max-width: 860px) { .who-grid { grid-template-columns: 1fr; } .who-card { padding: 40px 30px; } }
 
 
@@ -736,14 +730,14 @@
         </div>
         <div class="rd-compare">
           <div>
-            <h5 class="rd-h rd-h--without">Without It</h5>
+            <h3 class="rd-h rd-h--without">Without It</h3>
             <p>Scroll-fed mornings.</p>
             <p>Someone else's agenda first.</p>
             <p>Motivation that runs out.</p>
             <p>Reacting all day.</p>
           </div>
           <div>
-            <h5 class="rd-h rd-h--with">With DarrenDaily</h5>
+            <h3 class="rd-h rd-h--with">With DarrenDaily</h3>
             <p>One strong idea first.</p>
             <p>Calibrated, not motivated.</p>
             <p>A filter for the noise.</p>
@@ -891,10 +885,10 @@
 
     <form class="dd-form reveal" id="ddForm" novalidate>
       <div class="dd-row">
-        <input type="text" name="firstname" id="ddFirst" placeholder="First name *" autocomplete="given-name" required>
-        <input type="email" name="email" id="ddEmail" placeholder="Email *" autocomplete="email" required>
+        <input type="text" name="firstname" id="ddFirst" placeholder="First name *" aria-label="First name" autocomplete="given-name" required>
+        <input type="email" name="email" id="ddEmail" placeholder="Email *" aria-label="Email address" autocomplete="email" required>
       </div>
-      <select name="role" id="ddRole" required>
+      <select name="role" id="ddRole" aria-label="Your role" required>
         <option value="" disabled selected>Your role *</option>
         <option value="owner_0_500k">Business owner (revenue $0 to $500K)</option>
         <option value="owner_500k_1m">Business owner (revenue $500K to $1M)</option>
@@ -975,7 +969,7 @@
 <!-- ============ PREVIEW LIGHTBOX (placeholder video) ============ -->
 <div class="lightbox" id="previewLightbox" aria-hidden="true">
   <div class="lightbox-backdrop" data-lb-close></div>
-  <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="DarrenDaily episode preview">
+  <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Darren Hardy's message">
     <button class="lightbox-close" type="button" data-lb-close aria-label="Close preview">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
