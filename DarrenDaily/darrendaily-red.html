@@ -151,12 +151,14 @@
 
   /* ============ NAV ============ */
   nav.top {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+    /* absolute at the top so the logo scrolls away with the hero (no overlap); becomes fixed once solid */
+    position: absolute; top: 0; left: 0; right: 0; z-index: 60;
     display: flex; align-items: center; justify-content: space-between; padding: 20px 40px;
     background: transparent; border-bottom: 1px solid transparent; box-shadow: none;
     transition: background .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease), padding .3s var(--ease);
   }
   nav.top.solid {
+    position: fixed;
     padding: 14px 40px;
     background: #fff;
     border-bottom: 1px solid var(--line);
@@ -208,7 +210,7 @@
   @media (max-width: 980px) {
     /* Overlay on mobile: text sits over DH's dark suit, so go white + soft text-shadow -> no scrim, no haze */
     .hero { min-height: 92vh; align-items: flex-end; padding: 120px 0 78px; }
-    .hero-img { object-position: 60% center; }
+    .hero-img { object-position: 82% center; }
     .hero::after { display: none; }
     .hero .eyebrow { color: var(--azure); }
     .hero .eyebrow .pip { background: var(--azure); }
@@ -268,7 +270,7 @@
   .intro-body p:last-child { margin-bottom: 0; }
   .intro-stats { display: flex; gap: 30px; margin-top: 34px; flex-wrap: wrap; }
   .intro-stats .is-n { font-weight: 900; font-size: clamp(22px, 2vw, 28px); letter-spacing: -0.04em; color: var(--blue); line-height: 0.9; }
-  .intro-stats .is-l { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft); margin-top: 7px; max-width: 120px; line-height: 1.35; }
+  .intro-stats .is-l { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft); margin-top: 7px; white-space: nowrap; line-height: 1.35; }
 
   /* ============ BIO / PROXIMITY ============ */
   .bio { background: var(--mist); padding: 132px 0; }
@@ -293,6 +295,9 @@
 
   /* ============ FILTER: MORE / SHARPER READ ============ */
   .filter { background: var(--mist); padding: 128px 0; position: relative; }
+  /* Let this headline span the section width on desktop instead of stacking narrow */
+  .filter .sec-head { max-width: 1200px; }
+  .filter .sec-title { font-size: clamp(36px, 6vw, 82px); }
   .filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; position: relative; }
   .fbox { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 54px 46px; box-shadow: 0 2px 18px rgba(20,23,28,0.05); display: flex; flex-direction: column; }
   .fbox--noise { background: rgba(255,255,255,0.55); }
@@ -467,8 +472,9 @@
   .who-mark { font-weight: 900; flex-shrink: 0; }
   .who-card--for .who-mark { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; margin-top: 1px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 12px; line-height: 1; }
   .who-card--not .who-mark { color: rgba(255,255,255,0.4); }
-  .who-close { text-align: center; max-width: 680px; margin: 60px auto 0; }
+  .who-close { text-align: center; max-width: none; margin: 60px auto 0; }
   .who-close p { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; color: var(--muted); }
+  .who-close > p:not(.who-tribe) { max-width: 680px; margin-left: auto; margin-right: auto; }
   .who-close p b { color: var(--ink); }
   .who-close .who-tribe { margin-top: 28px; font-size: clamp(20px, 4.4vw, 52px); font-weight: 900; letter-spacing: -0.025em; line-height: 1.12; text-transform: uppercase; color: var(--ink); white-space: nowrap; }
   .who-close .who-tribe em { font-style: normal; color: var(--blue); white-space: nowrap; }
@@ -579,9 +585,9 @@
     <div class="numbers-grid stagger">
       <div class="nstat"><div class="n"><span class="cnt" data-count="350">350</span>K<b>+</b></div><div class="l">Driven business builders</div></div>
       <div class="nstat"><div class="n"><span class="cnt" data-count="5">5</span><b>min</b></div><div class="l">Every weekday</div></div>
+      <div class="nstat"><div class="n"><b>0</b></div><div class="l">Ads. Always.</div></div>
       <div class="nstat"><div class="n"><span class="cnt" data-count="260">260</span></div><div class="l">Mornings a year</div></div>
       <div class="nstat"><div class="n"><span class="cnt" data-count="3214">3,214</span><b>+</b></div><div class="l">Unique insights delivered</div></div>
-      <div class="nstat"><div class="n"><b>0</b></div><div class="l">Ads. Always.</div></div>
     </div>
   </div>
 </section>
