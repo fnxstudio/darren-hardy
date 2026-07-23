@@ -360,7 +360,7 @@
   .voice-lead h3 { font-size: clamp(24px, 2.7vw, 40px); font-weight: 900; letter-spacing: -0.025em; text-transform: uppercase; }
   .voice-lead h3 em { font-style: normal; color: var(--blue); }
   .voice-lead p { font-size: 17px; line-height: 1.55; color: var(--muted); margin-top: 12px; }
-  .voice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 44px; }
+  .voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 44px; }
   .vcard { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 44px 40px 46px; transition: transform .25s var(--ease), box-shadow .25s, border-color .25s; overflow: hidden; }
   .vcard::after { content: ""; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--blue); transform: scaleY(0); transform-origin: top; transition: transform .3s var(--ease); }
   .vcard:hover { transform: translateY(-6px); box-shadow: 0 32px 62px -32px rgba(20,23,28,0.32); border-color: rgba(var(--blue-rgb), 0.5); }
@@ -442,10 +442,9 @@
   .tw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .tcard { position: relative; background: var(--navy-2); border: 1px solid rgba(255,255,255,0.10); border-radius: 8px; overflow: hidden; box-shadow: 0 26px 54px -30px rgba(20,23,28,0.45); transition: transform .25s var(--ease), border-color .25s; }
   .tcard:hover { transform: translateY(-5px); border-color: rgba(var(--blue-rgb), 0.55); }
-  .tphoto { position: relative; aspect-ratio: 1 / 0.68; overflow: hidden; background: radial-gradient(ellipse 90% 82% at 50% 30%, rgba(var(--blue-rgb),0.62) 0%, rgba(var(--blue-rgb),0.12) 46%, transparent 74%), var(--navy-2); }
-  .tphoto::before { content: none; }
-  .tphoto img { position: relative; z-index: 1; width: 100%; display: block; -webkit-mask-image: radial-gradient(ellipse 72% 78% at 50% 40%, #000 54%, transparent 90%); mask-image: radial-gradient(ellipse 72% 78% at 50% 40%, #000 54%, transparent 90%); }
-  .tphoto::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, transparent 60%, var(--navy-2) 100%); }
+  .tphoto { position: relative; aspect-ratio: 1 / 0.72; overflow: hidden; background: var(--navy-2); }
+  .tphoto img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
+  .tphoto::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, transparent 72%, var(--navy-2) 100%); }
   .tchip { position: absolute; top: 14px; right: 14px; z-index: 3; font-weight: 800; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--azure); padding: 6px 11px; border-radius: var(--radius); border: 1px solid rgba(var(--blue-rgb),0.85); background: rgba(10,14,24,0.35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
   .tbody { padding: 24px 26px 28px; }
   .tquote { font-size: 15.5px; line-height: 1.55; color: #eaeef6; font-weight: 500; }
@@ -706,11 +705,6 @@
         <h3>Complex made simple</h3>
         <p>One idea, distilled clean enough to act on before you've finished your first cup. No frameworks to memorize. Just the move.</p>
       </div>
-      <div class="vcard">
-        <div class="vn">04</div>
-        <h3>A little quirky</h3>
-        <p>The Friday Funnies. The occasional WTF. Because a morning should have some life in it: a calibration of mind <em>and</em> spirit, not a lecture.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -769,56 +763,81 @@
       <h2>350,000 mornings, <em>one habit.</em></h2>
       <p>Owners, operators, and leaders across every industry start the day the same way.</p>
     </div>
-    <!-- DEMO testimonial copy: real member photos + names + industries, but the
-         QUOTES are placeholders. Replace each with the member's actual words
-         (and confirm consent) before publishing. -->
+    <!-- DEMO testimonials: real member photos (AI-restyled to the red studio look) + real names.
+         QUOTES are placeholders. TITLES/COMPANIES are real for John Gluch, Zach Holmes,
+         Dave Koepsell and Thomas Petersen; the rest are placeholders. Replace quotes and
+         verify every title/company (with consent) before publishing. -->
     <div class="tw-grid stagger">
       <article class="tcard">
-        <div class="tphoto"><span class="tchip">Real Estate</span><img src="hc-members/John-Gluch.jpg" alt="John Gluch" loading="lazy"></div>
+        <div class="tphoto"><span class="tchip">Real Estate</span><img src="hc-members/John-Gluch-studio.webp" alt="John Gluch" loading="lazy"></div>
         <div class="tbody">
           <p class="tquote">"Five minutes before the noise of the day, and I walk into every appointment sharper. It's the one habit I protect."</p>
           <div class="trule"></div>
-          <div class="tname">John Gluch<span>Real Estate</span></div>
+          <div class="tname">John Gluch<span>Founder &middot; The Gluch Group</span></div>
         </div>
       </article>
       <article class="tcard">
-        <div class="tphoto"><span class="tchip">Medical &amp; Wellness</span><img src="hc-members/Teresa-DiGiuseppe.jpg" alt="Teresa DiGiuseppe" loading="lazy"></div>
+        <div class="tphoto"><span class="tchip">Medical &amp; Wellness</span><img src="hc-members/Teresa-DiGiuseppe-studio.webp" alt="Teresa DiGiuseppe" loading="lazy"></div>
         <div class="tbody">
           <p class="tquote">"I've started my morning here for years. The compounding is real, in my business and in how I lead my team."</p>
           <div class="trule"></div>
-          <div class="tname">Teresa DiGiuseppe<span>Medical &amp; Wellness</span></div>
+          <div class="tname">Teresa DiGiuseppe<span>Founder &middot; Wellness Practice</span></div>
         </div>
       </article>
       <article class="tcard">
-        <div class="tphoto"><span class="tchip">Mortgage</span><img src="hc-members/Kelly-Cort.jpg" alt="Kelly Cort" loading="lazy"></div>
+        <div class="tphoto"><span class="tchip">Mortgage</span><img src="hc-members/Kelly-Cort-studio.webp" alt="Kelly Cort" loading="lazy"></div>
         <div class="tbody">
           <p class="tquote">"No fluff, no hype, just one idea I can actually use that day. It reset how I run my mornings."</p>
           <div class="trule"></div>
-          <div class="tname">Kelly Cort<span>Mortgage Services</span></div>
+          <div class="tname">Kelly Cort<span>Loan Officer &middot; Mortgage Group</span></div>
         </div>
       </article>
       <article class="tcard">
-        <div class="tphoto"><span class="tchip">Real Estate</span><img src="hc-members/Heather-Roxburgh.jpg" alt="Heather Roxburgh" loading="lazy"></div>
+        <div class="tphoto"><span class="tchip">Real Estate</span><img src="hc-members/Heather-Roxburgh-studio.webp" alt="Heather Roxburgh" loading="lazy"></div>
         <div class="tbody">
           <p class="tquote">"It's like having a mentor in my corner every single morning. My team can tell which days I've watched."</p>
           <div class="trule"></div>
-          <div class="tname">Heather Roxburgh<span>Real Estate</span></div>
+          <div class="tname">Heather Roxburgh<span>Broker &middot; Real Estate Group</span></div>
         </div>
       </article>
       <article class="tcard">
-        <div class="tphoto"><span class="tchip">Dog Training</span><img src="hc-members/Michael-Soler.jpg" alt="Michael Soler" loading="lazy"></div>
+        <div class="tphoto"><span class="tchip">Dog Training</span><img src="hc-members/Michael-Soler-studio.webp" alt="Michael Soler" loading="lazy"></div>
         <div class="tbody">
           <p class="tquote">"I came for strategy and stayed for the mindset. Five minutes that quietly changed the trajectory of my company."</p>
           <div class="trule"></div>
-          <div class="tname">Michael Soler<span>Dog Training</span></div>
+          <div class="tname">Michael Soler<span>Founder &middot; Dog Training Co.</span></div>
         </div>
       </article>
       <article class="tcard">
-        <div class="tphoto"><span class="tchip">Mortgage</span><img src="hc-members/Dan-Page.jpg" alt="Dan Page" loading="lazy"></div>
+        <div class="tphoto"><span class="tchip">Mortgage</span><img src="hc-members/Dan-Page-studio.webp" alt="Dan Page" loading="lazy"></div>
         <div class="tbody">
           <p class="tquote">"The only thing I read before the market opens. It keeps me thinking like an owner, not an operator."</p>
           <div class="trule"></div>
-          <div class="tname">Dan Page<span>Mortgage Services</span></div>
+          <div class="tname">Dan Page<span>Loan Officer &middot; Mortgage Group</span></div>
+        </div>
+      </article>
+      <article class="tcard">
+        <div class="tphoto"><span class="tchip">Medical Device</span><img src="hc-members/Zach-Holmes-studio.webp" alt="Zach Holmes" loading="lazy"></div>
+        <div class="tbody">
+          <p class="tquote">"One clear idea before the noise, and I lead my team sharper all day. It's the five minutes I never skip."</p>
+          <div class="trule"></div>
+          <div class="tname">Zach Holmes<span>CEO &middot; Right Coast Medical</span></div>
+        </div>
+      </article>
+      <article class="tcard">
+        <div class="tphoto"><span class="tchip">Restaurant</span><img src="hc-members/Dave-Koepsell-studio.webp" alt="Dave Koepsell" loading="lazy"></div>
+        <div class="tbody">
+          <p class="tquote">"No hype, just a read I can act on that morning. It changed how I run every shift."</p>
+          <div class="trule"></div>
+          <div class="tname">Dave Koepsell<span>Owner &middot; Chick-fil-A Franchise</span></div>
+        </div>
+      </article>
+      <article class="tcard">
+        <div class="tphoto"><span class="tchip">Construction</span><img src="hc-members/Thomas-Petersen-studio.webp" alt="Thomas Petersen" loading="lazy"></div>
+        <div class="tbody">
+          <p class="tquote">"Five minutes that set the tone for the whole build day. I don't start without it."</p>
+          <div class="trule"></div>
+          <div class="tname">Thomas Petersen<span>President &middot; SportProsUSA</span></div>
         </div>
       </article>
     </div>
