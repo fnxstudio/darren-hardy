@@ -359,10 +359,11 @@ button,input,select,textarea{font-family:inherit}
   /* Mobile hero: DH fills the frame; eyebrow pinned top, copy overlaid over a bottom scrim */
   .hero{min-height:94vh}
   .hero__grid{display:block;min-height:0}
-  .hero__media{position:absolute;inset:0;width:100%;height:100%;z-index:0;justify-content:center}
+  /* portrait pushed down so the eyebrow gets its own dark strip above DH's head */
+  .hero__media{position:absolute;top:84px;left:0;right:0;bottom:0;z-index:0;justify-content:center}
   .hero__media img{width:100%;height:100%;object-fit:cover;object-position:50% top}
   .hero::after{content:"";position:absolute;inset:0;z-index:1;
-    background:linear-gradient(180deg,rgba(6,4,10,.55) 0%,rgba(6,4,10,.10) 18%,rgba(6,4,10,.05) 34%,rgba(6,4,10,.58) 52%,rgba(6,4,10,.86) 74%,rgba(6,4,10,.97) 100%)}
+    background:linear-gradient(180deg,rgba(6,4,10,.96) 0%,rgba(6,4,10,.9) 6%,rgba(6,4,10,.35) 13%,rgba(6,4,10,.06) 30%,rgba(6,4,10,.05) 40%,rgba(6,4,10,.58) 55%,rgba(6,4,10,.86) 76%,rgba(6,4,10,.97) 100%)}
   .hero__copy{position:relative;z-index:2;display:flex;flex-direction:column;min-height:94vh;
     max-width:none;align-self:auto;padding:44px 0 34px}
   /* order on mobile: eyebrow, tag, headline, sub, CTA */
@@ -370,7 +371,7 @@ button,input,select,textarea{font-family:inherit}
   .hero__tag{order:2;margin-top:38vh}   /* head-safe reserve — copy can't climb over DH's face */
   .hero h1{order:3}
   .hero__sub{order:4}
-  .btn-cta{order:5}
+  .btn-cta{order:5;align-self:flex-start;text-align:center}   /* not full-width; label centered */
   .hero__eyebrow,.hero__sub{max-width:none}
   .whynow .section-head{text-align:center}
   /* bio: image becomes a top banner, copy stacks below on a solid panel */
