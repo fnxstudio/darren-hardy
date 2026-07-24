@@ -362,13 +362,15 @@
 
   /* ============ WHAT YOU GET - pivot lead + styled numbered cards (inside the filter section) ============ */
   /* ============ VOICE - "what it feels like" horizontal numbered spine (DarrenHardy.com ecosystem style) ============ */
-  .voice-spine { background: var(--mist); color: var(--ink); padding: 104px 0; overflow: hidden; }
+  .voice-spine { background: var(--mist); color: var(--ink); padding: 56px 0 96px; overflow: hidden; }
   .spine { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 5vw, 60px); max-width: 1080px; margin: 0 auto; padding-top: 42px; }
   .spine-track { position: absolute; top: 7px; left: 0; right: 0; height: 2px; background: rgba(20,23,28,0.14); }
   .spine-fill { position: absolute; top: 0; left: 0; height: 100%; width: var(--fill, 0%); background: var(--accent); }
   .spine-row { position: relative; }
   .spine-row::before { content: ""; position: absolute; top: -35px; left: 5px; transform: translate(-50%, -50%); width: 11px; height: 11px; border: 2px solid rgba(20,23,28,0.3); background: var(--mist); z-index: 2; }
-  .spine-n { font-weight: 900; font-size: clamp(64px, 8vw, 116px); line-height: 0.9; color: transparent; -webkit-text-stroke: 1.5px rgba(20,23,28,0.16); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; margin-bottom: 16px; }
+  .spine-n { font-weight: 900; font-size: clamp(64px, 8vw, 116px); line-height: 0.9; color: transparent; -webkit-text-stroke: 1.5px rgba(20,23,28,0.16); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; margin-bottom: 16px; transition: -webkit-text-stroke-color .45s ease; }
+  .spine-row.lit .spine-n { -webkit-text-stroke-color: rgba(var(--accent-rgb), 0.7); }
+  .spine-row.lit::before { border-color: var(--accent); }
   .spine-c h3 { font-size: clamp(19px, 1.9vw, 25px); font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: var(--ink); margin: 0 0 12px; }
   .spine-c p { font-size: clamp(14.5px, 1.2vw, 16px); line-height: 1.6; color: var(--muted); margin: 0; }
   @media (max-width: 760px) {
@@ -716,6 +718,7 @@
       <div><div class="is-n">35 yrs</div><div class="is-l">At the center of success</div></div>
       <div><div class="is-n">11,000+</div><div class="is-l">Businesses tested</div></div>
       <div><div class="is-n">SUCCESS</div><div class="is-l">Founding publisher</div></div>
+      <div><div class="is-n">SUCCESS TV</div><div class="is-l">Executive producer</div></div>
     </div>
     <div class="seals" aria-label="Awards and bestseller recognition">
       <img class="seal" src="seals/seal-dd.webp" alt="Award-Winning, Top 10 Personal Development Blog, DarrenDaily" loading="lazy">
@@ -754,8 +757,9 @@
         <p class="item">35 years in the room as the very best decided.</p>
         <p class="item">What they actually do. Not what they post.</p>
         <p class="item">The pattern behind the noise. Named plainly.</p>
+        <p class="item">The essential decision hiding in plain sight.</p>
         <p class="item">The one move worth making today. And why.</p>
-        <p class="payoff">That's the whole point of DarrenDaily.</p>
+        <p class="payoff">That's why DarrenDaily exists.</p>
       </div>
     </div>
   </div>
@@ -937,22 +941,23 @@
     <div class="who-grid">
       <div class="who-card who-card--for reveal reveal-left">
         <h3>DarrenDaily is for you if&hellip;</h3>
-        <div class="who-item"><span class="who-mark">&#10003;</span><span>You've already built something real. You're nowhere near done.</span></div>
-        <div class="who-item"><span class="who-mark">&#10003;</span><span>You're a striver. Good enough has never been good enough.</span></div>
-        <div class="who-item"><span class="who-mark">&#10003;</span><span>You have bold visions and audacious goals. You back them with relentless action.</span></div>
-        <div class="who-item"><span class="who-mark">&#10003;</span><span>You take risks. You step forward. You stand counted and accountable.</span></div>
-        <div class="who-item"><span class="who-mark">&#10003;</span><span>You'd rather invent your fate than accept the current one.</span></div>
-        <div class="who-item"><span class="who-mark">&#10003;</span><span>Being an achiever is hard work. You love the work.</span></div>
-        <div class="who-item"><span class="who-mark">&#10003;</span><span>You want to be pushed, prodded, and made Better Every Day.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You know your next level requires better decisions.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You're a learner, but want better clarity, faster.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You want the truth, not empty motivation.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You value perspective earned, not opinions.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You want unique insight and the move that matters now.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You're willing to act on what you learn.</span></div>
+        <div class="who-item"><span class="who-mark">&#10003;</span><span>You want a daily ignition to grow better every day.</span></div>
       </div>
       <div class="who-card who-card--not reveal reveal-right">
         <h3>It's not for you if&hellip;</h3>
-        <div class="who-item"><span class="who-mark">&times;</span><span>You're content. Satisfied. Settled.</span></div>
-        <div class="who-item"><span class="who-mark">&times;</span><span>You go with the flow. You bend with the wind. You travel with the current.</span></div>
-        <div class="who-item"><span class="who-mark">&times;</span><span>You believe in luck. We make our own.</span></div>
-        <div class="who-item"><span class="who-mark">&times;</span><span>You're timid or faint of heart. That's most of the world, and that's okay.</span></div>
-        <div class="who-item"><span class="who-mark">&times;</span><span>"Crazy" and "insane" sound like insults to you. Not compliments.</span></div>
-        <div class="who-item"><span class="who-mark">&times;</span><span>You'd rather watch the people who change things than be one.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You want inspiration without action.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You want more content, not greater clarity.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You want your thinking confirmed, not challenged.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You prefer shortcuts, hacks, and overnight answers.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You collect ideas but rarely apply them.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You blame circumstances instead of making decisions.</span></div>
+        <div class="who-item"><span class="who-mark">&times;</span><span>You're satisfied with where you are.</span></div>
       </div>
     </div>
     <div class="who-close reveal">
@@ -1361,12 +1366,19 @@
     var spine = document.querySelector('.spine');
     var fill = document.getElementById('spineFill');
     if (!spine || !fill) return;
+    var rows = spine.querySelectorAll('.spine-row');
     var ticking = false;
     function draw() {
       ticking = false;
       var r = spine.getBoundingClientRect();
-      var pct = (window.innerHeight * 0.7 - r.top) / (window.innerHeight * 0.5);
-      fill.style.setProperty('--fill', Math.max(0, Math.min(1, pct)) * 100 + '%');
+      var pct = Math.max(0, Math.min(1, (window.innerHeight * 0.7 - r.top) / (window.innerHeight * 0.5)));
+      fill.style.setProperty('--fill', pct * 100 + '%');
+      var horizontal = window.innerWidth > 760;
+      var lead = horizontal ? (r.left + pct * r.width) : (r.top + pct * r.height);
+      rows.forEach(function (row) {
+        var b = row.getBoundingClientRect();
+        row.classList.toggle('lit', lead >= (horizontal ? b.left : b.top) + 2);
+      });
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }
     window.addEventListener('scroll', onScroll, { passive: true });
