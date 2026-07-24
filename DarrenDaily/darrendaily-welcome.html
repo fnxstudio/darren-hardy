@@ -224,7 +224,7 @@
   .wv-cap { text-align: center; font-size: 13.5px; color: rgba(255,255,255,0.74); margin-top: 20px; letter-spacing: 0.02em; text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
   @media (max-width: 720px) { .video-frame { margin-top: 28px; box-shadow: 0 0 0 4px #fff, 0 30px 70px -28px rgba(0,0,0,0.7); } .video-frame .vf-play { width: 68px; height: 68px; } .video-frame .vf-play svg { width: 24px; height: 24px; } }
 
-  /* Hero scroll cue -> jumps to the Expiring Soon episodes */
+  /* Hero scroll cue -> jumps to the Expiring Soon sessions */
   .hero-cue { display: inline-flex; flex-direction: column; align-items: center; gap: 10px; margin: 38px auto 0; text-decoration: none; text-align: center;
     opacity: 0; animation: heroUp 1s var(--ease) 1s forwards; }
   .hero-cue-text { font-weight: 800; font-size: 12px; letter-spacing: 0.13em; text-transform: uppercase; color: #fff; max-width: 340px; line-height: 1.5;
@@ -247,43 +247,41 @@
   .tw-proof .proof-line b { color: var(--ink); font-weight: 700; }
   @media (max-width: 480px) { .tw-proof .proof-avatars img { width: 46px; height: 46px; } }
 
-  /* ============ WHAT HAPPENS NEXT (dark band, numbered timeline) ============ */
-  .next { position: relative; overflow: hidden; padding: 128px 0; color: #fff;
-    background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(var(--accent-rgb),0.30), transparent 62%), linear-gradient(165deg, var(--dark) 0%, var(--dark-2) 100%); }
+  /* ============ WHAT HAPPENS NEXT (light, numbered timeline) ============ */
+  .next { position: relative; overflow: hidden; padding: 124px 0; background: var(--mist); }
   .next .container { position: relative; z-index: 1; }
   .next-head { text-align: center; max-width: 820px; margin: 0 auto 66px; }
   .next-head .eyebrow { justify-content: center; }
-  .next-head h2 { color: #fff; font-size: clamp(32px, 4.2vw, 60px); text-transform: uppercase; margin-top: 20px; text-wrap: balance; }
-  .next-head h2 em { font-style: normal; color: var(--accent-bright); }
+  .next-head h2 { color: var(--ink); font-size: clamp(32px, 4.2vw, 60px); text-transform: uppercase; margin-top: 20px; text-wrap: balance; }
+  .next-head h2 em { font-style: normal; color: var(--accent); }
   /* horizontal timeline: rail + scroll-drawn fill, giant milestone numbers, node dots */
   .steps { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(30px, 5vw, 64px); max-width: 1040px; margin: 0 auto; padding-top: 46px; }
-  .steps-rail { position: absolute; top: 6px; left: 7%; right: 7%; height: 3px; border-radius: 3px; background: rgba(255,255,255,0.14); overflow: hidden; }
-  .steps-rail::after { content: ""; position: absolute; inset: 0; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-bright)); transition: width 1.4s var(--ease); }
+  .steps-rail { position: absolute; top: 6px; left: 7%; right: 7%; height: 3px; border-radius: 3px; background: rgba(var(--accent-rgb),0.16); overflow: hidden; }
+  .steps-rail::after { content: ""; position: absolute; inset: 0; width: 0; background: var(--accent); transition: width 1.4s var(--ease); }
   .steps.in .steps-rail::after { width: 100%; }
   .step { position: relative; text-align: center; }
-  .step::before { content: ""; position: absolute; top: -40px; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 50%; background: var(--dark-2); border: 3px solid rgba(255,255,255,0.28); z-index: 2; transition: border-color .4s ease, background .4s ease, box-shadow .4s ease; }
-  .steps.in .step::before { border-color: var(--accent-bright); background: var(--accent-bright); box-shadow: 0 0 0 6px rgba(var(--accent-rgb),0.22); }
+  .step::before { content: ""; position: absolute; top: -40px; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 50%; background: var(--mist); border: 3px solid rgba(var(--accent-rgb),0.3); z-index: 2; transition: border-color .4s ease, background .4s ease, box-shadow .4s ease; }
+  .steps.in .step::before { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 0 6px rgba(var(--accent-rgb),0.14); }
   .steps.in .step:nth-child(3)::before { transition-delay: .45s; }
   .steps.in .step:nth-child(4)::before { transition-delay: .9s; }
-  .step-num { font-weight: 900; font-size: clamp(80px, 9vw, 132px); line-height: 0.85; letter-spacing: -0.05em; font-variant-numeric: tabular-nums;
-    background: linear-gradient(180deg, #ffffff 24%, var(--accent-bright) 108%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .step h3 { color: #fff; font-size: clamp(20px, 1.9vw, 26px); text-transform: uppercase; letter-spacing: -0.02em; margin: 16px 0 12px; }
-  .step p { font-size: 15.5px; line-height: 1.62; color: var(--mist-on-dark); max-width: 320px; margin: 0 auto; }
-  .step p b { color: #fff; font-weight: 700; }
+  .step-num { font-weight: 900; font-size: clamp(80px, 9vw, 132px); line-height: 0.85; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .step h3 { color: var(--ink); font-size: clamp(20px, 1.9vw, 26px); text-transform: uppercase; letter-spacing: -0.02em; margin: 16px 0 12px; }
+  .step p { font-size: 15.5px; line-height: 1.62; color: var(--muted); max-width: 320px; margin: 0 auto; }
+  .step p b { color: var(--ink); font-weight: 700; }
   @media (max-width: 900px) { .next { padding: 88px 0; } .steps { grid-template-columns: 1fr; gap: 46px; max-width: 400px; padding-top: 8px; } .steps-rail, .step::before { display: none; } }
 
   /* ============ WHITELIST / "AN APPLE A DAY" NOTE ============ */
   .whitelist-note {
     max-width: 800px; margin: 68px auto 0; padding: 30px 34px; border-radius: var(--radius);
     display: flex; gap: 22px; align-items: flex-start;
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-left: 4px solid var(--accent-bright);
-    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--accent);
+    box-shadow: 0 20px 44px -30px rgba(20,23,28,0.45);
   }
-  .whitelist-note .wn-badge { font-weight: 800; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-bright); white-space: nowrap; padding-top: 3px; }
-  .whitelist-note .wn-body h4 { font-size: 16px; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; color: #fff; margin-bottom: 8px; }
-  .whitelist-note .wn-body p { font-size: 14.5px; line-height: 1.6; color: var(--mist-on-dark); }
+  .whitelist-note .wn-badge { font-weight: 800; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); white-space: nowrap; padding-top: 3px; }
+  .whitelist-note .wn-body h4 { font-size: 16px; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+  .whitelist-note .wn-body p { font-size: 14.5px; line-height: 1.6; color: var(--muted); }
   .whitelist-note .wn-body p + p { margin-top: 8px; }
-  .whitelist-note .wn-body b { color: #fff; font-weight: 700; }
+  .whitelist-note .wn-body b { color: var(--ink); font-weight: 700; }
   @media (max-width: 560px) { .whitelist-note { flex-direction: column; gap: 12px; padding: 26px 24px; } }
 
   /* ============ TESTIMONIALS - dark panels, member studio portraits ============ */
@@ -310,8 +308,8 @@
   .ptile-name span { display: block; font-weight: 600; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #cbd2de; margin-top: 4px; }
   @media (max-width: 860px) { .tw { padding: 84px 0; } .pgallery { grid-template-columns: 1fr 1fr; gap: 14px; } .pcol { display: contents; } .pgallery .pcol { margin-top: 0; } }
 
-  /* ============ RECENT EPISODES + 72-HOUR EXPIRY ============ */
-  .episodes { background: var(--mist); padding: 120px 0; scroll-margin-top: 80px; }
+  /* ============ RECENT SESSIONS + 72-HOUR EXPIRY ============ */
+  .sessions { background: var(--mist); padding: 120px 0; scroll-margin-top: 80px; }
   .ep-head { text-align: center; max-width: 760px; margin: 0 auto; }
   .ep-head .eyebrow { justify-content: center; }
   .ep-head h2 { font-size: clamp(32px, 4vw, 58px); text-transform: uppercase; margin-top: 20px; text-wrap: balance; }
@@ -333,7 +331,7 @@
     background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: 100px;
     padding: 6px 12px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
   .ep-meta svg { width: 13px; height: 13px; stroke: #fff; stroke-width: 2; fill: none; }
-  @media (max-width: 760px) { .episodes { padding: 84px 0; } .ep-grid { grid-template-columns: 1fr; max-width: 480px; } }
+  @media (max-width: 760px) { .sessions { padding: 84px 0; } .ep-grid { grid-template-columns: 1fr; max-width: 480px; } }
 
   /* ============ CLOSE (dark maroon) ============ */
   .close-band { color: #fff; padding: 116px 0; text-align: center; overflow: hidden;
@@ -417,7 +415,7 @@
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       </span>
     </div>
-    <a class="hero-cue" href="#episodes" aria-label="Bonus: Watch the latest sessions now before they expire">
+    <a class="hero-cue" href="#sessions" aria-label="Bonus: Watch the latest sessions now before they expire">
       <span class="hero-cue-text"><b>Bonus:</b> Watch the latest sessions now before they expire.</span>
       <span class="hero-cue-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
     </a>
@@ -428,7 +426,7 @@
 <section class="next">
   <div class="container">
     <div class="next-head reveal">
-      <div class="eyebrow on-dark center"><span class="pip"></span>What Happens Next</div>
+      <div class="eyebrow center"><span class="pip"></span>What Happens Next</div>
       <h2>Three things. Then <em>see you in the morning</em>.</h2>
     </div>
     <div class="steps stagger">
@@ -440,7 +438,7 @@
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <h3>Make sure it reaches you</h3>
+        <h3>Reach your inbox</h3>
         <p><b>New senders get buried.</b> Move this one to your inbox now so a session never slips into spam or promotions. The steps are just below.</p>
       </div>
       <div class="step">
@@ -462,17 +460,17 @@
   </div>
 </section>
 
-<!-- ============ RECENT EPISODES + 72-HOUR EXPIRY ============ -->
-<!-- WEBFLOW: bind .ep-grid to a Collection List on the Episodes CMS.
+<!-- ============ RECENT SESSIONS + 72-HOUR EXPIRY ============ -->
+<!-- WEBFLOW: bind .ep-grid to a Collection List on the Sessions CMS.
      Sort by Publish date (descending), Limit 2 -> always the two latest.
      Each card is a self-contained designed graphic (title + PLAY NOW baked in):
-       .ep-card img       -> episode "card image" field (set alt text = episode title)
-       .ep-card href      -> episode slug / post page
+       .ep-card img       -> session "card image" field (set alt text = session title)
+       .ep-card href      -> session slug / post page
        .ep-meta--date     -> Publish date field
        .ep-meta--time     -> Runtime field
      Card 1's URL + date/runtime below are PLACEHOLDERS. Card 2 is the real
-     "Saturdays" episode (published Jul 24 2026); its runtime is still a placeholder. -->
-<section class="episodes" id="episodes">
+     "Saturdays" session (published Jul 24 2026); its runtime is still a placeholder. -->
+<section class="sessions" id="sessions">
   <div class="container">
     <div class="ep-head reveal">
       <div class="eyebrow accent center"><span class="pip"></span>Expiring Soon</div>
@@ -483,7 +481,7 @@
       </div>
     </div>
     <div class="ep-grid stagger">
-      <!-- Card 1: PLACEHOLDER link + date - replace with its real episode page -->
+      <!-- Card 1: PLACEHOLDER link + date - replace with its real session page -->
       <a class="ep-card" href="https://dd.darrenhardy.com/" target="_blank" rel="noopener">
         <img src="ep-card-1.webp" alt="Watch: The one decision that eliminates 99% of your stress" width="440" height="244" loading="lazy">
         <div class="ep-metarow">
