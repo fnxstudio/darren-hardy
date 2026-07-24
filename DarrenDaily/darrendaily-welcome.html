@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>You're In · DarrenDaily</title>
+<meta name="description" content="You're on the list. Watch your welcome note from Darren Hardy, then make sure your first daily mentor session always reaches you.">
+<meta name="author" content="Darren Hardy">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- ─────────────────────────────────────────────────────────────
+     DARRENDAILY - CONFIRMATION / WELCOME page ("You're in").
+     Built on the darrendaily.html brand system (LIGHT + morning).
+       • Welcome title + WELCOME VIDEO live together in the hero.
+         Facade -> lazy Vimeo (id 298901870).
+       • NO check marks anywhere (a red check reads as a warning - brand rule).
+       • Social proof to connect: member-avatar proof strip + testimonial cards
+         (real member photos, real names; QUOTES are demo - replace before launch).
+       • Practical basics: first session in ~24h, whitelist the sender (#NeverMiss).
+       • Share CTAs use the Web Share API with a copy-link fallback.
+       • Morning light, mentor-not-monument. NO em dashes anywhere.
+     SENDER EMAIL darren@darrendaily.com is a PLACEHOLDER - confirm before launch.
+     ───────────────────────────────────────────────────────────── -->
+
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="DarrenDaily">
+<meta property="og:title"       content="You're In · DarrenDaily">
+<meta property="og:description" content="Daily mentoring with Darren Hardy. One idea, five minutes, every weekday morning. Free.">
+<meta property="og:image"       content="og-image.jpg">
+
+<link rel="icon" href="favicon.png">
+
+<style>
+  @font-face {
+    font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap;
+    src: url(fonts/inter-latin.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap;
+    src: url(fonts/inter-latin-ext.woff2) format('woff2');
+  }
+
+  :root {
+    /* Neutrals */
+    --paper:         #ffffff;
+    --mist:          #f3f5f8;
+    --ink:           #14171c;
+    --muted:         #545c68;
+    --soft:          #616a78;
+    --line:          rgba(20, 23, 28, 0.12);
+    --line-soft:     rgba(20, 23, 28, 0.07);
+    /* Brand accent (DarrenDaily red) */
+    --accent:        #a72632;
+    --accent-deep:   #812a37;
+    --accent-bright: #cf3a45;
+    --accent-rgb:    167, 38, 50;
+    /* Dark bands / footer (deep maroon) */
+    --dark:          #2a1015;
+    --dark-2:        #1c0a0e;
+    --mist-on-dark:  #e7d4d6;
+    /* Tokens */
+    --gold:          #ffce3a;
+    --radius:        4px;
+    --ease:          cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  html, body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400; -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility; overflow-x: hidden;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; }
+
+  /* ============ SHARED ============ */
+  section { position: relative; }
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .container { padding: 0 22px; } }
+
+  .eyebrow {
+    font-weight: 700; font-size: 12px; letter-spacing: 0.32em;
+    text-transform: uppercase; color: var(--soft);
+    display: inline-flex; align-items: center; gap: 16px;
+  }
+  .eyebrow .pip { width: 34px; height: 3px; background: var(--accent); display: inline-block; }
+  .eyebrow.accent { color: var(--accent); }
+  .eyebrow.on-dark { color: rgba(255,255,255,0.82); }
+  .eyebrow.on-dark .pip { background: var(--accent-bright); }
+  .eyebrow.center { justify-content: center; }
+
+  h1, h2, h3 { font-weight: 900; letter-spacing: -0.03em; line-height: 1.0; }
+  em.key  { font-style: normal; color: var(--accent); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-weight: 800; font-size: 12.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 20px 38px; border-radius: var(--radius); text-decoration: none; cursor: pointer;
+    background: var(--accent); color: #fff; border: 2px solid var(--accent);
+    transition: background .2s var(--ease), color .2s, transform .2s, box-shadow .2s;
+    box-shadow: 0 14px 30px -12px rgba(var(--accent-rgb), 0.5);
+    position: relative; overflow: hidden;
+  }
+  .btn:hover { background: #fff; color: var(--accent); transform: translateY(-2px); box-shadow: 0 18px 36px -14px rgba(var(--accent-rgb), 0.4); }
+  .btn.ondark { background: var(--accent-bright); border-color: var(--accent-bright); }
+  .btn.ondark:hover { background: #fff; color: var(--accent); border-color: #fff; box-shadow: 0 18px 36px -14px rgba(0,0,0,0.5); }
+  .btn .arrow { transition: transform .2s var(--ease); }
+  .btn:hover .arrow { transform: translateX(5px); }
+
+  .btn-line {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-weight: 700; font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    text-decoration: none; color: var(--ink); cursor: pointer;
+    border-bottom: 2px solid var(--accent); padding-bottom: 4px; transition: color .2s;
+  }
+  .btn-line:hover { color: var(--accent); }
+  .btn-line.ondark { color: #fff; border-bottom-color: var(--accent-bright); }
+  .btn-line.ondark:hover { color: var(--accent-bright); }
+  .btn-line .arrow { transition: transform .2s var(--ease); }
+  .btn-line:hover .arrow { transform: translateX(4px); }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+  .stagger > * { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  .stagger.in > * { opacity: 1; transform: none; }
+  .stagger.in > *:nth-child(2) { transition-delay: .10s; }
+  .stagger.in > *:nth-child(3) { transition-delay: .20s; }
+  @media (prefers-reduced-motion: reduce) { .reveal, .stagger > * { opacity: 1 !important; transform: none !important; } }
+
+  /* ============ NAV (solid, ink logo) ============ */
+  nav.top {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 60;
+    display: flex; align-items: center; justify-content: space-between; padding: 20px 40px;
+    background: transparent; transition: background .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease), padding .3s var(--ease);
+    border-bottom: 1px solid transparent;
+  }
+  nav.top.solid {
+    position: fixed; padding: 14px 40px; background: #fff;
+    border-bottom: 1px solid var(--line); box-shadow: 0 6px 24px -14px rgba(20, 23, 28, 0.35);
+  }
+  .nav-brand { display: flex; align-items: center; text-decoration: none; white-space: nowrap; line-height: 1; }
+  .nav-brand img { height: 34px; width: auto; display: block; }
+  /* White logo over the photo hero, ink logo once the bar goes solid */
+  .nav-brand .logo-white { display: block; }
+  .nav-brand .logo-ink { display: none; }
+  nav.top.solid .nav-brand .logo-white { display: none; }
+  nav.top.solid .nav-brand .logo-ink { display: block; }
+  .nav-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: #fff; font-weight: 700; font-size: 10.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; text-decoration: none; border-bottom: 2px solid var(--accent-bright); padding-bottom: 3px;
+    background: none; font-family: inherit; cursor: pointer; transition: color .2s, border-color .2s;
+  }
+  .nav-link:hover { color: var(--accent-bright); }
+  nav.top.solid .nav-link { color: var(--ink); border-bottom-color: var(--accent); }
+  nav.top.solid .nav-link:hover { color: var(--accent); }
+  .nav-link .arrow { transition: transform .2s var(--ease); }
+  .nav-link:hover .arrow { transform: translateX(4px); }
+  @media (max-width: 720px) { nav.top { padding: 12px 22px; } nav.top.solid { padding: 12px 22px; } .nav-brand img { height: 30px; } .nav-link { font-size: 10px; } }
+
+  /* ============ HERO (immersive - blurred garden-chair bg, video IN the hero) ============ */
+  .hero-confirm { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 150px 0 84px; text-align: center; overflow: hidden; background: var(--mist); }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: blur(20px) brightness(1.02) saturate(1.14); transform: scale(1.16); z-index: 0; }
+  .hero-confirm::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      radial-gradient(ellipse 76% 48% at 50% 32%, rgba(20,10,12,0.32), transparent 70%),
+      linear-gradient(180deg, rgba(20,10,12,0.28) 0%, rgba(20,10,12,0.03) 24%, rgba(20,10,12,0.02) 66%, rgba(20,10,12,0.08) 100%);
+  }
+  .hero-confirm .container { position: relative; z-index: 2; width: 100%; }
+  .hero-confirm h1 { color: #fff; font-size: clamp(44px, 6.6vw, 100px); text-transform: uppercase; margin: 0; text-wrap: balance; text-shadow: 0 2px 44px rgba(0,0,0,0.45); opacity: 0; transform: translateY(14px); animation: heroUp 1s var(--ease) .1s forwards; }
+  .hero-confirm h1 .dot { color: var(--accent-bright); }
+  .hero-confirm .lead { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; color: rgba(255,255,255,0.94); max-width: 600px; margin: 22px auto 0; text-shadow: 0 1px 22px rgba(0,0,0,0.5); opacity: 0; transform: translateY(14px); animation: heroUp 1s var(--ease) .35s forwards; }
+  .hero-confirm .lead b { color: #fff; font-weight: 700; }
+  @keyframes heroUp { to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .hero-confirm h1, .hero-confirm .lead, .hero-confirm .video-frame { animation: none; opacity: 1; transform: none; } }
+  @media (max-width: 720px) { .hero-confirm { padding: 124px 0 68px; } }
+
+  /* Welcome video frame (facade -> lazy Vimeo), sitting IN the hero over the blurred bg */
+  .video-frame {
+    position: relative; z-index: 2; max-width: 940px; width: 100%; margin: 42px auto 0; border-radius: 8px; overflow: hidden;
+    aspect-ratio: 16 / 9; background: #0c0e12; cursor: pointer;
+    box-shadow: 0 0 0 6px #fff, 0 50px 120px -34px rgba(0,0,0,0.75);
+    opacity: 0; transform: translateY(16px); animation: heroUp 1s var(--ease) .6s forwards;
+  }
+  .video-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; display: block; filter: brightness(1.08) saturate(1.06); }
+  .video-frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,17,32,0) 54%, rgba(8,10,16,0.34) 100%); transition: opacity .25s; }
+  .video-frame:hover::after { opacity: 0.9; }
+  .video-frame .vf-play {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;
+    width: 88px; height: 88px; border-radius: 50%; background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 16px 40px -10px rgba(var(--accent-rgb), 0.72);
+    animation: ddBtnPulse 1.8s ease-in-out infinite;
+  }
+  .video-frame .vf-play::after { content: ""; position: absolute; inset: 0; border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.55); animation: ddRingPulse 1.8s cubic-bezier(0.25, 0.6, 0.3, 1) infinite; }
+  .video-frame:hover .vf-play { background: var(--accent-bright); }
+  .video-frame .vf-play svg { width: 30px; height: 30px; fill: #fff; margin-left: 4px; }
+  @keyframes ddBtnPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.06); } }
+  @keyframes ddRingPulse { 0% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.5); } 70% { box-shadow: 0 0 0 30px rgba(var(--accent-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0); } }
+  @media (prefers-reduced-motion: reduce) { .video-frame .vf-play, .video-frame .vf-play::after { animation: none; } }
+  .video-frame .vf-chip {
+    position: absolute; left: 18px; bottom: 18px; z-index: 2;
+    font-weight: 800; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff;
+    padding: 8px 13px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.7);
+    background: rgba(10,14,24,0.35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  }
+  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 5; }
+  /* Once playing, drop the poster + custom controls so only the video shows (no bleed-through) */
+  .video-frame.playing img,
+  .video-frame.playing::after,
+  .video-frame.playing .vf-play,
+  .video-frame.playing .vf-chip { display: none; }
+  .wv-cap { text-align: center; font-size: 13.5px; color: rgba(255,255,255,0.74); margin-top: 20px; letter-spacing: 0.02em; text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
+  @media (max-width: 720px) { .video-frame { margin-top: 28px; box-shadow: 0 0 0 4px #fff, 0 30px 70px -28px rgba(0,0,0,0.7); } .video-frame .vf-play { width: 68px; height: 68px; } .video-frame .vf-play svg { width: 24px; height: 24px; } }
+
+  /* ============ TESTIMONIALS PROOF LEAD (member avatars + rating, inside the head) ============ */
+  .tw-proof { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 30px; }
+  .tw-proof .proof-avatars { display: flex; align-items: center; }
+  .tw-proof .proof-avatars img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: center 22%; border: 3px solid #fff; box-shadow: 0 6px 16px -6px rgba(20,23,28,0.45); margin-left: -15px; background: var(--mist); }
+  .tw-proof .proof-avatars img:first-child { margin-left: 0; }
+  .tw-proof .proof-stars { color: var(--gold); font-size: 16px; letter-spacing: 3px; line-height: 1; }
+  .tw-proof .proof-line { font-size: 16.5px; line-height: 1.55; color: var(--muted); max-width: 540px; margin: 0; }
+  .tw-proof .proof-line b { color: var(--ink); font-weight: 700; }
+  @media (max-width: 480px) { .tw-proof .proof-avatars img { width: 46px; height: 46px; } }
+
+  /* ============ WHAT HAPPENS NEXT ============ */
+  .next { background: var(--mist); padding: 120px 0; }
+  .next-head { text-align: center; max-width: 760px; margin: 0 auto 60px; }
+  .next-head .eyebrow { justify-content: center; }
+  .next-head h2 { font-size: clamp(32px, 4vw, 58px); text-transform: uppercase; margin-top: 20px; text-wrap: balance; }
+  .next-head h2 em { font-style: normal; color: var(--accent); }
+  .next-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .ncard { position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 46px 40px 44px; overflow: hidden; box-shadow: 0 2px 18px rgba(20,23,28,0.05); transition: transform .28s var(--ease), box-shadow .28s var(--ease), border-color .28s; }
+  .ncard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .34s var(--ease); }
+  .ncard:hover { transform: translateY(-6px); box-shadow: 0 34px 64px -34px rgba(20,23,28,0.4); border-color: rgba(var(--accent-rgb), 0.4); }
+  .ncard:hover::before { transform: scaleX(1); }
+  .ncard .gn { font-weight: 900; font-size: 92px; line-height: 0.8; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1.5px rgba(var(--accent-rgb), 0.22); font-variant-numeric: tabular-nums; transition: -webkit-text-stroke-color .3s ease; }
+  .ncard:hover .gn { -webkit-text-stroke-color: rgba(var(--accent-rgb), 0.5); }
+  .ncard h3 { font-size: clamp(20px, 1.9vw, 25px); text-transform: uppercase; letter-spacing: -0.02em; margin: 20px 0 14px; }
+  .ncard p { font-size: 15.5px; line-height: 1.6; color: var(--muted); }
+  .ncard p b { color: var(--ink); font-weight: 600; }
+  @media (max-width: 900px) { .next { padding: 84px 0; } .next-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+
+  /* ============ WHITELIST / "AN APPLE A DAY" NOTE ============ */
+  .whitelist-note {
+    max-width: 780px; margin: 44px auto 0; padding: 30px 34px; border-radius: var(--radius);
+    display: flex; gap: 22px; align-items: flex-start;
+    background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--accent);
+    box-shadow: 0 20px 44px -30px rgba(20,23,28,0.45);
+  }
+  .whitelist-note .wn-badge { font-weight: 800; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); white-space: nowrap; padding-top: 3px; }
+  .whitelist-note .wn-body h4 { font-size: 16px; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+  .whitelist-note .wn-body p { font-size: 14.5px; line-height: 1.6; color: var(--muted); }
+  .whitelist-note .wn-body p + p { margin-top: 8px; }
+  .whitelist-note .wn-body b { color: var(--ink); font-weight: 700; }
+  @media (max-width: 560px) { .whitelist-note { flex-direction: column; gap: 12px; padding: 26px 24px; } }
+
+  /* ============ TESTIMONIALS - dark panels, member studio portraits ============ */
+  .tw { background: var(--paper); padding: 122px 0; overflow: hidden; }
+  .tw::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(var(--accent-rgb), 0.07), transparent 62%); }
+  .tw .container { position: relative; z-index: 1; }
+  .tw-head { text-align: center; max-width: 720px; margin: 0 auto 54px; }
+  .tw-head .eyebrow { justify-content: center; }
+  .tw-head h2 { color: var(--ink); font-size: clamp(34px, 4.4vw, 62px); text-transform: uppercase; margin-top: 22px; text-wrap: balance; }
+  .tw-head h2 em { font-style: normal; color: var(--accent); }
+  .tw-head p { color: var(--muted); font-size: clamp(16px, 1.3vw, 19px); line-height: 1.55; margin-top: 22px; }
+  /* Continuous right-to-left marquee. Cards are duplicated (JS) so translateX(-50%) loops seamlessly. */
+  .tw-marquee { position: relative; margin-top: 50px; overflow: hidden; padding: 22px 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%); }
+  .tw-track { display: flex; gap: 24px; width: max-content; animation: tw-scroll 55s linear infinite; }
+  .tw-marquee:hover .tw-track { animation-play-state: paused; }
+  @keyframes tw-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .tw-track { animation: none; } .tw-marquee { overflow-x: auto; } }
+  /* Portrait card: photo fills, info (stars + name + title/company) overlaid at the bottom */
+  .tcard { flex: 0 0 340px; width: 340px; position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 8px; background: var(--dark-2); border: 1px solid rgba(255,255,255,0.10); box-shadow: 0 26px 54px -30px rgba(20,23,28,0.45); transition: transform .25s var(--ease), border-color .25s; }
+  .tcard:hover { transform: translateY(-5px); border-color: rgba(var(--accent-rgb), 0.55); }
+  .tphoto { position: absolute; inset: 0; overflow: hidden; background: var(--dark-2); }
+  .tphoto img { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: center 15%; display: block; }
+  .tphoto::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, rgba(6,8,12,0) 44%, rgba(6,8,12,0.6) 68%, rgba(6,8,12,0.92) 100%); }
+  .tchip { position: absolute; top: 14px; right: 14px; z-index: 3; font-weight: 800; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; padding: 6px 11px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.75); background: rgba(10,14,24,0.35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  .tbody { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; padding: 22px 24px 24px; }
+  .tbody::before { content: "\2605\2605\2605\2605\2605"; display: block; color: var(--gold); font-size: 13px; letter-spacing: 3px; line-height: 1; margin-bottom: 12px; }
+  .tquote, .trule { display: none; }
+  .tname { font-weight: 800; font-size: 16px; letter-spacing: 0.01em; color: #fff; }
+  .tname span { display: block; font-weight: 600; font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: #cbd2de; margin-top: 5px; }
+  @media (max-width: 900px) { .tw { padding: 84px 0; } }
+  @media (max-width: 600px) { .tcard { flex-basis: 300px; width: 300px; } }
+
+  /* ============ RECENT EPISODES + 72-HOUR EXPIRY ============ */
+  .episodes { background: var(--mist); padding: 120px 0; }
+  .ep-head { text-align: center; max-width: 760px; margin: 0 auto; }
+  .ep-head .eyebrow { justify-content: center; }
+  .ep-head h2 { font-size: clamp(32px, 4vw, 58px); text-transform: uppercase; margin-top: 20px; text-wrap: balance; }
+  .ep-head h2 em { font-style: normal; color: var(--accent); }
+  .ep-expiry { display: inline-flex; align-items: center; gap: 10px; margin-top: 24px; padding: 11px 20px; border-radius: 100px;
+    background: rgba(var(--accent-rgb), 0.07); border: 1px solid rgba(var(--accent-rgb), 0.28); color: var(--accent);
+    font-weight: 700; font-size: 13.5px; letter-spacing: 0.01em; }
+  .ep-expiry svg { width: 16px; height: 16px; stroke: var(--accent); stroke-width: 2; fill: none; flex-shrink: 0; }
+  .ep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin: 54px auto 0; max-width: 1040px; }
+  /* Each card is a self-contained designed graphic (title + PLAY NOW baked in). No overlays. */
+  .ep-card { position: relative; display: block; border-radius: 8px; overflow: hidden; border: 1px solid var(--line);
+    box-shadow: 0 12px 36px -16px rgba(20,23,28,0.32); transition: transform .28s var(--ease), box-shadow .28s var(--ease); }
+  .ep-card:hover { transform: translateY(-6px); box-shadow: 0 40px 70px -30px rgba(20,23,28,0.48); }
+  .ep-card img { display: block; width: 100%; height: auto; }
+  /* Date (top-left, over the photo) + runtime (top-right, over the red panel) overlays */
+  .ep-metarow { position: absolute; top: 12px; right: 12px; z-index: 2; display: flex; gap: 8px; }
+  .ep-meta { display: inline-flex; align-items: center; gap: 6px;
+    font-weight: 700; font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: #fff;
+    background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: 100px;
+    padding: 6px 12px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+  .ep-meta svg { width: 13px; height: 13px; stroke: #fff; stroke-width: 2; fill: none; }
+  @media (max-width: 760px) { .episodes { padding: 84px 0; } .ep-grid { grid-template-columns: 1fr; max-width: 480px; } }
+
+  /* ============ CLOSE (dark maroon) ============ */
+  .close-band { color: #fff; padding: 116px 0; text-align: center; overflow: hidden;
+    background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(var(--accent-rgb), 0.30), transparent 62%), linear-gradient(160deg, var(--dark) 0%, var(--dark-2) 100%); }
+  .close-band .container { position: relative; z-index: 1; }
+  .close-band .eyebrow { justify-content: center; }
+  .close-band h2 { color: #fff; font-size: clamp(40px, 6vw, 90px); text-transform: uppercase; margin: 20px 0 0; text-wrap: balance; }
+  .close-band h2 em { font-style: normal; color: var(--accent-bright); }
+  .close-band p { font-size: clamp(16px, 1.4vw, 20px); line-height: 1.6; color: var(--mist-on-dark); max-width: 600px; margin: 26px auto 0; }
+  .close-band p b { color: #fff; }
+  .close-actions { display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 40px; }
+  @media (max-width: 720px) { .close-band { padding: 84px 0; } }
+
+  /* ============ SHARE TOAST ============ */
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: #fff; padding: 14px 22px; border-radius: var(--radius);
+    font-weight: 700; font-size: 13px; letter-spacing: 0.03em;
+    box-shadow: 0 18px 40px -14px rgba(0,0,0,0.5);
+    opacity: 0; pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease); z-index: 300;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ============ FOOTER ============ */
+  footer { background: #0a0a0a; color: #c3bbb9; padding: 70px 0 40px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 40px; }
+  .foot-brand .fb-logo { height: 46px; width: auto; display: block; }
+  .foot-brand .tag { font-size: 14px; line-height: 1.6; color: #fff; margin-top: 20px; max-width: 320px; }
+  .socials { display: flex; gap: 12px; margin-top: 22px; }
+  .socials a { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.16); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s; }
+  .socials a:hover { background: var(--accent); border-color: var(--accent); }
+  .socials svg { width: 15px; height: 15px; fill: #c3bbb9; }
+  .socials a:hover svg { fill: #fff; }
+  .footer-col h3 { font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: #988f8d; font-weight: 600; margin-bottom: 24px; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 14px; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
+  .footer-col a { color: #c3bbb9; text-decoration: none; transition: color .18s; }
+  .footer-col a:hover { color: #fff; }
+  .bmc-corner { display: flex; align-items: flex-start; gap: 16px; color: #a89f9d; text-decoration: none; transition: color .2s; }
+  .bmc-corner:hover { color: #fff; }
+  .bmc-corner img { width: 52px; height: 52px; display: block; filter: brightness(0) invert(1) opacity(0.85); transition: opacity .2s; flex-shrink: 0; margin-top: 2px; }
+  .bmc-corner:hover img { filter: brightness(0) invert(1) opacity(1); }
+  .bmc-corner-text { display: flex; flex-direction: column; gap: 8px; }
+  .bmc-corner-title { font-weight: 700; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #a89f9d; line-height: 1; }
+  .bmc-corner-tag { font-weight: 700; font-size: 14px; letter-spacing: 0.02em; text-transform: uppercase; color: #fff; line-height: 1.2; }
+  .bmc-corner-cta { font-weight: 500; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #a89f9d; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px; transition: color .2s; }
+  .bmc-corner:hover .bmc-corner-cta { color: #fff; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 52px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 10px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: #867d7b; }
+  .footer-bottom .legal-links { display: flex; gap: 24px; }
+  .footer-bottom a { color: #867d7b; text-decoration: none; }
+  .footer-bottom a:hover { color: #c3bbb9; }
+  @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 34px; } .foot-brand { grid-column: 1 / -1; } }
+  @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="top">
+  <a class="nav-brand" href="darrendaily.html">
+    <img class="logo-white" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
+    <img class="logo-ink" src="dd-logo-ink.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
+  </a>
+  <button class="nav-link" type="button" data-share>Share DarrenDaily <span class="arrow">&rarr;</span></button>
+</nav>
+
+<main id="top">
+
+<!-- ============ HERO: full-bleed garden chair, "your seat is set" ============ -->
+<section class="hero-confirm">
+  <img class="hero-bg" src="hero-chair.webp" alt="The DarrenDaily garden set: an open chair, an orchid, and a DarrenDaily mug in the morning light" width="2200" height="1229" fetchpriority="high">
+  <div class="container">
+    <h1>You're in<span class="dot">.</span></h1>
+    <p class="lead"><b>Your seat is set.</b> Take a minute. Watch this. Then do the one thing that makes sure every mentor session reaches you.</p>
+
+    <!-- Facade: poster + play button. Clicking mounts the Vimeo iframe (zero bytes until then). -->
+    <div class="video-frame" id="welcomeVideo" data-vimeo-id="298901870" role="button" tabindex="0" aria-label="Play Darren's welcome message">
+      <img src="dh-waving.webp" alt="Darren Hardy waving hello on the DarrenDaily garden set" width="1600" height="893">
+      <span class="vf-chip">Watch &middot; 90 seconds</span>
+      <span class="vf-play" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT HAPPENS NEXT ============ -->
+<section class="next">
+  <div class="container">
+    <div class="next-head reveal">
+      <div class="eyebrow center"><span class="pip"></span>What Happens Next</div>
+      <h2>Three things. Then <em>see you in the morning</em>.</h2>
+    </div>
+    <div class="next-grid stagger">
+      <div class="ncard">
+        <div class="gn">01</div>
+        <h3>It lands tomorrow</h3>
+        <p><b>Your first mentor session arrives within 24 hours.</b> After that. Five minutes every weekday morning. 260 mornings a year. No ads. Ever.</p>
+      </div>
+      <div class="ncard">
+        <div class="gn">02</div>
+        <h3>Make sure it reaches you</h3>
+        <p><b>New senders get buried.</b> Move this one to your inbox now so a session never slips into spam or promotions. The steps are just below.</p>
+      </div>
+      <div class="ncard">
+        <div class="gn">03</div>
+        <h3>Show up</h3>
+        <p><b>Open it. Sit with the idea for a beat</b> before the day takes over. That small habit is where better every day begins.</p>
+      </div>
+    </div>
+
+    <!-- Whitelist detail ("an apple a day" note pattern) -->
+    <div class="whitelist-note reveal">
+      <span class="wn-badge">#NeverMiss</span>
+      <div class="wn-body">
+        <h4>Add Darren to your inbox</h4>
+        <p>Add <b>darren@darrendaily.com</b> to your contacts. Gmail buries new senders in Promotions. Drag the first email into <b>Primary</b>. Using Apple Mail or Outlook? Mark the sender as a <b>known contact</b>.</p>
+        <p>Nothing after a day? Check <b>Spam</b> or <b>Junk</b>. Mark it <b>Not spam</b>. That is all it takes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECENT EPISODES + 72-HOUR EXPIRY ============ -->
+<!-- WEBFLOW: bind .ep-grid to a Collection List on the Episodes CMS.
+     Sort by Publish date (descending), Limit 2 -> always the two latest.
+     Each card is a self-contained designed graphic (title + PLAY NOW baked in):
+       .ep-card img       -> episode "card image" field (set alt text = episode title)
+       .ep-card href      -> episode slug / post page
+       .ep-meta--date     -> Publish date field
+       .ep-meta--time     -> Runtime field
+     Card 1's URL + date/runtime below are PLACEHOLDERS. Card 2 is the real
+     "Saturdays" episode (published Jul 24 2026); its runtime is still a placeholder. -->
+<section class="episodes">
+  <div class="container">
+    <div class="ep-head reveal">
+      <div class="eyebrow accent center"><span class="pip"></span>Expiring Soon</div>
+      <h2>Catch the <em>latest</em>.</h2>
+      <div class="ep-expiry">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+        Each session lives 72 hours. Then it is gone.
+      </div>
+    </div>
+    <div class="ep-grid stagger">
+      <!-- Card 1: PLACEHOLDER link + date - replace with its real episode page -->
+      <a class="ep-card" href="https://dd.darrenhardy.com/" target="_blank" rel="noopener">
+        <img src="ep-card-1.webp" alt="Watch: The one decision that eliminates 99% of your stress" width="440" height="244" loading="lazy">
+        <div class="ep-metarow">
+          <span class="ep-meta ep-meta--date">Jul 25 &middot; 2026</span>
+          <span class="ep-meta ep-meta--time"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>5:12</span>
+        </div>
+      </a>
+      <a class="ep-card" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays" target="_blank" rel="noopener">
+        <img src="ep-card-2.webp" alt="Watch: What high-achievers do on Saturdays" width="440" height="244" loading="lazy">
+        <div class="ep-metarow">
+          <span class="ep-meta ep-meta--date">Jul 24 &middot; 2026</span>
+          <span class="ep-meta ep-meta--time"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>4:47</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="tw" id="voices">
+  <div class="container">
+    <div class="tw-head reveal">
+      <div class="eyebrow accent center"><span class="pip"></span>From The Community</div>
+      <h2>You're in <em>excellent company</em>.</h2>
+      <div class="tw-proof">
+        <div class="proof-avatars" aria-hidden="true">
+          <img src="hc-members/John-Gluch-studio-blue.webp" alt="" loading="lazy">
+          <img src="hc-members/Teresa-DiGiuseppe-studio-blue.webp" alt="" loading="lazy">
+          <img src="hc-members/Zach-Holmes-studio-blue.webp" alt="" loading="lazy">
+          <img src="hc-members/Heather-Roxburgh-studio-blue.webp" alt="" loading="lazy">
+          <img src="hc-members/Kelly-Cort-studio-blue.webp" alt="" loading="lazy">
+          <img src="hc-members/Dave-Koepsell-studio-blue.webp" alt="" loading="lazy">
+        </div>
+        <div class="proof-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="proof-line">You just joined <b>350,000+ business builders</b> who start every weekday morning right here.</p>
+      </div>
+    </div>
+    <!-- DEMO testimonials: real member photos + real names/titles. QUOTES are placeholders -
+         replace and confirm consent before publishing. JS clones the set for a seamless loop. -->
+    <div class="tw-marquee">
+      <div class="tw-track" id="twTrack">
+        <article class="tcard">
+          <div class="tphoto"><span class="tchip">Real Estate</span><img src="hc-members/John-Gluch-studio-blue.webp" alt="John Gluch" loading="lazy"></div>
+          <div class="tbody">
+            <p class="tquote">"Five minutes before the noise of the day. <b>I walk into every appointment sharper.</b> It's the one habit I protect."</p>
+            <div class="trule"></div>
+            <div class="tname">John Gluch<span>Founder &middot; The Gluch Group</span></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="tphoto"><span class="tchip">Medical Device</span><img src="hc-members/Zach-Holmes-studio-blue.webp" alt="Zach Holmes" loading="lazy"></div>
+          <div class="tbody">
+            <p class="tquote">"One clear idea before the noise. I lead my team sharper all day. <b>It's the five minutes I never skip.</b>"</p>
+            <div class="trule"></div>
+            <div class="tname">Zach Holmes<span>CEO &middot; Right Coast Medical</span></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="tphoto"><span class="tchip">Wellness</span><img src="hc-members/Teresa-DiGiuseppe-studio-blue.webp" alt="Teresa DiGiuseppe" loading="lazy"></div>
+          <div class="tbody">
+            <p class="tquote">"I've started my morning here for years. <b>The compounding is real.</b> In my business and in how I lead."</p>
+            <div class="trule"></div>
+            <div class="tname">Teresa DiGiuseppe<span>Founder &middot; Wellness Practice</span></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="tphoto"><span class="tchip">Restaurant</span><img src="hc-members/Dave-Koepsell-studio-blue.webp" alt="Dave Koepsell" loading="lazy"></div>
+          <div class="tbody">
+            <p class="tquote">"No hype. Just <b>a read I can act on that morning.</b> It changed how I run every shift."</p>
+            <div class="trule"></div>
+            <div class="tname">Dave Koepsell<span>Owner &middot; Chick-fil-A Franchise</span></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="tphoto"><span class="tchip">Real Estate</span><img src="hc-members/Heather-Roxburgh-studio-blue.webp" alt="Heather Roxburgh" loading="lazy"></div>
+          <div class="tbody">
+            <p class="tquote">"It's like <b>having a mentor in my corner every morning.</b> My team can tell which days I've watched."</p>
+            <div class="trule"></div>
+            <div class="tname">Heather Roxburgh<span>Broker &middot; Real Estate Group</span></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="tphoto"><span class="tchip">Dog Training</span><img src="hc-members/Michael-Soler-studio-blue.webp" alt="Michael Soler" loading="lazy"></div>
+          <div class="tbody">
+            <p class="tquote">"I came for strategy and stayed for the mindset. <b>Five minutes that quietly changed my company.</b>"</p>
+            <div class="trule"></div>
+            <div class="tname">Michael Soler<span>Founder &middot; Dog Training Co.</span></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="tphoto"><span class="tchip">Mortgage</span><img src="hc-members/Kelly-Cort-studio-blue.webp" alt="Kelly Cort" loading="lazy"></div>
+          <div class="tbody">
+            <p class="tquote">"No fluff. No hype. Just one idea I can use that day. <b>It reset how I run my mornings.</b>"</p>
+            <div class="trule"></div>
+            <div class="tname">Kelly Cort<span>Loan Officer &middot; Mortgage Group</span></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="tphoto"><span class="tchip">Construction</span><img src="hc-members/Thomas-Petersen-studio-blue.webp" alt="Thomas Petersen" loading="lazy"></div>
+          <div class="tbody">
+            <p class="tquote">"Five minutes that set the tone for the whole build day. <b>I don't start without it.</b>"</p>
+            <div class="trule"></div>
+            <div class="tname">Thomas Petersen<span>President &middot; SportProsUSA</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSE ============ -->
+<section class="close-band">
+  <div class="container">
+    <div class="eyebrow on-dark center"><span class="pip"></span>Pass It On</div>
+    <h2>You are the <em>exception</em>.</h2>
+    <p>You just did what most people only think about. Know a builder who would start their morning sharper too? Send them here.</p>
+    <div class="close-actions">
+      <a class="btn ondark" href="https://darrendaily.com/" data-share>Share DarrenDaily <span class="arrow">&rarr;</span></a>
+      <a class="btn-line ondark" href="https://darrendailyondemand.com/" target="_blank" rel="noopener">Listen While You Wait <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="foot-brand">
+        <img class="fb-logo" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
+        <p class="tag">Five days a week, 260 days a year, one strategic idea to start the day. No ads, no sponsors. Your attention is never for sale here.</p>
+        <div class="socials">
+          <a href="https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ" title="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a>
+          <a href="https://www.instagram.com/darrenhardy/" title="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.facebook.com/DarrenHardyFan/" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="https://twitter.com/DARRENHARDY" title="X" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="https://darrenhardy.com/about/">About</a></li>
+          <li><a href="https://darrenhardy.com/programs/">Resources</a></li>
+          <li><a href="https://darrendaily.com/">Daily Mentoring</a></li>
+          <li><a href="https://darrendailyondemand.com/">Podcast</a></li>
+          <li><a href="https://store.darrenhardy.com/">Books</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="https://helpme.darrenhardy.com/">Help Center</a></li>
+          <li><a href="https://darrenhardy.com/careers/">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <a class="bmc-corner" href="https://hardybmc.com" target="_blank" rel="noopener">
+          <img src="BMC_Logo.png" alt="BMC|COLLECTIVE">
+          <div class="bmc-corner-text">
+            <span class="bmc-corner-title">BMC|COLLECTIVE</span>
+            <span class="bmc-corner-tag">The Unfair Advantage<br>for Driven Leaders</span>
+            <span class="bmc-corner-cta">Explore Further <span class="arrow">&#8599;</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Darren Hardy, LLC. All Rights Reserved.</span>
+      <div class="legal-links">
+        <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
+        <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<!-- Share confirmation toast -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // Nav: transparent at the very top, flips to solid white after a small scroll
+  (function () {
+    var nav = document.querySelector('nav.top');
+    if (!nav) return;
+    var ticking = false;
+    function update() { ticking = false; nav.classList.toggle('solid', window.scrollY > 24); }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  })();
+
+  // Scroll reveal
+  (function () {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal, .stagger').forEach(function (el) { io.observe(el); });
+  })();
+
+  // Welcome video facade: swap the poster for the Vimeo player on click / Enter / Space
+  (function () {
+    var frame = document.getElementById('welcomeVideo');
+    if (!frame) return;
+    function play() {
+      var id = frame.getAttribute('data-vimeo-id');
+      if (!id || frame.querySelector('iframe')) return;
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&color=a72632&title=0&byline=0&portrait=0&dnt=1';
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('title', 'Darren Hardy welcomes you to DarrenDaily');
+      frame.appendChild(iframe);
+      frame.classList.add('playing');
+      frame.style.cursor = 'default';
+    }
+    frame.addEventListener('click', play);
+    frame.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); }
+    });
+  })();
+
+  // Share DarrenDaily: native share sheet with a copy-link fallback
+  (function () {
+    var SHARE = {
+      title: 'DarrenDaily',
+      text: 'Daily mentoring with Darren Hardy. One idea, five minutes, every weekday morning. Free.',
+      url: 'https://darrendaily.com/'
+    };
+    var toast = document.getElementById('toast');
+    var toastTimer;
+    function showToast(msg) {
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2600);
+    }
+    function share(ev) {
+      if (ev) ev.preventDefault();
+      if (navigator.share) {
+        navigator.share(SHARE).catch(function () {});
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(SHARE.url).then(function () {
+          showToast('Link copied. Thank you for sharing.');
+        }).catch(function () {
+          window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE.url), '_blank', 'noopener');
+        });
+        return;
+      }
+      window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE.url), '_blank', 'noopener');
+    }
+    document.querySelectorAll('[data-share]').forEach(function (el) {
+      el.addEventListener('click', share);
+    });
+  })();
+
+  // Testimonial marquee: clone the card set once so translateX(-50%) loops seamlessly
+  (function () {
+    var track = document.getElementById('twTrack');
+    if (!track) return;
+    Array.prototype.slice.call(track.children).forEach(function (card) {
+      var clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.querySelectorAll('img').forEach(function (img) { img.setAttribute('loading', 'lazy'); });
+      track.appendChild(clone);
+    });
+  })();
+</script>
+
+</body>
+</html>
