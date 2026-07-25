@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Exit Popup · Latest Session (Webflow drop-in)</title>
+<meta name="robots" content="noindex, nofollow">
+
+<!-- ─────────────────────────────────────────────────────────────
+     DARRENDAILY - EXIT-INTENT POPUP that offers the LATEST published session,
+     auto-updating from the Webflow CMS (the team never resets it).
+
+     HOW TO WIRE IN WEBFLOW (two paste targets):
+       1) MARKUP: rebuild the block marked "PASTE 1" as native Webflow elements
+          on the Session post TEMPLATE. The .xp-list is a COLLECTION LIST bound to
+          the Sessions collection: Sort = Published date (DESC), Limit = 2. Bind
+          each item's image + date + link to CMS fields, and set the item wrapper's
+          custom attribute  data-session-slug = the item Slug.
+          On #exitPopup set  data-current-slug = the CURRENT item's Slug (embed:
+          data-current-slug="{{wf {&quot;path&quot;:&quot;slug&quot;,&quot;type&quot;:&quot;PlainText&quot;} }}").
+          Limit 2 + skip-current means it always shows the newest session that
+          ISN'T the page you're on (so it never links you back to yourself).
+       2) CODE: paste the <style> and <script> marked "PASTE 2" into the page's
+          custom code (or a global embed). Search "WEBFLOW:" for every knob.
+
+     This file also renders a mock session page + a "Preview" button so you can
+     see and test the popup. Everything outside the PASTE blocks is demo-only.
+     ───────────────────────────────────────────────────────────── -->
+
+<style>
+  /* ==== demo-only page chrome (NOT part of the Webflow drop-in) ==== */
+  :root {
+    --paper:#ffffff; --mist:#f3f5f8; --ink:#14171c; --muted:#545c68; --soft:#616a78;
+    --line:rgba(20,23,28,0.12); --accent:#a72632; --accent-rgb:167,38,50; --radius:4px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--mist);color:var(--ink);-webkit-font-smoothing:antialiased;}
+  .demo-wrap{max-width:760px;margin:0 auto;padding:90px 24px 120px;text-align:center;}
+  .demo-tag{font-weight:800;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);}
+  .demo-wrap h1{font-weight:900;font-size:34px;letter-spacing:-0.03em;text-transform:uppercase;margin:14px 0 16px;}
+  .demo-wrap p{color:var(--muted);line-height:1.6;font-size:15.5px;max-width:560px;margin:0 auto 12px;}
+  .demo-wrap code{background:#fff;border:1px solid var(--line);border-radius:3px;padding:1px 6px;font-size:13px;}
+  .demo-btn{display:inline-flex;align-items:center;gap:10px;margin-top:26px;cursor:pointer;
+    font-weight:800;font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;padding:18px 34px;
+    border-radius:var(--radius);background:var(--accent);color:#fff;border:2px solid var(--accent);}
+  .demo-btn:hover{background:#fff;color:var(--accent);}
+  .demo-note{margin-top:34px;font-size:13px;color:var(--soft);line-height:1.6;}
+
+  /* ═══════════════════════ PASTE 2 (styles) ═══════════════════════ */
+  /* Exit-intent "latest session" popup. Self-contained; safe to paste into Webflow. */
+  .xp-modal{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:24px;
+    background:rgba(6,6,6,0.62);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+    opacity:0;visibility:hidden;transition:opacity .28s cubic-bezier(0.16,1,0.3,1),visibility .28s;}
+  .xp-modal.open{opacity:1;visibility:visible;}
+  .xp-card{position:relative;width:100%;max-width:460px;background:#fff;border-radius:0;padding:38px 34px 30px;
+    box-shadow:0 40px 100px -28px rgba(0,0,0,0.55);transform:translateY(16px);transition:transform .3s cubic-bezier(0.16,1,0.3,1);
+    max-height:calc(100vh - 48px);overflow-y:auto;text-align:left;}
+  .xp-modal.open .xp-card{transform:none;}
+  .xp-close{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(20,23,28,0.12);
+    background:#fff;color:#616a78;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s;}
+  .xp-close:hover{background:#f3f5f8;color:#14171c;}
+  .xp-close svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;}
+  .xp-accent{display:block;width:52px;height:3px;background:#a72632;border-radius:2px;margin-bottom:15px;}
+  .xp-eyebrow{font-weight:800;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#a72632;margin-bottom:12px;}
+  .xp-title{font-weight:900;letter-spacing:-0.03em;line-height:1.04;font-size:clamp(23px,3vw,29px);text-transform:uppercase;color:#14171c;}
+  .xp-title em{font-style:normal;color:#a72632;}
+  .xp-sub{font-size:14px;line-height:1.55;color:#545c68;margin:12px 0 20px;}
+  /* The session card(s) — .xp-list is the Collection List; .xp-session is the Collection Item link. */
+  .xp-list{display:block;}
+  .xp-session{position:relative;display:block;border-radius:0;overflow:hidden;border:1px solid rgba(20,23,28,0.12);
+    box-shadow:0 12px 30px -16px rgba(20,23,28,0.32);transition:transform .25s cubic-bezier(0.16,1,0.3,1),box-shadow .25s;text-decoration:none;}
+  .xp-session[hidden]{display:none;}
+  .xp-session:hover{transform:translateY(-4px);box-shadow:0 26px 50px -24px rgba(20,23,28,0.46);}
+  .xp-session img{display:block;width:100%;height:auto;}
+  .xp-session-date{position:absolute;top:10px;right:10px;z-index:2;display:inline-flex;align-items:center;gap:6px;
+    font-weight:700;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#fff;
+    background:rgba(10,8,10,0.5);border:1px solid rgba(255,255,255,0.22);border-radius:100px;padding:6px 12px;
+    backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
+  .xp-dismiss{display:block;width:100%;margin-top:16px;padding:6px;background:none;border:0;cursor:pointer;
+    font-family:inherit;font-weight:600;font-size:12.5px;letter-spacing:.02em;color:#616a78;text-decoration:underline;
+    text-underline-offset:3px;transition:color .2s;}
+  .xp-dismiss:hover{color:#14171c;}
+  @media (max-width:520px){.xp-card{padding:34px 22px 26px;}}
+  /* ═════════════════════ end PASTE 2 (styles) ═════════════════════ */
+</style>
+</head>
+<body>
+
+<!-- ==== demo-only mock session page ==== -->
+<div class="demo-wrap">
+  <div class="demo-tag">Demo · Session post page</div>
+  <h1>A live DarrenDaily session</h1>
+  <p>This mock page stands in for a Webflow session post. The exit-intent popup below offers the <b>latest published session</b>, pulled from the CMS, so the team never has to update a link.</p>
+  <p>Trigger it for real by moving your cursor up out of the top of the window (desktop) or using the back gesture (mobile). Or just preview it:</p>
+  <button class="demo-btn" id="xpDemo" type="button">Preview the exit popup &rarr;</button>
+  <p class="demo-note">Current page slug (demo): <code>high-achievers-do-on-saturdays</code>.<br>
+    The popup skips that item and offers the next-newest session instead.</p>
+</div>
+
+
+<!-- ═══════════════════════ PASTE 1 (markup) ═══════════════════════ -->
+<!-- WEBFLOW: build this on the Session post TEMPLATE.
+     - #exitPopup: set custom attribute  data-current-slug = current item Slug.
+     - .xp-list: a COLLECTION LIST bound to Sessions, Sort = Published DESC, Limit = 2.
+     - .xp-session: the Collection Item link -> bind href to the item, image to the card
+       image field, .xp-session-date to the publish date, and set custom attribute
+       data-session-slug = the item Slug. (The two demo items below are hardcoded.) -->
+<div class="xp-modal" id="exitPopup" role="dialog" aria-modal="true" aria-labelledby="xpTitle"
+     data-current-slug="high-achievers-do-on-saturdays">
+  <div class="xp-card">
+    <button class="xp-close" type="button" data-xp-close aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <span class="xp-accent" aria-hidden="true"></span>
+    <div class="xp-eyebrow">Before you go</div>
+    <h3 class="xp-title" id="xpTitle">Don't miss the <em>latest</em> session.</h3>
+    <p class="xp-sub">It's live right now, but every DarrenDaily expires in 72 hours. Then it's gone.</p>
+
+    <div class="xp-list" data-xp-list>
+      <!-- Collection Item 1 (newest) -->
+      <a class="xp-session" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays"
+         data-session-slug="high-achievers-do-on-saturdays">
+        <img src="ep-card-2.webp" alt="Watch: What high-achievers do on Saturdays" width="440" height="244" loading="lazy">
+        <span class="xp-session-date">Jul 24 &middot; 2026</span>
+      </a>
+      <!-- Collection Item 2 (next newest) -->
+      <a class="xp-session" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience"
+         data-session-slug="inspiring-real-life-story-for-career-resilience">
+        <img src="ep-card-3.webp" alt="Watch: An inspiring real-life story for career resilience" width="440" height="244" loading="lazy">
+        <span class="xp-session-date">Jul 23 &middot; 2026</span>
+      </a>
+    </div>
+
+    <button class="xp-dismiss" type="button" data-xp-close>No thanks, I'll catch the next one</button>
+  </div>
+</div>
+<!-- ═════════════════════ end PASTE 1 (markup) ═════════════════════ -->
+
+
+<!-- ═══════════════════════ PASTE 2 (script) ═══════════════════════ -->
+<script>
+  (function () {
+    var pop = document.getElementById('exitPopup');
+    if (!pop) return;
+
+    // WEBFLOW: how often the popup may reappear. Options:
+    //   sessionStorage -> once per browsing session (used below)
+    //   localStorage   -> persistent; pair with a timestamp for "once per N hours"
+    var STORE = window.sessionStorage;
+    var SHOWN_KEY = 'dd-exit-shown';
+
+    var listEl = pop.querySelector('[data-xp-list]');
+    var lastActive = null;
+
+    // 1) The current page's slug. WEBFLOW: bind data-current-slug to the current item Slug.
+    function currentSlug() {
+      var attr = pop.getAttribute('data-current-slug');
+      if (attr) return attr.trim();
+      var parts = location.pathname.replace(/\/+$/, '').split('/');   // fallback: last URL segment
+      return parts[parts.length - 1] || '';
+    }
+
+    // 2) Show the newest session whose slug != current page; hide the rest.
+    //    Returns the visible item, or null if nothing newer than the current page exists.
+    function resolveLatest() {
+      var cur = currentSlug();
+      var items = Array.prototype.slice.call(listEl.querySelectorAll('.xp-session'));
+      var shown = null;
+      items.forEach(function (it) {
+        var slug = (it.getAttribute('data-session-slug') || '').trim();
+        if (!shown && slug !== cur) { it.hidden = false; shown = it; }
+        else { it.hidden = true; }
+      });
+      return shown;
+    }
+
+    // 3) Frequency cap
+    function canShow() { try { return !STORE.getItem(SHOWN_KEY); } catch (e) { return true; } }
+    function markShown() { try { STORE.setItem(SHOWN_KEY, String(Date.now())); } catch (e) {} }
+
+    // 4) Open / close
+    function open(force) {
+      if (pop.classList.contains('open')) return;
+      if (!force && !canShow()) return;
+      if (!resolveLatest()) return;                 // nothing newer than this page -> don't nag
+      lastActive = document.activeElement;
+      pop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      markShown();
+      var c = pop.querySelector('[data-xp-close]'); if (c) c.focus();
+    }
+    function close() {
+      pop.classList.remove('open');
+      document.body.style.overflow = '';
+      if (lastActive && lastActive.focus) lastActive.focus();
+    }
+
+    // 5) Triggers
+    // Desktop: pointer leaves through the TOP edge of the viewport.
+    document.addEventListener('mouseout', function (e) {
+      if (e.clientY <= 0 && !e.relatedTarget && !e.toElement) open(false);
+    });
+    // Mobile: intercept the first back gesture/button (no true exit-intent on touch).
+    try {
+      history.pushState(null, '', location.href);
+      window.addEventListener('popstate', function () {
+        if (canShow()) { history.pushState(null, '', location.href); open(false); }
+      });
+    } catch (e) {}
+
+    // 6) Close handlers: X, "no thanks", backdrop click, Esc.
+    pop.querySelectorAll('[data-xp-close]').forEach(function (el) { el.addEventListener('click', close); });
+    pop.addEventListener('click', function (e) { if (e.target === pop) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pop.classList.contains('open')) close(); });
+
+    // --- demo helpers (safe to delete in production) ---
+    var demoBtn = document.getElementById('xpDemo');
+    if (demoBtn) demoBtn.addEventListener('click', function () { open(true); });
+    if (/[?&](exit|force)=1/.test(location.search)) open(true);
+  })();
+</script>
+<!-- ═════════════════════ end PASTE 2 (script) ═════════════════════ -->
+
+</body>
+</html>
