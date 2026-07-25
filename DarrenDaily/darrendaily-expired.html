@@ -343,6 +343,37 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+  /* ============ JOIN MODAL (opt-in form popup) ============ */
+  .modal { position: fixed; inset: 0; z-index: 400; display: flex; align-items: center; justify-content: center; padding: 24px;
+    background: rgba(12,8,10,0.62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    opacity: 0; visibility: hidden; transition: opacity .28s var(--ease), visibility .28s var(--ease); }
+  .modal.open { opacity: 1; visibility: visible; }
+  .modal-card { position: relative; width: 100%; max-width: 500px; background: #fff; border-radius: 14px; padding: 46px 40px 32px;
+    box-shadow: 0 40px 100px -30px rgba(0,0,0,0.6); transform: translateY(18px) scale(0.98); transition: transform .3s var(--ease);
+    max-height: calc(100vh - 48px); overflow-y: auto; }
+  .modal.open .modal-card { transform: none; }
+  .modal-close { position: absolute; top: 14px; right: 14px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line);
+    background: #fff; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s, color .2s; }
+  .modal-close:hover { background: var(--mist); color: var(--ink); }
+  .modal-close svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+  .modal-head { text-align: center; margin-bottom: 22px; }
+  .modal-head .eyebrow { justify-content: center; margin-bottom: 14px; }
+  .modal-head h3 { font-weight: 900; letter-spacing: -0.03em; line-height: 1.02; font-size: clamp(24px, 3.4vw, 32px); text-transform: uppercase; color: var(--ink); text-wrap: balance; }
+  .modal-head h3 em { font-style: normal; color: var(--accent); }
+  .modal-head p { font-size: 14.5px; line-height: 1.55; color: var(--muted); margin-top: 12px; }
+  .modal-form { display: grid; gap: 12px; text-align: left; }
+  .modal-form input, .modal-form select { width: 100%; font-family: inherit; font-size: 15px; color: var(--ink); padding: 15px 16px;
+    border-radius: var(--radius); border: 1.5px solid var(--line); background: #fff; transition: border-color .18s, box-shadow .18s; -webkit-appearance: none; appearance: none; }
+  .modal-form input::placeholder { color: var(--soft); }
+  .modal-form select { color: var(--soft); padding-right: 42px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23616a78' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat; background-position: right 15px center; background-size: 14px; cursor: pointer; }
+  .modal-form select.filled { color: var(--ink); }
+  .modal-form input:focus, .modal-form select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.16); }
+  .modal-form .btn { width: 100%; justify-content: center; margin-top: 4px; padding: 18px; }
+  .modal-micro { font-size: 12px; line-height: 1.5; color: var(--soft); text-align: center; margin-top: 4px; }
+  @media (max-width: 520px) { .modal-card { padding: 44px 24px 28px; } }
+
   /* ============ FOOTER ============ */
   footer { background: #0a0a0a; color: #c3bbb9; padding: 70px 0 40px; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 40px; }
@@ -462,7 +493,7 @@
     <h2>Don't let the next one <em>slip by</em>.</h2>
     <p class="cb-sub">Not a DarrenDaily member yet? It's free! <b>Get activated in seconds</b> and start receiving your own daily mentoring every weekday morning. Then the next session lands right in your inbox.</p>
     <div class="close-actions">
-      <a class="btn ondark" href="https://darrendaily.com/" target="_blank" rel="noopener">Get On The List <span class="arrow">&rarr;</span></a>
+      <a class="btn ondark" href="https://darrendaily.com/" data-open-form>Get On The List <span class="arrow">&rarr;</span></a>
     </div>
     <p class="cb-help">Questions about DarrenDaily? <a href="https://helpme.darrenhardy.com/hc/en-us" target="_blank" rel="noopener">Visit the help center</a></p>
   </div>
@@ -559,6 +590,38 @@
 <!-- Share confirmation toast -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<!-- ============ JOIN MODAL (opt-in form popup) ============ -->
+<div class="modal" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
+  <div class="modal-card">
+    <button class="modal-close" type="button" data-close-form aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <div class="modal-head">
+      <div class="eyebrow accent"><span class="pip"></span>#NeverMiss</div>
+      <h3 id="joinModalTitle">Start your <em>morning edge</em>.</h3>
+      <p>Five free minutes of daily mentoring, 260 mornings a year. The next session lands right in your inbox.</p>
+    </div>
+    <!-- WEBFLOW/HubSpot: wire #joinForm to the DarrenDaily opt-in (fields: firstname, email, role). -->
+    <form class="modal-form" id="joinForm" novalidate>
+      <input type="text" name="firstname" id="jmFirst" placeholder="First name *" aria-label="First name" autocomplete="given-name" required>
+      <input type="email" name="email" id="jmEmail" placeholder="Email *" aria-label="Email address" autocomplete="email" required>
+      <select name="role" id="jmRole" aria-label="Your role" required>
+        <option value="" disabled selected>I am a... *</option>
+        <option value="owner">Business Owner / Founder</option>
+        <option value="executive">CEO / Executive</option>
+        <option value="entrepreneur">Entrepreneur</option>
+        <option value="sales">Sales Professional</option>
+        <option value="manager">Manager / Team Leader</option>
+        <option value="coach">Coach / Consultant</option>
+        <option value="realestate">Real Estate / Mortgage</option>
+        <option value="other">Something else</option>
+      </select>
+      <button type="submit" class="btn">Get On The List <span class="arrow">&rarr;</span></button>
+      <p class="modal-micro">Join 350,000+ business builders. Free. No ads, ever. Unsubscribe in one click. Your information is never shared.</p>
+    </form>
+  </div>
+</div>
+
 <script>
   // Nav: transparent at the very top, flips to solid white after a small scroll
   (function () {
@@ -636,6 +699,39 @@
     }
     document.querySelectorAll('[data-share]').forEach(function (el) {
       el.addEventListener('click', share);
+    });
+  })();
+
+  // Join modal: opt-in form popup (progressive enhancement over the darrendaily.com link)
+  (function () {
+    var modal = document.getElementById('joinModal');
+    if (!modal) return;
+    var form = document.getElementById('joinForm');
+    var role = document.getElementById('jmRole');
+    var firstEl = document.getElementById('jmFirst');
+    var lastActive = null;
+    function open(ev) {
+      if (ev) ev.preventDefault();
+      lastActive = document.activeElement;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function () { if (firstEl) firstEl.focus(); }, 60);
+    }
+    function close() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (lastActive && lastActive.focus) lastActive.focus();
+    }
+    document.querySelectorAll('[data-open-form]').forEach(function (el) { el.addEventListener('click', open); });
+    document.querySelectorAll('[data-close-form]').forEach(function (el) { el.addEventListener('click', close); });
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+    if (role) role.addEventListener('change', function () { role.classList.toggle('filled', !!role.value); });
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      // On valid submit, send the new member to the welcome page (wire to HubSpot on launch)
+      window.location.href = 'darrendaily-welcome.html';
     });
   })();
 
