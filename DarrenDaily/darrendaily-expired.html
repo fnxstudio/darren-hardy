@@ -519,6 +519,25 @@
         </div>
       </a>
     </div>
+
+    <!-- ===================== WEBFLOW-READY (hidden until you activate it) =====================
+         Rebuild the .ep-grid above as a COLLECTION LIST, then delete the hardcoded cards above.
+           Collection: Sessions   |   Sort: Published date (DESC)   |   Limit: 2
+         Bind each [[FIELD]] in the Designer (one Collection Item shown; Webflow repeats it):
+           href                -> the Session item (link to whole item)
+           img src             -> "Card Image" field  (the designed card with the title baked in)
+           img alt             -> "Title" field        (IMPORTANT: keeps the baked-in headline accessible + SEO)
+           .ep-meta--date text -> "Published" date field
+
+    <div class="ep-grid stagger">
+      <a class="ep-card" href="[[SESSION_URL]]">
+        <img src="[[SESSION_CARD_IMAGE]]" alt="[[SESSION_TITLE]]" width="440" height="244" loading="lazy">
+        <div class="ep-metarow">
+          <span class="ep-meta ep-meta--date">[[SESSION_PUBLISHED_DATE]]</span>
+        </div>
+      </a>
+    </div>
+         ============================== end WEBFLOW-READY ============================== -->
   </div>
 </section>
 
@@ -680,6 +699,26 @@
         <span class="xp-session-date">Jul 23 &middot; 2026</span>
       </a>
     </div>
+
+    <!-- ===================== WEBFLOW-READY (hidden until you activate it) =====================
+         Rebuild the .xp-list above as a COLLECTION LIST, then delete the hardcoded items above.
+           Collection: Sessions   |   Sort: Published date (DESC)   |   Limit: 1   (this page is not a session, nothing to skip)
+         Bind each [[FIELD]] in the Designer (one Collection Item shown; Webflow repeats it):
+           href                   -> the Session item
+           img src                -> "Card Image" field
+           img alt                -> "Title" field   (IMPORTANT)
+           .xp-session-date text  -> "Published" date field
+           data-session-slug attr -> "Slug" field
+         Leave #exitPopup data-current-slug empty on this page.
+
+    <div class="xp-list" data-xp-list>
+      <a class="xp-session" href="[[SESSION_URL]]" data-session-slug="[[SESSION_SLUG]]">
+        <img src="[[SESSION_CARD_IMAGE]]" alt="[[SESSION_TITLE]]" width="440" height="244" loading="lazy">
+        <span class="xp-session-date">[[SESSION_PUBLISHED_DATE]]</span>
+      </a>
+    </div>
+         ============================== end WEBFLOW-READY ============================== -->
+
     <button class="xp-dismiss" type="button" data-xp-close>No thanks, I'll catch the next one</button>
   </div>
 </div>

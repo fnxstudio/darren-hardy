@@ -132,6 +132,26 @@
       </a>
     </div>
 
+    <!-- ===================== WEBFLOW-READY (hidden until you activate it) =====================
+         Rebuild the .xp-list above as a COLLECTION LIST, then delete the hardcoded items above.
+           Collection: Sessions   |   Sort: Published date (DESC)   |   Limit: 2   (2 so the skip-current logic always has a fallback)
+         Bind each [[FIELD]] in the Designer (one Collection Item shown; Webflow repeats it):
+           href                   -> the Session item
+           img src                -> "Card Image" field
+           img alt                -> "Title" field   (IMPORTANT)
+           .xp-session-date text  -> "Published" date field
+           data-session-slug attr -> "Slug" field
+         Also set on #exitPopup:  data-current-slug -> the CURRENT item's Slug (so the popup never links to this page).
+
+    <div class="xp-list" data-xp-list>
+      <a class="xp-session" href="[[SESSION_URL]]" data-session-slug="[[SESSION_SLUG]]">
+        <img src="[[SESSION_CARD_IMAGE]]" alt="[[SESSION_TITLE]]" width="440" height="244" loading="lazy">
+        <span class="xp-session-date">[[SESSION_PUBLISHED_DATE]]</span>
+      </a>
+    </div>
+         ============================== end WEBFLOW-READY ============================== -->
+
+
     <button class="xp-dismiss" type="button" data-xp-close>No thanks, I'll catch the next one</button>
   </div>
 </div>
