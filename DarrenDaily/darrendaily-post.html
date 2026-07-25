@@ -288,13 +288,13 @@
   .side-card__bd { padding: 16px 20px 22px; }
 
   /* Sidebar type A: recent sessions / "catch up" list */
-  .side-sessions .ss-item { display: grid; grid-template-columns: 96px 1fr; gap: 13px; align-items: center; text-decoration: none; padding: 12px 0; border-top: 1px solid var(--line-soft); }
-  .side-sessions .ss-item:first-of-type { border-top: 0; padding-top: 4px; }
-  .side-sessions .ss-thumb { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16/9; background: #0c0e12; }
-  .side-sessions .ss-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .side-sessions .ss-date { font-weight: 700; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
-  .side-sessions .ss-title { font-weight: 700; font-size: 13.5px; line-height: 1.32; color: var(--ink); margin-top: 4px; transition: color .2s; }
-  .side-sessions .ss-item:hover .ss-title { color: var(--accent); }
+  /* Date-overlay thumbnail cards (same pattern as the other DarrenDaily pages):
+     the designed card graphic carries the title, a date chip overlays the corner. */
+  .side-sessions .ss-card { position: relative; display: block; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 10px 26px -18px rgba(20,23,28,0.42); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .side-sessions .ss-card + .ss-card { margin-top: 14px; }
+  .side-sessions .ss-card:hover { transform: translateY(-4px); box-shadow: 0 24px 46px -24px rgba(20,23,28,0.5); }
+  .side-sessions .ss-card img { display: block; width: 100%; height: auto; }
+  .side-sessions .ss-date { position: absolute; top: 10px; right: 10px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase; color: #fff; background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius); padding: 5px 11px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
   .side-expiry { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; font-weight: 600; font-size: 11.5px; color: var(--soft); }
   .side-expiry svg { width: 13px; height: 13px; stroke: var(--accent); stroke-width: 2; fill: none; }
 
@@ -462,7 +462,11 @@
       </div>
 
       <!-- VIDEO (facade -> lazy Vimeo). The poster/thumbnail carries the title + description.
-           WEBFLOW: data-vimeo-id -> "Vimeo ID" field; poster <img> src/alt -> "Video Poster" + "Title". -->
+           WEBFLOW: data-vimeo-id -> "Vimeo ID" field.
+             poster <img> src -> "Video Poster" image field, alt -> "Title".
+           IMPORTANT: "Video Poster" is its own SEPARATE upload in the CMS backend,
+           distinct from the "Card Image" used in the Expiring Soon / listing cards.
+           Each session stores BOTH images (the post thumbnail here + the listing graphic). -->
       <div class="post-video reveal">
         <div class="video-frame" data-vimeo-id="355893131" role="button" tabindex="0" aria-label="Play today's DarrenDaily session">
           <img src="ep-2.webp" alt="Darren Hardy on the DarrenDaily set" width="1280" height="720" fetchpriority="high">
@@ -579,26 +583,26 @@
       </div>
            ============================================================ -->
 
-      <!-- CARD TYPE A: Expiring soon / recent sessions (WEBFLOW: Collection List, Sessions,
-           Sort Published DESC, Limit 3, filter out the current item). -->
+      <!-- CARD TYPE A: Expiring soon / recent sessions. Date-overlay thumbnails, same
+           pattern as the other DarrenDaily pages: the designed CARD IMAGE carries the
+           title, a date chip overlays the top-right. WEBFLOW: Collection List, Sessions,
+           Sort Published DESC, Limit 2-3, filter out the current item.
+             .ss-card img  -> "Card Image" field  (the designed listing graphic; alt = "Title")
+             .ss-date text -> "Published" date field
+           NOTE: "Card Image" is a DIFFERENT upload from the post's own "Video Poster"
+           thumbnail (see the video block) -- each session stores both. -->
       <div class="side-card side-sessions reveal">
         <div class="side-card__hd">
           <div class="eyebrow accent"><span class="pip"></span>Expiring Soon</div>
         </div>
         <div class="side-card__bd">
-          <a class="ss-item" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience">
-            <span class="ss-thumb"><img src="ep-card-3.webp" alt="An inspiring real-life story for career resilience" loading="lazy"></span>
-            <span>
-              <span class="ss-date">Jul 23 &middot; 2026</span>
-              <span class="ss-title">An inspiring real-life story for career resilience</span>
-            </span>
+          <a class="ss-card" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience">
+            <img src="ep-card-3.webp" alt="An inspiring real-life story for career resilience" width="440" height="244" loading="lazy">
+            <span class="ss-date">Jul 23 &middot; 2026</span>
           </a>
-          <a class="ss-item" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays">
-            <span class="ss-thumb"><img src="ep-card-2.webp" alt="What high-achievers do on Saturdays" loading="lazy"></span>
-            <span>
-              <span class="ss-date">Jul 24 &middot; 2026</span>
-              <span class="ss-title">What high-achievers do on Saturdays</span>
-            </span>
+          <a class="ss-card" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays">
+            <img src="ep-card-2.webp" alt="What high-achievers do on Saturdays" width="440" height="244" loading="lazy">
+            <span class="ss-date">Jul 24 &middot; 2026</span>
           </a>
           <div class="side-expiry">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
