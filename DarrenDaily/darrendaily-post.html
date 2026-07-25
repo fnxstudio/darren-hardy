@@ -172,27 +172,15 @@
   .nav-link:hover .arrow { transform: translateX(4px); }
   @media (max-width: 720px) { nav.top { padding: 12px 22px; } nav.top.solid { padding: 12px 22px; } .nav-brand img { height: 28px; } .nav-link { font-size: 10px; } }
 
-  /* ============ ARTICLE HEADER ============ */
-  .post-top { padding: 118px 0 0; background: var(--paper); }
-  .post-head { max-width: 900px; margin: 0 auto; text-align: center; }
-  .post-crumbs { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--soft); text-decoration: none; }
-  .post-crumbs:hover { color: var(--accent); }
-  .post-crumbs svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2.2; fill: none; }
-  .post-datebar { display: flex; justify-content: center; margin: 26px 0 20px; }
-  .post-date {
-    display: inline-flex; align-items: center; gap: 9px;
-    font-weight: 700; font-size: 12.5px; letter-spacing: 0.05em; color: var(--accent);
-    padding: 9px 18px; border-radius: 100px;
-    background: rgba(var(--accent-rgb), 0.07); border: 1px solid rgba(var(--accent-rgb), 0.28);
-  }
-  .post-date svg { width: 15px; height: 15px; stroke: var(--accent); stroke-width: 2; fill: none; }
-  .post-title { font-size: clamp(30px, 4.6vw, 60px); text-transform: uppercase; text-wrap: balance; color: var(--ink); }
-  .post-title em { font-style: normal; color: var(--accent); }
-  .post-dek { font-size: clamp(16px, 1.4vw, 19px); line-height: 1.6; color: var(--muted); max-width: 640px; margin: 22px auto 0; }
+  /* ============ ARTICLE HEADER (date only; the title lives on the video thumbnail) ============ */
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .post-datemeta { margin-bottom: 20px; }
+  .post-date { display: inline-flex; align-items: center; gap: 9px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .post-date svg { width: 16px; height: 16px; stroke: var(--accent); stroke-width: 2; fill: none; }
 
   /* ============ TWO-COLUMN LAYOUT (main + optional sidebar) ============ */
   .post-layout {
-    max-width: 1320px; margin: 0 auto; padding: 48px 48px 100px;
+    max-width: 1320px; margin: 0 auto; padding: 116px 48px 100px;
     display: grid; grid-template-columns: minmax(0, 1fr) 348px; gap: 60px; align-items: start;
   }
   .post-main { min-width: 0; }
@@ -202,7 +190,7 @@
      add class .no-aside on .post-layout. */
   .post-layout.no-aside { grid-template-columns: minmax(0, 860px); justify-content: center; }
   @media (max-width: 980px) {
-    .post-layout { grid-template-columns: 1fr; gap: 48px; padding: 40px 22px 84px; }
+    .post-layout { grid-template-columns: 1fr; gap: 48px; padding: 96px 22px 84px; }
     .post-aside { max-width: 620px; margin: 0 auto; width: 100%; }
   }
 
@@ -212,7 +200,7 @@
     box-shadow: 0 0 0 1px var(--line), 0 34px 80px -34px rgba(20,23,28,0.45);
   }
   .video-frame {
-    position: relative; width: 100%; border-radius: 10px; overflow: hidden;
+    position: relative; width: 100%; border-radius: var(--radius); overflow: hidden;
     aspect-ratio: 16 / 9; background: #0c0e12; cursor: pointer;
   }
   .video-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
@@ -263,17 +251,18 @@
   /* ---- Main: OPTIONAL banner / ad space ----
        WEBFLOW: wrap = "Banner Image is set" conditional visibility.
        .post-banner href -> "Banner Link". If no link, render it as a plain <div>. */
-  .post-banner { display: block; margin-top: 40px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); position: relative; transition: transform .25s var(--ease), box-shadow .25s var(--ease); text-decoration: none; }
+  .post-banner { display: block; margin-top: 40px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); position: relative; aspect-ratio: 1200 / 300; transition: transform .25s var(--ease), box-shadow .25s var(--ease); text-decoration: none; }
   .post-banner:hover { transform: translateY(-3px); box-shadow: 0 26px 50px -28px rgba(20,23,28,0.4); }
-  .post-banner img { display: block; width: 100%; height: auto; }
-  .post-banner .ad-tag { position: absolute; top: 10px; right: 10px; font-weight: 700; font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.85); background: rgba(10,8,10,0.42); padding: 4px 9px; border-radius: 100px; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  .post-banner img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* shared ad label (main 1200x300 banner + sidebar 300x250 ad) */
+  .ad-tag { position: absolute; top: 10px; right: 10px; font-weight: 700; font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.85); background: rgba(10,8,10,0.42); padding: 4px 9px; border-radius: var(--radius); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 
   /* ---- Main: social share bar ---- */
   .share-bar { margin-top: 42px; padding: 22px 2px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
     display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   .share-label { font-weight: 700; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--soft); }
   .share-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-  .share-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: #fff;
+  .share-btn { width: 42px; height: 42px; border-radius: var(--radius); border: 1px solid var(--line); background: #fff;
     display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink);
     transition: background .2s, border-color .2s, color .2s, transform .2s; }
   .share-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-2px); }
@@ -291,7 +280,7 @@
   /* ============ SIDEBAR (right column, optional; flexible card types) ============ */
   .post-aside { display: grid; gap: 24px; position: sticky; top: 92px; }
   @media (max-width: 980px) { .post-aside { position: static; } }
-  .side-card { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--paper);
+  .side-card { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--paper);
     box-shadow: 0 14px 36px -26px rgba(20,23,28,0.5); }
   .side-card__hd { display: flex; align-items: center; gap: 12px; padding: 18px 20px 0; }
   .side-card__hd .eyebrow { font-size: 10.5px; letter-spacing: 0.24em; }
@@ -301,7 +290,7 @@
   /* Sidebar type A: recent sessions / "catch up" list */
   .side-sessions .ss-item { display: grid; grid-template-columns: 96px 1fr; gap: 13px; align-items: center; text-decoration: none; padding: 12px 0; border-top: 1px solid var(--line-soft); }
   .side-sessions .ss-item:first-of-type { border-top: 0; padding-top: 4px; }
-  .side-sessions .ss-thumb { position: relative; border-radius: 6px; overflow: hidden; aspect-ratio: 16/9; background: #0c0e12; }
+  .side-sessions .ss-thumb { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16/9; background: #0c0e12; }
   .side-sessions .ss-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .side-sessions .ss-date { font-weight: 700; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
   .side-sessions .ss-title { font-weight: 700; font-size: 13.5px; line-height: 1.32; color: var(--ink); margin-top: 4px; transition: color .2s; }
@@ -324,6 +313,11 @@
   .side-join h3 em { font-style: normal; color: var(--accent-bright); }
   .side-join p { font-size: 13px; line-height: 1.55; color: var(--mist-on-dark); margin-bottom: 18px; }
   .side-join .btn { width: 100%; justify-content: center; padding: 16px; }
+
+  /* Sidebar type D: banner ad (medium rectangle, 300 x 250) */
+  .side-ad { display: block; position: relative; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; aspect-ratio: 300 / 250; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .side-ad:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -26px rgba(20,23,28,0.4); }
+  .side-ad img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ============ MEDIA COVER BIO - "The Vantage": SUCCESS covers wall + Darren cutout ============ */
   .intro { display: flex; min-height: 60vh; }
@@ -447,35 +441,28 @@
 <main id="top">
 <article>
 
-  <!-- ============ ARTICLE HEADER: date (top) + title + optional dek ============ -->
-  <header class="post-top">
-    <div class="container post-head reveal">
-      <a class="post-crumbs" href="darrendaily.html">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-        DarrenDaily
-      </a>
-      <!-- WEBFLOW: .post-date text -> "Published" date field (format: "EEEE · MMMM d, yyyy") -->
-      <div class="post-datebar">
-        <span class="post-date">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2.5" x2="8" y2="6"/><line x1="16" y1="2.5" x2="16" y2="6"/></svg>
-          Friday &middot; July 24, 2026
-        </span>
-      </div>
-      <!-- WEBFLOW: <h1> text -> "Title" field. Wrap one key word in <em> for the red pop (optional). -->
-      <h1 class="post-title">What High-Achievers Do on <em>Saturdays</em></h1>
-      <!-- OPTIONAL. WEBFLOW: .post-dek -> "Dek" field; hide when empty. -->
-      <p class="post-dek">The most revealing question about your life is not what you do at 9am on Monday. It is what you reach for at 9am on a Saturday.</p>
-    </div>
-  </header>
-
   <!-- ============ BODY: main column + optional sidebar ============ -->
   <div class="post-layout">
 
     <!-- ---------- MAIN COLUMN ---------- -->
     <div class="post-main">
 
-      <!-- VIDEO (facade -> lazy Vimeo). WEBFLOW: data-vimeo-id -> "Vimeo ID" field;
-           poster <img> src/alt -> "Video Poster" image + "Title". -->
+      <!-- Title lives on the video thumbnail, so it is not repeated on the page.
+           This <h1> is kept in the DOM (visually hidden) for SEO + screen readers.
+           WEBFLOW: bind its text to the "Title" field. -->
+      <h1 class="sr-only">What High-Achievers Do on Saturdays</h1>
+
+      <!-- PUBLISHED DATE (top of the post).
+           WEBFLOW: .post-date text -> "Published" date field (format: "EEEE · MMMM d, yyyy"). -->
+      <div class="post-datemeta reveal">
+        <span class="post-date">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2.5" x2="8" y2="6"/><line x1="16" y1="2.5" x2="16" y2="6"/></svg>
+          Friday &middot; July 24, 2026
+        </span>
+      </div>
+
+      <!-- VIDEO (facade -> lazy Vimeo). The poster/thumbnail carries the title + description.
+           WEBFLOW: data-vimeo-id -> "Vimeo ID" field; poster <img> src/alt -> "Video Poster" + "Title". -->
       <div class="post-video reveal">
         <div class="video-frame" data-vimeo-id="355893131" role="button" tabindex="0" aria-label="Play today's DarrenDaily session">
           <img src="ep-2.webp" alt="Darren Hardy on the DarrenDaily set" width="1280" height="720" fetchpriority="high">
@@ -484,23 +471,21 @@
         </div>
       </div>
 
-      <!-- CAPTION (rich text under the video). WEBFLOW: .post-caption -> "Caption" rich-text field. -->
+      <!-- CAPTION (short, under the video). WEBFLOW: .post-caption -> "Caption" rich-text field.
+           Keep it tight: a line or two of setup. The video does the teaching. -->
       <div class="post-caption reveal">
-        <p>Everybody is impressive on Monday. The alarm goes off, the calendar is full, and momentum does most of the work for you. Monday tells you almost nothing about who you really are.</p>
-        <p><strong>Saturday tells you everything.</strong> When nobody is watching, when there is no meeting to make and no boss to answer to, what do you reach for? That unguarded choice is the truest measure of where your life is actually pointed.</p>
-        <p>The highest achievers I have sat with over 35 years share one quiet trait: on Saturday morning, the thing they choose to do looks a lot like the thing they get paid to do during the week. Not because they have no life, but because they built a life around work they would do anyway.</p>
-        <blockquote>The goal is not a career you need a vacation from. It is a life you do not want to escape.</blockquote>
-        <p>So here is your assignment for this weekend. Notice the very first thing you gravitate toward Saturday morning, before the world asks anything of you. Then ask the honest question in the comments below.</p>
+        <p>The most revealing question about your life is not what you do at 9am on Monday. It is what you reach for at 9am on a Saturday.</p>
+        <p>Watch today's five minutes, then <strong>confess in the comments below.</strong></p>
       </div>
 
-      <!-- OPTIONAL BANNER / AD SPACE.
+      <!-- OPTIONAL BANNER / AD SPACE  (leaderboard, 1200 x 300).
            WEBFLOW: wrap with Conditional Visibility = "Banner Image is set".
-             <a> href      -> "Banner Link"  (if empty, swap the <a> for a <div>)
-             img src / alt -> "Banner Image" / "Banner Alt"
-           Remove the .ad-tag if the banner is house/promo content rather than a paid ad. -->
-      <a class="post-banner reveal" href="https://store.darrenhardy.com/" target="_blank" rel="noopener">
-        <span class="ad-tag">Sponsor</span>
-        <img src="dd-journal.webp" alt="The DarrenDaily Journal: capture one idea a day" width="1280" height="800" loading="lazy">
+             <a> href      -> "Banner Link"   (if empty, swap the <a> for a <div>)
+             img src / alt -> "Banner Image"  (upload at 1200 x 300) / "Banner Alt"
+           Drop the .ad-tag for house/promo content rather than a paid ad. -->
+      <a class="post-banner reveal" href="https://darrenhardy.com/" target="_blank" rel="noopener">
+        <span class="ad-tag">Ad</span>
+        <img src="hero-garden.webp" alt="Sponsor message" width="1200" height="300" loading="lazy">
       </a>
 
       <!-- SOCIAL SHARE (custom buttons; JS wires each to the current post URL + title) -->
@@ -577,6 +562,14 @@
           </div>
         </div>
       </div>
+
+      <!-- CARD TYPE D: banner ad, medium rectangle (300 x 250). OPTIONAL.
+           WEBFLOW: bind <a> href -> "Sidebar Ad Link", img src/alt -> "Sidebar Ad Image"
+           (upload at 300 x 250) / "Sidebar Ad Alt". Drop the .ad-tag for house/promo content. -->
+      <a class="side-ad reveal" href="https://hardybmc.com/" target="_blank" rel="noopener">
+        <span class="ad-tag">Ad</span>
+        <img src="dd-journal.webp" alt="Sponsor message" width="300" height="250" loading="lazy">
+      </a>
 
       <!-- CARD TYPE B: Product / promo (WEBFLOW: optional; bind image/heading/body/link
            or reference a "Featured Product" collection). -->
