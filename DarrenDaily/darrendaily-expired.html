@@ -850,6 +850,19 @@
       if ((y - lastY) / dt < -0.5 && lastY > 300) open(false);   // ~500px/s upward flick after scrolling down
       lastY = y; lastT = t;
     }, { passive: true });
+    // Mobile-friendly signals: reached the end of the page, or went idle.
+    // Scroll depth: fire once the reader hits ~90% of the page (they've seen everything).
+    window.addEventListener('scroll', function () {
+      var scrolled = window.pageYOffset + window.innerHeight;
+      if (scrolled / document.documentElement.scrollHeight >= 0.9) open(false);
+    }, { passive: true });
+    // Idle: no touch/scroll/tap/keypress for 30s -> about to drift off.
+    var idleTimer;
+    function resetIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(function () { open(false); }, 30000); }
+    ['touchstart', 'scroll', 'click', 'keydown', 'mousemove'].forEach(function (evt) {
+      window.addEventListener(evt, resetIdle, { passive: true });
+    });
+    resetIdle();
     pop.querySelectorAll('[data-xp-close]').forEach(function (el) { el.addEventListener('click', close); });
     pop.addEventListener('click', function (e) { if (e.target === pop) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pop.classList.contains('open')) close(); });
