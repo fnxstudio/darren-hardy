@@ -544,6 +544,41 @@
         <img src="dd-featured.webp" alt="Featured promotion" width="770" height="1016" loading="lazy">
       </a>
 
+      <!-- ============================================================
+           ALT featured slot: HubSpot SMART CTA (Option A - list personalization)
+           ============================================================
+           Use this INSTEAD of the CMS <a> above when the promo should
+           personalize by HubSpot LIST / lifecycle stage: a known (cookied)
+           contact sees their variation; anonymous / first-time visitors see
+           the default creative. This is managed in HubSpot, NOT the Webflow CMS,
+           so it sits outside the spreadsheet update flow. (Smart *CTAs* work on
+           external Webflow pages; smart *forms* and *modules* are HubSpot-hosted only.)
+
+           SETUP
+             1) Install the HubSpot tracking code ONCE, site-wide
+                (Webflow -> Site Settings -> Custom Code -> Head):
+                  <script id="hs-script-loader" async defer src="//js.hs-scripts.com/2518645.js"></script>
+             2) In HubSpot, build a Smart CTA (portrait creative, 770 x 1016)
+                with smart rules by contact list.
+             3) Delete the CMS <a class="side-feature"> above and paste the CTA
+                embed into a Webflow EMBED element, wrapped in <div class="side-feature">
+                so it inherits this slot's frame. Portal 2518645 is DarrenDaily's;
+                swap the CTA GUID (bd155898-...) for your Smart CTA's GUID:
+
+      <div class="side-feature reveal">
+        <span class="feat-tag">Featured</span>
+        <span class="hs-cta-wrapper" id="hs-cta-wrapper-ddfeat">
+          <span class="hs-cta-node hs-cta-ddfeat" id="hs-cta-ddfeat">
+            <a href="https://cta-redirect.hubspot.com/cta/redirect/2518645/bd155898-1db0-4283-b7c5-258c5313e579" target="_blank" rel="noopener">
+              <img class="hs-cta-img" src="https://no-cache.hubspot.com/cta/default/2518645/bd155898-1db0-4283-b7c5-258c5313e579.png" alt="Featured promotion">
+            </a>
+          </span>
+          <script charset="utf-8" src="https://js.hscta.net/cta/current.js"></script>
+          <script type="text/javascript">hbspt.cta.load(2518645, 'bd155898-1db0-4283-b7c5-258c5313e579', {"useNewLoader":"static","region":"na1"});</script>
+        </span>
+      </div>
+           ============================================================ -->
+
       <!-- CARD TYPE A: Expiring soon / recent sessions (WEBFLOW: Collection List, Sessions,
            Sort Published DESC, Limit 3, filter out the current item). -->
       <div class="side-card side-sessions reveal">
