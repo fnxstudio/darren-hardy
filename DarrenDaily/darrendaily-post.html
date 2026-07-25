@@ -254,8 +254,6 @@
   .post-banner { display: block; margin-top: 40px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); position: relative; aspect-ratio: 1200 / 300; transition: transform .25s var(--ease), box-shadow .25s var(--ease); text-decoration: none; }
   .post-banner:hover { transform: translateY(-3px); box-shadow: 0 26px 50px -28px rgba(20,23,28,0.4); }
   .post-banner img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  /* shared "Featured" label (main 1200x300 banner + sidebar 300x250 feature) */
-  .feat-tag { position: absolute; top: 10px; right: 10px; font-weight: 700; font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.85); background: rgba(10,8,10,0.42); padding: 4px 9px; border-radius: var(--radius); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 
   /* ---- Main: social share bar ---- */
   .share-bar { margin-top: 42px; padding: 22px 2px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
@@ -295,7 +293,7 @@
   .side-sessions .ss-card:hover { transform: translateY(-4px); box-shadow: 0 24px 46px -24px rgba(20,23,28,0.5); }
   .side-sessions .ss-card img { display: block; width: 100%; height: auto; }
   .side-sessions .ss-date { position: absolute; top: 10px; right: 10px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase; color: #fff; background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius); padding: 5px 11px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
-  .side-expiry { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; font-weight: 600; font-size: 11.5px; color: var(--soft); }
+  .side-expiry { display: flex; align-items: center; gap: 7px; margin: 0 0 16px; font-weight: 600; font-size: 11.5px; color: var(--soft); }
   .side-expiry svg { width: 13px; height: 13px; stroke: var(--accent); stroke-width: 2; fill: none; }
 
   /* Sidebar type B: product / journal promo */
@@ -510,11 +508,8 @@
       <!-- OPTIONAL FEATURED BANNER  (in-house promo, leaderboard 1200 x 300).
            WEBFLOW: wrap with Conditional Visibility = "Banner Image is set".
              <a> href      -> "Banner Link"   (if empty, swap the <a> for a <div>)
-             img src / alt -> "Banner Image"  (upload at 1200 x 300) / "Banner Alt"
-           Drop the .feat-tag if you don't want the "Featured" label. -->
-      <a class="post-banner reveal" href="https://darrenhardy.com/" target="_blank" rel="noopener">
-        <span class="feat-tag">Featured</span>
-        <img src="hero-garden.webp" alt="Featured promotion" width="1200" height="300" loading="lazy">
+             img src / alt -> "Banner Image"  (upload at 1200 x 300) / "Banner Alt" -->
+      <a class="post-banner reveal" href="https://darrenhardy.com/" target="_blank" rel="noopener">        <img src="hero-garden.webp" alt="Featured promotion" width="1200" height="300" loading="lazy">
       </a>
 
       <!-- COMMENTS: Hyvor Talk (same plugin the live dd.darrenhardy.com posts use).
@@ -541,11 +536,8 @@
 
       <!-- CARD TYPE D: featured promo, portrait (770 x 1016 = the DarrenDaily CTA slot size). OPTIONAL.
            Sits at the top of the column. WEBFLOW: bind <a> href -> "Sidebar Feature Link",
-           img src/alt -> "Sidebar Feature Image" (upload at 770 x 1016) / "Sidebar Feature Alt".
-           Drop the .feat-tag to hide the label. -->
-      <a class="side-feature reveal" href="https://darrenhardy.com/careers/" target="_blank" rel="noopener">
-        <span class="feat-tag">Featured</span>
-        <img src="dd-featured.webp" alt="Featured promotion" width="770" height="1016" loading="lazy">
+           img src/alt -> "Sidebar Feature Image" (upload at 770 x 1016) / "Sidebar Feature Alt". -->
+      <a class="side-feature reveal" href="https://darrenhardy.com/careers/" target="_blank" rel="noopener">        <img src="dd-featured.webp" alt="Featured promotion" width="770" height="1016" loading="lazy">
       </a>
 
       <!-- ============================================================
@@ -569,9 +561,7 @@
                 so it inherits this slot's frame. Portal 2518645 is DarrenDaily's;
                 swap the CTA GUID (bd155898-...) for your Smart CTA's GUID:
 
-      <div class="side-feature reveal">
-        <span class="feat-tag">Featured</span>
-        <span class="hs-cta-wrapper" id="hs-cta-wrapper-ddfeat">
+      <div class="side-feature reveal">        <span class="hs-cta-wrapper" id="hs-cta-wrapper-ddfeat">
           <span class="hs-cta-node hs-cta-ddfeat" id="hs-cta-ddfeat">
             <a href="https://cta-redirect.hubspot.com/cta/redirect/2518645/bd155898-1db0-4283-b7c5-258c5313e579" target="_blank" rel="noopener">
               <img class="hs-cta-img" src="https://no-cache.hubspot.com/cta/default/2518645/bd155898-1db0-4283-b7c5-258c5313e579.png" alt="Featured promotion">
@@ -596,6 +586,10 @@
           <div class="eyebrow accent"><span class="pip"></span>Expiring Soon</div>
         </div>
         <div class="side-card__bd">
+          <div class="side-expiry">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+            Each session lives 72 hours, then it is gone.
+          </div>
           <a class="ss-card" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience">
             <img src="ep-card-3.webp" alt="An inspiring real-life story for career resilience" width="440" height="244" loading="lazy">
             <span class="ss-date">Jul 23 &middot; 2026</span>
@@ -604,10 +598,6 @@
             <img src="ep-card-2.webp" alt="What high-achievers do on Saturdays" width="440" height="244" loading="lazy">
             <span class="ss-date">Jul 24 &middot; 2026</span>
           </a>
-          <div class="side-expiry">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
-            Each session lives 72 hours, then it is gone.
-          </div>
         </div>
       </div>
 
