@@ -175,8 +175,8 @@
   /* ============ ARTICLE HEADER (date only; the title lives on the video thumbnail) ============ */
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   .post-datemeta { margin-bottom: 20px; }
-  .post-date { display: inline-flex; align-items: center; gap: 9px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
-  .post-date svg { width: 16px; height: 16px; stroke: var(--accent); stroke-width: 2; fill: none; }
+  .post-date { display: inline-flex; align-items: center; gap: 9px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); }
+  .post-date svg { width: 16px; height: 16px; stroke: var(--ink); stroke-width: 2; fill: none; }
 
   /* ============ TWO-COLUMN LAYOUT (main + optional sidebar) ============ */
   .post-layout {
@@ -314,8 +314,8 @@
   .side-join p { font-size: 13px; line-height: 1.55; color: var(--mist-on-dark); margin-bottom: 18px; }
   .side-join .btn { width: 100%; justify-content: center; padding: 16px; }
 
-  /* Sidebar type D: featured promo (medium rectangle, 300 x 250) */
-  .side-feature { display: block; position: relative; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; aspect-ratio: 300 / 250; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  /* Sidebar type D: featured promo (portrait, 770 x 1016 = DarrenDaily CTA slot size) */
+  .side-feature { display: block; position: relative; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; aspect-ratio: 770 / 1016; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
   .side-feature:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -26px rgba(20,23,28,0.4); }
   .side-feature img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -471,24 +471,7 @@
         </div>
       </div>
 
-      <!-- CAPTION (short, under the video). WEBFLOW: .post-caption -> "Caption" rich-text field.
-           Keep it tight: a line or two of setup. The video does the teaching. -->
-      <div class="post-caption reveal">
-        <p>The most revealing question about your life is not what you do at 9am on Monday. It is what you reach for at 9am on a Saturday.</p>
-        <p>Watch today's five minutes, then <strong>confess in the comments below.</strong></p>
-      </div>
-
-      <!-- OPTIONAL FEATURED BANNER  (in-house promo, leaderboard 1200 x 300).
-           WEBFLOW: wrap with Conditional Visibility = "Banner Image is set".
-             <a> href      -> "Banner Link"   (if empty, swap the <a> for a <div>)
-             img src / alt -> "Banner Image"  (upload at 1200 x 300) / "Banner Alt"
-           Drop the .feat-tag if you don't want the "Featured" label. -->
-      <a class="post-banner reveal" href="https://darrenhardy.com/" target="_blank" rel="noopener">
-        <span class="feat-tag">Featured</span>
-        <img src="hero-garden.webp" alt="Featured promotion" width="1200" height="300" loading="lazy">
-      </a>
-
-      <!-- SOCIAL SHARE (custom buttons; JS wires each to the current post URL + title) -->
+      <!-- SOCIAL SHARE (directly below the video; custom buttons, JS wires each to the current post URL + title) -->
       <div class="share-bar reveal">
         <span class="share-label">Share this</span>
         <div class="share-btns">
@@ -513,6 +496,23 @@
         </div>
       </div>
 
+      <!-- CAPTION (short, under the video). WEBFLOW: .post-caption -> "Caption" rich-text field.
+           Keep it tight: a line or two of setup. The video does the teaching. -->
+      <div class="post-caption reveal">
+        <p>The most revealing question about your life is not what you do at 9am on Monday. It is what you reach for at 9am on a Saturday.</p>
+        <p>Watch today's five minutes, then <strong>confess in the comments below.</strong></p>
+      </div>
+
+      <!-- OPTIONAL FEATURED BANNER  (in-house promo, leaderboard 1200 x 300).
+           WEBFLOW: wrap with Conditional Visibility = "Banner Image is set".
+             <a> href      -> "Banner Link"   (if empty, swap the <a> for a <div>)
+             img src / alt -> "Banner Image"  (upload at 1200 x 300) / "Banner Alt"
+           Drop the .feat-tag if you don't want the "Featured" label. -->
+      <a class="post-banner reveal" href="https://darrenhardy.com/" target="_blank" rel="noopener">
+        <span class="feat-tag">Featured</span>
+        <img src="hero-garden.webp" alt="Featured promotion" width="1200" height="300" loading="lazy">
+      </a>
+
       <!-- COMMENTS: Hyvor Talk (same plugin the live dd.darrenhardy.com posts use).
            website-id stays constant across all posts. Leave page-id EMPTY so Hyvor
            threads by the page URL (each CMS post is its own thread automatically).
@@ -535,11 +535,20 @@
          reflows. Each card below is a reusable "content type" for the right column. -->
     <aside class="post-aside">
 
-      <!-- CARD TYPE A: Catch up / recent sessions (WEBFLOW: Collection List, Sessions,
+      <!-- CARD TYPE D: featured promo, portrait (770 x 1016 = the DarrenDaily CTA slot size). OPTIONAL.
+           Sits at the top of the column. WEBFLOW: bind <a> href -> "Sidebar Feature Link",
+           img src/alt -> "Sidebar Feature Image" (upload at 770 x 1016) / "Sidebar Feature Alt".
+           Drop the .feat-tag to hide the label. -->
+      <a class="side-feature reveal" href="https://darrenhardy.com/careers/" target="_blank" rel="noopener">
+        <span class="feat-tag">Featured</span>
+        <img src="dd-featured.webp" alt="Featured promotion" width="770" height="1016" loading="lazy">
+      </a>
+
+      <!-- CARD TYPE A: Expiring soon / recent sessions (WEBFLOW: Collection List, Sessions,
            Sort Published DESC, Limit 3, filter out the current item). -->
       <div class="side-card side-sessions reveal">
         <div class="side-card__hd">
-          <div class="eyebrow accent"><span class="pip"></span>Catch Up</div>
+          <div class="eyebrow accent"><span class="pip"></span>Expiring Soon</div>
         </div>
         <div class="side-card__bd">
           <a class="ss-item" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience">
@@ -562,14 +571,6 @@
           </div>
         </div>
       </div>
-
-      <!-- CARD TYPE D: featured promo, medium rectangle (300 x 250). OPTIONAL.
-           WEBFLOW: bind <a> href -> "Sidebar Feature Link", img src/alt -> "Sidebar Feature Image"
-           (upload at 300 x 250) / "Sidebar Feature Alt". Drop the .feat-tag to hide the label. -->
-      <a class="side-feature reveal" href="https://hardybmc.com/" target="_blank" rel="noopener">
-        <span class="feat-tag">Featured</span>
-        <img src="dd-journal.webp" alt="Featured promotion" width="300" height="250" loading="lazy">
-      </a>
 
       <!-- CARD TYPE B: Product / promo (WEBFLOW: optional; bind image/heading/body/link
            or reference a "Featured Product" collection). -->
