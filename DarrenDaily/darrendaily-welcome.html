@@ -851,6 +851,13 @@
         if (canShow()) { history.pushState(null, '', location.href); open(false); }
       });
     } catch (e) {}
+    // Also treat a fast upward scroll as leave-intent (helps on trackpads and touch, where mouseout never fires).
+    var lastY = window.pageYOffset, lastT = Date.now();
+    window.addEventListener('scroll', function () {
+      var y = window.pageYOffset, t = Date.now(), dt = (t - lastT) || 1;
+      if ((y - lastY) / dt < -0.5 && lastY > 300) open(false);   // ~500px/s upward flick after scrolling down
+      lastY = y; lastT = t;
+    }, { passive: true });
     pop.querySelectorAll('[data-xp-close]').forEach(function (el) { el.addEventListener('click', close); });
     pop.addEventListener('click', function (e) { if (e.target === pop) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pop.classList.contains('open')) close(); });
