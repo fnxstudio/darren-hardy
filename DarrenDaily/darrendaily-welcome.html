@@ -811,6 +811,7 @@
     if (!pop) return;
     var STORE = window.sessionStorage;            // once per browsing session (swap to localStorage for longer)
     var SHOWN_KEY = 'dd-exit-shown';
+    var CAP_ENABLED = false;                      // TESTING: false = show on every trigger. SET TO true BEFORE LAUNCH.
     var listEl = pop.querySelector('[data-xp-list]');
     var lastActive = null;
     function currentSlug() { var a = pop.getAttribute('data-current-slug'); return a ? a.trim() : ''; }
@@ -824,8 +825,8 @@
       });
       return shown;
     }
-    function canShow() { try { return !STORE.getItem(SHOWN_KEY); } catch (e) { return true; } }
-    function markShown() { try { STORE.setItem(SHOWN_KEY, String(Date.now())); } catch (e) {} }
+    function canShow() { if (!CAP_ENABLED) return true; try { return !STORE.getItem(SHOWN_KEY); } catch (e) { return true; } }
+    function markShown() { if (!CAP_ENABLED) return; try { STORE.setItem(SHOWN_KEY, String(Date.now())); } catch (e) {} }
     function open(force) {
       if (pop.classList.contains('open')) return;
       if (!force && !canShow()) return;
