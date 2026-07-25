@@ -363,6 +363,40 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+  /* ============ EXIT-INTENT "LATEST SESSION" POPUP ============ */
+  .xp-modal { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; padding: 24px;
+    background: rgba(6,6,6,0.62); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    opacity: 0; visibility: hidden; transition: opacity .28s var(--ease), visibility .28s var(--ease); }
+  .xp-modal.open { opacity: 1; visibility: visible; }
+  .xp-card { position: relative; width: 100%; max-width: 460px; background: #fff; border-radius: 0; padding: 38px 34px 30px;
+    box-shadow: 0 40px 100px -28px rgba(0,0,0,0.55); transform: translateY(16px); transition: transform .3s var(--ease);
+    max-height: calc(100vh - 48px); overflow-y: auto; text-align: left; }
+  .xp-modal.open .xp-card { transform: none; }
+  .xp-close { position: absolute; top: 16px; right: 16px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line);
+    background: #fff; color: var(--soft); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s, color .2s; }
+  .xp-close:hover { background: var(--mist); color: var(--ink); }
+  .xp-close svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; }
+  .xp-accent { display: block; width: 52px; height: 3px; background: var(--accent); border-radius: 2px; margin-bottom: 15px; }
+  .xp-eyebrow { font-weight: 800; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .xp-title { font-weight: 900; letter-spacing: -0.03em; line-height: 1.04; font-size: clamp(23px, 3vw, 29px); text-transform: uppercase; color: var(--ink); }
+  .xp-title em { font-style: normal; color: var(--accent); }
+  .xp-sub { font-size: 14px; line-height: 1.55; color: var(--muted); margin: 12px 0 20px; }
+  .xp-list { display: block; }
+  .xp-session { position: relative; display: block; border-radius: 0; overflow: hidden; border: 1px solid var(--line);
+    box-shadow: 0 12px 30px -16px rgba(20,23,28,0.32); transition: transform .25s var(--ease), box-shadow .25s var(--ease); text-decoration: none; }
+  .xp-session[hidden] { display: none; }
+  .xp-session:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -24px rgba(20,23,28,0.46); }
+  .xp-session img { display: block; width: 100%; height: auto; }
+  .xp-session-date { position: absolute; top: 10px; right: 10px; z-index: 2; display: inline-flex; align-items: center; gap: 6px;
+    font-weight: 700; font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: #fff;
+    background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: 100px; padding: 6px 12px;
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+  .xp-dismiss { display: block; width: 100%; margin-top: 16px; padding: 6px; background: none; border: 0; cursor: pointer;
+    font-family: inherit; font-weight: 600; font-size: 12.5px; letter-spacing: 0.02em; color: var(--soft); text-decoration: underline;
+    text-underline-offset: 3px; transition: color .2s; }
+  .xp-dismiss:hover { color: var(--ink); }
+  @media (max-width: 520px) { .xp-card { padding: 34px 22px 26px; } }
+
   /* ============ FOOTER ============ */
   footer { background: #0a0a0a; color: #c3bbb9; padding: 70px 0 40px; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 40px; }
@@ -641,6 +675,33 @@
 <!-- Share confirmation toast -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<!-- ============ EXIT-INTENT "LATEST SESSION" POPUP ============ -->
+<!-- WEBFLOW: .xp-list is a Collection List bound to Sessions, Sort = Published DESC, Limit = 1
+     (this page is not a session, so there's no current slug to skip). Bind each item's image,
+     date, and link to CMS fields. Auto-updates on publish; the team never resets it. -->
+<div class="xp-modal" id="exitPopup" role="dialog" aria-modal="true" aria-labelledby="xpTitle" data-current-slug="">
+  <div class="xp-card">
+    <button class="xp-close" type="button" data-xp-close aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <span class="xp-accent" aria-hidden="true"></span>
+    <div class="xp-eyebrow">Before you go</div>
+    <h3 class="xp-title" id="xpTitle">Don't miss the <em>latest</em> session.</h3>
+    <p class="xp-sub">It's live right now, but every DarrenDaily expires in 72 hours. Then it's gone.</p>
+    <div class="xp-list" data-xp-list>
+      <a class="xp-session" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays" data-session-slug="high-achievers-do-on-saturdays">
+        <img src="ep-card-2.webp" alt="Watch: What high-achievers do on Saturdays" width="440" height="244" loading="lazy">
+        <span class="xp-session-date">Jul 24 &middot; 2026</span>
+      </a>
+      <a class="xp-session" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience" data-session-slug="inspiring-real-life-story-for-career-resilience">
+        <img src="ep-card-3.webp" alt="Watch: An inspiring real-life story for career resilience" width="440" height="244" loading="lazy">
+        <span class="xp-session-date">Jul 23 &middot; 2026</span>
+      </a>
+    </div>
+    <button class="xp-dismiss" type="button" data-xp-close>No thanks, I'll catch the next one</button>
+  </div>
+</div>
+
 <script>
   // Nav: transparent at the very top, flips to solid white after a small scroll
   (function () {
@@ -742,6 +803,58 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     draw();
+  })();
+
+  // Exit-intent "latest session" popup (offers the newest session, auto-updating from the CMS)
+  (function () {
+    var pop = document.getElementById('exitPopup');
+    if (!pop) return;
+    var STORE = window.sessionStorage;            // once per browsing session (swap to localStorage for longer)
+    var SHOWN_KEY = 'dd-exit-shown';
+    var listEl = pop.querySelector('[data-xp-list]');
+    var lastActive = null;
+    function currentSlug() { var a = pop.getAttribute('data-current-slug'); return a ? a.trim() : ''; }
+    function resolveLatest() {
+      var cur = currentSlug();
+      var items = Array.prototype.slice.call(listEl.querySelectorAll('.xp-session'));
+      var shown = null;
+      items.forEach(function (it) {
+        var slug = (it.getAttribute('data-session-slug') || '').trim();
+        if (!shown && slug !== cur) { it.hidden = false; shown = it; } else { it.hidden = true; }
+      });
+      return shown;
+    }
+    function canShow() { try { return !STORE.getItem(SHOWN_KEY); } catch (e) { return true; } }
+    function markShown() { try { STORE.setItem(SHOWN_KEY, String(Date.now())); } catch (e) {} }
+    function open(force) {
+      if (pop.classList.contains('open')) return;
+      if (!force && !canShow()) return;
+      if (!resolveLatest()) return;                // nothing to offer -> don't nag
+      lastActive = document.activeElement;
+      pop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      markShown();
+      var c = pop.querySelector('[data-xp-close]'); if (c) c.focus();
+    }
+    function close() {
+      pop.classList.remove('open');
+      document.body.style.overflow = '';
+      if (lastActive && lastActive.focus) lastActive.focus();
+    }
+    // Desktop: pointer leaves through the top edge. Mobile: intercept the first back gesture.
+    document.addEventListener('mouseout', function (e) {
+      if (e.clientY <= 0 && !e.relatedTarget && !e.toElement) open(false);
+    });
+    try {
+      history.pushState(null, '', location.href);
+      window.addEventListener('popstate', function () {
+        if (canShow()) { history.pushState(null, '', location.href); open(false); }
+      });
+    } catch (e) {}
+    pop.querySelectorAll('[data-xp-close]').forEach(function (el) { el.addEventListener('click', close); });
+    pop.addEventListener('click', function (e) { if (e.target === pop) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pop.classList.contains('open')) close(); });
+    if (/[?&]exit=1/.test(location.search)) open(true);   // QA: append ?exit=1 to force-preview
   })();
 </script>
 
