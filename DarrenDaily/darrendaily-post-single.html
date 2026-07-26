@@ -155,23 +155,44 @@
   @media (max-width: 980px) { .post-head { padding: 32px 22px 0; } }
   @media (max-width: 560px) { .post-logo img { height: 28px; } .post-date { font-size: 14px; } }
 
-  /* ============ HERO: contained top - soft light blurred set bg (same treatment as the expired page) ============ */
-  .post-hero { position: relative; overflow: hidden; padding: 40px 0 30px; background: var(--mist); }
-  .post-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: blur(26px) brightness(1.04) saturate(1.12); transform: scale(1.18); z-index: 0; }
+  /* ============ HERO: contained top - IDENTICAL blurred set bg + treatment to the expired page ============ */
+  .post-hero { position: relative; overflow: hidden; padding: 40px 0 96px; background: var(--mist); }
+  .post-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: blur(20px) brightness(1.02) saturate(1.14); transform: scale(1.16); z-index: 0; }
   .post-hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: radial-gradient(ellipse 90% 70% at 50% 40%, rgba(243,245,248,0.18), transparent 72%),
-      linear-gradient(180deg, rgba(243,245,248,0.60) 0%, rgba(243,245,248,0.28) 32%, rgba(243,245,248,0.72) 100%); }
+    background: radial-gradient(ellipse 76% 48% at 50% 32%, rgba(20,10,12,0.32), transparent 70%),
+      linear-gradient(180deg, rgba(20,10,12,0.28) 0%, rgba(20,10,12,0.03) 24%, rgba(20,10,12,0.02) 56%, rgba(20,10,12,0.30) 100%); }
   .post-hero__inner { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
   .post-hero .post-masthead { margin-bottom: 20px; }
   .post-hero .post-logo img { height: 34px; }
-  .post-hero .post-video .video-frame { box-shadow: 0 0 0 1px rgba(20,23,28,0.06), 0 34px 74px -34px rgba(20,23,28,0.5); }
-  .post-hero .share-bar { margin-top: 22px; border-color: rgba(20,23,28,0.14); }
-  @media (max-width: 560px) { .post-hero { padding: 28px 0 24px; } .post-hero .post-logo img { height: 26px; } .post-hero .post-date { font-size: 14px; } }
+  .post-hero .post-logo .logo-dark { display: none; }
+  .post-hero .post-date { color: #fff; text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
+  .post-hero .post-video .video-frame { box-shadow: 0 0 0 1px rgba(255,255,255,0.10), 0 40px 90px -34px rgba(0,0,0,0.62); }
+  .post-hero .share-bar { margin-top: 22px; border-color: rgba(255,255,255,0.28); }
+  .post-hero .share-label { color: rgba(255,255,255,0.82); }
+  /* ADMIN toggle -> plain white hero (no background image) */
+  body.hero-plain .post-hero { background: var(--paper); }
+  body.hero-plain .post-hero__bg, body.hero-plain .post-hero::after { display: none; }
+  body.hero-plain .post-hero .post-logo .logo-light { display: none; }
+  body.hero-plain .post-hero .post-logo .logo-dark { display: block; }
+  body.hero-plain .post-hero .post-date { color: var(--ink); text-shadow: none; }
+  body.hero-plain .post-hero .share-bar { border-color: rgba(20,23,28,0.14); }
+  body.hero-plain .post-hero .share-label { color: var(--soft); }
+  body.hero-plain .post-hero .post-video .video-frame { box-shadow: 0 0 0 1px rgba(20,23,28,0.06), 0 34px 74px -34px rgba(20,23,28,0.5); }
+  @media (max-width: 560px) { .post-hero { padding: 28px 0 80px; } .post-hero .post-logo img { height: 26px; } .post-hero .post-date { font-size: 14px; } }
 
-  /* ============ SINGLE-COLUMN LAYOUT (v2) - description sits right under the hero ============ */
-  .post-layout { max-width: 760px; margin: 0 auto; padding: 20px 24px 100px; }
-  .post-main { min-width: 0; }
-  @media (max-width: 980px) { .post-layout { padding: 16px 22px 84px; } }
+  /* ============ SINGLE-COLUMN LAYOUT (v2) - content in a framed card that OVERLAPS the hero ============ */
+  .post-layout { max-width: 812px; margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 5; }
+  .post-main { min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: 0 40px 90px -46px rgba(20,23,28,0.5); padding: 40px 44px 38px; margin-top: -64px; }
+  .post-main > .post-caption { margin-top: 0; }
+  @media (max-width: 640px) { .post-layout { padding: 0 18px 84px; } .post-main { padding: 26px 22px 30px; border-radius: 10px; margin-top: -44px; } }
+
+  /* ADMIN preview control (internal only - remove before launch) */
+  .admin-bar { position: fixed; left: 16px; bottom: 16px; z-index: 500; display: flex; align-items: center; gap: 10px;
+    background: rgba(10,8,10,0.86); padding: 8px 8px 8px 14px; border-radius: 100px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .admin-bar__tag { font-weight: 800; font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .admin-bar__btn { font-family: inherit; font-weight: 700; font-size: 11.5px; letter-spacing: 0.03em; color: #fff; background: var(--accent); border: 0; border-radius: 100px; padding: 8px 16px; cursor: pointer; transition: background .2s; }
+  .admin-bar__btn:hover { background: var(--accent-bright); }
 
   /* ---- Main: video ---- */
   .post-video .video-frame {
@@ -456,7 +477,8 @@
     <div class="post-hero__inner">
       <div class="post-masthead reveal">
         <a class="post-logo" href="darrendaily.html" aria-label="DarrenDaily home">
-          <img src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
+          <img class="logo-light" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
+          <img class="logo-dark" src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
         </a>
         <span class="post-date">Friday, July 24, 2026</span>
       </div>
@@ -464,7 +486,7 @@
            WEBFLOW: data-vimeo-id -> "Vimeo ID"; poster <img> src/alt -> "Video Poster" / "Title". -->
       <div class="post-video reveal">
         <div class="video-frame" data-vimeo-id="355893131" role="button" tabindex="0" aria-label="Play today's DarrenDaily session">
-          <img src="ep-card-2.webp" alt="What high-achievers do on Saturdays" width="440" height="244" fetchpriority="high">
+          <img src="dd-poster.webp" alt="What high-achievers do on Saturdays" width="1280" height="720" fetchpriority="high">
         </div>
       </div>
 
@@ -662,6 +684,12 @@
 </main>
 
 <!-- Share confirmation toast -->
+<!-- ADMIN PREVIEW toggle (internal only - REMOVE before launch). Flips the hero background image on/off. -->
+<div class="admin-bar" aria-hidden="true">
+  <span class="admin-bar__tag">Admin</span>
+  <button class="admin-bar__btn" type="button" data-bg-toggle aria-pressed="false">Hero background: On</button>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- ============ EXIT-INTENT OPT-IN (fired by exit-intent; production content = HubSpot Smart CTA) ============ -->
@@ -814,6 +842,17 @@
           navigator.clipboard.writeText(link).then(function () { show('Your link is copied. Thank you for championing.'); }).catch(function () { show(link); });
         } else { show(link); }
       });
+    });
+  })();
+
+  // ADMIN: toggle the hero background image on/off (internal preview; remove the .admin-bar before launch)
+  (function () {
+    var btn = document.querySelector('[data-bg-toggle]');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var off = document.body.classList.toggle('hero-plain');
+      btn.textContent = off ? 'Hero background: Off' : 'Hero background: On';
+      btn.setAttribute('aria-pressed', off ? 'true' : 'false');
     });
   })();
 
