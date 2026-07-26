@@ -191,49 +191,44 @@
   .post-caption blockquote { margin: 26px 0; padding: 6px 0 6px 24px; border-left: 3px solid var(--accent);
     font-weight: 700; font-size: 20px; line-height: 1.4; color: var(--ink); font-style: normal; }
 
-  /* ---- Main: CTA FEATURE bar (sticky-on-scroll) ----
-       Inline promo bar; once scrolled past, it pins to the top of the viewport as a thin bar.
-       PRODUCTION: replace the content with a HubSpot Smart CTA (thin leaderboard creative,
-       same "DarrenDaily audience" list as the other CTAs). */
+  /* ---- Main: CTA FEATURE (bold designed graphic; sticky-on-scroll) ----
+       A single designed graphic (human face + brand color, KIMI-style) so it stands out and is
+       hard to ignore. Once scrolled past, it pins to the top as a bold full-width band.
+       PRODUCTION: this is a HubSpot Smart CTA image (same "DarrenDaily audience" list) --
+       swap dd-banner.webp for the current day's creative; keep the whole banner clickable. */
   .cta-wrap { margin-top: 40px; }
-  .cta-bar { position: relative; display: flex; align-items: center; gap: 18px; padding: 18px 24px; border-radius: var(--radius); color: #fff; overflow: hidden;
-    background: radial-gradient(ellipse 70% 130% at 10% 0%, rgba(var(--accent-rgb), 0.6), transparent 60%), linear-gradient(120deg, var(--dark) 0%, var(--dark-2) 100%);
-    box-shadow: 0 18px 40px -26px rgba(0,0,0,0.55); transition: padding .2s var(--ease); }
-  .cta-bar__msg { display: flex; flex-direction: column; gap: 3px; min-width: 0; margin-right: auto; }
-  .cta-bar__eyebrow { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.8); }
-  .cta-bar__eyebrow .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-bright); animation: ctaDot 1.6s ease-in-out infinite; }
-  .cta-bar__title { font-weight: 800; font-size: 18px; letter-spacing: -0.01em; line-height: 1.15; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .cta-bar__title em { font-style: normal; color: var(--accent-bright); }
-  .cta-bar__btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 9px; background: var(--accent-bright); color: #fff; text-decoration: none;
-    font-weight: 800; font-size: 12px; letter-spacing: 0.13em; text-transform: uppercase; padding: 12px 22px; border-radius: var(--radius); white-space: nowrap;
-    transition: background .2s, color .2s, transform .2s; }
-  .cta-bar__btn:hover { background: #fff; color: var(--accent); transform: translateY(-1px); }
-  .cta-bar__btn .arrow { transition: transform .2s var(--ease); }
-  .cta-bar__btn:hover .arrow { transform: translateX(4px); }
-  .cta-bar__dismiss { display: none; flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); background: none; color: rgba(255,255,255,0.75); cursor: pointer; align-items: center; justify-content: center; }
-  .cta-bar__dismiss:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
-  .cta-bar__dismiss svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
-  /* stuck: pinned thin bar, full-bleed across the top */
-  .cta-bar.is-stuck { position: fixed; top: 0; left: 0; right: 0; z-index: 300; border-radius: 0; padding: 10px clamp(16px, 5vw, 60px);
-    box-shadow: 0 10px 30px -12px rgba(0,0,0,0.6); animation: ctaDrop .28s var(--ease); }
-  .cta-bar.is-stuck .cta-bar__title { font-size: 15.5px; }
-  .cta-bar.is-stuck .cta-bar__dismiss { display: inline-flex; }
-  @keyframes ctaDot { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .cta-banner { display: block; position: relative; width: 100%; border-radius: var(--radius); overflow: hidden; aspect-ratio: 1720 / 464;
+    box-shadow: 0 22px 48px -26px rgba(0,0,0,0.5); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .cta-banner:hover { transform: translateY(-2px); box-shadow: 0 28px 56px -26px rgba(0,0,0,0.55); }
+  .cta-banner img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .cta-banner__pin { display: none; }
+  .cta-dismiss { display: none; }
+  /* stuck: bold full-width band pinned to the top */
+  .cta-banner.is-stuck { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 300; border-radius: 0; aspect-ratio: auto; height: 110px;
+    box-shadow: 0 12px 34px -12px rgba(0,0,0,0.62); animation: ctaDrop .3s var(--ease); }
+  .cta-banner.is-stuck:hover { transform: none; }
+  .cta-banner.is-stuck .cta-banner__pin { display: inline-flex; align-items: center; gap: 8px; position: absolute; top: 50%; right: 58px; transform: translateY(-50%);
+    background: var(--accent-bright); color: #fff; font-weight: 800; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 11px 20px; border-radius: var(--radius); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5); }
+  .cta-banner.is-stuck .cta-banner__pin .arrow { transition: transform .2s var(--ease); }
+  .cta-banner.is-stuck:hover .cta-banner__pin .arrow { transform: translateX(4px); }
+  .cta-wrap.stuck .cta-dismiss { display: inline-flex; position: fixed; top: 50%; right: 16px; transform: translateY(-50%); z-index: 301;
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(10,8,10,0.5); color: #fff; cursor: pointer; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .cta-dismiss svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
   @keyframes ctaDrop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-  @media (prefers-reduced-motion: reduce) { .cta-bar__eyebrow .live-dot, .cta-bar.is-stuck { animation: none; } }
-  @media (max-width: 560px) { .cta-bar { padding: 14px 16px; gap: 12px; } .cta-bar__eyebrow { display: none; } .cta-bar__title { font-size: 15px; } .cta-bar__btn { padding: 10px 14px; font-size: 11px; letter-spacing: 0.08em; } }
+  @media (prefers-reduced-motion: reduce) { .cta-banner.is-stuck { animation: none; } }
+  @media (max-width: 640px) { .cta-banner.is-stuck { height: 84px; } .cta-banner.is-stuck .cta-banner__pin { right: 50px; padding: 9px 13px; font-size: 10.5px; letter-spacing: 0.08em; } }
 
-  /* ============ EXPIRING SOON strip (full-width, thin, horizontal) ============ */
+  /* ============ EXPIRING SOON strip (full-width, thin, CENTERED - only ever 1-2 videos) ============ */
   .xsoon-strip { background: var(--mist); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 34px 0; }
-  .xsoon-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
-  .xsoon-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+  .xsoon-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; text-align: center; }
+  .xsoon-head { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
   .xsoon-note { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; font-size: 12px; color: var(--soft); }
   .xsoon-note svg { width: 14px; height: 14px; stroke: var(--accent); stroke-width: 2; fill: none; }
-  .xsoon-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
-  .xsoon-row .ss-card { position: relative; display: block; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #fff; box-shadow: 0 10px 26px -18px rgba(20,23,28,0.42); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .xsoon-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; }
+  .xsoon-row .ss-card { position: relative; display: block; width: 300px; max-width: 100%; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #fff; box-shadow: 0 10px 26px -18px rgba(20,23,28,0.42); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
   .xsoon-row .ss-card:hover { transform: translateY(-4px); box-shadow: 0 24px 46px -24px rgba(20,23,28,0.5); }
   .xsoon-row .ss-card img { display: block; width: 100%; height: auto; }
-  .xsoon-row .ss-date { position: absolute; top: 10px; right: 10px; z-index: 2; display: inline-flex; align-items: center; font-weight: 700; font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase; color: #fff; background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius); padding: 5px 11px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+  .xsoon-row .ss-date { position: absolute; top: 10px; right: 10px; z-index: 2; display: inline-flex; align-items: center; font-weight: 700; font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase; color: #fff; background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius); padding: 5px 11px; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
   @media (max-width: 720px) { .xsoon-inner { padding: 0 22px; } }
 
   /* Quote block (right column, under Featured): dark-red panel, the session's key
@@ -509,21 +504,19 @@
         <p><strong>Confess in the comments below:</strong> is what you do now something you would rather be doing on a Saturday morning than almost anything else in the world? Be honest.</p>
       </div>
 
-      <!-- CTA FEATURE (sticky): a slim promo bar. Once you scroll past it, it pins to the top of
-           the viewport as a thin bar (see the sticky JS + .is-stuck styles); a dismiss (x) appears
-           while pinned. PRODUCTION: swap the content for a HubSpot Smart CTA (thin leaderboard
-           creative), same "DarrenDaily audience" list as the other CTAs. -->
+      <!-- CTA FEATURE: a single BOLD designed graphic (human face + brand color, KIMI-style) so it
+           stands out and is hard to ignore. Once scrolled past, it pins to the top of the viewport
+           as a bold full-width band (see sticky JS); a "Save Your Seat" chip + dismiss (x) show while
+           pinned. PRODUCTION: this is a HubSpot Smart CTA image (same "DarrenDaily audience" list) --
+           swap dd-banner.webp for the day's creative; keep the whole banner clickable to the offer. -->
       <div class="cta-wrap" id="ctaWrap">
-        <div class="cta-bar">
-          <div class="cta-bar__msg">
-            <span class="cta-bar__eyebrow"><span class="live-dot" aria-hidden="true"></span>Live &middot; AI Special Briefing</span>
-            <span class="cta-bar__title">The Truth About <em>Kimi K3</em></span>
-          </div>
-          <a class="cta-bar__btn" href="https://darrenhardy.com/" target="_blank" rel="noopener">Save Your Seat <span class="arrow">&rarr;</span></a>
-          <button class="cta-bar__dismiss" type="button" aria-label="Dismiss">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
-          </button>
-        </div>
+        <a class="cta-banner" href="https://darrenhardy.com/" target="_blank" rel="noopener">
+          <img src="dd-banner.webp" alt="The Truth About Kimi K3 - Darren breaks down China's new AI. Save your seat." width="1720" height="464">
+          <span class="cta-banner__pin">Save Your Seat <span class="arrow">&rarr;</span></span>
+        </a>
+        <button class="cta-dismiss" type="button" aria-label="Dismiss">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
       </div>
 
       <!-- COMMENTS: Hyvor Talk (same plugin the live dd.darrenhardy.com posts use).
@@ -543,9 +536,11 @@
 
 </article>
 
-<!-- ============ EXPIRING SOON strip (full-width, thin) ============
-     Horizontal row of recent sessions. WEBFLOW: Collection List (Sessions), Sort Published DESC,
-     Limit ~4, filter out the current item. .ss-card img -> "Card Image", .ss-date -> "Published". -->
+<!-- ============ EXPIRING SOON strip (full-width, thin, CENTERED - only ever 1-2 videos) ============
+     WEBFLOW: Collection List (Sessions), Sort Published DESC, Limit 1-2, filter out the current item.
+       .ss-card img src -> the VIMEO THUMBNAIL: https://vumbnail.com/{Vimeo ID}_large.jpg
+         (pulls the crisp Vimeo poster; the "Vimeo ID" field already exists on each session).
+       .ss-card img alt -> "Title"   |   .ss-date -> "Published". -->
 <section class="xsoon-strip">
   <div class="xsoon-inner">
     <div class="xsoon-head">
@@ -557,11 +552,11 @@
     </div>
     <div class="xsoon-row">
       <a class="ss-card" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience">
-        <img src="ep-card-3.webp" alt="An inspiring real-life story for career resilience" width="440" height="244" loading="lazy">
+        <img src="https://vumbnail.com/277017410_large.jpg" alt="An inspiring real-life story for career resilience" width="640" height="360" loading="lazy">
         <span class="ss-date">Jul 23 &middot; 2026</span>
       </a>
       <a class="ss-card" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays">
-        <img src="ep-card-2.webp" alt="What high-achievers do on Saturdays" width="440" height="244" loading="lazy">
+        <img src="https://vumbnail.com/355893131_large.jpg" alt="What high-achievers do on Saturdays" width="640" height="360" loading="lazy">
         <span class="ss-date">Jul 24 &middot; 2026</span>
       </a>
     </div>
@@ -812,28 +807,28 @@
     });
   })();
 
-  // CTA feature: pin to the top of the page once scrolled past (thin sticky bar; dismissible)
+  // CTA feature: pin the bold banner to the top of the page once scrolled past (dismissible)
   (function () {
     var wrap = document.getElementById('ctaWrap');
     if (!wrap) return;
-    var bar = wrap.querySelector('.cta-bar');
+    var banner = wrap.querySelector('.cta-banner');
     var stuck = false, dismissed = false;
     function update() {
       if (dismissed) return;
       var top = wrap.getBoundingClientRect().top;
       if (!stuck && top <= 0) {
-        wrap.style.height = bar.offsetHeight + 'px';   // reserve inline height so content doesn't jump
-        bar.classList.add('is-stuck');
+        wrap.style.height = banner.offsetHeight + 'px';   // reserve inline height so content doesn't jump
+        banner.classList.add('is-stuck'); wrap.classList.add('stuck');
         stuck = true;
       } else if (stuck && top > 0) {
-        bar.classList.remove('is-stuck');
+        banner.classList.remove('is-stuck'); wrap.classList.remove('stuck');
         wrap.style.height = '';
         stuck = false;
       }
     }
-    var dismiss = bar.querySelector('.cta-bar__dismiss');
+    var dismiss = wrap.querySelector('.cta-dismiss');
     if (dismiss) dismiss.addEventListener('click', function () {
-      dismissed = true; bar.classList.remove('is-stuck'); bar.style.display = 'none'; wrap.style.height = '';
+      dismissed = true; banner.classList.remove('is-stuck'); wrap.classList.remove('stuck'); banner.style.display = 'none'; wrap.style.height = '';
     });
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
