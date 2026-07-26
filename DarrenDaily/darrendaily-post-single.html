@@ -166,8 +166,8 @@
   .post-hero .post-logo img { height: 34px; }
   .post-hero .post-logo .logo-dark { display: none; }
   .post-hero .post-date { color: #fff; text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
-  .post-hero .post-video .video-frame { box-shadow: 0 0 0 1px rgba(255,255,255,0.10), 0 40px 90px -34px rgba(0,0,0,0.62); }
-  .post-hero .share-bar { margin-top: 22px; border-color: rgba(255,255,255,0.28); }
+  .post-hero .post-video .video-frame { box-shadow: 0 0 0 6px #fff, 0 40px 90px -34px rgba(0,0,0,0.55); }
+  .post-hero .share-bar { margin-top: 16px; }
   .post-hero .share-label { color: rgba(255,255,255,0.82); }
   /* ADMIN toggle -> plain white hero (no background image) */
   body.hero-plain .post-hero { background: var(--paper); }
@@ -182,10 +182,10 @@
 
   /* ============ SINGLE-COLUMN LAYOUT (v2) - content in a framed card that OVERLAPS the hero ============ */
   .post-layout { max-width: 812px; margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 5; }
-  .post-main { min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+  .post-main { min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
     box-shadow: 0 40px 90px -46px rgba(20,23,28,0.5); padding: 40px 44px 38px; margin-top: -64px; }
   .post-main > .post-caption { margin-top: 0; }
-  @media (max-width: 640px) { .post-layout { padding: 0 18px 84px; } .post-main { padding: 26px 22px 30px; border-radius: 10px; margin-top: -44px; } }
+  @media (max-width: 640px) { .post-layout { padding: 0 18px 84px; } .post-main { padding: 26px 22px 30px; margin-top: -44px; } }
 
   /* ADMIN preview control (internal only - remove before launch) */
   .admin-bar { position: fixed; left: 16px; bottom: 16px; z-index: 500; display: flex; align-items: center; gap: 10px;
@@ -235,24 +235,32 @@
   .cta-banner:hover { transform: translateY(-2px); box-shadow: 0 28px 56px -26px rgba(0,0,0,0.55); }
   .cta-banner__full { display: block; width: 100%; height: 100%; object-fit: cover; }
   .cta-banner__strip { display: none; }
+  .cta-banner__pin { display: none; }
   .cta-dismiss { display: none; }
-  /* stuck: swap to the dedicated 1600x200 strip, pinned full-width at the top (whole creative, no crop) */
-  .cta-banner.is-stuck { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 300; border-radius: 0; aspect-ratio: auto;
+  /* stuck: swap to the dedicated 1600x200 strip in a THIN pinned bar; the right area holds the CTA button */
+  .cta-banner.is-stuck { position: fixed; top: 0; left: 0; right: 0; width: 100%; height: 84px; z-index: 300; border-radius: 0; aspect-ratio: auto;
     box-shadow: 0 12px 34px -12px rgba(0,0,0,0.62); animation: ctaDrop .3s var(--ease); }
   .cta-banner.is-stuck:hover { transform: none; }
   .cta-banner.is-stuck .cta-banner__full { display: none; }
-  .cta-banner.is-stuck .cta-banner__strip { display: block; width: 100%; height: auto; }
-  .cta-wrap.stuck .cta-dismiss { display: inline-flex; position: fixed; top: 12px; right: 14px; z-index: 301;
+  .cta-banner.is-stuck .cta-banner__strip { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .cta-banner.is-stuck .cta-banner__pin { display: inline-flex; align-items: center; gap: 8px; position: absolute; top: 50%; right: 62px; transform: translateY(-50%);
+    background: var(--accent-bright); color: #fff; font-weight: 800; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 11px 20px; border-radius: var(--radius); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5); }
+  .cta-banner.is-stuck .cta-banner__pin .arrow { transition: transform .2s var(--ease); }
+  .cta-banner.is-stuck:hover .cta-banner__pin .arrow { transform: translateX(4px); }
+  .cta-wrap.stuck .cta-dismiss { display: inline-flex; position: fixed; top: 50%; right: 16px; transform: translateY(-50%); z-index: 301;
     width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(10,8,10,0.5); color: #fff; cursor: pointer; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
   .cta-dismiss svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
   @keyframes ctaDrop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
   @media (prefers-reduced-motion: reduce) { .cta-banner.is-stuck { animation: none; } }
+  @media (max-width: 640px) { .cta-banner.is-stuck { height: 64px; } .cta-banner.is-stuck .cta-banner__pin { right: 52px; padding: 8px 12px; font-size: 10px; letter-spacing: 0.06em; } }
 
   /* ============ EXPIRING SOON strip (full-width, thin, CENTERED - only ever 1-2 videos) ============ */
-  .xsoon-strip { background: var(--mist); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 56px 0; }
+  .xsoon-strip { background: var(--mist); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 60px 0 104px; }
   .xsoon-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; text-align: center; }
-  .xsoon-head { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
-  .xsoon-note { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; font-size: 12px; color: var(--soft); }
+  .xsoon-head { text-align: center; margin-bottom: 28px; }
+  .xsoon-title { font-size: clamp(26px, 3vw, 38px); font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1.05; color: var(--ink); margin: 0 0 10px; }
+  .xsoon-title em { font-style: normal; color: var(--accent); }
+  .xsoon-note { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; font-size: 12px; color: var(--soft); margin: 0; }
   .xsoon-note svg { width: 14px; height: 14px; stroke: var(--accent); stroke-width: 2; fill: none; }
   .xsoon-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; }
   .xsoon-row .ss-card { position: relative; display: block; width: 300px; max-width: 100%; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #fff; box-shadow: 0 10px 26px -18px rgba(20,23,28,0.42); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
@@ -272,8 +280,8 @@
   .quote-attr { position: relative; margin: 20px 0 0; font-weight: 700; font-size: 14px; color: #fff; text-align: right; }
 
   /* ---- Main: social share bar ---- */
-  .share-bar { margin-top: 22px; padding: 14px 2px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  /* Just a row of share buttons under the video (no label / border rules) */
+  .share-bar { margin-top: 16px; padding: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .share-label { font-weight: 700; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--soft); }
   .share-btns { display: flex; gap: 10px; flex-wrap: wrap; }
   .share-btn { width: 42px; height: 42px; border-radius: var(--radius); border: 1px solid var(--line); background: #fff;
@@ -492,7 +500,6 @@
 
       <!-- SOCIAL SHARE (in the hero, right below the video; JS wires each button to the post URL + title) -->
       <div class="share-bar reveal">
-        <span class="share-label">Share these insights</span>
         <div class="share-btns">
           <button class="share-btn" type="button" data-net="facebook" aria-label="Share on Facebook" title="Share on Facebook">
             <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -545,6 +552,7 @@
         <a class="cta-banner" href="https://darrenhardy.com/" target="_blank" rel="noopener">
           <img class="cta-banner__full" src="dd-banner.webp" alt="The Truth About Kimi K3 - Darren breaks down China's new AI. Save your seat." width="1720" height="464">
           <img class="cta-banner__strip" src="dd-banner-sticky.svg" alt="The Truth About Kimi K3 - save your seat" width="1600" height="200">
+          <span class="cta-banner__pin">Save Your Seat <span class="arrow">&rarr;</span></span>
         </a>
         <button class="cta-dismiss" type="button" aria-label="Dismiss">
           <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
@@ -576,11 +584,11 @@
 <section class="xsoon-strip">
   <div class="xsoon-inner">
     <div class="xsoon-head">
-      <div class="eyebrow accent"><span class="pip"></span>Expiring Soon</div>
-      <span class="xsoon-note">
+      <h2 class="xsoon-title">Expiring <em>Soon</em></h2>
+      <p class="xsoon-note">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
         Each session lives 72 hours, then it is gone.
-      </span>
+      </p>
     </div>
     <div class="xsoon-row">
       <a class="ss-card" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience">
