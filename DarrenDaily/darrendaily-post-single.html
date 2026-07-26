@@ -166,8 +166,8 @@
   .post-hero .post-logo img { height: 34px; }
   .post-hero .post-logo .logo-dark { display: none; }
   .post-hero .post-date { color: #fff; text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
-  .post-hero .post-video .video-frame { box-shadow: 0 0 0 6px #fff, 0 40px 90px -34px rgba(0,0,0,0.55); }
-  .post-hero .share-bar { margin-top: 16px; }
+  .post-hero .post-video .video-frame { box-shadow: 0 30px 74px -34px rgba(0,0,0,0.5); }
+  .post-hero .share-bar { margin-top: 22px; border-color: rgba(255,255,255,0.28); }
   .post-hero .share-label { color: rgba(255,255,255,0.82); }
   /* ADMIN toggle -> plain white hero (no background image) */
   body.hero-plain .post-hero { background: var(--paper); }
@@ -234,25 +234,23 @@
     box-shadow: 0 22px 48px -26px rgba(0,0,0,0.5); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
   .cta-banner:hover { transform: translateY(-2px); box-shadow: 0 28px 56px -26px rgba(0,0,0,0.55); }
   .cta-banner__full { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .cta-banner__strip { display: none; }
-  .cta-banner__pin { display: none; }
-  .cta-dismiss { display: none; }
-  /* stuck: swap to the dedicated 1600x200 strip in a THIN pinned bar; the right area holds the CTA button */
-  .cta-banner.is-stuck { position: fixed; top: 0; left: 0; right: 0; width: 100%; height: 84px; z-index: 300; border-radius: 0; aspect-ratio: auto;
-    box-shadow: 0 12px 34px -12px rgba(0,0,0,0.62); animation: ctaDrop .3s var(--ease); }
-  .cta-banner.is-stuck:hover { transform: none; }
-  .cta-banner.is-stuck .cta-banner__full { display: none; }
-  .cta-banner.is-stuck .cta-banner__strip { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-  .cta-banner.is-stuck .cta-banner__pin { display: inline-flex; align-items: center; gap: 8px; position: absolute; top: 50%; right: 62px; transform: translateY(-50%);
-    background: var(--accent-bright); color: #fff; font-weight: 800; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 11px 20px; border-radius: var(--radius); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5); }
-  .cta-banner.is-stuck .cta-banner__pin .arrow { transition: transform .2s var(--ease); }
-  .cta-banner.is-stuck:hover .cta-banner__pin .arrow { transform: translateX(4px); }
-  .cta-wrap.stuck .cta-dismiss { display: inline-flex; position: fixed; top: 50%; right: 16px; transform: translateY(-50%); z-index: 301;
-    width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(10,8,10,0.5); color: #fff; cursor: pointer; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
-  .cta-dismiss svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
-  @keyframes ctaDrop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-  @media (prefers-reduced-motion: reduce) { .cta-banner.is-stuck { animation: none; } }
-  @media (max-width: 640px) { .cta-banner.is-stuck { height: 64px; } .cta-banner.is-stuck .cta-banner__pin { right: 52px; padding: 8px 12px; font-size: 10px; letter-spacing: 0.06em; } }
+
+  /* ---- Persistent STICKY CTA (top-level element, ALWAYS above all content; NOT dismissible) ----
+       Shown once the inline banner scrolls out of view. Strip creative (1600x200, right area kept
+       clear) + a SEPARATE, editable CTA button. Button colour = --cta-btn (here: KIMI blue). */
+  .cta-sticky { position: fixed; top: 0; left: 0; right: 0; z-index: 350; height: 84px; overflow: hidden;
+    transform: translateY(-100%); transition: transform .3s var(--ease); box-shadow: 0 12px 34px -12px rgba(0,0,0,0.62); }
+  .cta-sticky.show { transform: translateY(0); }
+  .cta-sticky__link { display: block; position: absolute; inset: 0; }
+  .cta-sticky__link img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .cta-sticky__btn { position: absolute; top: 50%; right: 24px; transform: translateY(-50%); z-index: 2; display: inline-flex; align-items: center; gap: 8px;
+    background: var(--cta-btn, #2fd3d8); color: #08272a; text-decoration: none; font-weight: 800; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 12px 22px; border-radius: var(--radius); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5); transition: transform .2s var(--ease), filter .2s; }
+  .cta-sticky__btn:hover { filter: brightness(1.06); }
+  .cta-sticky__btn .arrow { transition: transform .2s var(--ease); }
+  .cta-sticky__btn:hover .arrow { transform: translateX(3px); }
+  @media (prefers-reduced-motion: reduce) { .cta-sticky { transition: none; } }
+  @media (max-width: 640px) { .cta-sticky { height: 64px; } .cta-sticky__btn { right: 14px; padding: 9px 14px; font-size: 10.5px; letter-spacing: 0.05em; } }
 
   /* ============ EXPIRING SOON strip (full-width, thin, CENTERED - only ever 1-2 videos) ============ */
   .xsoon-strip { background: var(--mist); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 60px 0 104px; }
@@ -280,8 +278,9 @@
   .quote-attr { position: relative; margin: 20px 0 0; font-weight: 700; font-size: 14px; color: #fff; text-align: right; }
 
   /* ---- Main: social share bar ---- */
-  /* Just a row of share buttons under the video (no label / border rules) */
-  .share-bar { margin-top: 16px; padding: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  /* Share: label on the left, buttons right-justified (space-between) */
+  .share-bar { margin-top: 22px; padding: 14px 2px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
   .share-label { font-weight: 700; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--soft); }
   .share-btns { display: flex; gap: 10px; flex-wrap: wrap; }
   .share-btn { width: 42px; height: 42px; border-radius: var(--radius); border: 1px solid var(--line); background: #fff;
@@ -500,6 +499,7 @@
 
       <!-- SOCIAL SHARE (in the hero, right below the video; JS wires each button to the post URL + title) -->
       <div class="share-bar reveal">
+        <span class="share-label">Share these insights</span>
         <div class="share-btns">
           <button class="share-btn" type="button" data-net="facebook" aria-label="Share on Facebook" title="Share on Facebook">
             <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -543,20 +543,12 @@
            as a bold full-width band (see sticky JS); a "Save Your Seat" chip + dismiss (x) show while
            pinned. PRODUCTION: this is a HubSpot Smart CTA image (same "DarrenDaily audience" list) --
            swap dd-banner.webp for the day's creative; keep the whole banner clickable to the offer. -->
-      <!-- Two creatives, swapped by the sticky JS:
-             .cta-banner__full  = in-content banner, 1720 x 464  (WEBFLOW: "Banner Image")
-             .cta-banner__strip = pinned/nav banner,  1600 x 200  (WEBFLOW: "Banner Image (Sticky)")
-           Both are HubSpot Smart CTA images in production (same "DarrenDaily audience" list).
-           dd-banner-sticky.svg is a labeled PLACEHOLDER -- drop the real 1600x200 creative in. -->
+      <!-- Inline in-content banner (1720 x 464). WEBFLOW: "Banner Image" (HubSpot Smart CTA image).
+           The persistent pinned bar is a SEPARATE top-level element (#ctaSticky) using the 1600x200 strip. -->
       <div class="cta-wrap" id="ctaWrap">
         <a class="cta-banner" href="https://darrenhardy.com/" target="_blank" rel="noopener">
           <img class="cta-banner__full" src="dd-banner.webp" alt="The Truth About Kimi K3 - Darren breaks down China's new AI. Save your seat." width="1720" height="464">
-          <img class="cta-banner__strip" src="dd-banner-sticky.svg" alt="The Truth About Kimi K3 - save your seat" width="1600" height="200">
-          <span class="cta-banner__pin">Save Your Seat <span class="arrow">&rarr;</span></span>
         </a>
-        <button class="cta-dismiss" type="button" aria-label="Dismiss">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
-        </button>
       </div>
 
       <!-- COMMENTS: Hyvor Talk (same plugin the live dd.darrenhardy.com posts use).
@@ -692,6 +684,16 @@
 </main>
 
 <!-- Share confirmation toast -->
+<!-- Persistent STICKY CTA - top-level so it's ALWAYS above all content; appears once the inline
+     banner scrolls out of view; NOT dismissible. PRODUCTION: strip = HubSpot Smart CTA image
+     (1600x200, keep the right ~25% clear); the CTA button is a separate, editable element (--cta-btn). -->
+<div class="cta-sticky" id="ctaSticky" aria-hidden="true">
+  <a class="cta-sticky__link" href="https://darrenhardy.com/" target="_blank" rel="noopener">
+    <img src="dd-banner-sticky.svg" alt="The Truth About Kimi K3" width="1600" height="200">
+  </a>
+  <a class="cta-sticky__btn" href="https://darrenhardy.com/" target="_blank" rel="noopener">Save Your Seat <span class="arrow">&rarr;</span></a>
+</div>
+
 <!-- ADMIN PREVIEW toggle (internal only - REMOVE before launch). Flips the hero background image on/off. -->
 <div class="admin-bar" aria-hidden="true">
   <span class="admin-bar__tag">Admin</span>
@@ -864,29 +866,13 @@
     });
   })();
 
-  // CTA feature: pin the bold banner to the top of the page once scrolled past (dismissible)
+  // Persistent sticky CTA: show the top-level bar once the inline banner scrolls out of view
+  // (always above all content; NOT dismissible)
   (function () {
     var wrap = document.getElementById('ctaWrap');
-    if (!wrap) return;
-    var banner = wrap.querySelector('.cta-banner');
-    var stuck = false, dismissed = false;
-    function update() {
-      if (dismissed) return;
-      var top = wrap.getBoundingClientRect().top;
-      if (!stuck && top <= 0) {
-        wrap.style.height = banner.offsetHeight + 'px';   // reserve inline height so content doesn't jump
-        banner.classList.add('is-stuck'); wrap.classList.add('stuck');
-        stuck = true;
-      } else if (stuck && top > 0) {
-        banner.classList.remove('is-stuck'); wrap.classList.remove('stuck');
-        wrap.style.height = '';
-        stuck = false;
-      }
-    }
-    var dismiss = wrap.querySelector('.cta-dismiss');
-    if (dismiss) dismiss.addEventListener('click', function () {
-      dismissed = true; banner.classList.remove('is-stuck'); wrap.classList.remove('stuck'); banner.style.display = 'none'; wrap.style.height = '';
-    });
+    var bar = document.getElementById('ctaSticky');
+    if (!wrap || !bar) return;
+    function update() { bar.classList.toggle('show', wrap.getBoundingClientRect().bottom <= 0); }
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
     update();
