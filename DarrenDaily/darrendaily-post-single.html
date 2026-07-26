@@ -155,23 +155,23 @@
   @media (max-width: 980px) { .post-head { padding: 32px 22px 0; } }
   @media (max-width: 560px) { .post-logo img { height: 28px; } .post-date { font-size: 14px; } }
 
-  /* ============ HERO: immersive contained top (blurred poster bg + crisp video) ============ */
-  .post-hero { position: relative; overflow: hidden; padding: 40px 0 52px; background: var(--dark); }
-  .post-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: blur(30px) brightness(0.82) saturate(1.12); transform: scale(1.25); z-index: 0; }
+  /* ============ HERO: contained top - soft light blurred set bg (same treatment as the expired page) ============ */
+  .post-hero { position: relative; overflow: hidden; padding: 40px 0 30px; background: var(--mist); }
+  .post-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: blur(26px) brightness(1.04) saturate(1.12); transform: scale(1.18); z-index: 0; }
   .post-hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: radial-gradient(ellipse 85% 65% at 50% 42%, rgba(20,10,12,0.28), transparent 72%),
-      linear-gradient(180deg, rgba(18,9,11,0.62) 0%, rgba(18,9,11,0.24) 38%, rgba(18,9,11,0.62) 100%); }
+    background: radial-gradient(ellipse 90% 70% at 50% 40%, rgba(243,245,248,0.18), transparent 72%),
+      linear-gradient(180deg, rgba(243,245,248,0.60) 0%, rgba(243,245,248,0.28) 32%, rgba(243,245,248,0.72) 100%); }
   .post-hero__inner { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; padding: 0 24px; }
   .post-hero .post-masthead { margin-bottom: 20px; }
   .post-hero .post-logo img { height: 34px; }
-  .post-hero .post-date { color: rgba(255,255,255,0.92); }
-  .post-hero .post-video .video-frame { box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 40px 90px -34px rgba(0,0,0,0.7); }
-  @media (max-width: 560px) { .post-hero { padding: 28px 0 40px; } .post-hero .post-logo img { height: 26px; } .post-hero .post-date { font-size: 14px; } }
+  .post-hero .post-video .video-frame { box-shadow: 0 0 0 1px rgba(20,23,28,0.06), 0 34px 74px -34px rgba(20,23,28,0.5); }
+  .post-hero .share-bar { margin-top: 22px; border-color: rgba(20,23,28,0.14); }
+  @media (max-width: 560px) { .post-hero { padding: 28px 0 24px; } .post-hero .post-logo img { height: 26px; } .post-hero .post-date { font-size: 14px; } }
 
-  /* ============ SINGLE-COLUMN LAYOUT (v2) ============ */
-  .post-layout { max-width: 760px; margin: 0 auto; padding: 40px 24px 100px; }
+  /* ============ SINGLE-COLUMN LAYOUT (v2) - description sits right under the hero ============ */
+  .post-layout { max-width: 760px; margin: 0 auto; padding: 20px 24px 100px; }
   .post-main { min-width: 0; }
-  @media (max-width: 980px) { .post-layout { padding: 30px 22px 84px; } }
+  @media (max-width: 980px) { .post-layout { padding: 16px 22px 84px; } }
 
   /* ---- Main: video ---- */
   .post-video .video-frame {
@@ -232,7 +232,7 @@
   @media (max-width: 640px) { .cta-banner.is-stuck { height: 84px; } .cta-banner.is-stuck .cta-banner__pin { right: 50px; padding: 9px 13px; font-size: 10.5px; letter-spacing: 0.08em; } }
 
   /* ============ EXPIRING SOON strip (full-width, thin, CENTERED - only ever 1-2 videos) ============ */
-  .xsoon-strip { background: #f9f0f0; border-top: 1px solid rgba(var(--accent-rgb), 0.16); border-bottom: 1px solid rgba(var(--accent-rgb), 0.16); padding: 34px 0; }
+  .xsoon-strip { background: var(--mist); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 56px 0; }
   .xsoon-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; text-align: center; }
   .xsoon-head { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
   .xsoon-note { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; font-size: 12px; color: var(--soft); }
@@ -340,7 +340,7 @@
   /* ============ MEDIA COVER BIO - "The Vantage": SUCCESS covers wall + Darren cutout ============ */
   .intro { display: flex; min-height: 60vh; }
   .intro-wall { flex: 1; position: relative; overflow: hidden; background: #0a0a0a; }
-  .intro-text { width: 42%; min-width: 300px; background: var(--mist); color: var(--ink); display: flex; flex-direction: column; justify-content: center; padding: 64px 54px; }
+  .intro-text { width: 42%; min-width: 300px; background: var(--paper); color: var(--ink); display: flex; flex-direction: column; justify-content: center; padding: 64px 54px; }
   @media (max-width: 900px) { .intro { flex-direction: column; } .intro-wall { flex: none; min-height: 66vh; } .intro-text { width: 100%; padding: 56px 30px; } }
   #covers-grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: 150px; grid-auto-flow: dense; gap: 2px; will-change: transform; }
   .c-tile { position: relative; overflow: hidden; background: #0d0d0d; opacity: 0; transform: scale(0.93) translateY(14px); will-change: opacity, transform; cursor: pointer; }
@@ -456,11 +456,11 @@
        reads as a focused hero with no empty white sides. Masthead (logo left, date right) sits over it.
        WEBFLOW: .post-hero__bg src -> "Video Poster" (same image as the video); .post-date -> "Published". -->
   <section class="post-hero">
-    <img class="post-hero__bg" src="ep-card-2.webp" alt="" aria-hidden="true">
+    <img class="post-hero__bg" src="hero-chair.webp" alt="" aria-hidden="true">
     <div class="post-hero__inner">
       <div class="post-masthead reveal">
         <a class="post-logo" href="darrendaily.html" aria-label="DarrenDaily home">
-          <img src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
+          <img src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
         </a>
         <span class="post-date">Friday, July 24, 2026</span>
       </div>
@@ -471,17 +471,8 @@
           <img src="ep-card-2.webp" alt="What high-achievers do on Saturdays" width="440" height="244" fetchpriority="high">
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ============ BODY (single column) ============ -->
-  <div class="post-layout">
-    <div class="post-main">
-
-      <!-- Title lives on the video thumbnail; keep an SEO/screen-reader H1. WEBFLOW: bind to "Title". -->
-      <h1 class="sr-only">What High-Achievers Do on Saturdays</h1>
-
-      <!-- SOCIAL SHARE (directly below the video; custom buttons, JS wires each to the current post URL + title) -->
+      <!-- SOCIAL SHARE (in the hero, right below the video; JS wires each button to the post URL + title) -->
       <div class="share-bar reveal">
         <span class="share-label">Share these insights</span>
         <div class="share-btns">
@@ -505,6 +496,15 @@
           </button>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ BODY (single column) ============ -->
+  <div class="post-layout">
+    <div class="post-main">
+
+      <!-- Title lives on the video thumbnail; keep an SEO/screen-reader H1. WEBFLOW: bind to "Title". -->
+      <h1 class="sr-only">What High-Achievers Do on Saturdays</h1>
 
       <!-- CAPTION (short, under the video). WEBFLOW: .post-caption -> "Caption" rich-text field.
            Keep it tight: a line or two of setup. The video does the teaching. -->
