@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- ─────────────────────────────────────────────────────────────
+     DARRENDAILY - DAILY SESSION POST (the M-F "blog post" template).
+     Built on the darrendaily set's brand system (LIGHT + morning; Inter;
+     DarrenDaily red #a72632). This is the page posted every weekday.
+
+     ============================================================
+       WEBFLOW CMS MAPPING  ->  Collection: "Sessions"
+     ============================================================
+     Every per-post element below is bound to a CMS field and marked
+     OPTIONAL where it should hide when its field is empty (Webflow:
+     element Settings -> Conditional Visibility -> "when <field> is set").
+     Look for the [[FIELD]] tokens and the "WEBFLOW:" notes inline.
+
+       Field name          Type        Element it feeds
+       ----------          ----        ----------------
+       Title               Plain text  <h1 class="post-title">
+       Published           Date/Time   .post-date  (top of page)
+       Dek (optional)      Plain text  .post-dek
+       Vimeo ID            Plain text  .video-frame[data-vimeo-id]
+       Video Poster        Image       .video-frame > img
+       Caption             Rich text   .post-caption
+       Banner Image  (opt) Image       .post-banner img          -> hide block if empty
+       Banner Link   (opt) Link        .post-banner (href)
+       Show Sidebar  (opt) Switch      .post-aside               -> hide whole column if off
+       ...individual sidebar cards each have their own optional switch (see notes)
+
+     Meta (title tag, og:title, og:image, canonical) also bind to CMS fields.
+     NO em dashes anywhere (brand rule). NO check marks (a red check = warning).
+     ───────────────────────────────────────────────────────────── -->
+
+<title>What High-Achievers Do on Saturdays · DarrenDaily</title>
+<meta name="description" content="Daily mentoring with Darren Hardy. One strategic idea to start the day, every weekday morning.">
+<meta name="author" content="Darren Hardy">
+<link rel="canonical" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays">
+
+<meta property="og:type"        content="article">
+<meta property="og:site_name"   content="DarrenDaily">
+<meta property="og:title"       content="What High-Achievers Do on Saturdays">
+<meta property="og:description" content="Daily mentoring with Darren Hardy. One strategic idea to start the day.">
+<meta property="og:image"       content="og-image.jpg">
+<meta property="og:url"         content="https://dd.darrenhardy.com/high-achievers-do-on-saturdays">
+<meta name="twitter:card"       content="summary_large_image">
+
+<link rel="icon" type="image/png" href="favicon-dd.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<style>
+  @font-face {
+    font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap;
+    src: url(fonts/inter-latin.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap;
+    src: url(fonts/inter-latin-ext.woff2) format('woff2');
+  }
+
+  :root {
+    /* Neutrals */
+    --paper:         #ffffff;
+    --mist:          #f3f5f8;
+    --ink:           #14171c;
+    --muted:         #545c68;
+    --soft:          #616a78;
+    --line:          rgba(20, 23, 28, 0.12);
+    --line-soft:     rgba(20, 23, 28, 0.07);
+    /* Brand accent (DarrenDaily red) */
+    --accent:        #a72632;
+    --accent-deep:   #812a37;
+    --accent-bright: #cf3a45;
+    --accent-rgb:    167, 38, 50;
+    /* Dark bands / footer (deep maroon) */
+    --dark:          #2a1015;
+    --dark-2:        #1c0a0e;
+    --mist-on-dark:  #e7d4d6;
+    /* Tokens */
+    --gold:          #ffce3a;
+    --radius:        4px;
+    --ease:          cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  html, body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400; -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility; overflow-x: hidden;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; }
+
+  /* ============ SHARED ============ */
+  section { position: relative; }
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .container { padding: 0 22px; } }
+
+  .eyebrow {
+    font-weight: 700; font-size: 12px; letter-spacing: 0.32em;
+    text-transform: uppercase; color: var(--soft);
+    display: inline-flex; align-items: center; gap: 16px;
+  }
+  .eyebrow .pip { width: 34px; height: 3px; background: var(--accent); display: inline-block; }
+  .eyebrow.accent { color: var(--accent); }
+  .eyebrow.on-dark { color: rgba(255,255,255,0.82); }
+  .eyebrow.on-dark .pip { background: var(--accent-bright); }
+  .eyebrow.center { justify-content: center; }
+
+  h1, h2, h3 { font-weight: 900; letter-spacing: -0.03em; line-height: 1.0; }
+  em.key  { font-style: normal; color: var(--accent); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-weight: 800; font-size: 12.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 20px 38px; border-radius: var(--radius); text-decoration: none; cursor: pointer;
+    background: var(--accent); color: #fff; border: 2px solid var(--accent);
+    transition: background .2s var(--ease), color .2s, transform .2s, box-shadow .2s;
+    box-shadow: 0 14px 30px -12px rgba(var(--accent-rgb), 0.5);
+    position: relative; overflow: hidden;
+  }
+  .btn:hover { background: #fff; color: var(--accent); transform: translateY(-2px); box-shadow: 0 18px 36px -14px rgba(var(--accent-rgb), 0.4); }
+  .btn.ondark { background: var(--accent-bright); border-color: var(--accent-bright); }
+  .btn.ondark:hover { background: #fff; color: var(--accent); border-color: #fff; box-shadow: 0 18px 36px -14px rgba(0,0,0,0.5); }
+  .btn.small { padding: 14px 26px; font-size: 11.5px; }
+  .btn .arrow { transition: transform .2s var(--ease); }
+  .btn:hover .arrow { transform: translateX(5px); }
+
+  .btn-line {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-weight: 700; font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    text-decoration: none; color: var(--ink); cursor: pointer;
+    border-bottom: 2px solid var(--accent); padding-bottom: 4px; transition: color .2s;
+  }
+  .btn-line:hover { color: var(--accent); }
+  .btn-line .arrow { transition: transform .2s var(--ease); }
+  .btn-line:hover .arrow { transform: translateX(4px); }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; } }
+
+  /* ============ MASTHEAD: logo (left) + date (right), across the video width (no nav bar) ============ */
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .post-head { max-width: 760px; margin: 0 auto; padding: 44px 24px 0; }
+  .post-masthead { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
+  .post-logo { display: block; line-height: 0; }
+  .post-logo img { height: 36px; width: auto; display: block; }
+  /* OG-style dateline: clean Inter (DarrenDaily is Inter-only), title case, no accent */
+  .post-date { font-weight: 500; font-size: 17px; letter-spacing: 0.01em; color: var(--ink); white-space: nowrap; }
+  @media (max-width: 980px) { .post-head { padding: 32px 22px 0; } }
+  @media (max-width: 560px) { .post-logo img { height: 28px; } .post-date { font-size: 14px; } }
+
+  /* ============ HERO: contained top - IDENTICAL blurred set bg + treatment to the expired page ============ */
+  .post-hero { position: relative; overflow: hidden; padding: 40px 0 96px; background: var(--mist); }
+  .post-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: blur(20px) brightness(1.02) saturate(1.14); transform: scale(1.16); z-index: 0; }
+  .post-hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(ellipse 76% 48% at 50% 32%, rgba(20,10,12,0.32), transparent 70%),
+      linear-gradient(180deg, rgba(20,10,12,0.28) 0%, rgba(20,10,12,0.03) 24%, rgba(20,10,12,0.02) 56%, rgba(20,10,12,0.30) 100%); }
+  .post-hero__inner { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  .post-hero .post-masthead { margin-bottom: 20px; }
+  .post-hero .post-logo img { height: 34px; }
+  .post-hero .post-logo .logo-dark { display: none; }
+  .post-hero .post-date { color: #fff; text-shadow: 0 1px 16px rgba(0,0,0,0.5); }
+  .post-hero .post-video .video-frame { box-shadow: 0 30px 74px -34px rgba(0,0,0,0.5); }
+  .post-hero .share-bar { margin-top: 14px; }
+  .post-hero .share-label { color: rgba(255,255,255,0.82); }
+  /* ADMIN toggle -> plain white hero (no background image) */
+  body.hero-plain .post-hero { background: var(--paper); }
+  body.hero-plain .post-hero__bg, body.hero-plain .post-hero::after { display: none; }
+  body.hero-plain .post-hero .post-logo .logo-light { display: none; }
+  body.hero-plain .post-hero .post-logo .logo-dark { display: block; }
+  body.hero-plain .post-hero .post-date { color: var(--ink); text-shadow: none; }
+  body.hero-plain .post-hero .share-label { color: var(--soft); }
+  body.hero-plain .post-hero .post-video .video-frame { box-shadow: 0 0 0 1px rgba(20,23,28,0.06), 0 34px 74px -34px rgba(20,23,28,0.5); }
+  @media (max-width: 560px) { .post-hero { padding: 28px 0 80px; } .post-hero .post-logo img { height: 26px; } .post-hero .post-date { font-size: 14px; } }
+
+  /* ============ TWO-COLUMN LAYOUT (double) - 2/3 framed content card + 1/3 right column; OVERLAPS the hero ============ */
+  .post-layout { max-width: 1180px; margin: -64px auto 0; padding: 0 24px 100px; position: relative; z-index: 5;
+    display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 34px; align-items: start; }
+  .post-main { min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: 0 40px 90px -46px rgba(20,23,28,0.5); padding: 40px 44px 38px; }
+  .post-main > .post-caption { margin-top: 0; }
+  @media (max-width: 980px) { .post-layout { grid-template-columns: 1fr; max-width: 812px; } }
+  @media (max-width: 640px) { .post-layout { margin-top: -44px; padding: 0 18px 84px; } .post-main { padding: 26px 22px 30px; } }
+
+  /* ADMIN preview control (internal only - remove before launch) */
+  .admin-bar { position: fixed; left: 16px; bottom: 16px; z-index: 500; display: flex; align-items: center; gap: 10px;
+    background: rgba(10,8,10,0.86); padding: 8px 8px 8px 14px; border-radius: 100px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .admin-bar__tag { font-weight: 800; font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .admin-bar__btn { font-family: inherit; font-weight: 700; font-size: 11.5px; letter-spacing: 0.03em; color: #fff; background: var(--accent); border: 0; border-radius: 100px; padding: 8px 16px; cursor: pointer; transition: background .2s; }
+  .admin-bar__btn:hover { background: var(--accent-bright); }
+
+  /* ---- Main: video ---- */
+  .post-video .video-frame {
+    position: relative; margin: 0; opacity: 1; transform: none; animation: none;
+    box-shadow: 0 0 0 1px var(--line), 0 34px 80px -34px rgba(20,23,28,0.45);
+  }
+  .video-frame {
+    position: relative; width: 100%; border-radius: var(--radius); overflow: hidden;
+    aspect-ratio: 16 / 9; background: #0c0e12; cursor: pointer;
+  }
+  .video-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .video-frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,17,32,0) 54%, rgba(8,10,16,0.34) 100%); transition: opacity .25s; }
+  .video-frame:hover::after { opacity: 0.9; }
+  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 5; }
+  .video-frame.playing img,
+  .video-frame.playing::after { display: none; }
+
+  /* ---- Main: caption (rich text) ---- */
+  .post-caption { margin-top: 22px; font-size: 17.5px; line-height: 1.74; color: var(--ink); }
+  .post-caption > *:first-child { margin-top: 0; }
+  .post-caption p { margin: 0 0 20px; color: #2b313b; }
+  .post-caption p:last-child { margin-bottom: 0; }
+  .post-caption strong, .post-caption b { color: var(--ink); font-weight: 700; }
+  .post-caption a { color: var(--accent); text-decoration: none; border-bottom: 1.5px solid rgba(var(--accent-rgb), 0.4); transition: border-color .2s; }
+  .post-caption a:hover { border-bottom-color: var(--accent); }
+  .post-caption h2, .post-caption h3 { text-transform: none; letter-spacing: -0.02em; line-height: 1.2; margin: 34px 0 14px; }
+  .post-caption h2 { font-size: 26px; } .post-caption h3 { font-size: 21px; }
+  .post-caption ul, .post-caption ol { margin: 0 0 20px; padding-left: 22px; }
+  .post-caption li { margin-bottom: 9px; color: #2b313b; }
+  .post-caption blockquote { margin: 26px 0; padding: 6px 0 6px 24px; border-left: 3px solid var(--accent);
+    font-weight: 700; font-size: 20px; line-height: 1.4; color: var(--ink); font-style: normal; }
+
+  /* ---- Main: CTA FEATURE (two designed creatives; sticky-on-scroll) ----
+       Inline shows the in-content banner (1720x464). Once scrolled past, it pins to the top and
+       swaps to the dedicated sticky/nav creative (1600x200) so neither is ever an awkward crop.
+       PRODUCTION: both are HubSpot Smart CTA images (same "DarrenDaily audience" list). */
+  .cta-wrap { margin-top: 40px; }
+  .cta-banner { display: block; position: relative; width: 100%; border-radius: var(--radius); overflow: hidden; aspect-ratio: 1720 / 464;
+    box-shadow: 0 22px 48px -26px rgba(0,0,0,0.5); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .cta-banner:hover { transform: translateY(-2px); box-shadow: 0 28px 56px -26px rgba(0,0,0,0.55); }
+  .cta-banner__full { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---- Persistent STICKY CTA (top-level element, ALWAYS above all content; NOT dismissible) ----
+       Shown once the inline banner scrolls out of view. Strip creative (1600x200, right area kept
+       clear) + a SEPARATE, editable CTA button. Button colour = --cta-btn (here: KIMI blue). */
+  .cta-sticky { position: fixed; top: 0; left: 0; right: 0; z-index: 350; height: 84px; overflow: hidden;
+    transform: translateY(-100%); transition: transform .3s var(--ease); box-shadow: 0 12px 34px -12px rgba(0,0,0,0.62); }
+  .cta-sticky.show { transform: translateY(0); }
+  .cta-sticky__link { display: block; position: absolute; inset: 0; }
+  .cta-sticky__link img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .cta-sticky__btn { position: absolute; top: 50%; right: 24px; transform: translateY(-50%); z-index: 2; display: inline-flex; align-items: center; gap: 8px;
+    background: var(--cta-btn, #2fd3d8); color: #08272a; text-decoration: none; font-weight: 800; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 12px 22px; border-radius: var(--radius); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5); transition: transform .2s var(--ease), filter .2s; }
+  .cta-sticky__btn:hover { filter: brightness(1.06); }
+  .cta-sticky__btn .arrow { transition: transform .2s var(--ease); }
+  .cta-sticky__btn:hover .arrow { transform: translateX(3px); }
+  @media (prefers-reduced-motion: reduce) { .cta-sticky { transition: none; } }
+  @media (max-width: 640px) { .cta-sticky { height: 64px; } .cta-sticky__btn { right: 14px; padding: 9px 14px; font-size: 10.5px; letter-spacing: 0.05em; } }
+
+  /* ============ EXPIRING SOON strip (full-width, thin, CENTERED - only ever 1-2 videos) ============ */
+  .xsoon-strip { background: var(--mist); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 60px 0 104px; }
+  .xsoon-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; text-align: center; }
+  .xsoon-head { text-align: center; margin-bottom: 28px; }
+  .xsoon-title { font-size: clamp(26px, 3vw, 38px); font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1.05; color: var(--ink); margin: 0 0 10px; }
+  .xsoon-title em { font-style: normal; color: var(--accent); }
+  .xsoon-note { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; font-size: 12px; color: var(--soft); margin: 0; }
+  .xsoon-note svg { width: 14px; height: 14px; stroke: var(--accent); stroke-width: 2; fill: none; }
+  .xsoon-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; }
+  .xsoon-row .ss-card { position: relative; display: block; width: 300px; max-width: 100%; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #fff; box-shadow: 0 10px 26px -18px rgba(20,23,28,0.42); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .xsoon-row .ss-card:hover { transform: translateY(-4px); box-shadow: 0 24px 46px -24px rgba(20,23,28,0.5); }
+  .xsoon-row .ss-card img { display: block; width: 100%; height: auto; }
+  .xsoon-row .ss-date { position: absolute; top: 10px; right: 10px; z-index: 2; display: inline-flex; align-items: center; font-weight: 700; font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase; color: #fff; background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius); padding: 5px 11px; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+  @media (max-width: 720px) { .xsoon-inner { padding: 0 22px; } }
+
+  /* Quote block (right column, under Featured): dark-red panel, the session's key
+     quote (sometimes DH, sometimes others) */
+  .quote-block { position: relative; padding: 30px 28px 32px; border-radius: var(--radius); color: #fff; overflow: hidden;
+    background: radial-gradient(ellipse 95% 60% at 25% -10%, rgba(var(--accent-rgb), 0.55), transparent 70%), linear-gradient(155deg, var(--dark) 0%, var(--dark-2) 100%); }
+  .quote-block .eyebrow { margin-bottom: 16px; }
+  .quote-block .eyebrow .pip { width: 24px; }
+  .quote-block .qmark { position: absolute; top: -4px; right: 18px; font-family: Georgia, 'Times New Roman', serif; font-size: 96px; line-height: 1; color: var(--accent-bright); pointer-events: none; }
+  .quote-text { position: relative; margin: 0; font-size: 18.5px; line-height: 1.46; font-style: normal; font-weight: 500; color: #fff; }
+  .quote-attr { position: relative; margin: 20px 0 0; font-weight: 700; font-size: 14px; color: #fff; text-align: right; }
+
+  /* ---- Main: social share bar ---- */
+  /* Share: label on the left, buttons right-justified (space-between) */
+  .share-bar { margin-top: 14px; padding: 0;
+    display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap; }
+  .share-label { font-weight: 700; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--soft); }
+  .share-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .share-btn { width: 42px; height: 42px; border-radius: var(--radius); border: 1px solid var(--line); background: #fff;
+    display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink);
+    transition: background .2s, border-color .2s, color .2s, transform .2s; }
+  .share-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-2px); }
+  .share-btn svg { width: 17px; height: 17px; fill: currentColor; }
+  .share-btn.copy svg { fill: none; stroke: currentColor; stroke-width: 2; }
+
+  /* ---- Main: comments (Hyvor Talk) ---- */
+  .comments-wrap { margin-top: 54px; scroll-margin-top: 90px; }
+  .comments-head { margin-bottom: 24px; }
+  .comments-head h2 { font-size: clamp(24px, 2.6vw, 34px); text-transform: uppercase; margin-top: 14px; }
+  .comments-head h2 em { font-style: normal; color: var(--accent); }
+  .comments-head p { font-size: 15px; line-height: 1.6; color: var(--muted); margin-top: 10px; max-width: 560px; }
+  hyvor-talk-comments { display: block; }
+
+  /* ============ SIDEBAR (right column, optional; flexible card types) ============ */
+  .post-aside { display: grid; gap: 24px; position: sticky; top: 92px; }
+  @media (max-width: 980px) { .post-aside { position: static; } }
+  .side-card { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--paper);
+    box-shadow: 0 14px 36px -26px rgba(20,23,28,0.5); }
+  .side-card__hd { display: flex; align-items: center; gap: 12px; padding: 18px 20px 0; }
+  .side-card__hd .eyebrow { font-size: 10.5px; letter-spacing: 0.24em; }
+  .side-card__hd .eyebrow .pip { width: 24px; }
+  .side-card__bd { padding: 16px 20px 22px; }
+
+  /* Sidebar type A: recent sessions / "catch up" list */
+  /* Date-overlay thumbnail cards (same pattern as the other DarrenDaily pages):
+     the designed card graphic carries the title, a date chip overlays the corner. */
+  .side-sessions .ss-card { position: relative; display: block; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 10px 26px -18px rgba(20,23,28,0.42); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .side-sessions .ss-card + .ss-card { margin-top: 14px; }
+  .side-sessions .ss-card:hover { transform: translateY(-4px); box-shadow: 0 24px 46px -24px rgba(20,23,28,0.5); }
+  .side-sessions .ss-card img { display: block; width: 100%; height: auto; }
+  .side-sessions .ss-date { position: absolute; top: 10px; right: 10px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase; color: #fff; background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius); padding: 5px 11px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+  .side-expiry { display: flex; align-items: center; gap: 7px; margin: 0 0 16px; font-weight: 600; font-size: 11.5px; color: var(--soft); }
+  .side-expiry svg { width: 13px; height: 13px; stroke: var(--accent); stroke-width: 2; fill: none; }
+
+  /* Sidebar type B: product / journal promo */
+  .side-promo__img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+  .side-promo__bd { padding: 18px 20px 22px; }
+  .side-promo__bd h3 { font-size: 17px; text-transform: uppercase; line-height: 1.1; }
+  .side-promo__bd p { font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 10px 0 16px; }
+
+  /* Sidebar type D: featured promo (portrait, 770 x 1016 = DarrenDaily CTA slot size) */
+  .side-feature { display: block; position: relative; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; aspect-ratio: 770 / 1016; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .side-feature:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -26px rgba(20,23,28,0.4); }
+  .side-feature img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Sidebar type E: Champion referral card (conversion pattern; live data from SparkLoop) */
+  .side-champion { position: relative; overflow: hidden; border-radius: var(--radius); color: #fff; padding: 26px 22px 26px; text-align: center;
+    background: radial-gradient(ellipse 90% 70% at 50% 0%, rgba(var(--accent-rgb), 0.5), transparent 66%), linear-gradient(160deg, var(--dark) 0%, var(--dark-2) 100%); }
+  .side-champion .champ-trophy { width: 30px; height: 30px; margin: 0 auto 12px; display: block; stroke: var(--accent-bright); stroke-width: 1.7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .champ-eyebrow { justify-content: center; margin-bottom: 12px; }
+  .side-champion h3 { color: #fff; font-size: 20px; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.08; margin: 0 0 6px; }
+  .side-champion h3 em { font-style: normal; color: var(--accent-bright); }
+  .side-champion > p { font-size: 13px; line-height: 1.5; color: var(--mist-on-dark); margin: 0 0 16px; }
+  /* next-reward + progress */
+  .champ-track { text-align: left; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.13); border-radius: var(--radius); padding: 13px 14px 14px; margin-bottom: 12px; }
+  .champ-label { display: block; font-weight: 700; font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.58); }
+  .champ-reward { display: block; font-weight: 800; font-size: 15px; letter-spacing: -0.01em; color: #fff; margin-top: 3px; }
+  .champ-bar { position: relative; height: 7px; border-radius: var(--radius); background: rgba(255,255,255,0.15); overflow: hidden; margin: 11px 0 8px; }
+  .champ-bar span { position: absolute; inset: 0 auto 0 0; height: 100%; border-radius: var(--radius); background: linear-gradient(90deg, var(--accent-bright), #e8646d); }
+  .champ-togo { font-size: 12px; color: var(--mist-on-dark); }
+  .champ-togo b { color: #fff; font-weight: 800; }
+  /* reward ladder */
+  .champ-ladder { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 0 0 16px; padding: 0; }
+  .champ-ladder li { font-weight: 800; font-size: 13px; color: rgba(255,255,255,0.55); padding: 7px 2px 6px; border: 1px solid rgba(255,255,255,0.13); border-radius: var(--radius); line-height: 1; }
+  .champ-ladder li span { display: block; font-weight: 600; font-size: 8px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 4px; }
+  .champ-ladder li.is-current { color: #fff; border-color: var(--accent-bright); background: rgba(var(--accent-rgb), 0.30); }
+  .champ-ladder li.is-current span { color: var(--accent-bright); }
+  /* actions */
+  .side-champion .btn { width: 100%; justify-content: center; padding: 15px; }
+  .champ-primary { margin-bottom: 8px; }
+  .champ-copy { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: none; border: 0; cursor: pointer; font-family: inherit;
+    font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.75); padding: 6px 4px; transition: color .2s; }
+  .champ-copy:hover { color: #fff; }
+  .champ-copy svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+  .champ-proof { margin-top: 12px; font-size: 10.5px; letter-spacing: 0.05em; color: rgba(255,255,255,0.5); }
+
+  /* ============ MEDIA COVER BIO - "The Vantage": SUCCESS covers wall + Darren cutout ============ */
+  .intro { display: flex; min-height: 60vh; }
+  .intro-wall { flex: 1; position: relative; overflow: hidden; background: #0a0a0a; }
+  .intro-text { width: 42%; min-width: 300px; background: var(--paper); color: var(--ink); display: flex; flex-direction: column; justify-content: center; padding: 64px 54px; }
+  @media (max-width: 900px) { .intro { flex-direction: column; } .intro-wall { flex: none; min-height: 66vh; } .intro-text { width: 100%; padding: 56px 30px; } }
+  #covers-grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: 150px; grid-auto-flow: dense; gap: 2px; will-change: transform; }
+  .c-tile { position: relative; overflow: hidden; background: #0d0d0d; opacity: 0; transform: scale(0.93) translateY(14px); will-change: opacity, transform; cursor: pointer; }
+  .c-tile.visible { opacity: 1; transform: scale(1) translateY(0); transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1); }
+  .c-wide  { grid-column: span 2; }
+  .c-tall  { grid-row:    span 2; }
+  .c-large { grid-column: span 2; grid-row: span 2; }
+  .c-tile img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; filter: grayscale(100%); transition: filter 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+  .c-tile:hover img, .c-tile.tapped img { filter: grayscale(0%); transform: scale(1.05); }
+  .c-cap { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 10px 10px; background: linear-gradient(to top, rgba(0,0,0,0.78), transparent); color: #fff; font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; transform: translateY(6px); transition: opacity 0.32s ease, transform 0.32s ease; pointer-events: none; }
+  .c-tile:hover .c-cap, .c-tile.tapped .c-cap { opacity: 1; transform: translateY(0); }
+  .intro-wall::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to bottom, transparent 0%, rgba(10,10,10,0.65) 55%, #0a0a0a 100%); pointer-events: none; z-index: 5; }
+  .intro-wall .dh-wrap { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 100%; z-index: 10; pointer-events: none; display: flex; align-items: flex-end; overflow: hidden; }
+  .intro-wall .dh-wrap img { display: block; height: 96%; width: auto; max-width: none; max-height: 96%; vertical-align: bottom; filter: drop-shadow(0 8px 40px rgba(0,0,0,0.9)); }
+  .intro-text .eyebrow { margin-bottom: 22px; }
+  .intro-headline { font-weight: 900; font-size: clamp(26px, 2.7vw, 40px); line-height: 1.02; letter-spacing: -0.03em; color: var(--ink); text-transform: uppercase; margin-bottom: 22px; text-wrap: balance; }
+  .intro-headline em { font-style: normal; color: var(--accent); }
+  .intro-body p { font-weight: 400; font-size: clamp(15px, 1.15vw, 16.5px); line-height: 1.6; color: var(--muted); margin-bottom: 15px; }
+  .intro-body p:first-child { font-weight: 500; color: var(--ink); }
+  .intro-body p:last-child { margin-bottom: 0; }
+  .intro-stats { display: grid; grid-template-columns: repeat(2, max-content); gap: 22px 40px; margin-top: 28px; }
+  .intro-stats .is-n { font-weight: 900; font-size: clamp(20px, 1.7vw, 25px); letter-spacing: -0.04em; color: var(--accent); line-height: 0.9; }
+  .intro-stats .is-l { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft); margin-top: 6px; white-space: nowrap; line-height: 1.35; }
+  .seals { --seal-h: 50px; display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; align-items: center; gap: 26px 20px; margin-top: 34px; }
+  .seal { height: var(--seal-h); width: auto; max-width: 100%; object-fit: contain; display: block; opacity: 0.45; }
+  .seal[src*="amazon"] { height: calc(var(--seal-h) * 0.82); }
+  .seal[src*="nyt"] { height: calc(var(--seal-h) * 1.05); }
+  @media (max-width: 900px) { .seals { gap: 26px 16px; --seal-h: 56px; margin-top: 38px; } }
+  @media (max-width: 480px) { .seals { --seal-h: 46px; } }
+
+  /* ============ SHARE TOAST ============ */
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: #fff; padding: 14px 22px; border-radius: var(--radius);
+    font-weight: 700; font-size: 13px; letter-spacing: 0.03em;
+    box-shadow: 0 18px 40px -14px rgba(0,0,0,0.5);
+    opacity: 0; pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease); z-index: 300;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ============ JOIN MODAL (opt-in form popup) ============ */
+  .modal { position: fixed; inset: 0; z-index: 400; display: flex; align-items: center; justify-content: center; padding: 24px;
+    background: rgba(6,6,6,0.62); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    opacity: 0; visibility: hidden; transition: opacity .28s var(--ease), visibility .28s var(--ease); }
+  .modal.open { opacity: 1; visibility: visible; }
+  .modal-card { position: relative; width: 100%; max-width: 440px; background: #fff; border-radius: 0; padding: 40px 36px 32px;
+    box-shadow: 0 40px 100px -28px rgba(0,0,0,0.55); transform: translateY(16px); transition: transform .3s var(--ease);
+    max-height: calc(100vh - 48px); overflow-y: auto; text-align: left; }
+  .modal.open .modal-card { transform: none; }
+  .modal-close { position: absolute; top: 18px; right: 18px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line);
+    background: #fff; color: var(--soft); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s, color .2s, border-color .2s; }
+  .modal-close:hover { background: var(--mist); color: var(--ink); }
+  .modal-close svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; }
+  .modal-logo { height: 28px; width: auto; display: block; margin-bottom: 22px; }
+  .modal-accent { display: block; width: 52px; height: 3px; background: var(--accent); border-radius: 2px; margin-bottom: 16px; }
+  .modal-headline { font-weight: 900; letter-spacing: -0.03em; line-height: 1.04; font-size: clamp(24px, 3vw, 30px); text-transform: uppercase; color: var(--ink); }
+  .modal-headline span { display: block; }
+  .modal-headline em { font-style: normal; color: var(--accent); }
+  .modal-promise { font-size: 14px; line-height: 1.55; color: var(--muted); margin: 15px 0 22px; }
+  .modal-promise b { color: var(--ink); font-weight: 700; }
+  .modal-form { display: grid; gap: 11px; text-align: left; }
+  .modal-form input, .modal-form select { width: 100%; font-family: inherit; font-size: 15px; color: var(--ink); padding: 15px 16px;
+    border-radius: 0; border: 1.5px solid var(--line); background: #fff; transition: border-color .18s, box-shadow .18s; -webkit-appearance: none; appearance: none; }
+  .modal-form input::placeholder { color: var(--soft); }
+  .modal-form select { color: var(--soft); padding-right: 42px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23616a78' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat; background-position: right 15px center; background-size: 14px; cursor: pointer; }
+  .modal-form select.filled { color: var(--ink); }
+  .modal-form input:focus, .modal-form select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.16); }
+  .modal-form .btn { width: 100%; justify-content: center; margin-top: 5px; padding: 18px; border-radius: 0; }
+  .modal-micro { font-size: 12px; line-height: 1.5; color: var(--soft); text-align: left; margin-top: 4px; }
+  @media (max-width: 520px) { .modal-card { padding: 36px 22px 26px; } }
+
+  /* ============ FOOTER ============ */
+  footer { background: #0a0a0a; color: #c3bbb9; padding: 70px 0 40px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 40px; }
+  .foot-brand .fb-logo { height: 46px; width: auto; display: block; }
+  .foot-brand .tag { font-size: 14px; line-height: 1.6; color: #fff; margin-top: 20px; max-width: 320px; }
+  .socials { display: flex; gap: 12px; margin-top: 22px; }
+  .socials a { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.16); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s; }
+  .socials a:hover { background: var(--accent); border-color: var(--accent); }
+  .socials svg { width: 15px; height: 15px; fill: #c3bbb9; }
+  .socials a:hover svg { fill: #fff; }
+  .footer-col h3 { font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: #988f8d; font-weight: 600; margin-bottom: 24px; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 14px; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
+  .footer-col a { color: #c3bbb9; text-decoration: none; transition: color .18s; }
+  .footer-col a:hover { color: #fff; }
+  .bmc-corner { display: flex; align-items: flex-start; gap: 16px; color: #a89f9d; text-decoration: none; transition: color .2s; }
+  .bmc-corner:hover { color: #fff; }
+  .bmc-corner img { width: 52px; height: 52px; display: block; filter: brightness(0) invert(1) opacity(0.85); transition: opacity .2s; flex-shrink: 0; margin-top: 2px; }
+  .bmc-corner:hover img { filter: brightness(0) invert(1) opacity(1); }
+  .bmc-corner-text { display: flex; flex-direction: column; gap: 8px; }
+  .bmc-corner-title { font-weight: 700; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #a89f9d; line-height: 1; }
+  .bmc-corner-tag { font-weight: 700; font-size: 14px; letter-spacing: 0.02em; text-transform: uppercase; color: #fff; line-height: 1.2; }
+  .bmc-corner-cta { font-weight: 500; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #a89f9d; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px; transition: color .2s; }
+  .bmc-corner:hover .bmc-corner-cta { color: #fff; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 52px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 10px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: #867d7b; }
+  .footer-bottom .legal-links { display: flex; gap: 24px; }
+  .footer-bottom a { color: #867d7b; text-decoration: none; }
+  .footer-bottom a:hover { color: #c3bbb9; }
+  @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 34px; } .foot-brand { grid-column: 1 / -1; } }
+  @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<main id="top">
+<article>
+
+  <!-- ============ HERO: immersive, contained top band ============
+       The video poster, blurred + darkened, fills the full width behind the crisp video, so the top
+       reads as a focused hero with no empty white sides. Masthead (logo left, date right) sits over it.
+       WEBFLOW: .post-hero__bg src -> "Video Poster" (same image as the video); .post-date -> "Published". -->
+  <section class="post-hero">
+    <img class="post-hero__bg" src="hero-chair.webp" alt="" aria-hidden="true">
+    <div class="post-hero__inner">
+      <div class="post-masthead reveal">
+        <a class="post-logo" href="darrendaily.html" aria-label="DarrenDaily home">
+          <img class="logo-light" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
+          <img class="logo-dark" src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
+        </a>
+        <span class="post-date">Friday, July 24, 2026</span>
+      </div>
+      <!-- VIDEO (facade -> lazy Vimeo). Poster carries the title.
+           WEBFLOW: data-vimeo-id -> "Vimeo ID"; poster <img> src/alt -> "Video Poster" / "Title". -->
+      <div class="post-video reveal">
+        <div class="video-frame" data-vimeo-id="355893131" role="button" tabindex="0" aria-label="Play today's DarrenDaily session">
+          <img src="dd-poster.webp" alt="What high-achievers do on Saturdays" width="1280" height="720" fetchpriority="high">
+        </div>
+      </div>
+
+      <!-- SOCIAL SHARE (in the hero, right below the video; JS wires each button to the post URL + title) -->
+      <div class="share-bar reveal">
+        <span class="share-label">Share this edge</span>
+        <div class="share-btns">
+          <button class="share-btn" type="button" data-net="facebook" aria-label="Share on Facebook" title="Share on Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </button>
+          <button class="share-btn" type="button" data-net="twitter" aria-label="Share on X" title="Share on X">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </button>
+          <button class="share-btn" type="button" data-net="linkedin" aria-label="Share on LinkedIn" title="Share on LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </button>
+          <button class="share-btn" type="button" data-net="email" aria-label="Share by email" title="Share by email">
+            <svg viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/></svg>
+          </button>
+          <button class="share-btn" type="button" data-net="sms" aria-label="Share by text message" title="Share by text message">
+            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+          </button>
+          <button class="share-btn copy" type="button" data-net="copy" aria-label="Copy link" title="Copy link">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BODY (two column: 2/3 content + 1/3 sidebar) ============ -->
+  <div class="post-layout">
+    <div class="post-main">
+
+      <!-- Title lives on the video thumbnail; keep an SEO/screen-reader H1. WEBFLOW: bind to "Title". -->
+      <h1 class="sr-only">What High-Achievers Do on Saturdays</h1>
+
+      <!-- CAPTION (short, under the video). WEBFLOW: .post-caption -> "Caption" rich-text field.
+           Keep it TIGHT (set a low character limit on the CMS field) so the description stays
+           above the fold. One short prompt is plenty; the video does the teaching. -->
+      <div class="post-caption reveal">
+        <p><strong>Confess in the comments below:</strong> is what you do now something you would rather be doing on a Saturday morning than almost anything else in the world? Be honest.</p>
+      </div>
+
+      <!-- CTA FEATURE: a single BOLD designed graphic (human face + brand color, KIMI-style) so it
+           stands out and is hard to ignore. Once scrolled past, it pins to the top of the viewport
+           as a bold full-width band (see sticky JS); a "Save Your Seat" chip + dismiss (x) show while
+           pinned. PRODUCTION: this is a HubSpot Smart CTA image (same "DarrenDaily audience" list) --
+           swap dd-banner.webp for the day's creative; keep the whole banner clickable to the offer. -->
+      <!-- Inline in-content banner (1720 x 464). WEBFLOW: "Banner Image" (HubSpot Smart CTA image).
+           The persistent pinned bar is a SEPARATE top-level element (#ctaSticky) using the 1600x200 strip. -->
+      <div class="cta-wrap" id="ctaWrap">
+        <a class="cta-banner" href="https://darrenhardy.com/" target="_blank" rel="noopener">
+          <img class="cta-banner__full" src="dd-banner.webp" alt="The Truth About Kimi K3 - Darren breaks down China's new AI. Save your seat." width="1720" height="464">
+        </a>
+      </div>
+
+      <!-- COMMENTS: Hyvor Talk (same plugin the live dd.darrenhardy.com posts use).
+           website-id stays constant across all posts. Leave page-id EMPTY so Hyvor
+           threads by the page URL (each CMS post is its own thread automatically).
+           WEBFLOW: paste this whole block into an Embed element in the CMS template. -->
+      <div class="comments-wrap" id="comments">
+        <div class="comments-head">
+          <h2>Join the <em>conversation</em>.</h2>
+        </div>
+        <hyvor-talk-comments website-id="13897" page-id=""></hyvor-talk-comments>
+      </div>
+
+    </div><!-- /.post-main -->
+
+    <!-- ---------- SIDEBAR (right column, 1/3) ----------
+         OPTIONAL as a whole (WEBFLOW: bind .post-aside to "Show Sidebar" switch). A stack of
+         independent, individually-optional card types. Order: Moneyline, Champion, DDJ, Featured CTA.
+         Keep the ones a post needs, hide the rest; the column just reflows. -->
+    <aside class="post-aside">
+
+      <!-- MONEYLINE: the session's key quote (sometimes Darren, sometimes others).
+           WEBFLOW: conditional visibility = "Quote is set".
+             .quote-text -> "Quote"   |   .quote-attr -> "Quote Attribution" (e.g. "Darren Hardy", "Jim Rohn") -->
+      <figure class="quote-block reveal">
+        <span class="qmark" aria-hidden="true">&rdquo;</span>
+        <div class="eyebrow on-dark"><span class="pip"></span>Today's Moneyline</div>
+        <blockquote class="quote-text">If your work is your "art" then you never have to work again.</blockquote>
+        <figcaption class="quote-attr">Darren Hardy</figcaption>
+      </figure>
+
+      <!-- CHAMPION (referral / ambassador). OPTIONAL.
+           Conversion pattern: mission-first headline, a NAMED next reward + progress bar, a reward
+           ladder, one-tap share, and a Copy-link button (raw URL hidden). PRODUCTION = SparkLoop:
+           feed the live per-subscriber values in -
+             .champ-reward          <- next milestone reward name
+             .champ-bar > span width <- % progress to the next milestone
+             .champ-togo            <- "N more friends" to the next milestone
+             .champ-ladder li       <- milestone thresholds (add .is-current to the active one)
+             [data-champ-link]      <- the subscriber's unique referral URL (stays hidden; Copy shares it)
+           Values below are placeholders. -->
+      <div class="side-champion reveal">
+        <svg class="champ-trophy" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 4h10v4a5 5 0 0 1-10 0V4z"/>
+          <path d="M7 5H4v1a3 3 0 0 0 3 3"/>
+          <path d="M17 5h3v1a3 3 0 0 1-3 3"/>
+          <path d="M12 13v3"/>
+          <path d="M8.5 20h7l-.7-4h-5.6z"/>
+        </svg>
+        <div class="eyebrow on-dark champ-eyebrow"><span class="pip"></span>Be a Champion</div>
+        <h3>Give a friend the <em>edge</em>.</h3>
+        <p>Share DarrenDaily and earn gifts as you go.</p>
+
+        <div class="champ-track">
+          <span class="champ-label">Your next gift</span>
+          <span class="champ-reward">The DarrenDaily Mug</span>
+          <div class="champ-bar"><span style="width:33%"></span></div>
+          <div class="champ-togo"><b>2 more friends</b> to unlock it</div>
+        </div>
+
+        <ul class="champ-ladder">
+          <li class="is-current">3<span>Mug</span></li>
+          <li>5<span>Journal</span></li>
+          <li>10<span>Tee</span></li>
+          <li>25<span>$25</span></li>
+        </ul>
+
+        <button class="btn ondark champ-primary" type="button" data-share-dd>Share &amp; unlock <span class="arrow">&rarr;</span></button>
+        <button class="champ-copy" type="button" data-champ-copy data-champ-link="https://darrendaily.com/?dd_id=DEMO">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy my link
+        </button>
+
+        <div class="champ-proof">Join 2,300+ Champions</div>
+      </div>
+
+      <!-- DDJ: The DarrenDaily Journal (store promo). OPTIONAL.
+           WEBFLOW: bind image/heading/body/link, or reference a "Featured Product" collection. -->
+      <div class="side-card reveal">
+        <img class="side-promo__img" src="dd-journal.webp" alt="The DarrenDaily Journal" loading="lazy">
+        <div class="side-promo__bd">
+          <div class="eyebrow accent" style="margin-bottom:12px"><span class="pip"></span>From The Store</div>
+          <h3>The DarrenDaily Journal</h3>
+          <p>Capture the one idea from each morning before it slips away. The companion to your daily practice.</p>
+          <a class="btn small" href="https://store.darrenhardy.com/" target="_blank" rel="noopener">Get The Journal <span class="arrow">&rarr;</span></a>
+        </div>
+      </div>
+
+      <!-- FEATURED CTA: portrait promo (770 x 1016 = the DarrenDaily CTA slot size). OPTIONAL.
+           Sits at the bottom of the column. WEBFLOW: bind <a> href -> "Sidebar Feature Link",
+           img src/alt -> "Sidebar Feature Image" (upload at 770 x 1016) / "Sidebar Feature Alt". -->
+      <a class="side-feature reveal" href="https://darrenhardy.com/careers/" target="_blank" rel="noopener">
+        <img src="dd-featured.webp" alt="Featured promotion" width="770" height="1016" loading="lazy">
+      </a>
+
+      <!-- ============================================================
+           ALT featured slot: HubSpot SMART CTA (Option A - list personalization)
+           ============================================================
+           Use this INSTEAD of the CMS <a> above when the promo should personalize by HubSpot
+           LIST / lifecycle stage: a known (cookied) contact sees their variation; anonymous /
+           first-time visitors see the default creative. Managed in HubSpot, NOT the Webflow CMS,
+           so it sits outside the spreadsheet update flow. (Smart *CTAs* work on external Webflow
+           pages; smart *forms* and *modules* are HubSpot-hosted only.)
+
+           SETUP
+             1) Install the HubSpot tracking code ONCE, site-wide
+                (Webflow -> Site Settings -> Custom Code -> Head):
+                  <script id="hs-script-loader" async defer src="//js.hs-scripts.com/2518645.js"></script>
+             2) In HubSpot, build a Smart CTA (portrait creative, 770 x 1016) with smart rules by contact list.
+             3) Delete the CMS <a class="side-feature"> above and paste the CTA embed into a Webflow
+                EMBED element, wrapped in <div class="side-feature"> so it inherits this slot's frame.
+                Portal 2518645 is DarrenDaily's; swap the CTA GUID (bd155898-...) for your Smart CTA's:
+
+      <div class="side-feature reveal">        <span class="hs-cta-wrapper" id="hs-cta-wrapper-ddfeat">
+          <span class="hs-cta-node hs-cta-ddfeat" id="hs-cta-ddfeat">
+            <a href="https://cta-redirect.hubspot.com/cta/redirect/2518645/bd155898-1db0-4283-b7c5-258c5313e579" target="_blank" rel="noopener">
+              <img class="hs-cta-img" src="https://no-cache.hubspot.com/cta/default/2518645/bd155898-1db0-4283-b7c5-258c5313e579.png" alt="Featured promotion">
+            </a>
+          </span>
+          <script charset="utf-8" src="https://js.hscta.net/cta/current.js"></script>
+          <script type="text/javascript">hbspt.cta.load(2518645, 'bd155898-1db0-4283-b7c5-258c5313e579', {"useNewLoader":"static","region":"na1"});</script>
+        </span>
+      </div>
+           ============================================================ -->
+
+    </aside>
+
+  </div><!-- /.post-layout -->
+
+</article>
+
+<!-- ============ EXPIRING SOON strip (full-width, thin, CENTERED - only ever 1-2 videos) ============
+     WEBFLOW: Collection List (Sessions), Sort Published DESC, Limit 1-2, filter out the current item.
+       .ss-card img src -> the VIMEO THUMBNAIL: https://vumbnail.com/{Vimeo ID}_large.jpg
+         (pulls the crisp Vimeo poster; the "Vimeo ID" field already exists on each session).
+       .ss-card img alt -> "Title"   |   .ss-date -> "Published". -->
+<section class="xsoon-strip">
+  <div class="xsoon-inner">
+    <div class="xsoon-head">
+      <h2 class="xsoon-title">Expiring <em>Soon</em></h2>
+      <p class="xsoon-note">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+        Each session lives 72 hours, then it is gone.
+      </p>
+    </div>
+    <div class="xsoon-row">
+      <a class="ss-card" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience">
+        <img src="https://vumbnail.com/277017410_large.jpg" alt="An inspiring real-life story for career resilience" width="640" height="360" loading="lazy">
+        <span class="ss-date">Jul 23 &middot; 2026</span>
+      </a>
+      <a class="ss-card" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays">
+        <img src="https://vumbnail.com/355893131_large.jpg" alt="What high-achievers do on Saturdays" width="640" height="360" loading="lazy">
+        <span class="ss-date">Jul 24 &middot; 2026</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEDIA COVER BIO - "The Vantage": the author/bio footer ============ -->
+<section class="intro" id="about">
+  <div class="intro-wall">
+    <div id="covers-grid"></div>
+    <div class="dh-wrap">
+      <img src="Wall-DH-blue2.webp" alt="Darren Hardy in front of the wall of SUCCESS magazine covers he published" loading="lazy">
+    </div>
+  </div>
+  <div class="intro-text">
+    <div class="eyebrow accent"><span class="pip"></span>About Darren Hardy</div>
+    <h2 class="intro-headline">Behind the covers. Behind <em>closed doors.</em></h2>
+    <div class="intro-body">
+      <p><b>For 35 years, Darren sat at the centerpiece of the success media industry.</b> Founding publisher of SUCCESS magazine. Executive producer of three success-focused television networks.</p>
+      <p>Nearly every iconic founder and self-made billionaire who built something extraordinary from nothing took his call. They opened their vault doors. Not the PR version.</p>
+      <p>He didn't read about the people on these covers. He put them there.</p>
+      <p>That is the vantage behind every DarrenDaily. Every weekday morning, he hands you a piece of it. One clear idea, five minutes, before the world gets loud.</p>
+    </div>
+    <div class="intro-stats">
+      <div><div class="is-n">35 yrs</div><div class="is-l">At the center of success</div></div>
+      <div><div class="is-n">11,000+</div><div class="is-l">Businesses tested</div></div>
+      <div><div class="is-n">SUCCESS</div><div class="is-l">Founding publisher</div></div>
+      <div><div class="is-n">SUCCESS TV</div><div class="is-l">Executive producer</div></div>
+    </div>
+    <div class="seals" aria-label="Awards and bestseller recognition">
+      <img class="seal" src="seals/seal-dd.webp" alt="Award-Winning, Top 10 Personal Development Blog, DarrenDaily" loading="lazy">
+      <img class="seal" src="seals/seal-amazon.webp" alt="Amazon, 21,177 Five-Star Customer Reviews" loading="lazy">
+      <img class="seal" src="seals/seal-nsa.webp" alt="Award-Winning, Master of Influence, NSA of America" loading="lazy">
+      <img class="seal" src="seals/seal-nyt.webp" alt="New York Times Best Seller" loading="lazy">
+      <img class="seal" src="seals/seal-ddod.webp" alt="Award-Winning, Top Rated Apple Podcast, DarrenDaily On Demand" loading="lazy">
+      <img class="seal" src="seals/seal-wsj.webp" alt="Wall Street Journal Bestseller" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="foot-brand">
+        <img class="fb-logo" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
+        <p class="tag">Five days a week, 260 days a year, one strategic idea to start the day. No ads, no sponsors. Your attention is never for sale here.</p>
+        <div class="socials">
+          <a href="https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ" title="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a>
+          <a href="https://www.instagram.com/darrenhardy/" title="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="https://www.facebook.com/DarrenHardyFan/" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="https://twitter.com/DARRENHARDY" title="X" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="https://darrenhardy.com/about/">About</a></li>
+          <li><a href="https://darrenhardy.com/programs/">Resources</a></li>
+          <li><a href="https://darrendaily.com/">Daily Mentoring</a></li>
+          <li><a href="https://darrendailyondemand.com/">Podcast</a></li>
+          <li><a href="https://store.darrenhardy.com/">Books</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="https://helpme.darrenhardy.com/">Help Center</a></li>
+          <li><a href="https://darrenhardy.com/careers/">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <a class="bmc-corner" href="https://hardybmc.com" target="_blank" rel="noopener">
+          <img src="BMC_Logo.png" alt="BMC|COLLECTIVE">
+          <div class="bmc-corner-text">
+            <span class="bmc-corner-title">BMC|COLLECTIVE</span>
+            <span class="bmc-corner-tag">The Unfair Advantage<br>for Driven Leaders</span>
+            <span class="bmc-corner-cta">Explore Further <span class="arrow">&#8599;</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Darren Hardy, LLC. All Rights Reserved.</span>
+      <div class="legal-links">
+        <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
+        <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<!-- Share confirmation toast -->
+<!-- Persistent STICKY CTA - top-level so it's ALWAYS above all content; appears once the inline
+     banner scrolls out of view; NOT dismissible. PRODUCTION: strip = HubSpot Smart CTA image
+     (1600x200, keep the right ~25% clear); the CTA button is a separate, editable element (--cta-btn). -->
+<div class="cta-sticky" id="ctaSticky" aria-hidden="true">
+  <a class="cta-sticky__link" href="https://darrenhardy.com/" target="_blank" rel="noopener">
+    <img src="dd-banner-sticky.svg" alt="The Truth About Kimi K3" width="1600" height="200">
+  </a>
+  <a class="cta-sticky__btn" href="https://darrenhardy.com/" target="_blank" rel="noopener">Save Your Seat <span class="arrow">&rarr;</span></a>
+</div>
+
+<!-- ADMIN PREVIEW toggle (internal only - REMOVE before launch). Flips the hero background image on/off. -->
+<div class="admin-bar" aria-hidden="true">
+  <span class="admin-bar__tag">Admin</span>
+  <button class="admin-bar__btn" type="button" data-bg-toggle aria-pressed="false">Hero background: On</button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ============ EXIT-INTENT OPT-IN (fired by exit-intent; production content = HubSpot Smart CTA) ============ -->
+<div class="modal" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
+  <div class="modal-card">
+    <button class="modal-close" type="button" data-close-form aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <img class="modal-logo" src="dd-logo-color.svg" alt="DarrenDaily" width="268" height="63">
+    <span class="modal-accent" aria-hidden="true"></span>
+    <h3 class="modal-headline" id="joinModalTitle"><span>Your unfair advantage.</span><span><em>Every morning.</em></span></h3>
+    <p class="modal-promise">Get one strategic insight from Darren Hardy, delivered to your inbox via private video each weekday morning. Five minutes a day that compound while everyone else scrolls. <b>Yours free.</b></p>
+    <!-- PRODUCTION (HubSpot Smart CTA): replace the demo <form> below with a HubSpot Smart CTA so the
+         opt-in only shows to UNKNOWN viewers or viewers NOT on the "DarrenDaily audience" list.
+           1) HubSpot tracking code must be installed site-wide (see the featured-slot note).
+           2) Build a Smart CTA (portal 2518645) with a smart rule on the "DarrenDaily audience" list:
+                - Default (unknown / not on list) -> the free opt-in offer.
+                - On the DarrenDaily list          -> a suppressed / alternate variant, e.g.
+                  "You're already in. Forward this to someone who needs it." (so members aren't nagged).
+           3) Paste the CTA embed here (inside .modal-card) via a Webflow Embed element.
+         The exit-intent script fires this popup; the Smart CTA decides what each viewer sees.
+         (Demo below is a plain form standing in for that Smart CTA.) -->
+    <!-- WEBFLOW/HubSpot: wire #joinForm to the DarrenDaily opt-in (HubSpot fields: firstname, email, company_role). -->
+    <form class="modal-form" id="joinForm" novalidate>
+      <input type="text" name="firstname" id="jmFirst" placeholder="First Name*" aria-label="First name" autocomplete="given-name" required>
+      <input type="email" name="email" id="jmEmail" placeholder="Email*" aria-label="Email address" autocomplete="email" required>
+      <select name="company_role" id="jmRole" aria-label="Your role" required>
+        <option value="" disabled selected>Your Role*</option>
+        <option value="Business owner (revenue $0-$250K)">Business owner (revenue $0-$250K)</option>
+        <option value="Business owner (revenue $250K-$500K)">Business owner (revenue $250K-$500K)</option>
+        <option value="Business owner (revenue $500K-$1M)">Business owner (revenue $500K-$1M)</option>
+        <option value="Business owner (revenue $1M-$10M)">Business owner (revenue $1M-$10M)</option>
+        <option value="Business owner (revenue $10M-$50M)">Business owner (revenue $10M-$50M)</option>
+        <option value="Business owner (revenue $50M+)">Business owner (revenue $50M+)</option>
+        <option value="Internal leader/employee">Internal leader/employee</option>
+        <option value="Student, retired, other">Student, retired, other</option>
+      </select>
+      <button type="submit" class="btn">Join DarrenDaily For Free <span class="arrow">&rarr;</span></button>
+      <p class="modal-micro">Free. No ads, ever. Unsubscribe in one click. Your information is never shared.</p>
+    </form>
+  </div>
+</div>
+
+<!-- Hyvor Talk comments embed (loads the plugin once; renders every <hyvor-talk-comments> on the page) -->
+<script async type="module" src="https://talk.hyvor.com/embed/embed.js"></script>
+
+<script>
+
+  // Scroll reveal
+  (function () {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  })();
+
+  // Video facade: swap the poster for the Vimeo player on click / Enter / Space.
+  // Works for any number of .video-frame[data-vimeo-id] on the page.
+  (function () {
+    document.querySelectorAll('.video-frame[data-vimeo-id]').forEach(function (frame) {
+      function play() {
+        var id = frame.getAttribute('data-vimeo-id');
+        if (!id || frame.querySelector('iframe')) return;
+        var iframe = document.createElement('iframe');
+        iframe.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&color=a72632&title=0&byline=0&portrait=0&dnt=1';
+        iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('title', "Today's DarrenDaily session");
+        frame.appendChild(iframe);
+        frame.classList.add('playing');
+        frame.style.cursor = 'default';
+      }
+      frame.addEventListener('click', play);
+      frame.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); }
+      });
+    });
+  })();
+
+  // Social share buttons: build each target from THIS post's URL + title.
+  // No per-post config needed, it reads the canonical URL and og:title, so it
+  // "just works" for every CMS item.
+  (function () {
+    var canonical = document.querySelector('link[rel="canonical"]');
+    var ogTitle = document.querySelector('meta[property="og:title"]');
+    var url = (canonical && canonical.href) || window.location.href;
+    var title = (ogTitle && ogTitle.content) || document.title;
+    var eu = encodeURIComponent(url), et = encodeURIComponent(title);
+    var targets = {
+      facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + eu,
+      twitter:  'https://twitter.com/intent/tweet?url=' + eu + '&text=' + et,
+      linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + eu,
+      email:    'mailto:?subject=' + et + '&body=' + et + '%0A%0A' + eu,
+      sms:      'sms:?&body=' + et + '%20' + eu
+    };
+    var toast = document.getElementById('toast'), toastTimer;
+    function showToast(msg) {
+      if (!toast) return;
+      toast.textContent = msg; toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2600);
+    }
+    document.querySelectorAll('.share-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var net = btn.getAttribute('data-net');
+        if (net === 'copy') {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(function () { showToast('Link copied. Thank you for sharing.'); });
+          } else { showToast(url); }
+          return;
+        }
+        if (net === 'email' || net === 'sms') { window.location.href = targets[net]; return; }
+        // Prefer the native share sheet on mobile for the social networks
+        if (navigator.share && (net === 'facebook' || net === 'twitter' || net === 'linkedin') && /Mobi|Android/i.test(navigator.userAgent)) {
+          navigator.share({ title: title, url: url }).catch(function () { window.open(targets[net], '_blank', 'noopener,width=640,height=560'); });
+          return;
+        }
+        window.open(targets[net], '_blank', 'noopener,width=640,height=560');
+      });
+    });
+  })();
+
+  // Nav "Share This DarrenDaily": native share sheet with a copy-link fallback
+  (function () {
+    var toast = document.getElementById('toast'), t;
+    function show(m) { if (!toast) return; toast.textContent = m; toast.classList.add('show'); clearTimeout(t); t = setTimeout(function () { toast.classList.remove('show'); }, 2600); }
+    var SHARE = { title: 'DarrenDaily', text: 'Daily mentoring with Darren Hardy. One idea, five minutes, every weekday morning. Free.', url: 'https://darrendaily.com/' };
+    document.querySelectorAll('[data-share-dd]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (navigator.share) { navigator.share(SHARE).catch(function () {}); return; }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(SHARE.url).then(function () { show('Link copied. Thank you for sharing.'); })
+            .catch(function () { window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE.url), '_blank', 'noopener'); });
+          return;
+        }
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE.url), '_blank', 'noopener');
+      });
+    });
+  })();
+
+  // Champion "Copy my link": copy the referral link + toast (production: SparkLoop supplies the link)
+  (function () {
+    var toast = document.getElementById('toast'), t;
+    function show(m) { if (!toast) return; toast.textContent = m; toast.classList.add('show'); clearTimeout(t); t = setTimeout(function () { toast.classList.remove('show'); }, 2600); }
+    document.querySelectorAll('[data-champ-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var link = btn.getAttribute('data-champ-link') || 'https://darrendaily.com/';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(link).then(function () { show('Your link is copied. Thank you for championing.'); }).catch(function () { show(link); });
+        } else { show(link); }
+      });
+    });
+  })();
+
+  // ADMIN: toggle the hero background image on/off (internal preview; remove the .admin-bar before launch)
+  (function () {
+    var btn = document.querySelector('[data-bg-toggle]');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var off = document.body.classList.toggle('hero-plain');
+      btn.textContent = off ? 'Hero background: Off' : 'Hero background: On';
+      btn.setAttribute('aria-pressed', off ? 'true' : 'false');
+    });
+  })();
+
+  // Persistent sticky CTA: show the top-level bar once the inline banner scrolls out of view
+  // (always above all content; NOT dismissible)
+  (function () {
+    var wrap = document.getElementById('ctaWrap');
+    var bar = document.getElementById('ctaSticky');
+    if (!wrap || !bar) return;
+    function update() { bar.classList.toggle('show', wrap.getBoundingClientRect().bottom <= 0); }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  // Exit-intent opt-in: exit-intent ONLY (desktop top-edge mouseout + mobile back gesture),
+  // once per session. In production the card content is a HubSpot Smart CTA that only shows the
+  // opt-in to unknown / non-DarrenDaily-list viewers.
+  (function () {
+    var modal = document.getElementById('joinModal');
+    if (!modal) return;
+    var form = document.getElementById('joinForm');
+    var role = document.getElementById('jmRole');
+    var firstEl = document.getElementById('jmFirst');
+    var lastActive = null;
+    var STORE = window.sessionStorage;
+    var SHOWN_KEY = 'dd-optin-shown';
+    var CAP_ENABLED = true;    // once per session. Set false only to test repeatedly; ?exit=1 always force-previews.
+    function canShow() { if (!CAP_ENABLED) return true; try { return !STORE.getItem(SHOWN_KEY); } catch (e) { return true; } }
+    function markShown() { if (!CAP_ENABLED) return; try { STORE.setItem(SHOWN_KEY, String(Date.now())); } catch (e) {} }
+    function open(force) {
+      if (modal.classList.contains('open')) return;
+      if (!force && !canShow()) return;
+      lastActive = document.activeElement;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      markShown();
+      setTimeout(function () { if (firstEl) firstEl.focus(); }, 60);
+    }
+    function close() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (lastActive && lastActive.focus) lastActive.focus();
+    }
+    document.querySelectorAll('[data-close-form]').forEach(function (el) { el.addEventListener('click', close); });
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+    if (role) role.addEventListener('change', function () { role.classList.toggle('filled', !!role.value); });
+    if (form) form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      window.location.href = 'darrendaily-welcome.html';
+    });
+    // Desktop: pointer leaves through the top edge.
+    document.addEventListener('mouseout', function (e) {
+      if (e.clientY <= 0 && !e.relatedTarget && !e.toElement) open(false);
+    });
+    // Mobile: intercept the first back gesture.
+    try {
+      history.pushState(null, '', location.href);
+      window.addEventListener('popstate', function () {
+        if (canShow()) { history.pushState(null, '', location.href); open(false); }
+      });
+    } catch (e) {}
+    if (/[?&]exit=1/.test(location.search)) open(true);   // QA: append ?exit=1 to force-preview
+  })();
+
+  // ── Media cover bio: SUCCESS covers wall + Darren cutout (ported from the set) ──
+  (function () {
+    var covers = [
+      'JackWelch.jpg','SM_13_05_FORD.jpg','SM_12_01_DOWNEY.jpg',
+      'SM_09_07_BRANSON.jpg','SM_10_06_JOBS.jpg',
+      'SM_09_08_FOX.jpg',
+      'SM_08_01_Kiyosaki.jpg','SM_08_02_50.jpg','SM_08_04_OZ.jpg',
+      'SM_08_05_HAWK.jpg','SM_08_06_Deutsch.jpg','SM_10_12_SHRIVER.jpg',
+      'SM_09_02_Powell.jpg','SM_09_03_FOREMAN.jpg','SM_09_04_Maxwell.jpg',
+      'SM_09_05_ORMAN.jpg','SM_09_06_LANCE.jpg','SM_09_01_Robbins.jpg',
+      'SM_09_09_FOSTER_Barcode.jpg','SM_09_10_SERENA_barcode.jpg',
+      'SM_09_11_OSTEEN_barcode.jpg','SM_09_12_DrPHIL.jpg',
+      'SM_12_07_TECHNOLOGY.jpg','SM_10_01_KEYES.jpg','SM_10_02_RAMSEY.jpg',
+      'SM_10_03_HOPKINS.jpg','SM_10_04_COLLINS.jpg','SM_10_05_MICHAELS.jpg',
+      'SM_10_07_COLE.jpg','SM_10_08_JOHNSON.jpg',
+      'SM_10_09_DELL.jpg','SM_10_10_USHER.jpg','SM_10_11_MANNINGS.jpg',
+      'SM_11_01_HOWARD.jpg','SM_11_02_CHAN.jpg','SM_11_03_SCHWAB.jpg',
+      'SM_11_04_SCHULTZ.jpg','SM_12_08_BRANSON.jpg','SM_11_05_ZUCKERBERG.jpg',
+      'SM_11_06_MARTIN.jpg','SM_11_07_DICAPRIO.jpg','SM_11_08_BEZOS.jpg',
+      'SM_11_09_CONNICK.jpg','SM_11_10_OZ.jpg','SM_11_11_CUBAN.jpg',
+      'SM_11_12_SANTA.jpg','SM_12_02_KARDASHIAN.jpg','SM_12_03_BLOOMBERG.jpg',
+      'SM_12_04_LOWE.jpg','SM_12_05_ORMAN.jpg','SM_12_06_JOHANNSON.jpg',
+      'SM_12_09_BURNETT.jpg','SM_12_10_MAXWELL.jpg','SM_12_11_WASHINGTON.jpg',
+      'SM_12_12_COURIC.jpg','SM_13_01_STEWART.jpg','SM_13_02_MUSK.jpg',
+      'SM_13_03_CORCORAN.jpg','SM_13_04_DIAMANDIS.jpg','SM_08_03_Trump.jpg',
+      'SM_14_11_COOK.jpg','Santa1977.jpg','Tony_Hseih.jpg'
+    ];
+    function cleanName(f) {
+      var n = f.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '');
+      n = n.replace(/^SM_\d+_\d+_/i, '');
+      n = n.replace(/([a-z])([A-Z])/g, '$1 $2');
+      n = n.replace(/[_-]/g, ' ');
+      n = n.replace(/\bbarcode\b/gi, '').replace(/\s+/g, ' ').trim();
+      n = n.toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+      return n;
+    }
+    var featuredTypes = ['large', 'tall', 'large', 'tall', 'standard'];
+    function buildSpreadPool(n) {
+      var special = Array(4).fill('wide').concat(Array(16).fill('tall'));
+      var s = 0xc0ffee42;
+      for (var i = special.length - 1; i > 0; i--) {
+        s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+        s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+        s ^= s >>> 16;
+        var j = (Math.abs(s) >>> 0) % (i + 1);
+        var t = special[i]; special[i] = special[j]; special[j] = t;
+      }
+      var pool = Array(n).fill('standard');
+      var step = (n - 1) / (special.length - 1);
+      special.forEach(function (type, i) { pool[Math.round(i * step)] = type; });
+      return pool;
+    }
+    var bodyTypes = buildSpreadPool(covers.length - 5);
+    var coversGrid = document.getElementById('covers-grid');
+    if (!coversGrid) return;
+    covers.forEach(function (cover, i) {
+      var tile = document.createElement('div');
+      tile.className = 'c-tile';
+      var t = i < 5 ? featuredTypes[i] : bodyTypes[i - 5];
+      if (t === 'wide')  tile.classList.add('c-wide');
+      if (t === 'tall')  tile.classList.add('c-tall');
+      if (t === 'large') tile.classList.add('c-large');
+      var img = document.createElement('img');
+      img.src = 'covers/' + cover.replace(/\.(jpg|jpeg)$/i, '.webp');
+      img.alt = cleanName(cover);
+      img.loading = i < 12 ? 'eager' : 'lazy';
+      img.decoding = 'async';
+      var cap = document.createElement('div');
+      cap.className = 'c-cap';
+      cap.textContent = cleanName(cover);
+      tile.appendChild(img);
+      tile.appendChild(cap);
+      coversGrid.appendChild(tile);
+    });
+    var introWall = document.querySelector('.intro-wall');
+    var wallObserver = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        requestAnimationFrame(function () {
+          document.querySelectorAll('.c-tile').forEach(function (tile) { tile.classList.add('visible'); });
+        });
+        wallObserver.disconnect();
+      }
+    }, { threshold: 0.1 });
+    wallObserver.observe(introWall);
+    document.querySelectorAll('.c-tile').forEach(function (tile) {
+      var ty, tx;
+      tile.addEventListener('touchstart', function (e) { ty = e.touches[0].clientY; tx = e.touches[0].clientX; }, { passive: true });
+      tile.addEventListener('touchend', function (e) {
+        if (Math.abs(e.changedTouches[0].clientY - ty) > 8 || Math.abs(e.changedTouches[0].clientX - tx) > 8) return;
+        var active = tile.classList.contains('tapped');
+        document.querySelectorAll('.c-tile.tapped').forEach(function (t) { t.classList.remove('tapped'); });
+        if (!active) tile.classList.add('tapped');
+      });
+    });
+    (function () {
+      var rafPending = false;
+      window.addEventListener('scroll', function () {
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(function () {
+          var rect = introWall.getBoundingClientRect();
+          var progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+          var offset = Math.max(0, progress * 500);
+          coversGrid.style.transform = 'translateY(-' + offset + 'px)';
+          rafPending = false;
+        });
+      }, { passive: true });
+    })();
+  })();
+</script>
+
+</body>
+</html>
