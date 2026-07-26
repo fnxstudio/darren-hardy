@@ -292,16 +292,6 @@
   .side-promo__bd h3 { font-size: 17px; text-transform: uppercase; line-height: 1.1; }
   .side-promo__bd p { font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 10px 0 16px; }
 
-  /* Sidebar type C: free join CTA (accent card) */
-  .side-join { background: radial-gradient(ellipse 90% 70% at 50% 0%, rgba(var(--accent-rgb), 0.5), transparent 66%), linear-gradient(160deg, var(--dark) 0%, var(--dark-2) 100%);
-    color: #fff; border: 0; padding: 26px 22px 28px; text-align: center; }
-  .side-join .eyebrow { color: rgba(255,255,255,0.82); justify-content: center; }
-  .side-join .eyebrow .pip { background: var(--accent-bright); }
-  .side-join h3 { color: #fff; font-size: 21px; text-transform: uppercase; margin: 12px 0 10px; line-height: 1.06; }
-  .side-join h3 em { font-style: normal; color: var(--accent-bright); }
-  .side-join p { font-size: 13px; line-height: 1.55; color: var(--mist-on-dark); margin-bottom: 18px; }
-  .side-join .btn { width: 100%; justify-content: center; padding: 16px; }
-
   /* Sidebar type D: featured promo (portrait, 770 x 1016 = DarrenDaily CTA slot size) */
   .side-feature { display: block; position: relative; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; aspect-ratio: 770 / 1016; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
   .side-feature:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -26px rgba(20,23,28,0.4); }
@@ -611,14 +601,6 @@
         </div>
       </div>
 
-      <!-- CARD TYPE C: Free-join CTA (static; the #NeverMiss card. Usually kept on every post). -->
-      <div class="side-card side-join reveal">
-        <div class="eyebrow"><span class="pip"></span>#NeverMiss</div>
-        <h3>Get this <em>free</em>, every morning.</h3>
-        <p>One strategic idea from Darren Hardy, delivered by private video each weekday. Five minutes. No ads, ever.</p>
-        <button class="btn ondark" type="button" data-open-form>Join DarrenDaily <span class="arrow">&rarr;</span></button>
-      </div>
-
     </aside>
   </div><!-- /.post-layout -->
 
@@ -715,7 +697,7 @@
 <!-- Share confirmation toast -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<!-- ============ JOIN MODAL (opt-in form popup) ============ -->
+<!-- ============ EXIT-INTENT OPT-IN (fired by exit-intent; production content = HubSpot Smart CTA) ============ -->
 <div class="modal" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
   <div class="modal-card">
     <button class="modal-close" type="button" data-close-form aria-label="Close">
@@ -725,6 +707,16 @@
     <span class="modal-accent" aria-hidden="true"></span>
     <h3 class="modal-headline" id="joinModalTitle"><span>Your unfair advantage.</span><span><em>Every morning.</em></span></h3>
     <p class="modal-promise">Get one strategic insight from Darren Hardy, delivered to your inbox via private video each weekday morning. Five minutes a day that compound while everyone else scrolls. <b>Yours free.</b></p>
+    <!-- PRODUCTION (HubSpot Smart CTA): replace the demo <form> below with a HubSpot Smart CTA so the
+         opt-in only shows to UNKNOWN viewers or viewers NOT on the "DarrenDaily audience" list.
+           1) HubSpot tracking code must be installed site-wide (see the featured-slot note).
+           2) Build a Smart CTA (portal 2518645) with a smart rule on the "DarrenDaily audience" list:
+                - Default (unknown / not on list) -> the free opt-in offer.
+                - On the DarrenDaily list          -> a suppressed / alternate variant, e.g.
+                  "You're already in. Forward this to someone who needs it." (so members aren't nagged).
+           3) Paste the CTA embed here (inside .modal-card) via a Webflow Embed element.
+         The exit-intent script fires this popup; the Smart CTA decides what each viewer sees.
+         (Demo below is a plain form standing in for that Smart CTA.) -->
     <!-- WEBFLOW/HubSpot: wire #joinForm to the DarrenDaily opt-in (HubSpot fields: firstname, email, company_role). -->
     <form class="modal-form" id="joinForm" novalidate>
       <input type="text" name="firstname" id="jmFirst" placeholder="First Name*" aria-label="First name" autocomplete="given-name" required>
@@ -854,7 +846,9 @@
     });
   })();
 
-  // Join modal: opt-in form popup (progressive enhancement over the darrendaily.com link)
+  // Exit-intent opt-in: same triggers as the expired page (desktop top-edge mouseout, mobile
+  // back gesture, fast upward scroll, scroll depth, idle). In production the card content is a
+  // HubSpot Smart CTA that only shows the opt-in to unknown / non-DarrenDaily-list viewers.
   (function () {
     var modal = document.getElementById('joinModal');
     if (!modal) return;
@@ -862,11 +856,18 @@
     var role = document.getElementById('jmRole');
     var firstEl = document.getElementById('jmFirst');
     var lastActive = null;
-    function open(ev) {
-      if (ev) ev.preventDefault();
+    var STORE = window.sessionStorage;
+    var SHOWN_KEY = 'dd-optin-shown';
+    var CAP_ENABLED = false;   // TESTING: false = show on every trigger. SET TO true BEFORE LAUNCH (once per session).
+    function canShow() { if (!CAP_ENABLED) return true; try { return !STORE.getItem(SHOWN_KEY); } catch (e) { return true; } }
+    function markShown() { if (!CAP_ENABLED) return; try { STORE.setItem(SHOWN_KEY, String(Date.now())); } catch (e) {} }
+    function open(force) {
+      if (modal.classList.contains('open')) return;
+      if (!force && !canShow()) return;
       lastActive = document.activeElement;
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
+      markShown();
       setTimeout(function () { if (firstEl) firstEl.focus(); }, 60);
     }
     function close() {
@@ -874,16 +875,44 @@
       document.body.style.overflow = '';
       if (lastActive && lastActive.focus) lastActive.focus();
     }
-    document.querySelectorAll('[data-open-form]').forEach(function (el) { el.addEventListener('click', open); });
     document.querySelectorAll('[data-close-form]').forEach(function (el) { el.addEventListener('click', close); });
     modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
     if (role) role.addEventListener('change', function () { role.classList.toggle('filled', !!role.value); });
-    form.addEventListener('submit', function (ev) {
+    if (form) form.addEventListener('submit', function (ev) {
       ev.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
       window.location.href = 'darrendaily-welcome.html';
     });
+    // Desktop: pointer leaves through the top edge.
+    document.addEventListener('mouseout', function (e) {
+      if (e.clientY <= 0 && !e.relatedTarget && !e.toElement) open(false);
+    });
+    // Mobile: intercept the first back gesture.
+    try {
+      history.pushState(null, '', location.href);
+      window.addEventListener('popstate', function () {
+        if (canShow()) { history.pushState(null, '', location.href); open(false); }
+      });
+    } catch (e) {}
+    // Fast upward scroll (trackpad / touch leave-intent).
+    var lastY = window.pageYOffset, lastT = Date.now();
+    window.addEventListener('scroll', function () {
+      var y = window.pageYOffset, t = Date.now(), dt = (t - lastT) || 1;
+      if ((y - lastY) / dt < -0.5 && lastY > 300) open(false);
+      lastY = y; lastT = t;
+    }, { passive: true });
+    // Reached ~90% of the page.
+    window.addEventListener('scroll', function () {
+      var scrolled = window.pageYOffset + window.innerHeight;
+      if (scrolled / document.documentElement.scrollHeight >= 0.9) open(false);
+    }, { passive: true });
+    // Idle: no interaction for 30s.
+    var idleTimer;
+    function resetIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(function () { open(false); }, 30000); }
+    ['touchstart', 'scroll', 'click', 'keydown', 'mousemove'].forEach(function (evt) { window.addEventListener(evt, resetIdle, { passive: true }); });
+    resetIdle();
+    if (/[?&]exit=1/.test(location.search)) open(true);   // QA: append ?exit=1 to force-preview
   })();
 
   // ── Media cover bio: SUCCESS covers wall + Darren cutout (ported from the set) ──
