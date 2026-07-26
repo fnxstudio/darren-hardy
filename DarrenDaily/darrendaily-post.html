@@ -174,7 +174,8 @@
 
   /* ============ PUBLISHED DATE (lives in the nav's right slot; title is on the thumbnail) ============ */
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-  .post-date { font-weight: 800; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); white-space: nowrap; }
+  .post-date { font-weight: 700; font-size: 15px; letter-spacing: 0.01em; color: var(--ink); white-space: nowrap; }
+  .post-date .pd-day { color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }
 
   /* ============ TWO-COLUMN LAYOUT (main + optional sidebar) ============ */
   .post-layout {
@@ -418,10 +419,13 @@
   <a class="nav-brand" href="darrendaily.html">
     <img src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
   </a>
-  <!-- PUBLISHED DATE in the nav's right-hand slot. WEBFLOW: .post-date text -> "Published" date field.
-       NOTE: for the CMS field to bind here, this nav must live ON the Sessions collection template
+  <!-- PUBLISHED DATE in the nav's right-hand slot (weekday in accent red, rest in ink).
+       WEBFLOW: bind the "Published" date field TWICE (same field, two formats):
+         .pd-day  -> format "EEEE"          (weekday, accent red)
+         the rest -> format "MMMM d, yyyy"  (ink)
+       NOTE: for CMS binding here, this nav must live ON the Sessions collection template
        (not a shared global Symbol/Component, which can't read the current item's fields). -->
-  <span class="post-date">Friday &middot; July 24, 2026</span>
+  <span class="post-date"><span class="pd-day">Friday</span> &middot; July 24, 2026</span>
 </nav>
 
 <main id="top">
