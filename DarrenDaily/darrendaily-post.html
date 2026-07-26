@@ -297,14 +297,36 @@
   .side-feature:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -26px rgba(20,23,28,0.4); }
   .side-feature img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  /* Sidebar type E: Champion referral card (production = SparkLoop referral widget) */
-  .side-champion { position: relative; overflow: hidden; border-radius: var(--radius); color: #fff; padding: 28px 22px 30px; text-align: center;
+  /* Sidebar type E: Champion referral card (conversion pattern; live data from SparkLoop) */
+  .side-champion { position: relative; overflow: hidden; border-radius: var(--radius); color: #fff; padding: 26px 22px 26px; text-align: center;
     background: radial-gradient(ellipse 90% 70% at 50% 0%, rgba(var(--accent-rgb), 0.5), transparent 66%), linear-gradient(160deg, var(--dark) 0%, var(--dark-2) 100%); }
-  .side-champion .champ-trophy { width: 30px; height: 30px; margin: 0 auto 14px; display: block; stroke: var(--accent-bright); stroke-width: 1.7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-  .side-champion h3 { color: #fff; font-size: 20px; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.08; margin: 0 0 10px; }
+  .side-champion .champ-trophy { width: 30px; height: 30px; margin: 0 auto 12px; display: block; stroke: var(--accent-bright); stroke-width: 1.7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .champ-eyebrow { justify-content: center; margin-bottom: 12px; }
+  .side-champion h3 { color: #fff; font-size: 20px; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.08; margin: 0 0 6px; }
   .side-champion h3 em { font-style: normal; color: var(--accent-bright); }
-  .side-champion p { font-size: 13px; line-height: 1.55; color: var(--mist-on-dark); margin: 0 0 18px; }
+  .side-champion > p { font-size: 13px; line-height: 1.5; color: var(--mist-on-dark); margin: 0 0 16px; }
+  /* next-reward + progress */
+  .champ-track { text-align: left; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.13); border-radius: var(--radius); padding: 13px 14px 14px; margin-bottom: 12px; }
+  .champ-label { display: block; font-weight: 700; font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.58); }
+  .champ-reward { display: block; font-weight: 800; font-size: 15px; letter-spacing: -0.01em; color: #fff; margin-top: 3px; }
+  .champ-bar { position: relative; height: 7px; border-radius: var(--radius); background: rgba(255,255,255,0.15); overflow: hidden; margin: 11px 0 8px; }
+  .champ-bar span { position: absolute; inset: 0 auto 0 0; height: 100%; border-radius: var(--radius); background: linear-gradient(90deg, var(--accent-bright), #e8646d); }
+  .champ-togo { font-size: 12px; color: var(--mist-on-dark); }
+  .champ-togo b { color: #fff; font-weight: 800; }
+  /* reward ladder */
+  .champ-ladder { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 0 0 16px; padding: 0; }
+  .champ-ladder li { font-weight: 800; font-size: 13px; color: rgba(255,255,255,0.55); padding: 7px 2px 6px; border: 1px solid rgba(255,255,255,0.13); border-radius: var(--radius); line-height: 1; }
+  .champ-ladder li span { display: block; font-weight: 600; font-size: 8px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 4px; }
+  .champ-ladder li.is-current { color: #fff; border-color: var(--accent-bright); background: rgba(var(--accent-rgb), 0.30); }
+  .champ-ladder li.is-current span { color: var(--accent-bright); }
+  /* actions */
   .side-champion .btn { width: 100%; justify-content: center; padding: 15px; }
+  .champ-primary { margin-bottom: 8px; }
+  .champ-copy { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: none; border: 0; cursor: pointer; font-family: inherit;
+    font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.75); padding: 6px 4px; transition: color .2s; }
+  .champ-copy:hover { color: #fff; }
+  .champ-copy svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+  .champ-proof { margin-top: 12px; font-size: 10.5px; letter-spacing: 0.05em; color: rgba(255,255,255,0.5); }
 
   /* ============ MEDIA COVER BIO - "The Vantage": SUCCESS covers wall + Darren cutout ============ */
   .intro { display: flex; min-height: 60vh; }
@@ -626,10 +648,16 @@
       </div>
 
       <!-- CARD TYPE E: Champion (referral / ambassador). OPTIONAL.
-           PRODUCTION = SparkLoop referral widget: it renders each subscriber's unique referral
-           link, referral count, and reward milestones, and shows for known subscribers. Paste the
-           SparkLoop embed inside .side-champion via a Webflow Embed, replacing the demo copy + button.
-           (Demo button uses the native share sheet as a stand-in for the referral link.) -->
+           Conversion pattern: mission-first headline, a NAMED next reward + progress bar, a reward
+           ladder, one-tap share, and a Copy-link button (raw URL hidden). PRODUCTION = SparkLoop:
+           feed the live per-subscriber values in -
+             .champ-reward          <- next milestone reward name
+             .champ-bar > span width <- % progress to the next milestone
+             .champ-togo            <- "N more friends" to the next milestone
+             .champ-ladder li       <- milestone thresholds (add .is-current to the active one)
+             [data-champ-link]      <- the subscriber's unique referral URL (stays hidden; Copy shares it)
+           If SparkLoop's stock widget can't be styled to this, build this card custom against the
+           SparkLoop API. Values below are placeholders. -->
       <div class="side-champion reveal">
         <svg class="champ-trophy" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M7 4h10v4a5 5 0 0 1-10 0V4z"/>
@@ -638,9 +666,31 @@
           <path d="M12 13v3"/>
           <path d="M8.5 20h7l-.7-4h-5.6z"/>
         </svg>
-        <h3>Become a DarrenDaily <em>Champion</em></h3>
-        <p>Love the daily? Refer fellow high-achievers, climb the leaderboard, and unlock exclusive rewards.</p>
-        <button class="btn ondark" type="button" data-share-dd>Get My Referral Link <span class="arrow">&rarr;</span></button>
+        <div class="eyebrow on-dark champ-eyebrow"><span class="pip"></span>Be a Champion</div>
+        <h3>Give a friend the <em>edge</em>.</h3>
+        <p>Share DarrenDaily and earn gifts as you go.</p>
+
+        <div class="champ-track">
+          <span class="champ-label">Your next gift</span>
+          <span class="champ-reward">The DarrenDaily Mug</span>
+          <div class="champ-bar"><span style="width:33%"></span></div>
+          <div class="champ-togo"><b>2 more friends</b> to unlock it</div>
+        </div>
+
+        <ul class="champ-ladder">
+          <li class="is-current">3<span>Mug</span></li>
+          <li>5<span>Journal</span></li>
+          <li>10<span>Tee</span></li>
+          <li>25<span>$25</span></li>
+        </ul>
+
+        <button class="btn ondark champ-primary" type="button" data-share-dd>Share &amp; unlock <span class="arrow">&rarr;</span></button>
+        <button class="champ-copy" type="button" data-champ-copy data-champ-link="https://darrendaily.com/?dd_id=DEMO">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy my link
+        </button>
+
+        <div class="champ-proof">Join 2,300+ Champions</div>
       </div>
 
       <!-- CARD TYPE B: Product / promo (WEBFLOW: optional; bind image/heading/body/link
@@ -896,6 +946,20 @@
           return;
         }
         window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE.url), '_blank', 'noopener');
+      });
+    });
+  })();
+
+  // Champion "Copy my link": copy the referral link + toast (production: SparkLoop supplies the link)
+  (function () {
+    var toast = document.getElementById('toast'), t;
+    function show(m) { if (!toast) return; toast.textContent = m; toast.classList.add('show'); clearTimeout(t); t = setTimeout(function () { toast.classList.remove('show'); }, 2600); }
+    document.querySelectorAll('[data-champ-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var link = btn.getAttribute('data-champ-link') || 'https://darrendaily.com/';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(link).then(function () { show('Your link is copied. Thank you for championing.'); }).catch(function () { show(link); });
+        } else { show(link); }
       });
     });
   })();
