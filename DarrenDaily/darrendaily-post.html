@@ -174,13 +174,14 @@
 
   /* ============ ARTICLE HEADER (date only; the title lives on the video thumbnail) ============ */
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-  .post-datemeta { margin-bottom: 20px; }
+  .post-head { max-width: 1320px; margin: 0 auto; padding: 116px 48px 0; }
+  .post-datemeta { margin-bottom: 22px; }
   .post-date { display: inline-flex; align-items: center; gap: 9px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); }
   .post-date svg { width: 16px; height: 16px; stroke: var(--ink); stroke-width: 2; fill: none; }
 
   /* ============ TWO-COLUMN LAYOUT (main + optional sidebar) ============ */
   .post-layout {
-    max-width: 1320px; margin: 0 auto; padding: 116px 48px 100px;
+    max-width: 1320px; margin: 0 auto; padding: 0 48px 100px;
     display: grid; grid-template-columns: minmax(0, 1fr) 348px; gap: 60px; align-items: start;
   }
   .post-main { min-width: 0; }
@@ -190,7 +191,8 @@
      add class .no-aside on .post-layout. */
   .post-layout.no-aside { grid-template-columns: minmax(0, 860px); justify-content: center; }
   @media (max-width: 980px) {
-    .post-layout { grid-template-columns: 1fr; gap: 48px; padding: 96px 22px 84px; }
+    .post-head { padding: 96px 22px 0; }
+    .post-layout { grid-template-columns: 1fr; gap: 48px; padding: 0 22px 84px; }
     .post-aside { max-width: 620px; margin: 0 auto; width: 100%; }
   }
 
@@ -228,7 +230,7 @@
   /* ---- Main: OPTIONAL banner / ad space ----
        WEBFLOW: wrap = "Banner Image is set" conditional visibility.
        .post-banner href -> "Banner Link". If no link, render it as a plain <div>. */
-  .post-banner { display: block; margin-top: 40px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); position: relative; aspect-ratio: 1200 / 300; transition: transform .25s var(--ease), box-shadow .25s var(--ease); text-decoration: none; }
+  .post-banner { display: block; margin-top: 40px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); position: relative; aspect-ratio: 1720 / 464; transition: transform .25s var(--ease), box-shadow .25s var(--ease); text-decoration: none; }
   .post-banner:hover { transform: translateY(-3px); box-shadow: 0 26px 50px -28px rgba(20,23,28,0.4); }
   .post-banner img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
@@ -416,25 +418,28 @@
 <main id="top">
 <article>
 
+  <!-- Title (SEO, hidden) + published date, ABOVE the two-column body so the right
+       column top lines up with the top of the video. -->
+  <div class="post-head">
+    <!-- Title lives on the video thumbnail, so it is not repeated on the page.
+         The <h1> stays in the DOM (visually hidden) for SEO + screen readers.
+         WEBFLOW: bind its text to the "Title" field. -->
+    <h1 class="sr-only">What High-Achievers Do on Saturdays</h1>
+    <!-- PUBLISHED DATE. WEBFLOW: .post-date text -> "Published" date field
+         (format: "EEEE · MMMM d, yyyy"). -->
+    <div class="post-datemeta reveal">
+      <span class="post-date">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2.5" x2="8" y2="6"/><line x1="16" y1="2.5" x2="16" y2="6"/></svg>
+        Friday &middot; July 24, 2026
+      </span>
+    </div>
+  </div>
+
   <!-- ============ BODY: main column + optional sidebar ============ -->
   <div class="post-layout">
 
     <!-- ---------- MAIN COLUMN ---------- -->
     <div class="post-main">
-
-      <!-- Title lives on the video thumbnail, so it is not repeated on the page.
-           This <h1> is kept in the DOM (visually hidden) for SEO + screen readers.
-           WEBFLOW: bind its text to the "Title" field. -->
-      <h1 class="sr-only">What High-Achievers Do on Saturdays</h1>
-
-      <!-- PUBLISHED DATE (top of the post).
-           WEBFLOW: .post-date text -> "Published" date field (format: "EEEE · MMMM d, yyyy"). -->
-      <div class="post-datemeta reveal">
-        <span class="post-date">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2.5" x2="8" y2="6"/><line x1="16" y1="2.5" x2="16" y2="6"/></svg>
-          Friday &middot; July 24, 2026
-        </span>
-      </div>
 
       <!-- VIDEO (facade -> lazy Vimeo). The poster/thumbnail carries the title + description.
            WEBFLOW: data-vimeo-id -> "Vimeo ID" field.
@@ -480,11 +485,12 @@
         <p>Watch today's five minutes, then <strong>confess in the comments below.</strong></p>
       </div>
 
-      <!-- OPTIONAL FEATURED BANNER  (in-house promo, leaderboard 1200 x 300).
-           WEBFLOW: wrap with Conditional Visibility = "Banner Image is set".
+      <!-- OPTIONAL FEATURED BANNER  (in-house promo, wide 1720 x 464 = the live DarrenDaily
+           in-content banner size). WEBFLOW: wrap with Conditional Visibility = "Banner Image is set".
              <a> href      -> "Banner Link"   (if empty, swap the <a> for a <div>)
-             img src / alt -> "Banner Image"  (upload at 1200 x 300) / "Banner Alt" -->
-      <a class="post-banner reveal" href="https://darrenhardy.com/" target="_blank" rel="noopener">        <img src="hero-garden.webp" alt="Featured promotion" width="1200" height="300" loading="lazy">
+             img src / alt -> "Banner Image"  (upload at 1720 x 464) / "Banner Alt" -->
+      <a class="post-banner reveal" href="https://darrenhardy.com/" target="_blank" rel="noopener">
+        <img src="dd-banner.webp" alt="The Truth About Kimi K3: Darren breaks down China's new AI, live today" width="1720" height="464" loading="lazy">
       </a>
 
       <!-- COMMENTS: Hyvor Talk (same plugin the live dd.darrenhardy.com posts use).
