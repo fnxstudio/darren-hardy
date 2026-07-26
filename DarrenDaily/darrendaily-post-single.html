@@ -161,7 +161,7 @@
   .post-hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
     background: radial-gradient(ellipse 90% 70% at 50% 40%, rgba(243,245,248,0.18), transparent 72%),
       linear-gradient(180deg, rgba(243,245,248,0.60) 0%, rgba(243,245,248,0.28) 32%, rgba(243,245,248,0.72) 100%); }
-  .post-hero__inner { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; padding: 0 24px; }
+  .post-hero__inner { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
   .post-hero .post-masthead { margin-bottom: 20px; }
   .post-hero .post-logo img { height: 34px; }
   .post-hero .post-video .video-frame { box-shadow: 0 0 0 1px rgba(20,23,28,0.06), 0 34px 74px -34px rgba(20,23,28,0.5); }
@@ -204,32 +204,28 @@
   .post-caption blockquote { margin: 26px 0; padding: 6px 0 6px 24px; border-left: 3px solid var(--accent);
     font-weight: 700; font-size: 20px; line-height: 1.4; color: var(--ink); font-style: normal; }
 
-  /* ---- Main: CTA FEATURE (bold designed graphic; sticky-on-scroll) ----
-       A single designed graphic (human face + brand color, KIMI-style) so it stands out and is
-       hard to ignore. Once scrolled past, it pins to the top as a bold full-width band.
-       PRODUCTION: this is a HubSpot Smart CTA image (same "DarrenDaily audience" list) --
-       swap dd-banner.webp for the current day's creative; keep the whole banner clickable. */
+  /* ---- Main: CTA FEATURE (two designed creatives; sticky-on-scroll) ----
+       Inline shows the in-content banner (1720x464). Once scrolled past, it pins to the top and
+       swaps to the dedicated sticky/nav creative (1600x200) so neither is ever an awkward crop.
+       PRODUCTION: both are HubSpot Smart CTA images (same "DarrenDaily audience" list). */
   .cta-wrap { margin-top: 40px; }
   .cta-banner { display: block; position: relative; width: 100%; border-radius: var(--radius); overflow: hidden; aspect-ratio: 1720 / 464;
     box-shadow: 0 22px 48px -26px rgba(0,0,0,0.5); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
   .cta-banner:hover { transform: translateY(-2px); box-shadow: 0 28px 56px -26px rgba(0,0,0,0.55); }
-  .cta-banner img { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .cta-banner__pin { display: none; }
+  .cta-banner__full { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .cta-banner__strip { display: none; }
   .cta-dismiss { display: none; }
-  /* stuck: bold full-width band pinned to the top */
-  .cta-banner.is-stuck { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 300; border-radius: 0; aspect-ratio: auto; height: 110px;
+  /* stuck: swap to the dedicated 1600x200 strip, pinned full-width at the top (whole creative, no crop) */
+  .cta-banner.is-stuck { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 300; border-radius: 0; aspect-ratio: auto;
     box-shadow: 0 12px 34px -12px rgba(0,0,0,0.62); animation: ctaDrop .3s var(--ease); }
   .cta-banner.is-stuck:hover { transform: none; }
-  .cta-banner.is-stuck .cta-banner__pin { display: inline-flex; align-items: center; gap: 8px; position: absolute; top: 50%; right: 58px; transform: translateY(-50%);
-    background: var(--accent-bright); color: #fff; font-weight: 800; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 11px 20px; border-radius: var(--radius); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5); }
-  .cta-banner.is-stuck .cta-banner__pin .arrow { transition: transform .2s var(--ease); }
-  .cta-banner.is-stuck:hover .cta-banner__pin .arrow { transform: translateX(4px); }
-  .cta-wrap.stuck .cta-dismiss { display: inline-flex; position: fixed; top: 50%; right: 16px; transform: translateY(-50%); z-index: 301;
+  .cta-banner.is-stuck .cta-banner__full { display: none; }
+  .cta-banner.is-stuck .cta-banner__strip { display: block; width: 100%; height: auto; }
+  .cta-wrap.stuck .cta-dismiss { display: inline-flex; position: fixed; top: 12px; right: 14px; z-index: 301;
     width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(10,8,10,0.5); color: #fff; cursor: pointer; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
   .cta-dismiss svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; }
   @keyframes ctaDrop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
   @media (prefers-reduced-motion: reduce) { .cta-banner.is-stuck { animation: none; } }
-  @media (max-width: 640px) { .cta-banner.is-stuck { height: 84px; } .cta-banner.is-stuck .cta-banner__pin { right: 50px; padding: 9px 13px; font-size: 10.5px; letter-spacing: 0.08em; } }
 
   /* ============ EXPIRING SOON strip (full-width, thin, CENTERED - only ever 1-2 videos) ============ */
   .xsoon-strip { background: var(--mist); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 56px 0; }
@@ -507,9 +503,9 @@
       <h1 class="sr-only">What High-Achievers Do on Saturdays</h1>
 
       <!-- CAPTION (short, under the video). WEBFLOW: .post-caption -> "Caption" rich-text field.
-           Keep it tight: a line or two of setup. The video does the teaching. -->
+           Keep it TIGHT (set a low character limit on the CMS field) so the description stays
+           above the fold. One short prompt is plenty; the video does the teaching. -->
       <div class="post-caption reveal">
-        <p>The most revealing question about your life is not what you do at 9am on Monday. It is what you reach for at 9am on a Saturday.</p>
         <p><strong>Confess in the comments below:</strong> is what you do now something you would rather be doing on a Saturday morning than almost anything else in the world? Be honest.</p>
       </div>
 
@@ -518,10 +514,15 @@
            as a bold full-width band (see sticky JS); a "Save Your Seat" chip + dismiss (x) show while
            pinned. PRODUCTION: this is a HubSpot Smart CTA image (same "DarrenDaily audience" list) --
            swap dd-banner.webp for the day's creative; keep the whole banner clickable to the offer. -->
+      <!-- Two creatives, swapped by the sticky JS:
+             .cta-banner__full  = in-content banner, 1720 x 464  (WEBFLOW: "Banner Image")
+             .cta-banner__strip = pinned/nav banner,  1600 x 200  (WEBFLOW: "Banner Image (Sticky)")
+           Both are HubSpot Smart CTA images in production (same "DarrenDaily audience" list).
+           dd-banner-sticky.svg is a labeled PLACEHOLDER -- drop the real 1600x200 creative in. -->
       <div class="cta-wrap" id="ctaWrap">
         <a class="cta-banner" href="https://darrenhardy.com/" target="_blank" rel="noopener">
-          <img src="dd-banner.webp" alt="The Truth About Kimi K3 - Darren breaks down China's new AI. Save your seat." width="1720" height="464">
-          <span class="cta-banner__pin">Save Your Seat <span class="arrow">&rarr;</span></span>
+          <img class="cta-banner__full" src="dd-banner.webp" alt="The Truth About Kimi K3 - Darren breaks down China's new AI. Save your seat." width="1720" height="464">
+          <img class="cta-banner__strip" src="dd-banner-sticky.svg" alt="The Truth About Kimi K3 - save your seat" width="1600" height="200">
         </a>
         <button class="cta-dismiss" type="button" aria-label="Dismiss">
           <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
