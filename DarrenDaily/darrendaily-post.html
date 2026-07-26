@@ -144,42 +144,15 @@
   .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; } }
 
-  /* ============ NAV (transparent over hero-less top -> solid white on scroll) ============ */
-  /* This page has no photo hero, so the nav starts on a light background:
-     it renders solid-white from the first paint (ink logo), and simply gains
-     its shadow once you scroll. */
-  nav.top {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-    display: flex; align-items: center; justify-content: space-between; padding: 16px 40px;
-    background: #fff; border-bottom: 1px solid var(--line);
-    transition: box-shadow .3s var(--ease), padding .3s var(--ease);
-  }
-  nav.top.solid { padding: 12px 40px; box-shadow: 0 6px 24px -14px rgba(20, 23, 28, 0.35); }
-  .nav-brand { display: flex; align-items: center; text-decoration: none; white-space: nowrap; line-height: 1; }
-  .nav-brand img { height: 32px; width: auto; display: block; }
-  .nav-link {
-    display: inline-flex; align-items: center; gap: 8px;
-    color: var(--ink); font-weight: 700; font-size: 10.5px; letter-spacing: 0.16em;
-    text-transform: uppercase; text-decoration: none; padding: 0 0 3px;
-    border: 0; border-bottom: 2px solid var(--accent);
-    background: none; font-family: inherit; cursor: pointer; -webkit-appearance: none; appearance: none;
-    transition: color .2s, border-color .2s;
-  }
-  .nav-link:focus { outline: none; }
-  .nav-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
-  .nav-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
-  .nav-link .arrow { transition: transform .2s var(--ease); }
-  .nav-link:hover .arrow { transform: translateX(4px); }
-  @media (max-width: 720px) { nav.top { padding: 12px 22px; } nav.top.solid { padding: 12px 22px; } .nav-brand img { height: 28px; } .nav-link { font-size: 10px; } }
-
-  /* ============ PUBLISHED DATE (centered above the video; weekday accent, rest ink) ============ */
+  /* ============ MASTHEAD: logo + published date, centered above the video (no nav bar) ============ */
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-  .post-head { max-width: 1320px; margin: 0 auto; padding: 116px 48px 0; display: grid; grid-template-columns: minmax(0, 1fr) 348px; gap: 60px; }
-  .post-datemeta { grid-column: 1; text-align: center; margin-bottom: 22px; }
-  /* Headline treatment (Inter 900, tight tracking) at a small size, not eyebrow spacing */
-  .post-date { font-weight: 900; font-size: 16px; letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
-  .post-date .pd-day { color: var(--accent); text-transform: uppercase; }
-  @media (max-width: 980px) { .post-head { grid-template-columns: 1fr; padding: 96px 22px 0; } }
+  .post-head { max-width: 1320px; margin: 0 auto; padding: 44px 48px 0; display: grid; grid-template-columns: minmax(0, 1fr) 348px; gap: 60px; }
+  .post-logo { grid-column: 1; justify-self: center; display: block; line-height: 0; margin-bottom: 16px; }
+  .post-logo img { height: 36px; width: auto; display: block; }
+  .post-datemeta { grid-column: 1; text-align: center; margin-bottom: 24px; }
+  /* OG-style dateline: clean Inter (DarrenDaily is Inter-only), title case, no accent */
+  .post-date { font-weight: 500; font-size: 17px; letter-spacing: 0.01em; color: var(--ink); }
+  @media (max-width: 980px) { .post-head { grid-template-columns: 1fr; padding: 32px 22px 0; } }
 
   /* ============ TWO-COLUMN LAYOUT (main + optional sidebar) ============ */
   .post-layout {
@@ -439,23 +412,17 @@
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
-<nav class="top">
-  <a class="nav-brand" href="darrendaily.html">
-    <img src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
-  </a>
-  <!-- Nav CTA: shares DarrenDaily (static; no CMS binding, so the nav can be a global symbol). -->
-  <button class="nav-link" type="button" data-share-dd>Share This DarrenDaily <span class="arrow">&rarr;</span></button>
-</nav>
-
 <main id="top">
 <article>
 
-  <!-- PUBLISHED DATE, centered above the video (weekday in accent red, rest in ink).
-       WEBFLOW: bind the "Published" field twice (formats "EEEE" for .pd-day, "MMMM d, yyyy" for the rest). -->
+  <!-- MASTHEAD: DarrenDaily logo + published date, centered above the video (no nav bar).
+       WEBFLOW: .post-date -> "Published" date field, format "EEEE, MMMM d, yyyy". -->
   <div class="post-head">
+    <a class="post-logo" href="darrendaily.html" aria-label="DarrenDaily home">
+      <img src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
+    </a>
     <div class="post-datemeta reveal">
-      <span class="post-date"><span class="pd-day">Friday</span> &middot; July 24, 2026</span>
+      <span class="post-date">Friday, July 24, 2026</span>
     </div>
   </div>
 
@@ -569,17 +536,6 @@
          reflows. Each card below is a reusable "content type" for the right column. -->
     <aside class="post-aside">
 
-      <!-- OPTIONAL QUOTE BLOCK (the session's key quote; sometimes Darren, sometimes others).
-           Leads the right column, above the Featured slot. WEBFLOW: conditional visibility = "Quote is set".
-             .quote-text -> "Quote" field
-             .quote-attr -> "Quote Attribution" field (e.g. "Darren Hardy", "Jim Rohn") -->
-      <figure class="quote-block reveal">
-        <span class="qmark" aria-hidden="true">&rdquo;</span>
-        <div class="eyebrow on-dark"><span class="pip"></span>From today's session</div>
-        <blockquote class="quote-text">If your work is your "art" then you never have to work again.</blockquote>
-        <figcaption class="quote-attr">Darren Hardy</figcaption>
-      </figure>
-
       <!-- CARD TYPE D: featured promo, portrait (770 x 1016 = the DarrenDaily CTA slot size). OPTIONAL.
            Sits at the top of the column. WEBFLOW: bind <a> href -> "Sidebar Feature Link",
            img src/alt -> "Sidebar Feature Image" (upload at 770 x 1016) / "Sidebar Feature Alt". -->
@@ -618,6 +574,17 @@
         </span>
       </div>
            ============================================================ -->
+
+      <!-- OPTIONAL QUOTE BLOCK (the session's key quote; sometimes Darren, sometimes others).
+           Sits under the featured CTA slot. WEBFLOW: conditional visibility = "Quote is set".
+             .quote-text -> "Quote" field
+             .quote-attr -> "Quote Attribution" field (e.g. "Darren Hardy", "Jim Rohn") -->
+      <figure class="quote-block reveal">
+        <span class="qmark" aria-hidden="true">&rdquo;</span>
+        <div class="eyebrow on-dark"><span class="pip"></span>From today's session</div>
+        <blockquote class="quote-text">If your work is your "art" then you never have to work again.</blockquote>
+        <figcaption class="quote-attr">Darren Hardy</figcaption>
+      </figure>
 
       <!-- CARD TYPE A: Expiring soon / recent sessions. Date-overlay thumbnails, same
            pattern as the other DarrenDaily pages: the designed CARD IMAGE carries the
@@ -846,16 +813,6 @@
 <script async type="module" src="https://talk.hyvor.com/embed/embed.js"></script>
 
 <script>
-  // Nav: gains its shadow after a small scroll (bar is already solid white)
-  (function () {
-    var nav = document.querySelector('nav.top');
-    if (!nav) return;
-    var ticking = false;
-    function update() { ticking = false; nav.classList.toggle('solid', window.scrollY > 24); }
-    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    update();
-  })();
 
   // Scroll reveal
   (function () {
