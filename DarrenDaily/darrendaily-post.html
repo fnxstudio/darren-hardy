@@ -964,9 +964,9 @@
     });
   })();
 
-  // Exit-intent opt-in: same triggers as the expired page (desktop top-edge mouseout, mobile
-  // back gesture, fast upward scroll, scroll depth, idle). In production the card content is a
-  // HubSpot Smart CTA that only shows the opt-in to unknown / non-DarrenDaily-list viewers.
+  // Exit-intent opt-in: exit-intent ONLY (desktop top-edge mouseout + mobile back gesture),
+  // once per session. In production the card content is a HubSpot Smart CTA that only shows the
+  // opt-in to unknown / non-DarrenDaily-list viewers.
   (function () {
     var modal = document.getElementById('joinModal');
     if (!modal) return;
@@ -976,7 +976,7 @@
     var lastActive = null;
     var STORE = window.sessionStorage;
     var SHOWN_KEY = 'dd-optin-shown';
-    var CAP_ENABLED = false;   // TESTING: false = show on every trigger. SET TO true BEFORE LAUNCH (once per session).
+    var CAP_ENABLED = true;    // once per session. Set false only to test repeatedly; ?exit=1 always force-previews.
     function canShow() { if (!CAP_ENABLED) return true; try { return !STORE.getItem(SHOWN_KEY); } catch (e) { return true; } }
     function markShown() { if (!CAP_ENABLED) return; try { STORE.setItem(SHOWN_KEY, String(Date.now())); } catch (e) {} }
     function open(force) {
@@ -1013,23 +1013,6 @@
         if (canShow()) { history.pushState(null, '', location.href); open(false); }
       });
     } catch (e) {}
-    // Fast upward scroll (trackpad / touch leave-intent).
-    var lastY = window.pageYOffset, lastT = Date.now();
-    window.addEventListener('scroll', function () {
-      var y = window.pageYOffset, t = Date.now(), dt = (t - lastT) || 1;
-      if ((y - lastY) / dt < -0.5 && lastY > 300) open(false);
-      lastY = y; lastT = t;
-    }, { passive: true });
-    // Reached ~90% of the page.
-    window.addEventListener('scroll', function () {
-      var scrolled = window.pageYOffset + window.innerHeight;
-      if (scrolled / document.documentElement.scrollHeight >= 0.9) open(false);
-    }, { passive: true });
-    // Idle: no interaction for 30s.
-    var idleTimer;
-    function resetIdle() { clearTimeout(idleTimer); idleTimer = setTimeout(function () { open(false); }, 30000); }
-    ['touchstart', 'scroll', 'click', 'keydown', 'mousemove'].forEach(function (evt) { window.addEventListener(evt, resetIdle, { passive: true }); });
-    resetIdle();
     if (/[?&]exit=1/.test(location.search)) open(true);   // QA: append ?exit=1 to force-preview
   })();
 
