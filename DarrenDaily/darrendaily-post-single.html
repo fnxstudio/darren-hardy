@@ -747,12 +747,19 @@
 
 <script>
 
-  // Scroll reveal
+  // Reveal: the above-the-fold content (hero + the content boxes) fades in ON LOAD
+  // with a light stagger; everything lower reveals on scroll.
   (function () {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    var immediate = new Set(document.querySelectorAll('.post-hero .reveal, .post-layout .reveal'));
+    var i = 0;
+    immediate.forEach(function (el) { el.style.transitionDelay = (i++ * 0.07) + 's'; });
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { immediate.forEach(function (el) { el.classList.add('in'); }); });
+    });
+    document.querySelectorAll('.reveal').forEach(function (el) { if (!immediate.has(el)) io.observe(el); });
   })();
 
   // Video facade: swap the poster for the Vimeo player on click / Enter / Space.
