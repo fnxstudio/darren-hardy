@@ -172,14 +172,17 @@
   .nav-link:hover .arrow { transform: translateX(4px); }
   @media (max-width: 720px) { nav.top { padding: 12px 22px; } nav.top.solid { padding: 12px 22px; } .nav-brand img { height: 28px; } .nav-link { font-size: 10px; } }
 
-  /* ============ PUBLISHED DATE (lives in the nav's right slot; title is on the thumbnail) ============ */
+  /* ============ PUBLISHED DATE (centered above the video; weekday accent, rest ink) ============ */
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-  .post-date { font-weight: 700; font-size: 15px; letter-spacing: 0.01em; color: var(--ink); white-space: nowrap; }
+  .post-head { max-width: 1320px; margin: 0 auto; padding: 116px 48px 0; display: grid; grid-template-columns: minmax(0, 1fr) 348px; gap: 60px; }
+  .post-datemeta { grid-column: 1; text-align: center; margin-bottom: 22px; }
+  .post-date { font-weight: 700; font-size: 16px; letter-spacing: 0.01em; color: var(--ink); white-space: nowrap; }
   .post-date .pd-day { color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }
+  @media (max-width: 980px) { .post-head { grid-template-columns: 1fr; padding: 96px 22px 0; } }
 
   /* ============ TWO-COLUMN LAYOUT (main + optional sidebar) ============ */
   .post-layout {
-    max-width: 1320px; margin: 0 auto; padding: 116px 48px 100px;
+    max-width: 1320px; margin: 0 auto; padding: 0 48px 100px;
     display: grid; grid-template-columns: minmax(0, 1fr) 348px; gap: 60px; align-items: start;
   }
   .post-main { min-width: 0; }
@@ -189,7 +192,7 @@
      add class .no-aside on .post-layout. */
   .post-layout.no-aside { grid-template-columns: minmax(0, 860px); justify-content: center; }
   @media (max-width: 980px) {
-    .post-layout { grid-template-columns: 1fr; gap: 48px; padding: 96px 22px 84px; }
+    .post-layout { grid-template-columns: 1fr; gap: 48px; padding: 0 22px 84px; }
     .post-aside { max-width: 620px; margin: 0 auto; width: 100%; }
   }
 
@@ -237,9 +240,9 @@
     background: radial-gradient(ellipse 95% 60% at 25% -10%, rgba(var(--accent-rgb), 0.55), transparent 70%), linear-gradient(155deg, var(--dark) 0%, var(--dark-2) 100%); }
   .quote-block .eyebrow { margin-bottom: 16px; }
   .quote-block .eyebrow .pip { width: 24px; }
-  .quote-block .qmark { position: absolute; top: -4px; right: 18px; font-family: Georgia, 'Times New Roman', serif; font-size: 96px; line-height: 1; color: rgba(var(--accent-rgb), 0.32); pointer-events: none; }
+  .quote-block .qmark { position: absolute; top: -4px; right: 18px; font-family: Georgia, 'Times New Roman', serif; font-size: 96px; line-height: 1; color: var(--accent-bright); pointer-events: none; }
   .quote-text { position: relative; margin: 0; font-size: 18.5px; line-height: 1.46; font-style: normal; font-weight: 500; color: #fff; }
-  .quote-attr { position: relative; margin: 20px 0 0; font-weight: 700; font-size: 14px; color: #fff; }
+  .quote-attr { position: relative; margin: 20px 0 0; font-weight: 700; font-size: 14px; color: #fff; text-align: right; }
 
   /* ---- Main: social share bar ---- */
   .share-bar { margin-top: 22px; padding: 14px 2px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
@@ -419,17 +422,20 @@
   <a class="nav-brand" href="darrendaily.html">
     <img src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
   </a>
-  <!-- PUBLISHED DATE in the nav's right-hand slot (weekday in accent red, rest in ink).
-       WEBFLOW: bind the "Published" date field TWICE (same field, two formats):
-         .pd-day  -> format "EEEE"          (weekday, accent red)
-         the rest -> format "MMMM d, yyyy"  (ink)
-       NOTE: for CMS binding here, this nav must live ON the Sessions collection template
-       (not a shared global Symbol/Component, which can't read the current item's fields). -->
-  <span class="post-date"><span class="pd-day">Friday</span> &middot; July 24, 2026</span>
+  <!-- Nav CTA: shares DarrenDaily (static; no CMS binding, so the nav can be a global symbol). -->
+  <button class="nav-link" type="button" data-share-dd>Share This DarrenDaily <span class="arrow">&rarr;</span></button>
 </nav>
 
 <main id="top">
 <article>
+
+  <!-- PUBLISHED DATE, centered above the video (weekday in accent red, rest in ink).
+       WEBFLOW: bind the "Published" field twice (formats "EEEE" for .pd-day, "MMMM d, yyyy" for the rest). -->
+  <div class="post-head">
+    <div class="post-datemeta reveal">
+      <span class="post-date"><span class="pd-day">Friday</span> &middot; July 24, 2026</span>
+    </div>
+  </div>
 
   <!-- ============ BODY: main column + optional sidebar ============ -->
   <div class="post-layout">
@@ -514,6 +520,17 @@
          reflows. Each card below is a reusable "content type" for the right column. -->
     <aside class="post-aside">
 
+      <!-- OPTIONAL QUOTE BLOCK (the session's key quote; sometimes Darren, sometimes others).
+           Leads the right column, above the Featured slot. WEBFLOW: conditional visibility = "Quote is set".
+             .quote-text -> "Quote" field
+             .quote-attr -> "Quote Attribution" field (e.g. "Darren Hardy", "Jim Rohn") -->
+      <figure class="quote-block reveal">
+        <span class="qmark" aria-hidden="true">&rdquo;</span>
+        <div class="eyebrow on-dark"><span class="pip"></span>From today's session</div>
+        <blockquote class="quote-text">If your work is your "art" then you never have to work again.</blockquote>
+        <figcaption class="quote-attr">Darren Hardy</figcaption>
+      </figure>
+
       <!-- CARD TYPE D: featured promo, portrait (770 x 1016 = the DarrenDaily CTA slot size). OPTIONAL.
            Sits at the top of the column. WEBFLOW: bind <a> href -> "Sidebar Feature Link",
            img src/alt -> "Sidebar Feature Image" (upload at 770 x 1016) / "Sidebar Feature Alt". -->
@@ -552,17 +569,6 @@
         </span>
       </div>
            ============================================================ -->
-
-      <!-- OPTIONAL QUOTE BLOCK (the session's key quote; sometimes Darren, sometimes others).
-           Sits directly under the Featured slot. WEBFLOW: conditional visibility = "Quote is set".
-             .quote-text -> "Quote" field
-             .quote-attr -> "Quote Attribution" field (e.g. "Darren Hardy", "Jim Rohn") -->
-      <figure class="quote-block reveal">
-        <span class="qmark" aria-hidden="true">&rdquo;</span>
-        <div class="eyebrow on-dark"><span class="pip"></span>From today's session</div>
-        <blockquote class="quote-text">If your work is your "art" then you never have to work again.</blockquote>
-        <figcaption class="quote-attr">Darren Hardy</figcaption>
-      </figure>
 
       <!-- CARD TYPE A: Expiring soon / recent sessions. Date-overlay thumbnails, same
            pattern as the other DarrenDaily pages: the designed CARD IMAGE carries the
@@ -824,6 +830,25 @@
           return;
         }
         window.open(targets[net], '_blank', 'noopener,width=640,height=560');
+      });
+    });
+  })();
+
+  // Nav "Share This DarrenDaily": native share sheet with a copy-link fallback
+  (function () {
+    var toast = document.getElementById('toast'), t;
+    function show(m) { if (!toast) return; toast.textContent = m; toast.classList.add('show'); clearTimeout(t); t = setTimeout(function () { toast.classList.remove('show'); }, 2600); }
+    var SHARE = { title: 'DarrenDaily', text: 'Daily mentoring with Darren Hardy. One idea, five minutes, every weekday morning. Free.', url: 'https://darrendaily.com/' };
+    document.querySelectorAll('[data-share-dd]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (navigator.share) { navigator.share(SHARE).catch(function () {}); return; }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(SHARE.url).then(function () { show('Link copied. Thank you for sharing.'); })
+            .catch(function () { window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE.url), '_blank', 'noopener'); });
+          return;
+        }
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE.url), '_blank', 'noopener');
       });
     });
   })();
