@@ -878,7 +878,8 @@
     var wrap = document.getElementById('ctaWrap');
     var bar = document.getElementById('ctaSticky');
     if (!wrap || !bar) return;
-    function update() { bar.classList.toggle('show', wrap.getBoundingClientRect().bottom <= 0); }
+    // Show once the inline banner reaches mid-screen (its center passes the viewport's vertical middle).
+    function update() { var r = wrap.getBoundingClientRect(); bar.classList.toggle('show', (r.top + r.height / 2) <= window.innerHeight / 2); }
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
     update();
