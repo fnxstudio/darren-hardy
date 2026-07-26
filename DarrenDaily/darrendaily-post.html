@@ -281,6 +281,10 @@
   .side-champion > p { font-size: 13px; line-height: 1.5; color: var(--mist-on-dark); margin: 0 0 16px; }
   /* next-reward + progress */
   .champ-track { text-align: left; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.13); border-radius: var(--radius); padding: 13px 14px 14px; margin-bottom: 12px; }
+  /* Next-gift row: swag image + label/name. WEBFLOW: .champ-gift-img src -> next reward image (transparent PNG). */
+  .champ-next { display: flex; align-items: center; gap: 13px; }
+  .champ-gift-img { width: 66px; height: auto; flex-shrink: 0; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.4)); }
+  .champ-next-txt { min-width: 0; }
   .champ-label { display: block; font-weight: 700; font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.58); }
   .champ-reward { display: block; font-weight: 800; font-size: 15px; letter-spacing: -0.01em; color: #fff; margin-top: 3px; }
   .champ-bar { position: relative; height: 7px; border-radius: var(--radius); background: rgba(255,255,255,0.15); overflow: hidden; margin: 11px 0 8px; }
@@ -634,13 +638,18 @@
           <path d="M12 13v3"/>
           <path d="M8.5 20h7l-.7-4h-5.6z"/>
         </svg>
-        <div class="eyebrow on-dark champ-eyebrow"><span class="pip"></span>Be a Champion</div>
+        <div class="eyebrow on-dark champ-eyebrow">Be a Champion</div>
         <h3>Give a friend the <em>edge</em>.</h3>
         <p>Share DarrenDaily and earn gifts as you go.</p>
 
         <div class="champ-track">
-          <span class="champ-label">Your next gift</span>
-          <span class="champ-reward">The DarrenDaily Mug</span>
+          <div class="champ-next">
+            <img class="champ-gift-img" src="dd-reward-mug.webp?v=2" alt="The DarrenDaily Mug" width="223" height="222" loading="lazy">
+            <div class="champ-next-txt">
+              <span class="champ-label">Your next gift</span>
+              <span class="champ-reward">The DarrenDaily Mug</span>
+            </div>
+          </div>
           <div class="champ-bar"><span style="width:33%"></span></div>
           <div class="champ-togo"><b>2 more friends</b> to unlock it</div>
         </div>
