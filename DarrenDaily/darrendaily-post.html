@@ -297,6 +297,15 @@
   .side-feature:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -26px rgba(20,23,28,0.4); }
   .side-feature img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+  /* Sidebar type E: Champion referral card (production = SparkLoop referral widget) */
+  .side-champion { position: relative; overflow: hidden; border-radius: var(--radius); color: #fff; padding: 28px 22px 30px; text-align: center;
+    background: radial-gradient(ellipse 90% 70% at 50% 0%, rgba(var(--accent-rgb), 0.5), transparent 66%), linear-gradient(160deg, var(--dark) 0%, var(--dark-2) 100%); }
+  .side-champion .champ-trophy { width: 30px; height: 30px; margin: 0 auto 14px; display: block; stroke: var(--accent-bright); stroke-width: 1.7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .side-champion h3 { color: #fff; font-size: 20px; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.08; margin: 0 0 10px; }
+  .side-champion h3 em { font-style: normal; color: var(--accent-bright); }
+  .side-champion p { font-size: 13px; line-height: 1.55; color: var(--mist-on-dark); margin: 0 0 18px; }
+  .side-champion .btn { width: 100%; justify-content: center; padding: 15px; }
+
   /* ============ MEDIA COVER BIO - "The Vantage": SUCCESS covers wall + Darren cutout ============ */
   .intro { display: flex; min-height: 60vh; }
   .intro-wall { flex: 1; position: relative; overflow: hidden; background: #0a0a0a; }
@@ -614,6 +623,24 @@
             <span class="ss-date">Jul 24 &middot; 2026</span>
           </a>
         </div>
+      </div>
+
+      <!-- CARD TYPE E: Champion (referral / ambassador). OPTIONAL.
+           PRODUCTION = SparkLoop referral widget: it renders each subscriber's unique referral
+           link, referral count, and reward milestones, and shows for known subscribers. Paste the
+           SparkLoop embed inside .side-champion via a Webflow Embed, replacing the demo copy + button.
+           (Demo button uses the native share sheet as a stand-in for the referral link.) -->
+      <div class="side-champion reveal">
+        <svg class="champ-trophy" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 4h10v4a5 5 0 0 1-10 0V4z"/>
+          <path d="M7 5H4v1a3 3 0 0 0 3 3"/>
+          <path d="M17 5h3v1a3 3 0 0 1-3 3"/>
+          <path d="M12 13v3"/>
+          <path d="M8.5 20h7l-.7-4h-5.6z"/>
+        </svg>
+        <h3>Become a DarrenDaily <em>Champion</em></h3>
+        <p>Love the daily? Refer fellow high-achievers, climb the leaderboard, and unlock exclusive rewards.</p>
+        <button class="btn ondark" type="button" data-share-dd>Get My Referral Link <span class="arrow">&rarr;</span></button>
       </div>
 
       <!-- CARD TYPE B: Product / promo (WEBFLOW: optional; bind image/heading/body/link
