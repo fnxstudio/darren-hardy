@@ -35,7 +35,7 @@ the full backfill after the template is done.
 ## Phase 0 — Pre-flight (accounts, access, assets)
 
 - [ ] **Webflow site plan = Premium** (~**$25/mo** annual / **$39/mo** monthly — the May-2026 merge of the old CMS + Business plans; top standard tier, ample for 30K+/week). Site already EXISTS (Site ID `6a66d7a6f9d116b514a13ae1`, **darrendaily.com**) → this is an **upgrade**, not a new project.
-- [ ] Workspace can stay **Free/Starter** (only one Designer builder). Team = content-editor seats (included).
+- [ ] Workspace: **Free/Starter** works if only one person builds in the Designer (Starter = 1 full owner seat + up to 100 free Reviewer seats). NOTE: the legacy **Editor is being deprecated** — the daily-post team now gets access via **workspace limited/content seats + roles**, not a site-plan "editor seat" perk. Provision one limited seat per post-author (buy à la carte, or move to Core = 3 seats / Team = 10 if several people need Designer access).
 - [ ] Confirm Claude has Designer access via computer takeover (you signed in, Designer open).
 - [ ] **DNS access** ready for the domain step (registrar / DNS host for darrenhardy.com).
 - [ ] **HubSpot**: portal **2518645**, admin access to build Smart CTAs + grab the tracking code.
