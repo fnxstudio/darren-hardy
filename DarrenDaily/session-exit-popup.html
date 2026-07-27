@@ -169,6 +169,8 @@
     //   localStorage   -> persistent; pair with a timestamp for "once per N hours"
     var STORE = window.sessionStorage;
     var SHOWN_KEY = 'dd-exit-shown';
+    var DISMISS_KEY = 'dd-exit-dismissed';        // once the user closes it, stay closed for the rest of the session
+    function isDismissed() { try { return !!STORE.getItem(DISMISS_KEY); } catch (e) { return false; } }
 
     var listEl = pop.querySelector('[data-xp-list]');
     var lastActive = null;
@@ -202,6 +204,7 @@
     // 4) Open / close
     function open(force) {
       if (pop.classList.contains('open')) return;
+      if (!force && isDismissed()) return;          // user already closed it this session -> stay closed
       if (!force && !canShow()) return;
       if (!resolveLatest()) return;                 // nothing newer than this page -> don't nag
       lastActive = document.activeElement;
@@ -213,6 +216,7 @@
     function close() {
       pop.classList.remove('open');
       document.body.style.overflow = '';
+      try { STORE.setItem(DISMISS_KEY, '1'); } catch (e) {}   // closing = dismissed for this session
       if (lastActive && lastActive.focus) lastActive.focus();
     }
 

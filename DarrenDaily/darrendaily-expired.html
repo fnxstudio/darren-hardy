@@ -843,6 +843,8 @@
     var STORE = window.sessionStorage;            // once per browsing session (swap to localStorage for longer)
     var SHOWN_KEY = 'dd-exit-shown';
     var CAP_ENABLED = false;                      // TESTING: false = show on every trigger. SET TO true BEFORE LAUNCH.
+    var DISMISS_KEY = 'dd-exit-dismissed';        // once the user closes it, stay closed for the rest of the session (even with the cap off)
+    function isDismissed() { try { return !!STORE.getItem(DISMISS_KEY); } catch (e) { return false; } }
     var listEl = pop.querySelector('[data-xp-list]');
     var lastActive = null;
     function currentSlug() { var a = pop.getAttribute('data-current-slug'); return a ? a.trim() : ''; }
@@ -860,6 +862,7 @@
     function markShown() { if (!CAP_ENABLED) return; try { STORE.setItem(SHOWN_KEY, String(Date.now())); } catch (e) {} }
     function open(force) {
       if (pop.classList.contains('open')) return;
+      if (!force && isDismissed()) return;         // user already closed it this session -> stay closed
       if (!force && !canShow()) return;
       if (!resolveLatest()) return;                // nothing to offer -> don't nag
       lastActive = document.activeElement;
@@ -871,6 +874,7 @@
     function close() {
       pop.classList.remove('open');
       document.body.style.overflow = '';
+      try { STORE.setItem(DISMISS_KEY, '1'); } catch (e) {}   // closing = dismissed for this session
       if (lastActive && lastActive.focus) lastActive.focus();
     }
     // Desktop: pointer leaves through the top edge. Mobile: intercept the first back gesture.
