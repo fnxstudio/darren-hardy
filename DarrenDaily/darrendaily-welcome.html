@@ -77,7 +77,7 @@
   img { max-width: 100%; }
 
   /* ============ SHARED ============ */
-  section { position: relative; }
+  section { position: relative; scroll-margin-top: 96px; }
   .container { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
   @media (max-width: 720px) { .container { padding: 0 22px; } }
 
@@ -148,24 +148,21 @@
   .nav-brand .logo-color { display: none; }
   nav.top.solid .nav-brand .logo-white { display: none; }
   nav.top.solid .nav-brand .logo-color { display: block; }
-  .nav-link {
+  /* Shared nav action: red pill, fades in once the nav goes solid (matches darrendaily.html) */
+  .nav-cta {
     display: inline-flex; align-items: center; gap: 8px;
-    color: #fff; font-weight: 700; font-size: 10.5px; letter-spacing: 0.16em;
-    text-transform: uppercase; text-decoration: none; padding: 0 0 3px;
-    border: 0; border-bottom: 2px solid var(--accent-bright);
-    background: none; font-family: inherit; cursor: pointer; -webkit-appearance: none; appearance: none;
-    transition: color .2s, border-color .2s;
+    background: var(--accent); color: #fff !important; padding: 11px 20px; border-radius: var(--radius);
+    font-weight: 700; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    border: 2px solid var(--accent); font-family: inherit; cursor: pointer; -webkit-appearance: none; appearance: none;
+    transition: background .2s, color .2s, opacity .35s var(--ease), transform .35s var(--ease);
+    opacity: 0; transform: translateY(-6px); pointer-events: none;
   }
-  .nav-link:focus { outline: none; }
-  .nav-link:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 4px; border-radius: 2px; }
-  /* Over the hero: stay white on hover (red-on-dark is unreadable); underline turns white for feedback */
-  .nav-link:hover { color: #fff; border-bottom-color: #fff; }
-  /* Solid white nav bar: red reads fine here */
-  nav.top.solid .nav-link { color: var(--ink); border-bottom-color: var(--accent); }
-  nav.top.solid .nav-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
-  .nav-link .arrow { transition: transform .2s var(--ease); }
-  .nav-link:hover .arrow { transform: translateX(4px); }
-  @media (max-width: 720px) { nav.top { padding: 12px 22px; } nav.top.solid { padding: 12px 22px; } .nav-brand img { height: 30px; } .nav-link { font-size: 10px; } }
+  nav.top.solid .nav-cta { opacity: 1; transform: none; pointer-events: auto; }
+  .nav-cta:hover { background: transparent; color: var(--accent) !important; }
+  .nav-cta:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 4px; }
+  .nav-cta .arrow { transition: transform .2s var(--ease); }
+  .nav-cta:hover .arrow { transform: translateX(4px); }
+  @media (max-width: 720px) { nav.top { padding: 12px 22px; } nav.top.solid { padding: 12px 22px; } .nav-brand img { height: 30px; } .nav-cta { padding: 10px 16px; font-size: 10px; } }
 
   /* ============ HERO (immersive - blurred garden-chair bg, video IN the hero) ============ */
   .hero-confirm { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 0 84px; text-align: center; overflow: hidden; background: var(--mist); }
@@ -292,12 +289,12 @@
   @media (max-width: 560px) { .whitelist-note { padding: 46px 24px 34px; } }
 
   /* ============ TESTIMONIALS - dark panels, member studio portraits ============ */
-  .tw { background: var(--mist); padding: 122px 0; overflow: hidden; }
+  .tw { background: var(--mist); padding: 128px 0; overflow: hidden; }
   .tw::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(var(--accent-rgb), 0.07), transparent 62%); }
   .tw .container { position: relative; z-index: 1; }
-  .tw-head { text-align: center; max-width: 720px; margin: 0 auto 54px; }
+  .tw-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
   .tw-head .eyebrow { justify-content: center; }
-  .tw-head h2 { color: var(--ink); font-size: clamp(34px, 4.4vw, 62px); text-transform: uppercase; margin-top: 22px; text-wrap: balance; }
+  .tw-head h2 { color: var(--ink); font-size: clamp(34px, 4.4vw, 66px); text-transform: uppercase; margin-top: 22px; text-wrap: balance; }
   .tw-head h2 em { font-style: normal; color: var(--accent); }
   .tw-head p { color: var(--muted); font-size: clamp(16px, 1.3vw, 19px); line-height: 1.55; margin-top: 22px; }
   /* Staggered parallax member wall (3 columns, middle offset, gentle scroll parallax) */
@@ -317,7 +314,7 @@
   @media (max-width: 860px) { .tw { padding: 84px 0; } .pgallery { grid-template-columns: 1fr 1fr; gap: 14px; } .pcol { display: contents; } .pgallery .pcol { margin-top: 0; } }
 
   /* ============ RECENT SESSIONS + 72-HOUR EXPIRY ============ */
-  .sessions { background: var(--paper); padding: 120px 0; scroll-margin-top: 80px; }
+  .sessions { background: var(--paper); padding: 120px 0; }
   .ep-head { text-align: center; max-width: 760px; margin: 0 auto; }
   .ep-head .eyebrow { justify-content: center; }
   .ep-head h2 { font-size: clamp(32px, 4vw, 58px); text-transform: uppercase; margin-top: 20px; text-wrap: balance; }
@@ -437,7 +434,7 @@
     <img class="logo-white" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
     <img class="logo-color" src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
   </a>
-  <button class="nav-link" type="button" data-share>Share DarrenDaily <span class="arrow">&rarr;</span></button>
+  <button class="nav-cta" type="button" data-share>Share DarrenDaily <span class="arrow">&rarr;</span></button>
 </nav>
 
 <main id="top">
@@ -513,7 +510,7 @@
   <div class="container">
     <div class="ep-head reveal">
       <div class="eyebrow accent center"><span class="pip"></span>Expiring Soon</div>
-      <h2>Catch the <em>latest</em>.</h2>
+      <h2>Start with the <em>latest</em>.</h2>
       <div class="ep-expiry">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
         Each session lives 72 hours. Then it is gone.
@@ -737,7 +734,7 @@
     </div>
          ============================== end WEBFLOW-READY ============================== -->
 
-    <button class="xp-dismiss" type="button" data-xp-close>No thanks, I'll catch the next one</button>
+    <button class="xp-dismiss" type="button" data-xp-close>No thanks, maybe next time</button>
   </div>
 </div>
 

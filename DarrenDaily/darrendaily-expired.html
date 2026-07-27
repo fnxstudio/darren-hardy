@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Session Expired</title>
-<meta name="description" content="The DarrenDaily you were looking for has expired. Every message lives 72 hours, then it is gone. Watch why, then catch the sessions that are still live.">
+<title>Session Expired · DarrenDaily</title>
+<meta name="description" content="The DarrenDaily you were looking for has expired. Every message lives 72 hours, then it is gone. See why, then watch the sessions that are still live.">
 <meta name="author" content="Darren Hardy">
 <meta name="robots" content="noindex, nofollow">
 
@@ -14,7 +14,7 @@
        • Same hero pattern as the welcome page: blurred garden-chair bg with
          the video sitting IN the hero. Facade -> lazy Vimeo (id 298896900:
          Darren's "why messages expire" message, pulled from dd.darrenhardy.com/post-expired).
-       • Same "Catch the latest" sessions block (the two live sessions).
+       • Same "#NeverMiss the latest" sessions block (the two live sessions).
        • "What to do instead" close band carries the on-demand / join / help copy
          plus the Darren consistency quote from the original expired page.
        • MEDIA COVER BIO ("The Vantage" - SUCCESS covers wall + Darren cutout),
@@ -25,8 +25,8 @@
 
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="DarrenDaily">
-<meta property="og:title"       content="Session Expired">
-<meta property="og:description" content="Every DarrenDaily message lives 72 hours, then it is gone. Watch why, then catch the sessions still live.">
+<meta property="og:title"       content="Session Expired · DarrenDaily">
+<meta property="og:description" content="Every DarrenDaily message lives 72 hours, then it is gone. See why, then watch the sessions still live.">
 <meta property="og:image"       content="og-image.jpg">
 
 <link rel="icon" type="image/png" href="favicon-dd.png">
@@ -78,7 +78,7 @@
   img { max-width: 100%; }
 
   /* ============ SHARED ============ */
-  section { position: relative; }
+  section { position: relative; scroll-margin-top: 96px; }
   .container { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
   @media (max-width: 720px) { .container { padding: 0 22px; } }
 
@@ -149,24 +149,21 @@
   .nav-brand .logo-color { display: none; }
   nav.top.solid .nav-brand .logo-white { display: none; }
   nav.top.solid .nav-brand .logo-color { display: block; }
-  .nav-link {
+  /* Shared nav action: red pill, fades in once the nav goes solid (matches darrendaily.html) */
+  .nav-cta {
     display: inline-flex; align-items: center; gap: 8px;
-    color: #fff; font-weight: 700; font-size: 10.5px; letter-spacing: 0.16em;
-    text-transform: uppercase; text-decoration: none; padding: 0 0 3px;
-    border: 0; border-bottom: 2px solid var(--accent-bright);
-    background: none; font-family: inherit; cursor: pointer; -webkit-appearance: none; appearance: none;
-    transition: color .2s, border-color .2s;
+    background: var(--accent); color: #fff !important; padding: 11px 20px; border-radius: var(--radius);
+    font-weight: 700; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+    border: 2px solid var(--accent); font-family: inherit; cursor: pointer; -webkit-appearance: none; appearance: none;
+    transition: background .2s, color .2s, opacity .35s var(--ease), transform .35s var(--ease);
+    opacity: 0; transform: translateY(-6px); pointer-events: none;
   }
-  .nav-link:focus { outline: none; }
-  .nav-link:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 4px; border-radius: 2px; }
-  /* Over the hero: stay white on hover (red-on-dark is unreadable); underline turns white for feedback */
-  .nav-link:hover { color: #fff; border-bottom-color: #fff; }
-  /* Solid white nav bar: red reads fine here */
-  nav.top.solid .nav-link { color: var(--ink); border-bottom-color: var(--accent); }
-  nav.top.solid .nav-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
-  .nav-link .arrow { transition: transform .2s var(--ease); }
-  .nav-link:hover .arrow { transform: translateX(4px); }
-  @media (max-width: 720px) { nav.top { padding: 12px 22px; } nav.top.solid { padding: 12px 22px; } .nav-brand img { height: 30px; } .nav-link { font-size: 10px; } }
+  nav.top.solid .nav-cta { opacity: 1; transform: none; pointer-events: auto; }
+  .nav-cta:hover { background: transparent; color: var(--accent) !important; }
+  .nav-cta:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 4px; }
+  .nav-cta .arrow { transition: transform .2s var(--ease); }
+  .nav-cta:hover .arrow { transform: translateX(4px); }
+  @media (max-width: 720px) { nav.top { padding: 12px 22px; } nav.top.solid { padding: 12px 22px; } .nav-brand img { height: 30px; } .nav-cta { padding: 10px 16px; font-size: 10px; } }
 
   /* ============ HERO (immersive - blurred garden-chair bg, video IN the hero) ============ */
   .hero-confirm { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 0 84px; text-align: center; overflow: hidden; background: var(--mist); }
@@ -256,7 +253,7 @@
   .manifesto cite { display: block; margin-top: clamp(30px, 4.5vw, 52px); font-style: normal; font-weight: 700; font-size: clamp(11px, 0.95vw, 13.5px); letter-spacing: 0.42em; text-transform: uppercase; color: var(--soft); }
 
   /* ============ RECENT SESSIONS + 72-HOUR EXPIRY ============ */
-  .sessions { background: var(--paper); padding: 120px 0; scroll-margin-top: 80px; }
+  .sessions { background: var(--paper); padding: 120px 0; }
   .ep-head { text-align: center; max-width: 780px; margin: 0 auto; }
   .ep-head .eyebrow { justify-content: center; }
   .ep-head h2 { font-size: clamp(32px, 4vw, 58px); text-transform: uppercase; margin-top: 20px; text-wrap: balance; }
@@ -450,7 +447,7 @@
     <img class="logo-white" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
     <img class="logo-color" src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
   </a>
-  <button class="nav-link" type="button" data-open-form>Join DarrenDaily <span class="arrow">&rarr;</span></button>
+  <button class="nav-cta" type="button" data-open-form>Join DarrenDaily <span class="arrow">&rarr;</span></button>
 </nav>
 
 <main id="top">
@@ -471,8 +468,8 @@
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       </span>
     </div>
-    <a class="hero-cue" href="#sessions" aria-label="Good news: the latest sessions are still live. Catch them before they expire too.">
-      <span class="hero-cue-text"><b>Good news:</b> the latest sessions are still live. Catch them below.</span>
+    <a class="hero-cue" href="#sessions" aria-label="Good news: the latest sessions are still live. Watch them before they expire too.">
+      <span class="hero-cue-text"><b>Good news:</b> the latest sessions are still live. Watch them below.</span>
       <span class="hero-cue-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
     </a>
   </div>
@@ -486,7 +483,7 @@
   </div>
 </section>
 
-<!-- ============ CATCH THE LATEST (live sessions, 72-hour expiry) ============ -->
+<!-- ============ #NEVERMISS THE LATEST (live sessions, 72-hour expiry) ============ -->
 <!-- WEBFLOW: bind .ep-grid to a Collection List on the Sessions CMS.
      Sort by Publish date (descending), Limit 2 -> always the two latest.
      Each card is a self-contained designed graphic (title + PLAY NOW baked in):
@@ -498,7 +495,7 @@
   <div class="container">
     <div class="ep-head reveal">
       <div class="eyebrow accent center"><span class="pip"></span>What To Do Instead</div>
-      <h2>Catch the <em>latest</em>.</h2>
+      <h2>#NeverMiss the <em>latest</em>.</h2>
       <p class="ep-lead">The one you came for slipped past its window, <b>but these two are still live right now.</b> Watch them before they expire too.</p>
       <div class="ep-expiry">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
@@ -719,7 +716,7 @@
     </div>
          ============================== end WEBFLOW-READY ============================== -->
 
-    <button class="xp-dismiss" type="button" data-xp-close>No thanks, I'll catch the next one</button>
+    <button class="xp-dismiss" type="button" data-xp-close>No thanks, maybe next time</button>
   </div>
 </div>
 
