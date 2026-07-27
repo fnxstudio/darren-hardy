@@ -147,7 +147,7 @@ Build the static shell first, then bind fields.
 - [ ] **GA4**: gtag snippet (confirm Measurement ID).
 - [ ] **Meta Pixel** (confirm ID) + any other pixels DH runs.
 - [ ] **Twitter card** default: `<meta name="twitter:card" content="summary_large_image">`
-- [ ] Consent/cookie banner if required (confirm — GDPR/CCPA posture).
+- [ ] Consent/cookie banner = **HubSpot native "Notify" banner** (configured in HubSpot, served by the tracking code above — no separate tool). Add a CMP only if strict GDPR opt-in gating is required.
 
 **Collection Page SEO/OG** (native, bind to fields):
 - [ ] SEO tab: Title ← SEO Title (fallback Title), Description ← Meta Description.
@@ -195,7 +195,7 @@ Build the static shell first, then bind fields.
 1. **Sidebar card model** — **A (recommended):** global Sidebar Cards collection (edit/reorder once, applies to all posts) + Moneyline per-post. **B:** all cards per-post (max flexibility, more daily entry). *This runbook assumes A.*
 2. **Banner / Featured / Sticky** — CMS images (team uploads) **or** HubSpot Smart CTAs (set-once, audience-personalized). *Runbook lists both; pick per slot.*
 3. **Tracking stack** — confirm exactly which of GA4 / Meta Pixel / others are in use.
-4. **Consent banner** — needed? which tool?
+4. **Consent banner** — ✅ **HubSpot's native banner ("Notify" type)**, served by the site-wide HubSpot tracking code (no separate tool). Caveat: it governs HubSpot's own cookies; it does **not** auto-gate GA4/Meta before they fire — right for a notify/opt-out (US) posture. Add a dedicated CMP (Cookiebot/CookieYes) only if strict GDPR opt-in gating of the non-HubSpot pixels is required.
 
 ---
 
