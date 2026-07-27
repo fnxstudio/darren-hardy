@@ -71,7 +71,7 @@ Our comments won't load until the domains are whitelisted in Hyvor.
 1. Log into the **Hyvor Talk** console.
 2. Open our website (**website ID 13897**) → **Settings → Domains**.
 3. Add **both**:
-   - the Webflow **staging** URL (ends in **`.webflow.io`** — we'll send you the exact one), and
+   - the Webflow **staging** URL: **`darrendaily.webflow.io`**, and
    - **`darrendaily.com`**.
 4. Save.
 
