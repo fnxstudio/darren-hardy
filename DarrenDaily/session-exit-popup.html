@@ -77,10 +77,6 @@
     font-weight:700;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#fff;
     background:rgba(10,8,10,0.5);border:1px solid rgba(255,255,255,0.22);border-radius:100px;padding:6px 12px;
     backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
-  .xp-dismiss{display:block;width:100%;margin-top:16px;padding:6px;background:none;border:0;cursor:pointer;
-    font-family:inherit;font-weight:600;font-size:12.5px;letter-spacing:.02em;color:#616a78;text-decoration:underline;
-    text-underline-offset:3px;transition:color .2s;}
-  .xp-dismiss:hover{color:#14171c;}
   @media (max-width:520px){.xp-card{padding:34px 22px 26px;}}
   /* ═════════════════════ end PASTE 2 (styles) ═════════════════════ */
 </style>
@@ -115,7 +111,7 @@
     <span class="xp-accent" aria-hidden="true"></span>
     <div class="xp-eyebrow">Before you go</div>
     <h3 class="xp-title" id="xpTitle">Don't miss the <em>latest</em> session.</h3>
-    <p class="xp-sub">It's live right now, but every DarrenDaily expires in 72 hours. Then it's gone.</p>
+    <p class="xp-sub">It's live right now, but every DarrenDaily expires in 72 hours. Then it's gone. No exceptions.</p>
 
     <div class="xp-list" data-xp-list>
       <!-- Collection Item 1 (newest) -->
@@ -152,7 +148,6 @@
          ============================== end WEBFLOW-READY ============================== -->
 
 
-    <button class="xp-dismiss" type="button" data-xp-close>No thanks, I'll catch the next one</button>
   </div>
 </div>
 <!-- ═════════════════════ end PASTE 1 (markup) ═════════════════════ -->
@@ -253,7 +248,7 @@
     });
     resetIdle();
 
-    // 6) Close handlers: X, "no thanks", backdrop click, Esc.
+    // 6) Close handlers: X, backdrop click, Esc.
     pop.querySelectorAll('[data-xp-close]').forEach(function (el) { el.addEventListener('click', close); });
     pop.addEventListener('click', function (e) { if (e.target === pop) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pop.classList.contains('open')) close(); });

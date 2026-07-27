@@ -36,10 +36,12 @@
   @font-face {
     font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap;
     src: url(fonts/inter-latin.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
   }
   @font-face {
     font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap;
     src: url(fonts/inter-latin-ext.woff2) format('woff2');
+    unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
   }
 
   :root {
@@ -401,10 +403,6 @@
     font-weight: 700; font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: #fff;
     background: rgba(10,8,10,0.5); border: 1px solid rgba(255,255,255,0.22); border-radius: 100px; padding: 6px 12px;
     backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
-  .xp-dismiss { display: block; width: 100%; margin-top: 16px; padding: 6px; background: none; border: 0; cursor: pointer;
-    font-family: inherit; font-weight: 600; font-size: 12.5px; letter-spacing: 0.02em; color: var(--soft); text-decoration: underline;
-    text-underline-offset: 3px; transition: color .2s; }
-  .xp-dismiss:hover { color: var(--ink); }
   @media (max-width: 520px) { .xp-card { padding: 34px 22px 26px; } }
 
   /* ============ FOOTER ============ */
@@ -445,7 +443,7 @@
 <nav class="top">
   <a class="nav-brand" href="darrendaily.html">
     <img class="logo-white" src="dd-logo-white.png" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="534" height="120">
-    <img class="logo-color" src="dd-logo-color.svg" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
+    <img class="logo-color" src="dd-logo-color.webp" alt="DarrenDaily, Daily Mentoring with Darren Hardy" width="268" height="63">
   </a>
   <button class="nav-cta" type="button" data-open-form>Join DarrenDaily <span class="arrow">&rarr;</span></button>
 </nav>
@@ -462,7 +460,7 @@
 
     <!-- Facade: poster + play button. Clicking mounts the Vimeo iframe (zero bytes until then). -->
     <div class="video-frame" id="whyVideo" data-vimeo-id="298896900" role="button" tabindex="0" aria-label="Play Darren's message on why DarrenDaily expires after 72 hours">
-      <img src="dh-expired.webp" alt="Darren Hardy on the DarrenDaily garden set, hands open" width="1760" height="983">
+      <img src="dh-expired.webp" srcset="dh-expired-m.webp 820w, dh-expired.webp 1760w" sizes="(max-width: 980px) 100vw, 940px" alt="Darren Hardy on the DarrenDaily garden set, hands open" width="1760" height="983">
       <span class="vf-chip">Watch &middot; why 72 hours</span>
       <span class="vf-play" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -648,7 +646,7 @@
     <button class="modal-close" type="button" data-close-form aria-label="Close">
       <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
     </button>
-    <img class="modal-logo" src="dd-logo-color.svg" alt="DarrenDaily" width="268" height="63">
+    <img class="modal-logo" src="dd-logo-color.webp" alt="DarrenDaily" width="268" height="63">
     <span class="modal-accent" aria-hidden="true"></span>
     <h3 class="modal-headline" id="joinModalTitle"><span>Your unfair advantage.</span><span><em>Every morning.</em></span></h3>
     <p class="modal-promise">Get one strategic insight from Darren Hardy, delivered to your inbox via private video each weekday morning. Five minutes a day that compound while everyone else scrolls. <b>Yours free.</b></p>
@@ -685,7 +683,7 @@
     <span class="xp-accent" aria-hidden="true"></span>
     <div class="xp-eyebrow">Before you go</div>
     <h3 class="xp-title" id="xpTitle">Don't miss the <em>latest</em> session.</h3>
-    <p class="xp-sub">It's live right now, but every DarrenDaily expires in 72 hours. Then it's gone.</p>
+    <p class="xp-sub">It's live right now, but every DarrenDaily expires in 72 hours. Then it's gone. No exceptions.</p>
     <div class="xp-list" data-xp-list>
       <a class="xp-session" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays" data-session-slug="high-achievers-do-on-saturdays">
         <img src="ep-card-2.webp" alt="Watch: What high-achievers do on Saturdays" width="440" height="244" loading="lazy">
@@ -715,8 +713,6 @@
       </a>
     </div>
          ============================== end WEBFLOW-READY ============================== -->
-
-    <button class="xp-dismiss" type="button" data-xp-close>No thanks, maybe next time</button>
   </div>
 </div>
 
