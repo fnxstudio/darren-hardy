@@ -35,6 +35,7 @@ Connect our HubSpot (**portal 2518645**) to the site. Set it up the way we run i
 
 **In Webflow:**
 - Add the HubSpot tracking code to **Site settings → Custom code → Head**, then Save and Publish.
+- Webflow has no separate HubSpot field, so that head code IS the connection (it's the `//js.hs-scripts.com/2518645.js` script, where **2518645** is our portal ID).
 
 ---
 
