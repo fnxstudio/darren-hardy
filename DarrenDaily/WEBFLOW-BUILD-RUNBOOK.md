@@ -34,7 +34,7 @@ the full backfill after the template is done.
 
 ## Phase 0 — Pre-flight (accounts, access, assets)
 
-- [ ] **Webflow site plan = Business** on this project (bandwidth headroom for 30K+/week; see runbook notes). CMS is the functional floor; Business is the traffic call.
+- [ ] **Webflow site plan = Premium** (~**$25/mo** annual / **$39/mo** monthly — the May-2026 merge of the old CMS + Business plans; top standard tier, ample for 30K+/week). Site already EXISTS (Site ID `6a66d7a6f9d116b514a13ae1`, **darrendaily.com**) → this is an **upgrade**, not a new project.
 - [ ] Workspace can stay **Free/Starter** (only one Designer builder). Team = content-editor seats (included).
 - [ ] Confirm Claude has Designer access via computer takeover (you signed in, Designer open).
 - [ ] **DNS access** ready for the domain step (registrar / DNS host for darrenhardy.com).
@@ -154,7 +154,7 @@ Build the static shell first, then bind fields.
 - [ ] Open Graph tab: OG Title ← Title, OG Description ← Meta Description, OG Image ← Social Share Image.
 
 **Embeds** (paste from `post.html` into Embed elements / page code):
-- [ ] Hyvor comments (`website-id="13897"`, page-id empty) + loader.
+- [ ] Hyvor comments (`website-id="13897"`, page-id empty) + loader. **Add the Webflow staging URL (`*.webflow.io`) AND `darrendaily.com` to Hyvor's allowed domains** (Hyvor console → website 13897 → Settings → Domains) — otherwise comments show "domain not trusted".
 - [ ] JS: covers-wall parallax, scroll/on-load reveal, video facade, share buttons, sticky CTA (mid-screen trigger), exit-intent opt-in, **client-side expiry gate** (redirect past-Expire → 404/expired page).
 - [ ] Article JSON-LD (optional, CMS-bound values).
 
@@ -173,10 +173,10 @@ Build the static shell first, then bind fields.
 
 ## Phase 7 — Domain + publish
 
-- [ ] Add custom domain in Webflow (Site Settings → Publishing). Target subdomain: **dd.darrenhardy.com** (matches current canonical).
-- [ ] DNS: **CNAME** `dd` → Webflow's subdomain target (`proxy-ssl.webflow.com`). (Root domains use A records; a subdomain uses CNAME.) SSL auto-provisions.
-- [ ] Note: `darrenhardy.com` root is WordPress — the `dd.` subdomain to Webflow coexists fine; confirm no existing `dd` record conflict.
-- [ ] Set default domain + enable auto-redirect; verify SSL green; publish.
+- [ ] Add custom domain in Webflow (Site Settings → Publishing): **darrendaily.com** (root) + **www.darrendaily.com**.
+- [ ] DNS (root domain): **A records** for `darrendaily.com` → the exact IPs Webflow shows, plus a **CNAME** for `www` → `proxy-ssl.webflow.com`. Enter exactly what Webflow displays. **SSL is free + automatic** — nothing to buy or install.
+- [ ] Update the pages' **canonical** from `dd.darrenhardy.com` → `darrendaily.com` before go-live.
+- [ ] Set default domain (recommend www) + enable auto-redirect + Default to HTTPS; verify SSL green; publish.
 
 ---
 
@@ -203,5 +203,6 @@ Build the static shell first, then bind fields.
 
 - Design source: `DarrenDaily/post.html` (live: fnxstudio.github.io/darren-hardy/DarrenDaily/post.html)
 - Archived v1: `DarrenDaily/archive/darrendaily-post.html`
+- Webflow Site ID: `6a66d7a6f9d116b514a13ae1` · production domain: **darrendaily.com** (site already exists)
 - HubSpot portal: **2518645** · Hyvor website-id: **13897**
 - Vimeo IDs (funnel): home/who-for 277017410 · welcome 298901870 · expired 298896900 · sample session 355893131
