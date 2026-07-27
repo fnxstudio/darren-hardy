@@ -46,6 +46,32 @@ the full backfill after the template is done.
 
 ---
 
+## Billing & scaling note (site plans vs. workspace; when to consider Enterprise)
+
+Webflow bills on **two separate axes** — they don't substitute for each other:
+- **Site plans** = *per site*. Cover hosting, CMS, bandwidth, custom code (Basic / Premium / Enterprise).
+- **Workspace plans** = the *team/org* layer. Cover Designer seats, staging, code export — **not hosting.**
+
+So **upgrading the workspace does NOT lower per-site hosting cost.** Each published site needs its
+own site plan; three sites on standard plans = **three Premium plans**. Upgrade the *workspace* only
+if multiple people need to build in the Designer at once (a build-team cost, separate from hosting).
+
+**When to talk to Webflow sales about Enterprise:** if/when the other DH properties
+(**DarrenHardy.com**, **HardyBMC.com**) are brought into Webflow — especially given **heavy, spiky
+promo traffic** — get an **Enterprise** quote. Enterprise is the multi-site consolidation play:
+- **Custom / burst bandwidth** — standard Premium has a fixed allotment; a big promo push can blow
+  past it and trigger overages or throttling. Enterprise sizes bandwidth to your promo *peaks*.
+- **Multiple sites + billing under one contract** (instead of stacking separate plans, each with its
+  own cap), plus SSO, security, guaranteed uptime, support.
+- Custom-quoted (no public price). If DarrenDaily is already on Premium, Webflow typically folds it in.
+
+**Flag:** migrating DarrenHardy.com (currently WordPress) + HardyBMC.com into Webflow is a substantial
+*build/migration* project on its own — scope it separately from the billing decision.
+
+For now: DarrenDaily stays on **Premium**; revisit Enterprise only when consolidating the other sites.
+
+---
+
 ## Phase 1 — Global setup (Designer)
 
 - [ ] Upload **Inter** web fonts (or use Webflow's Google Fonts) — weights 400–900.
