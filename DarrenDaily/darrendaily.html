@@ -191,15 +191,16 @@
       linear-gradient(90deg, rgba(243,245,248,0.97) 0%, rgba(243,245,248,0.85) 33%, rgba(243,245,248,0.34) 49%, rgba(243,245,248,0) 61%); }
   .hero .container { position: relative; z-index: 2; width: 100%; }
   .hero-copy { max-width: 660px; }
-  .hero .eyebrow { color: var(--accent); opacity: 0; transform: translateY(10px); animation: revealUp .7s var(--ease) forwards; animation-delay: .5s; }
+  .hero .eyebrow { color: var(--accent); opacity: 0; transform: translateY(10px); animation: revealUp .6s var(--ease) forwards; animation-delay: .15s; }
   .hero .eyebrow .pip { background: var(--accent); }
-  .hero h1 { color: var(--ink); font-size: clamp(34px, 4.4vw, 64px); line-height: 0.92; letter-spacing: -0.035em; margin: 16px 0 0; max-width: 11ch; text-transform: uppercase; opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: .9s; }
+  .hero h1 { color: var(--ink); font-size: clamp(34px, 4.4vw, 64px); line-height: 0.92; letter-spacing: -0.035em; margin: 16px 0 0; max-width: 11ch; text-transform: uppercase; opacity: 0; transform: translateY(14px); animation: revealUp .7s var(--ease) forwards; animation-delay: .3s; }
   .hero h1 .l2 { color: var(--accent); }
+  .hero h1 .l3 { display: block; }
   .hero h1 .dot { color: var(--accent); }
-  .hero-sub { font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: #2b3038; margin: 26px 0 0; max-width: 520px; opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: 1.5s; }
+  .hero-sub { font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: #2b3038; margin: 26px 0 0; max-width: 520px; opacity: 0; transform: translateY(14px); animation: revealUp .7s var(--ease) forwards; animation-delay: .45s; }
   .hero-sub b { color: var(--ink); font-weight: 700; }
   .hero-sub-m { display: none; }
-  .hero-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; margin-top: 34px; opacity: 0; transform: translateY(14px); animation: revealUp 1s var(--ease) forwards; animation-delay: 1.9s; }
+  .hero-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; margin-top: 34px; opacity: 0; transform: translateY(14px); animation: revealUp .7s var(--ease) forwards; animation-delay: .6s; }
   .hero-actions .btn-line { color: var(--ink); border-bottom-color: var(--accent); }
   .hero-actions .btn-line:hover { color: var(--accent); }
   .scroll-cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 3; color: var(--soft); opacity: 0; animation: fadeIn 1s ease forwards; animation-delay: 2.5s; }
@@ -212,25 +213,28 @@
     .scroll-cue svg { animation: none; }
   }
   @media (max-width: 980px) {
-    /* Garden hero on mobile: DH capped to the top band (zoomed out) fading into a dark base; light haze top-left for the logo, dark base for the copy */
-    .hero { min-height: 92vh; align-items: flex-end; padding: 88px 0 52px; background: #0f1216; }
-    .hero-img { height: 66vh; bottom: auto; object-position: 68% 12%;
-      -webkit-mask-image: linear-gradient(to bottom, #000 56%, transparent 96%);
-      mask-image: linear-gradient(to bottom, #000 56%, transparent 96%); }
+    /* Garden hero on mobile: DH at the top; the headline's white line sits over his
+       dark shirt, then a white "morning" haze rises across the bottom so the red line,
+       copy and buttons read on light (matches the desktop light treatment). */
+    .hero { min-height: 94vh; align-items: flex-end; padding: 88px 0 46px; background: var(--paper); }
+    .hero-img { height: 74vh; bottom: auto; object-position: 68% 12%;
+      -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 92%);
+      mask-image: linear-gradient(to bottom, #000 62%, transparent 92%); }
     .hero::after { -webkit-mask-image: none; mask-image: none;
       background:
-        radial-gradient(ellipse 135% 38% at 0% 0%, rgba(243,245,248,0.9) 0%, rgba(243,245,248,0.4) 30%, rgba(243,245,248,0) 56%),
-        linear-gradient(to bottom, rgba(15,18,22,0) 34%, rgba(15,18,22,0.5) 52%, rgba(15,18,22,0.86) 66%, #0f1216 82%); }
-    .hero .eyebrow { color: var(--accent); text-shadow: none; }
-    .hero .eyebrow .pip { background: var(--accent); }
-    .hero h1 { color: #fff; font-size: clamp(30px, 8.4vw, 46px); line-height: 0.94; text-shadow: 0 2px 22px rgba(0,0,0,0.5); }
-    .hero h1 .l2 { color: var(--accent-bright); }
+        radial-gradient(ellipse 150% 24% at 50% 0%, rgba(243,245,248,0.6) 0%, rgba(243,245,248,0) 42%),
+        linear-gradient(to bottom, rgba(15,18,22,0) 20%, rgba(15,18,22,0.34) 38%, rgba(15,18,22,0.62) 54%, rgba(15,18,22,0.58) 66%, rgba(255,255,255,0.92) 80%, var(--paper) 90%); }
+    .hero .eyebrow { color: #fff; text-shadow: 0 1px 14px rgba(0,0,0,0.8); }
+    .hero .eyebrow .pip { background: var(--accent-bright); }
+    .hero h1 { color: #fff; font-size: clamp(30px, 8.4vw, 46px); line-height: 0.98; text-shadow: 0 2px 22px rgba(0,0,0,0.6); }
+    .hero h1 .l2 { color: #fff; }
+    .hero h1 .l3 { color: var(--accent-bright); text-shadow: 0 2px 18px rgba(0,0,0,0.5); margin-top: 2px; }
     .hero h1 .dot { color: var(--accent-bright); }
     .hero-copy { max-width: 560px; }
     .hero-sub { display: none; }
-    .hero-sub-m { display: block; color: rgba(255,255,255,0.92); }
-    .hero-sub-m b { color: #fff; }
-    .hero-actions .btn-line { color: #fff; border-bottom-color: var(--accent-bright); }
+    .hero-sub-m { display: block; color: var(--muted); text-shadow: none; }
+    .hero-sub-m b { color: var(--ink); }
+    .hero-actions .btn-line { color: var(--ink); border-bottom-color: var(--accent); }
     .scroll-cue { display: none; }
   }
 
@@ -574,7 +578,7 @@
   <div class="container">
     <div class="hero-copy">
       <div class="eyebrow"><span class="pip"></span>Daily Mentoring with Darren Hardy</div>
-      <h1><span class="l2">Lorem Ipsum Dolor Sit Amet<span class="dot">.</span></span> Consectetur Adipiscing Elit.</h1>
+      <h1><span class="l2">Start Every Day With An Advantage<span class="dot">.</span></span> <span class="l3">5 Minutes In Your Morning.</span></h1>
       <p class="hero-sub"><b>One strategic idea, delivered every weekday morning.</b> Distilled from 35 years behind closed doors with the world's best. No Fluff. Occasionally uncomfortable. Small enough to install before the day gets going. <b>Free. Never a single ad.</b></p>
       <p class="hero-sub hero-sub-m"><b>One strategic idea, delivered every weekday morning.</b> From 35 years behind closed doors with the world's best. No Fluff. Occasionally uncomfortable. <b>Free. No ads.</b></p>
       <div class="hero-actions">
