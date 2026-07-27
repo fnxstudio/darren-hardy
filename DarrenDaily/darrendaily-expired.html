@@ -554,7 +554,7 @@
   <div class="intro-wall">
     <div id="covers-grid"></div>
     <div class="dh-wrap">
-      <img src="Wall-DH-blue2.webp" alt="Darren Hardy in front of the wall of SUCCESS magazine covers he published" loading="lazy">
+      <img src="Wall-DH-blue2.webp" width="1400" height="782" alt="Darren Hardy in front of the wall of SUCCESS magazine covers he published" loading="lazy">
     </div>
   </div>
   <div class="intro-text">
@@ -573,12 +573,12 @@
       <div><div class="is-n">SUCCESS TV</div><div class="is-l">Executive producer</div></div>
     </div>
     <div class="seals" aria-label="Awards and bestseller recognition">
-      <img class="seal" src="seals/seal-dd.webp" alt="Award-Winning, Top 10 Personal Development Blog, DarrenDaily" loading="lazy">
-      <img class="seal" src="seals/seal-amazon.webp" alt="Amazon, 21,177 Five-Star Customer Reviews" loading="lazy">
-      <img class="seal" src="seals/seal-nsa.webp" alt="Award-Winning, Master of Influence, NSA of America" loading="lazy">
-      <img class="seal" src="seals/seal-nyt.webp" alt="New York Times Best Seller" loading="lazy">
-      <img class="seal" src="seals/seal-ddod.webp" alt="Award-Winning, Top Rated Apple Podcast, DarrenDaily On Demand" loading="lazy">
-      <img class="seal" src="seals/seal-wsj.webp" alt="Wall Street Journal Bestseller" loading="lazy">
+      <img class="seal" src="seals/seal-dd.webp" width="374" height="220" alt="Award-Winning, Top 10 Personal Development Blog, DarrenDaily" loading="lazy">
+      <img class="seal" src="seals/seal-amazon.webp" width="385" height="220" alt="Amazon, 21,177 Five-Star Customer Reviews" loading="lazy">
+      <img class="seal" src="seals/seal-nsa.webp" width="365" height="220" alt="Award-Winning, Master of Influence, NSA of America" loading="lazy">
+      <img class="seal" src="seals/seal-nyt.webp" width="220" height="220" alt="New York Times Best Seller" loading="lazy">
+      <img class="seal" src="seals/seal-ddod.webp" width="346" height="220" alt="Award-Winning, Top Rated Apple Podcast, DarrenDaily On Demand" loading="lazy">
+      <img class="seal" src="seals/seal-wsj.webp" width="243" height="220" alt="Wall Street Journal Bestseller" loading="lazy">
     </div>
   </div>
 </section>
@@ -616,7 +616,7 @@
       </div>
       <div class="footer-col">
         <a class="bmc-corner" href="https://hardybmc.com" target="_blank" rel="noopener">
-          <img src="BMC_Logo.png" alt="BMC|COLLECTIVE">
+          <img src="BMC_Logo.png" width="236" height="240" alt="BMC|COLLECTIVE">
           <div class="bmc-corner-text">
             <span class="bmc-corner-title">BMC|COLLECTIVE</span>
             <span class="bmc-corner-tag">The Unfair Advantage<br>for Driven Leaders</span>
@@ -889,9 +889,14 @@
     }, { passive: true });
     // Mobile-friendly signals: reached the end of the page, or went idle.
     // Scroll depth: fire once the reader hits ~90% of the page (they've seen everything).
+    var depthTick = false;
     window.addEventListener('scroll', function () {
-      var scrolled = window.pageYOffset + window.innerHeight;
-      if (scrolled / document.documentElement.scrollHeight >= 0.9) open(false);
+      if (depthTick) return; depthTick = true;
+      requestAnimationFrame(function () {
+        depthTick = false;
+        var scrolled = window.pageYOffset + window.innerHeight;
+        if (scrolled / document.documentElement.scrollHeight >= 0.9) open(false);
+      });
     }, { passive: true });
     // Idle: no touch/scroll/tap/keypress for 30s -> about to drift off.
     var idleTimer;

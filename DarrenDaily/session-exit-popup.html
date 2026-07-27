@@ -236,9 +236,14 @@
     }, { passive: true });
     // Mobile-friendly signals: reached the end of the page, or went idle.
     // Scroll depth: fire once the reader hits ~90% of the page (they've seen everything).
+    var depthTick = false;
     window.addEventListener('scroll', function () {
-      var scrolled = window.pageYOffset + window.innerHeight;
-      if (scrolled / document.documentElement.scrollHeight >= 0.9) open(false);
+      if (depthTick) return; depthTick = true;
+      requestAnimationFrame(function () {
+        depthTick = false;
+        var scrolled = window.pageYOffset + window.innerHeight;
+        if (scrolled / document.documentElement.scrollHeight >= 0.9) open(false);
+      });
     }, { passive: true });
     // Idle: no touch/scroll/tap/keypress for 30s -> about to drift off.  WEBFLOW: tune the 30000ms.
     var idleTimer;
