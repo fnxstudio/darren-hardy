@@ -38,7 +38,7 @@ Site ID `6a66d7a6f9d116b514a13ae1` — staging https://darrendaily.webflow.io
 |---|---|---|---|---|---|
 | `home` (`/`) | `6a66d7a8f9d116b514a13ae4` | `6a66d7a8f9d116b514a13ae4` / `0d7817a0-d0c3-b1e1-d140-f9d1415ecdae` | `…6a66e77d7eed2e69a3015d73_dd-home.css` | `dd-home-v4.js` | 37 |
 | `welcome` (`/welcome`) | `6a66d8230844a5c2cd424b8c` | `6a66d8230844a5c2cd424b8c` / `7c712307-20c8-c4f6-105c-30077eae66db` | `…6a66e77d57b738a7a039a11d_dd-welcome.css` | `dd-welcome-v4.js` | — |
-| `expired` (`/404`) | `6a66de9ace5d93878f95f7d5` | `6a66de9ace5d93878f95f7d5` / `f017d0a2-8e60-3155-f5b2-8f84f863a211` | `…6a66e77d3eefd66b6dc3ca65_dd-expired.css` | `dd-expired-v5.js` | 37 |
+| `expired` (`/404`) | `6a66de9ace5d93878f95f7d5` | `6a66de9ace5d93878f95f7d5` / `f017d0a2-8e60-3155-f5b2-8f84f863a211` | `…6a66e77d3eefd66b6dc3ca65_dd-expired.css` | `dd-expired-v6.js` | 37 |
 
 The **CSS URL is stable** and reused each deploy. Only the **JS URL changes** (new asset
 per upload), so the embed's `<script src>` must be re-pointed every deploy. Bump `-vN`.
