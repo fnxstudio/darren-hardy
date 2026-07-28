@@ -217,5 +217,16 @@
     holder.innerHTML = '<a href="' + ddRedirect(id) + '" target="_blank" rel="noopener" style="display:block"><img src="' + ddBeacon(id) + '" loading="lazy" alt="Featured offer" style="display:block;width:100%;height:auto;border-radius:4px"></a>';
     holder.style.display = 'block';
   })();
+
+  // 13) Masthead date -> "Tuesday, July 28, 2026" (weekday + long date). The bound
+  //     Published field renders without a weekday, so we prepend it here.
+  (function () {
+    var el = document.querySelector('.post-date'); if (!el) return;
+    var raw = (el.textContent || '').replace(/^[A-Za-z]+,\s*/, '').trim(); if (!raw) return;
+    var d = new Date(raw); if (isNaN(d.getTime())) return;
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    el.textContent = days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  })();
 })();
 </script>
