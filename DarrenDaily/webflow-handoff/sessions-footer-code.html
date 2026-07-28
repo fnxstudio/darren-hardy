@@ -6,6 +6,9 @@
   if (window.__ddSessInit) return;
   window.__ddSessInit = true;
 
+  // 0) LCP hint: the hero poster is the largest above-the-fold image -> load it eagerly, high priority.
+  (function () { var p = document.querySelector('.video-poster'); if (p) { p.setAttribute('fetchpriority', 'high'); p.setAttribute('loading', 'eager'); } })();
+
   // 1) Reveal: hero + content boxes fade in on load; lower sections on scroll.
   (function () {
     var SEL = '[class*="video-frame"],.share-bar,.post-caption,.cta-banner,.quote-block,.side-feature,.side-card,.xsoon-head,.ss-card,.bio-text';
@@ -93,7 +96,7 @@
   // 6) SUCCESS covers wall + scroll parallax.
   (function () {
     var BASE = 'https://fnxstudio.github.io/darren-hardy/DarrenDaily/covers/';
-    var covers = ['JackWelch.jpg','SM_13_05_FORD.jpg','SM_12_01_DOWNEY.jpg','SM_09_07_BRANSON.jpg','SM_10_06_JOBS.jpg','SM_09_08_FOX.jpg','SM_08_01_Kiyosaki.jpg','SM_08_02_50.jpg','SM_08_04_OZ.jpg','SM_08_05_HAWK.jpg','SM_08_06_Deutsch.jpg','SM_10_12_SHRIVER.jpg','SM_09_02_Powell.jpg','SM_09_03_FOREMAN.jpg','SM_09_04_Maxwell.jpg','SM_09_05_ORMAN.jpg','SM_09_06_LANCE.jpg','SM_09_01_Robbins.jpg','SM_09_09_FOSTER_Barcode.jpg','SM_09_10_SERENA_barcode.jpg','SM_09_11_OSTEEN_barcode.jpg','SM_09_12_DrPHIL.jpg','SM_12_07_TECHNOLOGY.jpg','SM_10_01_KEYES.jpg','SM_10_02_RAMSEY.jpg','SM_10_03_HOPKINS.jpg','SM_10_04_COLLINS.jpg','SM_10_05_MICHAELS.jpg','SM_10_07_COLE.jpg','SM_10_08_JOHNSON.jpg','SM_10_09_DELL.jpg','SM_10_10_USHER.jpg','SM_10_11_MANNINGS.jpg','SM_11_01_HOWARD.jpg','SM_11_02_CHAN.jpg','SM_11_03_SCHWAB.jpg','SM_11_04_SCHULTZ.jpg','SM_12_08_BRANSON.jpg','SM_11_05_ZUCKERBERG.jpg','SM_11_06_MARTIN.jpg','SM_11_07_DICAPRIO.jpg','SM_11_08_BEZOS.jpg','SM_11_09_CONNICK.jpg','SM_11_10_OZ.jpg','SM_11_11_CUBAN.jpg','SM_11_12_SANTA.jpg','SM_12_02_KARDASHIAN.jpg','SM_12_03_BLOOMBERG.jpg','SM_12_04_LOWE.jpg','SM_12_05_ORMAN.jpg','SM_12_06_JOHANNSON.jpg','SM_12_09_BURNETT.jpg','SM_12_10_MAXWELL.jpg','SM_12_11_WASHINGTON.jpg','SM_12_12_COURIC.jpg','SM_13_01_STEWART.jpg','SM_13_02_MUSK.jpg','SM_13_03_CORCORAN.jpg','SM_13_04_DIAMANDIS.jpg','SM_08_03_Trump.jpg','SM_14_11_COOK.jpg','Santa1977.jpg','Tony_Hseih.jpg'];
+    var covers = ['JackWelch.jpg','SM_13_05_FORD.jpg','SM_12_01_DOWNEY.jpg','SM_09_07_BRANSON.jpg','SM_10_06_JOBS.jpg','SM_09_08_FOX.jpg','SM_08_01_Kiyosaki.jpg','SM_08_02_50.jpg','SM_08_04_OZ.jpg','SM_08_05_HAWK.jpg','SM_08_06_Deutsch.jpg','SM_10_12_SHRIVER.jpg','SM_09_02_Powell.jpg','SM_09_03_FOREMAN.jpg','SM_09_04_Maxwell.jpg','SM_09_05_ORMAN.jpg','SM_09_06_LANCE.jpg','SM_09_01_Robbins.jpg','SM_09_09_FOSTER_Barcode.jpg','SM_09_10_SERENA_barcode.jpg','SM_09_11_OSTEEN_barcode.jpg','SM_09_12_DrPHIL.jpg','SM_12_07_TECHNOLOGY.jpg','SM_10_01_KEYES.jpg','SM_10_02_RAMSEY.jpg','SM_10_03_HOPKINS.jpg','SM_10_04_COLLINS.jpg','SM_10_05_MICHAELS.jpg','SM_10_07_COLE.jpg','SM_10_08_JOHNSON.jpg','SM_10_09_DELL.jpg','SM_10_10_USHER.jpg','SM_10_11_MANNINGS.jpg','SM_11_01_HOWARD.jpg','SM_11_02_CHAN.jpg','SM_11_03_SCHWAB.jpg','SM_11_04_SCHULTZ.jpg'];
     function cleanName(f) { var n = f.replace(/\.(jpg|jpeg|png|gif|webp)$/i, ''); n = n.replace(/^SM_\d+_\d+_/i, ''); n = n.replace(/([a-z])([A-Z])/g, '$1 $2'); n = n.replace(/[_-]/g, ' '); n = n.replace(/\bbarcode\b/gi, '').replace(/\s+/g, ' ').trim(); n = n.toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); }); return n; }
     var featuredTypes = ['large', 'tall', 'large', 'tall', 'standard'];
     function buildSpreadPool(n) {
@@ -103,18 +106,30 @@
       special.forEach(function (type, i) { pool[Math.round(i * step)] = type; }); return pool;
     }
     var grid = document.querySelector('.dd-covers'); if (!grid) return;
-    var bodyTypes = buildSpreadPool(covers.length - 5);
-    covers.forEach(function (cover, i) {
-      var tile = document.createElement('div'); tile.className = 'c-tile';
-      var t = i < 5 ? featuredTypes[i] : bodyTypes[i - 5];
-      if (t === 'wide') tile.classList.add('c-wide'); if (t === 'tall') tile.classList.add('c-tall'); if (t === 'large') tile.classList.add('c-large');
-      var img = document.createElement('img'); img.src = BASE + cover.replace(/\.(jpg|jpeg)$/i, '.webp'); img.alt = cleanName(cover); img.loading = 'eager'; img.decoding = 'async';
-      tile.appendChild(img); grid.appendChild(tile);
-    });
     var wall = document.querySelector('.bio-wall'); if (!wall) return;
+    var list = (window.innerWidth <= 767) ? covers.slice(0, 24) : covers;   // lighter payload on phones
+    var built = false;
+    function build() {
+      if (built) return; built = true;
+      var bodyTypes = buildSpreadPool(list.length - 5);
+      var frag = document.createDocumentFragment();
+      list.forEach(function (cover, i) {
+        var tile = document.createElement('div'); tile.className = 'c-tile';
+        var t = i < 5 ? featuredTypes[i] : bodyTypes[i - 5];
+        if (t === 'wide') tile.classList.add('c-wide'); if (t === 'tall') tile.classList.add('c-tall'); if (t === 'large') tile.classList.add('c-large');
+        var img = document.createElement('img'); img.src = BASE + cover.replace(/\.(jpg|jpeg)$/i, '.webp'); img.alt = cleanName(cover); img.width = 200; img.height = 280; img.loading = 'eager'; img.decoding = 'async';
+        tile.appendChild(img); frag.appendChild(tile);
+      });
+      grid.appendChild(frag);
+    }
+    // Defer the wall (~3.5MB of images) until it's within ~1.2 screens of the viewport.
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { build(); io.disconnect(); } }, { rootMargin: '1200px 0px' });
+      io.observe(wall);
+    } else { build(); }
     var rp = false;
     window.addEventListener('scroll', function () {
-      if (rp) return; rp = true;
+      if (!built || rp) return; rp = true;
       requestAnimationFrame(function () { var rect = wall.getBoundingClientRect(); var progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height); var offset = Math.max(0, progress * 500); grid.style.transform = 'translateY(-' + offset + 'px)'; rp = false; });
     }, { passive: true });
   })();
