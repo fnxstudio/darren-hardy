@@ -228,5 +228,40 @@
     var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     el.textContent = days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
   })();
+
+  // 14) "Expiring Soon" -> render from /sessions-feed: only sessions that are PUBLISHED (their date
+  //     has arrived) AND not expired, excluding THIS session. Self-rotates day by day with no republish.
+  //     Renders only the live cards (no big native list) so nothing flashes and no extra images load.
+  //     Section is below the fold, so the fetch is deferred until it nears the viewport.
+  (function () {
+    var row = document.querySelector('.xsoon-row'); if (!row) return;
+    var items = row.querySelector('.w-dyn-items'); var list = row.querySelector('.w-dyn-list');
+    if (!items || !list) return;
+    var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var here; try { here = decodeURIComponent((location.pathname.split('/').pop() || '')).trim(); } catch (e) { here = (location.pathname.split('/').pop() || '').trim(); }
+    function pd(s){ if(!s) return null; s=String(s).replace(/\s+/g,' ').trim(); var d=new Date(s); if(!isNaN(d.getTime())) return d; d=new Date(s.replace(/^[A-Za-z]+,?\s+/,'')); return isNaN(d.getTime())?null:d; }
+    function fmt(d){ return d ? (M[d.getMonth()] + ' ' + d.getDate() + ' · ' + d.getFullYear()) : ''; }
+    function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function card(s){ return '<div role="listitem" class="w-dyn-item"><a href="/sessions/' + encodeURIComponent(s.slug) + '" class="ss-card w-inline-block"><img src="' + esc(s.thumb) + '" alt="' + esc(s.title) + '" class="ss-card-img" loading="lazy"><div class="ss-date">' + fmt(s.pub) + '</div></a></div>'; }
+    var done = false; function reveal(){ if (done) return; done = true; list.style.visibility = ''; }
+    list.style.visibility = 'hidden'; setTimeout(reveal, 4000);
+    function build(){
+      fetch('/sessions-feed', { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : Promise.reject(); }).then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var all = Array.prototype.slice.call(doc.querySelectorAll('[data-sf="row"]')).map(function (r) {
+          function t(n){ var e = r.querySelector('[data-sf="' + n + '"]'); return e ? e.textContent.trim() : ''; }
+          var img = r.querySelector('img');
+          return { slug: t('slug'), title: t('title'), thumb: img ? (img.getAttribute('src') || '') : '', pub: pd(t('pub')), exp: pd(t('exp')) };
+        }).filter(function (s) { return s.slug && s.thumb; });
+        var now = Date.now();
+        var live = all.filter(function (s) { return s.slug !== here && (!s.pub || s.pub.getTime() <= now) && (!s.exp || s.exp.getTime() > now); });
+        live.sort(function (a, b) { return (b.pub ? b.pub.getTime() : 0) - (a.pub ? a.pub.getTime() : 0); });
+        if (live.length) { items.innerHTML = live.slice(0, 2).reverse().map(card).join(''); }
+        reveal();
+      }).catch(reveal);
+    }
+    if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { io.disconnect(); build(); } }, { rootMargin: '700px 0px' }); io.observe(row); }
+    else { build(); }
+  })();
 })();
 </script>
