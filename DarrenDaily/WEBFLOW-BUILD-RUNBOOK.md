@@ -279,6 +279,43 @@ Build the static shell first, then bind fields.
 
 ---
 
+## Cross-page dynamic sessions (Welcome + Expired/404) — BUILT ✅
+
+The Home / Welcome / Expired(404) pages are **loader embeds** (a `#dd-app` div + one
+external JS that `innerHTML`s the whole page). They can't host a native Collection List,
+so the "latest sessions" spots there are wired dynamically off a hidden feed page.
+
+**Data source — "Sessions Feed - Do Not Delete"** (page id `6a684006ad7dd0053e754968`,
+slug `/sessions-feed`): a native Collection List (Sessions · Sort **Published DESC** ·
+**Limit 2**). One `.sf-row` per item, each field bound to CMS:
+`.sf-slug`→Slug · `.sf-title`→Name · `img.sf-thumb`→Thumbnail · `.sf-pub`→Published ·
+`.sf-exp`→Expire. (Spans can't take a text binding — the row uses **divs**.) It renders
+plain data rows, not a designed page; leave it alone.
+
+**Consumers** — footer custom code on **Welcome** (`6a66d8230844a5c2cd424b8c`) and
+**404/Expired** (`6a66de9ace5d93878f95f7d5`) fetches `/sessions-feed` (same-origin),
+parses the rows, then fills:
+- `.ep-grid` on-page section → the latest **up to 2 non-expired** sessions
+  (collapses to 1 when only one is live — the "last 7 days" case).
+- `.xp-list` exit-pop → **only the single newest** session (no exclusions).
+Links build as `https://dd.darrenhardy.com/{slug}`. No "current item" exclusion (these
+pages aren't a session — unlike the Sessions template's Expiring Soon, which excludes self).
+On any fetch failure it silently leaves the hardcoded fallback cards. Idempotency guard
+`window.__ddSessionsSynced` prevents a double-run if the baked-in copy also loads.
+
+The same script is baked into the repo source of truth (`darrendaily-welcome.html`,
+`darrendaily-expired.html`) and the compiled artifacts (`webflow-handoff/final/welcome.js`,
+`…/expired.js`) so a future JS re-upload carries it; the **live** deploy is the page
+footer code above, so **no JS re-upload is needed** — just Publish.
+
+> **To go live:** Publish the site in the Designer (staging is subdomain-only, so the API/MCP
+> can't publish it — it's a one-click manual step). After publish, verify: `/sessions-feed`
+> outputs 2 filled rows; `/welcome` and `/404` show the live thumbnail(s) + date(s) and the
+> exit-pop offers the newest. Date parsing is format-tolerant (verified against Webflow's
+> `MMM D, YYYY`, `MMMM D, YYYY`, ISO, `MM/DD/YYYY`, and weekday-prefixed renders).
+
+---
+
 ## Reference
 
 - Design source: `DarrenDaily/post.html` (live: fnxstudio.github.io/darren-hardy/DarrenDaily/post.html)

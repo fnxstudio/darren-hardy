@@ -526,13 +526,13 @@
       </div>
     </div>
     <div class="ep-grid stagger">
-      <a class="ep-card" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience" target="_blank" rel="noopener">
+      <a class="ep-card" href="https://dd.darrenhardy.com/inspiring-real-life-story-for-career-resilience">
         <img src="ep-card-3.webp" alt="Watch: An inspiring real-life story for career resilience" width="440" height="244" loading="lazy">
         <div class="ep-metarow">
           <span class="ep-meta ep-meta--date">Jul 23 &middot; 2026</span>
         </div>
       </a>
-      <a class="ep-card" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays" target="_blank" rel="noopener">
+      <a class="ep-card" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays">
         <img src="ep-card-2.webp" alt="Watch: What high-achievers do on Saturdays" width="440" height="244" loading="lazy">
         <div class="ep-metarow">
           <span class="ep-meta ep-meta--date">Jul 24 &middot; 2026</span>
@@ -713,7 +713,7 @@
     </button>
     <span class="xp-accent" aria-hidden="true"></span>
     <div class="xp-eyebrow">Before you go</div>
-    <h3 class="xp-title" id="xpTitle">Don't miss the <em>latest</em> session.</h3>
+    <h3 class="xp-title" id="xpTitle">Don't miss the <em>latest</em>.</h3>
     <p class="xp-sub">It's live right now, but every DarrenDaily expires in 72 hours. Then it's gone. No exceptions.</p>
     <div class="xp-list" data-xp-list>
       <a class="xp-session" href="https://dd.darrenhardy.com/high-achievers-do-on-saturdays" data-session-slug="high-achievers-do-on-saturdays">
@@ -934,6 +934,75 @@
     pop.addEventListener('click', function (e) { if (e.target === pop) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && pop.classList.contains('open')) close(); });
     if (/[?&]exit=1/.test(location.search)) open(true);   // QA: append ?exit=1 to force-preview
+  })();
+
+  // ============ DYNAMIC SESSIONS (auto-syncs from the Sessions CMS) ============
+  // This page is a static HTML embed, so it can't host a native Collection List.
+  // Instead it reads the hidden "Sessions Feed - Do Not Delete" page (/sessions-feed),
+  // which IS a native Collection List (Sessions, Sort Published DESC, Limit 2), and
+  // fills the cards from it. On any failure it silently leaves the hardcoded cards.
+  //   - .ep-grid section  -> the latest up-to-2 NON-EXPIRED sessions
+  //   - .xp-list exit-pop -> ONLY the single newest session (no exclusions)
+  // Nothing here excludes a "current" slug: this page is not itself a session.
+  (function () {
+    if (window.__ddSessionsSynced) return;
+    window.__ddSessionsSynced = true;
+    var FEED_URL  = '/sessions-feed';                    // same-origin on webflow.io AND darrendaily.com
+    var POST_BASE = 'https://dd.darrenhardy.com/';       // session post URL base (matches the hardcoded hrefs)
+    var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function parseDate(s) {
+      if (!s) return null;
+      s = String(s).replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
+      var d = new Date(s);
+      if (!isNaN(d.getTime())) return d;
+      d = new Date(s.replace(/^[A-Za-z]+,?\s+/, ''));    // drop a leading weekday name if present
+      return isNaN(d.getTime()) ? null : d;
+    }
+    function fmtDate(d) { return d ? (MONTHS[d.getMonth()] + ' ' + d.getDate() + ' · ' + d.getFullYear()) : ''; }
+    function url(slug) { return POST_BASE + encodeURIComponent(slug); }
+    function epCard(s) {
+      return '<a class="ep-card" href="' + url(s.slug) + '">'
+        + '<img src="' + esc(s.thumb) + '" alt="Watch: ' + esc(s.title) + '" width="440" height="244" loading="lazy">'
+        + '<div class="ep-metarow"><span class="ep-meta ep-meta--date">' + fmtDate(s.pub) + '</span></div>'
+        + '</a>';
+    }
+    function xpItem(s) {
+      return '<a class="xp-session" href="' + url(s.slug) + '" data-session-slug="' + esc(s.slug) + '">'
+        + '<img src="' + esc(s.thumb) + '" alt="Watch: ' + esc(s.title) + '" width="440" height="244" loading="lazy">'
+        + '<span class="xp-session-date">' + fmtDate(s.pub) + '</span>'
+        + '</a>';
+    }
+    function parseFeed(html) {
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      return Array.prototype.slice.call(doc.querySelectorAll('.sf-row')).map(function (row) {
+        function txt(sel) { var el = row.querySelector(sel); return el ? el.textContent.trim() : ''; }
+        var img = row.querySelector('.sf-thumb') || row.querySelector('img');
+        return {
+          slug:  txt('.sf-slug'),
+          title: txt('.sf-title'),
+          thumb: img ? (img.getAttribute('src') || '') : '',
+          pub:   parseDate(txt('.sf-pub')),
+          exp:   parseDate(txt('.sf-exp'))
+        };
+      }).filter(function (s) { return s.slug && s.thumb; });
+    }
+    fetch(FEED_URL, { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function (html) {
+        var all = parseFeed(html);
+        if (!all.length) return;                          // no data -> keep the hardcoded fallback
+        all.sort(function (a, b) { return (b.pub ? b.pub.getTime() : 0) - (a.pub ? a.pub.getTime() : 0); });
+        var now = Date.now();
+        var live = all.filter(function (s) { return !s.exp || s.exp.getTime() > now; });
+
+        var grid = document.querySelector('.ep-grid');    // on-page: up to 2 non-expired
+        if (grid && live.length) grid.innerHTML = live.slice(0, 2).map(epCard).join('');
+
+        var xp = document.querySelector('[data-xp-list]'); // exit-pop: 1 newest, no exclusions
+        if (xp) xp.innerHTML = xpItem(all[0]);
+      })
+      .catch(function () { /* offline / not on Webflow -> hardcoded cards stay */ });
   })();
 </script>
 
