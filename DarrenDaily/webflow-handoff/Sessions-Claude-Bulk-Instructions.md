@@ -42,6 +42,19 @@ a filled column is an **override** of what's on the source page.
 
 If there is no Source URL, use the columns the team filled in.
 
+## Batch window & scheduling (important)
+
+You can safely load **up to ~30 days of sessions ahead** in a single batch. Each session **reveals
+itself on its Published date and expires 72 hours later, automatically** — after a single site Publish,
+the pages rotate day by day with no further clicks. This is driven entirely by the `published` and
+`expire` CMS dates (no plugin, no scheduled publishing).
+
+- **Do:** load a batch, Publish once, and leave it — the site self-rotates for the whole window.
+- **Keep each batch within ~30 days.** The "latest sessions" window holds ~30 days of posts; loading
+  further ahead than that can push the earliest still-upcoming post out of the window.
+- Future-dated posts stay hidden from all the feeds/exit-pops until their day arrives; expired ones drop
+  off on their own. You do **not** re-publish to reveal or expire — only to add a new batch.
+
 ---
 
 ## Step-by-step, per row
