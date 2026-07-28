@@ -45,9 +45,14 @@ If there is no Source URL, use the columns the team filled in.
 ## Batch window & scheduling (important)
 
 You can safely load **up to ~30 days of sessions ahead** in a single batch. Each session **reveals
-itself on its Published date and expires 72 hours later, automatically** — after a single site Publish,
-the pages rotate day by day with no further clicks. This is driven entirely by the `published` and
-`expire` CMS dates (no plugin, no scheduled publishing).
+itself on its Published date and drops out of the feeds/lists 72 hours later, automatically** — after a
+single site Publish, the pages rotate day by day with no further clicks. Which sessions the
+feeds/lists/exit-pops show is driven entirely by the `published` and `expire` CMS dates (no plugin).
+
+> **Note (page expiry):** making the session's own `/sessions/{slug}` page actually *expire* — i.e. 404 to
+> the "Session Expired" page after 72 hours — is handled by **JetBoost** (it archives the expired CMS item
+> on its expire date). The date filter above only controls the lists; JetBoost expires the page. JetBoost
+> must be purchased, connected to the site, and configured (see the team SOP).
 
 - **Do:** load a batch, Publish once, and leave it — the site self-rotates for the whole window.
 - **Keep each batch within ~30 days.** The "latest sessions" window holds ~30 days of posts; loading
