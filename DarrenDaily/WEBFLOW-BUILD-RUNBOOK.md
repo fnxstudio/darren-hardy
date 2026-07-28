@@ -108,8 +108,15 @@ grids (use eager).
    this item" + Published within the last 7 days; rebuild one card inside it (image → Thumbnail,
    date → Published). Renders 1 or 2 cards automatically (one card when only one qualifies).
 
-**Still to build (API-doable, next sessions):** Sidebar Cards collection (Featured/Store editability),
-sticky button-color binding, responsive polish (mobile share row overflow), real SVG on the copy icon.
+### Polish pass — done via MCP (applied in Designer; publish to see)
+- **Footer behavior bundle deployed** (Sessions Template page footer code; source: `webflow-handoff/sessions-footer-code.html`): reveal, video facade (reads hidden `.vf-vid` Vimeo ID), share buttons (`[data-net]`, canonical-URL based, clipboard copy + toast), sticky CTA drop-in, Expiring-Soon date → `Jul 27 · 2026`, **SUCCESS covers wall** (63 covers from `fnxstudio.github.io/darren-hardy/DarrenDaily/covers/`) + scroll parallax, Hyvor comments (website 13897, page-id = session path). Verified against the live DOM. **The template had NO behavior JS before this** — the whole interactive layer was missing.
+- **Copy icon** → filled `content_copy` clipboard glyph.
+- **Mobile share row** → `flex-wrap:wrap` on `.share-btns2`.
+- **Sidebar phantom 3rd column** → `.post-aside` given explicit `grid-template-columns:1fr` (API-built grids with no column template make the *Designer canvas* draw a default 2-col preview; published was always single-column/correct).
+
+**Sticky button color = Designer-only.** A CMS **Color** field can't bind to text or (via API) to a background. In the Designer: select the sticky button → **Background → color → link to the `Sticky Button Color` field** (default stays KIMI blue `#2fd3d8`).
+
+**Still to build:** Sidebar Cards collection (Featured/Store editability) — deferred to a dedicated pass.
 
 ---
 

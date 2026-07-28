@@ -1,0 +1,133 @@
+<script>
+/* ============ DarrenDaily Sessions Template — page behaviors ============
+   Reveal, video facade, share, sticky CTA, Expiring-Soon date format,
+   SUCCESS covers wall + parallax, Hyvor comments. Idempotent. */
+(function () {
+  if (window.__ddSessInit) return;
+  window.__ddSessInit = true;
+
+  // 1) Reveal: hero + content boxes fade in on load; lower sections on scroll.
+  (function () {
+    var SEL = '[class*="video-frame"],.share-bar,.post-caption,.cta-banner,.quote-block,.side-feature,.side-card,.xsoon-head,.ss-card,.bio-text';
+    var els = Array.prototype.slice.call(document.querySelectorAll(SEL));
+    els.forEach(function (el) { el.classList.add('dd-reveal'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('dd-in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    var immediate = Array.prototype.slice.call(document.querySelectorAll('.post-hero .dd-reveal, .post-layout .dd-reveal'));
+    var im = new Set(immediate), i = 0;
+    immediate.forEach(function (el) { el.style.transitionDelay = (i++ * 0.07) + 's'; });
+    requestAnimationFrame(function () { requestAnimationFrame(function () { immediate.forEach(function (el) { el.classList.add('dd-in'); }); }); });
+    els.forEach(function (el) { if (!im.has(el)) io.observe(el); });
+  })();
+
+  // 2) Video facade: click the frame -> mount the Vimeo iframe (id read from hidden .vf-vid).
+  (function () {
+    Array.prototype.slice.call(document.querySelectorAll('[class*="video-frame"]')).forEach(function (frame) {
+      function play() {
+        var v = frame.querySelector('.vf-vid'); var id = v ? v.textContent.trim() : '';
+        if (!id || frame.querySelector('iframe')) return;
+        var f = document.createElement('iframe');
+        f.src = 'https://player.vimeo.com/video/' + encodeURIComponent(id) + '?autoplay=1&color=a72632&title=0&byline=0&portrait=0&dnt=1';
+        f.allow = 'autoplay; fullscreen; picture-in-picture'; f.setAttribute('allowfullscreen', '');
+        f.setAttribute('title', "Today's DarrenDaily session");
+        f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:5';
+        frame.appendChild(f); frame.style.cursor = 'default';
+      }
+      frame.setAttribute('role', 'button'); frame.setAttribute('tabindex', '0');
+      frame.addEventListener('click', play);
+      frame.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); } });
+    });
+  })();
+
+  // 3) Share buttons: build targets from this post's canonical URL + title. Copy uses clipboard.
+  (function () {
+    var canonical = document.querySelector('link[rel="canonical"]');
+    var ogt = document.querySelector('meta[property="og:title"]');
+    var url = (canonical && canonical.href) || location.href;
+    var title = (ogt && ogt.content) || document.title;
+    var eu = encodeURIComponent(url), et = encodeURIComponent(title);
+    var T = { facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + eu, twitter: 'https://twitter.com/intent/tweet?url=' + eu + '&text=' + et, linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + eu, email: 'mailto:?subject=' + et + '&body=' + et + '%0A%0A' + eu };
+    var toast;
+    function showToast(msg) {
+      if (!toast) { toast = document.createElement('div'); toast.setAttribute('role', 'status'); toast.style.cssText = 'position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#14171c;color:#fff;padding:11px 18px;border-radius:4px;font:600 13px Inter,sans-serif;z-index:9999;opacity:0;transition:opacity .25s;pointer-events:none'; document.body.appendChild(toast); }
+      toast.textContent = msg; requestAnimationFrame(function () { toast.style.opacity = '1'; });
+      clearTimeout(toast._t); toast._t = setTimeout(function () { toast.style.opacity = '0'; }, 2600);
+    }
+    Array.prototype.slice.call(document.querySelectorAll('.share-bar [data-net]')).forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var net = btn.getAttribute('data-net');
+        if (net === 'copy') { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(url).then(function () { showToast('Link copied. Thank you for sharing.'); }); } else { showToast(url); } return; }
+        if (net === 'email') { location.href = T.email; return; }
+        if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) { navigator.share({ title: title, url: url }).catch(function () { window.open(T[net], '_blank', 'noopener,width=640,height=560'); }); return; }
+        window.open(T[net], '_blank', 'noopener,width=640,height=560');
+      });
+    });
+  })();
+
+  // 4) Sticky CTA: drop the top bar in once the inline banner (or ~60% scroll) passes mid-screen.
+  (function () {
+    var bar = document.getElementById('ctaSticky'); if (!bar) return;
+    var trig = document.querySelector('.cta-banner');
+    function update() {
+      var show;
+      if (trig) { var r = trig.getBoundingClientRect(); show = (r.top + r.height / 2) <= window.innerHeight / 2; }
+      else { show = window.pageYOffset > window.innerHeight * 0.6; }
+      bar.style.transform = show ? 'translateY(0)' : 'translateY(-100%)';
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update); update();
+  })();
+
+  // 5) Expiring-Soon date -> "Jul 27 · 2026"
+  (function () {
+    var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    Array.prototype.slice.call(document.querySelectorAll('.ss-date')).forEach(function (el) {
+      var t = (el.textContent || '').replace(/ /g, ' ').trim(); if (!t) return;
+      var d = new Date(t); if (isNaN(d.getTime())) d = new Date(t.replace(/^[A-Za-z]+,?\s+/, ''));
+      if (!isNaN(d.getTime())) el.textContent = M[d.getMonth()] + ' ' + d.getDate() + ' · ' + d.getFullYear();
+    });
+  })();
+
+  // 6) SUCCESS covers wall + scroll parallax.
+  (function () {
+    var BASE = 'https://fnxstudio.github.io/darren-hardy/DarrenDaily/covers/';
+    var covers = ['JackWelch.jpg','SM_13_05_FORD.jpg','SM_12_01_DOWNEY.jpg','SM_09_07_BRANSON.jpg','SM_10_06_JOBS.jpg','SM_09_08_FOX.jpg','SM_08_01_Kiyosaki.jpg','SM_08_02_50.jpg','SM_08_04_OZ.jpg','SM_08_05_HAWK.jpg','SM_08_06_Deutsch.jpg','SM_10_12_SHRIVER.jpg','SM_09_02_Powell.jpg','SM_09_03_FOREMAN.jpg','SM_09_04_Maxwell.jpg','SM_09_05_ORMAN.jpg','SM_09_06_LANCE.jpg','SM_09_01_Robbins.jpg','SM_09_09_FOSTER_Barcode.jpg','SM_09_10_SERENA_barcode.jpg','SM_09_11_OSTEEN_barcode.jpg','SM_09_12_DrPHIL.jpg','SM_12_07_TECHNOLOGY.jpg','SM_10_01_KEYES.jpg','SM_10_02_RAMSEY.jpg','SM_10_03_HOPKINS.jpg','SM_10_04_COLLINS.jpg','SM_10_05_MICHAELS.jpg','SM_10_07_COLE.jpg','SM_10_08_JOHNSON.jpg','SM_10_09_DELL.jpg','SM_10_10_USHER.jpg','SM_10_11_MANNINGS.jpg','SM_11_01_HOWARD.jpg','SM_11_02_CHAN.jpg','SM_11_03_SCHWAB.jpg','SM_11_04_SCHULTZ.jpg','SM_12_08_BRANSON.jpg','SM_11_05_ZUCKERBERG.jpg','SM_11_06_MARTIN.jpg','SM_11_07_DICAPRIO.jpg','SM_11_08_BEZOS.jpg','SM_11_09_CONNICK.jpg','SM_11_10_OZ.jpg','SM_11_11_CUBAN.jpg','SM_11_12_SANTA.jpg','SM_12_02_KARDASHIAN.jpg','SM_12_03_BLOOMBERG.jpg','SM_12_04_LOWE.jpg','SM_12_05_ORMAN.jpg','SM_12_06_JOHANNSON.jpg','SM_12_09_BURNETT.jpg','SM_12_10_MAXWELL.jpg','SM_12_11_WASHINGTON.jpg','SM_12_12_COURIC.jpg','SM_13_01_STEWART.jpg','SM_13_02_MUSK.jpg','SM_13_03_CORCORAN.jpg','SM_13_04_DIAMANDIS.jpg','SM_08_03_Trump.jpg','SM_14_11_COOK.jpg','Santa1977.jpg','Tony_Hseih.jpg'];
+    function cleanName(f) { var n = f.replace(/\.(jpg|jpeg|png|gif|webp)$/i, ''); n = n.replace(/^SM_\d+_\d+_/i, ''); n = n.replace(/([a-z])([A-Z])/g, '$1 $2'); n = n.replace(/[_-]/g, ' '); n = n.replace(/\bbarcode\b/gi, '').replace(/\s+/g, ' ').trim(); n = n.toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); }); return n; }
+    var featuredTypes = ['large', 'tall', 'large', 'tall', 'standard'];
+    function buildSpreadPool(n) {
+      var special = Array(4).fill('wide').concat(Array(16).fill('tall')); var s = 0xc0ffee42;
+      for (var i = special.length - 1; i > 0; i--) { s = Math.imul(s ^ (s >>> 16), 0x45d9f3b); s = Math.imul(s ^ (s >>> 16), 0x45d9f3b); s ^= s >>> 16; var j = (Math.abs(s) >>> 0) % (i + 1); var t = special[i]; special[i] = special[j]; special[j] = t; }
+      var pool = Array(n).fill('standard'); var step = (n - 1) / (special.length - 1);
+      special.forEach(function (type, i) { pool[Math.round(i * step)] = type; }); return pool;
+    }
+    var grid = document.querySelector('.dd-covers'); if (!grid) return;
+    var bodyTypes = buildSpreadPool(covers.length - 5);
+    covers.forEach(function (cover, i) {
+      var tile = document.createElement('div'); tile.className = 'c-tile';
+      var t = i < 5 ? featuredTypes[i] : bodyTypes[i - 5];
+      if (t === 'wide') tile.classList.add('c-wide'); if (t === 'tall') tile.classList.add('c-tall'); if (t === 'large') tile.classList.add('c-large');
+      var img = document.createElement('img'); img.src = BASE + cover.replace(/\.(jpg|jpeg)$/i, '.webp'); img.alt = cleanName(cover); img.loading = 'eager'; img.decoding = 'async';
+      tile.appendChild(img); grid.appendChild(tile);
+    });
+    var wall = document.querySelector('.bio-wall'); if (!wall) return;
+    var rp = false;
+    window.addEventListener('scroll', function () {
+      if (rp) return; rp = true;
+      requestAnimationFrame(function () { var rect = wall.getBoundingClientRect(); var progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height); var offset = Math.max(0, progress * 500); grid.style.transform = 'translateY(-' + offset + 'px)'; rp = false; });
+    }, { passive: true });
+  })();
+
+  // 7) Hyvor comments -> .comments-embed, page-id = the session path (stable per post).
+  (function () {
+    var box = document.querySelector('.comments-embed'); if (!box) return;
+    box.innerHTML = '';
+    var el = document.createElement('hyvor-talk-comments');
+    el.setAttribute('website-id', '13897');
+    el.setAttribute('page-id', location.pathname);
+    box.appendChild(el);
+    if (!document.querySelector('script[data-hyvor]')) { var s = document.createElement('script'); s.async = true; s.type = 'module'; s.src = 'https://talk.hyvor.com/embed/embed.js'; s.setAttribute('data-hyvor', '1'); document.head.appendChild(s); }
+  })();
+})();
+</script>
