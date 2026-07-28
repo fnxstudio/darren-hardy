@@ -72,6 +72,47 @@ For now: DarrenDaily stays on **Premium**; revisit Enterprise only when consolid
 
 ---
 
+## Native build — status & Designer punch-list (updated this session)
+
+The Sessions template is being built **NATIVELY in the Designer (approach A)** via the Webflow
+MCP (whtml_builder + element/settings tools), matching `post.html`. Live on staging:
+`darrendaily.webflow.io/sessions/high-achievers-do-on-saturdays`.
+Sessions Template page id: `6a681903f2f9b0d13a2b57a7`.
+
+**Built + working:**
+- Native sections: hero, content (framed card + sticky right column: Moneyline/Featured/Store),
+  Expiring Soon, Vantage bio (**37-cover parallax wall**), footer.
+- Page footer custom code: Hyvor comments, video-facade click-to-play (reads the bound Vimeo ID
+  from a hidden `.vf-vid` element), sticky CTA show-at-mid-scroll, share buttons (targeted by
+  `[data-net]`), reveal animations, 37-cover wall build + parallax.
+- Site head code: Inter font enforcement + share-button + covers + reveal CSS.
+- **CMS fields bound (10):** Thumbnail, Published, Moneyline Quote/Attribution, Inline Banner
+  Image/Alt/Link, Vimeo ID, Sticky Banner Image/URL/Button Copy.
+
+**whtml_builder constraints (for future native builds):** single-class selectors only (no
+descendant `.a b`); no `::before/::after` (use real divs); no `@keyframes` (put them in head
+`<style>`); `<img>` inserts unbound (bind `assetId` to the asset/CMS field after); Inter isn't
+recognized by the Designer (loaded via head link + enforced via head CSS); inserted class names
+can get auto-suffixed on collision (e.g. `share-btn` → `share-btn-1`), so target by attribute
+(`[data-net]`) when reliability matters; images load unreliably as `lazy` inside transformed
+grids (use eager).
+
+### ⭐ Designer punch-list (3 items the MCP API can't do — needs the Designer UI)
+1. **Caption + Secondary Caption → Rich Text.** In the framed card, delete the caption paragraph,
+   drop in a **Rich Text element**, then bind: Settings → *Get text from* → **Caption** (and a
+   second Rich Text → **Secondary Caption**). Rich-text fields only bind to Rich Text elements.
+2. **SEO / OG binding.** Sessions Template page → **Page settings → SEO**: Title Tag → bind
+   **SEO Title**; Meta Description → **Meta Description**; Open Graph image → **Social Share Image**.
+3. **Expiring Soon → Collection List.** Replace the two static cards with a **Collection List**
+   bound to **Sessions** → Sort **Published desc**, **Limit 2**, Filter "Current Session is not
+   this item" + Published within the last 7 days; rebuild one card inside it (image → Thumbnail,
+   date → Published). Renders 1 or 2 cards automatically (one card when only one qualifies).
+
+**Still to build (API-doable, next sessions):** Sidebar Cards collection (Featured/Store editability),
+sticky button-color binding, responsive polish (mobile share row overflow), real SVG on the copy icon.
+
+---
+
 ## Phase 1 — Global setup (Designer)
 
 - [ ] Upload **Inter** web fonts (or use Webflow's Google Fonts) — weights 400–900.
