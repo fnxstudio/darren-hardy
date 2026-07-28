@@ -82,10 +82,23 @@ For now: DarrenDaily stays on **Premium**; revisit Enterprise only when consolid
 
 ---
 
-## Phase 2 — CMS schema
+## Phase 2 — CMS schema  ✅ DONE (Sessions built via the Webflow MCP)
 
-### Collection: **Sessions** (one item = one daily post)
-Per-post fields (≈23; under Webflow's ~30-field ceiling):
+**Status:** Sessions collection + all 23 per-post fields created; one seed item populated
+(text). Sidebar Cards collection is deferred to after the design (per plan).
+- **Sessions collection ID:** `6a681903f2f9b0d13a2b5794` (slug `sessions`)
+- **Seed item:** "What High-Achievers Do on Saturdays" (`6a681954f2f9b0d13a2b711f`)
+- **Field simplifications applied vs the original spec:** hero background is a fixed design
+  asset (not a field); one **Thumbnail** field serves the video poster AND listing card;
+  a single **Sticky URL** (banner + button share it); added **Secondary Caption** (+ its
+  Smart CTA); each banner/sticky/secondary-caption has an optional **Smart CTA** override
+  field (blank = use the uploaded image/text).
+- **Seed assets:** 5 already in Webflow from a prior session; 6 remaining (dd-poster,
+  dd-banner, dd-banner-sticky, dd-logo-color, dd-reward-mug, dd-featured) upload via the
+  Designer URL uploader once the Designer app is open.
+
+### Collection: **Sessions** (one item = one daily post) — AS BUILT
+Per-post fields (23 custom + Name + Slug):
 
 | Field | Type | Notes |
 |---|---|---|
@@ -132,8 +145,8 @@ Evergreen cards edited once and reused on every post; drag/reorder anytime.
 > column is edited/reordered globally without touching every post. **Champion = paused**
 > (reserved Card Type; add when there's bandwidth).
 
-- [ ] Create **Sessions** collection + fields above.
-- [ ] Create **Sidebar Cards** collection + fields above.
+- [x] Create **Sessions** collection + fields. ✅ (ID `6a681903f2f9b0d13a2b5794`)
+- [ ] Create **Sidebar Cards** collection + fields. (deferred to after the design)
 
 ---
 
