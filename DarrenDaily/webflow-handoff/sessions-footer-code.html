@@ -129,5 +129,19 @@
     box.appendChild(el);
     if (!document.querySelector('script[data-hyvor]')) { var s = document.createElement('script'); s.async = true; s.type = 'module'; s.src = 'https://talk.hyvor.com/embed/embed.js'; s.setAttribute('data-hyvor', '1'); document.head.appendChild(s); }
   })();
+
+  // 8) Featured slot -> HubSpot CTA (house "Refer an A-Player" ad, portal 2518645).
+  //    Centrally managed in HubSpot; the same on every session. Replaces the static side-feature.
+  (function () {
+    var PORTAL = 2518645, CTA_ID = '001c6c38-ec1b-4288-8402-feee93e77bdc';
+    var feat = document.querySelector('.side-feature'); if (!feat) return;
+    var box = document.createElement('div'); box.className = feat.className;
+    box.innerHTML = '<span class="hs-cta-wrapper" id="hs-cta-wrapper-' + CTA_ID + '"><span class="hs-cta-node hs-cta-' + CTA_ID + '" id="hs-cta-' + CTA_ID + '"></span></span>';
+    feat.replaceWith(box);
+    function fit(){ var img = box.querySelector('img'); if (img) { img.style.cssText = 'display:block;width:100%;height:auto'; } else { setTimeout(fit, 300); } }
+    function load(){ try { window.hbspt.cta.load(PORTAL, CTA_ID, {"useNewLoader":"static","region":"na1"}); setTimeout(fit, 600); } catch (e) {} }
+    if (window.hbspt && window.hbspt.cta) { load(); }
+    else { var s = document.createElement('script'); s.charset = 'utf-8'; s.src = 'https://js.hscta.net/cta/current.js'; s.onload = load; document.head.appendChild(s); }
+  })();
 })();
 </script>
