@@ -1070,15 +1070,15 @@
     }
     function parseFeed(html) {
       var doc = new DOMParser().parseFromString(html, 'text/html');
-      return Array.prototype.slice.call(doc.querySelectorAll('.sf-row')).map(function (row) {
-        function txt(sel) { var el = row.querySelector(sel); return el ? el.textContent.trim() : ''; }
-        var img = row.querySelector('.sf-thumb') || row.querySelector('img');
+      return Array.prototype.slice.call(doc.querySelectorAll('[data-sf="row"]')).map(function (row) {
+        function txt(sel) { var el = row.querySelector('[data-sf="'+sel+'"]'); return el ? el.textContent.trim() : ''; }
+        var img = row.querySelector('img');
         return {
-          slug:  txt('.sf-slug'),
-          title: txt('.sf-title'),
+          slug:  txt('slug'),
+          title: txt('title'),
           thumb: img ? (img.getAttribute('src') || '') : '',
-          pub:   parseDate(txt('.sf-pub')),
-          exp:   parseDate(txt('.sf-exp'))
+          pub:   parseDate(txt('pub')),
+          exp:   parseDate(txt('exp'))
         };
       }).filter(function (s) { return s.slug && s.thumb; });
     }
