@@ -246,7 +246,7 @@ document.getElementById("dd-app").innerHTML="<!-- ============ NAV ============ 
         if (!all.length) return;                          // no data -> keep the hardcoded fallback
         all.sort(function (a, b) { return (b.pub ? b.pub.getTime() : 0) - (a.pub ? a.pub.getTime() : 0); });
         var now = Date.now();
-        var live = all.filter(function (s) { return !s.exp || s.exp.getTime() > now; });
+        var live = all.filter(function (s) { return (!s.pub || s.pub.getTime() <= now) && (!s.exp || s.exp.getTime() > now); });
 
         var grid = document.querySelector('.ep-grid');    // on-page: up to 2 non-expired
         if (grid && live.length) {
@@ -256,7 +256,7 @@ document.getElementById("dd-app").innerHTML="<!-- ============ NAV ============ 
         }
 
         var xp = document.querySelector('[data-xp-list]'); // exit-pop: 1 newest, no exclusions
-        if (xp) xp.innerHTML = xpItem(all[0]);
+        if (xp && live.length) xp.innerHTML = xpItem(live[0]);
       })
       .catch(function () { /* offline / not on Webflow -> hardcoded cards stay */ });
   })();
