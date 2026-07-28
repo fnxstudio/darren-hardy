@@ -151,8 +151,12 @@ The template renders these itself — you only set the UUID text; do not paste e
 - Publish the created items (`publish_collection_items`).
 - Tell the user: **do a full site Publish in Webflow** so the "latest sessions" feed and any brand-new
   pages go live.
-- Report back a table of what was created (name, slug, `/sessions/{slug}` URL) and flag any row that used
-  a fallback or failed, with the reason.
+- **Produce the full list of live `/sessions/{slug}` URLs right here, immediately, for human review** — a
+  table of every session created (name, published date, clickable URL) so the reviewer can open each one
+  and check it on the spot. Flag any row that used a fallback or failed, with the reason.
+- **If a task manager is connected** (Asana, Linear, or a similar MCP connector), also push a **review
+  task** containing those URLs to alert whoever does the reviewing — don't rely on them noticing the chat.
+  Only do this when such a tool is actually connected; otherwise just report the URLs here.
 
 ---
 
