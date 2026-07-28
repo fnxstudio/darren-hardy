@@ -56,6 +56,20 @@ No source page (brand-new session)? Then fill the columns marked *required* belo
 
 ## Notes
 - **Images** can be pasted as any public URL (a dd.darrenhardy.com/hubfs link, a Vimeo poster, etc.) — they get uploaded into Webflow automatically. You don't need to attach files.
+- **All images are served as WebP.** Every image that renders *on the page* (thumbnail/poster, inline banner, sticky banner) is converted to optimized WebP on upload — you don't do anything, it's automatic. Paste whatever URL you have (JPG, PNG, whatever) and it comes out WebP. The one exception is the **Social Share Image** (the OG/social-preview image), which stays PNG/JPG on purpose — some LinkedIn/Facebook link scrapers show a blank preview for WebP OG images.
 - **The Featured "Refer an A-Player" card** in the right column is a site-wide HubSpot CTA — it's the same on every session and is **not** set per row here.
 - **Bold in captions:** `**like this**`. Line breaks in a caption are fine (write them in the cell).
 - One row = one session. Send the sheet whenever it's ready; new rows can be added anytime.
+
+---
+
+## For the automation (whoever runs the Claude Code bulk upload)
+
+When loading rows from this sheet into the Sessions CMS, **every on-page image must end up as WebP**. Do this per image:
+
+1. Upload the source image to Webflow (any format is fine as the source).
+2. Convert it to WebP **in place** with the Webflow Data API — `data_assets_tool → compress_assets` with `format: "webp"` (batch up to 100 asset IDs per call), then poll `get_compression_task` until `completed`.
+3. **Re-bind the CMS image field to the WebP copy.** Compression converts the *site asset* but the CMS field keeps its own JPEG/PNG copy, so it will still serve the old format until you re-point it. Update the item's image field to `{ fileId: <compressed asset id>, url: <compressed .webp CDN url> }` via `update_collection_items`, then `publish_collection_items`.
+4. **Skip the Social Share Image** — leave that one PNG/JPG (WebP OG images break some social scrapers).
+
+Rule of thumb: if it renders on the page, it's WebP; if it's only the social-preview image, it stays PNG/JPG.
