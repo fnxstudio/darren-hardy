@@ -145,17 +145,27 @@
   })();
 
   // 8) Featured slot -> HubSpot CTA (house "Refer an A-Player" ad, portal 2518645).
-  //    Centrally managed in HubSpot; the same on every session. Replaces the static side-feature.
+  //    Rendered via HubSpot's image-beacon + click-redirect embed. The legacy
+  //    hbspt.cta.load() JS loader returns an EMPTY node for new-style HubSpot CTAs
+  //    (its content endpoint 404s), so we point the existing featured link at the
+  //    HubSpot redirect and load the CTA image. Still centrally managed in HubSpot
+  //    (same CTA id -> edit the creative there, no redeploy) and tracks views + clicks.
   (function () {
     var PORTAL = 2518645, CTA_ID = '001c6c38-ec1b-4288-8402-feee93e77bdc';
     var feat = document.querySelector('.side-feature'); if (!feat) return;
-    var box = document.createElement('div'); box.className = feat.className;
-    box.innerHTML = '<span class="hs-cta-wrapper" id="hs-cta-wrapper-' + CTA_ID + '"><span class="hs-cta-node hs-cta-' + CTA_ID + '" id="hs-cta-' + CTA_ID + '"></span></span>';
-    feat.replaceWith(box);
-    function fit(){ var img = box.querySelector('img'); if (img) { img.style.cssText = 'display:block;width:100%;height:auto'; } else { setTimeout(fit, 300); } }
-    function load(){ try { window.hbspt.cta.load(PORTAL, CTA_ID, {"useNewLoader":"static","region":"na1"}); setTimeout(fit, 600); } catch (e) {} }
-    if (window.hbspt && window.hbspt.cta) { load(); }
-    else { var s = document.createElement('script'); s.charset = 'utf-8'; s.src = 'https://js.hscta.net/cta/current.js'; s.onload = load; document.head.appendChild(s); }
+    feat.setAttribute('href', 'https://cta-redirect.hubspot.com/cta/redirect/' + PORTAL + '/' + CTA_ID);
+    feat.setAttribute('target', '_blank');
+    feat.setAttribute('rel', 'noopener');
+    var img = feat.querySelector('img');
+    if (img) {
+      img.removeAttribute('srcset');
+      img.removeAttribute('sizes');
+      img.setAttribute('loading', 'lazy');
+      img.setAttribute('width', '770');
+      img.setAttribute('height', '1016');
+      img.src = 'https://no-cache.hubspot.com/cta/default/' + PORTAL + '/' + CTA_ID + '.png';
+      img.alt = 'One Mission. One Team. Refer an A-Player to DarrenHardy.com/Careers';
+    }
   })();
 
   // 9) DDJ store card: make the journal image click through to the product (button is a native link).
