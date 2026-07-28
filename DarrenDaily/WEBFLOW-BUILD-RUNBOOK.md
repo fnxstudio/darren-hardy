@@ -116,6 +116,14 @@ grids (use eager).
 
 **Sticky button color = Designer-only.** A CMS **Color** field can't bind to text or (via API) to a background. In the Designer: select the sticky button → **Background → color → link to the `Sticky Button Color` field** (default stays KIMI blue `#2fd3d8`).
 
+### Fidelity pass — footer + bio "Vantage" rebuilt NATIVE to match the Expired page
+Reference = `darrendaily-expired.html` (served at fnxstudio.github.io/darren-hardy/DarrenDaily/). Built as real native elements (no JS injection):
+- **Footer:** added native social row (YouTube/IG/FB/X links + inline SVG) to `.foot-brand`; rebuilt `.bmc-corner-1` into logo + text column (moved title/tag/cta into a wrapper via `move_element`; added `<img>` bound to the uploaded **BMC_Logo** asset `6a68542296ecd3697216c066`); `Explore Further ↗` arrow via `.bmc-cta::after`.
+- **Bio Vantage:** eyebrow → "The Vantage" + red pip `<span>`; headline accent `<em>closed doors.</em>` (red); six award **seals** (`<img>` each bound to uploaded assets — dd `6a685438561969af09a80677`, amazon `6a68543933ed553a051ba79d`, nsa `6a68543a5f1206ddddda0d2c`, nyt `6a68543b08e061caa76485d5`, ddod `6a68543d55cef7dd6361e079`, wsj `6a68543e0a38202ad8f3bf47`).
+- Styling lives in the **site head** `<style>` (matched to the Expired CSS), targeted by structural/tag selectors.
+
+**whtml gotcha (important):** `data_whtml_builder` only applies the `class` of the **root** inserted element as a Webflow style; **nested children lose their class** (kept only as `data-*` attrs, or as a `class` attribute on raw `svg`/`path`). So style multi-level inserts by structure (`.foot-brand > div:last-child a`, `.bio-text > div:last-child img`) or insert children one-by-one. Also: `move_element` uses `anchor_element_id`+`creation_position`; `set_image_asset` uses `image_asset_id`; a CMS **Color** field can't bind to text or (via API) a background.
+
 **Still to build:** Sidebar Cards collection (Featured/Store editability) — deferred to a dedicated pass.
 
 ---
