@@ -180,5 +180,42 @@
     img.style.cursor = 'pointer';
     img.addEventListener('click', function () { window.open(HREF, '_blank', 'noopener'); });
   })();
+
+  // Shared HubSpot CTA helpers (portal 2518645). Reliable image-beacon + click-redirect
+  // (the legacy hbspt.cta.load loader returns empty nodes for new-style CTAs). Each slot's
+  // id comes from its Smart CTA CMS field, rendered into a hidden .xcta-* holder.
+  function ddCtaId(sel){ var h = document.querySelector(sel), v = h ? (h.textContent || '').trim() : ''; return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v) ? v : ''; }
+  function ddBeacon(id){ return 'https://no-cache.hubspot.com/cta/default/2518645/' + id + '.png'; }
+  function ddRedirect(id){ return 'https://cta-redirect.hubspot.com/cta/redirect/2518645/' + id; }
+
+  // 10) Inline-banner Smart CTA override: if "Inline Banner Smart CTA" holds a CTA id,
+  //     swap the inline banner's image + link for that HubSpot CTA. Use a landscape CTA here.
+  (function () {
+    var id = ddCtaId('.xcta-inline'); if (!id) return;
+    var link = document.querySelector('.cta-banner'), img = document.querySelector('.cta-banner-img');
+    if (link) { link.setAttribute('href', ddRedirect(id)); link.setAttribute('target', '_blank'); link.setAttribute('rel', 'noopener'); }
+    if (img) { img.removeAttribute('srcset'); img.removeAttribute('sizes'); img.setAttribute('loading', 'lazy'); img.src = ddBeacon(id); img.alt = 'Featured offer'; }
+  })();
+
+  // 11) Sticky-banner Smart CTA override: swap the sticky strip's image + link for the CTA
+  //     and drop the text button (the image itself is the click target). Use a wide CTA here.
+  (function () {
+    var id = ddCtaId('.xcta-sticky'); if (!id) return;
+    var rd = ddRedirect(id);
+    var link = document.querySelector('.cta-sticky-link'), img = document.querySelector('.cta-sticky-img'), btn = document.querySelector('.cta-sticky-btn');
+    if (link) { link.setAttribute('href', rd); link.setAttribute('target', '_blank'); link.setAttribute('rel', 'noopener'); }
+    if (img) { img.removeAttribute('srcset'); img.removeAttribute('sizes'); img.src = ddBeacon(id); img.alt = 'Featured offer'; }
+    if (btn) { btn.style.display = 'none'; }
+  })();
+
+  // 12) Secondary-caption Smart CTA override: if set, hide the secondary caption text and
+  //     render the HubSpot CTA into its holder (placed right after the caption).
+  (function () {
+    var holder = document.querySelector('.xcta-secondary'); if (!holder) return;
+    var id = ddCtaId('.xcta-secondary'); if (!id) return;
+    var sec = document.getElementById('postSecCaption'); if (sec) sec.style.display = 'none';
+    holder.innerHTML = '<a href="' + ddRedirect(id) + '" target="_blank" rel="noopener" style="display:block"><img src="' + ddBeacon(id) + '" loading="lazy" alt="Featured offer" style="display:block;width:100%;height:auto;border-radius:4px"></a>';
+    holder.style.display = 'block';
+  })();
 })();
 </script>
