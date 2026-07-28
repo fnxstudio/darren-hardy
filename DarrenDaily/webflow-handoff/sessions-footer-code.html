@@ -144,15 +144,20 @@
     if (!document.querySelector('script[data-hyvor]')) { var s = document.createElement('script'); s.async = true; s.type = 'module'; s.src = 'https://talk.hyvor.com/embed/embed.js'; s.setAttribute('data-hyvor', '1'); document.head.appendChild(s); }
   })();
 
-  // 8) Featured slot -> HubSpot CTA (house "Refer an A-Player" ad, portal 2518645).
+  // 8) Featured slot -> HubSpot CTA (per-session "Refer an A-Player" ad, portal 2518645).
+  //    The CTA id comes from the session's "Featured CTA ID" CMS field (rendered into
+  //    the hidden .feat-cta holder); blank falls back to the default below.
   //    Rendered via HubSpot's image-beacon + click-redirect embed. The legacy
   //    hbspt.cta.load() JS loader returns an EMPTY node for new-style HubSpot CTAs
-  //    (its content endpoint 404s), so we point the existing featured link at the
-  //    HubSpot redirect and load the CTA image. Still centrally managed in HubSpot
-  //    (same CTA id -> edit the creative there, no redeploy) and tracks views + clicks.
+  //    (its content endpoint 404s), so we point the featured link at the HubSpot
+  //    redirect and load the CTA image. Tracks views + clicks; edit the creative in
+  //    HubSpot (same id) with no redeploy.
   (function () {
-    var PORTAL = 2518645, CTA_ID = '001c6c38-ec1b-4288-8402-feee93e77bdc';
+    var PORTAL = 2518645, DEFAULT_CTA = '001c6c38-ec1b-4288-8402-feee93e77bdc';
     var feat = document.querySelector('.side-feature'); if (!feat) return;
+    var holder = document.querySelector('.feat-cta');
+    var CTA_ID = holder ? (holder.textContent || '').trim() : '';
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(CTA_ID)) CTA_ID = DEFAULT_CTA;
     feat.setAttribute('href', 'https://cta-redirect.hubspot.com/cta/redirect/' + PORTAL + '/' + CTA_ID);
     feat.setAttribute('target', '_blank');
     feat.setAttribute('rel', 'noopener');
@@ -164,7 +169,7 @@
       img.setAttribute('width', '770');
       img.setAttribute('height', '1016');
       img.src = 'https://no-cache.hubspot.com/cta/default/' + PORTAL + '/' + CTA_ID + '.png';
-      img.alt = 'One Mission. One Team. Refer an A-Player to DarrenHardy.com/Careers';
+      img.alt = 'Refer an A-Player to DarrenHardy.com/Careers';
     }
   })();
 

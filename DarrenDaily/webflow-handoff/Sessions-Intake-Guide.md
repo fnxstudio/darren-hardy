@@ -44,6 +44,7 @@ No source page (brand-new session)? Then fill the columns marked *required* belo
 - **Inline Banner Image URL** / **Inline Banner Link** / **Inline Banner Alt** — an in-content banner under the video.
 - **Sticky Banner Image URL** / **Sticky Banner Link** / **Sticky Button Copy** / **Sticky Button Color (hex)** — the pinned top strip.
 - **Share Tweet Copy** — custom text for the X/Twitter share button only (LinkedIn/Facebook build their own preview from the page).
+- **Featured CTA ID** — HubSpot CTA UUID for the right-column featured "Refer an A-Player" card (see Notes). Blank = the default CTA.
 
 **AUTO — leave blank** (filled for you; only enter a value to override):
 - **Slug** — from the Name.
@@ -57,7 +58,7 @@ No source page (brand-new session)? Then fill the columns marked *required* belo
 ## Notes
 - **Images** can be pasted as any public URL (a dd.darrenhardy.com/hubfs link, a Vimeo poster, etc.) — they get uploaded into Webflow automatically. You don't need to attach files.
 - **All images are served as WebP.** Every image that renders *on the page* (thumbnail/poster, inline banner, sticky banner) is converted to optimized WebP on upload — you don't do anything, it's automatic. Paste whatever URL you have (JPG, PNG, whatever) and it comes out WebP. The one exception is the **Social Share Image** (the OG/social-preview image), which stays PNG/JPG on purpose — some LinkedIn/Facebook link scrapers show a blank preview for WebP OG images.
-- **The Featured "Refer an A-Player" card** in the right column is a site-wide HubSpot CTA — it's the same on every session and is **not** set per row here.
+- **The Featured "Refer an A-Player" card** in the right column is a HubSpot CTA, set **per session** in the **Featured CTA ID** column. Paste just the HubSpot CTA UUID (e.g. `c31dd636-fbcf-4f96-96d5-2f5a936f0822`) — you can grab it from the matching page on `dd.darrenhardy.com` (it's the id in that page's `hbspt.cta.load(2518645, '…')` call) or from HubSpot. Leave it blank to fall back to the default Refer-an-A-Player CTA. The image and click-through are pulled live from HubSpot, so editing the creative there updates every session automatically — no re-upload.
 - **Bold in captions:** `**like this**`. Line breaks in a caption are fine (write them in the cell).
 - One row = one session. Send the sheet whenever it's ready; new rows can be added anytime.
 
