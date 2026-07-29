@@ -1,0 +1,629 @@
+<!-- ============================================================
+     DarrenDaily Sessions — Team Playbook (SOP)
+     Internal training page. Draft for review.
+     When placed in Webflow: set page to NOINDEX / exclude from
+     sitemap (see the "Never crawled" note at the bottom).
+     Self-contained: no external images, spreadsheet download is
+     generated in-browser. Safe to paste into a Webflow Embed.
+     ============================================================ -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  .sop * { box-sizing: border-box; }
+  .sop {
+    --ink: #14171c;
+    --ink-2: #454b54;
+    --ink-3: #6b7178;
+    --line: #e7e2df;
+    --paper: #fbf9f7;
+    --card: #ffffff;
+    --red: #a72632;
+    --red-soft: rgba(167,38,50,0.08);
+    --gold: #b8862f;
+    --radius: 4px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .sop .wrap { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+  .sop p { margin: 0 0 14px; color: var(--ink-2); font-size: 16px; }
+  .sop strong { color: var(--ink); font-weight: 700; }
+  .sop a { color: var(--red); text-decoration: underline; text-underline-offset: 2px; }
+  .sop h2, .sop h3, .sop h4 { color: var(--ink); margin: 0; letter-spacing: -0.01em; }
+
+  /* ---- Masthead ---- */
+  .sop-head { background: #0e1013; color: #fff; padding: 54px 0 46px; }
+  .sop-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase;
+    color: #f0d9dc; background: rgba(167,38,50,0.28); border: 1px solid rgba(167,38,50,0.5);
+    padding: 6px 12px; border-radius: var(--radius); margin-bottom: 22px;
+  }
+  .sop-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); }
+  .sop-head h1 { color: #fff; font-size: 40px; font-weight: 900; line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 14px; }
+  .sop-head h1 em { font-style: normal; color: #ff6b78; }
+  .sop-head .sub { color: #b7bcc4; font-size: 18px; max-width: 640px; margin: 0; }
+  .sop-eyebrow { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .sop-eyebrow span { width: 34px; height: 3px; background: var(--red); display: inline-block; }
+  .sop-eyebrow b { font-size: 12px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #8b9199; }
+
+  /* ---- Section scaffolding ---- */
+  .sop section { padding: 48px 0; border-bottom: 1px solid var(--line); }
+  .sop .kicker { font-size: 12px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+  .sop .kicker::before { content: ''; width: 26px; height: 2px; background: var(--red); display: inline-block; }
+  .sop section h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .sop .lead { font-size: 17px; color: var(--ink-2); max-width: 680px; margin-bottom: 26px; }
+
+  /* ---- Step layout ---- */
+  .sop .step { display: grid; grid-template-columns: 44px 1fr; gap: 18px; margin: 26px 0; align-items: start; }
+  .sop .step-n { width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .sop .step h4 { font-size: 18px; margin-bottom: 6px; }
+  .sop .step p { font-size: 15.5px; }
+
+  /* ---- Cards / callouts ---- */
+  .sop .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; margin: 18px 0; }
+  .sop .note { background: var(--red-soft); border-left: 3px solid var(--red); border-radius: var(--radius); padding: 16px 20px; margin: 18px 0; }
+  .sop .note b.tag { display: block; font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+  .sop .note p { margin: 0; font-size: 15px; }
+  .sop .tip { background: #f4f6f4; border-left: 3px solid #4c8a5a; border-radius: var(--radius); padding: 16px 20px; margin: 18px 0; }
+  .sop .tip b.tag { display: block; font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #3d7049; margin-bottom: 6px; }
+  .sop .tip p { margin: 0; font-size: 15px; }
+
+  /* ---- Figures (self-contained mock UI) ---- */
+  .sop figure { margin: 24px 0; }
+  .sop figcaption { font-size: 13px; color: var(--ink-3); margin-top: 10px; text-align: center; font-style: italic; }
+  .sop .browser { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; box-shadow: 0 18px 44px -22px rgba(20,23,28,0.35); background: #fff; }
+  .sop .browser-bar { display: flex; align-items: center; gap: 8px; padding: 11px 14px; background: #f0ede9; border-bottom: 1px solid var(--line); }
+  .sop .browser-bar .b-dot { width: 11px; height: 11px; border-radius: 50%; background: #d3cec9; }
+  .sop .browser-bar .b-url { margin-left: 12px; flex: 1; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: var(--ink-3); font-weight: 500; }
+  .sop .browser-body { padding: 22px; }
+
+  /* connector figure */
+  .sop .conn-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+  .sop .conn-left { display: flex; align-items: center; gap: 13px; }
+  .sop .conn-logo { width: 40px; height: 40px; border-radius: 9px; background: #146ef5; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; }
+  .sop .conn-name { font-weight: 700; color: var(--ink); font-size: 15px; }
+  .sop .conn-sub { font-size: 13px; color: var(--ink-3); }
+  .sop .pill-ok { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: #2c7a43; background: #e7f4ea; border: 1px solid #b8dcc2; padding: 6px 13px; border-radius: 20px; }
+  .sop .pill-ok .dot { width: 8px; height: 8px; border-radius: 50%; background: #2c9a4f; }
+
+  /* chat figure */
+  .sop .chat { background: #f7f5f2; border-radius: var(--radius); padding: 16px; }
+  .sop .bubble { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-size: 14.5px; color: var(--ink); max-width: 88%; }
+  .sop .bubble.me { margin-left: auto; background: #14171c; color: #fff; border-color: #14171c; }
+  .sop .bubble.me code { background: rgba(255,255,255,0.14); color: #fff; }
+  .sop .bubble + .bubble { margin-top: 12px; }
+  .sop .bubble .who { display: block; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; opacity: 0.55; margin-bottom: 6px; }
+
+  /* code / prompt block */
+  .sop .prompt { position: relative; background: #14171c; color: #eef0f2; border-radius: var(--radius); padding: 20px 22px; font-family: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace; font-size: 13.5px; line-height: 1.7; margin: 18px 0; white-space: pre-wrap; word-break: break-word; }
+  .sop .prompt .lbl { position: absolute; top: 0; right: 0; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #14171c; background: #b8862f; padding: 4px 10px; border-bottom-left-radius: var(--radius); }
+  .sop code { font-family: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace; font-size: 0.9em; background: #efe9e4; padding: 2px 6px; border-radius: 3px; color: #7a2029; }
+
+  /* tables */
+  .sop .tbl-wrap { overflow-x: auto; margin: 18px 0; border: 1px solid var(--line); border-radius: var(--radius); }
+  .sop table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 520px; }
+  .sop th { text-align: left; background: #14171c; color: #fff; padding: 11px 14px; font-weight: 700; font-size: 12.5px; letter-spacing: 0.3px; }
+  .sop td { padding: 11px 14px; border-top: 1px solid var(--line); color: var(--ink-2); vertical-align: top; }
+  .sop tr:nth-child(even) td { background: #fbf9f7; }
+  .sop td code { font-size: 12px; }
+
+  /* spreadsheet mock */
+  .sop .sheet { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+  .sop .sheet table { min-width: 720px; font-size: 12.5px; }
+  .sop .sheet th { background: #1a7a44; font-size: 11.5px; white-space: nowrap; }
+  .sop .sheet td { white-space: nowrap; }
+  .sop .sheet .req th { background: #146c3c; }
+
+  /* big stats */
+  .sop .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 26px 0 8px; }
+  .sop .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; text-align: center; }
+  .sop .stat .big { font-size: 40px; font-weight: 900; color: var(--red); line-height: 1; letter-spacing: -0.02em; }
+  .sop .stat .cap { font-size: 13px; color: var(--ink-3); margin-top: 8px; font-weight: 600; }
+  .sop .stat .sub { font-size: 12px; color: var(--ink-3); margin-top: 3px; }
+
+  /* download button */
+  .sop .dl {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--red); color: #fff; text-decoration: none;
+    font-weight: 700; font-size: 15px; padding: 15px 26px; border-radius: var(--radius);
+    border: none; cursor: pointer; transition: background .2s, transform .1s;
+    box-shadow: 0 10px 24px -10px rgba(167,38,50,0.6);
+  }
+  .sop .dl:hover { background: #8e1f29; }
+  .sop .dl:active { transform: translateY(1px); }
+  .sop .dl .ic { font-size: 18px; }
+  .sop .dl-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin: 20px 0 6px; }
+  .sop .dl-2 { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: var(--ink); border: 1px solid var(--line); font-weight: 600; font-size: 14px; padding: 14px 22px; border-radius: var(--radius); text-decoration: none; cursor: pointer; }
+  .sop .dl-2:hover { border-color: var(--ink-3); }
+
+  /* checklists */
+  .sop ul.check { list-style: none; padding: 0; margin: 16px 0; }
+  .sop ul.check li { position: relative; padding-left: 30px; margin-bottom: 12px; font-size: 15.5px; color: var(--ink-2); }
+  .sop ul.check li::before { content: '✓'; position: absolute; left: 0; top: -1px; width: 20px; height: 20px; background: var(--red); color: #fff; border-radius: 4px; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .sop ul.dash { list-style: none; padding: 0; margin: 14px 0; }
+  .sop ul.dash li { position: relative; padding-left: 20px; margin-bottom: 9px; font-size: 15px; color: var(--ink-2); }
+  .sop ul.dash li::before { content: ''; position: absolute; left: 0; top: 11px; width: 9px; height: 2px; background: var(--red); }
+
+  /* TOC */
+  .sop .toc { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 22px; margin: 22px 0 4px; }
+  .sop .toc a { display: flex; align-items: baseline; gap: 10px; text-decoration: none; color: var(--ink-2); font-size: 15px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .sop .toc a:hover { color: var(--red); }
+  .sop .toc a .num { font-weight: 800; color: var(--red); font-size: 13px; min-width: 22px; }
+
+  /* faq */
+  .sop details { border: 1px solid var(--line); border-radius: var(--radius); padding: 4px 20px; margin: 12px 0; background: #fff; }
+  .sop details summary { cursor: pointer; font-weight: 700; font-size: 15.5px; padding: 14px 0; list-style: none; color: var(--ink); }
+  .sop details summary::-webkit-details-marker { display: none; }
+  .sop details summary::before { content: '+'; color: var(--red); font-weight: 800; margin-right: 12px; font-size: 18px; }
+  .sop details[open] summary::before { content: '–'; }
+  .sop details p { font-size: 15px; padding-bottom: 14px; margin: 0; }
+
+  /* footer */
+  .sop-foot { background: #0e1013; color: #8b9199; padding: 34px 0; font-size: 13.5px; }
+  .sop-foot .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; }
+  .sop-foot b { color: #d7d3cf; }
+
+  @media (max-width: 720px) {
+    .sop-head h1 { font-size: 30px; }
+    .sop section h2 { font-size: 23px; }
+    .sop .stats { grid-template-columns: 1fr; }
+    .sop .toc { grid-template-columns: 1fr; }
+    .sop .step { grid-template-columns: 36px 1fr; gap: 12px; }
+    .sop .step-n { width: 36px; height: 36px; font-size: 15px; }
+  }
+</style>
+
+<div class="sop">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="sop-head">
+    <div class="wrap">
+      <span class="sop-badge"><span class="dot"></span> Internal Playbook · Not for distribution</span>
+      <div class="sop-eyebrow"><span></span><b>DarrenDaily Operations</b></div>
+      <h1>Publish a week of Sessions in <em>five minutes</em>, not a full day.</h1>
+      <p class="sub">This is the step-by-step for loading DarrenDaily sessions into the website. No code, no design skills, no Webflow experience needed. If you can fill in a spreadsheet, you can run this.</p>
+    </div>
+  </header>
+
+  <!-- ============ 60-SECOND VERSION ============ -->
+  <section>
+    <div class="wrap">
+      <div class="kicker">The 60-second version</div>
+      <h2>What this replaces</h2>
+      <p class="lead">Every DarrenDaily session used to be built by hand, one at a time, inside the website builder: create the page, paste the title, the caption, the quote, upload and optimize the thumbnail, set the dates, add the CTA. Twenty-something fields per session, every single weekday.</p>
+      <p class="lead">Now you fill one row in a spreadsheet per session, hand the sheet to Claude, and it builds every page for you in one pass. Then it hands you a list of links to spot-check. That's the whole job.</p>
+
+      <div class="card">
+        <div style="font-weight:800; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--ink-3); margin-bottom:14px;">The flow, start to finish</div>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; font-weight:700; color:var(--ink);">
+          <span style="background:var(--red-soft); color:var(--red); padding:8px 14px; border-radius:4px;">1 · Fill the sheet</span>
+          <span style="color:var(--ink-3);">→</span>
+          <span style="background:var(--red-soft); color:var(--red); padding:8px 14px; border-radius:4px;">2 · Paste it to Claude</span>
+          <span style="color:var(--ink-3);">→</span>
+          <span style="background:var(--red-soft); color:var(--red); padding:8px 14px; border-radius:4px;">3 · Review the links</span>
+          <span style="color:var(--ink-3);">→</span>
+          <span style="background:var(--red-soft); color:var(--red); padding:8px 14px; border-radius:4px;">4 · Publish</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIME SAVINGS ============ -->
+  <section>
+    <div class="wrap">
+      <div class="kicker">Why we do it this way</div>
+      <h2>The time it gives you back</h2>
+      <p class="lead">These numbers count only the <strong>hands-on time a person spends building pages</strong>. Filling the spreadsheet takes about the same time either way, so it isn't counted. Claude's own working time isn't counted either, because you're not sitting there doing it. What you're looking at is production labor that simply disappears.</p>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="big">20–30<span style="font-size:20px;">min</span></div>
+          <div class="cap">saved per session</div>
+          <div class="sub">hands-on page building, gone</div>
+        </div>
+        <div class="stat">
+          <div class="big">~2.5<span style="font-size:20px;">hrs</span></div>
+          <div class="cap">saved per week</div>
+          <div class="sub">5 sessions → one 5-min prompt</div>
+        </div>
+        <div class="stat">
+          <div class="big">8–10<span style="font-size:20px;">hrs</span></div>
+          <div class="cap">saved per month</div>
+          <div class="sub">a ~20-session batch → one prompt</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <b class="tag">Read that again</b>
+        <p>A full monthly batch of sessions used to be the better part of a working day of clicking, uploading, and re-typing. The spreadsheet-and-Claude method turns that same batch into <strong>about five minutes</strong> of your time: paste the sheet, send it, review the links it gives back. That is the pitch. The rest of this page is just how.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOC ============ -->
+  <section>
+    <div class="wrap">
+      <div class="kicker">What's on this page</div>
+      <h2>The steps</h2>
+      <div class="toc">
+        <a href="#setup"><span class="num">1</span> One-time setup (do this once)</a>
+        <a href="#fill"><span class="num">2</span> Fill the spreadsheet</a>
+        <a href="#run"><span class="num">3</span> Run the build with Claude</a>
+        <a href="#review"><span class="num">4</span> Review the links</a>
+        <a href="#publish"><span class="num">5</span> Publish the site</a>
+        <a href="#expire"><span class="num">6</span> Page expiry with JetBoost</a>
+        <a href="#sidebar"><span class="num">7</span> Right-column cards</a>
+        <a href="#faq"><span class="num">8</span> Gotchas &amp; FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 1 · SETUP ============ -->
+  <section id="setup">
+    <div class="wrap">
+      <div class="kicker">Step 1 · One-time setup</div>
+      <h2>Get connected (you only do this once)</h2>
+      <p class="lead">Before your first batch, three things need to be true. After that, you skip straight to Step 2 every time.</p>
+
+      <div class="step">
+        <div class="step-n">A</div>
+        <div>
+          <h4>Open Claude</h4>
+          <p>You can use either one, whichever you already have open:</p>
+          <ul class="dash">
+            <li><strong>Claude for desktop or web (Cowork)</strong> — the regular Claude app or claude.ai. Easiest for most people.</li>
+            <li><strong>Claude Code</strong> — the terminal version, if that's how your team works.</li>
+          </ul>
+          <p style="font-size:14.5px; color:var(--ink-3);">Both work identically for this job. Nothing here needs the Webflow Designer to be open, and you never touch code.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">B</div>
+        <div>
+          <h4>Connect the Webflow connector</h4>
+          <p>This is the bridge that lets Claude build pages on our site. In Claude's settings, open <strong>Connectors</strong>, find <strong>Webflow</strong>, and authorize it against the <strong>Darren Hardy LLC</strong> workspace. Once it shows connected, you're set.</p>
+
+          <figure>
+            <div class="browser">
+              <div class="browser-bar">
+                <span class="b-dot"></span><span class="b-dot"></span><span class="b-dot"></span>
+                <span class="b-url">claude.ai / settings / connectors</span>
+              </div>
+              <div class="browser-body" style="background:#f7f5f2;">
+                <div class="conn-row">
+                  <div class="conn-left">
+                    <div class="conn-logo">W</div>
+                    <div>
+                      <div class="conn-name">Webflow</div>
+                      <div class="conn-sub">Darren Hardy LLC workspace</div>
+                    </div>
+                  </div>
+                  <span class="pill-ok"><span class="dot"></span> Connected</span>
+                </div>
+              </div>
+            </div>
+            <figcaption>What "connected" looks like. If it says Connect instead of Connected, click it and sign in to Webflow.</figcaption>
+          </figure>
+
+          <div class="note">
+            <b class="tag">If it's not connected</b>
+            <p>Claude will stop and tell you it can't reach Webflow. Just go back to Connectors and authorize it. Don't guess your way around it, and never paste passwords into the chat.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">C</div>
+        <div>
+          <h4>Have the two files handy</h4>
+          <p>Keep these two together. You'll download the first one right below.</p>
+          <ul class="check">
+            <li><strong>The intake spreadsheet</strong> — one row per session (download it in Step 2).</li>
+            <li><strong>The bulk instructions file</strong> — <code>Sessions-Claude-Bulk-Instructions.md</code>. You hand this to Claude alongside the sheet so it knows exactly what to do. Ask your team lead for it if you don't have it.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2 · FILL THE SHEET ============ -->
+  <section id="fill">
+    <div class="wrap">
+      <div class="kicker">Step 2 · Fill the spreadsheet</div>
+      <h2>One row per session</h2>
+      <p class="lead">Download the template, open it in Excel or Google Sheets, and add one row for each session you want to publish. The two example rows at the top are real, already-published sessions — leave them as a reference or delete them before you send.</p>
+
+      <div class="dl-row">
+        <button class="dl" id="dlSheet"><span class="ic">↓</span> Download the intake spreadsheet</button>
+        <button class="dl-2" id="dlCards"><span>↓</span> Sidebar cards template (optional)</button>
+      </div>
+      <p style="font-size:13.5px; color:var(--ink-3); margin-top:6px;">Downloads <code>Sessions-Intake-Template.csv</code> straight to your computer. Opens in Excel or Google Sheets.</p>
+
+      <h3 style="margin-top:34px; font-size:19px;">The fast path: usually just two columns</h3>
+      <p>If the session already lives on <strong>dd.darrenhardy.com</strong>, you often only need to fill <strong>two</strong> cells. Claude pulls everything else — title, video, caption, quote, thumbnail — straight from that page.</p>
+
+      <figure>
+        <div class="sheet">
+          <table>
+            <tr class="req">
+              <th>Source URL (shortcut)</th>
+              <th>Published Date</th>
+              <th>Vimeo ID</th>
+              <th>Caption</th>
+              <th>Moneyline Quote</th>
+              <th>Featured CTA ID</th>
+            </tr>
+            <tr>
+              <td>dd.darrenhardy.com/the-hidden-danger…</td>
+              <td>2026-07-28</td>
+              <td style="color:var(--ink-3);">(auto)</td>
+              <td style="color:var(--ink-3);">(auto)</td>
+              <td style="color:var(--ink-3);">(auto)</td>
+              <td>001c6c38-…</td>
+            </tr>
+            <tr>
+              <td>dd.darrenhardy.com/secret-to-living…</td>
+              <td>2026-07-27</td>
+              <td style="color:var(--ink-3);">(auto)</td>
+              <td style="color:var(--ink-3);">(auto)</td>
+              <td style="color:var(--ink-3);">(auto)</td>
+              <td>c31dd636-…</td>
+            </tr>
+          </table>
+        </div>
+        <figcaption>Fill the green columns. Fill any other column only when you want to override what's on the source page.</figcaption>
+      </figure>
+
+      <div class="tip">
+        <b class="tag">No source page? (brand-new session)</b>
+        <p>Then fill the three required columns yourself: <strong>Name</strong>, <strong>Published Date</strong> (as <code>2026-07-28</code>), and <strong>Vimeo ID</strong> (the number from <code>vimeo.com/1210284296</code>). Add the caption, quote, and meta description in their columns.</p>
+      </div>
+
+      <h3 style="margin-top:30px; font-size:19px;">What each column is for</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Column</th><th>What to put there</th></tr>
+          <tr><td><strong>Name</strong></td><td>The session title, exactly as it should read.</td></tr>
+          <tr><td><strong>Published Date</strong></td><td><code>YYYY-MM-DD</code>. Drives the date on the page, the sort order, and the 72-hour expiry.</td></tr>
+          <tr><td><strong>Vimeo ID</strong></td><td>The number only, e.g. <code>1210284296</code>.</td></tr>
+          <tr><td><strong>Caption</strong></td><td>The comment prompt under the video. Wrap the lead-in in <code>**double asterisks**</code> for bold.</td></tr>
+          <tr><td><strong>Secondary Caption</strong></td><td>The follow-up / referral copy under the caption.</td></tr>
+          <tr><td><strong>Moneyline Quote</strong> + <strong>Attribution</strong></td><td>The pull-quote for the right column, and who said it.</td></tr>
+          <tr><td><strong>Meta Description</strong></td><td>~155 characters for search and social previews.</td></tr>
+          <tr><td><strong>Featured CTA ID</strong></td><td>The HubSpot CTA code for the right-column "Refer an A-Player" card. One per session. Blank = the default.</td></tr>
+          <tr><td><strong>Banner columns</strong></td><td>Optional per-session banners under the video or pinned on top. Leave blank to use site defaults.</td></tr>
+          <tr><td style="color:var(--ink-3);"><strong>AUTO columns</strong></td><td style="color:var(--ink-3);">Slug, thumbnail, social image, SEO title, expire date — leave blank. Filled for you.</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <b class="tag">Images: you don't do anything</b>
+        <p>Paste any image as a public link (whatever format you have). Every image that shows <strong>on the page</strong> is automatically converted to fast, optimized <strong>WebP</strong> on upload — the thumbnail, any banners, all of it. The one exception is the <strong>Social Share image</strong>, which is deliberately left as PNG/JPG because some Facebook and LinkedIn previews break on WebP. This is handled for you; it's here just so you know why one image looks different.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3 · RUN ============ -->
+  <section id="run">
+    <div class="wrap">
+      <div class="kicker">Step 3 · Run the build</div>
+      <h2>Hand it to Claude</h2>
+      <p class="lead">Open Claude, attach or paste your filled spreadsheet <em>and</em> the bulk instructions file, and send this message. That's the entire ask — Claude does the rest.</p>
+
+      <div class="prompt"><span class="lbl">Paste this</span>Here is our filled Sessions intake sheet and the bulk-build
+instructions. Please build each row into the DarrenDaily Sessions
+CMS in Webflow, following the instructions file exactly.
+
+Work in drafts, convert every on-page image to WebP, then show me
+the full list of live session URLs for review when you're done.</div>
+
+      <figure>
+        <div class="chat">
+          <div class="bubble me"><span class="who">You</span>Here is our filled Sessions sheet + the instructions. Build each row into the Sessions CMS, images as WebP, then give me the URLs to review. <span style="opacity:.7;">📎 Sessions-Intake-Template.csv · Sessions-Claude-Bulk-Instructions.md</span></div>
+          <div class="bubble"><span class="who">Claude</span>On it. Building 5 sessions into the Darren Hardy LLC site… uploading and converting thumbnails to WebP… setting publish and expiry dates. I'll post every live URL here when the batch is done.</div>
+        </div>
+        <figcaption>You paste one message with both files attached. Claude confirms and works through the batch.</figcaption>
+      </figure>
+
+      <h3 style="margin-top:6px; font-size:19px;">What Claude is doing for you</h3>
+      <ul class="check">
+        <li>Reads each row and pulls anything missing from the source page.</li>
+        <li>Creates the session page, fills every field, sets the date and the 72-hour expiry.</li>
+        <li>Uploads each on-page image and converts it to WebP automatically.</li>
+        <li>Drops in the right CTA for each session.</li>
+        <li>Keeps going if one row has a problem, and flags it for you instead of stopping.</li>
+      </ul>
+
+      <div class="note">
+        <b class="tag">The 30-day batch window</b>
+        <p>You can safely load <strong>up to about 30 days of sessions ahead</strong> in a single batch. Each one reveals itself on its Published date and drops off the feeds 72 hours later, all on its own — no plugin, no babysitting. Load the batch, publish once (Step 5), and walk away; the site rotates day by day for the whole window. Keep each batch inside ~30 days so the earliest upcoming post doesn't get pushed out of the "latest sessions" window.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4 · REVIEW ============ -->
+  <section id="review">
+    <div class="wrap">
+      <div class="kicker">Step 4 · Review</div>
+      <h2>Check the links it hands back</h2>
+      <p class="lead">The moment the batch finishes, Claude posts a table of every session it built, with a clickable link for each one, right there in the chat. Open each, give it a look, done. Anything that needed a fallback or hit a snag is flagged with the reason.</p>
+
+      <figure>
+        <div class="browser">
+          <div class="browser-bar"><span class="b-dot"></span><span class="b-dot"></span><span class="b-dot"></span><span class="b-url">Claude · batch complete</span></div>
+          <div class="browser-body">
+            <div style="font-weight:700; margin-bottom:12px; color:var(--ink);">✓ 5 sessions built. Review these:</div>
+            <div class="tbl-wrap" style="margin:0;">
+              <table>
+                <tr><th>Session</th><th>Published</th><th>Link</th></tr>
+                <tr><td>The Hidden Danger of Success</td><td>Jul 28</td><td><span style="color:var(--red);">/sessions/the-hidden-danger…</span></td></tr>
+                <tr><td>The Secret to a Passion-Filled Life</td><td>Jul 27</td><td><span style="color:var(--red);">/sessions/secret-to-living…</span></td></tr>
+                <tr><td>What High-Achievers Do on Saturdays</td><td>Jul 24</td><td><span style="color:var(--red);">/sessions/high-achievers…</span></td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <figcaption>Every built session, listed with a link, ready to spot-check on the spot.</figcaption>
+      </figure>
+
+      <div class="tip">
+        <b class="tag">If a task manager is connected</b>
+        <p>If something like <strong>Asana</strong> is connected to your Claude session, it can also push a <strong>review task</strong> containing those links straight to whoever does the checking — so the reviewer gets pinged instead of relying on someone spotting the chat. Just ask for it in the same message. If no task manager is connected, the links in the chat are your list.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5 · PUBLISH ============ -->
+  <section id="publish">
+    <div class="wrap">
+      <div class="kicker">Step 5 · Publish</div>
+      <h2>Push it live</h2>
+      <p class="lead">Claude publishes the individual session items for you. To make brand-new pages and the cross-page "latest sessions" feed refresh across the whole site, one human still clicks the big <strong>Publish</strong> in Webflow.</p>
+
+      <div class="step">
+        <div class="step-n">1</div>
+        <div><h4>Claude publishes the items</h4><p>Each session it built gets published as it goes, so the pages exist and are live.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div><h4>You do one full-site Publish</h4><p>Open Webflow and hit <strong>Publish</strong> (top-right). This refreshes the "latest sessions" strips on the Welcome and Expired pages and makes any brand-new page fully live. You only need to do this once per batch.</p></div>
+      </div>
+
+      <div class="note">
+        <b class="tag">Good to know</b>
+        <p>After that single publish, the site self-rotates for the whole batch window — future sessions appear on their day and expired ones fall off automatically. You do <strong>not</strong> re-publish to reveal or expire sessions; you only publish again when you load the next batch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6 · JETBOOST ============ -->
+  <section id="expire">
+    <div class="wrap">
+      <div class="kicker">Step 6 · Page expiry</div>
+      <h2>Making old session pages actually close (JetBoost)</h2>
+      <p class="lead">Two different things are going on with expiry, and it's worth keeping them straight:</p>
+
+      <div class="card">
+        <p style="margin:0 0 10px;"><strong>1 · The feeds hide the link automatically.</strong> After 72 hours a session drops off every list, feed, and exit-popup on its own, driven by the dates in the sheet. Nothing to set up — this is already built.</p>
+        <p style="margin:0;"><strong>2 · The old page itself is closed by JetBoost.</strong> Hiding the link doesn't make the page's own URL stop working. To have <code>/sessions/{slug}</code> actually turn into the "Session Expired" page after 72 hours, we use a small paid add-on called <strong>JetBoost</strong>.</p>
+      </div>
+
+      <p>JetBoost watches each session's expire date and retires the page when it passes, so anyone hitting an old link lands on the Session Expired page instead of stale content. This is a <strong>one-time setup</strong> for the site, handled by whoever administers Webflow:</p>
+      <ul class="check">
+        <li>Purchase JetBoost and connect it to the Darren Hardy LLC site.</li>
+        <li>Point its scheduling feature at the Sessions collection's <strong>expire</strong> date.</li>
+        <li>Set it to retire the item when that date passes, so Webflow serves the Expired page.</li>
+      </ul>
+
+      <div class="tip">
+        <b class="tag">You, day to day</b>
+        <p>Once JetBoost is set up, you never touch it. Filling the sheet and publishing is all you do — the expire date you already entered drives everything. JetBoost is a set-it-once admin task, not part of the weekly routine.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7 · SIDEBAR CARDS ============ -->
+  <section id="sidebar">
+    <div class="wrap">
+      <div class="kicker">Step 7 · Right-column cards</div>
+      <h2>The promo cards beside each session</h2>
+      <p class="lead">The right-hand column of every session has two things that change per session — the <strong>Moneyline</strong> quote and the <strong>Featured CTA</strong> — plus a stack of <strong>promo cards</strong> below them (the store, the Journal, program promos, and so on). Those promo cards live in their own list so you can add, remove, and reorder them without touching any session.</p>
+
+      <div class="step">
+        <div class="step-n">1</div>
+        <div><h4>They're one reorderable collection</h4><p>Every promo card is an item in the <strong>Sidebar Cards</strong> collection. Each has an <strong>Order</strong> number — lower shows higher. To reorder, change the numbers. To hide one, flip its <strong>Active</strong> switch off. No design work.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div><h4>Every card is fully editable</h4><p>Image, link (the image and the button share the same link), eyebrow, headline, description, and button text — all yours to set per card. Leave the button text blank for a card with no button.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div><h4>Program cards can be smart</h4><p>A card meant for a specific audience (like the Champion program) can carry a HubSpot CTA code instead of a fixed image, so HubSpot decides what that person sees. Add the CTA code to the card's <strong>CTA ID</strong> field; leave it blank for a normal card.</p></div>
+      </div>
+
+      <div class="note">
+        <b class="tag">How to change them</b>
+        <p>For occasional changes, edit the Sidebar Cards collection directly in Webflow, or add a <strong>Sidebar Cards</strong> tab to your intake sheet and let Claude update them in the same run. You only list the cards you're <strong>changing</strong> — everything else stays as-is. The Moneyline and Featured CTA are not in this list; those ride along with each session row, since they change every day.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 8 · FAQ ============ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="kicker">Step 8 · Good to know</div>
+      <h2>Gotchas &amp; FAQ</h2>
+
+      <details>
+        <summary>I keep getting logged out of Webflow when a teammate works on it.</summary>
+        <p>That's a shared-seat thing, not a mistake on your end. Do your building and reviewing in Claude (which uses the connector, not your live Designer login), and only jump into Webflow for the one full-site Publish. If seats are a recurring problem, ask about a free reviewer seat for whoever publishes.</p>
+      </details>
+      <details>
+        <summary>Do the pages update on their own, or do I have to publish every day?</summary>
+        <p>On their own. After one publish per batch, sessions reveal on their Published date and drop off 72 hours later automatically. You only publish again to load the next batch. This is why loading a ~30-day batch at once is safe.</p>
+      </details>
+      <details>
+        <summary>Can someone reach a future session early by guessing the link?</summary>
+        <p>Technically yes — because all items in a batch are published up front, a future session's page exists before its day (the feeds just hide the link until then). For daily content that's fine. If we ever need future pages truly unreachable until their date, JetBoost can also handle scheduled publishing; that's an admin decision, not part of this routine.</p>
+      </details>
+      <details>
+        <summary>What if one row is wrong or missing something?</summary>
+        <p>Claude keeps going and flags that row in the review list with the reason, rather than stopping the whole batch. Fix that one cell and re-run just that row.</p>
+      </details>
+      <details>
+        <summary>Do I ever need to open the Webflow Designer or write code?</summary>
+        <p>No. Filling the sheet, sending it to Claude, reviewing links, and clicking Publish is the entire job. The only Designer touch is the one Publish button.</p>
+      </details>
+      <details>
+        <summary>Where do the CTA codes come from?</summary>
+        <p>They're HubSpot CTA IDs (long codes like <code>c31dd636-…</code>). You can copy one from the matching page on dd.darrenhardy.com or from HubSpot. Paste just the code into the Featured CTA ID column. Blank uses the default. The CTA image itself lives in HubSpot, so editing it there updates every session with no re-upload.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="sop-foot">
+    <div class="wrap">
+      <span><b>DarrenDaily Sessions — Team Playbook.</b> Internal use only. Not indexed, not for distribution.</span>
+      <span>Questions? Ask your team lead before publishing a batch.</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var SHEET = `"Source URL (shortcut)","Name (required)","Published Date (required)","Vimeo ID","Caption","Secondary Caption","Moneyline Quote","Moneyline Attribution","Meta Description","Inline Banner Image URL (WebP on upload)","Inline Banner Link","Inline Banner Alt","Sticky Banner Image URL (WebP on upload)","Sticky Banner Link","Sticky Button Copy","Sticky Button Color (hex)","Share Tweet Copy","Featured CTA ID","Slug (AUTO)","Thumbnail URL (AUTO - convert to WebP on upload)","Social Share Image URL (AUTO - keep PNG/JPG, do NOT WebP)","SEO Title (AUTO)","Expire Date (AUTO)"
+"https://dd.darrenhardy.com/the-hidden-danger-of-success-that-no-one-warns-you-about","The Hidden Danger of Success that No One Warns You About","2026-07-28","1210284296","**Drop in the comments below** the pressure you will manufacture today so you don't get too comfortable.","Imagine handing someone the life they've been working toward. Send them to DarrenHardy.com/Careers.","Nobody stumbles into excellence. You have to claw for it. Daily.","Darren Hardy","Your biggest threat isn't failure. It's the thing you're most proud of.","","","","","","","","","001c6c38-ec1b-4288-8402-feee93e77bdc","","","","",""
+"https://dd.darrenhardy.com/secret-to-living-a-passion-filled-life","The Secret to Living a Passion-Filled Life","2026-07-27","392371610","**Confess in the comments:** are you living in alignment with the way you wish others would describe you?","Imagine handing someone the life they've been working toward. Send them to DarrenHardy.com/Careers.","The ultimate reason for setting goals is to entice you to become the person it takes to achieve them.","Jim Rohn","Here is how to discover Who You Are. One strategic idea from Darren Hardy to start your day.","","","","","","","","","c31dd636-fbcf-4f96-96d5-2f5a936f0822","","","","",""
+"","","","","","","","","","","","","","","","","","","","","","",""
+"","","","","","","","","","","","","","","","","","","","","","",""
+"","","","","","","","","","","","","","","","","","","","","","",""`;
+
+  var CARDS = `"Order (low = top)","Active (Yes/No)","Eyebrow","Headline","Description","Card Image URL (WebP on upload)","Card Link (image + button, same link)","Button Copy (blank = no button)","CTA ID (fill = HubSpot Smart CTA, e.g. Champion)"
+"3","Yes","From The Store","The DarrenDaily Journal","Capture the one idea from each morning before it slips away.","https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a66e5525a1a5ea0057e22d4_dd-journal.webp","https://store.darrenhardy.com/collections/merchandise/products/darrendaily-journal","Get The Journal",""
+"","","","","","","","",""
+"","","","","","","","",""`;
+
+  function dl(name, text) {
+    var blob = new Blob([text], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 500);
+  }
+  var s = document.getElementById('dlSheet');
+  var c = document.getElementById('dlCards');
+  if (s) s.addEventListener('click', function () { dl('Sessions-Intake-Template.csv', SHEET); });
+  if (c) c.addEventListener('click', function () { dl('Sidebar-Cards-Template.csv', CARDS); });
+})();
+</script>
