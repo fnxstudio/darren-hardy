@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>You've Been Nominated — The BMC Legacy Scholarship</title>
+
+<style>
+/* ============================================================
+   BMC | COLLECTIVE — Legacy Scholarship Nomination
+   Dark / cinematic treatment · addressed to the nominee (Sarah)
+   Copy: Darren Hardy voice · Selling mode · advisor-first
+   Self-contained · Inter self-hosted
+   ============================================================ */
+
+@font-face{
+  font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url('fonts/inter-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url('fonts/inter-latin-ext.woff2') format('woff2');
+  unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+:root{
+  --black:#060206; --ink:#0a0a0a; --surface-card:#0e0c12;
+  --white:#ffffff; --bone:#f5f5f5; --silver:#b8b8b8;
+  --cyan-rgb:120,228,239; --cyan:rgb(120,228,239);
+  --plum-rgb:75,44,106;
+  --purple-rgb:156,39,172; --magenta-rgb:214,42,143;
+  --gold:#f5b301;
+  --text:#ececf0; --text-muted:#9a97a4; --text-dim:#726f7d;
+  --border:rgba(255,255,255,.09); --border-strong:rgba(255,255,255,.16);
+  --radius:4px;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:var(--font);color:var(--text);line-height:1.65;
+  background:var(--black);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+/* ambient purple/magenta wash (brand: background depth only) */
+.bg-wash{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(ellipse 90% 42% at 50% -4%, rgba(var(--purple-rgb),.30), transparent 60%),
+    radial-gradient(ellipse 70% 40% at 85% 30%, rgba(var(--magenta-rgb),.12), transparent 62%),
+    radial-gradient(ellipse 90% 50% at 50% 108%, rgba(var(--purple-rgb),.16), transparent 68%),
+    linear-gradient(180deg,#11081a 0%,#0b0710 46%,#060206 100%);
+}
+
+.wrap{max-width:640px;margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+/* Emphasis — brand: no italics · cyan color-shift · contrast-weight compensation */
+em{font-style:normal;color:var(--cyan);font-weight:500;
+  text-shadow:.4px 0 0 currentColor,-.4px 0 0 currentColor,0 .4px 0 currentColor,0 -.4px 0 currentColor,0 0 .6px currentColor;}
+.nobreak{white-space:nowrap}
+
+/* ---- eyebrow / labels ---- */
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan)}
+.block-label{display:flex;align-items:center;gap:11px;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px}
+.block-label::before{content:"";width:18px;height:1px;background:var(--cyan);flex:0 0 auto;opacity:.7}
+
+/* ============ HERO ============ */
+.hero{text-align:center;padding:46px 0 40px}
+.brand img{height:34px;width:auto;margin:0 auto 40px;display:block;opacity:.96}
+.hero .eyebrow{display:inline-block;margin-bottom:22px}
+.hero-pre{font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--text-muted);margin-bottom:16px}
+.hero h1{
+  font-size:clamp(38px,6.4vw,68px);font-weight:900;letter-spacing:-.035em;line-height:1.02;
+  color:var(--white);margin-bottom:24px;
+}
+.hero-sub{
+  font-size:clamp(16px,2.2vw,19px);line-height:1.6;color:var(--text-muted);
+  max-width:32ch;margin:0 auto 34px;
+}
+.hero-sub strong{color:var(--text);font-weight:600}
+
+/* ---- buttons ---- */
+.btn{
+  display:inline-block;font-family:var(--font);font-size:12px;font-weight:700;
+  letter-spacing:.24em;text-transform:uppercase;border-radius:var(--radius);
+  cursor:pointer;text-decoration:none;transition:background .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+/* ghost = low-pressure (hero) */
+.btn-ghost{background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:16px 34px}
+.btn-ghost:hover{background:var(--cyan);color:var(--black)}
+/* solid = conversion (form) */
+.btn-solid{width:100%;background:var(--white);border:1px solid var(--white);color:var(--black);padding:19px;letter-spacing:.22em}
+.btn-solid:hover{background:transparent;color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 0 4px rgba(var(--cyan-rgb),.12)}
+.btn:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.hero-cta-note{margin-top:16px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim)}
+
+/* ---- section rhythm ---- */
+.section{padding:44px 0}
+.divider{border:none;border-top:1px solid var(--border);margin:8px 0}
+
+/* ============ VALUE ============ */
+.value-card{
+  background:var(--surface-card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:32px 30px;transition:border-color .25s ease;
+  position:relative;overflow:hidden;
+}
+.value-card:hover{border-color:rgba(var(--cyan-rgb),.35)}
+.value-reserved{
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cyan);border:1px solid rgba(var(--cyan-rgb),.4);border-radius:99px;padding:6px 13px;margin-bottom:20px;
+}
+.value-line{font-size:19px;line-height:1.5;color:var(--text);font-weight:400}
+.value-figure{display:flex;align-items:baseline;gap:16px;margin-top:26px;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap}
+.value-amt{font-size:clamp(52px,12vw,80px);font-weight:900;letter-spacing:-.03em;line-height:.9;color:var(--cyan);
+  text-shadow:0 0 40px rgba(var(--cyan-rgb),.28)}
+.value-amt-label{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);line-height:1.5}
+.value-amt-label b{display:block;color:var(--cyan);font-weight:700}
+
+/* ============ QUOTE ============ */
+.quote-head{font-size:clamp(22px,3.6vw,30px);font-weight:900;letter-spacing:-.02em;line-height:1.15;color:var(--white);margin-bottom:24px}
+.quote-block{position:relative;background:var(--surface-card);border:1px solid var(--border);border-left:2px solid var(--cyan);border-radius:0 var(--radius) var(--radius) 0;padding:28px 30px 26px}
+.quote-mark{display:block;font-size:64px;font-weight:900;line-height:.5;color:rgba(var(--cyan-rgb),.28);margin-bottom:6px}
+.quote-block p{font-size:18px;line-height:1.75;color:var(--text)}
+.quote-attr{margin-top:20px;display:flex;align-items:center;gap:12px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
+.quote-attr .dot{width:5px;height:5px;border-radius:50%;background:var(--cyan)}
+.quote-attr b{color:var(--white);font-weight:700}
+
+/* ============ VIDEO ============ */
+.video-wrap{position:relative;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;aspect-ratio:16/9;cursor:pointer;background:#000;transition:border-color .25s ease}
+.video-wrap:hover{border-color:rgba(var(--cyan-rgb),.5)}
+.video-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 18%}
+.video-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,2,6,.15) 0%,rgba(6,2,6,.05) 38%,rgba(6,2,6,.78) 100%)}
+.play-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(var(--cyan-rgb),.5);transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.video-wrap:hover .play-ring{transform:translate(-50%,-50%) scale(1.08)}
+.play-icon{width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid var(--black);margin-left:5px}
+.video-caption{position:absolute;left:0;right:0;bottom:0;padding:18px 20px;z-index:2}
+.video-name{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;margin-bottom:4px}
+.video-sub{font-size:13.5px;color:rgba(255,255,255,.82)}
+
+/* ============ REFRAME (advisor) ============ */
+.reframe-head{font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:-.02em;line-height:1.1;color:var(--white);margin-bottom:20px}
+.reframe p{font-size:17px;line-height:1.75;color:var(--text-muted);margin-bottom:16px}
+.reframe p:last-child{margin-bottom:0}
+.reframe strong{color:var(--text);font-weight:600}
+
+/* ============ CLAIM / FORM ============ */
+.claim-head{font-size:clamp(30px,6vw,52px);font-weight:900;letter-spacing:-.03em;line-height:1;text-transform:uppercase;color:var(--white);margin-bottom:14px}
+.claim-intro{font-size:17px;line-height:1.6;color:var(--text-muted);margin-bottom:30px}
+.field label{display:block;font-size:16px;font-weight:500;line-height:1.5;color:var(--text);margin-bottom:12px}
+.field textarea{
+  width:100%;min-height:132px;resize:vertical;font-family:var(--font);font-size:15px;line-height:1.65;
+  color:var(--text);background:rgba(255,255,255,.03);border:1px solid var(--border-strong);border-radius:var(--radius);
+  padding:15px 16px;outline:none;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+.field textarea::placeholder{color:#5f5c69}
+.field textarea:focus{border-color:var(--cyan);background:rgba(255,255,255,.05);box-shadow:0 0 0 3px rgba(var(--cyan-rgb),.14)}
+.field textarea.invalid{border-color:#e0564a;box-shadow:0 0 0 3px rgba(224,86,74,.16)}
+.reserved-note{display:flex;gap:11px;align-items:flex-start;font-size:13px;line-height:1.6;color:var(--text-muted);margin:22px 0;padding:15px 17px;background:rgba(var(--cyan-rgb),.05);border:1px solid rgba(var(--cyan-rgb),.16);border-radius:var(--radius)}
+.reserved-note .pip{width:7px;height:7px;border-radius:50%;background:var(--cyan);margin-top:6px;flex:0 0 auto;box-shadow:0 0 10px rgba(var(--cyan-rgb),.8)}
+.reserved-note b{color:var(--text);font-weight:600}
+.consent{font-size:12px;line-height:1.7;color:var(--text-dim);margin:18px 0 22px}
+
+/* ============ CONFIRM ============ */
+.confirm{display:none;text-align:center;padding:60px 0}
+.confirm-ring{width:66px;height:66px;border-radius:50%;background:var(--cyan);color:var(--black);display:flex;align-items:center;justify-content:center;margin:0 auto 30px;font-size:30px;line-height:1;box-shadow:0 0 40px rgba(var(--cyan-rgb),.45)}
+.confirm h2{font-size:clamp(30px,6.5vw,48px);font-weight:900;letter-spacing:-.03em;line-height:1.02;text-transform:uppercase;color:var(--white);margin-bottom:20px}
+.confirm p{font-size:16px;line-height:1.75;color:var(--text-muted);max-width:34ch;margin:0 auto 12px}
+.confirm p strong{color:var(--cyan);font-weight:600}
+.confirm-divider{width:44px;height:1px;background:var(--cyan);margin:30px auto;opacity:.6}
+.be-exc{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan)}
+
+/* ============ FOOTER ============ */
+.foot{text-align:center;padding:40px 0 56px;border-top:1px solid var(--border);margin-top:40px}
+.foot img{height:22px;width:auto;opacity:.5;margin-bottom:14px}
+.foot span{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim)}
+
+/* ---- reveal ---- */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .play-ring{transition:none}
+}
+@media (max-width:480px){
+  .wrap{padding:0 18px}
+  .value-card,.quote-block{padding:24px 22px}
+  .section{padding:38px 0}
+}
+</style>
+</head>
+<body>
+<div class="bg-wash"></div>
+
+<div class="wrap">
+  <h1 class="sr-only">You've been nominated for the BMC Legacy Scholarship</h1>
+
+  <div id="form-view">
+
+    <!-- ============ HERO ============ -->
+    <header class="hero reveal">
+      <div class="brand"><img src="assets/bmcc-logo-white.webp" alt="BMC | Collective — Darren Hardy Business Master Class" /></div>
+      <span class="eyebrow">The BMC Legacy Scholarship</span>
+      <div class="hero-pre">Sarah —</div>
+      <h1>Someone just put your name<br>in the room.</h1>
+      <p class="hero-sub"><strong>Michael Torres</strong> nominated you for a full scholarship to Darren Hardy's Business Master Class. Not a discount. Not a trial. The whole thing — <em>reserved in your name</em>.</p>
+      <a href="#claim" class="btn btn-ghost">Read what he said &darr;</a>
+      <div class="hero-cta-note">Takes 2 minutes · Your seat is already held</div>
+    </header>
+
+    <!-- ============ VALUE ============ -->
+    <section class="section reveal">
+      <div class="value-card">
+        <span class="value-reserved">Reserved in your name</span>
+        <div class="value-line">A full scholarship to the <em>Business Master Class</em> — Darren Hardy's flagship program for operators serious about building something that lasts.</div>
+        <div class="value-figure">
+          <span class="value-amt">$10,000</span>
+          <span class="value-amt-label">Total value<b>Covered in full</b></span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ============ WHY YOU ============ -->
+    <section class="section reveal">
+      <div class="block-label">Why you're here</div>
+      <h2 class="quote-head">Michael didn't nominate everyone.<br>He nominated <em>you</em>.</h2>
+      <blockquote class="quote-block">
+        <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+        <p>Sarah built something real from the ground up. She shows up every single day, leads her team with integrity, and she's capable of far more than she's letting herself believe. BMC changed the way I run my business. I know it will do the same for her.</p>
+        <div class="quote-attr"><span class="dot"></span><b>Michael Torres</b> · BMC Graduate</div>
+      </blockquote>
+    </section>
+
+    <!-- ============ DARREN VIDEO ============ -->
+    <section class="section reveal">
+      <div class="block-label">A message from Darren</div>
+      <div class="video-wrap" role="button" tabindex="0" aria-label="Play Darren Hardy's message">
+        <img src="assets/dh-message.webp" alt="Darren Hardy on stage at the Business Master Class" loading="lazy" />
+        <div class="video-scrim"></div>
+        <div class="play-ring"><span class="play-icon"></span></div>
+        <div class="video-caption">
+          <div class="video-name">Darren Hardy · 90 seconds</div>
+          <div class="video-sub">What you're being handed — and why it matters.</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ============ REFRAME (advisor) ============ -->
+    <section class="section reveal">
+      <div class="block-label">Let's be honest for a second</div>
+      <h2 class="reframe-head">You're wondering why you — and what the fine print is.</h2>
+      <p>Fair question. Here's the truth: the scholarship is covered in full. There's no fine print and nothing to buy. Michael put his own name behind yours because he saw an operator worth backing.</p>
+      <p>So the only real decision left is whether you treat this like the opening it is — or let it sit in your inbox like a maybe. <strong>People who build things worth backing don't leave a seat like this unclaimed.</strong></p>
+    </section>
+
+    <!-- ============ CLAIM / FORM ============ -->
+    <section class="section reveal" id="claim">
+      <h2 class="claim-head">Claim your seat.</h2>
+      <p class="claim-intro">One question before you're in — and then you're done.</p>
+      <form id="claim-form" novalidate>
+        <div class="field">
+          <label for="meaning">What would a seat at this table mean for you and your business?</label>
+          <textarea id="meaning" name="meaning" placeholder="Tell Darren and the team what this would change for you…" required></textarea>
+        </div>
+        <div class="reserved-note">
+          <span class="pip" aria-hidden="true"></span>
+          <span>Your seat is held under your name right now — but nominations don't stay open indefinitely. <b>Accept while it's still yours.</b></span>
+        </div>
+        <p class="consent">By accepting, you're claiming your nomination and agreeing to hear from Darren Hardy and the BMC team about your place in the class.</p>
+        <button type="submit" class="btn btn-solid">Accept my nomination</button>
+      </form>
+    </section>
+
+  </div><!-- /form-view -->
+
+  <!-- ============ CONFIRM ============ -->
+  <div class="confirm" id="conf-view">
+    <div class="confirm-ring" aria-hidden="true">&#10003;</div>
+    <h2>Welcome to the room, Sarah.</h2>
+    <p>Your seat is confirmed. Someone from the BMC team will reach out personally with everything you need for what's next.</p>
+    <p><strong>You said yes. That's the hard part.</strong></p>
+    <div class="confirm-divider"></div>
+    <div class="be-exc">Be the exception</div>
+  </div>
+
+  <footer class="foot">
+    <img src="assets/bmcc-logo-white.webp" alt="BMC | Collective" />
+    <span>The BMC Legacy Scholarship</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var form=document.getElementById('claim-form');
+  var fv=document.getElementById('form-view');
+  var cv=document.getElementById('conf-view');
+  var ta=document.getElementById('meaning');
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!ta.value.trim()){ ta.classList.add('invalid'); ta.focus(); return; }
+    ta.classList.remove('invalid');
+    fv.style.display='none';
+    cv.style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  ta.addEventListener('input',function(){ if(ta.value.trim()) ta.classList.remove('invalid'); });
+
+  var vid=document.querySelector('.video-wrap');
+  if(vid){ vid.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); vid.click(); } }); }
+
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var items=document.querySelectorAll('.reveal');
+  if(reduce||!('IntersectionObserver'in window)){ items.forEach(function(el){el.classList.add('in');}); }
+  else{
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+    items.forEach(function(el){io.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>
