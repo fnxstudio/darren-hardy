@@ -4672,10 +4672,19 @@ textarea.w-input, textarea.w-select {
     function cleanName(f) { var n = f.replace(/\.(jpg|jpeg|png|gif|webp)$/i, ''); n = n.replace(/^SM_\d+_\d+_/i, ''); n = n.replace(/([a-z])([A-Z])/g, '$1 $2'); n = n.replace(/[_-]/g, ' '); n = n.replace(/\bbarcode\b/gi, '').replace(/\s+/g, ' ').trim(); n = n.toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); }); return n; }
     var featuredTypes = ['large', 'tall', 'large', 'tall', 'standard'];
     function buildSpreadPool(n) {
-      var special = Array(4).fill('wide').concat(Array(16).fill('tall')); var s = 0xc0ffee42;
+      // Scale the count of special (multi-cell) tiles to n so smaller walls keep enough 1x1
+      // "standard" tiles for grid-auto-flow:dense to backfill holes. Desktop (n=32) is
+      // unchanged: round(32*0.62)=20 -> 4 wide + 16 tall, exactly as before. On mobile
+      // (n=19) a fixed 20 specials left ZERO standards, so dense couldn't fill the single
+      // cells that tall tiles free up (the gap under Jobs). Now mobile keeps ~7-8 standards.
+      var nSpecial = Math.min(n, Math.round(n * 0.62));
+      var nWide = Math.round(nSpecial * 0.2); var nTall = nSpecial - nWide;
+      var special = Array(nWide).fill('wide').concat(Array(nTall).fill('tall')); var s = 0xc0ffee42;
       for (var i = special.length - 1; i > 0; i--) { s = Math.imul(s ^ (s >>> 16), 0x45d9f3b); s = Math.imul(s ^ (s >>> 16), 0x45d9f3b); s ^= s >>> 16; var j = (Math.abs(s) >>> 0) % (i + 1); var t = special[i]; special[i] = special[j]; special[j] = t; }
-      var pool = Array(n).fill('standard'); var step = (n - 1) / (special.length - 1);
-      special.forEach(function (type, i) { pool[Math.round(i * step)] = type; }); return pool;
+      var pool = Array(n).fill('standard');
+      if (special.length > 1) { var step = (n - 1) / (special.length - 1); special.forEach(function (type, i) { pool[Math.round(i * step)] = type; }); }
+      else if (special.length === 1) { pool[Math.floor(n / 2)] = special[0]; }
+      return pool;
     }
     var grid = document.querySelector('.dd-covers'); if (!grid) return;
     var wall = document.querySelector('.bio-wall'); if (!wall) return;
