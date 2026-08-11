@@ -44,7 +44,7 @@
 
   /* progress (sits just below the card, beside the time remaining) */
   .wz-progress{display:flex;align-items:center;gap:16px;margin-top:18px}
-  .wz-track{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+  .wz-track{flex:1;height:8px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
   .wz-fill{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .45s cubic-bezier(.4,0,.2,1)}
 
   /* card */
@@ -549,8 +549,9 @@
     i = n;
     screens.forEach(function(s,idx){ s.classList.toggle('is-active', idx===n); });
     fill.style.width = (n/(screens.length-1)*100) + '%';
-    timeEl.textContent = minsLeft(n) + ' min left';
-    timeEl.style.visibility = (n===0 || n===screens.length-1) ? 'hidden':'visible';
+    var last = (n===screens.length-1);
+    timeEl.textContent = last ? 'Submitted' : (minsLeft(n) + ' min left');
+    timeEl.style.visibility = (n===0) ? 'hidden' : 'visible';   // hidden on intro, 'Submitted' on the final screen
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
