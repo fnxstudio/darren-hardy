@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Help Me, Help You — Darren Hardy</title>
+<title>Help Me, Help You · Darren Hardy</title>
 <link rel="icon" type="image/png" href="dh_logo.png">
 <link rel="apple-touch-icon" href="dh_logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,11 +40,11 @@
   .wz-brandbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;height:auto}
   .wz-wordmark{font-size:12px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#fff}
   .wz-wordmark span{color:var(--dim);font-weight:700}
-  .wz-time{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+  .wz-time{flex:0 0 auto;white-space:nowrap;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
 
-  /* progress */
-  .wz-progress{margin-bottom:20px}
-  .wz-track{width:100%;height:4px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+  /* progress (sits just below the card, beside the time remaining) */
+  .wz-progress{display:flex;align-items:center;gap:16px;margin-top:18px}
+  .wz-track{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
   .wz-fill{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .45s cubic-bezier(.4,0,.2,1)}
 
   /* card */
@@ -171,9 +171,7 @@
 <div class="wz">
   <div class="wz-brandbar">
     <div class="wz-wordmark">DARREN&nbsp;HARDY</div>
-    <div class="wz-time" id="wzTime">5 min left</div>
   </div>
-  <div class="wz-progress"><div class="wz-track"><div class="wz-fill" id="wzFill"></div></div></div>
 
   <div class="wz-card">
 
@@ -274,7 +272,7 @@
     <section class="wz-screen wz-step">
       <p class="wz-eyebrow">The Sticking Point</p>
       <h2 class="wz-h1">What's Not Working</h2>
-      <p class="wz-sub">That's the plan. Now the part you don't say out loud in the team meeting &mdash; the piece of your business that should be working better than it is right now.<span class="req">*</span></p>
+      <p class="wz-sub">That's the plan. Now the part you don't say out loud in the team meeting: the piece of your business that should be working better than it is right now.<span class="req">*</span></p>
       <div class="wz-fields">
         <div>
           <label class="cf-help" for="q7">Be specific. Not "marketing." Something like "we get plenty of leads and close almost none of them."</label>
@@ -320,7 +318,7 @@
     <section class="wz-screen wz-step">
       <p class="wz-eyebrow">Between Us</p>
       <h2 class="wz-h1">Off The Record</h2>
-      <p class="wz-sub">This one I ask everybody, and most people hand me the safe answer. You and I are past that. Every owner has something running in the background when they're not working &mdash; what's yours right now?<span class="opt">Optional</span></p>
+      <p class="wz-sub">This one I ask everybody, and most people hand me the safe answer. You and I are past that. Every owner has something running in the background when they're not working. What's yours right now?<span class="opt">Optional</span></p>
       <div class="wz-fields">
         <div>
           <label class="cf-help" for="q11">A project you keep circling, an idea you haven't started, a move you keep turning over after the workday stops.</label>
@@ -420,7 +418,7 @@
     <section class="wz-screen wz-step">
       <p class="wz-eyebrow">The Real Blocker</p>
       <h2 class="wz-h1">What's Stopped You</h2>
-      <p class="wz-sub">Forget the hype. In your business, specifically &mdash; the thing that's stopped you from getting more out of AI.<span class="opt">Optional</span></p>
+      <p class="wz-sub">Forget the hype. In your business, specifically: the thing that's stopped you from getting more out of AI.<span class="opt">Optional</span></p>
       <div class="wz-fields">
         <div>
           <label class="cf-help" for="q15">Time, trust, knowing where to start, the team, the tools, cost, something else. Say it however it actually is.</label>
@@ -438,8 +436,8 @@
     <!-- 10 · blind spot (optional) -->
     <section class="wz-screen wz-step">
       <p class="wz-eyebrow">The Blind Spot</p>
-      <h2 class="wz-h1">What You Can't See</h2>
-      <p class="wz-sub">Every leader has things moving in the business they can't see from where they sit. Imagine a short report on your desk every Monday morning, telling you one thing you currently can't see &mdash; what would you want it to say?<span class="opt">Optional</span></p>
+      <h2 class="wz-h1">The Monday Report</h2>
+      <p class="wz-sub">Every leader has things moving in the business they can't see from where they sit. Imagine a short report on your desk every Monday morning, telling you one thing you currently can't see. What would you want it to say?<span class="opt">Optional</span></p>
       <div class="wz-fields">
         <div>
           <label class="cf-help" for="q16">Anything. A number, a warning, a pattern, something about a person, something about a customer.</label>
@@ -481,7 +479,7 @@
       </div>
     </section>
 
-    <!-- 12 · context (revenue + headcount) — final -->
+    <!-- 12 · context (revenue + headcount) · final -->
     <section class="wz-screen wz-step">
       <p class="wz-eyebrow">For Context</p>
       <h2 class="wz-h1">Last Thing</h2>
@@ -523,6 +521,12 @@
     </section>
 
   </div>
+
+  <div class="wz-progress">
+    <div class="wz-track"><div class="wz-fill" id="wzFill"></div></div>
+    <div class="wz-time" id="wzTime">5 min left</div>
+  </div>
+
   <div class="wz-foot">Darren Hardy &middot; #BeTheException</div>
 </div>
 
