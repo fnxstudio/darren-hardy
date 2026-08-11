@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Help Me, Help You — Darren Hardy</title>
+<link rel="icon" type="image/png" href="dh_logo.png">
+<link rel="apple-touch-icon" href="dh_logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -168,7 +170,7 @@
 <div class="wz">
   <div class="wz-brandbar">
     <div class="wz-wordmark">DARREN&nbsp;HARDY</div>
-    <div class="wz-time" id="wzTime">5 min</div>
+    <div class="wz-time" id="wzTime">5 min left</div>
   </div>
   <div class="wz-progress"><div class="wz-track"><div class="wz-fill" id="wzFill"></div></div></div>
 
@@ -367,11 +369,11 @@
       </div>
     </section>
 
-    <!-- 8 · two fast radios -->
+    <!-- 8 · who's leading AI (radio) -->
     <section class="wz-screen wz-step">
       <p class="wz-eyebrow">Still On AI</p>
       <h2 class="wz-h1">Who's Steering</h2>
-      <p class="wz-sub">Two quick ones.</p>
+      <p class="wz-sub">Not the org chart version. The honest one.</p>
       <div class="wz-fields">
         <div>
           <label class="cf-label">Who is actually leading AI inside your business?<span class="req">*</span></label>
@@ -383,6 +385,21 @@
             <label class="wz-opt" data-type="radio"><input type="radio" name="q13" value="We haven't started"><span class="wz-mark"></span>We haven't started</label>
           </div>
         </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 8b · the one thing you'd add (radio) -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">Still On AI</p>
+      <h2 class="wz-h1">The One Thing</h2>
+      <p class="wz-sub">Same subject. One more.</p>
+      <div class="wz-fields">
         <div>
           <label class="cf-label">To get more out of AI, the one thing you'd add is:<span class="req">*</span></label>
           <div class="wz-opts" data-required data-single>
@@ -449,7 +466,7 @@
       <p class="wz-sub">You've answered mine. Here's the part most surveys never give you.</p>
       <div class="wz-fields">
         <div>
-          <label class="cf-label" for="q18">What's the one question you'd want answered in a private briefing?<span class="req">*</span></label>
+          <label class="cf-label" for="q18">If you and I sat down for twenty minutes, what's the one thing you'd want my input, advice, or guidance on?<span class="req">*</span></label>
           <span class="cf-help">I'm going to answer a number of these directly, out loud, in the briefing.</span>
           <textarea id="q18" name="q18" data-required></textarea>
         </div>
@@ -522,11 +539,19 @@
   var timeEl = document.getElementById('wzTime');
   var i = 0;
   var responses = {};
+  var TOTAL_MIN = 5;                       // friendly estimate shown at the start
+  var stepCount = screens.length - 2;      // wz-step screens (excludes intro + confirmation)
+
+  function minsLeft(n){
+    var remaining = (n<=0) ? stepCount : (stepCount - n + 1); // include the current step
+    return Math.max(1, Math.round(TOTAL_MIN * remaining / stepCount));
+  }
 
   function show(n){
     i = n;
     screens.forEach(function(s,idx){ s.classList.toggle('is-active', idx===n); });
     fill.style.width = (n/(screens.length-1)*100) + '%';
+    timeEl.textContent = minsLeft(n) + ' min left';
     timeEl.style.visibility = (n===0 || n===screens.length-1) ? 'hidden':'visible';
     window.scrollTo({top:0,behavior:'smooth'});
   }
