@@ -120,23 +120,23 @@
   .wz-opt.checked .wz-mark::after{transform:scale(1)}
   .wz-opts.invalid .wz-opt{border-color:var(--danger)}
 
-  /* ranking */
+  /* ranking (tap in order) */
   .wz-rank{display:flex;flex-direction:column;gap:8px}
   .wz-rank-item{
     display:flex;align-items:center;gap:12px;background:var(--field);
-    border:1px solid var(--field-border);border-radius:4px;padding:10px 12px;
-    font-size:14.5px;line-height:1.35;cursor:grab;transition:border-color .15s,box-shadow .15s;
+    border:1px solid var(--field-border);border-radius:4px;padding:12px 14px;
+    font-size:14.5px;line-height:1.35;cursor:pointer;user-select:none;
+    -webkit-tap-highlight-color:transparent;transition:border-color .15s,background .15s;
   }
-  .wz-rank-item.dragging{opacity:.5;border-color:var(--accent)}
-  .wz-rank-item.over{border-color:var(--accent);box-shadow:0 -2px 0 var(--accent)}
-  .wz-rank-num{flex:0 0 auto;width:26px;height:26px;border-radius:99px;background:var(--accent);
-    color:#0a0a0a;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .wz-rank-item:hover{border-color:var(--field-border-hover)}
+  .wz-rank-item.picked{border-color:var(--accent);background:rgba(120,228,239,.07)}
+  .wz-rank-num{flex:0 0 auto;width:26px;height:26px;border-radius:99px;
+    border:1px solid rgba(255,255,255,.35);background:transparent;color:#0a0a0a;
+    font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;
+    transition:background .15s,border-color .15s}
+  .wz-rank-item.picked .wz-rank-num{background:var(--accent);border-color:var(--accent)}
   .wz-rank-label{flex:1}
-  .wz-rank-moves{display:flex;flex-direction:column;gap:2px}
-  .wz-rank-moves button{background:none;border:0;color:var(--dim);cursor:pointer;font-size:11px;
-    line-height:1;padding:2px 4px;border-radius:3px}
-  .wz-rank-moves button:hover{color:#fff;background:rgba(255,255,255,.08)}
-  .wz-rank-grip{color:#5f5f5f;font-size:15px;letter-spacing:-1px;cursor:grab}
+  .wz-rank.invalid .wz-rank-item{border-color:var(--danger)}
 
   /* actions */
   .wz-actions{display:flex;align-items:center;gap:12px;margin-top:28px;padding-top:4px}
@@ -297,15 +297,15 @@
       <p class="wz-sub">If you could only move one of these over the next twelve months, what's the order?</p>
       <div class="wz-fields">
         <div>
-          <label class="cf-label">Rank these, biggest gain first.<span class="req">*</span></label>
-          <span class="cf-help">Drag to order, or use the arrows. Number 1 is where the most is sitting for you right now.</span>
-          <div class="wz-rank" id="q9rank">
-            <div class="wz-rank-item" draggable="true" data-val="Becoming the obvious choice in my market so I stop competing on price"><span class="wz-rank-num">1</span><span class="wz-rank-label">Becoming the obvious choice in my market so I stop competing on price</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
-            <div class="wz-rank-item" draggable="true" data-val="Making revenue predictable instead of dependent on me"><span class="wz-rank-num">2</span><span class="wz-rank-label">Making revenue predictable instead of dependent on me</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
-            <div class="wz-rank-item" draggable="true" data-val="Getting customers to come back and refer without me chasing them"><span class="wz-rank-num">3</span><span class="wz-rank-label">Getting customers to come back and refer without me chasing them</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
-            <div class="wz-rank-item" draggable="true" data-val="Growing without every decision routing through me"><span class="wz-rank-num">4</span><span class="wz-rank-label">Growing without every decision routing through me</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
-            <div class="wz-rank-item" draggable="true" data-val="Finding, keeping, and leading better people"><span class="wz-rank-num">5</span><span class="wz-rank-label">Finding, keeping, and leading better people</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
-            <div class="wz-rank-item" draggable="true" data-val="Getting real leverage out of AI instead of scattered experiments"><span class="wz-rank-num">6</span><span class="wz-rank-label">Getting real leverage out of AI instead of scattered experiments</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
+          <label class="cf-label">Tap these in order, biggest gain first.<span class="req">*</span></label>
+          <span class="cf-help">Your first tap is where the most is sitting for you right now. Tap a card again to take it back.</span>
+          <div class="wz-rank" id="q9rank" data-required>
+            <div class="wz-rank-item" data-val="Becoming the obvious choice in my market so I stop competing on price"><span class="wz-rank-num"></span><span class="wz-rank-label">Becoming the obvious choice in my market so I stop competing on price</span></div>
+            <div class="wz-rank-item" data-val="Making revenue predictable instead of dependent on me"><span class="wz-rank-num"></span><span class="wz-rank-label">Making revenue predictable instead of dependent on me</span></div>
+            <div class="wz-rank-item" data-val="Getting customers to come back and refer without me chasing them"><span class="wz-rank-num"></span><span class="wz-rank-label">Getting customers to come back and refer without me chasing them</span></div>
+            <div class="wz-rank-item" data-val="Growing without every decision routing through me"><span class="wz-rank-num"></span><span class="wz-rank-label">Growing without every decision routing through me</span></div>
+            <div class="wz-rank-item" data-val="Finding, keeping, and leading better people"><span class="wz-rank-num"></span><span class="wz-rank-label">Finding, keeping, and leading better people</span></div>
+            <div class="wz-rank-item" data-val="Getting real leverage out of AI instead of scattered experiments"><span class="wz-rank-num"></span><span class="wz-rank-label">Getting real leverage out of AI instead of scattered experiments</span></div>
           </div>
         </div>
       </div>
@@ -576,43 +576,25 @@
     });
   });
 
-  // ranking
-  function renumber(list){
-    list.querySelectorAll('.wz-rank-item').forEach(function(it,idx){
-      it.querySelector('.wz-rank-num').textContent = idx+1;
-    });
-  }
+  // ranking: tap in order (1st tap = rank 1); tap a picked card to take it back
   document.querySelectorAll('.wz-rank').forEach(function(list){
-    var dragEl=null;
-    list.addEventListener('dragstart', function(e){
-      var it=e.target.closest('.wz-rank-item'); if(!it)return;
-      dragEl=it; it.classList.add('dragging');
-    });
-    list.addEventListener('dragend', function(){
-      if(dragEl){dragEl.classList.remove('dragging');}
-      list.querySelectorAll('.over').forEach(function(o){o.classList.remove('over');});
-      dragEl=null; renumber(list);
-    });
-    list.addEventListener('dragover', function(e){
-      e.preventDefault();
-      var over=e.target.closest('.wz-rank-item');
-      if(!over||over===dragEl)return;
-      var rect=over.getBoundingClientRect();
-      var after=(e.clientY-rect.top)/rect.height>0.5;
-      list.insertBefore(dragEl, after?over.nextSibling:over);
-    });
-    list.querySelectorAll('[data-up]').forEach(function(b){
-      b.addEventListener('click', function(){
-        var it=b.closest('.wz-rank-item'); var prev=it.previousElementSibling;
-        if(prev){list.insertBefore(it,prev); renumber(list);}
+    var order=[];
+    function paint(){
+      list.querySelectorAll('.wz-rank-item').forEach(function(it){
+        var idx=order.indexOf(it.getAttribute('data-val'));
+        it.classList.toggle('picked', idx>-1);
+        it.querySelector('.wz-rank-num').textContent = idx>-1 ? (idx+1) : '';
       });
+      if(order.length){ list.classList.remove('invalid'); }
+    }
+    list.addEventListener('click', function(e){
+      var it=e.target.closest('.wz-rank-item'); if(!it) return;
+      var v=it.getAttribute('data-val');
+      var idx=order.indexOf(v);
+      if(idx>-1){ order.splice(idx,1); } else { order.push(v); }
+      paint();
     });
-    list.querySelectorAll('[data-down]').forEach(function(b){
-      b.addEventListener('click', function(){
-        var it=b.closest('.wz-rank-item'); var next=it.nextElementSibling;
-        if(next){list.insertBefore(next,it); renumber(list);}
-      });
-    });
+    list._order=order;
   });
 
   function validate(screen){
@@ -622,13 +604,18 @@
         var checked=el.querySelectorAll('input:checked').length>0;
         el.classList.toggle('invalid', !checked);
         if(!checked){ok=false;}
+      } else if(el.classList.contains('wz-rank')){
+        var total=el.querySelectorAll('.wz-rank-item').length;
+        var complete=(el._order||[]).length===total;
+        el.classList.toggle('invalid', !complete);
+        if(!complete){ok=false; msg='Tap all six in order before continuing.';}
       } else {
         var empty = !el.value || !el.value.trim();
         el.classList.toggle('invalid', empty);
         if(empty){ok=false;}
       }
     });
-    if(!ok){ msg='Please complete the required fields on this screen before continuing.'; }
+    if(!ok && !msg){ msg='Please complete the required fields on this screen before continuing.'; }
     var errEl=screen.querySelector('[data-error]');
     if(errEl){ errEl.textContent=msg; errEl.classList.toggle('show', !ok); }
     return ok;
@@ -643,7 +630,8 @@
       var el=document.querySelector('input[name="'+k+'"]:checked'); d[k]=el?el.value:'';
     });
     d.q12=Array.prototype.map.call(document.querySelectorAll('input[name="q12"]:checked'),function(x){return x.value;});
-    d.q9_ranked=Array.prototype.map.call(document.querySelectorAll('#q9rank .wz-rank-item'),function(x){return x.getAttribute('data-val');});
+    var rank=document.getElementById('q9rank');
+    d.q9_ranked=(rank && rank._order) ? rank._order.slice() : [];
     return d;
   }
 
