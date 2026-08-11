@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Me, Help You — Darren Hardy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --card:#141414;
+    --card-border:rgba(255,255,255,.09);
+    --field:#1a181f;
+    --field-border:rgba(255,255,255,.16);
+    --field-border-hover:rgba(255,255,255,.32);
+    --accent:#78e4ef;
+    --text:#ffffff;
+    --muted:#b8b8b8;
+    --dim:#8a8a8a;
+    --danger:#ff6b6b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Inter,-apple-system,system-ui,sans-serif;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+    padding:48px 24px 72px;
+    min-height:100vh;
+  }
+  .wz{max-width:600px;width:100%;margin:0 auto}
+
+  /* brandbar */
+  .wz-brandbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;height:auto}
+  .wz-wordmark{font-size:12px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#fff}
+  .wz-wordmark span{color:var(--dim);font-weight:700}
+  .wz-time{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+
+  /* progress */
+  .wz-progress{margin-bottom:20px}
+  .wz-track{width:100%;height:4px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+  .wz-fill{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .45s cubic-bezier(.4,0,.2,1)}
+
+  /* card */
+  .wz-card{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:4px;
+    padding:40px 40px 32px;
+    min-height:420px;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* screens */
+  .wz-screen{display:none;flex-direction:column;flex:1;animation:fade .4s ease}
+  .wz-screen.is-active{display:flex}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .wz-eyebrow{
+    display:flex;align-items:center;gap:10px;
+    font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+    color:var(--accent);margin:0 0 18px;
+  }
+  .wz-eyebrow::before{content:"";width:22px;height:1px;background:var(--accent);opacity:.7}
+
+  .wz-h1{
+    font-size:42px;line-height:1.04;font-weight:900;letter-spacing:-.42px;
+    text-transform:uppercase;margin:0 0 14px;
+  }
+  .wz-sub{font-size:16px;line-height:1.55;color:var(--muted);margin:0 0 26px}
+  .wz-sub strong{color:#fff;font-weight:700}
+
+  .wz-fields{display:flex;flex-direction:column;gap:22px;margin-bottom:8px}
+
+  .cf-label{display:block;font-size:15px;font-weight:700;margin:0 0 8px;line-height:1.4}
+  .cf-label .req{color:var(--accent);margin-left:2px}
+  .cf-label .opt{color:var(--dim);font-weight:400;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-left:8px}
+  .cf-help{display:block;font-size:13px;line-height:1.5;color:var(--dim);margin:-2px 0 10px}
+
+  input[type=text],input[type=email],textarea,select{
+    width:100%;font-family:inherit;font-size:15px;line-height:1.5;color:#fff;
+    background:var(--field);border:1px solid var(--field-border);border-radius:4px;
+    padding:12px 14px;outline:none;transition:border-color .15s,box-shadow .15s;
+  }
+  textarea{resize:vertical;min-height:104px}
+  select{appearance:none;-webkit-appearance:none;padding-right:38px;cursor:pointer;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23b8b8b8' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 14px center;}
+  input:hover,textarea:hover,select:hover{border-color:var(--field-border-hover)}
+  input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(120,228,239,.15)}
+  input.invalid,textarea.invalid,select.invalid{border-color:var(--danger)}
+  ::placeholder{color:#5f5f5f}
+
+  /* option lists (radio / checkbox) */
+  .wz-opts{display:flex;flex-direction:column;gap:8px}
+  .wz-opt{
+    display:flex;align-items:center;gap:12px;cursor:pointer;
+    background:var(--field);border:1px solid var(--field-border);border-radius:4px;
+    padding:12px 14px;font-size:15px;line-height:1.4;transition:border-color .15s,background .15s;
+  }
+  .wz-opt:hover{border-color:var(--field-border-hover)}
+  .wz-opt input{position:absolute;opacity:0;width:0;height:0}
+  .wz-mark{flex:0 0 auto;width:18px;height:18px;border:1px solid rgba(255,255,255,.35);
+    display:flex;align-items:center;justify-content:center;transition:all .15s}
+  .wz-opt[data-type=radio] .wz-mark{border-radius:99px}
+  .wz-opt[data-type=check] .wz-mark{border-radius:3px}
+  .wz-mark::after{content:"";width:8px;height:8px;background:var(--accent);transform:scale(0);transition:transform .15s}
+  .wz-opt[data-type=radio] .wz-mark::after{border-radius:99px}
+  .wz-opt[data-type=check] .wz-mark::after{border-radius:1px}
+  .wz-opt.checked{border-color:var(--accent);background:rgba(120,228,239,.07)}
+  .wz-opt.checked .wz-mark{border-color:var(--accent)}
+  .wz-opt.checked .wz-mark::after{transform:scale(1)}
+  .wz-opts.invalid .wz-opt{border-color:var(--danger)}
+
+  /* ranking */
+  .wz-rank{display:flex;flex-direction:column;gap:8px}
+  .wz-rank-item{
+    display:flex;align-items:center;gap:12px;background:var(--field);
+    border:1px solid var(--field-border);border-radius:4px;padding:10px 12px;
+    font-size:14.5px;line-height:1.35;cursor:grab;transition:border-color .15s,box-shadow .15s;
+  }
+  .wz-rank-item.dragging{opacity:.5;border-color:var(--accent)}
+  .wz-rank-item.over{border-color:var(--accent);box-shadow:0 -2px 0 var(--accent)}
+  .wz-rank-num{flex:0 0 auto;width:26px;height:26px;border-radius:99px;background:var(--accent);
+    color:#0a0a0a;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .wz-rank-label{flex:1}
+  .wz-rank-moves{display:flex;flex-direction:column;gap:2px}
+  .wz-rank-moves button{background:none;border:0;color:var(--dim);cursor:pointer;font-size:11px;
+    line-height:1;padding:2px 4px;border-radius:3px}
+  .wz-rank-moves button:hover{color:#fff;background:rgba(255,255,255,.08)}
+  .wz-rank-grip{color:#5f5f5f;font-size:15px;letter-spacing:-1px;cursor:grab}
+
+  /* actions */
+  .wz-actions{display:flex;align-items:center;gap:12px;margin-top:28px;padding-top:4px}
+  .wz-btn{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:2.64px;
+    text-transform:uppercase;padding:14px 28px;border-radius:4px;cursor:pointer;border:1px solid transparent;
+    transition:transform .1s,background .15s,color .15s,border-color .15s}
+  .wz-btn:active{transform:translateY(1px)}
+  .wz-btn-solid{background:#fff;color:#0a0a0a;border-color:#fff}
+  .wz-btn-solid:hover{background:var(--accent);border-color:var(--accent)}
+  .wz-btn-ghost{background:transparent;color:var(--muted);border-color:rgba(255,255,255,.2)}
+  .wz-btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+  .wz-spacer{flex:1}
+  .wz-error{color:var(--danger);font-size:13px;margin-top:14px;min-height:16px;display:none}
+  .wz-error.show{display:block}
+
+  .wz-foot{margin-top:22px;text-align:center;font-size:11px;letter-spacing:1.5px;
+    text-transform:uppercase;color:#3f3f3f}
+  .wz-sign{margin-top:4px;color:var(--muted);font-weight:700}
+
+  @media(max-width:560px){
+    body{padding:28px 14px 48px}
+    .wz-card{padding:28px 22px 26px}
+    .wz-h1{font-size:31px}
+    .wz-actions{flex-wrap:wrap}
+    .wz-btn{flex:1;text-align:center}
+  }
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+</style>
+</head>
+<body>
+<h1 class="sr-only">A note from Darren Hardy</h1>
+<div class="wz">
+  <div class="wz-brandbar">
+    <div class="wz-wordmark">DARREN&nbsp;HARDY</div>
+    <div class="wz-time" id="wzTime">5 min</div>
+  </div>
+  <div class="wz-progress"><div class="wz-track"><div class="wz-fill" id="wzFill"></div></div></div>
+
+  <div class="wz-card">
+
+    <!-- INTRO -->
+    <section class="wz-screen wz-intro is-active">
+      <p class="wz-eyebrow">Help me, help you</p>
+      <h2 class="wz-h1">Get What You Actually Need</h2>
+      <p class="wz-sub">There is more noise in the world than ever before. And I'd rather not guess at what would actually help you. So I'm asking, specifically, and with purpose. For you.</p>
+      <p class="wz-sub"><strong>About five minutes. One question at a time.</strong> The few you write out, I read myself.</p>
+      <div class="wz-actions">
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Begin</button>
+      </div>
+    </section>
+
+    <!-- 1 · on-ramp -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">Let's Begin</p>
+      <h2 class="wz-h1">Remind Me What You Do</h2>
+      <p class="wz-sub">Even the businesses I know well have changed since we last spoke. Tell me what yours actually does today, in your own words.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label" for="q1">What does your business do?<span class="req">*</span></label>
+          <input type="text" id="q1" name="q1" data-required placeholder="e.g. We install commercial HVAC for property managers">
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 2 · current momentum -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">Where You Stand</p>
+      <h2 class="wz-h1">Right Now</h2>
+      <p class="wz-sub">Before we look ahead, a straight read on the present.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label">Compared to twelve months ago, your business is:<span class="req">*</span></label>
+          <div class="wz-opts" data-required data-single>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q4" value="Growing faster than it was"><span class="wz-mark"></span>Growing faster than it was</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q4" value="Growing, but slower than it was"><span class="wz-mark"></span>Growing, but slower than it was</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q4" value="Flat"><span class="wz-mark"></span>Flat</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q4" value="Down"><span class="wz-mark"></span>Down</label>
+          </div>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 3 · ambition -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">Where You're Headed</p>
+      <h2 class="wz-h1">Look Down The Road</h2>
+      <p class="wz-sub">You know the day-to-day better than anyone. Lift out of it for a second and look down the road with me.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label" for="q5">Three years from now, if your business goes the way you intend it to, what does it actually look like?<span class="req">*</span></label>
+          <span class="cf-help">Size, shape, your role in it, whatever matters most to you. A few sentences is plenty.</span>
+          <textarea id="q5" name="q5" data-required></textarea>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 3 · what has to change (optional) -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">The Distance</p>
+      <h2 class="wz-h1">What Has To Change</h2>
+      <p class="wz-sub">Between that picture and today, something has to move.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label" for="q6">What has to be true for that to happen that isn't true today?<span class="opt">Optional</span></label>
+          <span class="cf-help">The one or two things standing between here and there.</span>
+          <textarea id="q6" name="q6"></textarea>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 4 · bottleneck -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">The Sticking Point</p>
+      <h2 class="wz-h1">What's Not Working</h2>
+      <p class="wz-sub">That's the plan. Now the part you don't say out loud in the team meeting.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label" for="q7">Finish this sentence: the part of my business that should be working better than it is right now is&hellip;<span class="req">*</span></label>
+          <span class="cf-help">Be specific. Not "marketing." Something like "we get plenty of leads and close almost none of them."</span>
+          <textarea id="q7" name="q7" data-required></textarea>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 5 · ranking -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">Your Priorities</p>
+      <h2 class="wz-h1">Where The Gain Is</h2>
+      <p class="wz-sub">If you could only move one of these over the next twelve months, what's the order?</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label">Rank these, biggest gain first.<span class="req">*</span></label>
+          <span class="cf-help">Drag to order, or use the arrows. Number 1 is where the most is sitting for you right now.</span>
+          <div class="wz-rank" id="q9rank">
+            <div class="wz-rank-item" draggable="true" data-val="Becoming the obvious choice in my market so I stop competing on price"><span class="wz-rank-num">1</span><span class="wz-rank-label">Becoming the obvious choice in my market so I stop competing on price</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
+            <div class="wz-rank-item" draggable="true" data-val="Making revenue predictable instead of dependent on me"><span class="wz-rank-num">2</span><span class="wz-rank-label">Making revenue predictable instead of dependent on me</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
+            <div class="wz-rank-item" draggable="true" data-val="Getting customers to come back and refer without me chasing them"><span class="wz-rank-num">3</span><span class="wz-rank-label">Getting customers to come back and refer without me chasing them</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
+            <div class="wz-rank-item" draggable="true" data-val="Growing without every decision routing through me"><span class="wz-rank-num">4</span><span class="wz-rank-label">Growing without every decision routing through me</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
+            <div class="wz-rank-item" draggable="true" data-val="Finding, keeping, and leading better people"><span class="wz-rank-num">5</span><span class="wz-rank-label">Finding, keeping, and leading better people</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
+            <div class="wz-rank-item" draggable="true" data-val="Getting real leverage out of AI instead of scattered experiments"><span class="wz-rank-num">6</span><span class="wz-rank-label">Getting real leverage out of AI instead of scattered experiments</span><span class="wz-rank-moves"><button type="button" data-up>&#9650;</button><button type="button" data-down>&#9660;</button></span><span class="wz-rank-grip">&#8942;&#8942;</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 6 · confession (optional) -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">Between Us</p>
+      <h2 class="wz-h1">Off The Record</h2>
+      <p class="wz-sub">This one I ask everybody. Most people hand me the safe answer. You and I are past that.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label" for="q11">Every business owner has something running in the background when they're not working. What's yours right now?<span class="opt">Optional</span></label>
+          <span class="cf-help">A project you keep circling, an idea you haven't started, a move you keep turning over after the workday stops.</span>
+          <textarea id="q11" name="q11"></textarea>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 7 · AI where (checkbox) -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">The Noise</p>
+      <h2 class="wz-h1">Cut Through It</h2>
+      <p class="wz-sub">Plenty of noise about AI right now. I care about one thing: where it actually lives in your business today, not where the internet says it should.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label">Where is AI actually being used in your business today?<span class="req">*</span></label>
+          <span class="cf-help">Check all that apply.</span>
+          <div class="wz-opts" data-required>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="Marketing and content"><span class="wz-mark"></span>Marketing and content</label>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="Sales and follow-up"><span class="wz-mark"></span>Sales and follow-up</label>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="Customer service or support"><span class="wz-mark"></span>Customer service or support</label>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="Operations and admin"><span class="wz-mark"></span>Operations and admin</label>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="Finance, reporting, or analysis"><span class="wz-mark"></span>Finance, reporting, or analysis</label>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="Hiring and recruiting"><span class="wz-mark"></span>Hiring and recruiting</label>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="Product or service delivery"><span class="wz-mark"></span>Product or service delivery</label>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="Just me personally, not the team"><span class="wz-mark"></span>Just me personally, not the team</label>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="I don't know what my team is using"><span class="wz-mark"></span>I don't know what my team is using</label>
+            <label class="wz-opt" data-type="check"><input type="checkbox" name="q12" value="Nowhere yet"><span class="wz-mark"></span>Nowhere yet</label>
+          </div>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 8 · two fast radios -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">Still On AI</p>
+      <h2 class="wz-h1">Who's Steering</h2>
+      <p class="wz-sub">Two quick ones.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label">Who is actually leading AI inside your business?<span class="req">*</span></label>
+          <div class="wz-opts" data-required data-single>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q13" value="Me, directly"><span class="wz-mark"></span>Me, directly</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q13" value="Someone I put in charge of it"><span class="wz-mark"></span>Someone I put in charge of it</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q13" value="Each department is figuring it out on their own"><span class="wz-mark"></span>Each department is figuring it out on their own</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q13" value="Nobody. It's happening without direction."><span class="wz-mark"></span>Nobody. It's happening without direction.</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q13" value="We haven't started"><span class="wz-mark"></span>We haven't started</label>
+          </div>
+        </div>
+        <div>
+          <label class="cf-label">To get more out of AI, the one thing you'd add is:<span class="req">*</span></label>
+          <div class="wz-opts" data-required data-single>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q14" value="Someone who owns it full-time, a Chief of AI"><span class="wz-mark"></span>Someone who owns it full-time, a Chief of AI</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q14" value="Training for my team so they actually use it"><span class="wz-mark"></span>Training for my team so they actually use it</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q14" value="A clear plan for where to apply it first"><span class="wz-mark"></span>A clear plan for where to apply it first</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q14" value="The right tools, wired together properly"><span class="wz-mark"></span>The right tools, wired together properly</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q14" value="I'd lead it myself, I just need the playbook"><span class="wz-mark"></span>I'd lead it myself, I just need the playbook</label>
+          </div>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 9 · AI blocker (optional) -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">The Real Blocker</p>
+      <h2 class="wz-h1">What's Stopped You</h2>
+      <p class="wz-sub">Forget the hype. In your business, specifically.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label" for="q15">Finish this sentence: the thing that's stopped us from getting more out of AI is&hellip;<span class="opt">Optional</span></label>
+          <span class="cf-help">Time, trust, knowing where to start, the team, the tools, cost, something else. Say it however it actually is.</span>
+          <textarea id="q15" name="q15"></textarea>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 10 · blind spot (optional) -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">The Blind Spot</p>
+      <h2 class="wz-h1">What You Can't See</h2>
+      <p class="wz-sub">Every leader has things moving in the business they can't see from where they sit.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label" for="q16">Imagine a short report on your desk every Monday morning, telling you one thing about your business you currently can't see. What would you want it to tell you?<span class="opt">Optional</span></label>
+          <span class="cf-help">Anything. A number, a warning, a pattern, something about a person, something about a customer.</span>
+          <textarea id="q16" name="q16"></textarea>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 11 · your question + permission (the payoff) -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">Your Turn</p>
+      <h2 class="wz-h1">Now You Ask Me</h2>
+      <p class="wz-sub">You've answered mine. Here's the part most surveys never give you.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label" for="q18">What's the one question you'd want answered in a private briefing?<span class="req">*</span></label>
+          <span class="cf-help">I'm going to answer a number of these directly, out loud, in the briefing.</span>
+          <textarea id="q18" name="q18" data-required></textarea>
+        </div>
+        <div>
+          <label class="cf-label">If I answer yours, may I use your first name and the nature of your business?<span class="req">*</span></label>
+          <div class="wz-opts" data-required data-single>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q19" value="Yes, use my name"><span class="wz-mark"></span>Yes, use my name</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q19" value="Answer it, but keep me anonymous"><span class="wz-mark"></span>Answer it, but keep me anonymous</label>
+            <label class="wz-opt" data-type="radio"><input type="radio" name="q19" value="Please don't use mine"><span class="wz-mark"></span>Please don't use mine</label>
+          </div>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-next>Continue</button>
+      </div>
+    </section>
+
+    <!-- 12 · context (revenue + headcount) — final -->
+    <section class="wz-screen wz-step">
+      <p class="wz-eyebrow">For Context</p>
+      <h2 class="wz-h1">Last Thing</h2>
+      <p class="wz-sub">That's the real conversation done. Two quick details so I can read your answers against the right backdrop, and you're done.</p>
+      <div class="wz-fields">
+        <div>
+          <label class="cf-label" for="q2">Annual revenue<span class="req">*</span></label>
+          <select id="q2" name="q2" data-required>
+            <option value="" disabled selected>Select one</option>
+            <option>Under $1M</option><option>$1M to $3M</option><option>$3M to $5M</option>
+            <option>$5M to $10M</option><option>$10M to $25M</option><option>$25M to $50M</option><option>Over $50M</option>
+          </select>
+        </div>
+        <div>
+          <label class="cf-label" for="q3">How many people work in the business, including you?<span class="req">*</span></label>
+          <select id="q3" name="q3" data-required>
+            <option value="" disabled selected>Select one</option>
+            <option>1 to 5</option><option>6 to 15</option><option>16 to 40</option>
+            <option>41 to 75</option><option>76 to 150</option><option>More than 150</option>
+          </select>
+        </div>
+      </div>
+      <div class="wz-error" data-error></div>
+      <div class="wz-actions">
+        <button type="button" class="wz-btn wz-btn-ghost" data-back>Back</button>
+        <div class="wz-spacer"></div>
+        <button type="button" class="wz-btn wz-btn-solid" data-submit>Submit</button>
+      </div>
+    </section>
+
+    <!-- CONFIRMATION -->
+    <section class="wz-screen wz-done">
+      <p class="wz-eyebrow">Received</p>
+      <h2 class="wz-h1">That's It. Thank You.</h2>
+      <p class="wz-sub">I'm going to read these myself. Not a summary. The actual answers.</p>
+      <p class="wz-sub">When the responses are in, I'll send you what came back. Not a sanitized version. What business leaders running real companies actually said was standing in their way this year, including the parts that don't flatter any of us. And if a few things come back loud enough, I'll get on and address them directly.</p>
+      <p class="wz-sub"><strong>Watch your inbox.</strong></p>
+      <p class="wz-sign">&ndash; Darren</p>
+    </section>
+
+  </div>
+  <div class="wz-foot">Darren Hardy &middot; #BeTheException</div>
+</div>
+
+<script>
+(function(){
+  var screens = Array.prototype.slice.call(document.querySelectorAll('.wz-screen'));
+  var fill = document.getElementById('wzFill');
+  var timeEl = document.getElementById('wzTime');
+  var i = 0;
+  var responses = {};
+
+  function show(n){
+    i = n;
+    screens.forEach(function(s,idx){ s.classList.toggle('is-active', idx===n); });
+    fill.style.width = (n/(screens.length-1)*100) + '%';
+    timeEl.style.visibility = (n===0 || n===screens.length-1) ? 'hidden':'visible';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // option toggling (radio/checkbox visual state)
+  document.querySelectorAll('.wz-opt input').forEach(function(inp){
+    inp.addEventListener('change', function(){
+      var group = inp.closest('.wz-opts');
+      if(inp.type==='radio'){
+        group.querySelectorAll('.wz-opt').forEach(function(o){o.classList.remove('checked');});
+        inp.closest('.wz-opt').classList.add('checked');
+      } else {
+        inp.closest('.wz-opt').classList.toggle('checked', inp.checked);
+      }
+      group.classList.remove('invalid');
+    });
+  });
+
+  // ranking
+  function renumber(list){
+    list.querySelectorAll('.wz-rank-item').forEach(function(it,idx){
+      it.querySelector('.wz-rank-num').textContent = idx+1;
+    });
+  }
+  document.querySelectorAll('.wz-rank').forEach(function(list){
+    var dragEl=null;
+    list.addEventListener('dragstart', function(e){
+      var it=e.target.closest('.wz-rank-item'); if(!it)return;
+      dragEl=it; it.classList.add('dragging');
+    });
+    list.addEventListener('dragend', function(){
+      if(dragEl){dragEl.classList.remove('dragging');}
+      list.querySelectorAll('.over').forEach(function(o){o.classList.remove('over');});
+      dragEl=null; renumber(list);
+    });
+    list.addEventListener('dragover', function(e){
+      e.preventDefault();
+      var over=e.target.closest('.wz-rank-item');
+      if(!over||over===dragEl)return;
+      var rect=over.getBoundingClientRect();
+      var after=(e.clientY-rect.top)/rect.height>0.5;
+      list.insertBefore(dragEl, after?over.nextSibling:over);
+    });
+    list.querySelectorAll('[data-up]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var it=b.closest('.wz-rank-item'); var prev=it.previousElementSibling;
+        if(prev){list.insertBefore(it,prev); renumber(list);}
+      });
+    });
+    list.querySelectorAll('[data-down]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var it=b.closest('.wz-rank-item'); var next=it.nextElementSibling;
+        if(next){list.insertBefore(next,it); renumber(list);}
+      });
+    });
+  });
+
+  function validate(screen){
+    var ok=true, msg='';
+    screen.querySelectorAll('[data-required]').forEach(function(el){
+      if(el.classList.contains('wz-opts')){
+        var checked=el.querySelectorAll('input:checked').length>0;
+        el.classList.toggle('invalid', !checked);
+        if(!checked){ok=false;}
+      } else {
+        var empty = !el.value || !el.value.trim();
+        el.classList.toggle('invalid', empty);
+        if(empty){ok=false;}
+      }
+    });
+    if(!ok){ msg='Please complete the required fields on this screen before continuing.'; }
+    var errEl=screen.querySelector('[data-error]');
+    if(errEl){ errEl.textContent=msg; errEl.classList.toggle('show', !ok); }
+    return ok;
+  }
+
+  function collect(){
+    var d={};
+    ['q1','q2','q3','q5','q6','q7','q11','q15','q16','q18'].forEach(function(k){
+      var el=document.getElementById(k); if(el) d[k]=el.value;
+    });
+    ['q4','q13','q14','q19'].forEach(function(k){
+      var el=document.querySelector('input[name="'+k+'"]:checked'); d[k]=el?el.value:'';
+    });
+    d.q12=Array.prototype.map.call(document.querySelectorAll('input[name="q12"]:checked'),function(x){return x.value;});
+    d.q9_ranked=Array.prototype.map.call(document.querySelectorAll('#q9rank .wz-rank-item'),function(x){return x.getAttribute('data-val');});
+    return d;
+  }
+
+  document.querySelectorAll('[data-next]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var cur=screens[i];
+      if(cur.classList.contains('wz-step') && !validate(cur)) return;
+      show(Math.min(i+1, screens.length-1));
+    });
+  });
+  document.querySelectorAll('[data-back]').forEach(function(b){
+    b.addEventListener('click', function(){ show(Math.max(i-1,0)); });
+  });
+  document.querySelectorAll('[data-submit]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var cur=screens[i];
+      if(!validate(cur)) return;
+      responses = collect();
+      /* ===== INTEGRATION POINT =====================================
+         Wire this to your endpoint (Google Forms, Airtable, webhook, etc.).
+         responses is a flat object keyed by question (q9_ranked is the ordered
+         array, q12 is an array of checked values). Example:
+         fetch('YOUR_ENDPOINT', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(responses)});
+         ============================================================ */
+      console.log('BMC45 survey responses:', responses);
+      show(screens.length-1);
+    });
+  });
+
+  // prevent Enter from advancing/submitting inside text inputs
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Enter' && e.target.tagName==='INPUT'){ e.preventDefault(); }
+  });
+
+  show(0);
+})();
+</script>
+</body>
+</html>
