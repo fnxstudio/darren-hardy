@@ -1,5 +1,7 @@
 # Tracking audit — what's running, what's broken, what to decide
 
+Beyond accuracy, this matters for weight: every tag adds bandwidth, slows page load, and drags on page speed scores — and on bandwidth-metered hosting such as Webflow, unnecessary scripts carry a direct cost.
+
 ---
 
 ## 1. Two platforms, and one property with nothing on it
@@ -49,37 +51,41 @@ GTM itself (`GTM-TTK5KZ`) is installed correctly and consistently — script in 
 
 ## 3. Everything firing — mark **needed / not needed / unknown**
 
-Measured on bmc.darrenhardy.com/multiplier.
+The full set observed across the pages audited.
 
 **Google**
+
 1. GTM container `GTM-TTK5KZ`
-2. GA4 `G-GVSMHHWKB7` — hardcoded, separate from GTM
+2. GA4 `G-GVSMHHWKB7` — hardcoded inline, separate from GTM
 3. GA4 `G-TLRGHBVSZ7` — via GTM
 4. GA4 `G-K5Q92SJZ4M` — via GTM
-5. Google Ads `AW-852119677` — beacon fires 3× per pageview
-6. Google Ads `AW-674886041`
+5. GA4 `G-EJL7QTX77N` — via Google Site Kit plugin (WordPress)
+6. Google Ads `AW-852119677` — beacon fires 3× per pageview
+7. Google Ads `AW-674886041`
+
+Hardcoded inline GA4 tags turn up on multiple pages, in addition to the properties already delivered through GTM. Worth establishing what each was added for and whether it's still required.
 
 **Ad platform pixels**
 
-7. Meta Pixel `1490399231274221` — PageView + ViewContent
-8. Microsoft UET `26014474`
-9. Microsoft Clarity `ng44tconm0` — session recording
-10. LinkedIn Insight `266308`
-11. TikTok Pixel `D0SAP2JC77UBTE66MR7G`
-12. X/Twitter `uwt.js`
+8. Meta Pixel `1490399231274221` — PageView + ViewContent
+9. Microsoft UET `26014474`
+10. Microsoft Clarity `ng44tconm0` — session recording
+11. LinkedIn Insight `266308`
+12. TikTok Pixel `D0SAP2JC77UBTE66MR7G`
+13. X/Twitter `uwt.js`
 
 **Attribution / monitoring**
 
-13. Hyros — `hyros.darrenhardy.com`
-14. Funnelytics — `track-v3.js` + sessions + steps + a Cloudflare worker
-15. ClickCease — click-fraud monitoring
-16. Meta Conversions API Gateway — see below
-17. Ambassador — 831 KB of JavaScript (145 KB over the wire) — see below
+14. Hyros — `hyros.darrenhardy.com`
+15. Funnelytics — `track-v3.js` + sessions + steps + a Cloudflare worker
+16. ClickCease — click-fraud monitoring
+17. Meta Conversions API Gateway — see below
+18. Ambassador — 831 KB of JavaScript (145 KB over the wire) — see below
 
 **Platform**
 
-18. HubSpot suite — analytics, cookie banner, collected-forms, ads pixel, web-interactives, live chat, tools menu, CWV embed, 3 `__ptq.gif` beacons
-19. `utm-tracking.js` — custom; runs `setInterval(…, 2000)`, a DOM query every 2 seconds for as long as the tab stays open, never cleared
+19. HubSpot suite — analytics, cookie banner, collected-forms, ads pixel, web-interactives, live chat, tools menu, CWV embed, 3 `__ptq.gif` beacons
+20. `utm-tracking.js` — custom; runs `setInterval(…, 2000)`, a DOM query every 2 seconds for as long as the tab stays open, never cleared
 
 ---
 
@@ -93,7 +99,7 @@ var mbsy_campaign_uid = '';
 ```
 Empty. It is the largest single script on the page and returns nothing.
 
-It is **not** on every page — it's on the Missing Multiplier pages but not the champion gift pages. So it was added page by page, not globally.
+It is found on multiple HubSpot pages.
 
 *Question: does anyone still use Ambassador? If not, it can be removed wherever it appears.*
 
