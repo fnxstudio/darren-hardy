@@ -124,7 +124,45 @@ Tested on the live path, navigating `bmc.darrenhardy.com` → `secure.darrenhard
 
 A controlled comparison — same browser, same navigation, same moment, same root domain. Google and Meta identity carried. **HubSpot's did not.**
 
-**This happens on every route to the checkout, not just the Zoom one.** Even a visitor who goes bmc → secure in one session arrives at the cart as a brand-new anonymous HubSpot visitor. That is why the undercount is severe rather than marginal.
+**Artifact ruled out.** `document.cookie` parsing can hide a duplicate cookie name. Checked the raw string on both hosts: exactly **one** `hubspotutk` each, no duplicate names, values stable and reproducible across repeated visits. The observation is real.
+
+### Why it happens — proven by experiment
+
+HubSpot does **not** share the visitor cookie across hostnames. It transfers identity through the **`__hstc` URL parameter**, which its automatic cross-domain linking appends to outbound links. Three tests:
+
+| Test | Arrived at `secure` with | Existing cookie there | Result |
+|---|---|---|---|
+| 1 | nothing (typed URL) | none | **minted new ID** `e4faa2d4…` |
+| 2 | `__hstc` carrying bmc's ID | `e4faa2d4…` already set | kept `e4faa2d4…` — existing cookie wins |
+| 3 | `__hstc` carrying bmc's ID | **cleared first** | **adopted `ce7d80b4…`** ✅ |
+
+In test 3 the `__ptq` beacon reported `vi=ce7d80b43ee2040c8989ded40621ac68` — the cart view was attributed to the **same visitor** as the bmc session.
+
+**So the mechanism works when the parameter is present.** The failure is upstream: the links reaching the checkout do not carry it.
+
+### The actual break: undecorated checkout links
+
+Measured on `www.hardybmc.com` (where `bmc.darrenhardy.com` sends you at the root):
+
+```
+https://secure.darrenhardy.com/checkout/bmc-collective
+```
+
+Bare. **0 of 2 checkout links decorated; 0 of 6 outbound links decorated.** No `__hstc`, no UTMs.
+
+Contributing factor: `www.hardybmc.com` carries **no HubSpot page tracking at all** — no `hubspotutk`, no `hs-analytics` request, only a HubSpot *forms* embed. HubSpot's link decorator isn't running on that page, so it cannot decorate anything, and HubSpot never identifies the visitor there to begin with.
+
+Zoom links have the same problem for a different reason: they're placed by hand and can never be auto-decorated.
+
+### Corrected causal chain
+
+1. Cross-domain linking is **on** in the portal — decorated links exist elsewhere on these properties.
+2. But the checkout links are **not decorated**, on the pages and in the webinar.
+3. An undecorated arrival makes HubSpot mint a new anonymous visitor ID.
+4. The cart view is recorded against that anonymous ID, with no contact attached.
+5. With no contact, it cannot be bucketed into New to DB / MQL / Non-MQL / Alumni — it drops out of a segmented report.
+6. Purchases are keyed on the email captured at checkout, so they resolve completely.
+7. Result: 23 buys against 13 recorded cart views.
 
 The HubSpot beacon does fire on the checkout, but anonymously:
 ```
@@ -135,19 +173,24 @@ A page view is recorded against a **fresh, unassociated visitor token**. With no
 
 Purchases don't have this problem: Spiffy captures the buyer's email at checkout, HubSpot resolves it to the contact record, and the segment is known with certainty. Hence complete purchase counts and badly incomplete cart-view counts.
 
-**The Zoom path adds a second layer.** Attendees clicking the cart link from the Zoom app also arrive with no referrer and no UTMs (see §3), and many are on a different device from the one they attended on. But the HubSpot identity is lost either way — so both routes produce anonymous cart views.
+**The Zoom path fails the same way, plus more.** Links placed by hand in a webinar can never be auto-decorated, so they always arrive without `__hstc`. They also carry no referrer and no UTMs (see §3), and attendees often buy on a different device than they watched on.
 
 ### On the team's read
 
 The practical conclusion — *don't trust the cart-view number* — is **correct**, and the numbers should not be reported as-is.
 
-The stated cause needs adjusting. This is not HubSpot being inherently poor at tracking Spiffy pages: the tracking code is present and firing on the checkout. It is that **HubSpot visitor identity is not being carried across the hostnames**, so the view lands anonymously. That is a configuration problem, which matters because it is fixable rather than something to live with.
+The stated cause needs adjusting. This is not HubSpot being inherently poor at tracking Spiffy pages — the tracking code is present and firing on the checkout, and it stitches identity correctly when the visitor arrives carrying `__hstc` (proven in test 3 above). The break is that **the links reaching the checkout are not decorated with that parameter**. That is a link/config problem, which matters because it is fixable rather than something to live with.
 
 ### What would fix it
 
-- **Carry the contact identifier on the cart link the webinar presents.** If the link includes the registrant's identifier (or email), the cart view can be tied to the known contact regardless of cookie state or device. This is the single highest-value change and it also fixes §3.2.
-- **Confirm HubSpot cross-domain tracking is configured** for the domains in the portal, so `hubspotutk` persists across them for same-browser visitors.
-- **Until then, report cart views from Spiffy** — which counts the page server-side and is not cookie-dependent — and accept that the segment split isn't available for that metric rather than publishing a number that is wrong by a factor of several.
+Ordered by what the evidence supports:
+
+1. **Find out why the checkout links aren't decorated.** Automatic cross-domain linking is already on, so decoration is expected and isn't happening on these links. Most likely because `www.hardybmc.com` runs no HubSpot page tracking, so the decorator script isn't present to rewrite them. Confirm whether that domain is connected under Settings → Content → Domains & URLs.
+2. **Decorate the checkout links explicitly** — including the one the webinar presents, which can never be auto-decorated. Appending `__hstc` / `__hssc` / `__hsfp` restores attribution: verified working in test 3.
+3. **Better still, carry the contact identifier or email** on the cart link. That survives a device switch, which no cookie or URL parameter will. This is the only fix that covers the webinar-on-laptop, buy-on-phone case.
+4. **Until then, report cart views from Spiffy** — counted server-side, not cookie-dependent — and state that the segment split isn't available for that metric, rather than publishing a number that is wrong several-fold.
+
+The portal toggle at Settings → Tracking & Analytics → Tracking Code → Advanced Tracking is worth confirming, but the evidence says it is already on, so expect it not to be the fix.
 
 ---
 
