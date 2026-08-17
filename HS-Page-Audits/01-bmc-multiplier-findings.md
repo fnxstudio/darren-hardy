@@ -86,8 +86,12 @@ It also listens for `hsFormCallback` — the HubSpot Forms **v2** postMessage �
 
 Per Meta's Conversions API docs, the Pixel's `eventID` must match the server `event_id` or *"duplicate events will be sent to the ad delivery system."* With a CAPI relay also firing, browser and server conversions cannot be matched → reported conversions inflated, and Meta optimizes against corrupted signal.
 
-### 1.2 The email field is not required
-`required: false` on the email input. Only first name is enforced. The visible asterisk (`Email*`) and `aria-required="true"` both say required; the validation attribute says optional. A submission with no email is possible on a page whose sole purpose is capturing email.
+**Confirmed a second way.** The HubSpot form's own JSON definition (embedded in the page) enumerates every field on the form:
+`firstname`, `email`, `company_role`, `phone`, `text_messaging_optin_property`, `utm_source`, `utm_medium`, `utm_term`, `utm_campaign`.
+There is no `bmc_event_id`. The field the script writes to was never added to the form.
+
+### 1.2 ~~The email field is not required~~ — RETRACTED
+An earlier pass flagged this from the DOM attribute `required=false`. **That was wrong.** The form's JSON definition sets `"propertyReference":"0-1/email","required":true`, and the form runs `"enabledLiveValidation":true` — HubSpot's v4 embed enforces validation in JavaScript rather than via the native `required` attribute, which is why `aria-required="true"` is present and the native attribute is not. Email is genuinely required. Same for `company_role`.
 
 ---
 
@@ -115,9 +119,30 @@ Per Meta's Conversions API docs, the Pixel's `eventID` must match the server `ev
 
 - **The cookie banner covers the form and submit button on first load.** On mobile it sits directly over the input fields; on desktop it covers the value proposition and part of the form. The primary conversion action is obscured until dismissed.
 - **The same 6-field form is rendered twice**, both visible, same form GUID (`6bb21130-e64e-4fab-9acf-5c276d764df6`), at y=687 and y=2506. Both register a form view → HubSpot view counts and conversion rate inflated ~2×; duplicate-submission exposure.
-- A field with `placeholder="Search"` appears **twice in each form**, plus an unlabeled `tel` input. Only 2 of 6 visible inputs carry a submittable field name.
-- **Zero working field labels** — 8 `<label>` elements, all empty. Placeholder-only, which disappears on focus.
+- ~~A field with `placeholder="Search"` appears twice in each form; only 2 of 6 visible inputs carry a submittable field name.~~ **RETRACTED.** The "Search" inputs are HubSpot's built-in dropdown search (`showDropdownSearch: true` + the `SEARCH_PLACEHOLDER` translation string), and the empty-named visible inputs are the v4 embed's normal proxy-input pattern backed by the hidden named fields. Neither is a defect.
+- **Zero working field labels** — 8 `<label>` elements, all empty. Placeholder-only, which disappears on focus. (Still valid — a labelling/accessibility issue independent of the v4 pattern.)
 - Mobile and desktop see **different copy** (213 characters vs 35) via duplicated hide/show blocks.
+
+---
+
+## Priority 6 — Hidden text
+
+Excluding HubSpot's inert form-renderer payload (~36 KB of inline CSS, a country-code list, and form JSON — machinery, not copy), the page carries these **content-bearing but invisible** blocks against **2,052 characters of visible text**:
+
+**Copy belonging to a different offer.** The visible page sells a self-serve diagnostic — the button reads *"GET THE FREE DIAGNOSTIC."* Hidden in the markup is briefing/webinar copy:
+
+> "**Video training BONUS!** Darren will walk you through every step to find the one hire that will transform your business… This is the same process he's used to personally mentor top business leaders like: **Sidd Pagidipati** who TRIPLED his revenue from $60M to $180M with one key hire · **Troy Berg** who went from $1M to $30M by filling one key seat · **Kevin Ortner** who saw an 11X ROI off his one key hire in the first year"
+
+That block belongs to the sibling funnel at `dh.darrenhardy.com/one-multiplier` ("AI DIAGNOSTIC + FREE TRAINING", *"Register now… reserve your seat for a free bonus briefing"*). Named clients and specific revenue claims are sitting in the HTML of a page that never displays them.
+
+**Duplicated hero.** The full H1 block — *"FIND THE ONE HIRE YOUR BUSINESS NEEDS NEXT / Find which critical role could remove bottlenecks…"* — exists twice: once visible, once hidden. This is the source of the duplicate-H1 finding above.
+
+**Triplicated disclaimer.** *"Free. Read it once. Use it forever. Darren Hardy LLC values your privacy…"* appears three times, hidden.
+
+**Note on `{!evergreen-webinar2/3/4}`:** these merge-field placeholders appear in the served HTML of `/one-multiplier`'s briefing-time dropdown, but are **replaced at runtime** with real dates ("Monday, 17th August – 12:00 PM PDT"). Not a live bug — verified in the rendered DOM.
+
+### Same pattern on the sibling page
+`dh.darrenhardy.com/one-multiplier` (title: **"Missing Multiplier - Opt-in Page"** — another internal working name in `<title>`) carries **8,628 hidden characters against 2,192 visible** — roughly 4:1. Its hidden blocks are desktop/mobile clones of the same offer, plus a duplicated `WHY NOW:` heading.
 
 ---
 

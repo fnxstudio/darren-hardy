@@ -142,6 +142,26 @@ Crawlers get no map of the site whatsoever.
 
 ---
 
+## Hidden text — checked for old DH lead-magnet copy
+
+Checked specifically, because DH lead-magnet copy was found hidden on the Multiplier pages. **It is not present here.**
+
+Every content-bearing hidden block on this page is **Unbreakable Sole copy**, hidden as responsive desktop/mobile clones:
+
+| Hidden block | Content |
+|---|---|
+| `dnd_area-row-0-hidden` | duplicate of the visible DH endorsement + hero |
+| `dnd_area-row-3-hidden` | *"Life may break you open… UNBREAKABLE SOUL already inside you." — MISSY MOSS WRIGHT* (duplicated twice within the row) |
+| `dnd_area-row-4-hidden` | **an entire duplicate testimonial row** (Jessica Fairbanks, Thomas Petersen) |
+| rich-text span | *"Life can be heavy. You've carried so much… 26.2 chapters"* — book copy, 612 chars |
+| `header-menu` | duplicate nav |
+
+**False positives ruled out.** The words "CEO", "entrepreneur" and "business owner" appear in the source and look like DH lead-magnet vocabulary, but every instance is a **testimonial job title** for a real book reviewer (Thomas Petersen, *CEO of SportProsUSA*; Elo Jones, *Business Owner and Investor*; Holly Nye, *Entrepreneur*). Legitimate content — do not flag.
+
+The DH contamination on this page is in **code and infrastructure**, not body copy.
+
+---
+
 ## Page weight
 
 | Metric | Measured |
