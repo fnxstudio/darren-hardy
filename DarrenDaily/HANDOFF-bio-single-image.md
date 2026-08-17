@@ -33,10 +33,14 @@ mobile shape and the wide desktop one.
 **Place the image as a native Webflow Image element — not a CSS background, and not an `<img>`
 built in JavaScript.**
 
-That's what makes Webflow emit a responsive `srcset`, so each device pulls a right-sized variant
-rather than the full file. Per-view weight lands around **30 KB phones / 60 KB tablets / 88 KB
-laptops**, with only large retina desktops pulling the full ~100 KB. (The old covers wall pulled
-~2.5 MB every view, on every device.)
+That's what makes Webflow emit a responsive `srcset` so smaller / lower-density screens can pull a
+smaller variant instead of the full file. **Set expectations honestly, though:** this image is
+full-bleed (Webflow emits `sizes="(max-width:1400px) 100vw, 1400px"`), and modern phones are 2–3x
+density, so a typical phone still pulls the 800–1080px variant (**~60–90 KB**) — the ~30 KB (500px)
+variant only lands on 1x / very narrow screens. **The guaranteed, dominant win is the collapse from
+the old covers wall (~2.5 MB, 37 files, every view, every device) to ONE image, ≤100 KB on any
+device — a ~25x cut.** The responsive variants trim a bit more off the smaller/low-density long tail;
+treat that as a bonus, not the headline.
 
 This is about **element type, not upload method** — Webflow generates the size variants for uploaded
 assets either way, Designer or API. What loses you the `srcset` is a background image or a
