@@ -127,13 +127,37 @@ An earlier pass flagged this from the DOM attribute `required=false`. **That was
 
 ## Priority 6 — Hidden text
 
-Excluding HubSpot's inert form-renderer payload (~36 KB of inline CSS, a country-code list, and form JSON — machinery, not copy), the page carries these **content-bearing but invisible** blocks against **2,052 characters of visible text**:
+### Diagnosis: no copy from a different or older lead magnet
 
-**Copy belonging to a different offer.** The visible page sells a self-serve diagnostic — the button reads *"GET THE FREE DIAGNOSTIC."* Hidden in the markup is briefing/webinar copy:
+Checked exhaustively. Every text block — visible, hidden, and dead-at-all-breakpoints — across all of the following belongs to the **Missing Multiplier / one-hire campaign**:
+
+| Checked | Text blocks | Off-campaign copy |
+|---|---|---|
+| `bmc.darrenhardy.com/multiplier` (live) | 34 | none |
+| `dh.darrenhardy.com/one-multiplier` (live, 3 breakpoints) | 47 | none |
+| `Hidden Profits/index.html` (rebuild) | 21 | none |
+| `Hidden Profits/_source/original.html` | 37 | none |
+| `Hidden Profits/_source/reference.html` | 37 | none |
+| `unbreakablesole.com/home` | — | none |
+
+*Method: extracted every text node >25 chars and filtered against campaign vocabulary, then read the residue by hand. A hypothetical old lead magnet reusing the same generic business vocabulary would not be caught by the filter alone — but all residual blocks were read and are on-campaign fragments.*
+
+**What actually exists is contamination between two configurations of the same lead magnet:**
+
+| | Config A | Config B |
+|---|---|---|
+| URL | `bmc.darrenhardy.com/multiplier` | `dh.darrenhardy.com/one-multiplier` |
+| Offer | self-serve diagnostic | diagnostic **+ live briefing** |
+| CTA | GET THE FREE DIAGNOSTIC | REGISTER NOW! (with time picker) |
+| `abTestId` | null | 215178475808 |
+
+Config B's copy is sitting hidden inside Config A's page — not an old lead magnet.
+
+**Config B copy hidden on Config A.** The visible page sells a self-serve diagnostic — the button reads *"GET THE FREE DIAGNOSTIC."* Hidden in the markup is the briefing variant's copy:
 
 > "**Video training BONUS!** Darren will walk you through every step to find the one hire that will transform your business… This is the same process he's used to personally mentor top business leaders like: **Sidd Pagidipati** who TRIPLED his revenue from $60M to $180M with one key hire · **Troy Berg** who went from $1M to $30M by filling one key seat · **Kevin Ortner** who saw an 11X ROI off his one key hire in the first year"
 
-That block belongs to the sibling funnel at `dh.darrenhardy.com/one-multiplier` ("AI DIAGNOSTIC + FREE TRAINING", *"Register now… reserve your seat for a free bonus briefing"*). Named clients and specific revenue claims are sitting in the HTML of a page that never displays them.
+That block belongs to Config B. Named clients and specific revenue claims are sitting in the HTML of a page that never displays them — but it is the same lead magnet, not an old one.
 
 **Duplicated hero.** The full H1 block — *"FIND THE ONE HIRE YOUR BUSINESS NEEDS NEXT / Find which critical role could remove bottlenecks…"* — exists twice: once visible, once hidden. This is the source of the duplicate-H1 finding above.
 
