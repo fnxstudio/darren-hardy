@@ -14,11 +14,10 @@ its own).
 ## The image
 `dh-covers.webp` — Darren in front of the SUCCESS covers, baked into one 1200×750 WebP, ~100 KB.
 
-- **Download:** https://github.com/fnxstudio/darren-hardy/raw/main/DarrenDaily/dh-covers.webp
-- **See the finished result in the full page (target to match):**
-  https://fnxstudio.github.io/darren-hardy/DarrenDaily/darrendaily-post-single-lite.html#about
-- **See the bio section ON ITS OWN (resize the window to watch it respond):**
-  https://fnxstudio.github.io/darren-hardy/DarrenDaily/darrendaily-bio.html
+- **The file** `dh-covers.webp` is provided alongside this document.
+- **To preview the target look and responsive behavior:** open `darrendaily-bio.html` (provided
+  alongside this document) in a browser and resize the window — it's the finished bio section on its
+  own, so you can see exactly how it should stack on mobile and split on desktop.
 
 ---
 
@@ -27,6 +26,13 @@ its own).
 **1. Upload the image**
 Assets panel → upload `dh-covers.webp`. (It's already WebP and optimized — do **not** re-export it;
 leave it as-is.)
+
+> **Bandwidth note:** upload it through the **Designer Assets panel** (as here) and place it as a real
+> **Image element** in step 3 — *not* as a CSS background image, and not via the API. Done this way,
+> Webflow auto-generates responsive sizes and serves a right-sized variant per device, so the full
+> file is **not** pulled on every view. Real per-view weight: phones ≈ **30 KB**, tablets ≈ **60 KB**,
+> laptops ≈ **88 KB**; only large/retina desktops pull the full ~100 KB. (For comparison, the old
+> multi-file covers wall pulled ~2.5 MB every view.)
 
 **2. Find the bio section**
 On the Sessions Template, scroll to the "Behind the covers. Behind closed doors." section. Its wall
