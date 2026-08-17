@@ -1,0 +1,57 @@
+HOW TO USE THIS FILE
+--------------------
+Open a Claude Code session that has the Webflow MCP connected, drop in the two
+companion files (dh-covers.webp and HANDOFF-bio-single-image.md), and paste
+everything below the line as your first message. Claude will investigate the live
+site read-only, show you a plan, wait for your yes, then make the change and verify
+it. If it can't make the edits (e.g. no Webflow Designer session), it will stop and
+hand you the manual steps instead of half-doing it.
+
+====================================================================
+
+You have Webflow MCP access. Two files are provided alongside this message:
+dh-covers.webp (a 1200x750 image) and HANDOFF-bio-single-image.md (detailed
+reference -- read it, but verify everything live; don't trust any fact in it you
+haven't confirmed yourself).
+
+GOAL: On the DarrenDaily site (6a66d7a6f9d116b514a13ae1), Sessions Template page
+(6a681903f2f9b0d13a2b57a7), replace the JavaScript-built "covers wall" bio section
+with the single image dh-covers.webp -- so every session page loads one ~100KB
+image instead of 37 separate tiles. The layout must not change.
+
+PHASE 0 -- INVESTIGATE ONLY. Change nothing. Call webflow_guide_tool first, then:
+1. Open the Sessions Template and find the bio section ("Behind the covers.
+   Behind closed doors."). Report the ACTUAL element/class structure you find --
+   confirm the class names yourself, don't assume the reference doc's.
+2. Confirm the section is plain template elements, NOT a Component. If it's a
+   Component, STOP and tell me -- editing it changes every instance sitewide.
+3. Confirm your tools can actually delete an element and add an Image element on
+   this CMS Collection Template page. If they can't (e.g. no Designer session),
+   STOP, say so plainly, and give me the manual Designer steps instead.
+4. Check whether dh-covers.webp is already in Assets, and that the file is on disk.
+5. Check for other pending/unpublished changes on the site -- publishing pushes
+   everything sitewide, not just this edit.
+Then STOP and show me your exact plan + which publish domains you'd target.
+Wait for my explicit "yes" before touching anything.
+
+PHASE 1 -- EXECUTE (only after yes):
+- Upload dh-covers.webp as an asset (do NOT re-compress or resize it -- it's
+  already at its size budget).
+- Delete the two old elements in the wall (the empty covers div + the Darren
+  cutout img). Add ONE native Image element in their place, source it to
+  dh-covers.webp, give it a NEW class (bio-single) with:
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    object-position:50% 38%; display:block;
+  and set HTML attributes loading=lazy, decoding=async, plus alt text
+  "Darren Hardy in front of the wall of SUCCESS magazine covers he published".
+- Do NOT edit any existing shared class's style, and do NOT edit any Component.
+- Publish only to the domain(s) I confirmed.
+
+PHASE 2 -- VERIFY: load a published session page. Confirm the image renders, the
+37-tile grid and its network requests are gone, there are no console errors, and
+it looks right on mobile AND desktop. Then confirm the image carries a Webflow
+srcset (-p-500 / -p-800 / -p-1080). If it doesn't yet, wait ~30-60s and re-check --
+variants generate asynchronously -- before reporting it as missing.
+
+Do not extend the task: no cleanup of old assets or dead code, no touching other
+pages. Report what changed, what you verified, and anything you couldn't.

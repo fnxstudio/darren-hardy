@@ -170,8 +170,13 @@ site is unchanged — and publishing somewhere unintended is worse. Ask.
    Darren, B&W covers), and it fills `.bio-wall` cleanly.
 2. The old grid is gone — no 37 cover requests in the network panel, no console errors.
 3. **Confirm the responsive variants are being served** — the image should carry a Webflow `srcset`
-   with `-p-500` / `-p-800` / `-p-1080` sizes. If there's no `srcset`, it didn't land as a native
-   Image element; flag it, because the bandwidth win is much smaller without it.
+   with `-p-500` / `-p-800` / `-p-1080` sizes. Webflow generates these **asynchronously** after
+   upload, so if they aren't there the instant you check, wait ~30–60s (or republish) and re-check
+   before treating it as a problem. If they still never appear, the likely cause is that the image
+   didn't land as a **native Image element** (a CSS background or a JS-built `<img>` gets no srcset) —
+   flag it, because the bandwidth win is much smaller without it. (Verified on this site: API-uploaded
+   images wider than 500px do get the full variant set; images narrower than 500px legitimately get
+   none, since there's nothing to downscale.)
 4. Check desktop **and** mobile widths. The image is centred on Darren and crops cleanly to both.
 5. Report what changed, what you verified, and anything you couldn't verify.
 
