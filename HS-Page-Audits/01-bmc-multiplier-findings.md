@@ -1,0 +1,156 @@
+# Page Audit — bmc.darrenhardy.com/multiplier
+
+**Audited:** 2026-08-17 · **HubSpot portal:** 2518645 · **HS content ID:** 215742594976
+**Method:** served HTML inspected + page executed in real Chrome (runtime network, console, DOM, long-task capture)
+
+> Standalone report. Findings for unbreakablesole.com are in `02-unbreakable-sole-findings.md`.
+
+---
+
+## Measured baseline
+
+Real Chrome, desktop, fast connection — i.e. the **best case**. Mobile ad traffic will be worse.
+
+| Metric | Measured |
+|---|---|
+| Network requests | 148 |
+| Distinct third-party hosts | 52 |
+| Transferred / uncompressed | 1.65 MB / 2.97 MB |
+| Scripts executed | 50 |
+| Main-thread blocking (long tasks) | 13 tasks, 1,246 ms total |
+| Stylesheets + inline `<style>` blocks | 40 + 24 (1,645 CSS rules) |
+| DOM nodes | 1,086 |
+| `load` event | 5.4 s |
+
+Google's "good" threshold is LCP < 2.5 s at the 75th percentile of real users.
+*Note: Google PageSpeed API was rate-limited at audit time; figures above are direct measurements.*
+
+---
+
+## Everything firing — triage list
+
+Mark each: **needed / not needed / unknown**
+
+### Google — 6 separate IDs
+| # | Tool | ID | Notes |
+|---|---|---|---|
+| 1 | Google Tag Manager | `GTM-TTK5KZ` | hardcoded inline |
+| 2 | GA4 | `G-GVSMHHWKB7` | hardcoded *separately* from GTM (page-specific) |
+| 3 | GA4 | `G-TLRGHBVSZ7` | via GTM |
+| 4 | GA4 | `G-K5Q92SJZ4M` | via GTM |
+| 5 | Google Ads | `AW-852119677` | conversion beacon fired **3× per pageview** |
+| 6 | Google Ads | `AW-674886041` | second account |
+
+→ Three GA4 properties record the same pageview. Counts will not reconcile between them.
+
+### Ad platform pixels
+| # | Tool | ID |
+|---|---|---|
+| 7 | Meta Pixel | `1490399231274221` (PageView + ViewContent) |
+| 8 | Microsoft UET | `26014474` |
+| 9 | Microsoft Clarity | `ng44tconm0` (session recording) |
+| 10 | LinkedIn Insight | `266308` |
+| 11 | TikTok Pixel | `D0SAP2JC77UBTE66MR7G` |
+| 12 | X / Twitter | `uwt.js` |
+
+### Attribution / monitoring
+| # | Tool | Notes |
+|---|---|---|
+| 13 | Hyros | `hyros.darrenhardy.com` |
+| 14 | Funnelytics | `track-v3.js` + sessions + steps + Cloudflare worker |
+| 15 | ClickCease | click-fraud monitoring |
+| 16 | Custom CAPI relay | `capi.thecompoundeffect.com` + CloudFront (2 calls each) |
+| 17 | **Ambassador** | `cdn.getambassador.com` — **831 KB** JS (145 KB wire) + second `mbsy.co` call |
+
+**Ambassador is confirmed dead.** Its endpoint returns:
+```js
+var mbsy_short_code = '';
+var mbsy_campaign_uid = '';
+```
+Empty. Largest script on the page; returns nothing. Account UID `c5b1d215-7123-40d7-8ba7-dd57b3959b6d`.
+
+### HubSpot + custom
+| # | Tool | Notes |
+|---|---|---|
+| 18 | HubSpot suite | analytics, cookie banner, collected-forms, ads pixel, web-interactives, **live chat**, tools menu, CWV embed, 4× `__ptq.gif` |
+| 19 | `utm-tracking.js` | custom; requested **3×** (one aborted); runs `setInterval(…, 2000)` — a DOM query every 2 s for as long as the tab is open, never cleared |
+
+---
+
+## Priority 1 — Actively costing ad money
+
+### 1.1 The Meta deduplication ID is never sent
+An inline script generates an event ID and writes it into `input[name="bmc_event_id"]`. **That field does not exist** anywhere in the page (verified: 0 in light DOM, 0 in shadow DOM).
+
+It also listens for `hsFormCallback` — the HubSpot Forms **v2** postMessage — while the page runs the **v4** embed (`hs-form-html` / `hs-form-event:on-ready`), which fires a different event entirely. Two independent breaks in ~30 lines.
+
+Per Meta's Conversions API docs, the Pixel's `eventID` must match the server `event_id` or *"duplicate events will be sent to the ad delivery system."* With a CAPI relay also firing, browser and server conversions cannot be matched → reported conversions inflated, and Meta optimizes against corrupted signal.
+
+### 1.2 The email field is not required
+`required: false` on the email input. Only first name is enforced. The visible asterisk (`Email*`) and `aria-required="true"` both say required; the validation attribute says optional. A submission with no email is possible on a page whose sole purpose is capturing email.
+
+---
+
+## Priority 2 — Page speed
+
+- **737 KB in two decorative background gradients** shipped as PNG (439 KB + 298 KB). A WebP of the same gradient is **already on the page at 47 KB**. ~690 KB avoidable using a format they already had.
+- **Ambassador's 831 KB** (dead — see 17).
+- **jQuery 1.11.2 + Migrate 1.2.1** (2014-era), render-blocking in `<head>`. Within the affected range of CVE-2020-11022 (jQuery 1.2 → <3.5.0, CVSS 6.1). Its only real job here is the `utm-tracking.js` interval.
+- **All 17 images are `loading="lazy"` — including above-the-fold hero images.** Lazy-loading the LCP element delays the thing the visitor is waiting for.
+- The page stylesheet chains `@import`-style `url()` calls to Google Fonts and Typekit, serializing render-blocking requests.
+
+---
+
+## Priority 3 — Pure waste
+
+- **Adobe Typekit kit loaded — 9 `@font-face` for `neue-haas-grotesk`. Zero uses.** Neither family is referenced anywhere on the page.
+- **122 `@font-face` declared; 15 actually load.** Inter requested from 3 sources, Lato from 3, plus Source Sans Pro. Only 2 families render text.
+- **FontAwesome loaded 3×** (kit JS + kit CSS + v5.9.0 `all.css`) **for exactly 1 icon.** Config still carries dev-only settings (`domains: "localhost, *.dev"`).
+- HubSpot **live chat** loading on a single-purpose opt-in page.
+- **Invalid CSS from empty module fields:** 16 declarations such as `border-radius:px`, `font-size:px`, `line-height:px`, `margin-top:px`; plus 11 empty `{}` rules and 5 fully transparent shadows. All discarded by the browser.
+
+---
+
+## Priority 4 — Experience / conversion
+
+- **The cookie banner covers the form and submit button on first load.** On mobile it sits directly over the input fields; on desktop it covers the value proposition and part of the form. The primary conversion action is obscured until dismissed.
+- **The same 6-field form is rendered twice**, both visible, same form GUID (`6bb21130-e64e-4fab-9acf-5c276d764df6`), at y=687 and y=2506. Both register a form view → HubSpot view counts and conversion rate inflated ~2×; duplicate-submission exposure.
+- A field with `placeholder="Search"` appears **twice in each form**, plus an unlabeled `tel` input. Only 2 of 6 visible inputs carry a submittable field name.
+- **Zero working field labels** — 8 `<label>` elements, all empty. Placeholder-only, which disappears on focus.
+- Mobile and desktop see **different copy** (213 characters vs 35) via duplicated hide/show blocks.
+
+---
+
+## Priority 5 — SEO / AEO
+
+- **Four different descriptions of one offer:** title *"Your Missing Multiplier"* / H1 *"Find the One Hire Your Business Needs Next"* / meta description *"5 critical roles that multiply growth"* / URL `/multiplier` / button *"Get the Free Diagnostic."* Meta's Advertising Standards require that *"the products and services promoted in an ad must match those promoted on the landing page"* — there is no single consistent claim to match against.
+- **Two `<h1>` elements**, identical text (duplicate hero block).
+- **Two completely empty `<h3>` elements.**
+- **No `og:image`** — every share and link preview renders imageless.
+- **No structured data** (zero JSON-LD) — nothing for answer engines to extract.
+- **Alt text is raw filenames:** "Group 21", "Group 19-1", "Group 18-3", "Group 20", "Group 10 (1) (1)", "tst" — duplicated into `title` attributes, so hovering shows a tooltip reading "Group 21".
+- Production filenames include **`tst.webp`** and **`imagw.webp`** (typo of "image").
+
+---
+
+## On ad cost — stated precisely
+
+Meta's auction values ads on bid × **estimated action rate** + **ad quality**. Meta explicitly states that ad relevance diagnostics (quality / engagement / conversion rate ranking) are **diagnostics, not direct auction inputs** — so slow pages do not directly raise CPM.
+
+The real mechanism: a slower page means fewer clickers reach the form → lower measured conversion rate and estimated action rate → higher **cost per result**. Meta also notes lower-quality ads *"may experience impacted performance."*
+
+The broken dedup ID (1.1) is the more concrete money problem — corrupted optimization signal, not a speed inference.
+
+For sizing the speed effect on a lead-gen page, the Google/Deloitte *Milliseconds Make Millions* study measured that a **0.1-second** mobile improvement moved lead-gen bounce rate 8.3% and progression to the contact page **+20.6%**. This page has multiple seconds available.
+
+---
+
+## Sources
+
+- [web.dev — Core Web Vitals](https://web.dev/articles/vitals)
+- [Meta — Deduplicate Pixel and Conversions API events](https://developers.facebook.com/docs/marketing-api/conversions-api/deduplicate-pixel-and-server-events/)
+- [Meta — Ad auction](https://www.facebook.com/business/ads/ad-auction)
+- [Meta — About ad quality](https://www.facebook.com/business/help/423781975167984)
+- [Meta — Advertising Standards](https://transparency.meta.com/policies/ad-standards/)
+- [NVD — CVE-2020-11022](https://nvd.nist.gov/vuln/detail/cve-2020-11022)
+- [Google / Deloitte — Milliseconds Make Millions](https://www.thinkwithgoogle.com/_qs/documents/9757/Milliseconds_Make_Millions_report_hQYAbZJ.pdf)
