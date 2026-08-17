@@ -142,7 +142,47 @@ That block belongs to the sibling funnel at `dh.darrenhardy.com/one-multiplier` 
 **Note on `{!evergreen-webinar2/3/4}`:** these merge-field placeholders appear in the served HTML of `/one-multiplier`'s briefing-time dropdown, but are **replaced at runtime** with real dates ("Monday, 17th August – 12:00 PM PDT"). Not a live bug — verified in the rendered DOM.
 
 ### Same pattern on the sibling page
-`dh.darrenhardy.com/one-multiplier` (title: **"Missing Multiplier - Opt-in Page"** — another internal working name in `<title>`) carries **8,628 hidden characters against 2,192 visible** — roughly 4:1. Its hidden blocks are desktop/mobile clones of the same offer, plus a duplicated `WHY NOW:` heading.
+`dh.darrenhardy.com/one-multiplier` (title: **"Missing Multiplier - Opt-in Page"** — another internal working name in `<title>`) carries **8,628 hidden characters against 2,192 visible** — roughly 4:1.
+
+---
+
+## Priority 7 — What the `-hidden` classes actually are
+
+The `-hidden` suffix classes are **not A/B variants**. Tested empirically by probing all 24 `-hidden` elements at 375 px, 768 px and 1280 px:
+
+| Category | Count | What it means |
+|---|---|---|
+| Responsive breakpoint toggles | **15** | 7 mobile-only, 8 desktop/tablet-only — duplicated modules, each shown to someone |
+| Always visible | **2** | the `-hidden` suffix is simply misleading |
+| **Hidden at every breakpoint** | **7** | **dead content — shipped to every visitor, shown to nobody** |
+
+The A/B test on this page is real but runs through a completely different mechanism: HubSpot's own page-level testing, `"abTestId": 215178475808` in the page metadata. (By contrast `/multiplier` has `"abTestId": null`.) The CSS classes have nothing to do with it.
+
+### The 7 dead blocks include two complete sections
+- **An entire second hero:** *"FIND THE ONE HIRE THAT WILL DELIVER THE HIGHEST ROI IN YOUR BUSINESS / You are only one hire away from multiplying your company… | AI DIAGNOSTIC + FREE TRAINING"*
+- **The entire "WHAT'S INCLUDED" block:** *"The five key seats that compound a business at scale. (And the four seats most CEOs waste a decade chasing.) A 20-question Yes/No diagnostic…"*
+
+Both are downloaded by every visitor and readable by crawlers. Neither is displayed at any screen size.
+
+### Visible order differs by breakpoint
+Any "what actually shows" model built from a single viewport will be wrong — 15 modules differ between mobile and desktop.
+
+| | Desktop (1280) | Mobile (375) |
+|---|---|---|
+| 1 | H1 — FIND THE ONE HIRE… | H1 — FIND THE ONE HIRE… |
+| 2 | H1 — WALK AWAY WITH: | **REGISTER NOW! (form)** |
+| 3 | H1 — WHY NOW: | H1 — WALK AWAY WITH: |
+| 4 | **H1 — THE MISSING MULTIPLIER BRIEFING** | **H1 — "X"** |
+| 5 | REGISTER NOW! (form) | H1 — WHY NOW: |
+| 6 | H2 — The Advisor Behind… | H2 — The Advisor Behind… |
+
+Three things fall out of this:
+- **The form sits in a different place** — second element on mobile, fifth on desktop.
+- **"THE MISSING MULTIPLIER BRIEFING" never appears on mobile.**
+- **Four visible `<h1>` elements on desktop.** "WALK AWAY WITH:" and "WHY NOW:" are section labels marked up as H1, not H2.
+
+### A stray `<h1>` containing "X"
+On mobile only, an `<h1>` whose entire content is the letter **X**, set to `font-size: 3px` in the body text colour. It occupies a 335 × 3 px strip — technically rendered, invisible in practice, and read by crawlers as a top-level heading. It appears to be a leftover shrunk out of view rather than deleted.
 
 ---
 
