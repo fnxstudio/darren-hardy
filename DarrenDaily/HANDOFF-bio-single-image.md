@@ -64,6 +64,31 @@ either shape.
 
 ---
 
+## Scope & safety — this change stays on the Sessions Template only
+
+Done as written above, this affects **only the Sessions Template** (i.e. every session detail page —
+which is the whole point). It **cannot** touch the Home, Welcome, Expired, Champion, or any other
+page. Two simple rules keep it that way:
+
+1. **Only delete instances and add a NEW class.** The steps above delete the `.dd-covers` and
+   `.bio-cutout` elements and add one image with a brand-new class (`bio-single`). Deleting an element
+   and adding a new-class element are both scoped to this template — they don't propagate.
+2. **Do NOT edit the *style* of an existing shared class,** and **do NOT edit inside a Component.**
+   Those are the only two things in Webflow that change every page at once. If the bio section ever
+   shows the little green **Component** badge, don't edit it in place — that would change every
+   instance; ask first. (As built, this section is plain template elements, not a Component.)
+
+If you follow the steps as written, there is nothing to worry about — the marketing pages are
+untouched.
+
+**After it's live and verified:** please **ask the team** whether they'd like the same single-image /
+bandwidth treatment applied anywhere else on the site before doing it. This "Behind the covers"
+section only exists on session pages, so there's nothing identical elsewhere — but if there are other
+heavy multi-image blocks worth the same fix, that's a separate, deliberate decision, not part of this
+one.
+
+---
+
 ## Notes / optional cleanup (not required)
 - The single image is grayscale covers + **Darren in full color**, with a subtle vignette so he pops.
   It's already toned and sized — please don't run it back through any compressor (it's at the size
