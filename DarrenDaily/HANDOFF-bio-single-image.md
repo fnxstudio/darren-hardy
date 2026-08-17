@@ -90,9 +90,12 @@ parallax both stop on their own.** The leftover code is inert, not broken.
    changes every instance sitewide.
 4. **Check whether `dh-covers.webp` is already in Assets** (`data_assets_tool`), so you don't upload
    a duplicate. If it isn't there, you'll upload it in Phase 1.
-5. **Confirm you can actually make the edits before promising them.** Verify your tools can delete an
-   element and create an image element on a **CMS Collection Template** page. If they can't, say so
-   plainly and hand the human **Appendix A** rather than half-executing.
+5. **Confirm your element tools respond before promising the edits.** This runs **headless** —
+   `data_element_tool` (query / remove elements) and `data_element_builder` / `data_whtml_builder`
+   (create elements) operate server-side via the Data API; **no open Webflow Designer is required.** A
+   quick `get_all_elements` / `query_elements` on this page confirms access. Only if those calls
+   actually fail (e.g. the token lacks write scope) do you fall back to **Appendix A** rather than
+   half-executing.
 6. **Confirm `dh-covers.webp` is actually on disk** in your working directory (you need the real file
    to upload it). If you can't find it, stop and ask — don't substitute or regenerate an image.
 7. **Check for other unpublished changes on the site.** Publishing pushes **everything** that's
