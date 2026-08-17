@@ -127,37 +127,65 @@ An earlier pass flagged this from the DOM attribute `required=false`. **That was
 
 ## Priority 6 — Hidden text
 
-### Diagnosis: no copy from a different or older lead magnet
+### Diagnosis: yes — copy from a second, different lead magnet is embedded here
 
-Checked exhaustively. Every text block — visible, hidden, and dead-at-all-breakpoints — across all of the following belongs to the **Missing Multiplier / one-hire campaign**:
+**These are two distinct lead magnets, not two configurations of one.** They differ in deliverable, fulfilment and conversion event:
 
-| Checked | Text blocks | Off-campaign copy |
-|---|---|---|
-| `bmc.darrenhardy.com/multiplier` (live) | 34 | none |
-| `dh.darrenhardy.com/one-multiplier` (live, 3 breakpoints) | 47 | none |
-| `Hidden Profits/index.html` (rebuild) | 21 | none |
-| `Hidden Profits/_source/original.html` | 37 | none |
-| `Hidden Profits/_source/reference.html` | 37 | none |
-| `unbreakablesole.com/home` | — | none |
-
-*Method: extracted every text node >25 chars and filtered against campaign vocabulary, then read the residue by hand. A hypothetical old lead magnet reusing the same generic business vocabulary would not be caught by the filter alone — but all residual blocks were read and are on-campaign fragments.*
-
-**What actually exists is contamination between two configurations of the same lead magnet:**
-
-| | Config A | Config B |
+| | Lead magnet A — **free download** | Lead magnet B — **webinar** |
 |---|---|---|
 | URL | `bmc.darrenhardy.com/multiplier` | `dh.darrenhardy.com/one-multiplier` |
-| Offer | self-serve diagnostic | diagnostic **+ live briefing** |
-| CTA | GET THE FREE DIAGNOSTIC | REGISTER NOW! (with time picker) |
+| Deliverable | downloadable diagnostic | live/evergreen briefing attendance |
+| CTA | GET THE FREE DIAGNOSTIC | REGISTER NOW! |
+| Mechanics | none | time picker, evergreen merge fields |
 | `abTestId` | null | 215178475808 |
 
-Config B's copy is sitting hidden inside Config A's page — not an old lead magnet.
+They share the "Missing Multiplier / one hire" campaign theme, which is what makes the contamination easy to miss on a read-through.
 
-**Config B copy hidden on Config A.** The visible page sells a self-serve diagnostic — the button reads *"GET THE FREE DIAGNOSTIC."* Hidden in the markup is the briefing variant's copy:
+### The contamination is bidirectional
+
+Marker counts across both pages:
+
+| Marker | Belongs to | On A (download) | On B (webinar) |
+|---|---|---|---|
+| `Select briefing time` | B | — | 2 |
+| `Watch Now (Starts in 2 Mins)` | B | — | 2 |
+| `evergreen-webinar` merge fields | B | — | 14 |
+| `REGISTER NOW` | B | — | 5 |
+| `reserve your seat` | B | — | 1 |
+| `BRIEFING` branding | B | — | 4 |
+| `FREE TRAINING` | B | — | 2 |
+| **`Video training BONUS`** | **B** | **1 (hidden)** | 1 (live) |
+| **Sidd Pagidipati / Troy Berg / Kevin Ortner** | **B** | **1 each (hidden)** | 1 each (live) |
+| **`Read it once. Use it forever`** | **A** | 3 | **2 (leaked onto B)** |
+
+**On A (download page):** none of the webinar's *machinery* is present — no time picker, no merge fields, no registration CTA. But a discrete webinar *content block* is, hidden: the "Video training BONUS" section plus the three-client proof block with named clients and specific revenue claims ($60M→$180M, $1M→$30M, 11X ROI). It is live on B and suppressed on A — consistent with being copied across and hidden rather than removed.
+
+**On B (webinar page):** the download magnet's language *"Free. Read it once. Use it forever"* appears twice — on a page whose deliverable is an event you attend, not something you read.
+
+*Earlier drafts of this report recorded "no off-campaign copy." That was reached by testing whether text matched the campaign vocabulary, which both magnets share. The operative test is deliverable and conversion event, and by that test the finding stands.*
+
+---
+
+### Scope of the sweep
+
+Every text block, visible/hidden/dead, across:
+
+| Checked | Text blocks |
+|---|---|
+| `bmc.darrenhardy.com/multiplier` (live) | 34 |
+| `dh.darrenhardy.com/one-multiplier` (live, 3 breakpoints) | 47 |
+| `Hidden Profits/index.html` (rebuild) | 21 |
+| `Hidden Profits/_source/original.html` | 37 |
+| `Hidden Profits/_source/reference.html` | 37 |
+| `unbreakablesole.com/home` | full hidden-block sweep |
+
+No copy from a *third* offer appeared anywhere — the contamination is strictly between magnets A and B. `unbreakablesole.com` is clean of both.
+
+**Webinar copy hidden on the download page.** The visible page delivers a free download — the button reads *"GET THE FREE DIAGNOSTIC."* Hidden in the markup is the webinar magnet's copy:
 
 > "**Video training BONUS!** Darren will walk you through every step to find the one hire that will transform your business… This is the same process he's used to personally mentor top business leaders like: **Sidd Pagidipati** who TRIPLED his revenue from $60M to $180M with one key hire · **Troy Berg** who went from $1M to $30M by filling one key seat · **Kevin Ortner** who saw an 11X ROI off his one key hire in the first year"
 
-That block belongs to Config B. Named clients and specific revenue claims are sitting in the HTML of a page that never displays them — but it is the same lead magnet, not an old one.
+That block belongs to lead magnet B (the webinar). Named clients and specific revenue claims are sitting in the HTML of the download page, which never displays them.
 
 **Duplicated hero.** The full H1 block — *"FIND THE ONE HIRE YOUR BUSINESS NEEDS NEXT / Find which critical role could remove bottlenecks…"* — exists twice: once visible, once hidden. This is the source of the duplicate-H1 finding above.
 
