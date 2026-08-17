@@ -52,7 +52,7 @@ Uploading it through the API is fine.
 
 | Thing | Value |
 |---|---|
-| Site ID | `6a66d7a6f9d116b514a13ae1` (staging: darrendaily.webflow.io) |
+| Site ID | `6a66d7a6f9d116b514a13ae1` |
 | Sessions Template page ID | `6a681903f2f9b0d13a2b57a7` |
 | Session behavior script | hosted `dd-sessions.js`, loaded site-wide as registered script `ddsessions` |
 
@@ -93,6 +93,11 @@ parallax both stop on their own.** The leftover code is inert, not broken.
 5. **Confirm you can actually make the edits before promising them.** Verify your tools can delete an
    element and create an image element on a **CMS Collection Template** page. If they can't, say so
    plainly and hand the human **Appendix A** rather than half-executing.
+6. **Confirm `dh-covers.webp` is actually on disk** in your working directory (you need the real file
+   to upload it). If you can't find it, stop and ask — don't substitute or regenerate an image.
+7. **Check for other unpublished changes on the site.** Publishing pushes **everything** that's
+   pending sitewide, not just your edit — including anyone else's half-finished Designer work. If
+   there are pending changes you didn't make, **say so in your outline and ask** before publishing.
 
 Then **stop** and present an outline roughly like this:
 
@@ -101,7 +106,8 @@ Then **stop** and present an outline roughly like this:
 > - Upload `dh-covers.webp` to Assets *(or: already present, reusing it)*
 > - **Delete** `<div class="dd-covers">` and `<img class="bio-cutout">` inside `.bio-wall`
 > - **Add** one image element, new class `bio-single`, pointing at `dh-covers.webp`
-> - **Publish** the site
+> - **Publish** to *(list the exact domains you're about to publish to, and confirm they're the right
+>   ones)* — note: this also publishes any other pending changes on the site
 >
 > This goes live and public on publish. Rollback = Webflow Designer → Backups.
 > **Do you want me to proceed?**
@@ -117,9 +123,10 @@ a manual backup. That's the rollback path and it takes ten seconds.
 ## Phase 1 — Execute (only after an explicit yes)
 
 **Step 1 — Upload the image** (skip if Phase 0 found it already in Assets).
-`data_assets_tool create_asset`, then POST the file bytes to the returned presigned S3 form. Send the
-form fields in order (`key`, `acl`, `bucket`, `X-Amz-*`, `Policy`, `X-Amz-Signature`,
-`success_action_status`, `Content-Type`, `Cache-Control`) with the **file last**.
+`data_assets_tool create_asset` needs **both** `file_name` and `file_hash`, where the hash is the
+file's **md5** (`md5 -q dh-covers.webp` on macOS). It then returns a presigned S3 form — POST the file
+bytes to it with the fields in order (`key`, `acl`, `bucket`, `X-Amz-*`, `Policy`, `X-Amz-Signature`,
+`success_action_status`, `Content-Type`, `Cache-Control`) and the **file last**.
 
 > Handy: an asset's ID is the **24-hex prefix of its hosted filename**
 > (`6a685822561969af09aa0023_Wall-DH-blue2.webp` → id `6a685822561969af09aa0023`).
@@ -128,7 +135,7 @@ form fields in order (`key`, `acl`, `bucket`, `X-Amz-*`, `Policy`, `X-Amz-Signat
 `<img class="bio-cutout">`.
 
 **Step 3 — Add the single image.** Add one **Image** element as a child of `.bio-wall`, source it to
-the `dh-covers.webp` asset, give it the **new** class `bio-single`, and set **Loading = Lazy**.
+the `dh-covers.webp` asset, and give it the **new** class `bio-single`.
 
 ```css
 .bio-single { position: absolute; inset: 0; width: 100%; height: 100%;
@@ -136,12 +143,24 @@ the `dh-covers.webp` asset, give it the **new** class `bio-single`, and set **Lo
 ```
 
 `object-position: 50% 38%` gives Darren a little headroom; plain centre also works.
-Alt text: `Darren Hardy in front of the wall of SUCCESS magazine covers he published`
+
+**Lazy loading is not a "setting" on the Data API** — `get_settings` on an Image element returns only
+domId/assetId/altText/visibility, with no `loading` field. Set the HTML attributes directly with
+`set_attributes`: `loading: lazy`, `decoding: async`. They render correctly in published output.
+
+Alt text (via `set_settings` → `altText`):
+`Darren Hardy in front of the wall of SUCCESS magazine covers he published`
 
 **Step 4 — No script change.** Confirmed above. Don't touch `dd-sessions.js` or the `ddsessions`
 registered script.
 
-**Step 5 — Publish** (`data_sites_tool publish_site`).
+**Step 5 — Publish.** `data_sites_tool publish_site` requires you to name the publish targets — it
+does not "just publish everywhere."
+
+**Do not assume the target.** Read the site's configured domains (`data_sites_tool`), show the human
+the list, and **confirm which to publish to** before you publish. Publishing to the `.webflow.io`
+staging subdomain alone is a quiet failure mode — everything looks right on staging while the real
+site is unchanged — and publishing somewhere unintended is worse. Ask.
 
 ---
 
