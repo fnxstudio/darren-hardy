@@ -1,109 +1,213 @@
-# Handoff: replace the SUCCESS-covers bio wall with ONE image (Sessions Template)
+# RUNBOOK: replace the SUCCESS-covers bio wall with ONE image (Sessions Template)
 
-**Goal:** On the DarrenDaily **Sessions Template**, swap the animated wall — 37 separate cover
-images + a Darren cutout + the scroll parallax — for a **single pre-composited image**. Same look
-(Darren in color, covers in high-quality B&W), but it drops that section from **~2.5 MB to ~100 KB
-on every session page**. This is a meaningful bandwidth reduction.
+**This file is written to be executed by Claude Code with the Webflow MCP connected.**
+Drop this file and `dh-covers.webp` (they travel together) into a Claude Code session that has
+Webflow access, and say: *"Run this runbook."*
 
-**Nothing in the layout or the page code needs to change beyond the bio section itself. No custom
-JavaScript edits are required** (see step 4 — removing the covers element disables the old script on
-its own).
+**Claude: read the whole file before doing anything.** Phase 0 is read-only. Change nothing until a
+human has approved the outline you present at the end of Phase 0.
 
----
-
-## The image
-`dh-covers.webp` — Darren in front of the SUCCESS covers, baked into one 1200×750 WebP, ~100 KB.
-
-- **The file** `dh-covers.webp` is provided alongside this document.
-- **To preview the target look and responsive behavior:** open `darrendaily-bio.html` (provided
-  alongside this document) in a browser and resize the window — it's the finished bio section on its
-  own, so you can see exactly how it should stack on mobile and split on desktop.
+**Prefer to just do it by hand?** Appendix A is the plain Designer version. Both paths are supported.
 
 ---
 
-## Steps in Webflow (Designer → Sessions Template page)
+## What this change does
 
-**1. Upload the image**
-Assets panel → upload `dh-covers.webp`. (It's already WebP and optimized — do **not** re-export it;
-leave it as-is.)
+On the DarrenDaily **Sessions Template**, the bio section ("Behind the covers. Behind closed doors.")
+currently builds a wall of **37 separate cover images** in JavaScript, layers a Darren cutout on top,
+and runs a scroll parallax. This replaces all of it with **one pre-composited image** — same look
+(Darren in colour, covers in high-quality B&W), dropping that section from **~2.5 MB to ~100 KB on
+every session page**.
 
-> **Bandwidth note:** upload it through the **Designer Assets panel** (as here) and place it as a real
-> **Image element** in step 3 — *not* as a CSS background image, and not via the API. Done this way,
-> Webflow auto-generates responsive sizes and serves a right-sized variant per device, so the full
-> file is **not** pulled on every view. Real per-view weight: phones ≈ **30 KB**, tablets ≈ **60 KB**,
-> laptops ≈ **88 KB**; only large/retina desktops pull the full ~100 KB. (For comparison, the old
-> multi-file covers wall pulled ~2.5 MB every view.)
+The layout does not change. **No JavaScript needs to be edited** — see Step 4.
 
-**2. Find the bio section**
-On the Sessions Template, scroll to the "Behind the covers. Behind closed doors." section. Its wall
-is the element with class **`.bio-wall`**, which currently contains two things:
-- **`.dd-covers`** — an empty div the script fills with the 37 cover tiles (this is the parallax grid), and
-- **`.bio-cutout`** — the Darren cutout image (`Wall-DH-blue2.webp`).
-
-**3. Replace the wall contents with one image**
-Inside `.bio-wall`:
-- **Delete** the `.dd-covers` div.
-- **Delete** the `.bio-cutout` image.
-- **Add** an **Image** element, set its source to **`dh-covers.webp`**, and give it a class (e.g.
-  `bio-single`) with these settings:
-  - Position: **Absolute**, offsets **0** on all sides (fills `.bio-wall`)
-  - Width **100%**, Height **100%**
-  - **Fit: Cover** (Webflow's object-fit Cover)
-  - **Position: Center** — or, for a touch more headroom on Darren, set custom CSS
-    `object-position: 50% 38%`
-  - Set the image to **Lazy load**
-
-  Equivalent CSS if you prefer to paste it:
-  ```css
-  .bio-single { position: absolute; inset: 0; width: 100%; height: 100%;
-                object-fit: cover; object-position: 50% 38%; display: block; }
-  ```
-
-**4. That's it for behavior — no script change needed**
-The old covers grid and the scroll **parallax** are built by the shared session script only when it
-finds a `.dd-covers` element. Once you delete that element (step 3), the script simply skips it — so
-the **parallax and the hover-to-color both stop automatically.** You do **not** need to edit any
-JavaScript.
-
-**5. Publish** and check on desktop + phone. The image is centered on Darren, so it crops cleanly to
-either shape.
+**The image:** `dh-covers.webp`, one 1200×750 WebP, ~100 KB, provided alongside this document. Open it
+directly to see the target: Darren in full colour against the SUCCESS covers in high-quality B&W,
+with a subtle vignette so he pops. It's centred on Darren, so it crops cleanly to both the tall
+mobile shape and the wide desktop one.
 
 ---
 
-## Scope & safety — this change stays on the Sessions Template only
+## Read this before you start: it must be a real Image element
 
-Done as written above, this affects **only the Sessions Template** (i.e. every session detail page —
-which is the whole point). It **cannot** touch the Home, Welcome, Expired, Champion, or any other
-page. Two simple rules keep it that way:
+**Place the image as a native Webflow Image element — not a CSS background, and not an `<img>`
+built in JavaScript.**
 
-1. **Only delete instances and add a NEW class.** The steps above delete the `.dd-covers` and
-   `.bio-cutout` elements and add one image with a brand-new class (`bio-single`). Deleting an element
-   and adding a new-class element are both scoped to this template — they don't propagate.
-2. **Do NOT edit the *style* of an existing shared class,** and **do NOT edit inside a Component.**
-   Those are the only two things in Webflow that change every page at once. If the bio section ever
-   shows the little green **Component** badge, don't edit it in place — that would change every
-   instance; ask first. (As built, this section is plain template elements, not a Component.)
+That's what makes Webflow emit a responsive `srcset`, so each device pulls a right-sized variant
+rather than the full file. Per-view weight lands around **30 KB phones / 60 KB tablets / 88 KB
+laptops**, with only large retina desktops pulling the full ~100 KB. (The old covers wall pulled
+~2.5 MB every view, on every device.)
 
-If you follow the steps as written, there is nothing to worry about — the marketing pages are
-untouched.
+This is about **element type, not upload method** — Webflow generates the size variants for uploaded
+assets either way, Designer or API. What loses you the `srcset` is a background image or a
+JS-created `<img>`. (That's exactly why the current covers wall has no responsive sizing: those 37
+tiles are built in JavaScript.)
 
-**After it's live and verified:** please **ask the team** whether they'd like the same single-image /
-bandwidth treatment applied anywhere else on the site before doing it. This "Behind the covers"
-section only exists on session pages, so there's nothing identical elsewhere — but if there are other
-heavy multi-image blocks worth the same fix, that's a separate, deliberate decision, not part of this
-one.
+**Claude: do not re-export, re-compress, or resize the image** — it's already at its size budget.
+Uploading it through the API is fine.
 
 ---
 
-## Notes / optional cleanup (not required)
-- The single image is grayscale covers + **Darren in full color**, with a subtle vignette so he pops.
-  It's already toned and sized — please don't run it back through any compressor (it's at the size
-  budget already).
-- **Optional, later:** once this is live, the 37 individual cover image assets and the old cutout are
-  no longer used by session pages and can be removed from Assets to tidy up. The covers-building code
-  in the shared session script can also be deleted whenever convenient — but it is harmless as-is
-  (it no-ops without the `.dd-covers` element), so this is housekeeping, not a requirement.
-- **Bandwidth reminder unrelated to this task:** session **thumbnails** should always be saved as
-  **WebP** (~70 KB), not 2 MB PNGs — that's the other big bandwidth item. See the intake SOP.
+## Known-good facts (verified — use these, don't rediscover them)
 
-Questions on any step — happy to clarify.
+| Thing | Value |
+|---|---|
+| Site ID | `6a66d7a6f9d116b514a13ae1` (staging: darrendaily.webflow.io) |
+| Sessions Template page ID | `6a681903f2f9b0d13a2b57a7` |
+| Session behavior script | hosted `dd-sessions.js`, loaded site-wide as registered script `ddsessions` |
+
+**Current DOM inside the bio section** (confirmed against a live session page):
+
+```html
+<div class="bio-wall">
+  <div class="dd-covers"></div>                       <!-- empty; JS fills it with 37 tiles -->
+  <img class="bio-cutout" src="…Wall-DH-blue2.webp">  <!-- the Darren cutout -->
+</div>
+```
+
+**Why no script edit is needed:** in `dd-sessions.js`, the covers routine opens with
+
+```js
+var grid = document.querySelector('.dd-covers'); if (!grid) return;
+var wall = document.querySelector('.bio-wall');  if (!wall) return;
+```
+
+Delete `.dd-covers` and the whole routine returns immediately — **the covers build and the scroll
+parallax both stop on their own.** The leftover code is inert, not broken.
+
+> Claude, tool names are given in base form (`data_element_tool`, `data_pages_tool`, …); your session
+> may prefix them with an MCP server id. Call `webflow_guide_tool` once before any other Webflow tool.
+
+---
+
+## Phase 0 — Inspect, then STOP and ask (read-only)
+
+1. Read the Sessions Template page and locate `.bio-wall`.
+2. **Confirm the three classes above exist as described.** If the structure differs from this
+   document, **stop and report the difference** — do not improvise around it.
+3. **Check whether the bio section is a Component** (green badge / component instance). It should be
+   plain template elements. **If it is a Component, stop and ask** — editing inside a Component
+   changes every instance sitewide.
+4. **Check whether `dh-covers.webp` is already in Assets** (`data_assets_tool`), so you don't upload
+   a duplicate. If it isn't there, you'll upload it in Phase 1.
+5. **Confirm you can actually make the edits before promising them.** Verify your tools can delete an
+   element and create an image element on a **CMS Collection Template** page. If they can't, say so
+   plainly and hand the human **Appendix A** rather than half-executing.
+
+Then **stop** and present an outline roughly like this:
+
+> **Here's what I'm about to do to the live DarrenDaily site:**
+> - Page: **Sessions Template** — affects every session detail page
+> - Upload `dh-covers.webp` to Assets *(or: already present, reusing it)*
+> - **Delete** `<div class="dd-covers">` and `<img class="bio-cutout">` inside `.bio-wall`
+> - **Add** one image element, new class `bio-single`, pointing at `dh-covers.webp`
+> - **Publish** the site
+>
+> This goes live and public on publish. Rollback = Webflow Designer → Backups.
+> **Do you want me to proceed?**
+
+**Wait for an explicit yes.** "Looks good" on the outline is not approval to publish — if it's
+ambiguous, ask again. If the answer is no, stop and change nothing.
+
+**Before proceeding, ask the human to make a restore point:** Webflow Designer → **Backups** → create
+a manual backup. That's the rollback path and it takes ten seconds.
+
+---
+
+## Phase 1 — Execute (only after an explicit yes)
+
+**Step 1 — Upload the image** (skip if Phase 0 found it already in Assets).
+`data_assets_tool create_asset`, then POST the file bytes to the returned presigned S3 form. Send the
+form fields in order (`key`, `acl`, `bucket`, `X-Amz-*`, `Policy`, `X-Amz-Signature`,
+`success_action_status`, `Content-Type`, `Cache-Control`) with the **file last**.
+
+> Handy: an asset's ID is the **24-hex prefix of its hosted filename**
+> (`6a685822561969af09aa0023_Wall-DH-blue2.webp` → id `6a685822561969af09aa0023`).
+
+**Step 2 — Delete the two old elements.** Inside `.bio-wall`, delete `<div class="dd-covers">` and
+`<img class="bio-cutout">`.
+
+**Step 3 — Add the single image.** Add one **Image** element as a child of `.bio-wall`, source it to
+the `dh-covers.webp` asset, give it the **new** class `bio-single`, and set **Loading = Lazy**.
+
+```css
+.bio-single { position: absolute; inset: 0; width: 100%; height: 100%;
+              object-fit: cover; object-position: 50% 38%; display: block; }
+```
+
+`object-position: 50% 38%` gives Darren a little headroom; plain centre also works.
+Alt text: `Darren Hardy in front of the wall of SUCCESS magazine covers he published`
+
+**Step 4 — No script change.** Confirmed above. Don't touch `dd-sessions.js` or the `ddsessions`
+registered script.
+
+**Step 5 — Publish** (`data_sites_tool publish_site`).
+
+---
+
+## Phase 2 — Verify, then report
+
+1. Load a real published session page: the bio image renders, it's the composited version (colour
+   Darren, B&W covers), and it fills `.bio-wall` cleanly.
+2. The old grid is gone — no 37 cover requests in the network panel, no console errors.
+3. **Confirm the responsive variants are being served** — the image should carry a Webflow `srcset`
+   with `-p-500` / `-p-800` / `-p-1080` sizes. If there's no `srcset`, it didn't land as a native
+   Image element; flag it, because the bandwidth win is much smaller without it.
+4. Check desktop **and** mobile widths. The image is centred on Darren and crops cleanly to both.
+5. Report what changed, what you verified, and anything you couldn't verify.
+
+**Rollback:** Webflow Designer → Backups → restore the point made in Phase 0.
+
+---
+
+## Scope & safety — this stays on the Sessions Template only
+
+Done as written, this touches **only the Sessions Template** (every session detail page — which is
+the point). It **cannot** reach Home, Welcome, Expired, Champion, or any other page. Two rules keep
+it that way:
+
+1. **Only delete instances and add a NEW class.** Deleting elements, and adding an element with a
+   brand-new class (`bio-single`), are both scoped to this template — neither propagates.
+2. **Do NOT edit the style of an existing shared class, and do NOT edit inside a Component.** Those
+   are the only two things in Webflow that change every page at once. (Phase 0 step 3 checks for the
+   Component case.)
+
+**Claude: do not extend this task.** No tidying neighbouring elements, no "improving" other pages, no
+deleting old assets or dead code as a bonus — the optional list below is explicitly *not* part of
+this job.
+
+**After it's live and verified:** ask the team whether they want the same single-image treatment
+anywhere else *before* doing it. This "Behind the covers" section only exists on session pages, so
+there's nothing identical elsewhere — but if other heavy multi-image blocks are worth the same fix,
+that's a separate, deliberate decision.
+
+---
+
+## Optional cleanup — NOT part of this task, do not do it unasked
+
+- The 37 individual cover assets and the old `Wall-DH-blue2.webp` cutout become unused by session
+  pages and could be removed from Assets later.
+- The covers-building code in `dd-sessions.js`, and the `.dd-covers` grid CSS in the Sessions
+  Template's inline `<style>`, become dead. Both are **harmless as-is** (the code no-ops without the
+  element). Housekeeping, not a requirement.
+- The single image is grayscale covers + **Darren in full colour**, with a subtle vignette so he
+  pops. Already toned and sized — don't run it back through a compressor.
+- **Unrelated bandwidth note:** session **thumbnails** should always be saved as **WebP** (~70 KB),
+  not 2 MB PNGs. That's the other big bandwidth item. See the intake SOP.
+
+---
+
+## Appendix A — Manual Designer steps (fallback, or if you'd rather click it yourself)
+
+1. **Assets panel** → upload `dh-covers.webp`. Don't re-export it.
+2. Open the **Sessions Template**, scroll to "Behind the covers. Behind closed doors.", select the
+   `.bio-wall` element.
+3. Inside it: **delete** the `.dd-covers` div and the `.bio-cutout` image.
+4. **Add an Image** element → source `dh-covers.webp` → new class `bio-single` → Position
+   **Absolute**, offsets **0** on all sides, Width **100%**, Height **100%**, Fit **Cover**, Position
+   **Center** (or custom `object-position: 50% 38%`), **Lazy load**.
+5. **Publish**, then check desktop and phone.
+
+Same scope rules apply: new class only, and don't edit inside a Component.
+
+Questions on any step — ask before executing, not after.
