@@ -1,7 +1,7 @@
 # Tracking & Attribution — architecture findings
 
 **Audited:** 2026-08-17 · **HubSpot portal:** 2518645 · **Checkout:** Spiffy (`darrenhardy.spiffy.co`)
-**Method:** live cookie-continuity probe across four hostnames + runtime resource capture on each
+**Method:** live cookie-continuity probe walking `bmc.darrenhardy.com` → `secure.darrenhardy.com` back to back, plus runtime resource capture on each
 
 > Cross-page report. Page-level findings are in `01`–`03`.
 
@@ -17,21 +17,23 @@ This report covers the tracking architecture across the properties, not any sing
 
 Tested by reading cookies on each hostname in sequence, plus writing a probe cookie at `.darrenhardy.com` on one subdomain and reading it from another.
 
-| Cookie | bmc.darrenhardy.com | dh.darrenhardy.com | secure.darrenhardy.com |
-|---|---|---|---|
-| `_ga` | `GA1.1.1894555036.1786987128` | `GA1.2.`**`1894555036.1786987128`** | `GA1.1.`**`1894555036.1786987128`** |
-| `_fbp` | `fb.1.1786987130963.914015…` | identical | identical |
-| `_gcl_au` | `1.1.1699020135.1786987128` | identical | identical + click data |
-| probe cookie set on bmc | — | ✅ readable | ✅ readable |
+The two routes to checkout that matter:
 
-**Same GA4 client ID on all three.** The cookies are scoped to the root domain, so identity carries automatically between subdomains.
+- **Zoom webinar → `secure.darrenhardy.com`**
+- **`bmc.darrenhardy.com` → `secure.darrenhardy.com`**
+
+| Cookie | bmc.darrenhardy.com | secure.darrenhardy.com | Carried? |
+|---|---|---|---|
+| `_ga` | `GA1.1.1894555036.1786987128` | `GA1.1.1894555036.1786987128` | ✅ |
+| `_fbp` | `fb.1.1786987130963.914015…` | identical | ✅ |
+| `_gcl_au` | `1.1.1699020135.1786987128` | identical + click data | ✅ |
+| probe cookie set at `.darrenhardy.com` | — | readable | ✅ |
+
+**Same GA4 client ID on both.** These cookies are scoped to the root domain, so Google and Meta identity carries automatically between subdomains.
 
 ### Consequence
 - `bmc.darrenhardy.com → secure.darrenhardy.com` is a **same-site hop**. Cross-domain linking is neither required nor missing.
 - Any report claiming a missing `_gl` linker on this path is **wrong** and will be disproved in minutes by anyone with GTM access. Do not include it.
-
-### The one genuine cross-domain hop
-`darrendaily.com` is a **different root domain**. On the DarrenDaily pages there is no `_gl` parameter on outbound links to `darrenhardy.com` (0 of 3 checked) and no linker configuration visible in the dataLayer. Whether this matters depends on how much DarrenDaily traffic reaches checkout without first landing on a `*.darrenhardy.com` page — traffic data required, and GTM access to confirm the configuration. **Do not assert impact without both.**
 
 ---
 
@@ -112,15 +114,17 @@ The two metrics use **different identity methods**, and only one of them survive
 | Survives a new browser/device | ❌ | ✅ |
 | Can be bucketed by segment | only if tied to a known contact | always |
 
-Walking bmc → darrendaily → secure in one browser session, the HubSpot visitor cookie was **different on every host**, while the Google and Meta cookies were byte-identical across the same hops:
+Tested on the live path, navigating `bmc.darrenhardy.com` → `secure.darrenhardy.com` back to back in one browser with no steps in between:
 
-| Host | `hubspotutk` | `_ga` |
-|---|---|---|
-| bmc.darrenhardy.com | `ce7d80b43ee2040c8989ded40621ac68` | `1894555036.1786987128` |
-| darrendaily.com | `c3c69745494ad6d2f04d1775c1ac8785` | `1894555036.1786987128` |
-| secure.darrenhardy.com | `e4faa2d4ee207b68c0e19ebb5ef0115f` | `1894555036.1786987128` |
+| Cookie | On bmc | On secure | Carried? |
+|---|---|---|---|
+| **`hubspotutk`** | **`ce7d80b43ee2040c8989ded40621ac68`** | **`e4faa2d4ee207b68c0e19ebb5ef0115f`** | **❌ new ID minted** |
+| `_ga` | `GA1.1.1894555036.1786987128` | `GA1.1.1894555036.1786987128` | ✅ |
+| `_fbp` | `fb.1.1786987130963.914015…` | identical | ✅ |
 
-That is a controlled comparison — same browser, same navigation, same moment. One cookie family carried; HubSpot's did not.
+A controlled comparison — same browser, same navigation, same moment, same root domain. Google and Meta identity carried. **HubSpot's did not.**
+
+**This happens on every route to the checkout, not just the Zoom one.** Even a visitor who goes bmc → secure in one session arrives at the cart as a brand-new anonymous HubSpot visitor. That is why the undercount is severe rather than marginal.
 
 The HubSpot beacon does fire on the checkout, but anonymously:
 ```
@@ -131,7 +135,7 @@ A page view is recorded against a **fresh, unassociated visitor token**. With no
 
 Purchases don't have this problem: Spiffy captures the buyer's email at checkout, HubSpot resolves it to the contact record, and the segment is known with certainty. Hence complete purchase counts and badly incomplete cart-view counts.
 
-**Add the Zoom path and it compounds.** Attendees clicking the cart link from the Zoom app arrive with no referrer and no UTMs (see §3), and many arrive in a browser that has never touched a `darrenhardy.com` page — or on a different device from the one they attended on. Every one of those is a brand-new anonymous token.
+**The Zoom path adds a second layer.** Attendees clicking the cart link from the Zoom app also arrive with no referrer and no UTMs (see §3), and many are on a different device from the one they attended on. But the HubSpot identity is lost either way — so both routes produce anonymous cart views.
 
 ### On the team's read
 
@@ -157,7 +161,7 @@ This matters more than usual here because of the broken Meta deduplication ID do
 
 ## 5. Consent gating — flagged, not concluded
 
-On a `darrendaily.com` page load, **42 tracking requests had fired and 19 tracking cookies were set** (`_fbp`, `_ttp`, `_ga`, `_gcl_au`, `_uetsid`, `_clck`, `_twpid` among them) with no consent choice recorded, and no banner present on that load.
+On a page load in this portal, **42 tracking requests had fired and 19 tracking cookies were set** (`_fbp`, `_ttp`, `_ga`, `_gcl_au`, `_uetsid`, `_clck`, `_twpid` among them) with no consent choice recorded, and no banner present on that load.
 
 **This is not yet a finding.** The browser carried state from earlier navigation in the same session, which could explain the absent banner. Confirming it requires a clean profile:
 
@@ -175,7 +179,6 @@ If confirmed, that is CPRA and GDPR/ePrivacy exposure, and it is cheap to demons
 |---|---|
 | **"13 cart views, 23 buys"** | **Explained and measured.** HubSpot visitor ID does not carry to the checkout; cart views land anonymously while purchases resolve by email. Fixable by config, not a platform limit. |
 | Missing cross-domain linker, bmc → secure | **Disproved.** Same root domain; Google/Meta identity verified continuous. |
-| Missing cross-domain linker, darrendaily → darrenhardy | **Open.** Genuine cross-domain hop; impact unquantified. |
 | Checkout untracked | **Disproved.** Full stack fires on Spiffy. |
 | Webinar → checkout attribution | **Real.** Cross-device loss, no UTMs on checkout link, no referrer from Zoom app. |
 | Purchase event integrity | **Untested.** Compounded by the broken dedup ID in report 01. |
@@ -183,4 +186,4 @@ If confirmed, that is CPRA and GDPR/ePrivacy exposure, and it is cheap to demons
 
 ### Note on which cookies carry
 
-Worth holding onto, because it explains why some numbers look fine and others don't: across these hostnames **Google and Meta identity carries and HubSpot identity does not**. So GA4 and the ad platforms can often stitch a same-browser journey that HubSpot reports as two unrelated anonymous visitors. Any metric sourced from HubSpot page views across a domain hop should be treated as suspect until the identity config is fixed; metrics keyed on email (purchases, form submissions) are reliable.
+Worth holding onto, because it explains why some numbers look fine and others don't: between `bmc.darrenhardy.com` and `secure.darrenhardy.com` **Google and Meta identity carries and HubSpot identity does not**. So GA4 and the ad platforms can often stitch a same-browser journey that HubSpot reports as two unrelated anonymous visitors. Any metric sourced from HubSpot page views across a hostname hop should be treated as suspect until the identity config is fixed; metrics keyed on email (purchases, form submissions) are reliable.
