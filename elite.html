@@ -421,6 +421,22 @@
   }
   .icard p { font-size: 15.5px; line-height: 1.66; color: var(--silver); }
   .icard p + p { margin-top: 14px; }
+  /* Sixth cell — keeps the 3-up grid from ending on a hole, and gives the
+     page a quiet mid-point ask. Ghost only; the solid CTA stays at the close. */
+  .icard-cta {
+    background: transparent;
+    border-style: dashed;
+    border-color: var(--rule-cyan);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .icard-cta:hover { transform: none; border-color: var(--bmc-cyan); }
+  .icard-cta h3 { margin-bottom: 14px; }
+  .icard-cta p { margin-bottom: 26px; }
+  .icard-cta .btn { align-self: flex-start; }
+  @media (max-width: 680px) { .icard-cta { padding-top: 34px; padding-bottom: 34px; } }
+
   .icard .kicker {
     display: inline-block;
     margin-top: 20px;
@@ -481,11 +497,29 @@
   .tcard {
     background: var(--white);
     border: 1px solid var(--rule-dark);
-    border-left: 3px solid var(--bmc-plum);
     border-radius: var(--radius);
-    padding: 36px 34px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+  }
+  /* The photo is Darren with the member — it does as much proving as the
+     quote does, so it leads the card rather than sitting beside the name. */
+  .tcard-photo { position: relative; background: #d8d8d8; }
+  .tcard-photo img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+    transition: transform 0.6s var(--ease);
+  }
+  .tcard:hover .tcard-photo img { transform: scale(1.03); }
+  .tcard-body {
+    padding: 30px 30px 32px;
+    border-top: 3px solid var(--bmc-plum);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
   .tcard blockquote {
     font-size: clamp(17px, 1.5vw, 20px);
@@ -498,7 +532,57 @@
   .tcard .who { padding-top: 20px; border-top: 1px solid var(--rule-dark); }
   .tcard .who .n { display: block; font-weight: 900; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--black); margin-bottom: 6px; }
   .tcard .who .r { display: block; font-size: 13px; color: var(--grey-soft); }
-  @media (max-width: 720px) { .proof { padding: 84px 0; } .tcard { padding: 28px 24px; } }
+  @media (max-width: 720px) { .proof { padding: 84px 0; } .tcard-body { padding: 24px 22px 26px; } }
+
+  /* ============ CONCIERGE (A-Team) ============ */
+  .concierge { background-color: var(--ink); padding: 130px 0; }
+  .concierge-grid { display: grid; grid-template-columns: 1fr 0.85fr; gap: 72px; align-items: center; }
+  @media (max-width: 960px) { .concierge-grid { grid-template-columns: 1fr; gap: 48px; } }
+  .concierge .sec-head { margin-bottom: 26px; }
+  .concierge p.lead { margin-bottom: 20px; }
+  .concierge-list { margin-top: 32px; }
+  .concierge-list li {
+    display: flex; gap: 14px;
+    font-size: 16px; line-height: 1.6;
+    color: var(--silver);
+    padding: 15px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .concierge-list li:last-child { border-bottom: 1px solid var(--rule); }
+  .concierge-list .mark { flex: 0 0 auto; color: var(--bmc-cyan); font-weight: 700; }
+  /* The original site's photo of the two of them together, kept as one frame.
+     4:5 crop, grayscale at rest and full colour on hover — the same treatment
+     the A-Team portraits get on darrenhardy.com/about. */
+  .people { max-width: 460px; }
+  @media (max-width: 960px) { .people { max-width: 400px; } }
+  .people-photo {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--surface-card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    transition: border-color 0.25s var(--ease);
+  }
+  .people-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    filter: grayscale(100%);
+    transition: filter 0.6s ease, transform 0.6s ease;
+  }
+  .people:hover .people-photo { border-color: var(--rule-cyan); }
+  .people:hover .people-photo img { filter: grayscale(0%); transform: scale(1.03); }
+  .people-meta { display: flex; gap: 32px; padding: 20px 2px 0; flex-wrap: wrap; }
+  .people-meta .who-name {
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .people-meta .who-role { font-size: 13px; line-height: 1.45; color: var(--grey); max-width: 170px; }
+  @media (max-width: 720px) { .concierge { padding: 84px 0; } }
 
   /* ============ VIDEO ============ */
   .video { background: var(--ink); padding: 120px 0; }
@@ -590,6 +674,7 @@
     <a href="#letter">The Letter</a>
     <a href="#belongs">Who Belongs</a>
     <a href="#inside">What's Inside</a>
+    <a href="#concierge">The A-Team</a>
     <a href="#proof">Results</a>
     <a class="btn btn-ghost btn-nav" href="https://app.hubspot.com/meetings/brenda8" target="_blank" rel="noopener"><span class="nav-cta-long">Request A Conversation</span><span class="nav-cta-short">Request &rarr;</span></a>
   </div>
@@ -757,8 +842,8 @@
   <div class="container">
     <div class="inside-head reveal">
       <div class="eyebrow center"><span class="pip"></span>What Membership Includes</div>
-      <h2 class="sec-head">Six Things. <em>All Of Them Rare</em>.</h2>
-      <p class="lead">No curriculum to keep up with. No calendar to survive. Six points of leverage, and nothing else competing for your week.</p>
+      <h2 class="sec-head">Five Things. <em>All Of Them Rare</em>.</h2>
+      <p class="lead">No curriculum to keep up with. No calendar to survive. Five points of leverage, and nothing else competing for your week.</p>
     </div>
     <div class="inside-grid">
       <div class="icard reveal">
@@ -787,15 +872,64 @@
       </div>
       <div class="icard reveal">
         <span class="num">05</span>
-        <h3>Darren's A-Team, On Your Side Of The Table</h3>
-        <p>Brenda, VP of Member Experience, leads your side of it, with priority routing through Ashlee, Sr. VIP Relations Specialist.</p>
-        <p>One point of contact. Events, travel, scheduling and anything else logistical handled before it reaches you.</p>
-      </div>
-      <div class="icard reveal">
-        <span class="num">06</span>
         <h3>The Room Itself</h3>
         <p>Fewer than 20 builders a year, for two years. Long enough that the council stops being a network and starts being the people you call first.</p>
         <p class="kicker">By invitation or referral only</p>
+      </div>
+      <div class="icard icard-cta reveal">
+        <h3>And One <em>Conversation</em>.</h3>
+        <p>Thirty candid minutes with my team to work out whether this is right. There is no pitch on the other end of it.</p>
+        <a class="btn btn-ghost" href="https://app.hubspot.com/meetings/brenda8" target="_blank" rel="noopener">Request A Conversation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONCIERGE ============
+     The live page buries this in a collapsed accordion with no faces on it.
+     Given the promise is "a dedicated point of contact", the two people who
+     actually are that contact should be visible. The photo is the one already
+     sitting on the live page (hubfs/Rectangle 4.svg), which that page never
+     actually shows next to this copy.
+     NOTE FOR REVIEW: the live ELITE page calls Ashlee "Sr. VIP Relations
+     Specialist"; the A-Team roster on about.html/careers.html says "VIP
+     Member Coordinator". The ELITE wording is kept here — worth reconciling. -->
+<section class="concierge" id="concierge">
+  <div class="container">
+    <div class="concierge-grid">
+      <div class="reveal">
+        <div class="eyebrow"><span class="pip"></span>The A-Team</div>
+        <h2 class="sec-head">Two People Whose Whole Job Is Your <em>Time</em>.</h2>
+        <p class="lead">
+          Every ELITE member is handed to Brenda. Her job is to make sure that being
+          a member never lands on your desk as work — travel, scheduling, events,
+          access, the thing you forgot to ask for.
+        </p>
+        <p class="lead">
+          Ashlee runs priority routing behind her, so nothing you ask for sits in a
+          queue behind someone else's request.
+        </p>
+        <ul class="concierge-list">
+          <li><span class="mark">&#10003;</span><span>One dedicated point of contact for everything</span></li>
+          <li><span class="mark">&#10003;</span><span>Priority routing on any request</span></li>
+          <li><span class="mark">&#10003;</span><span>Every event, trip and session coordinated end to end</span></li>
+          <li><span class="mark">&#10003;</span><span>Anything to do with your membership resolved the same day</span></li>
+        </ul>
+      </div>
+      <div class="people reveal">
+        <div class="people-photo">
+          <img src="elite-assets/team-brenda-ashlee.webp" alt="Brenda and Ashlee of Darren Hardy's A-Team" loading="lazy" />
+        </div>
+        <div class="people-meta">
+          <div>
+            <div class="who-name">Brenda</div>
+            <div class="who-role">VP of Member Experience</div>
+          </div>
+          <div>
+            <div class="who-name">Ashlee</div>
+            <div class="who-role">Sr. VIP Relations Specialist</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -826,13 +960,10 @@
       <div class="walk-shots reveal">
         <img src="elite-assets/wt-1.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
         <img src="elite-assets/wt-3.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
-        <img src="elite-assets/wt-7.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
-        <img src="elite-assets/wt-9.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
-        <img src="elite-assets/wt-4.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
-        <img src="elite-assets/wt-11.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
-        <img src="elite-assets/wt-8.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
         <img src="elite-assets/wt-5.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
-        <img src="elite-assets/wt-12.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-2.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-6.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-4.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
       </div>
     </div>
   </div>
@@ -849,20 +980,40 @@
     </div>
     <div class="proof-grid">
       <div class="tcard reveal">
-        <blockquote>"After years stuck at $25M, I applied what I learned in ELITE. Within two years, we skyrocketed to $129.8M."</blockquote>
-        <div class="who"><span class="n">Tom Mosley</span><span class="r">CEO, Mosley Wealth Management</span></div>
+        <div class="tcard-photo">
+          <img src="elite-assets/t-mosley.webp" alt="Darren Hardy with ELITE member Tom Mosley" loading="lazy" />
+        </div>
+        <div class="tcard-body">
+          <blockquote>"After years stuck at $25M, I applied what I learned in ELITE. Within two years, we skyrocketed to $129.8M."</blockquote>
+          <div class="who"><span class="n">Tom Mosley</span><span class="r">CEO, Mosley Wealth Management</span></div>
+        </div>
       </div>
       <div class="tcard reveal">
-        <blockquote>"Scaling my business required the right people, processes, and choices. ELITE gave me the blueprint to make it happen."</blockquote>
-        <div class="who"><span class="n">Joe Rock</span><span class="r">Managing Partner, Lin Realty Group</span></div>
+        <div class="tcard-photo">
+          <img src="elite-assets/t-rock.webp" alt="Darren Hardy with ELITE member Joe Rock" loading="lazy" />
+        </div>
+        <div class="tcard-body">
+          <blockquote>"Scaling my business required the right people, processes, and choices. ELITE gave me the blueprint to make it happen."</blockquote>
+          <div class="who"><span class="n">Joe Rock</span><span class="r">Managing Partner, Lin Realty Group</span></div>
+        </div>
       </div>
       <div class="tcard reveal">
-        <blockquote>"The insights I gained from ELITE allowed me to think bigger, increase my pricing, and attract premium clients."</blockquote>
-        <div class="who"><span class="n">Athena Captain</span><span class="r">Partner, Turner &amp; Son Homes</span></div>
+        <div class="tcard-photo">
+          <img src="elite-assets/t-captain.webp" alt="Darren Hardy with ELITE member Athena Captain" loading="lazy" />
+        </div>
+        <div class="tcard-body">
+          <blockquote>"The insights I gained from ELITE allowed me to think bigger, increase my pricing, and attract premium clients."</blockquote>
+          <div class="who"><span class="n">Athena Captain</span><span class="r">Partner, Turner &amp; Son Homes</span></div>
+        </div>
       </div>
       <div class="tcard reveal">
-        <blockquote>"Darren helped me refine my focus and transform my business strategy, saving me years of struggle."</blockquote>
-        <div class="who"><span class="n">Kelly Cort</span><span class="r">Senior Loan Officer, Guild Mortgage</span></div>
+        <div class="tcard-photo">
+          <img src="elite-assets/t-cort.webp" alt="Darren Hardy with ELITE member Kelly Cort" loading="lazy" />
+        </div>
+        <div class="tcard-body">
+          <blockquote>"Darren helped me refine my focus and transform my business strategy, saving me years of struggle."</blockquote>
+          <div class="who"><span class="n">Kelly Cort</span><span class="r">Senior Loan Officer, Guild Mortgage</span></div>
+        </div>
       </div>
     </div>
   </div>
