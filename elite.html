@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ELITE · Darren Hardy</title>
+<meta name="description" content="A two-year engagement for fewer than 20 business builders a year. Direct one-to-one access to Darren Hardy, a confidential council of founders and CEOs, and his systems installed into your team.">
+<meta name="author" content="Darren Hardy">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- ─────────────────────────────────────────────────────────────
+     ELITE — DRAFT REBUILD (BMC|COLLECTIVE brand system)
+     Replaces the gold / "Thunder Bold" HubSpot page at
+     https://dh.darrenhardy.com/elite
+
+     WHAT CHANGED
+     · Colour + type moved onto the BMCC system: black/ink/bone
+       neutrals, CYAN accent on dark, PLUM accent on light, Inter
+       400/500/700/900, 4px radius, borders over shadows.
+       Old gold (#c8aa6c) retired — the brand reserves gold for
+       review stars only. "Thunder Bold" retired for Inter 900.
+     · Copy rewritten into the darrenhardy.com / hardybmc.com
+       register: short declaratives, nouns and numbers over
+       adjectives, receipts before asks, negative space, no
+       flattery, no mysticism. See the notes above each section.
+     · Broken hero sentence fixed (the live page ends on the
+       orphan fragment "…growth of others. who refuse to start
+       their day without an edge.").
+     · The four "who belongs" bullets and the four Walk & Talk
+       bullets were flattened into SVGs on the live page — they
+       are real, selectable text here.
+
+     ALL COPY IS DRAFT AND AWAITING DARREN'S SIGN-OFF.
+     Testimonial quotes are reproduced verbatim — not rewritten.
+     ───────────────────────────────────────────────────────────── -->
+
+<link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/elite.html"> <!-- [MIGRATE] → https://darrenhardy.com/elite -->
+
+<link rel="preload" as="image" href="elite-assets/hero-bg-mobile.webp" type="image/webp" media="(max-width: 960px)" fetchpriority="high">
+<link rel="preload" as="image" href="elite-assets/hero-bg.webp" type="image/webp" media="(min-width: 961px)" fetchpriority="high">
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="Darren Hardy · Be The Exception">
+<meta property="og:title"       content="ELITE · Darren Hardy">
+<meta property="og:description" content="Fewer than 20 builders a year. Two years. Direct access to Darren.">
+<meta property="og:url"         content="https://fnxstudio.github.io/darren-hardy/elite.html">
+
+<link rel="icon" type="image/png" href="dh_logo.png">
+<style>
+  /* ============ SELF-HOSTED INTER (brand rule: never Google CDN) ============ */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin-ext.woff2) format('woff2');
+  }
+
+  /* ============ BMC|COLLECTIVE DESIGN TOKENS ============ */
+  :root {
+    --black:        #0a0a0a;
+    --ink:          #141414;
+    --ink-soft:     #1c1c1c;
+    --surface-card: #0e0c12;
+    --white:        #ffffff;
+    --bone:         #f5f5f5;
+    --bone-soft:    #ececec;
+    --silver:       #b8b8b8;
+    --grey:         #888888;
+    --grey-soft:    #6a6a6a;
+    --muted:        #444444;
+    --text-on-dark: #f1f1f4;
+
+    /* CYAN — accent on dark. PLUM — the same accent role on light. */
+    --bmc-cyan-rgb:    120, 228, 239;
+    --bmc-cyan:        rgb(var(--bmc-cyan-rgb));
+    --rule-cyan:       rgba(var(--bmc-cyan-rgb), 0.32);
+    --bmc-plum-rgb:    75, 44, 106;
+    --bmc-plum:        rgb(var(--bmc-plum-rgb));
+
+    /* Ambient wash only — never on type, icons or borders. */
+    --bmc-purple-rgb:  156, 39, 172;
+    --bmc-magenta-rgb: 214, 42, 143;
+
+    --rule:             rgba(255, 255, 255, 0.08);
+    --rule-strong:      rgba(255, 255, 255, 0.15);
+    --rule-dark:        rgba(10, 10, 10, 0.10);
+    --rule-dark-strong: rgba(10, 10, 10, 0.18);
+
+    --radius: 4px;
+    --ease:   cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  html, body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; height: auto; display: block; border: 0; }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  ::selection { background: rgba(var(--bmc-cyan-rgb), 0.28); color: var(--white); }
+
+  section { position: relative; scroll-margin-top: 100px; }
+  .container { max-width: 1380px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .container { padding: 0 24px; } }
+
+  /* Brand rule 1–3: no italics; <em> renders in the accent colour with a
+     5-shadow stack so cyan doesn't read optically thinner than white. */
+  em, em.key { font-style: normal; color: var(--bmc-cyan); }
+  /* Brand rule 3 — cyan reads optically thinner than white, so display type
+     gets the 5-shadow compensation stack. Body-size em and plum-on-light do
+     not: at 16-19px the stack just smears the glyph. */
+  h1 em, .sec-head em, .pullquote blockquote em {
+    text-shadow:
+      0.4px 0 0 currentColor, -0.4px 0 0 currentColor,
+      0 0.4px 0 currentColor,  0 -0.4px 0 currentColor,
+      0 0 0.6px currentColor;
+  }
+  .on-light em, .on-light em.key { color: var(--bmc-plum); text-shadow: none; }
+
+  /* ============ SHARED TYPE ============ */
+  .eyebrow {
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--silver);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .eyebrow .pip { display: inline-block; width: 28px; height: 1px; background: var(--bmc-cyan); }
+  .eyebrow.center { justify-content: center; }
+  .eyebrow.on-light { color: var(--grey-soft); }
+  .eyebrow.on-light .pip { background: var(--bmc-plum); }
+
+  .sec-head {
+    font-weight: 900;
+    font-size: clamp(30px, 3.8vw, 58px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-wrap: balance;
+    margin: 28px 0 0;
+  }
+  .lead {
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.65;
+    color: var(--silver);
+  }
+  .on-light .lead { color: var(--muted); }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    border-radius: var(--radius);
+    padding: 17px 34px;
+    cursor: pointer;
+    transition: background 0.22s var(--ease), color 0.22s var(--ease), border-color 0.22s var(--ease);
+  }
+  /* Ghost — low pressure. Header + mid-page. */
+  .btn-ghost { background: transparent; border: 1px solid var(--bmc-cyan); color: var(--bmc-cyan); }
+  .btn-ghost:hover, .btn-ghost:focus-visible { background: var(--bmc-cyan); color: var(--black); }
+  /* Solid — one per page, at the close. */
+  .btn-solid { background: var(--white); border: 1px solid var(--white); color: var(--black); }
+  .btn-solid:hover, .btn-solid:focus-visible { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
+  /* Light-section inversion — contrast logic held, swatches flipped. */
+  .btn-ghost.on-light { border-color: var(--bmc-plum); color: var(--bmc-plum); }
+  .btn-ghost.on-light:hover { background: var(--bmc-plum); color: var(--white); }
+
+  .btn-nav { padding: 12px 22px; font-size: 10px; letter-spacing: 0.22em; }
+
+  /* ============ AMBIENT PURPLE/MAGENTA WASH (background depth only) ============ */
+  /* Layered on the section's own background-color rather than a pseudo-element
+     overlay, so nothing can ever paint on top of the copy. */
+  .wash {
+    background-image:
+      radial-gradient(760px 420px at 12% 0%,   rgba(var(--bmc-purple-rgb), 0.16), transparent 68%),
+      radial-gradient(680px 380px at 92% 100%, rgba(var(--bmc-magenta-rgb), 0.10), transparent 70%);
+  }
+
+  /* ============ TOP NAV ============ */
+  nav.top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 60;
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    background: rgba(10, 10, 10, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-brand img { height: 26px; width: auto; }
+  .nav-links { display: flex; gap: 34px; align-items: center; }
+  .nav-links a {
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--silver);
+    transition: color 0.18s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta-short { display: none; }
+  @media (max-width: 900px) {
+    nav.top { padding: 12px 20px; }
+    .nav-links a:not(.btn) { display: none; }
+    .nav-brand img { height: 20px; }
+    .btn-nav { padding: 11px 16px; font-size: 9px; white-space: nowrap; }
+    .nav-cta-long { display: none; }
+    .nav-cta-short { display: inline; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center right; }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(90deg,
+      rgba(10,10,10,0.94) 0%,
+      rgba(10,10,10,0.86) 26%,
+      rgba(10,10,10,0.60) 46%,
+      rgba(10,10,10,0.18) 64%,
+      transparent 80%);
+  }
+  .hero-inner { position: relative; z-index: 2; width: 100%; padding: 132px 0 88px; }
+  .hero-copy { max-width: 720px; }
+  .hero-logo { width: 236px; margin-bottom: 28px; }
+  .hero h1 {
+    font-weight: 900;
+    font-size: clamp(36px, 4.9vw, 74px);
+    line-height: 0.97;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    text-wrap: balance;
+    margin-bottom: 24px;
+  }
+  .hero-sub { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.6; color: var(--silver); margin-bottom: 22px; max-width: 620px; }
+  .hero-facts {
+    display: flex; flex-wrap: wrap; gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    margin-bottom: 32px;
+    max-width: 620px;
+  }
+  .hero-facts div {
+    padding: 15px 26px 15px 0;
+    margin-right: 26px;
+    border-right: 1px solid var(--rule);
+  }
+  .hero-facts div:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+  .hero-facts .n { display: block; font-weight: 900; font-size: 22px; letter-spacing: -0.01em; color: var(--white); line-height: 1; margin-bottom: 8px; }
+  .hero-facts .l { display: block; font-weight: 500; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); }
+  @media (max-width: 960px) {
+    .hero { min-height: auto; }
+    .hero-inner { padding: 108px 0 76px; }
+    .hero-bg img { object-position: 72% top; }
+    /* Copy sits over the photo on phones, so the scrim carries most of the
+       contrast. Kept lighter through the middle so the skyline still reads. */
+    .hero::after {
+      background: linear-gradient(180deg,
+        rgba(10,10,10,0.78) 0%, rgba(10,10,10,0.90) 22%,
+        rgba(10,10,10,0.95) 55%, rgba(10,10,10,0.97) 100%);
+    }
+    .hero-logo { width: 196px; margin-bottom: 22px; }
+  }
+  @media (max-width: 560px) {
+    .hero-facts { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .hero-facts div { padding: 14px 10px 14px 0; margin-right: 0; }
+    .hero-facts div:nth-child(3) { padding-right: 0; }
+    .hero-facts .n { font-size: 16px; margin-bottom: 6px; }
+    .hero-facts .l { font-size: 8.5px; letter-spacing: 0.12em; line-height: 1.4; }
+    .btn { padding: 15px 22px; font-size: 11px; letter-spacing: 0.18em; }
+  }
+
+  /* ============ LETTER ============ */
+  .letter { background-color: var(--ink); padding: 130px 0; }
+  .letter-inner { max-width: 780px; margin: 0 auto; }
+  .letter .sec-head { margin-bottom: 48px; }
+  .letter p {
+    font-size: clamp(17px, 1.35vw, 19px);
+    line-height: 1.72;
+    color: var(--silver);
+    margin-bottom: 26px;
+  }
+  .letter p.beat {
+    font-weight: 700;
+    font-size: clamp(19px, 1.8vw, 25px);
+    line-height: 1.45;
+    color: var(--white);
+    margin: 40px 0;
+  }
+  .letter .sign { margin-top: 46px; padding-top: 34px; border-top: 1px solid var(--rule); }
+  .letter .sign img { width: 132px; opacity: 0.92; margin-bottom: 16px; }
+  .letter .sign .name { font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--white); }
+  .letter .sign .tag { margin-top: 10px; font-weight: 700; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bmc-cyan); }
+  @media (max-width: 720px) { .letter { padding: 84px 0; } }
+
+  /* ============ PULL QUOTE ============ */
+  .pullquote { background: var(--black); padding: 120px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .pullquote-inner { max-width: 980px; margin: 0 auto; text-align: center; }
+  .pullquote blockquote {
+    font-weight: 900;
+    font-size: clamp(24px, 3.1vw, 46px);
+    line-height: 1.22;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .pullquote .attr { margin-top: 34px; font-weight: 700; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--grey); }
+  @media (max-width: 720px) { .pullquote { padding: 76px 0; } }
+
+  /* ============ WHO BELONGS (light) ============ */
+  .belongs { background: var(--bone); color: var(--black); padding: 130px 0; }
+  .belongs .sec-head { color: var(--black); }
+  .belongs-head { max-width: 780px; margin: 0 auto 20px; text-align: center; }
+  .belongs-head .sec-head { margin-bottom: 26px; }
+  .belongs-head p { font-size: 17px; line-height: 1.7; color: var(--muted); margin-bottom: 14px; }
+  .belongs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    max-width: 1060px;
+    margin: 62px auto 0;
+  }
+  @media (max-width: 880px) { .belongs-grid { grid-template-columns: 1fr; } }
+  .bcol {
+    background: var(--white);
+    border: 1px solid var(--rule-dark);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+  }
+  .bcol h3 {
+    font-weight: 900;
+    font-size: 15px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--rule-dark);
+  }
+  .bcol.yes h3 { color: var(--bmc-plum); }
+  .bcol.no h3 { color: var(--grey-soft); }
+  .bcol li {
+    display: flex;
+    gap: 14px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .bcol li:last-child { margin-bottom: 0; }
+  .bcol .mark { flex: 0 0 auto; font-weight: 700; font-size: 14px; line-height: 1.75; }
+  .bcol.yes .mark { color: var(--bmc-plum); }
+  .bcol.no  .mark { color: #c0c0c0; }
+  .belongs-foot {
+    max-width: 780px;
+    margin: 56px auto 0;
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  @media (max-width: 720px) { .belongs { padding: 84px 0; } .bcol { padding: 30px 24px; } }
+
+  /* ============ WHAT'S INSIDE (dark cards) ============ */
+  .inside { background-color: var(--black); padding: 130px 0; }
+  .inside-head { max-width: 820px; margin: 0 auto 64px; text-align: center; }
+  .inside-head .sec-head { margin-bottom: 24px; }
+  .inside-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 1000px) { .inside-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 680px)  { .inside-grid { grid-template-columns: 1fr; } }
+  .icard {
+    background: var(--surface-card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 38px 32px;
+    transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+  }
+  .icard:hover { border-color: var(--rule-cyan); transform: translateY(-3px); }
+  .icard .num { font-weight: 900; font-size: 11px; letter-spacing: 0.3em; color: var(--bmc-cyan); display: block; margin-bottom: 22px; }
+  .icard h3 {
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    color: var(--white);
+  }
+  .icard p { font-size: 15.5px; line-height: 1.66; color: var(--silver); }
+  .icard p + p { margin-top: 14px; }
+  .icard .kicker {
+    display: inline-block;
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--bmc-cyan);
+    border-top: 1px solid var(--rule-cyan);
+    padding-top: 14px;
+  }
+  @media (max-width: 720px) { .inside { padding: 84px 0; } }
+
+  /* ============ WALK & TALK ============ */
+  /* Scrim is a gradient layer stacked above the photo in the same
+     background shorthand — no overlay element, nothing to out-paint. */
+  .walk {
+    position: relative;
+    padding: 130px 0;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(10,10,10,0.80) 0%, rgba(10,10,10,0.40) 45%, rgba(10,10,10,0.88) 100%),
+      url("elite-assets/beach-bg.webp") center / cover no-repeat,
+      #0a0a0a;
+  }
+  .walk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  @media (max-width: 960px) { .walk-grid { grid-template-columns: 1fr; gap: 44px; } }
+  .walk .sec-head { margin-bottom: 26px; }
+  .walk p.lead { margin-bottom: 22px; }
+  .walk-list { margin: 34px 0 0; }
+  .walk-list li {
+    display: flex; gap: 14px;
+    font-size: 16px; line-height: 1.6;
+    color: var(--silver);
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .walk-list li:last-child { border-bottom: 1px solid var(--rule); }
+  .walk-list .mark { flex: 0 0 auto; color: var(--bmc-cyan); font-weight: 700; }
+  .walk-note {
+    margin-top: 30px;
+    font-weight: 700;
+    font-size: clamp(16px, 1.5vw, 19px);
+    line-height: 1.5;
+    color: var(--white);
+  }
+  .walk-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .walk-shots img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--rule); }
+  @media (max-width: 720px) { .walk { padding: 84px 0; } .walk-shots { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ============ PROOF (light) ============ */
+  .proof { background: var(--bone); color: var(--black); padding: 130px 0; }
+  .proof .sec-head { color: var(--black); }
+  .proof-head { text-align: center; max-width: 820px; margin: 0 auto 60px; }
+  .proof-head .sec-head { margin-bottom: 22px; }
+  .proof-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+  @media (max-width: 860px) { .proof-grid { grid-template-columns: 1fr; } }
+  .tcard {
+    background: var(--white);
+    border: 1px solid var(--rule-dark);
+    border-left: 3px solid var(--bmc-plum);
+    border-radius: var(--radius);
+    padding: 36px 34px;
+    display: flex;
+    flex-direction: column;
+  }
+  .tcard blockquote {
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.55;
+    color: var(--black);
+    font-weight: 500;
+    margin-bottom: 26px;
+    flex: 1;
+  }
+  .tcard .who { padding-top: 20px; border-top: 1px solid var(--rule-dark); }
+  .tcard .who .n { display: block; font-weight: 900; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--black); margin-bottom: 6px; }
+  .tcard .who .r { display: block; font-size: 13px; color: var(--grey-soft); }
+  @media (max-width: 720px) { .proof { padding: 84px 0; } .tcard { padding: 28px 24px; } }
+
+  /* ============ VIDEO ============ */
+  .video { background: var(--ink); padding: 120px 0; }
+  .video-head { text-align: center; max-width: 820px; margin: 0 auto 48px; }
+  .video-head .sec-head { margin-bottom: 22px; }
+  .video-frame {
+    max-width: 980px; margin: 0 auto;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #000;
+  }
+  .video-frame .ratio { position: relative; padding-top: 56.25%; }
+  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  @media (max-width: 720px) { .video { padding: 84px 0; } }
+
+  /* ============ CLOSE ============ */
+  .close { background-color: var(--black); padding: 170px 0 150px; overflow: hidden; }
+  .close-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+  .close .sec-head { margin-bottom: 34px; }
+  .close p { font-size: clamp(17px, 1.45vw, 20px); line-height: 1.68; color: var(--silver); margin-bottom: 20px; }
+  .close p.beat { font-weight: 700; color: var(--white); font-size: clamp(19px, 1.8vw, 24px); line-height: 1.45; margin: 34px 0; }
+  .close .cta-wrap { margin-top: 46px; }
+  .close .fineprint {
+    margin-top: 26px;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  @media (max-width: 720px) { .close { padding: 96px 0 88px; } }
+
+  /* ============ FOOTER (matches darrenhardy.com) ============ */
+  footer { background: var(--black); border-top: 1px solid var(--rule); padding: 80px 0 40px; }
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 0.8fr 1.4fr; gap: 56px; margin-bottom: 60px; }
+  @media (max-width: 1080px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 48px; } }
+  @media (max-width: 640px)  { .footer-grid { grid-template-columns: 1fr; } }
+  .dh-brand-mark { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .dh-brand-mark img { width: 48px; height: 48px; flex-shrink: 0; }
+  .dh-brand-mark .dh-name { font-weight: 900; font-size: 18px; letter-spacing: 0.28em; color: var(--white); text-transform: uppercase; line-height: 1; }
+  .footer-brand .tag { font-size: 15px; line-height: 1.6; color: var(--silver); max-width: 360px; margin-bottom: 32px; }
+  .footer-brand .socials { display: flex; gap: 21px; flex-wrap: wrap; }
+  .footer-brand .socials a { display: flex; align-items: center; justify-content: center; color: var(--silver); transition: color 0.2s; }
+  .footer-brand .socials a svg { width: 18px; height: 18px; fill: currentColor; display: block; }
+  .footer-brand .socials a:hover { color: var(--white); }
+  .footer-col h3 { font-weight: 600; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--grey); margin-bottom: 24px; }
+  .footer-col li { margin-bottom: 14px; font-weight: 500; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .footer-col li a { color: var(--silver); transition: color 0.2s; }
+  .footer-col li a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 32px;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey);
+  }
+  .footer-bottom .legal-links { display: flex; gap: 24px; }
+  .footer-bottom a { color: var(--grey); }
+  .footer-bottom a:hover { color: var(--white); }
+  .bmc-corner { display: flex; align-items: flex-start; gap: 16px; color: var(--silver); transition: color 0.2s; }
+  .bmc-corner:hover { color: var(--white); }
+  .bmc-corner img { width: 56px; height: 56px; filter: brightness(0) invert(1) opacity(0.85); transition: opacity 0.2s; flex-shrink: 0; margin-top: 2px; }
+  .bmc-corner:hover img { filter: brightness(0) invert(1) opacity(1); }
+  .bmc-corner-text { display: flex; flex-direction: column; gap: 8px; }
+  .bmc-corner-title { font-weight: 700; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--silver); line-height: 1; }
+  .bmc-corner-tag { font-weight: 700; font-size: 14px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--white); line-height: 1.2; }
+  .bmc-corner-cta { font-weight: 500; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver); display: inline-flex; align-items: center; gap: 6px; margin-top: 2px; transition: color 0.2s; }
+  .bmc-corner-cta .arrow { font-weight: 400; transition: transform 0.2s; }
+  .bmc-corner:hover .bmc-corner-cta { color: var(--white); }
+  .bmc-corner:hover .bmc-corner-cta .arrow { transform: translate(2px, -2px); }
+  @media (max-width: 640px) { .footer-bottom { flex-direction: column; gap: 20px; text-align: center; } }
+
+  /* ============ SCROLL REVEAL ============ */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    * { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV — ghost CTA only (low pressure, per the CTA system) ============ -->
+<nav class="top">
+  <a class="nav-brand" href="#top"><img src="elite-assets/elite-logo.webp" alt="ELITE — Business Master Class Alumni" /></a>
+  <div class="nav-links">
+    <a href="#letter">The Letter</a>
+    <a href="#belongs">Who Belongs</a>
+    <a href="#inside">What's Inside</a>
+    <a href="#proof">Results</a>
+    <a class="btn btn-ghost btn-nav" href="https://app.hubspot.com/meetings/brenda8" target="_blank" rel="noopener"><span class="nav-cta-long">Request A Conversation</span><span class="nav-cta-short">Request &rarr;</span></a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============
+     WAS: "Reserved Exclusively for Legacy-Building Business Leaders /
+     ELITE is for those who want to transcend success and now pursue
+     significance by investing in the lives and growth of others. who
+     refuse to start their day without an edge."
+     Two problems: the last sentence is a broken DarrenDaily fragment
+     that is live today, and "transcend success / pursue significance"
+     is a register the DH brand doesn't speak. NOW: the mechanism and
+     the three numbers, stated flat. -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <picture>
+      <source media="(max-width: 960px)" srcset="elite-assets/hero-bg-mobile.webp" type="image/webp">
+      <img src="elite-assets/hero-bg.webp" alt="Darren Hardy above the city at dusk" fetchpriority="high" />
+    </picture>
+  </div>
+  <div class="hero-inner">
+    <div class="container">
+      <div class="hero-copy">
+        <img class="hero-logo" src="elite-assets/elite-logo.webp" alt="ELITE" />
+        <h1>Eventually, the only thing left to scale is <em>people</em>.</h1>
+        <p class="hero-sub">
+          You've already built the business. The next order of magnitude won't come
+          from a sharper strategy. It comes from the leaders you develop, and how
+          fast you develop them. That is the work ELITE does.
+        </p>
+        <div class="hero-facts">
+          <div><span class="n">Under 20</span><span class="l">Builders a year</span></div>
+          <div><span class="n">2 Years</span><span class="l">Engagement</span></div>
+          <div><span class="n">1-on-1</span><span class="l">Direct with Darren</span></div>
+        </div>
+        <a class="btn btn-ghost" href="https://app.hubspot.com/meetings/brenda8" target="_blank" rel="noopener">Request A Private Conversation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LETTER ============
+     WAS: "Fellow Legacy Builder… your private sanctuary of high-caliber
+     peers—visionary entrepreneurs, transcendent CEOs, and industry
+     titans… if these words resonate at the deepest level of your being."
+     Rewritten to the darrenhardy.com/about register: no flattery,
+     no mysticism, no adjective stacking; receipts and mechanism instead.
+     The "grow people" spine is retained — it's Darren's own line. -->
+<section class="letter wash" id="letter">
+  <div class="container">
+    <div class="letter-inner">
+      <div class="reveal">
+        <div class="eyebrow"><span class="pip"></span>A Personal Word</div>
+        <h2 class="sec-head">Why I Built <em>ELITE</em>.</h2>
+      </div>
+      <div class="reveal">
+        <p>You're not here for encouragement, so I'll skip it.</p>
+        <p>
+          You've built something most people never will. You know how to make revenue
+          happen. You know how to solve whatever the market puts in front of you.
+        </p>
+        <p>
+          Which is why I want to talk about the part that doesn't yield to any of that.
+        </p>
+        <p>
+          In 35 years of sitting with builders, I have almost never watched someone stall
+          on strategy. I watch them stall on people. The business outgrows the number of
+          good decisions one person can make in a week. Approvals pile up. Talented people
+          wait instead of deciding. Growth arrives, and profit doesn't follow it.
+        </p>
+        <p class="beat">Every real ceiling I have seen is a people ceiling.</p>
+        <p>
+          Clearing it is different work from the work that got you here. It is slower. It
+          is less visible. It rarely shows up in a quarter. And there is almost no one at
+          your level to think it through with — your team can't be your sounding board,
+          most of your peers aren't operating at your scale, and the advice industry is
+          full of people who have never run anything.
+        </p>
+        <p>So I built a small room.</p>
+        <p>
+          ELITE takes fewer than 20 builders a year on a two-year engagement. You get
+          direct access to me, including the only one-on-one time I give anyone. You get a
+          confidential council of founders and CEOs who operate where you operate and will
+          tell you the truth. And you get my training systems installed into your team,
+          not just into your notebook.
+        </p>
+        <p class="beat">It stays at 20 because that's the number where I can actually know your business.</p>
+        <p>
+          If that's the work you're ready to do, ask my team for a private conversation.
+          There's no pitch on the other end of it. We'll both find out quickly whether
+          this is a fit.
+        </p>
+        <div class="sign">
+          <img src="elite-assets/dh-signature.webp" alt="Darren Hardy signature" />
+          <span class="name">Darren Hardy</span>
+          <div class="tag">#BeTheException</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PULL QUOTE — Darren's own line, verbatim ============ -->
+<section class="pullquote">
+  <div class="container">
+    <div class="pullquote-inner reveal">
+      <blockquote>
+        "It's easy to be distracted by the job of growing your business.
+        But never forget that your job as a leader is also to <em>grow people</em>."
+      </blockquote>
+      <div class="attr">Darren Hardy</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO BELONGS ============
+     WAS: a single centred list, flattened into an SVG so the text
+     wasn't selectable, searchable or accessible. NOW: real text, and
+     a second column of negative space — telling a serious operator
+     who this ISN'T for is the strongest status-safe filter there is,
+     and it's how darrenhardy.com/about and hardybmc.com both do it. -->
+<section class="belongs on-light" id="belongs">
+  <div class="container">
+    <div class="belongs-head reveal">
+      <div class="eyebrow center on-light"><span class="pip"></span>Who Belongs Here</div>
+      <h2 class="sec-head">Small On <em>Purpose</em>.</h2>
+      <p>We don't announce this. No campaigns. No launches. No countdowns.</p>
+      <p>If you're reading this, someone sent you. The right people have never needed convincing.</p>
+    </div>
+    <div class="belongs-grid">
+      <div class="bcol yes reveal">
+        <h3>This is for you if</h3>
+        <ul>
+          <li><span class="mark">&#10003;</span><span>You run one or more seven-, eight-, or nine-figure businesses, and you intend to keep compounding them.</span></li>
+          <li><span class="mark">&#10003;</span><span>You've concluded your next breakthrough is a people problem, not a strategy problem.</span></li>
+          <li><span class="mark">&#10003;</span><span>You hold a standard of excellence most organizations would find uncomfortable.</span></li>
+          <li><span class="mark">&#10003;</span><span>You're building something engineered to outlast your involvement in it.</span></li>
+        </ul>
+      </div>
+      <div class="bcol no reveal">
+        <h3>This isn't for you if</h3>
+        <ul>
+          <li><span class="mark">&#10007;</span><span>You're looking for a program to fix something that's broken.</span></li>
+          <li><span class="mark">&#10007;</span><span>You want a stage, a photo, or a logo for your website.</span></li>
+          <li><span class="mark">&#10007;</span><span>You want motivation. We don't do motivation, and you don't need it.</span></li>
+          <li><span class="mark">&#10007;</span><span>You're not willing to change how you personally spend a week.</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="belongs-foot reveal">
+      ELITE is a <em>two-year</em> engagement. Two years because leadership work
+      doesn't move in ninety-day sprints, and because the compounding only shows up
+      once the systems are actually installed in your people.
+    </p>
+  </div>
+</section>
+
+<!-- ============ WHAT'S INSIDE ============
+     WAS: five collapsed accordions, each opening on adjective-heavy
+     prose ("unparalleled", "world-class", "transformative"). NOW:
+     five open cards. Same five deliverables, stated as mechanism —
+     what it is, what it does, what it costs you in time. -->
+<section class="inside wash" id="inside">
+  <div class="container">
+    <div class="inside-head reveal">
+      <div class="eyebrow center"><span class="pip"></span>What Membership Includes</div>
+      <h2 class="sec-head">Six Things. <em>All Of Them Rare</em>.</h2>
+      <p class="lead">No curriculum to keep up with. No calendar to survive. Six points of leverage, and nothing else competing for your week.</p>
+    </div>
+    <div class="inside-grid">
+      <div class="icard reveal">
+        <span class="num">01</span>
+        <h3>Direct Counsel With Darren</h3>
+        <p>A private 90-minute Walk &amp; Talk on the coast. No slides, no agenda but yours. We find the actual bottleneck, and you leave with the next three moves and the order to make them in.</p>
+        <p class="kicker">The only 1-on-1 Darren gives</p>
+      </div>
+      <div class="icard reveal">
+        <span class="num">02</span>
+        <h3>A Confidential Peer Council</h3>
+        <p>A curated council of founders and CEOs across industries, operating at your scale and holding your standard.</p>
+        <p>No noise. No pretense. No performing. Just consequential conversations with people who have already solved what's currently in front of you.</p>
+      </div>
+      <div class="icard reveal">
+        <span class="num">03</span>
+        <h3>Training Installed In Your Team</h3>
+        <p>A customizable team development package that puts Darren's systems into the people who actually run your business, not just into your notebook.</p>
+        <p>Draw from Business Master Class, INSANE PRODUCTIVITY, and Hero's Journey. You choose the mix.</p>
+      </div>
+      <div class="icard reveal">
+        <span class="num">04</span>
+        <h3>Counsel When It Matters, Not When It's Scheduled</h3>
+        <p>Minimal meetings. Maximum leverage. Darren opens ELITE-only sessions when the market moves or a decision won't wait — market shifts, scaling breaks, leadership inflection points.</p>
+        <p>The right idea at the right time beats a standing call every time.</p>
+      </div>
+      <div class="icard reveal">
+        <span class="num">05</span>
+        <h3>Darren's A-Team, On Your Side Of The Table</h3>
+        <p>Brenda, VP of Member Experience, leads your side of it, with priority routing through Ashlee, Sr. VIP Relations Specialist.</p>
+        <p>One point of contact. Events, travel, scheduling and anything else logistical handled before it reaches you.</p>
+      </div>
+      <div class="icard reveal">
+        <span class="num">06</span>
+        <h3>The Room Itself</h3>
+        <p>Fewer than 20 builders a year, for two years. Long enough that the council stops being a network and starts being the people you call first.</p>
+        <p class="kicker">By invitation or referral only</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WALK & TALK ============
+     WAS: the four bullets here were also baked into an SVG. Restored
+     as text. Photography is Darren's own Walk & Talk archive — real
+     members, real sessions. -->
+<section class="walk" id="walk">
+  <div class="container">
+    <div class="walk-grid">
+      <div class="reveal">
+        <div class="eyebrow"><span class="pip"></span>Exclusive 1-on-1</div>
+        <h2 class="sec-head">The <em>Walk &amp; Talk</em>.</h2>
+        <p class="lead">
+          Ninety minutes, one to one, on a quiet stretch of coast. No stage, no slides,
+          no audience. Just the two of us and the decision you've been circling.
+        </p>
+        <ul class="walk-list">
+          <li><span class="mark">&#10003;</span><span>Diagnose the real bottleneck in your business — and leave with a direct plan to clear it</span></li>
+          <li><span class="mark">&#10003;</span><span>Scale without burning down yourself or the people who work for you</span></li>
+          <li><span class="mark">&#10003;</span><span>Build the hiring and leadership systems that make you unnecessary in the right places</span></li>
+          <li><span class="mark">&#10003;</span><span>Get unfiltered answers you won't get from anyone who's selling you something</span></li>
+        </ul>
+        <p class="walk-note">There is no other way to buy this time. It exists only inside ELITE.</p>
+      </div>
+      <div class="walk-shots reveal">
+        <img src="elite-assets/wt-1.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-3.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-7.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-9.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-4.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-11.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-8.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-5.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+        <img src="elite-assets/wt-12.webp" alt="Darren Hardy with an ELITE member on a Walk &amp; Talk" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROOF ============
+     Testimonial quotes are reproduced VERBATIM from the live page.
+     Only the heading and framing copy around them were rewritten. -->
+<section class="proof on-light" id="proof">
+  <div class="container">
+    <div class="proof-head reveal">
+      <div class="eyebrow center on-light"><span class="pip"></span>In Their Own Words</div>
+      <h2 class="sec-head">Real Builders. <em>Real Results</em>.</h2>
+    </div>
+    <div class="proof-grid">
+      <div class="tcard reveal">
+        <blockquote>"After years stuck at $25M, I applied what I learned in ELITE. Within two years, we skyrocketed to $129.8M."</blockquote>
+        <div class="who"><span class="n">Tom Mosley</span><span class="r">CEO, Mosley Wealth Management</span></div>
+      </div>
+      <div class="tcard reveal">
+        <blockquote>"Scaling my business required the right people, processes, and choices. ELITE gave me the blueprint to make it happen."</blockquote>
+        <div class="who"><span class="n">Joe Rock</span><span class="r">Managing Partner, Lin Realty Group</span></div>
+      </div>
+      <div class="tcard reveal">
+        <blockquote>"The insights I gained from ELITE allowed me to think bigger, increase my pricing, and attract premium clients."</blockquote>
+        <div class="who"><span class="n">Athena Captain</span><span class="r">Partner, Turner &amp; Son Homes</span></div>
+      </div>
+      <div class="tcard reveal">
+        <blockquote>"Darren helped me refine my focus and transform my business strategy, saving me years of struggle."</blockquote>
+        <div class="who"><span class="n">Kelly Cort</span><span class="r">Senior Loan Officer, Guild Mortgage</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIDEO ============ -->
+<section class="video">
+  <div class="container">
+    <div class="video-head reveal">
+      <div class="eyebrow center"><span class="pip"></span>Why These Leaders Joined</div>
+      <h2 class="sec-head">At This Level It Isn't About Doing <em>More</em>.</h2>
+      <p class="lead">It's about doing what matters, at the highest level available to you.</p>
+    </div>
+    <div class="video-frame reveal">
+      <div class="ratio">
+        <iframe src="https://player.vimeo.com/video/1119149556?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                title="Why these leaders joined ELITE"
+                allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSE — the one solid CTA on the page ============ -->
+<section class="close wash" id="apply">
+  <div class="container">
+    <div class="close-inner reveal">
+      <div class="eyebrow center"><span class="pip"></span>Your Next Move</div>
+      <h2 class="sec-head">Is This <em>Your</em> Next Move?</h2>
+      <p>We don't advertise this. If you're here, you were referred or invited.</p>
+      <p class="beat">You don't need another program. You need a room where you can think at full speed, with people who won't waste your time.</p>
+      <p>
+        If that's true, ask for a private conversation. No pitch. No pressure. A candid
+        thirty minutes to work out whether this is right — for you, and for us.
+      </p>
+      <div class="cta-wrap">
+        <a class="btn btn-solid" href="https://app.hubspot.com/meetings/brenda8" target="_blank" rel="noopener">Request A Private Conversation</a>
+        <div class="fineprint">Fewer than 20 a year &middot; Two-year engagement &middot; By invitation or referral</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="dh-brand-mark">
+          <img src="dh_logo.png" alt="Darren Hardy" />
+          <span class="dh-name">Darren Hardy</span>
+        </div>
+        <p class="tag">Darren Hardy is the unfair advantage for unusually driven business leaders building something that matters.</p>
+        <div class="socials">
+          <a href="https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ" title="YouTube" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/darrenhardy/" title="LinkedIn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/DarrenHardyFan/" title="Facebook" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/darrenhardy/" title="Instagram" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+          <a href="https://twitter.com/DARRENHARDY" title="X" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="https://darrenhardy.com/about/">About</a></li>
+          <li><a href="https://darrendaily.com/">Daily Mentoring</a></li>
+          <li><a href="https://darrenhardy.com/darrendaily-on-demand/">Podcast</a></li>
+          <li><a href="https://store.darrenhardy.com/collections/merchandise">Books</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="https://helpme.darrenhardy.com/hc/en-us">Help Center</a></li>
+          <li><a href="https://app.hubspot.com/meetings/brenda8" target="_blank" rel="noopener">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <a class="bmc-corner" href="https://hardybmc.com">
+          <img src="BMC_Logo.png" alt="BMC" />
+          <div class="bmc-corner-text">
+            <span class="bmc-corner-title">BMC|COLLECTIVE</span>
+            <span class="bmc-corner-tag">The Unfair Advantage<br>for Driven Leaders</span>
+            <span class="bmc-corner-cta">Explore Further <span class="arrow">&#8599;</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; Darren Hardy, LLC. All Rights Reserved.</span>
+      <div class="legal-links">
+        <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
+        <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e, i) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        setTimeout(function () { el.classList.add('in'); }, i * 80);
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>
