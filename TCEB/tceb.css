@@ -653,3 +653,66 @@ em { font-style: normal; color: var(--accent); }
   .includes-row.has-thumb .includes-mark { grid-column: 2; }
   .includes-mark { justify-self: start; }
 }
+
+/* ============================================================
+   STAR RATING
+   Franchise proof for The Compound Effect only. Never attach a
+   rating to The Compound Effect in Business, which has no
+   readers yet and therefore no rating.
+   ============================================================ */
+.stars { display: inline-flex; gap: 3px; color: var(--c-gold-deep); font-size: 15px; letter-spacing: 1px; line-height: 1; }
+.on-dark .stars, .ground-black .stars { color: var(--c-gold); }
+.rating-inline { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rating-score { font-family: var(--font-display); font-weight: 500; font-size: 17px; color: var(--fg); }
+.rating-meta { font-size: 13px; color: var(--fg-mute); }
+
+/* ============================================================
+   ENDORSEMENTS
+   Named, attributed author blurbs. No portraits: the only
+   headshot files in the repo are labelled placeholders, and a
+   jacket blurb carries more weight as pure typography anyway.
+   ============================================================ */
+.endorse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.endorse {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 30px 30px 32px; display: flex; flex-direction: column; box-shadow: var(--shadow);
+  border-top: 3px solid var(--accent);
+}
+.endorse-q { font-size: 16px; line-height: 1.6; color: var(--fg-soft); flex: 1; }
+.endorse-q b { color: var(--fg); font-weight: 600; }
+.endorse-by {
+  margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line);
+  font-family: var(--font-display); font-weight: 500; font-size: 14px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg);
+}
+.endorse-role { font-size: 12.5px; line-height: 1.5; color: var(--fg-mute); margin-top: 5px; }
+@media (max-width: 900px) { .endorse-grid { grid-template-columns: 1fr; } }
+
+/* Compact strip variant, for directly under the hero */
+.endorse-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.endorse-strip .item { padding: 0 30px; position: relative; }
+.endorse-strip .item + .item::before {
+  content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: var(--line);
+}
+.endorse-strip .q { font-size: 15px; line-height: 1.55; color: var(--fg-soft); margin: 12px 0 14px; }
+.endorse-strip .n { font-family: var(--font-display); font-weight: 500; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg); }
+.endorse-strip .r { font-size: 12px; color: var(--fg-mute); margin-top: 3px; }
+@media (max-width: 860px) {
+  .endorse-strip { grid-template-columns: 1fr; gap: 30px; }
+  .endorse-strip .item { padding: 0; }
+  .endorse-strip .item + .item::before { display: none; }
+  .endorse-strip .item + .item { border-top: 1px solid var(--line); padding-top: 28px; }
+}
+
+/* ============================================================
+   FOUNDERS RIBBON
+   Marks the page as the founders offer, not a plain pre-order.
+   ============================================================ */
+.founders-ribbon {
+  display: inline-flex; align-items: center; gap: 12px;
+  border: 1px solid var(--gold-mark); background: var(--gold-fill);
+  border-radius: var(--radius); padding: 10px 18px;
+  font-family: var(--font-display); font-weight: 500; font-size: 12px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-type);
+}
+.founders-ribbon .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
