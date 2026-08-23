@@ -690,7 +690,7 @@ em { font-style: normal; color: var(--accent); }
 
 /* Compact strip variant, for directly under the hero */
 .endorse-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
-.endorse-strip .item { padding: 0 30px; position: relative; }
+.endorse-strip .item { padding: 0 26px; position: relative; }
 .endorse-strip .item + .item::before {
   content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: var(--line);
 }
@@ -716,3 +716,64 @@ em { font-style: normal; color: var(--accent); }
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-type);
 }
 .founders-ribbon .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+
+/* ============================================================
+   PORTRAITS
+   Every testimonial carries a picture of the person. Always.
+   Never a small circular avatar. People want to see people.
+
+   Spec: 4:5 portrait, supply at 800 x 1000 minimum.
+   To swap a placeholder for the real photograph, replace the
+   <div class="portrait portrait-ph"> with:
+     <img class="portrait" src="img/name.webp" alt="Name"
+          width="800" height="1000" loading="lazy">
+   Nothing else changes. The box is already the right shape.
+   ============================================================ */
+.portrait {
+  display: block; width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover; object-position: center 22%;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+.portrait-ph {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  border: 1px dashed var(--line-strong);
+  background:
+    repeating-linear-gradient(135deg,
+      transparent 0 11px,
+      rgba(0,0,0,0.022) 11px 22px),
+    var(--surface-2);
+}
+.on-dark .portrait-ph, .ground-black .portrait-ph {
+  background:
+    repeating-linear-gradient(135deg,
+      transparent 0 11px,
+      rgba(255,255,255,0.03) 11px 22px),
+    var(--surface-2);
+}
+.portrait-ph .ini {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(26px, 3.2vw, 52px); line-height: 1;
+  letter-spacing: 0.06em; color: var(--fg-fine);
+}
+.portrait-ph .lbl {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: 9.5px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--fg-fine); text-align: center; padding: 0 8px;
+}
+.portrait-sm .lbl { display: none; }
+.portrait-sm .ini { font-size: 26px; }
+
+/* Endorsement card, portrait-led */
+.endorse { padding: 0; overflow: hidden; }
+.endorse .portrait { border-radius: 0; }
+.endorse-body { padding: 26px 28px 28px; display: flex; flex-direction: column; flex: 1; }
+
+/* Strip variant: rectangular portrait beside the quote, never a chip */
+.endorse-strip .item { display: grid; grid-template-columns: 136px 1fr; gap: 20px; align-items: start; }
+.endorse-strip .item + .item::before { left: -15px; }
+.endorse-strip .portrait { border-radius: var(--radius); }
+@media (max-width: 860px) {
+  .endorse-strip .item { grid-template-columns: 116px 1fr; }
+}
