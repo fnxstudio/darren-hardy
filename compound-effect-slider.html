@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout Slider · The Compound Effect</title>
+<meta name="description" content="Preserved reference build: the Compound Effect hero plus the in-page Spiffy checkout slide-in drawer.">
+<meta name="author" content="Darren Hardy">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- ═════════════════════════════════════════════════════════════
+     PRESERVED REFERENCE BUILD — DO NOT EDIT
+     ─────────────────────────────────────────────────────────────
+     Frozen snapshot of the checkout slide-in drawer, lifted out of
+     compound-effect.html on 2026-08-23 so it survives while that
+     page keeps changing.
+
+     Contains ONLY: the hero, the sticky CTA, and the [data-open-checkout]
+     slide-in drawer (markup + CSS + JS) they both trigger.
+
+     compound-effect.html is the page under active development.
+     Make edits there, not here. This file is the thing we build the
+     real checkout from later.
+     ═════════════════════════════════════════════════════════════ -->
+<link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/compound-effect-slider.html"> <!-- [MIGRATE] → https://darrenhardy.com/compound-effect -->
+
+<!-- Open Graph -->
+<meta property="og:type"        content="book">
+<meta property="og:site_name"   content="Darren Hardy">
+<meta property="og:title"       content="The Compound Effect · Darren Hardy">
+<meta property="og:description" content="No gimmicks. No hyperbole. Just the truth on success. The operating manual on the small, disciplined choices that compound into an unfair advantage.">
+<meta property="og:url"         content="https://fnxstudio.github.io/darren-hardy/compound-effect-slider.html"> <!-- [MIGRATE] -->
+<meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/ce-front-cover.png"> <!-- [MIGRATE] -->
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@DARRENHARDY">
+<meta name="twitter:title"       content="The Compound Effect · Darren Hardy">
+<meta name="twitter:description" content="No gimmicks. No hyperbole. Just the truth on success.">
+
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preload" as="image" href="ce-front-cover.webp" type="image/webp">
+
+
+<style>
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(fonts/inter-latin-ext.woff2) format('woff2');
+  }
+
+  :root {
+    /* Compound Effect core (from the 10th Anniversary cover) */
+    --red:        #E02826;
+    --red-deep:   #B01E1C;
+    --ink:        #231F20;
+    --black:      #0a0a0a;
+    --white:      #ffffff;
+    --paper:      #fbfaf8;
+    --bone:       #f5f5f5;
+    --silver:     #b8b8b8;
+    --grey:       #888888;
+    --grey-soft:  #6a6a6a;
+    --muted:      #6b6b6b;
+    --line:       #e6e4e2;
+    --gold:       #f5b301;
+
+    /* Dark-section rules (shared with darrenhardy.com shell) */
+    --rule:            rgba(255, 255, 255, 0.08);
+    --rule-strong:     rgba(255, 255, 255, 0.15);
+    --rule-dark:       rgba(10, 10, 10, 0.1);
+    --rule-dark-strong:rgba(10, 10, 10, 0.18);
+
+    --radius: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; } /* keep the hidden attribute authoritative over display:flex/grid */
+
+  html { scroll-behavior: smooth; }
+  html, body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* No italics anywhere — emphasis shifts to red */
+  em { font-style: normal; color: var(--red); }
+
+  a { color: inherit; }
+
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 720px) { .container { padding: 0 24px; } }
+
+  /* ============ EYEBROW ============ */
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow .pip {
+    display: inline-block;
+    width: 26px; height: 2px;
+    background: var(--red);
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    border-radius: var(--radius);
+    padding: 19px 34px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .btn .arw { transition: transform 0.2s ease; }
+  .btn:hover .arw { transform: translateX(4px); }
+  .btn-solid { background: var(--red); color: #fff; border: 1px solid var(--red); }
+  .btn-solid:hover { background: var(--red-deep); border-color: var(--red-deep); }
+  .btn-ghost-dark { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4); }
+  .btn-ghost-dark:hover { background: #fff; color: var(--ink); border-color: #fff; }
+
+  /* ============ STICKY CTA (replaces the nav) ============ */
+  .sticky-cta { position: fixed; top: 0; left: 0; right: 0; z-index: 70; transform: translateY(-101%); transition: transform 0.34s cubic-bezier(0.22,1,0.36,1); background: rgba(12,10,12,0.92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .sticky-cta.visible { transform: translateY(0); }
+  .sticky-cta-inner { max-width: 1080px; margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .sticky-cta-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff; white-space: nowrap; }
+  .sticky-cta .btn { padding: 13px 24px; font-size: 11px; }
+  @media (max-width: 600px) {
+    .sticky-cta-inner { padding: 10px 20px; gap: 12px; }
+    .sticky-cta-title { font-size: 10.5px; letter-spacing: 0.08em; }
+    .sticky-cta .btn { padding: 11px 15px; letter-spacing: 0.14em; }
+  }
+
+  /* ============ HERO (dark ink) ============ */
+  .hero {
+    background: var(--ink);
+    color: var(--white);
+    padding: 56px 0 68px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(1100px 620px at 78% 12%, rgba(224,40,38,0.14), transparent 60%),
+      linear-gradient(180deg, #2a2526 0%, var(--ink) 55%, #1c1819 100%);
+    pointer-events: none;
+  }
+  .hero .container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.32fr 0.68fr;
+    align-items: center;
+    gap: 56px;
+  }
+  .hero-eyebrow { color: var(--red); margin-bottom: 22px; }
+  .hero h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(38px, 4.5vw, 60px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero h1 em { color: #ff4b3e; } /* red brightened for dark bg */
+  .hero-lede {
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.6;
+    color: #cfcac6;
+    max-width: 34em;
+    margin-bottom: 28px;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 30px;
+  }
+  .hero-meta .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--red); }
+  .hero-rating { display: inline-flex; align-items: center; gap: 8px; color: var(--white); }
+  .hero-stars {
+    position: relative;
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.22);
+  }
+  .hero-stars::before {
+    content: "★★★★★";
+    position: absolute; left: 0; top: 0;
+    width: 94%; overflow: hidden; white-space: nowrap;
+    color: var(--gold);
+  }
+  .hero-cta { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .hero-cta .note { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey); font-weight: 700; }
+
+  .hero-cover {
+    position: relative;
+    justify-self: center;
+  }
+  .hero-cover img {
+    display: block;
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+    border-radius: 3px;
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.4),
+      0 30px 70px rgba(0,0,0,0.55);
+    transform: perspective(1400px) rotateY(-11deg) rotateX(1.5deg);
+    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .hero-cover:hover img { transform: perspective(1400px) rotateY(-6deg) rotateX(1deg); }
+  .hero-cover::after {
+    content: "";
+    position: absolute;
+    left: 6%; right: 6%; bottom: -26px; height: 40px;
+    background: rgba(0,0,0,0.5);
+    filter: blur(26px);
+    border-radius: 50%;
+    z-index: -1;
+  }
+
+  @media (max-width: 900px) {
+    .hero { padding: 56px 0 72px; }
+    .hero .container { grid-template-columns: 1fr; gap: 48px; text-align: left; }
+    .hero-cover { order: -1; justify-self: start; }
+    .hero-cover img { max-width: 260px; transform: none; box-shadow: 0 24px 54px rgba(0,0,0,0.5); }
+    .hero-cover:hover img { transform: none; }
+  }
+
+  /* ============ CHECKOUT DRAWER (Spiffy slide-in) ============ */
+  .co-overlay {
+    position: fixed; inset: 0;
+    background: rgba(20,17,18,0.55);
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+    opacity: 0; transition: opacity 0.3s ease; z-index: 80;
+  }
+  .co-overlay.open { opacity: 1; }
+  .co-drawer {
+    position: fixed; top: 0; right: 0; height: 100%;
+    width: 468px; max-width: 100vw;
+    background: var(--white);
+    z-index: 90;
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.42s cubic-bezier(0.22,1,0.36,1);
+    box-shadow: -20px 0 60px rgba(20,17,18,0.28);
+  }
+  .co-drawer.open { transform: none; }
+  .co-close {
+    position: absolute; top: 15px; right: 15px;
+    width: 36px; height: 36px;
+    border: 1px solid var(--line); background: var(--white);
+    border-radius: 50%; font-size: 13px; color: var(--muted);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: color 0.2s, border-color 0.2s; z-index: 3;
+  }
+  .co-close:hover { border-color: var(--red); color: var(--red); }
+  .co-head { padding: 30px 30px 22px; background: var(--bone); border-bottom: 1px solid var(--line); }
+  .co-head .eyebrow { margin-bottom: 20px; }
+  .co-lineitem { display: flex; align-items: center; gap: 16px; }
+  .co-thumb { width: 52px; height: auto; border-radius: 2px; box-shadow: 0 4px 14px rgba(0,0,0,0.18); }
+  .co-li-text { flex: 1; }
+  .co-li-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); }
+  .co-li-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .co-li-meta { font-size: 11px; color: var(--muted); margin-top: 7px; display: flex; align-items: center; gap: 6px; }
+  .co-stars { color: var(--gold); letter-spacing: 1px; font-size: 11px; }
+  .co-price { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 21px; color: var(--red); }
+  .co-body { flex: 1; overflow-y: auto; position: relative; display: flex; flex-direction: column; }
+  .co-mount { flex: 1; display: flex; flex-direction: column; }
+  .co-frame { width: 100%; flex: 1; border: 0; min-height: 520px; display: block; }
+
+  /* preview flag */
+  .co-flag {
+    font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--grey-soft); background: var(--bone);
+    border-bottom: 1px solid var(--line);
+    padding: 9px 30px; text-align: center;
+  }
+
+  /* preview form */
+  .co-form { padding: 24px 30px 30px; }
+  .co-group { margin-bottom: 22px; }
+  .co-group-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-bottom: 12px; }
+  .co-field { display: block; margin-bottom: 10px; }
+  .co-field > span { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; color: var(--muted); margin-bottom: 5px; }
+  .co-field input, .co-field select {
+    width: 100%; font-family: inherit; font-size: 14px; color: var(--ink);
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 11px 12px; transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .co-field input:focus, .co-field select:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(224,40,38,0.12); }
+  .co-field input::placeholder { color: #b8b4b0; }
+  .co-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .co-row-3 { display: grid; grid-template-columns: 1.3fr 0.8fr 0.9fr; gap: 10px; }
+  /* payment method selector (mirrors Spiffy's multi-option cart) */
+  .co-pay { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .co-pm { display: flex; align-items: center; gap: 12px; padding: 15px 16px; cursor: pointer; border-bottom: 1px solid #eceae8; flex-wrap: wrap; row-gap: 12px; }
+  .co-pm-panel + .co-pm { border-top: 1px solid #eceae8; }
+  .co-pm input { position: absolute; opacity: 0; pointer-events: none; }
+  .co-pm-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #c9c6c2; flex: none; position: relative; transition: border-color 0.2s; }
+  .co-pm.sel { background: rgba(224,40,38,0.05); }
+  .co-pm.sel .co-pm-radio { border-color: var(--red); }
+  .co-pm.sel .co-pm-radio::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--red); }
+  .co-pm-name { font-weight: 700; font-size: 14px; color: var(--ink); flex: 1 1 auto; white-space: nowrap; }
+  .co-pm-mark { display: inline-flex; align-items: center; margin-left: auto; }
+  .co-brands { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .co-brand { display: inline-flex; align-items: center; justify-content: center; height: 18px; padding: 0 5px; border-radius: 3px; font-size: 10px; font-weight: 800; line-height: 1; }
+  .co-brand.visa { color: #1a1f71; background: #fff; border: 1px solid var(--line); font-style: italic; }
+  .co-brand.amex { color: #fff; background: #2e77bc; }
+  .co-brand.disc { color: #23201f; background: #fff; border: 1px solid var(--line); }
+  .co-brand.disc b { color: #f26e21; }
+  .co-brand.paypal { background: #fff; border: 1px solid var(--line); font-style: italic; }
+  .co-brand.paypal i { color: #003087; } .co-brand.paypal em { color: #009cde; font-style: italic; }
+  .co-brand.gpay { background: #fff; border: 1px solid var(--line); color: #5f6368; height: 22px; padding: 0 9px; border-radius: 11px; letter-spacing: 0.02em; }
+  .co-brand.applepay { background: #fff; border: 1px solid var(--line); color: #111; height: 22px; padding: 0 10px; border-radius: 11px; font-weight: 700; letter-spacing: 0.02em; }
+  .co-mc { display: block; }
+  .co-more { font-size: 11px; color: #9a9a9a; margin-left: 2px; }
+  .co-pm-panel { padding: 6px 16px 16px; }
+  .co-pm-note { font-size: 13px; line-height: 1.5; color: var(--muted); padding: 2px 0; }
+  .co-pay-secure { text-align: center; margin-top: 14px; font-size: 12px; color: #5a8f3c; letter-spacing: 0.01em; }
+  .co-bump {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 14px; border: 1px dashed var(--red); border-radius: var(--radius);
+    background: rgba(224,40,38,0.04); margin-bottom: 22px; cursor: pointer;
+  }
+  .co-bump input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--red); flex: none; cursor: pointer; }
+  .co-bump-text { font-size: 13.5px; line-height: 1.45; color: var(--ink); }
+  .co-bump-text strong { font-weight: 700; }
+  .co-bump-text em { color: var(--red); font-weight: 700; font-style: normal; }
+  .co-summary { border-top: 1px solid var(--line); padding-top: 16px; margin-bottom: 18px; }
+  .co-sum-row { display: flex; justify-content: space-between; font-size: 13.5px; color: var(--muted); margin-bottom: 8px; }
+  .co-free { color: var(--red); font-weight: 600; }
+  .co-sum-total { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px; color: var(--ink); text-transform: uppercase; letter-spacing: 0.02em; padding-top: 10px; border-top: 1px solid var(--line); margin-top: 4px; margin-bottom: 0; }
+  .co-submit { width: 100%; justify-content: center; padding: 17px; margin-top: 4px; }
+  .co-lock-sm { width: 14px; height: 14px; }
+  .co-fine { text-align: center; font-size: 11px; line-height: 1.5; color: var(--grey-soft); margin-top: 12px; }
+  .btn-ghost-red { background: transparent; color: var(--red); border: 1px solid var(--red); }
+  .btn-ghost-red:hover { background: var(--red); color: #fff; }
+
+  /* confirmation */
+  .co-confirm { padding: 60px 34px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .co-check { width: 66px; height: 66px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; animation: coPop 0.45s cubic-bezier(0.22,1.4,0.5,1) both; }
+  .co-check svg { width: 32px; height: 32px; stroke: #fff; stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes coPop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .co-confirm-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 25px; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); }
+  .co-confirm-sub { font-size: 15px; color: var(--muted); line-height: 1.5; }
+  .co-confirm-sub strong { color: var(--ink); }
+  .co-confirm-order { width: 100%; border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; display: flex; flex-direction: column; gap: 11px; margin: 8px 0; }
+  .co-confirm-order > div { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+  .co-confirm-order strong { color: var(--ink); font-weight: 700; }
+  .co-confirm-note { font-size: 13px; line-height: 1.55; color: var(--muted); }
+  .co-confirm .btn { margin-top: 8px; }
+  .co-trust {
+    padding: 15px 30px; border-top: 1px solid var(--line);
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--grey-soft); text-align: center; background: var(--paper);
+  }
+  .co-trust strong { color: var(--ink); font-weight: 700; }
+  body.co-open { overflow: hidden; }
+  @media (max-width: 520px) { .co-drawer { width: 100%; } }
+</style>
+</head>
+<body>
+
+<!-- STICKY CTA — slides in once the hero's Get Your Copy button scrolls past -->
+<div class="sticky-cta" id="stickyCta">
+  <div class="sticky-cta-inner">
+    <span class="sticky-cta-title">The Compound Effect</span>
+    <a class="btn btn-solid" href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect" data-open-checkout>Get Your Copy <span class="arw">→</span></a>
+  </div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-copy">
+      <div class="eyebrow hero-eyebrow"><span class="pip"></span>The Compound Effect · 10th Anniversary Edition</div>
+      <h1>No Gimmicks.<br>No Hyperbole.<br>Just The <em>Truth</em><br>On Success.</h1>
+      <p class="hero-lede">This is not another personal-development book. It's the operating manual on the small, disciplined choices that compound into an unfair advantage. Over two million people have run the system. It endures because it tells the truth.</p>
+      <div class="hero-meta">
+        <span>2M+ Copies Sold</span>
+        <span class="dot"></span>
+        <span>21,000+ Amazon Ratings</span>
+        <span class="dot"></span>
+        <span class="hero-rating">4.7<span class="hero-stars" aria-hidden="true">★★★★★</span></span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect" data-open-checkout>Get Your Copy <span class="arw">→</span></a>
+        <span class="note">$19.99 · Ships Worldwide</span>
+      </div>
+    </div>
+    <div class="hero-cover">
+      <img src="ce-front-cover.webp" alt="The Compound Effect by Darren Hardy — 10th Anniversary Edition" width="1100" height="1623" fetchpriority="high">
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ─────────────────────────────────────────────────────────────
+     CHECKOUT DRAWER — Spiffy embedded checkout (in-page slide-in)
+     To activate: paste your Spiffy checkout URL into
+     window.SPIFFY_CHECKOUT_URL at the top of the script below.
+     Until then, the drawer shows a secure fallback to the store.
+     ───────────────────────────────────────────────────────────── -->
+<div class="co-overlay" id="coOverlay" hidden></div>
+<aside class="co-drawer" id="coDrawer" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Checkout — The Compound Effect">
+  <button class="co-close" id="coClose" aria-label="Close checkout">&#10005;</button>
+
+  <div class="co-head">
+    <div class="eyebrow"><span class="pip"></span>Secure Checkout</div>
+    <div class="co-lineitem">
+      <img class="co-thumb" src="ce-front-cover.webp" alt="The Compound Effect" width="52" height="77">
+      <div class="co-li-text">
+        <div class="co-li-title">The Compound Effect</div>
+        <div class="co-li-sub">10th Anniversary Edition &middot; Paperback</div>
+        <div class="co-li-meta"><span class="co-stars" aria-hidden="true">★★★★★</span> 4.7 &middot; 21,000+ ratings</div>
+      </div>
+      <div class="co-price">$19.99</div>
+    </div>
+  </div>
+
+  <div class="co-body">
+    <div class="co-mount" id="spiffyMount">
+      <!-- Real Spiffy checkout iframe is injected here once SPIFFY_CHECKOUT_URL is set;
+           the preview below is hidden automatically the moment that happens. -->
+      <div class="co-preview" id="coPreview">
+        <div class="co-flag">Preview &middot; your live Spiffy form loads here once connected</div>
+
+        <form class="co-form" id="coForm" novalidate>
+          <div class="co-group">
+            <div class="co-group-title">Contact</div>
+            <label class="co-field"><span>Email</span><input type="email" placeholder="you@company.com" autocomplete="email"></label>
+          </div>
+
+          <div class="co-group">
+            <div class="co-group-title">Shipping Address</div>
+            <label class="co-field"><span>Full name</span><input type="text" placeholder="Jane Founder" autocomplete="name"></label>
+            <label class="co-field"><span>Address</span><input type="text" placeholder="123 Market Street" autocomplete="address-line1"></label>
+            <label class="co-field"><span>Apt, suite (optional)</span><input type="text" autocomplete="address-line2"></label>
+            <div class="co-row-3">
+              <label class="co-field"><span>City</span><input type="text" autocomplete="address-level2"></label>
+              <label class="co-field"><span>State</span><input type="text" autocomplete="address-level1"></label>
+              <label class="co-field"><span>ZIP</span><input type="text" inputmode="numeric" autocomplete="postal-code"></label>
+            </div>
+            <label class="co-field"><span>Country</span>
+              <select autocomplete="country-name"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option></select>
+            </label>
+          </div>
+
+          <!-- Order bump — Spiffy "addon offer" lives here -->
+          <label class="co-bump" for="coBump">
+            <input type="checkbox" id="coBump">
+            <span class="co-bump-text"><strong>Add the audiobook edition</strong>, narrated by Darren. Listen on the drive, read at your desk. <em>+$12.00</em></span>
+          </label>
+
+          <div class="co-group">
+            <div class="co-group-title">Payment</div>
+            <div class="co-pay">
+              <label class="co-pm" data-method="paypal">
+                <input type="radio" name="coPay" value="paypal">
+                <span class="co-pm-radio"></span>
+                <span class="co-pm-name">PayPal</span>
+                <span class="co-pm-mark"><span class="co-brand paypal"><i>Pay</i><em>Pal</em></span></span>
+              </label>
+              <div class="co-pm-panel" data-for="paypal" hidden>
+                <p class="co-pm-note">You&rsquo;ll be securely redirected to PayPal to complete your purchase.</p>
+              </div>
+
+              <label class="co-pm sel" data-method="card">
+                <input type="radio" name="coPay" value="card" checked>
+                <span class="co-pm-radio"></span>
+                <span class="co-pm-name">Credit / Debit Card</span>
+                <span class="co-pm-mark"><span class="co-brands">
+                  <span class="co-brand visa">VISA</span>
+                  <svg class="co-mc" width="24" height="16" viewBox="0 0 24 16" aria-hidden="true"><circle cx="9.5" cy="8" r="6.5" fill="#EB001B"/><circle cx="14.5" cy="8" r="6.5" fill="#F79E1B"/><path d="M12 3.1a6.5 6.5 0 0 0 0 9.8 6.5 6.5 0 0 0 0-9.8z" fill="#FF5F00"/></svg>
+                  <span class="co-brand amex">AMEX</span>
+                  <span class="co-brand disc">DISC<b>&#9679;</b>VER</span>
+                  <span class="co-more">&amp; more&hellip;</span>
+                </span></span>
+              </label>
+              <div class="co-pm-panel" data-for="card">
+                <label class="co-field"><span>Card number</span><input type="text" inputmode="numeric" placeholder="1234 1234 1234 1234" autocomplete="cc-number"></label>
+                <div class="co-row-2">
+                  <label class="co-field"><span>Expiry</span><input type="text" placeholder="MM / YY" autocomplete="cc-exp"></label>
+                  <label class="co-field"><span>CVC</span><input type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc"></label>
+                </div>
+              </div>
+
+              <label class="co-pm" data-method="applepay" hidden>
+                <input type="radio" name="coPay" value="applepay">
+                <span class="co-pm-radio"></span>
+                <span class="co-pm-name">Apple Pay</span>
+                <span class="co-pm-mark"><span class="co-brand applepay">&#63743;&nbsp;Pay</span></span>
+              </label>
+              <div class="co-pm-panel" data-for="applepay" hidden>
+                <p class="co-pm-note">You&rsquo;ll complete your purchase securely with Apple Pay.</p>
+              </div>
+
+              <label class="co-pm" data-method="googlepay">
+                <input type="radio" name="coPay" value="googlepay">
+                <span class="co-pm-radio"></span>
+                <span class="co-pm-name">Google Pay</span>
+                <span class="co-pm-mark"><span class="co-brand gpay">G&nbsp;Pay</span></span>
+              </label>
+              <div class="co-pm-panel" data-for="googlepay" hidden>
+                <p class="co-pm-note">You&rsquo;ll complete your purchase securely with Google Pay.</p>
+              </div>
+            </div>
+            <div class="co-pay-secure">&#128274; All payments are secured by 256-bit encryption</div>
+          </div>
+
+          <div class="co-summary">
+            <div class="co-sum-row"><span>The Compound Effect</span><span>$19.99</span></div>
+            <div class="co-sum-row co-sum-bump" hidden><span>Audiobook edition</span><span>$12.00</span></div>
+            <div class="co-sum-row"><span>Shipping</span><span class="co-free">Free</span></div>
+            <div class="co-sum-row co-sum-total"><span>Total</span><span id="coTotal">$19.99</span></div>
+          </div>
+
+          <button type="submit" class="btn btn-solid co-submit" id="coSubmit">
+            <svg class="co-lock-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
+            Complete Purchase &middot; <span id="coBtnTotal">$19.99</span>
+          </button>
+          <p class="co-fine">Preview only. No card is charged. Spiffy handles the real, secure payment once connected.</p>
+        </form>
+
+        <div class="co-confirm" id="coConfirm" hidden>
+          <div class="co-check">
+            <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
+          </div>
+          <p class="co-confirm-title">Order Confirmed</p>
+          <p class="co-confirm-sub">Your copy of <strong>The Compound Effect</strong> is on its way.</p>
+          <div class="co-confirm-order">
+            <div><span>Order</span><strong id="coOrderNo">#DH-000000</strong></div>
+            <div><span>Total paid</span><strong id="coConfirmTotal">$19.99</strong></div>
+            <div><span>Ships to</span><strong>Your address</strong></div>
+          </div>
+          <p class="co-confirm-note">A receipt is on its way to your inbox. The compounding starts with the next decision you make differently.</p>
+          <button type="button" class="btn btn-ghost-red" id="coDone">Back To The Book</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="co-trust">🔒 <strong>Encrypted &amp; Secure</strong> &nbsp;&middot;&nbsp; Powered by Spiffy</div>
+</aside>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   SPIFFY CHECKOUT — CONNECT HERE  (one line to go live)
+   ───────────────────────────────────────────────────────────────
+   1. In Spiffy, open your "The Compound Effect" checkout.
+   2. Copy its checkout URL (Share / Embed).
+   3. Paste it between the quotes below. That's the only step.
+
+   Leave it blank and the drawer shows a secure fallback button
+   to the store, so the page keeps working until you connect it.
+
+   (Prefer Spiffy's native popup over this in-page slide-in? See the
+    note at the very bottom of this script.)
+   ═══════════════════════════════════════════════════════════════ */
+window.SPIFFY_CHECKOUT_URL = ""; // e.g. "https://darrenhardy.spiffy.co/checkout/the-compound-effect"
+
+// ── Checkout drawer (Spiffy embedded slide-in) ──
+(function () {
+  const overlay  = document.getElementById('coOverlay');
+  const drawer   = document.getElementById('coDrawer');
+  const closeBtn = document.getElementById('coClose');
+  const mount    = document.getElementById('spiffyMount');
+  if (!overlay || !drawer || !mount) return;
+  let lastFocus = null;
+
+  // ── Preview checkout (demo only; replaced by the real Spiffy embed on connect) ──
+  const preview     = document.getElementById('coPreview');
+  const form        = document.getElementById('coForm');
+  const confirmView = document.getElementById('coConfirm');
+  const bump        = document.getElementById('coBump');
+  const BASE = 19.99, BUMP = 12.00;
+  const money = n => '$' + n.toFixed(2);
+  const orderTotal = () => BASE + (bump && bump.checked ? BUMP : 0);
+
+  function syncTotals() {
+    const t = money(orderTotal());
+    ['coTotal', 'coBtnTotal'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.textContent = t;
+    });
+    const bumpRow = document.querySelector('.co-sum-bump');
+    if (bumpRow) bumpRow.hidden = !(bump && bump.checked);
+  }
+  function resetPreview() {
+    if (!form || !confirmView) return;
+    form.hidden = false; confirmView.hidden = true;
+    if (bump) bump.checked = false;
+    syncTotals();
+  }
+  if (bump) bump.addEventListener('change', syncTotals);
+
+  // Payment method selector (PayPal / Card / device wallet)
+  function selectMethod(method) {
+    document.querySelectorAll('.co-pm').forEach(x => x.classList.toggle('sel', x.getAttribute('data-method') === method));
+    document.querySelectorAll('.co-pm-panel').forEach(p => { p.hidden = p.getAttribute('data-for') !== method; });
+    const r = document.querySelector('.co-pm[data-method="' + method + '"] input');
+    if (r) r.checked = true;
+  }
+  document.querySelectorAll('.co-pm').forEach(pm =>
+    pm.addEventListener('click', () => selectMethod(pm.getAttribute('data-method')))
+  );
+  // Default payment method by device — mirrors Spiffy auto-selecting the native wallet
+  (function initWallet() {
+    const ua = navigator.userAgent || '', plat = navigator.platform || '';
+    const isApple = /iPhone|iPad|iPod|Mac/i.test(plat) || /iPhone|iPad|iPod|Macintosh/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+    const applePay = document.querySelector('.co-pm[data-method="applepay"]');
+    const googlePay = document.querySelector('.co-pm[data-method="googlepay"]');
+    if (applePay)  applePay.hidden  = !isApple;
+    if (googlePay) googlePay.hidden = isApple;
+    selectMethod(isApple ? 'applepay' : (isAndroid ? 'googlepay' : 'card'));
+  })();
+
+  if (form) form.addEventListener('submit', e => {
+    e.preventDefault();
+    const on = document.getElementById('coOrderNo');
+    const ct = document.getElementById('coConfirmTotal');
+    if (on) on.textContent = '#DH-' + Math.floor(100000 + Math.random() * 899999);
+    if (ct) ct.textContent = money(orderTotal());
+    form.hidden = true; confirmView.hidden = false;
+    const body = drawer.querySelector('.co-body'); if (body) body.scrollTop = 0;
+  });
+
+  // ── Real Spiffy embed (lazy, on first open) ──
+  function mountSpiffy() {
+    if (mount.dataset.mounted || !window.SPIFFY_CHECKOUT_URL) return;
+    const frame = document.createElement('iframe');
+    frame.className = 'co-frame';
+    frame.src = window.SPIFFY_CHECKOUT_URL;
+    frame.title = 'Secure checkout — The Compound Effect';
+    frame.setAttribute('allow', 'payment *');
+    mount.insertBefore(frame, mount.firstChild);
+    if (preview) preview.style.display = 'none';
+    mount.dataset.mounted = '1';
+  }
+
+  function openDrawer(e) {
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    overlay.hidden = false;
+    void overlay.offsetWidth; // flush styles so the fade/slide transitions apply
+    overlay.classList.add('open');
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('co-open');
+    mountSpiffy();
+    if (!mount.dataset.mounted) resetPreview(); // preview mode only
+    closeBtn.focus();
+  }
+
+  function closeDrawer() {
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('co-open');
+    setTimeout(() => { overlay.hidden = true; }, 340);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('[data-open-checkout]').forEach(el =>
+    el.addEventListener('click', openDrawer)
+  );
+  const done = document.getElementById('coDone');
+  if (done) done.addEventListener('click', closeDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+})();
+
+// ── Sticky CTA: hidden on load; slides in only once the hero's Get Your Copy
+//    button has scrolled up past the top of the viewport ──
+(function () {
+  const sticky  = document.getElementById('stickyCta');
+  const heroCta = document.querySelector('.hero [data-open-checkout]');
+  if (!sticky || !heroCta) return;
+  let ticking = false;
+  function update() {
+    ticking = false;
+    // Show only after the button's bottom edge has passed above the viewport top.
+    const passed = heroCta.getBoundingClientRect().bottom <= 0;
+    sticky.classList.toggle('visible', passed);
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update(); // set correct initial state (hidden at top of page)
+})();
+
+/* ── Prefer Spiffy's NATIVE POPUP instead of this in-page slide-in? ──
+   1) Add the Spiffy embed script (the URL Spiffy gives you, e.g.
+      app.spiffy.co/js/spiffy-embed.js) via a script tag just before
+      the closing body tag.
+   2) Point the CTAs straight at your checkout URL and add Spiffy's
+      popup trigger (class/attribute) per Spiffy's "Embedding Checkouts"
+      docs, and remove the data-open-checkout drawer wiring above.
+   The in-page slide-in above is the recommended experience for this page. */
+</script>
+</body>
+</html>
