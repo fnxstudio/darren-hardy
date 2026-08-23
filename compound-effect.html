@@ -139,12 +139,17 @@
     padding: 19px 34px;
     text-decoration: none;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+                transform 0.24s cubic-bezier(0.22,1,0.36,1), box-shadow 0.24s ease;
   }
-  .btn .arw { transition: transform 0.2s ease; }
-  .btn:hover .arw { transform: translateX(4px); }
+  /* Buttons never darken on hover — they grow and the arrow travels.
+     Ghost buttons are the exception: they're allowed to fill with colour. */
+  .btn:hover { transform: scale(1.035); }
+  .btn:active { transform: scale(0.99); transition-duration: 0.08s; }
+  .btn .arw { transition: transform 0.24s cubic-bezier(0.22,1,0.36,1); }
+  .btn:hover .arw { transform: translateX(6px); }
   .btn-solid { background: var(--red); color: #fff; border: 1px solid var(--red); }
-  .btn-solid:hover { background: var(--red-deep); border-color: var(--red-deep); }
+  .btn-solid:hover { box-shadow: 0 12px 28px rgba(224,40,38,0.34); }
   .btn-ghost-dark { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4); }
   .btn-ghost-dark:hover { background: #fff; color: var(--ink); border-color: #fff; }
 
@@ -970,6 +975,8 @@
     .reveal { opacity: 1 !important; transform: none !important; transition: none; }
     html { scroll-behavior: auto; }
     .hero-cover img { transform: none !important; }
+    .btn:hover, .btn:active, .co-submit:hover { transform: none; }
+    .btn:hover .arw { transform: none; }
   }
 
   /* ============ CHECKOUT DRAWER (Spiffy slide-in) ============ */
@@ -1077,6 +1084,7 @@
   .co-free { color: var(--red); font-weight: 600; }
   .co-sum-total { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px; color: var(--ink); text-transform: uppercase; letter-spacing: 0.02em; padding-top: 10px; border-top: 1px solid var(--line); margin-top: 4px; margin-bottom: 0; }
   .co-submit { width: 100%; justify-content: center; padding: 17px; margin-top: 4px; }
+  .co-submit:hover { transform: scale(1.015); }
   .co-lock-sm { width: 14px; height: 14px; }
   .co-fine { text-align: center; font-size: 11px; line-height: 1.5; color: var(--grey-soft); margin-top: 12px; }
   .btn-ghost-red { background: transparent; color: var(--red); border: 1px solid var(--red); }
