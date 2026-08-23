@@ -144,7 +144,7 @@ html, body {
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
-img, svg, video { display: block; max-width: 100%; }
+img, svg, video { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
 button { font: inherit; color: inherit; }
 
@@ -547,3 +547,109 @@ em { font-style: normal; color: var(--accent); }
 .is-no  .filter-list li::before { content: "\00D7"; color: var(--fg-fine); }
 .is-no .filter-list li { color: var(--fg-mute); }
 @media (max-width: 800px) { .filter-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   MEDIA BAR
+   Franchise and author credibility. These are DH's real media
+   footprint, never presented as proof the book works.
+   ============================================================ */
+.media-bar { display: flex; align-items: center; justify-content: center; gap: clamp(28px, 5vw, 62px); flex-wrap: wrap; }
+.media-bar img { height: clamp(17px, 2vw, 23px); width: auto; opacity: 0.42; filter: grayscale(1) contrast(0.9); transition: opacity 0.2s; }
+.media-bar img:hover { opacity: 0.7; }
+.on-dark .media-bar img, .ground-black .media-bar img { filter: grayscale(1) invert(1) contrast(0.9); opacity: 0.5; }
+.media-caption {
+  font-family: var(--font-display); font-weight: 500; font-size: 10.5px;
+  letter-spacing: 0.30em; text-transform: uppercase; color: var(--fg-fine);
+  text-align: center; margin-bottom: 26px;
+}
+
+/* ============================================================
+   CHAPTER CARDS  (what's inside)
+   ============================================================ */
+.chapters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.chapter {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 30px 28px 32px; display: flex; flex-direction: column; box-shadow: var(--shadow);
+}
+.chapter-n {
+  font-family: var(--font-display); font-weight: 500; font-size: 11px;
+  letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+}
+.chapter-t {
+  font-family: var(--font-display); font-weight: 500; font-size: clamp(21px, 2.2vw, 27px);
+  text-transform: uppercase; line-height: 1.06; color: var(--fg); margin-bottom: 8px;
+}
+.chapter-k {
+  font-family: var(--font-display); font-weight: 300; font-size: 13px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--fg-mute); margin-bottom: 16px;
+}
+.chapter-d { font-size: 15px; line-height: 1.6; color: var(--fg-soft); }
+.chapter-tools {
+  margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line);
+  font-size: 12.5px; line-height: 1.55; color: var(--fg-mute);
+}
+.chapter-tools b { color: var(--fg-soft); font-weight: 600; }
+.chapter-lead { grid-column: span 3; }
+@media (max-width: 900px) { .chapters { grid-template-columns: 1fr; } .chapter-lead { grid-column: auto; } }
+
+/* Attributed pull quote from the manuscript */
+.chapter-quote { text-align: center; max-width: 26ch; margin: 0 auto; }
+.chapter-quote .q {
+  font-family: var(--font-display); font-weight: 500; text-transform: uppercase;
+  font-size: clamp(22px, 3vw, 40px); line-height: 1.08; color: var(--fg);
+}
+.chapter-quote .src {
+  margin-top: 20px; font-family: var(--font-display); font-weight: 300; font-size: 11.5px;
+  letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent);
+}
+
+/* ============================================================
+   TOOL LIBRARY
+   Fifteen free working documents. Named, so the stack is real.
+   ============================================================ */
+.tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 34px; }
+.tools-grid li {
+  list-style: none; padding: 13px 0; border-bottom: 1px solid var(--line);
+  font-size: 15px; line-height: 1.5; color: var(--fg-soft);
+  display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: baseline;
+}
+.tools-grid li span {
+  font-family: var(--font-display); font-weight: 300; font-size: 12px;
+  color: var(--accent); letter-spacing: 0.08em;
+}
+@media (max-width: 860px) { .tools-grid { grid-template-columns: 1fr 1fr; gap: 0 24px; } }
+@media (max-width: 560px) { .tools-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   INCLUDES CHECKLIST
+   Sits above the tier grid. Marker column carries Included or
+   Free. Dollar values require approved figures, so the internal
+   value estimates in the context file must never appear here.
+   ============================================================ */
+.includes {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 34px 38px; box-shadow: var(--shadow);
+}
+.includes-row {
+  display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+  padding: 15px 0; border-bottom: 1px solid var(--line);
+}
+.includes-row:last-child { border-bottom: none; }
+.includes-t { font-size: 15.5px; line-height: 1.5; color: var(--fg-soft); }
+.includes-t b { color: var(--fg); font-weight: 600; }
+.includes-mark {
+  font-family: var(--font-display); font-weight: 500; font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 3px; white-space: nowrap;
+  background: var(--accent); color: #fff;
+}
+.includes-mark.is-quiet { background: transparent; color: var(--fg-mute); border: 1px solid var(--line-strong); }
+.includes-row.has-thumb { grid-template-columns: auto 1fr auto; }
+.includes-thumb { width: 52px; border-radius: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+@media (max-width: 620px) {
+  .includes { padding: 26px 22px; }
+  .includes-row { grid-template-columns: 1fr; gap: 10px; }
+  .includes-row.has-thumb { grid-template-columns: auto 1fr; column-gap: 16px; }
+  .includes-row.has-thumb .includes-mark { grid-column: 2; }
+  .includes-mark { justify-self: start; }
+}
