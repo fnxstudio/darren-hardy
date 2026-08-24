@@ -75,6 +75,12 @@
   --container: 1080px;
   --gutter:    32px;
 
+  /* Founding-tier flag: rides above its card so every tier quantity
+     shares a baseline. -h reserves the row's headroom, -lap is how far
+     it sits back down over the card's top edge. */
+  --tier-flag-h:   32px;
+  --tier-flag-lap:  6px;
+
   --font-display: 'Oswald', 'Haettenschweiler', 'Arial Narrow', sans-serif;
   --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
@@ -400,7 +406,8 @@ em { font-style: normal; color: var(--accent); }
    card inside the light grid, which is the zoning rule made
    physically visible in one row.
    ============================================================ */
-.tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch;
+  padding-top: var(--tier-flag-h); }
 .tier {
   display: flex; flex-direction: column;
   background: var(--surface);
@@ -425,18 +432,23 @@ em { font-style: normal; color: var(--accent); }
    Inherits the dark token set via .on-dark in the markup. */
 .tier-founding {
   border-color: rgba(245,179,1,0.30);
-  padding-top: 56px;
 }
 .tier-founding .tier-list li::before { background: var(--c-gold); }
 .tier-founding .tier-name { color: var(--c-gold); }
 .tier-flag {
-  position: absolute; top: -1px; left: -1px; right: -1px;
+  position: absolute; bottom: calc(100% - var(--tier-flag-lap)); left: -1px; right: -1px;
+  z-index: 1;
   background: var(--c-gold); color: var(--c-ink);
   font-family: var(--font-display); font-weight: 500; font-size: 11.5px;
   letter-spacing: 0.22em; text-transform: uppercase; text-align: center;
   padding: 8px 10px; border-radius: var(--radius) var(--radius) 0 0;
 }
-@media (max-width: 880px) { .tier-grid { grid-template-columns: 1fr; } }
+@media (max-width: 880px) {
+  /* Stacked: the flagged card is no longer in the top row, so the grid's
+     headroom moves from the top of the grid to just above that card. */
+  .tier-grid { grid-template-columns: 1fr; padding-top: 0; }
+  .tier-founding { margin-top: var(--tier-flag-h); }
+}
 
 /* Earned-tier badge (COMPOUND 100 / STUDIO 46) */
 .badge-earned {
