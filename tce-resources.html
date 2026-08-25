@@ -282,19 +282,38 @@
     .ins { padding: 22px 20px 20px; }
   }
 
-  /* ============ ENDORSEMENTS (real faces) ============ */
-  .praise { background: var(--white); padding: 78px 0; }
-  .praise-head { text-align: center; max-width: 46em; margin: 0 auto 44px; }
-  .praise-head .eyebrow { justify-content: center; margin-bottom: 18px; }
-  .praise-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
-  .pq { border: 1px solid var(--line); border-radius: var(--radius); padding: 30px 28px; display: flex; flex-direction: column; }
-  .pq-stars { color: var(--gold); font-size: 13px; letter-spacing: 0.12em; margin-bottom: 16px; }
-  .pq-text { font-size: 15.5px; line-height: 1.55; color: var(--ink); margin-bottom: 22px; flex: 1; }
-  .pq-who { display: flex; align-items: center; gap: 13px; }
-  .pq-who img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; flex: none; background: var(--bone); }
-  .pq-name { font-weight: 900; font-size: 13.5px; letter-spacing: 0.02em; color: var(--ink); }
-  .pq-role { font-size: 12px; line-height: 1.35; color: var(--muted); margin-top: 2px; }
-  @media (max-width: 900px) { .praise-grid { grid-template-columns: 1fr; gap: 18px; } .praise { padding: 56px 0; } .pq { padding: 24px 22px; } .pq-text { font-size: 15px; } }
+  /* ============ PROOF WALL — real Amazon reviews + readers, drifting ============ */
+  .wall { background: var(--white); padding: 84px 0 92px; }
+  .wall-inner { max-width: 1600px; margin: 0 auto; padding: 0 24px; }
+  .wall-head { text-align: center; max-width: 46em; margin: 0 auto 52px; }
+  .wall-head .eyebrow { justify-content: center; margin-bottom: 18px; }
+  .wall-note { text-align: center; font-size: 12.5px; color: var(--grey-soft); margin-top: 40px; }
+
+  /* Three columns that drift against each other as the page scrolls. */
+  .pgallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pcol { display: flex; flex-direction: column; gap: 18px; will-change: transform; }
+  .ptile {
+    display: block; width: 100%; height: auto;
+    border-radius: var(--radius); border: 1px solid var(--line);
+    background: var(--paper); overflow: hidden;
+    box-shadow: 0 2px 10px rgba(20,16,12,0.05);
+  }
+  /* Photo tiles are cropped to a shape; review screenshots keep their own height. */
+  .ptile--photo { object-fit: cover; object-position: center 38%; }
+  .ptile--wide  { aspect-ratio: 4 / 3; }
+  .ptile--sq    { aspect-ratio: 1 / 1; }
+  .ptile--strip { border-radius: var(--radius); }
+  @media (min-width: 981px) { .pgallery .pcol:nth-child(2) { margin-top: 40px; } }
+  @media (max-width: 980px) {
+    .pgallery { grid-template-columns: 1fr; gap: 14px; }
+    .pcol { transform: none !important; gap: 14px; margin-top: 0 !important; }
+  }
+  @media (max-width: 640px) {
+    .wall { padding: 56px 0 60px; }
+    .wall-inner { padding: 0 16px; }
+    .wall-head { margin-bottom: 32px; }
+    .wall-note { margin-top: 28px; font-size: 12px; }
+  }
 
   /* ============ INTRO — SUCCESS COVERS WALL BIO (from darrenhardy.com) ============ */
   .intro { display: flex; min-height: 70vh; }
@@ -601,52 +620,42 @@
   </div>
 </section>
 
-<!-- ══════════ ENDORSEMENTS ══════════ -->
-<section class="praise">
-  <div class="container">
-    <div class="praise-head reveal">
-      <div class="eyebrow"><span class="pip"></span>The Book They Vouch For</div>
-      <h2 class="h-sec">Two Million Readers.<br>And These <em>Three</em>.</h2>
+<!-- ══════════ PROOF WALL — real Amazon reviews, drifting columns ══════════ -->
+<section class="wall" id="proof">
+  <div class="wall-inner">
+
+    <div class="wall-head reveal">
+      <div class="eyebrow"><span class="pip"></span>Decisions Shape Your Destiny</div>
+      <h2 class="h-sec">Two Million Readers.<br>Massive <em>Results</em>.</h2>
     </div>
-    <div class="praise-grid reveal">
 
-      <div class="pq">
-        <div class="pq-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="pq-text">&ldquo;These are the principles that have guided my life and every top business leader I know. This book will show you the way to your own greater success, happiness, and fulfillment.&rdquo;</p>
-        <div class="pq-who">
-          <img src="portraits/ce-t-deutsch-real.webp" alt="Donny Deutsch" width="317" height="317" loading="lazy">
-          <div>
-            <div class="pq-name">Donny Deutsch</div>
-            <div class="pq-role">TV host and Chairman, Deutsch Inc.</div>
-          </div>
-        </div>
+    <div class="pgallery reveal" data-parallax-gallery>
+
+      <div class="pcol" data-speed="0.05">
+        <img class="ptile" src="reviews/review-colburn.webp" width="1124" height="328" alt="Amazon review from Mike Colburn, five stars: If Only I Knew This Before. A must-read to really get the ball rolling in the direction of success." loading="lazy" decoding="async">
+        <img class="ptile ptile--photo ptile--strip" src="reviews/photo-readers.webp" width="390" height="101" alt="Five readers holding their copies of The Compound Effect" loading="lazy" decoding="async">
+        <img class="ptile" src="reviews/review-amanda.webp" width="1124" height="485" alt="Amazon review from Amanda P., five stars: Highly recommend, very giftable too. One of the most influential books I have ever read." loading="lazy" decoding="async">
+        <img class="ptile ptile--photo ptile--sq" src="reviews/photo-dh-book.webp" width="316" height="319" alt="Darren Hardy holding a copy of The Compound Effect" loading="lazy" decoding="async">
       </div>
 
-      <div class="pq">
-        <div class="pq-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="pq-text">&ldquo;The Compound Effect is a treasure chest of ideas for achieving greater success than you ever thought possible.&rdquo;</p>
-        <div class="pq-who">
-          <img src="portraits/ce-t-tracy-real.webp" alt="Brian Tracy" width="317" height="317" loading="lazy">
-          <div>
-            <div class="pq-name">Brian Tracy</div>
-            <div class="pq-role">Speaker and author, The Way To Wealth</div>
-          </div>
-        </div>
+      <div class="pcol" data-speed="-0.06">
+        <img class="ptile" src="reviews/review-weaver.webp" width="1124" height="300" alt="Amazon review from Mark Weaver, five stars: Formula for success. This book provides the road map for success in life." loading="lazy" decoding="async">
+        <img class="ptile ptile--photo ptile--sq" src="reviews/photo-dh-stack.webp" width="528" height="709" alt="Darren Hardy with a stack of copies of The Compound Effect" loading="lazy" decoding="async">
+        <img class="ptile" src="reviews/review-nichole.webp" width="1124" height="310" alt="Amazon review from Nichole, five stars: This book saved my marriage." loading="lazy" decoding="async">
+        <img class="ptile" src="reviews/review-evolutionofj.webp" width="1124" height="475" alt="Amazon review from evolutionofj, five stars: Life Changer, no matter the level you are on." loading="lazy" decoding="async">
       </div>
 
-      <div class="pq">
-        <div class="pq-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="pq-text">&ldquo;A new bible for the self-improvement space. If you are looking for the real deal, a real program with real tools that can change your life, The Compound Effect is it.&rdquo;</p>
-        <div class="pq-who">
-          <img src="portraits/ce-t-bach-real.webp" alt="David Bach" width="317" height="317" loading="lazy">
-          <div>
-            <div class="pq-name">David Bach</div>
-            <div class="pq-role">Bestselling author, The Automatic Millionaire</div>
-          </div>
-        </div>
+      <div class="pcol" data-speed="0.035">
+        <img class="ptile ptile--photo ptile--wide" src="reviews/photo-book-shelf.webp" width="900" height="720" alt="The Compound Effect, 10th Anniversary Edition, on a shelf" loading="lazy" decoding="async">
+        <img class="ptile" src="reviews/review-nika.webp" width="1124" height="364" alt="Amazon review from Nika, five stars: GREAT GREAT GREAT book. Very easy to adopt in daily life." loading="lazy" decoding="async">
+        <img class="ptile" src="reviews/review-ronning.webp" width="1124" height="489" alt="Amazon review from Geoff Ronning, five stars, shown holding his copy: Pragmatic, powerful and profitable. The third copy I have purchased." loading="lazy" decoding="async">
+        <img class="ptile" src="reviews/review-wilks.webp" width="1124" height="388" alt="Amazon review from Wilks, five stars: Mind Blown Good. Darren's perspective is so down to earth and practical." loading="lazy" decoding="async">
       </div>
 
     </div>
+
+    <p class="wall-note">Verified Amazon purchases, shown as posted.</p>
+
   </div>
 </section>
 
@@ -883,6 +892,29 @@
       footIn = e[0].isIntersecting; sync();
     }, { threshold: 0.15 }).observe(foot);
   }
+})();
+
+/* ── Parallax drift on the proof wall (same behaviour as bmc-rooms) ── */
+(function () {
+  var g = document.querySelector('[data-parallax-gallery]');
+  if (!g || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cols = [].slice.call(g.querySelectorAll('.pcol'));
+  var ticking = false;
+  function draw() {
+    ticking = false;
+    if (window.innerWidth <= 980) { cols.forEach(function (c) { c.style.transform = ''; }); return; }
+    var rect = g.getBoundingClientRect();
+    var delta = (rect.top + rect.height / 2) - (window.innerHeight / 2);
+    cols.forEach(function (c) {
+      var sp = parseFloat(c.getAttribute('data-speed')) || 0;
+      var y = Math.max(-38, Math.min(38, delta * sp));
+      c.style.transform = 'translateY(' + y.toFixed(1) + 'px)';
+    });
+  }
+  function onScroll() { if (!ticking) { ticking = true; window.requestAnimationFrame(draw); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  draw();
 })();
 
 /* ── Scroll reveal ── */
