@@ -119,30 +119,6 @@
   .btn-ghost { background: transparent; color: var(--ink); border: 1px solid rgba(10,10,10,0.28); }
   .btn-ghost:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
 
-  /* ============ BRAND BAR (funnel: no nav links, no exits) ============ */
-  .brandbar {
-    position: relative; z-index: 40;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; padding: 16px 32px;
-    background: var(--black); border-bottom: 1px solid var(--rule);
-  }
-  .brandbar-mark { display: flex; align-items: center; gap: 11px; text-decoration: none; }
-  .brandbar-mark img { width: 30px; height: 30px; border-radius: 50%; display: block; }
-  .brandbar-name {
-    font-weight: 900; font-size: 12px; letter-spacing: 0.26em;
-    text-transform: uppercase; color: #fff; white-space: nowrap;
-  }
-  .brandbar-link {
-    font-weight: 700; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--silver); text-decoration: none; white-space: nowrap; transition: color 0.18s;
-  }
-  .brandbar-link:hover { color: #fff; }
-  @media (max-width: 600px) {
-    .brandbar { padding: 12px 20px; }
-    .brandbar-name { font-size: 10px; letter-spacing: 0.18em; }
-    .brandbar-link { font-size: 9px; letter-spacing: 0.14em; }
-  }
-
   /* ============ HERO — the whole conversion engine ============ */
   .hero { background: var(--black); color: #fff; position: relative; overflow: hidden; }
   .hero::before {
@@ -229,7 +205,6 @@
     .hero-form   { order: 4; margin-bottom: 30px; }
     .hero-list   { order: 5; }
     .hero-byline { order: 6; }
-    .hero-proof  { order: 7; }
     .lede-more   { display: none; }
   }
   @media (max-width: 640px) {
@@ -250,24 +225,30 @@
     .hero-eyebrow { font-size: 9.5px; letter-spacing: 0.16em; }
   }
 
-  /* ============ PROOF BAR (stars · 2M copies) ============ */
+  /* ============ PROOF BAR — the masthead (replaces the nav) ============ */
   .proofbar {
-    position: relative; z-index: 2;
-    border-top: 1px solid var(--rule);
-    background: rgba(255,255,255,0.02);
+    position: relative; z-index: 40;
+    background: var(--black);
+    border-bottom: 1px solid var(--rule-strong);
   }
   .proofbar .container {
     display: flex; align-items: center; justify-content: center;
-    flex-wrap: wrap; gap: 14px 30px; padding-top: 18px; padding-bottom: 18px;
+    flex-wrap: wrap; gap: 12px 28px; padding-top: 15px; padding-bottom: 15px;
   }
   .proof-item { display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--silver); white-space: nowrap; }
   .proof-item strong { color: #fff; font-weight: 700; }
   .stars { color: var(--gold); letter-spacing: 0.12em; font-size: 14px; line-height: 1; }
   .proof-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--grey-soft); }
-  @media (max-width: 640px) {
-    .proofbar .container { gap: 8px 16px; padding-top: 14px; padding-bottom: 14px; }
-    .proof-item { font-size: 12px; }
+  @media (max-width: 780px) {
+    /* Two lines beats a squeeze: the rating leads, the volume follows. */
+    .proofbar .container { gap: 6px 14px; padding-top: 12px; padding-bottom: 12px; }
+    .proof-item { font-size: 11.5px; }
     .proof-dot { display: none; }
+    .proof-item--languages { display: none; }
+  }
+  @media (max-width: 380px) {
+    .proof-item { font-size: 11px; }
+    .proof-item--ratings { display: none; }
   }
 
   /* ============ BESTSELLER BADGE STRIP ============ */
@@ -425,39 +406,17 @@
   .again p { font-size: clamp(15px, 1.25vw, 17.5px); line-height: 1.6; color: #cfcac6; max-width: 30em; }
   @media (max-width: 900px) { .again { padding: 52px 0; } .again .container { grid-template-columns: 1fr; gap: 30px; } }
 
-  /* ============ FOOTER ============ */
-  footer { background: var(--black); color: var(--silver); padding: 70px 0 36px; border-top: 1px solid var(--rule); }
-  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 52px; max-width: 1140px; margin: 0 auto; padding: 0 32px; }
-  @media (max-width: 1080px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 44px; } }
-  @media (max-width: 640px)  { .footer-grid { grid-template-columns: 1fr; padding: 0 20px; } }
-  .dh-brand-mark { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-  .dh-brand-mark img { width: 42px; height: 42px; border-radius: 50%; }
-  .dh-name { font-weight: 900; font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white); }
-  .footer-brand .tag { font-size: 14px; line-height: 1.6; color: var(--grey); max-width: 30em; margin-bottom: 24px; }
-  .footer-brand .socials { display: flex; gap: 21px; flex-wrap: wrap; }
-  .footer-brand .socials a { color: var(--silver); transition: color 0.2s; }
-  .footer-brand .socials a svg { width: 18px; height: 18px; fill: currentColor; display: block; }
-  .footer-brand .socials a:hover { color: var(--white); }
-  .footer-col h3 { font-weight: 700; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--white); margin-bottom: 20px; }
-  .footer-col ul { list-style: none; }
-  .footer-col li { margin-bottom: 13px; font-size: 14px; }
-  .footer-col li a { color: var(--silver); text-decoration: none; transition: color 0.2s; }
-  .footer-col li a:hover { color: var(--white); }
-  .bmc-corner { display: flex; gap: 14px; align-items: flex-start; text-decoration: none; }
-  .bmc-corner img { width: 44px; height: 44px; border-radius: 6px; flex: none; }
-  .bmc-corner-text { display: flex; flex-direction: column; gap: 4px; }
-  .bmc-corner-title { font-weight: 900; font-size: 12px; letter-spacing: 0.14em; color: var(--white); }
-  .bmc-corner-tag { font-size: 12px; line-height: 1.45; color: var(--grey); }
-  .bmc-corner-cta { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-top: 6px; }
+  /* ============ FOOTER (stripped back — this is an opt-in page) ============ */
+  footer { background: var(--black); color: var(--grey); padding: 32px 0; border-top: 1px solid var(--rule); }
   .footer-bottom {
-    max-width: 1140px; margin: 50px auto 0; padding: 26px 32px 0;
-    border-top: 1px solid var(--rule); display: flex;
-    justify-content: space-between; align-items: center; font-size: 12px; color: var(--grey);
+    max-width: 1140px; margin: 0 auto; padding: 0 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 16px; font-size: 12px;
   }
   .footer-bottom .legal-links { display: flex; gap: 24px; }
   .footer-bottom a { color: var(--grey); text-decoration: none; }
   .footer-bottom a:hover { color: var(--white); }
-  @media (max-width: 640px) { .footer-bottom { flex-direction: column; gap: 18px; text-align: center; padding: 26px 20px 0; } }
+  @media (max-width: 640px) { .footer-bottom { flex-direction: column; gap: 14px; text-align: center; padding: 0 20px; } }
 
   /* ============ MOBILE STICKY CTA ============ */
   .mobile-cta {
@@ -487,14 +446,19 @@
 </head>
 <body>
 
-<!-- BRAND BAR — no nav links. This is a funnel page; the only exits are the two CTAs. -->
-<header class="brandbar">
-  <a class="brandbar-mark" href="https://darrenhardy.com">
-    <img src="dh_logo.webp" alt="Darren Hardy" width="200" height="200">
-    <span class="brandbar-name">Darren Hardy</span>
-  </a>
-  <a class="brandbar-link" href="#book">Need The Book? &rarr;</a>
-</header>
+<!-- MASTHEAD — the credibility strip opens the page. No nav: this is an
+     opt-in page and the only exits are the two CTAs. -->
+<div class="proofbar">
+  <div class="container">
+    <div class="proof-item"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span><strong>4.7</strong> average</span></div>
+    <span class="proof-dot" aria-hidden="true"></span>
+    <div class="proof-item proof-item--ratings"><strong>21,000+</strong>&nbsp;Amazon ratings</div>
+    <span class="proof-dot" aria-hidden="true"></span>
+    <div class="proof-item"><strong>Over 2 million</strong>&nbsp;copies sold</div>
+    <span class="proof-dot" aria-hidden="true"></span>
+    <div class="proof-item proof-item--languages">Translated into <strong>38 languages</strong></div>
+  </div>
+</div>
 
 <main>
 
@@ -518,7 +482,7 @@
         </li>
         <li>
           <span class="hero-check"><svg viewBox="0 0 12 12" aria-hidden="true"><polyline points="2,6.5 4.8,9 10,3.2"></polyline></svg></span>
-          <span>Twenty-two pages, print-ready, delivered the moment you ask</span>
+          <span>Twenty-two pages, print-ready, sent straight to your inbox</span>
         </li>
       </ul>
 
@@ -537,7 +501,7 @@
           <img src="ce-front-cover.webp" alt="The Compound Effect by Darren Hardy" width="1100" height="1623" fetchpriority="high">
           <div>
             <div class="formcard-title">Send My Free<br>Resources</div>
-            <div class="formcard-sub">Tell us where to send them. That is the whole ask.</div>
+            <div class="formcard-sub">Tell us where to send them and they are on their way.</div>
           </div>
         </div>
 
@@ -570,24 +534,11 @@
           </div>
           <button type="submit" class="btn btn-solid">Send My Free Resources <span class="arw">&rarr;</span></button>
           <div class="form-alert" role="alert"></div>
-          <p class="form-fine">No cost. No obligation. Unsubscribe any time.<br>We handle your details under our <a href="https://dh.darrenhardy.com/privacy">privacy policy</a>.</p>
+          <p class="form-fine">Free, with no obligation. Unsubscribe any time.<br>We handle your details under our <a href="https://dh.darrenhardy.com/privacy">privacy policy</a>.</p>
         </form>
       </div>
     </div>
 
-  </div>
-
-  <!-- PROOF BAR -->
-  <div class="proofbar hero-proof">
-    <div class="container">
-      <div class="proof-item"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span><strong>4.7</strong> average</span></div>
-      <span class="proof-dot" aria-hidden="true"></span>
-      <div class="proof-item"><strong>21,000+</strong>&nbsp;Amazon ratings</div>
-      <span class="proof-dot" aria-hidden="true"></span>
-      <div class="proof-item"><strong>Over 2 million</strong>&nbsp;copies sold</div>
-      <span class="proof-dot" aria-hidden="true"></span>
-      <div class="proof-item">Translated into <strong>38 languages</strong></div>
-    </div>
   </div>
 </section>
 
@@ -627,7 +578,7 @@
       <div class="ins">
         <div class="ins-num">03</div>
         <div class="ins-name">Bad Habit Killer</div>
-        <p class="ins-text">Name the trigger, count the real cost, and cut the habit at the root instead of the branch.</p>
+        <p class="ins-text">Name the trigger, total up the damage, and cut the habit at the root instead of the branch.</p>
       </div>
       <div class="ins">
         <div class="ins-num">04</div>
@@ -758,7 +709,7 @@
     <div class="again-copy reveal">
       <div class="eyebrow"><span class="pip"></span>Last Step</div>
       <h2>Send Me The<br>Resources.</h2>
-      <p>Twenty-two pages of worksheets, trackers, and assessments. Delivered the moment you ask. No cost, now or later.</p>
+      <p>Twenty-two pages of worksheets, trackers, and assessments. Sent straight to your inbox, free.</p>
     </div>
     <div class="again-form reveal">
       <div class="formcard">
@@ -766,7 +717,7 @@
           <img src="ce-front-cover.webp" alt="The Compound Effect by Darren Hardy" width="1100" height="1623" loading="lazy">
           <div>
             <div class="formcard-title">Send My Free<br>Resources</div>
-            <div class="formcard-sub">Three fields. That is the whole ask.</div>
+            <div class="formcard-sub">Tell us where to send them and they are on their way.</div>
           </div>
         </div>
         <form class="hs-capture" novalidate>
@@ -797,7 +748,7 @@
           </div>
           <button type="submit" class="btn btn-solid">Send My Free Resources <span class="arw">&rarr;</span></button>
           <div class="form-alert" role="alert"></div>
-          <p class="form-fine">No cost. No obligation. Unsubscribe any time.<br>We handle your details under our <a href="https://dh.darrenhardy.com/privacy">privacy policy</a>.</p>
+          <p class="form-fine">Free, with no obligation. Unsubscribe any time.<br>We handle your details under our <a href="https://dh.darrenhardy.com/privacy">privacy policy</a>.</p>
         </form>
       </div>
     </div>
@@ -808,59 +759,6 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <div class="dh-brand-mark">
-        <img src="dh_logo.webp" alt="Darren Hardy" width="200" height="200" loading="lazy">
-        <span class="dh-name">Darren Hardy</span>
-      </div>
-      <p class="tag">Darren Hardy is the unfair advantage for unusually driven business leaders building something that matters.</p>
-      <div class="socials">
-        <a href="https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ" title="YouTube" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/darrenhardy/" title="LinkedIn" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://www.facebook.com/DarrenHardyFan/" title="Facebook" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/darrenhardy/" title="Instagram" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-        </a>
-        <a href="https://twitter.com/DARRENHARDY" title="X" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h3>Explore</h3>
-      <ul>
-        <li><a href="https://darrenhardy.com/about">About</a></li>
-        <li><a href="https://darrenhardy.com/resources">Resources</a></li>
-        <li><a href="https://darrendaily.com/">Daily Mentoring</a></li>
-        <li><a href="https://darrendailyondemand.com/">Podcast</a></li>
-        <li><a href="https://store.darrenhardy.com/">Books</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h3>Support</h3>
-      <ul>
-        <li><a href="https://helpme.darrenhardy.com/">Help Center</a></li>
-        <li><a href="https://darrenhardy.com/careers">Careers</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <a class="bmc-corner" href="https://hardybmc.com">
-        <img src="BMC_Logo.png" alt="BMC" loading="lazy" />
-        <div class="bmc-corner-text">
-          <span class="bmc-corner-title">BMC|COLLECTIVE</span>
-          <span class="bmc-corner-tag">The Unfair Advantage<br>for Driven Leaders</span>
-          <span class="bmc-corner-cta">Explore Further <span class="arrow">&#8599;</span></span>
-        </div>
-      </a>
-    </div>
-  </div>
   <div class="footer-bottom">
     <span>&copy; Darren Hardy, LLC. All Rights Reserved.</span>
     <div class="legal-links">
