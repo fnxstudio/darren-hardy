@@ -437,6 +437,9 @@
   .jcard .jt { font-weight: 900; font-size: 25px; line-height: 1.06; letter-spacing: -.03em; text-transform: uppercase; }
   .jcard .js { font-size: 14px; line-height: 1.55; color: var(--muted); margin-top: 11px; }
   .jform { margin-top: 24px; display: grid; gap: 12px; }
+  /* .jform's display would otherwise beat the UA's [hidden] rule and leave
+     the fallback showing underneath a HubSpot form that loaded fine */
+  .jform[hidden] { display: none; }
   .jform input {
     width: 100%; font-family: inherit; font-size: 15px; color: var(--ink); padding: 16px 16px;
     border: 1.5px solid var(--line); border-radius: var(--radius); background: #fff;
@@ -709,11 +712,18 @@
         <p class="js">Add your name and the next session lands in your inbox at sunrise. Leave any time, in one click.</p>
 
         <!-- ── HUBSPOT OPT-IN ──────────────────────────────────────────
-             Real DarrenDaily opt-in: portal 2518645, form
-             e74fd54c-8940-43db-99e5-6f016b6dfc8a (redirects to /welcome).
-             Same form the DD home + expired pages use. If the HubSpot
-             script is blocked or slow, the fallback below is revealed so
-             this is never a dead end.
+             The live DarrenDaily opt-in: portal 2518645, form
+             41958dbb-3c3a-439b-b747-bb96acf50680. This is the form actually
+             running on darrendaily.com/join today (firstname, email, role,
+             plus hidden dd_id / mrt / UTM fields that ride along).
+
+             NOT e74fd54c-8940-43db-99e5-6f016b6dfc8a, which is what
+             webflow-handoff/dd-optin-modal.js and dd-optin-upgrade.js still
+             point at. That guid now 404s from HubSpot, so those two scripts
+             render nothing. See DDOD-HANDOFF.md.
+
+             If HubSpot is blocked or slow, the fallback below is revealed
+             so this is never a dead end.
              ──────────────────────────────────────────────────────── -->
         <div id="ddJoinForm" class="dd-hsform"></div>
 
@@ -1229,6 +1239,9 @@
       ".dd-hsform .hs-form .hs-input { width: 100% !important; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; color: #14171c; padding: 16px; border: 1.5px solid rgba(20,23,28,.12); border-radius: 4px; background: #fff; transition: border-color .18s, box-shadow .18s; }",
       ".dd-hsform .hs-form .hs-input:focus { outline: none; border-color: #a72632; box-shadow: 0 0 0 3px rgba(167,38,50,.16); }",
       ".dd-hsform .hs_mobilephone, .dd-hsform .hs_text_messaging_optin_property, .dd-hsform .legal-consent-container { display: none !important; }",
+      ".dd-hsform .hs-form .hs_company_role > label { display: none !important; }",
+      ".dd-hsform .hs-form select.hs-input { -webkit-appearance: none; appearance: none; cursor: pointer; padding-right: 42px; color: #757575; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23616a78' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right 16px center; color: #14171c; }",
+      ".dd-hsform .hs-form select.hs-input.is-placeholder { color: #757575; }",
       ".dd-hsform .hs-error-msgs { list-style: none; margin: 5px 0 0; padding: 0; }",
       ".dd-hsform .hs-error-msg { color: #a72632; font-size: 12.5px; }",
       ".dd-hsform .hs_submit .actions { margin: 6px 0 0; padding: 0; }",
@@ -1255,14 +1268,11 @@
         window.hbspt.forms.create({
           region: "na1",
           portalId: "2518645",
-          formId: "e74fd54c-8940-43db-99e5-6f016b6dfc8a",
+          formId: "41958dbb-3c3a-439b-b747-bb96acf50680",
           target: "#ddJoinForm",
-          onFormReady: function (form) {
+          onFormReady: function () {
             done = true;
             fallback.hidden = true;
-            const root = form && form.length ? form[0] : target;
-            const btn = root.querySelector(".hs-button");
-            if (btn) { const t = "Start My Morning Edge →"; btn.tagName === "INPUT" ? (btn.value = t) : (btn.textContent = t); }
           }
         });
       } catch (err) { showFallback(); }

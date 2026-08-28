@@ -66,14 +66,28 @@ add a fourth item to any `REVIEWS` row:
 
 The renderer swaps the chip for the photo automatically, same size and crop.
 
-**2. The HubSpot opt-in needs verifying on a real domain.** The join section
-embeds the live DarrenDaily form (portal `2518645`, form
-`e74fd54c-8940-43db-99e5-6f016b6dfc8a`, redirects to `/welcome`) — the same
-one the DD home and expired pages use, wired the same way as
-`webflow-handoff/dd-optin-modal.js`. It does **not** render from `localhost`,
-so it is untested here. If it has not rendered after six seconds the page
-reveals a styled fallback form that hands the visitor to
-`darrendaily.com/join`; no personal data ever goes into a URL.
+**2. The HubSpot opt-in is wired and working, but note which form.** The join
+section embeds portal `2518645`, form `41958dbb-3c3a-439b-b747-bb96acf50680`,
+which is the opt-in actually running on darrendaily.com/join today: First
+Name, Email, Role, plus hidden `dd_id` / `mrt` / UTM fields that ride along.
+Verified rendering and styled to match the card.
+
+It is deliberately **not** `e74fd54c-8940-43db-99e5-6f016b6dfc8a`, the guid
+that `webflow-handoff/dd-optin-modal.js` and `dd-optin-upgrade.js` still point
+at. That form now returns `404 resource not found` from HubSpot:
+
+```
+https://forms.hsforms.com/embed/v3/form/2518645/e74fd54c-8940-43db-99e5-6f016b6dfc8a/json
+-> {"status":"error","message":"resource not found"}
+```
+
+**Those two scripts therefore render no form at all wherever they are still
+running.** Worth checking the DD home, welcome and expired pages against the
+live site. Not fixed here, since it is outside this page.
+
+If HubSpot is ever blocked or slow, this page reveals a styled fallback form
+after six seconds that hands the visitor to `darrendaily.com/join`. No
+personal data ever goes into a URL.
 
 ## Notes
 
