@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DarrenDaily On-Demand · The Podcast</title>
+<meta name="description" content="Five minutes of mentoring from Darren Hardy, every weekday morning. 1,519 episodes, 4.9 stars, over 10 million listens. Press play and start now. Free, and never a single ad.">
+<meta name="author" content="Darren Hardy">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- ─────────────────────────────────────────────────────────────
+     DARRENDAILY ON-DEMAND - podcast site, rebuilt.
+       Built on the DarrenDaily light/warm system (white + cool greys +
+       brand RED #a72632, deep-maroon feature bands, Inter 900, 4px radius).
+
+     THE ONE JOB OF THIS PAGE: get a human listening inside ten seconds.
+       • The hero IS a player. Latest episode loaded, one tap to play.
+       • A sticky bottom player follows them down the page, so browsing
+         never interrupts listening.
+       • The episode feed is the second section, not buried at the bottom.
+       • Resume-where-you-left-off via localStorage.
+       • Secondary job: the DarrenDaily daily-mentoring opt-in (HubSpot).
+
+     REAL DATA (pulled 28 Aug 2026, refresh instructions in the handoff):
+       • Episodes: darrendailyondemand.libsyn.com/rss (latest 30 baked in,
+         full 1,519-episode archive fetched live on demand).
+       • Reviews: every quote is a REAL, verbatim Apple Podcasts review
+         (itunes.apple.com/us/rss/customerreviews/id=1449270369).
+       • 4.9 stars / 1,709 ratings / 1,519 episodes: verified, not invented.
+
+     PLACEHOLDER: reviewer avatars are monogram chips. Swap in real
+       listener headshots by adding a "p" (photo path) to any REVIEWS row.
+     ───────────────────────────────────────────────────────────── -->
+
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="DarrenDaily On-Demand">
+<meta property="og:title"       content="DarrenDaily On-Demand · The Podcast">
+<meta property="og:description" content="Five minutes of mentoring, every weekday morning. 1,519 episodes. 4.9 stars. Press play.">
+<meta property="og:image"       content="ddod-artwork.webp">
+
+<link rel="icon" type="image/png" href="favicon-dd.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" as="image" href="ddod-artwork.webp">
+
+<style>
+  @font-face {
+    font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap;
+    src: url(fonts/inter-latin.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap;
+    src: url(fonts/inter-latin-ext.woff2) format('woff2');
+    unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+
+  :root {
+    --paper:         #ffffff;
+    --mist:          #f3f5f8;
+    --ink:           #14171c;
+    --muted:         #545c68;
+    --soft:          #616a78;
+    --line:          rgba(20, 23, 28, 0.12);
+    --line-soft:     rgba(20, 23, 28, 0.07);
+    --accent:        #a72632;
+    --accent-deep:   #812a37;
+    --accent-bright: #cf3a45;
+    --accent-rgb:    167, 38, 50;
+    --dark:          #2a1015;
+    --dark-2:        #1c0a0e;
+    --mist-on-dark:  #e7d4d6;
+    --gold:          #ffce3a;
+    --radius:        4px;
+    --ease:          cubic-bezier(0.16, 1, 0.3, 1);
+    --player-h:      84px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  html, body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400; -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility; overflow-x: hidden;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; height: auto; display: block; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  /* ============ SHARED ============ */
+  section { position: relative; scroll-margin-top: 92px; }
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .container { padding: 0 22px; } }
+
+  .eyebrow {
+    font-weight: 700; font-size: 12px; letter-spacing: 0.32em;
+    text-transform: uppercase; color: var(--soft);
+    display: inline-flex; align-items: center; gap: 16px;
+  }
+  .eyebrow .pip { width: 34px; height: 3px; background: var(--accent); display: inline-block; flex: none; }
+  .eyebrow.accent { color: var(--accent); }
+  .eyebrow.on-dark { color: rgba(255,255,255,0.82); }
+  .eyebrow.on-dark .pip { background: var(--accent-bright); }
+  .eyebrow.center { justify-content: center; }
+
+  h1, h2, h3 { font-weight: 900; letter-spacing: -0.03em; line-height: 1.0; }
+  em.key { font-style: normal; color: var(--accent); }
+  em.key-b { font-style: normal; color: var(--accent-bright); }
+  .hbr { display: none; }
+  .hero-sub-m { display: none; }   /* mobile-only copy swaps, switched on at 720px */
+  .nav-cta .short { display: none; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+    font-weight: 800; font-size: 12.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 20px 38px; border-radius: var(--radius); text-decoration: none; cursor: pointer;
+    background: var(--accent); color: #fff; border: 2px solid var(--accent);
+    transition: transform .2s var(--ease), box-shadow .2s;
+    box-shadow: 0 14px 30px -12px rgba(var(--accent-rgb), 0.5);
+    position: relative; overflow: hidden;
+  }
+  .btn:hover { transform: translateY(-2px) scale(1.015); box-shadow: 0 20px 40px -14px rgba(var(--accent-rgb), 0.55); }
+  .btn .arrow { transition: transform .2s var(--ease); }
+  .btn:hover .arrow { transform: translateX(5px); }
+  .btn::after { content: ""; position: absolute; top: 0; left: -80%; width: 60%; height: 100%;
+    background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.25) 50%, transparent 80%);
+    animation: cta-shimmer 4s ease-in-out infinite; pointer-events: none; }
+  .btn:hover::after { opacity: 0; }
+  @keyframes cta-shimmer {
+    0% { left: -80%; opacity: 1; } 38% { left: 110%; opacity: 1; }
+    39% { left: 110%; opacity: 0; } 99% { left: -80%; opacity: 0; } 100% { left: -80%; opacity: 1; }
+  }
+  .btn-ghost {
+    display: inline-flex; align-items: center; justify-content: center; gap: 11px;
+    font-weight: 800; font-size: 12.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 18px 34px; border-radius: var(--radius); text-decoration: none;
+    border: 2px solid var(--line); color: var(--ink); background: #fff;
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-ghost.ondark { border-color: rgba(255,255,255,0.28); color: #fff; background: transparent; }
+  .btn-ghost.ondark:hover { background: #fff; color: var(--accent); border-color: #fff; }
+  .btn-line {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-weight: 700; font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    text-decoration: none; color: var(--ink);
+    border-bottom: 2px solid var(--accent); padding-bottom: 4px; transition: color .2s;
+  }
+  .btn-line:hover { color: var(--accent); }
+  .btn-line .arrow { transition: transform .2s var(--ease); }
+  .btn-line:hover .arrow { transform: translateX(4px); }
+  @media (prefers-reduced-motion: reduce) { .btn::after { animation: none; opacity: 0; } }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+  .stagger > * { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  .stagger.in > * { opacity: 1; transform: none; }
+  .stagger.in > *:nth-child(2) { transition-delay: .07s; }
+  .stagger.in > *:nth-child(3) { transition-delay: .14s; }
+  .stagger.in > *:nth-child(4) { transition-delay: .21s; }
+  @media (prefers-reduced-motion: reduce) { .reveal, .stagger > * { opacity: 1 !important; transform: none !important; } }
+
+  /* ============ NAV ============ */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+    display: flex; align-items: center; gap: 30px;
+    padding: 14px 48px; background: rgba(255,255,255,0.92);
+    backdrop-filter: saturate(180%) blur(14px); -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--line-soft); transition: box-shadow .25s;
+  }
+  nav.top.stuck { box-shadow: 0 8px 26px -18px rgba(20,23,28,.5); }
+  .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; flex: none; }
+  .nav-brand img { width: 196px; height: auto; }
+  .nav-brand .tag {
+    font-size: 9.5px; font-weight: 900; letter-spacing: .2em; text-transform: uppercase;
+    color: #fff; background: var(--accent); padding: 5px 8px; border-radius: 3px; white-space: nowrap;
+  }
+  .nav-links { display: flex; gap: 30px; margin-left: auto; }
+  .nav-links a {
+    font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    text-decoration: none; color: var(--muted); transition: color .18s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    font-size: 11.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase;
+    text-decoration: none; background: var(--accent); color: #fff !important;
+    padding: 12px 20px; border-radius: var(--radius); border: 2px solid var(--accent);
+    display: inline-flex; align-items: center; gap: 8px; transition: transform .18s var(--ease), box-shadow .18s;
+    box-shadow: 0 10px 22px -12px rgba(var(--accent-rgb), .6); white-space: nowrap;
+  }
+  .nav-cta:hover { transform: translateY(-1px) scale(1.02); }
+  @media (max-width: 1080px) { .nav-links { display: none; } }
+  @media (max-width: 720px) {
+    .hero-sub { display: none; }
+    .hero-sub-m { display: block; }
+    .nav-cta .long { display: none; }
+    .nav-cta .short { display: inline; }
+    nav.top { padding: 11px 18px; gap: 12px; }
+    .nav-brand img { width: 138px; }
+    .nav-brand .tag { display: none; }
+    .nav-cta { margin-left: auto; padding: 11px 14px; font-size: 10.5px; letter-spacing: .12em; }
+  }
+
+  /* ============ HERO ============ */
+  .hero { padding: 116px 0 72px; background:
+      radial-gradient(1100px 620px at 88% 4%, rgba(var(--accent-rgb), .09), transparent 62%),
+      linear-gradient(180deg, #fff 0%, var(--mist) 100%); overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.22fr 0.78fr; gap: 60px; align-items: center; }
+  .hero h1 {
+    font-size: clamp(36px, 4.7vw, 64px); line-height: .92; letter-spacing: -.04em;
+    text-transform: uppercase; margin: 16px 0 0;
+  }
+  .hero-sub { font-size: clamp(15.5px, 1.2vw, 18px); line-height: 1.58; color: var(--muted); margin-top: 18px; max-width: 52ch; }
+  .hero-sub b { color: var(--ink); font-weight: 700; }
+
+  /* the hero player card */
+  .pcard {
+    margin-top: 26px; background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: 0 30px 64px -34px rgba(20,23,28,.42);
+    padding: 22px 24px; max-width: 620px; position: relative; overflow: hidden;
+  }
+  .pcard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--accent); }
+  .pcard-head {
+    display: flex; align-items: center; gap: 10px; font-size: 10.5px; font-weight: 800;
+    letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  .livedot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); position: relative; flex: none; }
+  .livedot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid rgba(var(--accent-rgb), .45); animation: ping 1.9s var(--ease) infinite; }
+  @keyframes ping { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+  .pcard-body { display: flex; align-items: center; gap: 18px; }
+  .pcard h2 { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.22; letter-spacing: -.02em; font-weight: 800; }
+  .pcard .meta { font-size: 12.5px; color: var(--soft); margin-top: 7px; font-weight: 600; letter-spacing: .02em; }
+  .bigplay {
+    width: 72px; height: 72px; flex: none; border-radius: 50%; background: var(--accent);
+    display: flex; align-items: center; justify-content: center; color: #fff;
+    box-shadow: 0 16px 34px -12px rgba(var(--accent-rgb), .72); position: relative;
+    transition: transform .2s var(--ease);
+  }
+  .bigplay:hover { transform: scale(1.07); }
+  .bigplay::after { content: ""; position: absolute; inset: 0; border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), .5); animation: ringpulse 2s cubic-bezier(.25,.6,.3,1) infinite; pointer-events: none; }
+  @keyframes ringpulse { 0% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), .5); } 100% { box-shadow: 0 0 0 22px rgba(var(--accent-rgb), 0); } }
+  .bigplay svg { width: 26px; height: 26px; margin-left: 3px; }
+  .bigplay.is-playing svg { margin-left: 0; }
+  .bigplay.is-playing::after { animation: none; }
+  @media (prefers-reduced-motion: reduce) { .bigplay::after, .livedot::after { animation: none; } }
+  .pcard-foot { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line-soft);
+    font-size: 12.5px; color: var(--soft); line-height: 1.5; }
+  .pcard-foot b { color: var(--ink); }
+
+  /* resume chip */
+  .resume { display: none; margin-top: 14px; align-items: center; gap: 12px; flex-wrap: wrap;
+    background: rgba(var(--accent-rgb), .06); border: 1px solid rgba(var(--accent-rgb), .28);
+    border-radius: var(--radius); padding: 11px 15px; max-width: 620px; }
+  .resume.show { display: flex; }
+  .resume .lbl { font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+  .resume .ttl { font-size: 13.5px; font-weight: 600; color: var(--ink); flex: 1 1 200px; }
+  .resume button.go { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    color: #fff; background: var(--accent); padding: 9px 15px; border-radius: 3px; }
+
+  /* platform row */
+  .plats { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .plats .lbl { font-size: 10.5px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--soft); margin-right: 4px; }
+  .plat {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 10px 15px; font-size: 12.5px; font-weight: 700; color: var(--ink);
+    transition: border-color .18s, transform .18s var(--ease), box-shadow .18s;
+  }
+  .plat:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 12px 24px -14px rgba(20,23,28,.5); }
+  .plat svg { width: 16px; height: 16px; flex: none; }
+
+  /* hero art */
+  .hero-art { position: relative; }
+  .hero-art img { width: 100%; border-radius: var(--radius); box-shadow: 0 44px 90px -40px rgba(20,23,28,.6); }
+  .art-chip {
+    position: absolute; left: -30px; bottom: -24px; background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 15px 20px; box-shadow: 0 24px 50px -26px rgba(20,23,28,.5);
+  }
+  .art-chip .stars { color: var(--gold); font-size: 15px; letter-spacing: 2px; line-height: 1; }
+  .art-chip .n { font-weight: 900; font-size: 25px; letter-spacing: -.04em; margin-top: 6px; line-height: 1; }
+  .art-chip .c { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--soft); margin-top: 5px; }
+  @media (max-width: 980px) {
+    .hero { padding: 128px 0 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+    .hero-art { max-width: 380px; margin: 0 auto; }
+    .art-chip { left: auto; right: -12px; bottom: -18px; }
+  }
+  @media (max-width: 720px) {
+    .hbr { display: inline; }
+    .pcard { padding: 18px; }
+    .pcard-body { gap: 14px; }
+    .bigplay { width: 60px; height: 60px; }
+    .plats .lbl { width: 100%; margin-bottom: 2px; }
+  }
+
+  /* ============ STATS BAND ============ */
+  .band { background: var(--dark); color: #fff; padding: 44px 0; }
+  .band-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; text-align: center; }
+  .band-grid .n { font-weight: 900; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -.045em; line-height: .95; color: #fff; }
+  .band-grid .n .st { color: var(--gold); }
+  .band-grid .c { font-size: 11px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: rgba(255,255,255,.62); margin-top: 9px; line-height: 1.45; }
+  @media (max-width: 760px) { .band-grid { grid-template-columns: repeat(2, 1fr); gap: 30px 16px; } }
+
+  /* ============ SECTION HEAD ============ */
+  .shead { max-width: 760px; }
+  .shead.center { max-width: 940px; margin: 0 auto; text-align: center; }
+  .shead h2 { font-size: clamp(30px, 3.9vw, 58px); line-height: .96; text-transform: uppercase; margin: 16px 0 0; }
+  .shead p { font-size: clamp(15.5px, 1.15vw, 18px); line-height: 1.62; color: var(--muted); margin-top: 18px; }
+  .shead p b { color: var(--ink); font-weight: 700; }
+
+  /* ============ FEED ============ */
+  .feed { padding: 92px 0 84px; }
+  .feed-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; margin-bottom: 34px; }
+  .search {
+    position: relative; flex: 0 1 340px; min-width: 240px;
+  }
+  .search input {
+    width: 100%; font-family: inherit; font-size: 14.5px; color: var(--ink);
+    padding: 15px 16px 15px 44px; border: 1.5px solid var(--line); border-radius: var(--radius);
+    background: #fff; transition: border-color .18s, box-shadow .18s;
+  }
+  .search input::placeholder { color: var(--soft); }
+  .search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .15); }
+  .search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--soft); }
+
+  .eplist { border-top: 1px solid var(--line); }
+  .ep {
+    display: grid; grid-template-columns: 56px 1fr auto; gap: 20px; align-items: center;
+    padding: 20px 14px 20px 4px; border-bottom: 1px solid var(--line-soft);
+    cursor: pointer; transition: background .18s, padding-left .18s var(--ease); position: relative;
+  }
+  .ep::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); transform: scaleY(0); transform-origin: center; transition: transform .22s var(--ease); }
+  .ep:hover { background: var(--mist); padding-left: 14px; }
+  .ep:hover::before, .ep.active::before { transform: scaleY(1); }
+  .ep.active { background: rgba(var(--accent-rgb), .045); padding-left: 14px; }
+  .ep-play {
+    width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--line);
+    display: flex; align-items: center; justify-content: center; color: var(--accent);
+    transition: background .18s, border-color .18s, color .18s, transform .18s var(--ease); flex: none; background: #fff;
+  }
+  .ep:hover .ep-play { background: var(--accent); border-color: var(--accent); color: #fff; transform: scale(1.06); }
+  .ep.active .ep-play { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .ep-play svg { width: 15px; height: 15px; margin-left: 2px; }
+  .ep.active.playing .ep-play svg { margin-left: 0; }
+  .ep-n { font-size: 10.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--soft); }
+  .ep-n .num { color: var(--accent); }
+  .ep h3 { font-size: clamp(16px, 1.32vw, 20px); font-weight: 800; line-height: 1.26; letter-spacing: -.02em; margin: 6px 0 0; }
+  .ep p { font-size: 13.5px; line-height: 1.55; color: var(--muted); margin-top: 7px; max-width: 78ch; }
+  .ep-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+  .ep-dur {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800;
+    letter-spacing: .05em; color: var(--ink); background: var(--mist);
+    border-radius: 999px; padding: 6px 12px; white-space: nowrap;
+  }
+  .ep-date { font-size: 11.5px; font-weight: 600; color: var(--soft); white-space: nowrap; }
+  .bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+  .bars i { width: 2.5px; background: currentColor; animation: bar .9s ease-in-out infinite; border-radius: 1px; }
+  .bars i:nth-child(1) { height: 60%; animation-delay: 0s; }
+  .bars i:nth-child(2) { height: 100%; animation-delay: .18s; }
+  .bars i:nth-child(3) { height: 45%; animation-delay: .36s; }
+  @keyframes bar { 0%,100% { transform: scaleY(.4); } 50% { transform: scaleY(1); } }
+  @media (prefers-reduced-motion: reduce) { .bars i { animation: none; } }
+  .feed-more { text-align: center; margin-top: 40px; }
+  .feed-note { font-size: 12.5px; color: var(--soft); margin-top: 14px; }
+  .empty { padding: 46px 4px; color: var(--soft); font-size: 15px; }
+  @media (max-width: 860px) {
+    .ep { grid-template-columns: 44px 1fr; gap: 14px; }
+    .ep-side { grid-column: 2; flex-direction: row; align-items: center; text-align: left; gap: 12px; }
+    .ep p { display: none; }
+  }
+
+  /* ============ WHY (3 cards) ============ */
+  .why { background: var(--mist); padding: 88px 0; }
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 46px; }
+  .fbox { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 40px 34px; box-shadow: 0 2px 18px rgba(20,23,28,.05); }
+  .fbox .fn { font-weight: 900; font-size: 44px; letter-spacing: -.05em; color: var(--accent); line-height: .9; }
+  .fbox h3 { font-size: 20px; margin: 16px 0 0; letter-spacing: -.02em; text-transform: uppercase; }
+  .fbox p { font-size: 14.5px; line-height: 1.62; color: var(--muted); margin-top: 12px; }
+  .fbox p b { color: var(--ink); font-weight: 700; }
+  @media (max-width: 860px) { .why-grid { grid-template-columns: 1fr; } }
+
+  /* ============ REVIEW WALL ============ */
+  .wall { padding: 92px 0 96px; overflow: hidden; }
+  .wall-head { text-align: center; margin-bottom: 52px; }
+  .rrow { display: flex; gap: 20px; width: max-content; margin-bottom: 20px; will-change: transform; }
+  .rrow.a { animation: slideA 78s linear infinite; }
+  .rrow.b { animation: slideB 92s linear infinite; }
+  .rmask { position: relative; }
+  .rmask::before, .rmask::after {
+    content: ""; position: absolute; top: 0; bottom: 0; width: 130px; z-index: 3; pointer-events: none;
+  }
+  .rmask::before { left: 0; background: linear-gradient(90deg, #fff, rgba(255,255,255,0)); }
+  .rmask::after { right: 0; background: linear-gradient(270deg, #fff, rgba(255,255,255,0)); }
+  @keyframes slideA { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes slideB { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .rmask:hover .rrow { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) { .rrow { animation: none !important; } .rmask { overflow-x: auto; } }
+
+  .rcard {
+    width: 372px; flex: none; background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 26px 26px 24px; box-shadow: 0 2px 16px rgba(20,23,28,.05);
+    display: flex; flex-direction: column;
+  }
+  .rcard .stars { color: var(--gold); font-size: 13px; letter-spacing: 2.5px; line-height: 1; }
+  .rcard .rt { font-weight: 800; font-size: 15.5px; letter-spacing: -.015em; margin-top: 13px; line-height: 1.3; }
+  .rcard .rc { font-size: 14px; line-height: 1.62; color: var(--muted); margin-top: 10px; flex: 1; }
+  .rcard .rc b { color: var(--ink); font-weight: 700; }
+  .rmeta { display: flex; align-items: center; gap: 12px; margin-top: 20px; padding-top: 17px; border-top: 1px solid var(--line-soft); }
+  .av {
+    width: 42px; height: 42px; border-radius: 50%; flex: none; display: flex; align-items: center;
+    justify-content: center; color: #fff; font-weight: 900; font-size: 14.5px; letter-spacing: -.02em;
+    object-fit: cover; overflow: hidden;
+  }
+  .rmeta .who { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .rmeta .src { font-size: 11px; font-weight: 600; color: var(--soft); margin-top: 3px; letter-spacing: .03em; }
+  @media (max-width: 720px) { .rcard { width: 300px; padding: 22px; } .rmask::before, .rmask::after { width: 50px; } }
+
+  /* ============ JOIN (daily mentoring opt-in) ============ */
+  .join { background: var(--dark); color: #fff; padding: 96px 0 100px; position: relative; overflow: hidden; }
+  .join::before { content: ""; position: absolute; inset: 0;
+    background: radial-gradient(760px 460px at 12% 0%, rgba(var(--accent-rgb), .34), transparent 62%); pointer-events: none; }
+  .join .container { position: relative; z-index: 2; }
+  .join-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 66px; align-items: center; }
+  .join h2 { font-size: clamp(31px, 4.1vw, 60px); line-height: .95; text-transform: uppercase; margin: 18px 0 0; color: #fff; }
+  .join .lede { font-size: clamp(15.5px, 1.2vw, 18.5px); line-height: 1.62; color: rgba(255,255,255,.78); margin-top: 22px; max-width: 50ch; }
+  .join .lede b { color: #fff; font-weight: 700; }
+  .jlist { margin-top: 28px; display: grid; gap: 13px; }
+  .jlist li { list-style: none; display: flex; gap: 13px; align-items: flex-start; font-size: 15px; line-height: 1.52; color: rgba(255,255,255,.86); }
+  .jlist li svg { width: 18px; height: 18px; flex: none; margin-top: 2px; color: var(--accent-bright); }
+  .jlist li b { color: #fff; font-weight: 700; }
+  .jcard {
+    background: #fff; color: var(--ink); border-radius: var(--radius); padding: 40px 38px;
+    box-shadow: 0 44px 90px -40px rgba(0,0,0,.8);
+  }
+  .jcard .jt { font-weight: 900; font-size: 25px; line-height: 1.06; letter-spacing: -.03em; text-transform: uppercase; }
+  .jcard .js { font-size: 14px; line-height: 1.55; color: var(--muted); margin-top: 11px; }
+  .jform { margin-top: 24px; display: grid; gap: 12px; }
+  .jform input {
+    width: 100%; font-family: inherit; font-size: 15px; color: var(--ink); padding: 16px 16px;
+    border: 1.5px solid var(--line); border-radius: var(--radius); background: #fff;
+    transition: border-color .18s, box-shadow .18s;
+  }
+  .jform input::placeholder { color: var(--soft); }
+  .jform input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .16); }
+  .jform .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .jform .btn { width: 100%; padding: 18px 24px; }
+  .jfine { font-size: 12px; line-height: 1.55; color: var(--soft); margin-top: 15px; }
+  .jfine a { color: var(--soft); text-decoration: underline; text-underline-offset: 2px; }
+  .jproof { display: flex; align-items: center; gap: 11px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
+  .jproof .faces { display: flex; }
+  .jproof .faces .av { width: 30px; height: 30px; font-size: 11px; border: 2px solid #fff; margin-left: -9px; }
+  .jproof .faces .av:first-child { margin-left: 0; }
+  .jproof .t { font-size: 12.5px; color: var(--soft); line-height: 1.45; }
+  .jproof .t b { color: var(--ink); font-weight: 700; }
+  @media (max-width: 980px) { .join-grid { grid-template-columns: 1fr; gap: 44px; } }
+  @media (max-width: 720px) { .jcard { padding: 30px 24px; } .jform .two { grid-template-columns: 1fr; } }
+
+  /* ============ ABOUT ============ */
+  .about { padding: 92px 0; background: var(--mist); }
+  .about-grid { display: grid; grid-template-columns: .82fr 1.18fr; gap: 62px; align-items: center; }
+  .about-img { border-radius: var(--radius); overflow: hidden; box-shadow: 0 34px 74px -38px rgba(20,23,28,.6); }
+  .about h2 { font-size: clamp(29px, 3.5vw, 50px); line-height: .97; text-transform: uppercase; margin: 16px 0 0; }
+  .about p { font-size: 16px; line-height: 1.68; color: var(--muted); margin-top: 18px; }
+  .about p b { color: var(--ink); font-weight: 700; }
+  .logos { display: flex; align-items: center; gap: 34px; flex-wrap: wrap; margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .logos img { height: 22px; width: auto; opacity: .55; filter: grayscale(1) brightness(.35); transition: opacity .2s; }
+  .logos img.success { height: 27px; }
+  .logos img:hover { opacity: .85; }
+  .logos .ll { font-size: 10.5px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--soft); width: 100%; }
+  @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 36px; } .about-img { max-width: 400px; } }
+
+  /* ============ FINAL CTA ============ */
+  .final { padding: 100px 0 110px; text-align: center; }
+  .final h2 { font-size: clamp(32px, 4.6vw, 66px); line-height: .94; text-transform: uppercase; }
+  .final p { font-size: clamp(16px, 1.25vw, 19px); line-height: 1.6; color: var(--muted); margin: 20px auto 0; max-width: 56ch; }
+  .final .acts { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+
+  /* ============ FOOTER ============ */
+  footer { background: var(--dark-2); color: rgba(255,255,255,.6); padding: 56px 0 40px; }
+  .fgrid { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
+  footer img.flogo { width: 200px; opacity: .95; }
+  .flinks { display: flex; gap: 28px; flex-wrap: wrap; }
+  .flinks a { font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,.66); transition: color .18s; }
+  .flinks a:hover { color: #fff; }
+  .fbot { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); font-size: 11.5px; letter-spacing: .06em; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .fbot a { color: rgba(255,255,255,.6); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ============ STICKY PLAYER ============ */
+  .sticky {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 95;
+    background: rgba(28, 10, 14, .97); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(255,255,255,.12); color: #fff;
+    transform: translateY(110%); transition: transform .38s var(--ease);
+    box-shadow: 0 -18px 46px -22px rgba(0,0,0,.8);
+  }
+  .sticky.up { transform: translateY(0); }
+  body.playing { padding-bottom: var(--player-h); }
+  .sk-prog { height: 4px; background: rgba(255,255,255,.14); cursor: pointer; position: relative; }
+  .sk-prog .fill { height: 100%; background: var(--accent-bright); width: 0%; transition: width .12s linear; position: relative; }
+  .sk-prog .fill::after { content: ""; position: absolute; right: -5px; top: 50%; transform: translateY(-50%) scale(0); width: 11px; height: 11px; border-radius: 50%; background: #fff; transition: transform .18s var(--ease); }
+  .sk-prog:hover .fill::after { transform: translateY(-50%) scale(1); }
+  .sk-body { display: flex; align-items: center; gap: 18px; padding: 13px 30px; max-width: 1440px; margin: 0 auto; }
+  .sk-art { width: 52px; height: 52px; border-radius: 3px; flex: none; }
+  .sk-info { min-width: 0; flex: 1; }
+  .sk-info .t { font-size: 14px; font-weight: 700; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sk-info .m { font-size: 11.5px; color: rgba(255,255,255,.6); margin-top: 4px; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+  .sk-ctrls { display: flex; align-items: center; gap: 8px; flex: none; }
+  .skb {
+    width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,.82); transition: background .18s, color .18s; position: relative;
+  }
+  .skb:hover { background: rgba(255,255,255,.12); color: #fff; }
+  .skb svg { width: 19px; height: 19px; }
+  .skb .sec { position: absolute; font-size: 7.5px; font-weight: 900; letter-spacing: 0; top: 50%; left: 50%; transform: translate(-50%, -38%); }
+  .skb.main { width: 48px; height: 48px; background: var(--accent); color: #fff; }
+  .skb.main:hover { background: var(--accent-bright); }
+  .skb.main svg { width: 20px; height: 20px; margin-left: 2px; }
+  .skb.main.pause svg { margin-left: 0; }
+  .sk-rate { font-size: 11.5px; font-weight: 800; letter-spacing: .06em; color: rgba(255,255,255,.72);
+    border: 1.5px solid rgba(255,255,255,.24); border-radius: 3px; padding: 7px 10px; min-width: 48px; text-align: center; transition: border-color .18s, color .18s; }
+  .sk-rate:hover { border-color: #fff; color: #fff; }
+  .sk-close { color: rgba(255,255,255,.45); }
+  .sk-close:hover { color: #fff; }
+  @media (max-width: 860px) {
+    :root { --player-h: 76px; }
+    .sk-body { padding: 11px 16px; gap: 12px; }
+    .sk-art { width: 42px; height: 42px; }
+    .sk-rate, .sk-close, .skb.back { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="top" id="nav">
+  <a class="nav-brand" href="#top">
+    <img src="dd-logo-color.svg" alt="DarrenDaily" width="196" height="46">
+    <span class="tag">On-Demand</span>
+  </a>
+  <div class="nav-links">
+    <a href="#listen">Listen</a>
+    <a href="#episodes">Episodes</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#join">Daily Mentoring</a>
+  </div>
+  <a class="nav-cta" href="#join"><span class="long">Get Daily Mentoring</span><span class="short">Join Free</span> <span>&rarr;</span></a>
+</nav>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="listen">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pip"></span><span>The DarrenDaily <span style="white-space:nowrap">On-Demand</span> Podcast</span></div>
+        <h1>Press Play.<br class="hbr"> Be <em class="key">Better</em><br>By 9 A.M.</h1>
+        <p class="hero-sub"><b>One idea, one story, one move you can make today.</b> Distilled from 35 years behind closed doors with the most successful people alive, in less time than it takes to finish a cup of coffee. <b>Free. Never a single ad.</b></p>
+        <p class="hero-sub hero-sub-m"><b>One idea, one story, one move you can make today.</b> From 35 years behind closed doors with the most successful people alive. <b>Free. Never a single ad.</b></p>
+
+        <!-- HERO PLAYER: latest episode, already loaded. One tap. -->
+        <div class="pcard" id="heroCard">
+          <div class="pcard-head"><span class="livedot"></span><span id="heroLabel">Newest Episode</span></div>
+          <div class="pcard-body">
+            <button class="bigplay" id="heroPlay" aria-label="Play the newest episode">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div>
+              <h2 id="heroTitle">Loading the newest episode</h2>
+              <div class="meta" id="heroMeta"></div>
+            </div>
+          </div>
+          <p class="pcard-foot" id="heroBlurb"></p>
+        </div>
+
+        <div class="resume" id="resume">
+          <span class="lbl">Pick up where you stopped</span>
+          <span class="ttl" id="resumeTitle"></span>
+          <button class="go" id="resumeGo">Resume &rarr;</button>
+        </div>
+
+        <div class="plats">
+          <span class="lbl">Or subscribe on</span>
+          <a class="plat" href="https://podcasts.apple.com/us/podcast/darrendaily-on-demand/id1449270369" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.6 19.3c.2-.6 0-1.3-.2-1.9A8 8 0 1 1 20 12a8 8 0 0 1-4.2 7c-.2.7-.4 1.4-.2 2A10 10 0 0 0 12 2zm0 4.6a5.4 5.4 0 0 0-2.6 10.1c.3-.5.4-1.2.3-1.8a3.4 3.4 0 1 1 4.6 0c-.1.6 0 1.3.3 1.8A5.4 5.4 0 0 0 12 6.6zm0 4a1.9 1.9 0 0 0-1.9 2.1c.1.6.5 1 .6 1.6l.5 3.6c.1.7.3 1.3.8 1.3s.7-.6.8-1.3l.5-3.6c.1-.6.5-1 .6-1.6A1.9 1.9 0 0 0 12 10.6z"/></svg>
+            Apple Podcasts</a>
+          <a class="plat" href="https://open.spotify.com/search/DarrenDaily%20On-Demand/shows" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.6 14.4a.8.8 0 0 1-1.1.3c-2.9-1.8-6.6-2.2-11-1.2a.8.8 0 1 1-.3-1.5c4.7-1.1 8.8-.6 12.1 1.4.4.2.5.7.3 1zm1.2-2.8a1 1 0 0 1-1.3.3c-3.3-2-8.3-2.6-12.2-1.4a1 1 0 1 1-.6-1.9c4.4-1.3 10-.7 13.8 1.6.5.3.6.9.3 1.4zm.1-2.9C14.1 8.4 7.9 8.2 4.2 9.3a1.2 1.2 0 0 1-.7-2.3c4.3-1.3 11.1-1 15.5 1.6a1.2 1.2 0 1 1-1.2 2z"/></svg>
+            Spotify</a>
+          <a class="plat" href="https://www.youtube.com/channel/UCYoFxvZAFr_eBVsNNKQYWKQ" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.6-.5-5.3a2.7 2.7 0 0 0-1.9-1.9C18.9 4.3 12 4.3 12 4.3s-6.9 0-8.6.5a2.7 2.7 0 0 0-1.9 1.9C1 8.4 1 12 1 12s0 3.6.5 5.3c.3 1 1 1.7 1.9 1.9 1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.7 2.7 0 0 0 1.9-1.9c.5-1.7.5-5.3.5-5.3zM9.8 15.3V8.7l5.7 3.3-5.7 3.3z"/></svg>
+            YouTube</a>
+          <a class="plat" href="https://darrendailyondemand.libsyn.com/rss" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="6.2" cy="17.8" r="2.2"/><path d="M4 10.6v3.1a6.3 6.3 0 0 1 6.3 6.3h3.1A9.4 9.4 0 0 0 4 10.6zm0-5.6v3.1A11.9 11.9 0 0 1 15.9 20H19A15 15 0 0 0 4 5z"/></svg>
+            RSS</a>
+        </div>
+      </div>
+
+      <div class="hero-art reveal">
+        <img src="ddod-artwork.webp" alt="DarrenDaily On-Demand, by success mentor Darren Hardy" width="900" height="900" fetchpriority="high">
+        <div class="art-chip">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="n">4.9</div>
+          <div class="c">1,709 Apple<br>Podcasts ratings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS BAND ============ -->
+<section class="band">
+  <div class="container">
+    <div class="band-grid stagger reveal">
+      <div><div class="n">1,519</div><div class="c">Episodes<br>In The Archive</div></div>
+      <div><div class="n">10M+</div><div class="c">Listens<br>And Counting</div></div>
+      <div><div class="n">350,000</div><div class="c">People Starting<br>Their Day Here</div></div>
+      <div><div class="n">4.9<span class="st">&#9733;</span></div><div class="c">Across 1,709<br>Apple Ratings</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EPISODE FEED ============ -->
+<section class="feed" id="episodes">
+  <div class="container">
+    <div class="feed-top reveal">
+      <div class="shead">
+        <div class="eyebrow"><span class="pip"></span><span>The Archive</span></div>
+        <h2>Start Anywhere. <em class="key">Start Now.</em></h2>
+        <p>Not one of these episodes needs the one before it. Find a title that names something you are carrying this week, and press play. <b>It keeps playing while you keep reading.</b></p>
+      </div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="q" placeholder="Search 1,519 episodes" aria-label="Search episodes">
+      </div>
+    </div>
+
+    <div class="eplist" id="eplist"></div>
+
+    <div class="feed-more">
+      <button class="btn-ghost" id="loadAll">Open The Full 1,519 Episode Archive <span class="arrow">&darr;</span></button>
+      <p class="feed-note" id="feedNote">Showing the 30 most recent. The full archive loads straight from the feed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY ============ -->
+<section class="why">
+  <div class="container">
+    <div class="shead center reveal">
+      <div class="eyebrow center"><span class="pip"></span><span>Why It Works</span></div>
+      <h2>Small Enough To <em class="key">Actually Do</em></h2>
+    </div>
+    <div class="why-grid stagger reveal">
+      <div class="fbox">
+        <div class="fn">5</div>
+        <h3>Minutes Or Less</h3>
+        <p>The whole idea lands before your coffee goes cold. <b>Long enough to change a decision. Short enough that you actually make it.</b> Most people finish an episode before they have left the driveway.</p>
+      </div>
+      <div class="fbox">
+        <div class="fn">5</div>
+        <h3>New Every Week</h3>
+        <p>Monday through Friday, a new session. Travelling, buried, or catching up on a Sunday, the archive is right here and nothing expires. <b>#NeverMiss</b></p>
+      </div>
+      <div class="fbox">
+        <div class="fn">0</div>
+        <h3>Ads. Ever.</h3>
+        <p>No sponsors. No pre-roll. Nobody reading a script for a mattress company. <b>Five minutes in, five minutes of substance out</b>, which is exactly why listeners keep saying it is the only show they never skip.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REVIEW WALL ============ -->
+<section class="wall" id="reviews">
+  <div class="container">
+    <div class="shead center wall-head reveal">
+      <div class="eyebrow center"><span class="pip"></span><span>1,709 Apple Podcasts Ratings</span></div>
+      <h2>What It Sounds Like <br>From <em class="key">The Inside</em></h2>
+      <p>Every word below is a real, unedited review left on Apple Podcasts by someone who listens.</p>
+    </div>
+  </div>
+  <div class="rmask">
+    <div class="rrow a" id="row1"></div>
+    <div class="rrow b" id="row2"></div>
+  </div>
+</section>
+
+<!-- ============ JOIN: the daily mentoring opt-in ============ -->
+<section class="join" id="join">
+  <div class="container">
+    <div class="join-grid">
+      <div class="reveal">
+        <div class="eyebrow on-dark"><span class="pip"></span><span>DarrenDaily Mentoring</span></div>
+        <h2>The Podcast<br>Is The Replay.<br><em class="key-b">Get The Original.</em></h2>
+        <p class="lede">DarrenDaily is the morning mentoring session itself. <b>A short video from Darren, in your inbox, before the day gets going.</b> The podcast is how people go back to it. This is how they get it first.</p>
+        <ul class="jlist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg><span>A new video <b>every weekday morning</b>, under five minutes</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg><span>One idea, small enough to <b>install before your first meeting</b></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg><span>Free, and <b>never a single ad</b>, the same as the podcast</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg><span><b>350,000 unusually driven people</b> already start here</span></li>
+        </ul>
+      </div>
+
+      <div class="jcard reveal">
+        <div class="jt">Start Tomorrow <em class="key">Morning</em></div>
+        <p class="js">Add your name and the next session lands in your inbox at sunrise. Leave any time, in one click.</p>
+
+        <!-- ── HUBSPOT OPT-IN ──────────────────────────────────────────
+             Real DarrenDaily opt-in: portal 2518645, form
+             e74fd54c-8940-43db-99e5-6f016b6dfc8a (redirects to /welcome).
+             Same form the DD home + expired pages use. If the HubSpot
+             script is blocked or slow, the fallback below is revealed so
+             this is never a dead end.
+             ──────────────────────────────────────────────────────── -->
+        <div id="ddJoinForm" class="dd-hsform"></div>
+
+        <form class="jform" id="joinFallback" hidden>
+          <div class="two">
+            <input type="text" placeholder="First name" autocomplete="given-name" required>
+            <input type="text" placeholder="Last name" autocomplete="family-name" required>
+          </div>
+          <input type="email" placeholder="Email address" autocomplete="email" required>
+          <button class="btn" type="submit">Start My Morning Edge <span class="arrow">&rarr;</span></button>
+        </form>
+
+        <p class="jfine">Free forever. No ads, no sponsors, no reselling your address. See the <a href="https://dh.darrenhardy.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
+
+        <div class="jproof">
+          <div class="faces" id="joinFaces"></div>
+          <div class="t"><b>350,000 people</b> opened this morning's session before you finished this sentence.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img reveal">
+        <img src="dd-chair.webp" alt="Darren Hardy on the DarrenDaily set" width="1800" height="1005" loading="lazy">
+      </div>
+      <div class="reveal">
+        <div class="eyebrow"><span class="pip"></span><span>Your Host</span></div>
+        <h2>Darren Hardy</h2>
+        <p><b>Success mentor to CEOs and high achievers.</b> For 25 years Darren led the success media industry as the publisher of SUCCESS magazine. More than almost anyone alive, he has sat across from the people who actually did it, asked the uncomfortable question, and written down the answer.</p>
+        <p>Every weekday morning he hands one of those answers to <em class="key">350,000 people</em> who have decided that average is not the plan. That is the whole show. No guests to promote, no interview to sell, no ad to sit through. <b>One idea, from someone who was in the room.</b></p>
+        <div class="logos">
+          <span class="ll">Darren and his work have appeared in</span>
+          <img class="success" src="media-logos/success.webp" width="520" height="99" alt="SUCCESS" loading="lazy">
+          <img src="media-logos/forbes.svg" width="200" height="54" alt="Forbes" loading="lazy">
+          <img src="media-logos/cnbc.svg" width="701" height="560" alt="CNBC" loading="lazy">
+          <img src="media-logos/inc.svg" width="220" height="76" alt="Inc." loading="lazy">
+          <img src="media-logos/nyt.svg" width="379" height="64" alt="The New York Times" loading="lazy">
+          <img src="media-logos/cnn.svg" width="1000" height="476" alt="CNN" loading="lazy">
+          <img src="media-logos/cbs.svg" width="240" height="70" alt="CBS" loading="lazy">
+          <img src="media-logos/fox.svg" width="1235" height="1235" alt="FOX" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow center"><span class="pip"></span><span>Five Minutes From Now</span></div>
+      <h2>You Are One <em class="key">Play Button</em><br>From A Better Day</h2>
+      <p>That is the entire ask. Not a course, not a commitment, not a credit card. Press play on today's episode and decide for yourself whether tomorrow's is worth five minutes.</p>
+      <div class="acts">
+        <button class="btn" id="finalPlay">Play Today's Episode <span class="arrow">&rarr;</span></button>
+        <a class="btn-ghost" href="#join">Get The Daily Session <span class="arrow">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="fgrid">
+      <a href="#top"><img class="flogo" src="dd-logo-white.png" alt="DarrenDaily" width="200" height="47" loading="lazy"></a>
+      <div class="flinks">
+        <a href="https://darrendaily.com/">Daily Mentoring</a>
+        <a href="#episodes">Episodes</a>
+        <a href="https://darrenhardy.com/about/">About</a>
+        <a href="https://store.darrenhardy.com/">Store</a>
+        <a href="https://helpme.darrenhardy.com/">Help Center</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; Darren Hardy, LLC. All rights reserved.</span>
+      <span><a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a> &nbsp;&middot;&nbsp; <a href="https://dh.darrenhardy.com/terms-of-service/">Terms of Service</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ STICKY PLAYER ============ -->
+<div class="sticky" id="sticky" role="region" aria-label="Podcast player">
+  <div class="sk-prog" id="prog"><div class="fill" id="fill"></div></div>
+  <div class="sk-body">
+    <img class="sk-art" src="ddod-artwork.webp" alt="" width="52" height="52">
+    <div class="sk-info">
+      <div class="t" id="skTitle"></div>
+      <div class="m" id="skTime">0:00 / 0:00</div>
+    </div>
+    <div class="sk-ctrls">
+      <button class="skb back" id="back15" aria-label="Back 15 seconds">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4L6 8l5 4"/><path d="M6 8h6a6 6 0 1 1-6 6"/></svg>
+        <span class="sec">15</span>
+      </button>
+      <button class="skb main" id="skPlay" aria-label="Play or pause">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="skb" id="fwd30" aria-label="Forward 30 seconds">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4l5 4-5 4"/><path d="M18 8h-6a6 6 0 1 0 6 6"/></svg>
+        <span class="sec">30</span>
+      </button>
+      <button class="sk-rate" id="rate" aria-label="Playback speed">1&times;</button>
+      <button class="skb sk-close" id="skClose" aria-label="Close player">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+<audio id="audio" preload="none"></audio>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ── DATA ──────────────────────────────────────────────────────
+     EPISODES rows: [number, title, ISO date, duration, mp3 filename, blurb]
+     Pulled from darrendailyondemand.libsyn.com/rss on 28 Aug 2026.
+     REVIEWS rows: [reviewer, review title, review body] - every one a real,
+     verbatim 5-star Apple Podcasts review (punctuation only lightly
+     normalised to house style). Add a 4th item (photo path) to any row to
+     swap the monogram placeholder for a real headshot.
+     ──────────────────────────────────────────────────────────── */
+  const EPISODES = [
+  [2030, "How to Identify Your Real Winners in 30 Days (Before They Cost You Everything)", "2026-08-28", "06:25", "DDOD-Episode_2030_Mixdown.mp3", "What happens when you put a hundred-dollar bill on the table every month for showing up?"],
+  [2029, "The Carl Jung Concept That Will Set You Free Today", "2026-08-27", "05:49", "DDOD-Episode_2029_Mixdown.mp3", "Have you ever felt ashamed of a thought you'd never say out loud?"],
+  [2028, "The 95% That Nobody Tells You About Real Success", "2026-08-26", "06:19", "DDOD-Episode_2028_Mixdown.mp3", "Hard isn't a signal to quit. It's often the exact sign you're onto something worth finishing."],
+  [2027, "The 5 Questions That Tell You Exactly When to Quit", "2026-08-25", "06:04", "DDOD-Episode_2027_Mixdown.mp3", "Persistence isn't always the answer. Sometimes it's the very thing standing between you and your next breakthrough."],
+  [2026, "The Million-Dollar Skill Most Entrepreneurs (Mistakenly!) Refuse to Develop", "2026-08-24", "05:09", "DDOD-Episode_2026_Mixdown.mp3", "What if everything you've been told about persistence is a lie? Darren Hardy tears apart the myth that winners never quit, revealing why the most successful entrepreneurs he knows are actually serial quitters."],
+  [2025, "The Day The CEO Got Beat Down by His Own Employees", "2026-08-21", "06:04", "DDOD-Episode_2025_Mixdown.mp3", "A brilliant, well-educated CEO watched a plan that could have lifted sales by fifty percent die in a single meeting, killed not by the market but by his own team."],
+  [2024, "The Most Surprising Motivators to Massive Success", "2026-08-20", "06:15", "DDOD-Episode_2024_Mixdown.mp3", "The moment people start coming after you may be the moment you've finally arrived."],
+  [2023, "What a 1991 CEO Taught Me in 30 Seconds That Changed My Future", "2026-08-19", "06:11", "DDOD-Episode_2023_Mixdown.mp3", "Most people confuse being busy with being productive, and it's quietly stealing the results they're capable of."],
+  [2022, "How to Stop Your Feedback Addiction", "2026-08-18", "06:30", "DDOD-Episode_2022_Mixdown.mp3", "Five innocent words could be quietly destroying your best work: What do you think?"],
+  [2021, "How Successful Leaders (Accidentally!) Destroy Their Own Companies", "2026-08-17", "05:30", "DDOD-Episode_2021_Mixdown.mp3", "The most dangerous threat to your business isn't the competition, the economy, or technology. It's the blind spot you can't see in yourself."],
+  [2020, "This is How To Radically Change the Trajectory of Your Life", "2026-08-14", "04:55", "DDOD-Episode_2020_Mixdown-v2.mp3", "The trajectory of your life determines your destination, but most people are too buried in the daily grind to see where they are actually heading."],
+  [2019, "This is What Doesn't F'ing Matter!", "2026-08-13", "07:01", "DDOD-Episode_2019_Mixdown-v2.mp3", "Almost everyone today lives in a near-constant state of outrage, reacting to headlines, feuds, and trends that have nothing to do with their actual lives."],
+  [2018, "The Default Setting That's Quietly Running Your Entire Life", "2026-08-12", "07:27", "DDOD-Episode_2018_Mixdown-v2.mp3", "Some of the most important truths about your life are the ones hiding in plain sight, so close and so constant that you stop noticing them entirely."],
+  [2017, "The Leverage Lesson That Took Me Three Generations to Learn", "2026-08-11", "08:31", "DDOD-Episode_2017_Mixdown-v2.mp3", "You were probably taught that hard work is the number one key to success. It is not."],
+  [2016, "Your Guide to Owning Any Room You Walk Into", "2026-08-10", "07:55", "DDOD-Episode_2016_Mixdown-v2.mp3", "Some people walk into a room and instantly command it, while others fade into the background before they even speak. What separates the two has almost nothing to do with talent."],
+  [2015, "Why You're Being Undervalued and How to Fix It Today", "2026-08-07", "02:37", "DDOD-Episode_2015_Mixdown.mp3", "The same thing can be worth a fortune in one room and almost nothing in another, and the same is true of you."],
+  [2014, "How to Reclaim the 5+ Hours of Wasted Time Every Single Day", "2026-08-06", "06:58", "DDOD-Episode_2014_Mixdown.mp3", "There is a thief operating inside your business right now, and there is a good chance you have no idea it's happening. Darren Hardy exposes the most expensive theft most leaders never see on the books: stolen time."],
+  [2013, "Why Your Best People Are Secretly Planning Their Exit", "2026-08-05", "05:24", "DDOD-Episode_2013_Mixdown.mp3", "Your top performers may be polishing their resumes right now, and the reason is not money or burnout."],
+  [2012, "How to Learn Anything Faster Than 97% of People", "2026-08-04", "07:24", "DDOD-Episode_2012_Mixdown.mp3", "Most people quietly assume you're either a natural learner or you're not. Darren Hardy dismantles that myth and shows that learning is a trainable skill, one that decades of research confirm is made, not born."],
+  [2011, "The One Question That Reveals Your Path to Mastery", "2026-08-03", "08:59", "DDOD-Episode_2011_Mixdown.mp3", "Trying to be good at everything is exactly why most people end up exceptional at nothing."],
+  [2010, "The One Word That Built a $50 Billion Fortune", "2026-07-31", "07:31", "DDOD-Episode_2010_Mixdown.mp3", "You are probably already doing the same things the people on the cover of Success magazine do."],
+  [2009, "The Two-Word Solution to a Thousand of Your Problems", "2026-07-30", "06:49", "DDOD-Episode_2009_Mixdown.mp3", "Stress eating, procrastination, staying up too late, tolerating the wrong relationships. What if the fix for nearly all of it came down to the same two words?"],
+  [2008, "WARNING! This Is Robbing You Blind Every Single Day", "2026-07-29", "06:03", "DDOD-Episode_2008_Mixdown.mp3", "Imagine someone walked into your office and began lighting hundred-dollar bills on fire, one after another."],
+  [2007, "Learn the Emotional Martial Art Move to Diffuse Any Conflict", "2026-07-28", "04:49", "DDOD-Episode_2007_Mixdown.mp3", "Halfway through a heated argument, have you ever wondered what you're even fighting about?"],
+  [2006, "How to Bounce Back From Failure Faster Than 99% of People", "2026-07-27", "04:21", "DDOD-Episode_2006_Mixdown.mp3", "Failure can feel so crushing it seems impossible to stand back up, yet the people who recover fastest all do the same counterintuitive thing."],
+  [2005, "The 3 Steps That End Procrastination for Good", "2026-07-24", "10:53", "DDOD-Episode_2005_Mixdown.mp3", "If procrastination is emotional rather than logical, then willpower and better time management were never going to fix it."],
+  [2004, "The Real Reason You Procrastinate (It's Not What You Think)", "2026-07-23", "07:37", "DDOD-Episode_2004_Mixdown.mp3", "Procrastination has always been blamed on laziness, weak discipline, or poor time management."],
+  [2003, "Finally! The Key to Finding Freedom", "2026-07-22", "09:24", "DDOD-Episode_2003_Mixdown.mp3", "Unforgiven resentment does not just weigh on your heart. It fuels chronic stress, drains your energy, and quietly sabotages your focus, your decisions, and your success."],
+  [2002, "The Trick that Makes People Obsessed with You", "2026-07-21", "05:19", "DDOD-Episode_2002_Mixdown.mp3", "People don't fall for you because of how impressive you are. They fall for you because of how you make them feel about themselves."],
+  [2001, "Why Women Will Lead the AI Era", "2026-07-20", "08:08", "DDOD-Episode_2001_Mixdown.mp3", "The AI revolution is quietly rewriting what makes a leader effective, and most executives haven't noticed."],
+];
+
+  const REVIEWS = [
+  ["Justin Woodbury", "Simply Life Changing", "If you aren’t listening daily to Darren Daily, you are missing out on life changing information. But listening isn’t good enough- as Darren says, knowledge isn’t power, behavior is. But it all starts with hitting that play button every single day."],
+  ["RaeLen III", "Great Mentoring For Growth", "Darren is my Sherpa, my Guide as I grow and climb my summit of success. Thank you Darren and the A-Team for this resource. I keep growing to be a better Dad, Husband, business owner, and overall human being because of you."],
+  ["Shutter12bug", "Most inspirational podcast with clear actionable steps!!", "I am a big fan of D.Hardy! The topics of choice and how he delivers them in actionable bite sized nuggets of wisdom and strategy is just phenomenal. I don’t start my day without listening to him!!! Thanks for an exceptional podcast!!"],
+  ["pJT. #24", "Fantastic", "Great way to start the day. Short, digestible and quickly applied common sense. Makes me better every day."],
+  ["Reverend Wayne", "Excellent Podcast", "Quick, easy listen on your commute to or from work. Excellent content from a very credible individual."],
+  ["jamesdean77", "#BetterEveryDay", "It is a morning wake-up call, like being awakened by a bugle playing revelry, it gives a quick insight and renewed zeal to hit it once again. Coffee and encouragement each morning!"],
+  ["RhinoDawg", "Traveling? No Problem!", "I appreciate that I don’t have to miss Darren’s message even when I’m traveling! The On Demand Podcast has been a blessing, and if I like a specific message, I can pull it up later! #Rinse&Repeat"],
+  ["Balcbar", "A little a day!", "Personal growth in a couple of minutes a day! I love how the impact is huge for the amount of time that I give it! Thank you for keeping it short but inspirational D!"],
+  ["RaNdOM HuMaN 902", "Definitely worth your time", "I’ve been listening to Darren for 4 years and have gleaned a ton of wisdom, knowledge and direction from him. This isn’t just for business owners, it’s for EVERYONE. Do yourself a favor and pay attention!"],
+  ["Jeff Hennore", "Best Podcast by a Mile!", "Darren has been a life-changing mentor in my life for a while now, and these short clips help me not merely stay motivated but take action as well. They’re short, yet powerful. Highly recommend to anyone looking for direction in their lives. Thanks, Darren!"],
+  ["Txgirl1114", "Daily Dose of Vitamin Darren", "Focused, quality, and immediately applicable advice, motivation, and self-improvement coaching. The daily delivery concept is such a great jump start to beginning each day the right way."],
+  ["Apolitical", "Kick start your Day with the right Mindset", "What a perfect way to start my day! Darren provides not only inspirational but actionable advice on how to grow personally and professionally! It gets me on the right mindset to start my day positive, focused and ready to kick butt!"],
+  ["Mstaebler", "Amazing!", "I have listened to Darren every morning for the last 3 years! I hate the weekends! Now I don’t have to worry! I listen ALL the time having on demand my commute is full of insights and I am getting #bettereveryday"],
+  ["Lavishlyloved", "Business, life, and more", "Darren not only gives great tips to apply to business, but also gives insight that can be used just Day to day! Plus, it’s all in a short timeframe (busy mom life) so I can listen to a Darren episode on my way to the office."],
+  ["KT70", "Got to have my daily dose of Darren!", "Darren Hardy is one of my favorite success mentors! I have to listen to his podcast every day and will even listen to past episodes on the weekend. His advice is practical and simple to follow. I wish I had come across Darren years ago! #bettereveryday"],
+  ["Toki Lotus", "#BetterEveryDay", "Darren got class, humor and some of the best advices out there for success and personal development. I look forward to the new episodes every Tuesday. I’ve seen true, measurable progress in myself. Thank you."],
+  ["LoveAZDesert", "Listen to this daily to change your life for the better!", "DarrenDaily is one of my go to's to get my day off to a great start! He has some of the best ideas and incredible stories that open your mind up to so much more than you ever find on most podcasts."],
+  ["TrentJNeisen", "Your Perfect AM Pep-Talk! (In 5 mins or less)", "I love starting my morning with a little Darren pep talk! The short format is excellent l and provides motivational and inspirational content in a bite-size chunk! No better way to become #BetterEveryDay"],
+  ["JenBradley1", "Delighted by DD on Demand", "I’ve been tuning in to Darren Daily every weekday morning for nearly a year and have loved the inspiration and insights Darren has to offer! This is an A+ resource. Thank you Darren and the A Team!"],
+  ["Bernardhhi", "Short and so very valuable", "Not long and gets right to the point. A great motivation when you need to grab it. Love Darren’s Daily message and this podcast is a collection of the best ones."],
+  ["Huskerredblood", "Must Have Podcast", "I was introduced to DD a couple months ago and haven’t missed a session since. His advice/guidance is perfect for my morning routine, it’s concise, consumable, and to-the-point."],
+  ["Coach.tim", "Perfect success snack", "Darren, thanks for always delivering the just the right bite sized nuggets for success. Easy to digest, and most importantly apply, the Darren Daily information."],
+  ["Crayon2", "Bite Sized and Practical", "I’m an attorney litigator, and I constantly need to listen to positive content like this to stay sane. This show, unlike others, has no ads! It gets straight to the point. The content is short enough to have an impact. Darren is charismatic too. If you’ve ever seen him speak, he’s..."],
+  ["Proverbs for leaders", "Proverbs for leaders", "Small but poignant thought-provoking wisdom applicable for leaders in all sectors, business, home and family, community, NGO, arts, education, and personal growth."],
+  ["Ponytail Grit", "Better Once Again", "Not only does Darren Daily deliver just enough to work on each day but now we get to review, digest and keep these tools fresh!! If you want to continually grow and be your best, you’re in the right place."],
+  ["Flor!!", "Best podcast ever!!", "Listening to DD every day is helping me to be a better leader, mom and wife!! I absolutely loved it!! #bettereveyday"],
+  ["swaggy mama", "Grateful to have a little more...", "Darren daily is short, powerful insight that gives me a positive boost every business morning. SO grateful to have access to just a bit more I can consume later in the day when my mindset can get derailed!"],
+  ["Matt-Artist", "Impact right away", "Each day I’m forwarding these short lessons. It has started some great conversations and positive change."],
+  ["Great Shoe Queen", "A Refresher!", "I listen to this podcast while I’m walking and exercising! It’s a great supplement to the DarrenDaily videos."],
+  ["MaxStrength Fitness", "Kaizen", "One of our company’s core values and mine personally is Kaizen (constant steady improvement). Darren Daily is a daily habit to fulfill that value every weekday and now I can sharpen the saw even more by reviewing the lessons. Thanks for this amazing gift!!!"],
+];
+
+  const AUDIO_BASE = "https://traffic.libsyn.com/secure/darrendailyondemand/";
+
+  /* ── HELPERS ────────────────────────────────────────────────── */
+  const $  = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function prettyDate(iso) {
+    const p = iso.split("-");
+    return MONTHS[+p[1] - 1] + " " + (+p[2]) + ", " + p[0];
+  }
+  function prettyDur(d) {                       // "06:25" -> "6 min"
+    if (!d) return "";
+    const p = d.split(":").map(Number);
+    const secs = p.length === 3 ? p[0]*3600 + p[1]*60 + p[2] : p[0]*60 + (p[1] || 0);
+    return Math.max(1, Math.round(secs / 60)) + " min";
+  }
+  const commas = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  function clock(s) {
+    if (!isFinite(s) || s < 0) s = 0;
+    const m = Math.floor(s / 60), ss = Math.floor(s % 60);
+    return m + ":" + (ss < 10 ? "0" : "") + ss;
+  }
+  const AV_TONES = ["#a72632","#812a37","#1f4f5c","#3d5a80","#7a4a63","#2f6b52","#8a5a1e","#4a4f6b"];
+  function initials(name) {
+    const w = name.replace(/[^A-Za-z ]/g, " ").trim().split(/\s+/).filter(Boolean);
+    if (!w.length) return "DD";
+    return (w[0][0] + (w[1] ? w[1][0] : "")).toUpperCase();
+  }
+  function avatar(name, photo, cls) {
+    // PLACEHOLDER: monogram chip. Pass a photo path to render the real headshot.
+    if (photo) return '<img class="av ' + (cls || "") + '" src="' + esc(photo) + '" alt="' + esc(name) + '" loading="lazy">';
+    let h = 0; for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+    return '<span class="av ' + (cls || "") + '" style="background:' + AV_TONES[h % AV_TONES.length] +
+           '" aria-hidden="true">' + esc(initials(name)) + "</span>";
+  }
+
+  /* ── STATE ──────────────────────────────────────────────────── */
+  let list = EPISODES.slice();      // what the feed renders (grows when the archive loads)
+  let allLoaded = false;
+  let current = null;               // currently loaded episode row
+  const audio = $("#audio");
+  const STORE = "ddod.progress";
+
+  /* ── FEED ───────────────────────────────────────────────────── */
+  const eplist = $("#eplist");
+
+  function epRow(e) {
+    return '<div class="ep" data-file="' + esc(e[4]) + '" role="button" tabindex="0">' +
+      '<button class="ep-play" tabindex="-1" aria-label="Play episode ' + e[0] + '">' +
+        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>' +
+      "<div>" +
+        '<div class="ep-n">Episode <span class="num">' + e[0] + "</span></div>" +
+        "<h3>" + esc(e[1]) + "</h3>" +
+        (e[5] ? "<p>" + esc(e[5]) + "</p>" : "") +
+      "</div>" +
+      '<div class="ep-side">' +
+        '<span class="ep-dur">' + esc(prettyDur(e[3])) + "</span>" +
+        '<span class="ep-date">' + prettyDate(e[2]) + "</span>" +
+      "</div>" +
+    "</div>";
+  }
+
+  function renderFeed(rows) {
+    if (!rows.length) {
+      eplist.innerHTML = '<p class="empty">No episode matches that. Try a single word, like <b>procrastination</b>, <b>leverage</b> or <b>fear</b>.</p>';
+      return;
+    }
+    eplist.innerHTML = rows.map(epRow).join("");
+    markActive();
+  }
+
+  function filtered() {
+    const q = $("#q").value.trim().toLowerCase();
+    if (!q) return list.slice(0, allLoaded ? 200 : list.length);
+    const hits = list.filter(e => (e[1] + " " + (e[5] || "")).toLowerCase().indexOf(q) > -1);
+    return hits.slice(0, 200);
+  }
+
+  $("#q").addEventListener("input", () => {
+    renderFeed(filtered());
+    const q = $("#q").value.trim();
+    const shown = filtered().length;
+    $("#feedNote").textContent = q
+      ? shown + (shown === 200 ? "+" : "") + " of " + commas(list.length) + " episodes match “" + q + "”."
+      : (allLoaded
+          ? "All " + commas(list.length) + " episodes are searchable. Showing the most recent " + shown + "."
+          : "Showing the 30 most recent. The full archive loads straight from the feed.");
+  });
+
+  /* ── FULL ARCHIVE: fetch the live RSS on demand ─────────────── */
+  $("#loadAll").addEventListener("click", function () {
+    const btn = this;
+    if (allLoaded) { document.getElementById("q").focus(); return; }
+    btn.disabled = true;
+    btn.innerHTML = "Loading the archive…";
+    fetch("https://darrendailyondemand.libsyn.com/rss")
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(txt => {
+        const doc = new DOMParser().parseFromString(txt, "application/xml");
+        const items = Array.from(doc.querySelectorAll("item"));
+        if (!items.length) throw new Error("empty feed");
+        const ITU = "http://www.itunes.com/dtds/podcast-1.0.dtd";
+        const rows = [];
+        items.forEach(it => {
+          const encl = it.querySelector("enclosure");
+          const url = encl ? (encl.getAttribute("url") || "").split("?")[0] : "";
+          if (url.indexOf(AUDIO_BASE) !== 0) return;
+          const file = url.slice(AUDIO_BASE.length);
+          // the mp3 filename is authoritative: itunes:episode is missing on
+          // some items in this feed and wrong on at least one.
+          const num = (file.match(/Episode[_-](\d+)/) || [])[1] ||
+                      (it.getElementsByTagNameNS(ITU, "episode")[0] || {}).textContent || "";
+          const dur = (it.getElementsByTagNameNS(ITU, "duration")[0] || {}).textContent || "";
+          const d = new Date(it.querySelector("pubDate").textContent);
+          const iso = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+          rows.push([num ? +num : 0, (it.querySelector("title") || {}).textContent || "Episode", iso, dur, file, ""]);
+        });
+        // keep the hand-written blurbs on the 30 we shipped with
+        const blurbs = {};
+        EPISODES.forEach(e => { blurbs[e[4]] = e[5]; });
+        rows.forEach(r => { if (blurbs[r[4]]) r[5] = blurbs[r[4]]; });
+        list = rows;
+        allLoaded = true;
+        renderFeed(filtered());
+        btn.hidden = true;
+        $("#feedNote").textContent = "All " + commas(list.length) + " episodes are searchable. Showing the most recent " + Math.min(200, list.length) + ", so use the search to reach the rest.";
+        $("#q").focus();
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.innerHTML = 'Browse The Archive On Apple Podcasts <span class="arrow">&rarr;</span>';
+        btn.onclick = () => window.open("https://podcasts.apple.com/us/podcast/darrendaily-on-demand/id1449270369", "_blank", "noopener");
+        $("#feedNote").textContent = "The live feed did not respond. The full archive is one tap away on Apple Podcasts.";
+      });
+  });
+
+  /* ── PLAYER ─────────────────────────────────────────────────── */
+  const sticky = $("#sticky"), fill = $("#fill"), skPlay = $("#skPlay"), heroPlay = $("#heroPlay");
+
+  function byFile(file) {
+    for (let i = 0; i < list.length; i++) if (list[i][4] === file) return list[i];
+    for (let i = 0; i < EPISODES.length; i++) if (EPISODES[i][4] === file) return EPISODES[i];
+    return null;
+  }
+
+  function markActive() {
+    $$(".ep").forEach(el => {
+      const on = current && el.dataset.file === current[4];
+      el.classList.toggle("active", !!on);
+      el.classList.toggle("playing", !!on && !audio.paused);
+      const btn = $(".ep-play", el);
+      if (!btn) return;
+      btn.innerHTML = (on && !audio.paused)
+        ? '<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>'
+        : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    });
+  }
+
+  function paintIcons() {
+    const playing = !audio.paused && !audio.ended;
+    const pauseSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>';
+    const playSvg  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    skPlay.innerHTML = playing ? pauseSvg : playSvg;
+    skPlay.classList.toggle("pause", playing);
+    skPlay.setAttribute("aria-label", playing ? "Pause" : "Play");
+    heroPlay.innerHTML = playing && current && current[4] === EPISODES[0][4] ? pauseSvg : playSvg;
+    heroPlay.classList.toggle("is-playing", playing && current && current[4] === EPISODES[0][4]);
+    markActive();
+  }
+
+  function load(ep, autoplay, seekTo) {
+    if (!ep) return;
+    const same = current && current[4] === ep[4];
+    current = ep;
+    if (!same) {
+      audio.src = AUDIO_BASE + ep[4];
+      audio.load();
+      if (seekTo) audio.addEventListener("loadedmetadata", function once() {
+        audio.currentTime = seekTo; audio.removeEventListener("loadedmetadata", once);
+      });
+    }
+    $("#skTitle").textContent = ep[1];
+    sticky.classList.add("up");
+    document.body.classList.add("playing");
+    $("#resume").classList.remove("show");
+    if (autoplay) {
+      const p = audio.play();
+      if (p && p.catch) p.catch(() => paintIcons());
+    }
+    paintIcons();
+  }
+
+  function toggle(ep) {
+    if (ep && (!current || current[4] !== ep[4])) return load(ep, true);
+    if (audio.paused) { const p = audio.play(); if (p && p.catch) p.catch(() => {}); }
+    else audio.pause();
+  }
+
+  eplist.addEventListener("click", e => {
+    const row = e.target.closest(".ep");
+    if (row) toggle(byFile(row.dataset.file));
+  });
+  eplist.addEventListener("keydown", e => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const row = e.target.closest(".ep");
+    if (row) { e.preventDefault(); toggle(byFile(row.dataset.file)); }
+  });
+
+  heroPlay.addEventListener("click", () => toggle(EPISODES[0]));
+  $("#finalPlay").addEventListener("click", () => {
+    toggle(EPISODES[0]);
+    document.getElementById("episodes").scrollIntoView({ behavior: "smooth" });
+  });
+  skPlay.addEventListener("click", () => toggle(null));
+  $("#back15").addEventListener("click", () => { audio.currentTime = Math.max(0, audio.currentTime - 15); });
+  $("#fwd30").addEventListener("click", () => { audio.currentTime = Math.min(audio.duration || 1e9, audio.currentTime + 30); });
+
+  const RATES = [1, 1.25, 1.5, 2, 0.75];
+  let rateIdx = 0;
+  $("#rate").addEventListener("click", function () {
+    rateIdx = (rateIdx + 1) % RATES.length;
+    audio.playbackRate = RATES[rateIdx];
+    this.innerHTML = RATES[rateIdx] + "&times;";
+  });
+
+  $("#skClose").addEventListener("click", () => {
+    audio.pause();
+    sticky.classList.remove("up");
+    document.body.classList.remove("playing");
+  });
+
+  $("#prog").addEventListener("click", function (e) {
+    if (!audio.duration) return;
+    const r = this.getBoundingClientRect();
+    audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+  });
+
+  audio.addEventListener("play", paintIcons);
+  audio.addEventListener("pause", paintIcons);
+  audio.addEventListener("timeupdate", () => {
+    const d = audio.duration || 0;
+    fill.style.width = d ? (audio.currentTime / d) * 100 + "%" : "0%";
+    $("#skTime").textContent = clock(audio.currentTime) + " / " + (d ? clock(d) : "…");
+    if (current && audio.currentTime > 3) {
+      try {
+        localStorage.setItem(STORE, JSON.stringify({ f: current[4], t: audio.currentTime, n: current[1] }));
+      } catch (err) { /* private mode */ }
+    }
+  });
+  audio.addEventListener("ended", () => {
+    // autoplay the next one down the feed: momentum is the whole point
+    const i = list.findIndex(e => e[4] === current[4]);
+    if (i > -1 && list[i + 1]) load(list[i + 1], true);
+    else paintIcons();
+    try { localStorage.removeItem(STORE); } catch (err) {}
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.target.matches("input, textarea, select") || !current) return;
+    if (e.code === "Space") { e.preventDefault(); toggle(null); }
+    if (e.code === "ArrowLeft")  audio.currentTime = Math.max(0, audio.currentTime - 15);
+    if (e.code === "ArrowRight") audio.currentTime = Math.min(audio.duration || 1e9, audio.currentTime + 30);
+  });
+
+  /* ── HERO CARD + RESUME ─────────────────────────────────────── */
+  const latest = EPISODES[0];
+  $("#heroTitle").textContent = latest[1];
+  // nowrap each segment so a narrow card breaks between them, never inside one
+  $("#heroMeta").innerHTML = ["Episode " + latest[0], prettyDate(latest[2]), prettyDur(latest[3])]
+    .map(t => '<span style="white-space:nowrap">' + t + "</span>").join(" &nbsp;&middot;&nbsp; ");
+  $("#heroBlurb").innerHTML = "<b>" + esc(latest[5]) + "</b>";
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORE) || "null");
+    if (saved && saved.f && byFile(saved.f)) {
+      $("#resumeTitle").textContent = byFile(saved.f)[1] + "  (" + clock(saved.t) + " in)";
+      $("#resume").classList.add("show");
+      $("#resumeGo").addEventListener("click", () => load(byFile(saved.f), true, saved.t));
+    }
+  } catch (err) { /* private mode: skip the resume chip */ }
+
+  renderFeed(list);
+
+  /* ── REVIEW WALL ────────────────────────────────────────────── */
+  function rcard(r) {
+    return '<figure class="rcard">' +
+      '<div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>' +
+      '<figcaption class="rt">' + esc(r[1]) + "</figcaption>" +
+      '<blockquote class="rc">' + esc(r[2]) + "</blockquote>" +
+      '<div class="rmeta">' + avatar(r[0], r[3]) +
+        '<div><div class="who">' + esc(r[0]) + '</div><div class="src">Apple Podcasts review</div></div>' +
+      "</div></figure>";
+  }
+  (function buildWall() {
+    const half = Math.ceil(REVIEWS.length / 2);
+    const a = REVIEWS.slice(0, half), b = REVIEWS.slice(half);
+    // each row is rendered twice so the -50% translate loops seamlessly
+    $("#row1").innerHTML = (a.map(rcard).join("")).repeat(2);
+    $("#row2").innerHTML = (b.map(rcard).join("")).repeat(2);
+    $("#joinFaces").innerHTML = REVIEWS.slice(0, 4).map(r => avatar(r[0], r[3])).join("");
+  })();
+
+  /* ── HUBSPOT OPT-IN ─────────────────────────────────────────── */
+  (function optin() {
+    const target = $("#ddJoinForm"), fallback = $("#joinFallback");
+    let done = false;
+    const css = document.createElement("style");
+    css.textContent = [
+      ".dd-hsform .hs-form fieldset { max-width: none !important; }",
+      ".dd-hsform .hs-form .form-columns-2, .dd-hsform .hs-form .form-columns-1 { display: block; }",
+      ".dd-hsform .hs-form .hs-form-field { width: 100% !important; float: none !important; padding: 0 !important; margin-bottom: 12px; min-width: 0; }",
+      ".dd-hsform .hs-form .hs-form-field > label { display: block; font-size: 12px; font-weight: 600; color: #616a78; margin-bottom: 5px; }",
+      ".dd-hsform .hs-form .hs-form-required { color: #a72632; margin-left: 2px; }",
+      ".dd-hsform .hs-form .input { margin: 0 !important; }",
+      ".dd-hsform .hs-form .hs-input { width: 100% !important; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; font-size: 15px; color: #14171c; padding: 16px; border: 1.5px solid rgba(20,23,28,.12); border-radius: 4px; background: #fff; transition: border-color .18s, box-shadow .18s; }",
+      ".dd-hsform .hs-form .hs-input:focus { outline: none; border-color: #a72632; box-shadow: 0 0 0 3px rgba(167,38,50,.16); }",
+      ".dd-hsform .hs_mobilephone, .dd-hsform .hs_text_messaging_optin_property, .dd-hsform .legal-consent-container { display: none !important; }",
+      ".dd-hsform .hs-error-msgs { list-style: none; margin: 5px 0 0; padding: 0; }",
+      ".dd-hsform .hs-error-msg { color: #a72632; font-size: 12.5px; }",
+      ".dd-hsform .hs_submit .actions { margin: 6px 0 0; padding: 0; }",
+      ".dd-hsform .hs-button { width: 100%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-family: 'Inter', -apple-system, sans-serif; font-weight: 800; font-size: 12.5px; letter-spacing: .2em; text-transform: uppercase; padding: 19px 22px; border-radius: 4px; background: #a72632; color: #fff; border: 2px solid #a72632; box-shadow: 0 14px 30px -12px rgba(167,38,50,.5); transition: transform .2s, box-shadow .2s; -webkit-appearance: none; appearance: none; }",
+      ".dd-hsform .hs-button:hover { transform: translateY(-2px) scale(1.015); }"
+    ].join("\n");
+    document.head.appendChild(css);
+
+    function showFallback() { if (!done) { fallback.hidden = false; } }
+
+    // Never serialise the fields into a URL. If HubSpot is unavailable, hand
+    // the person to the real opt-in page and let it collect the details.
+    fallback.addEventListener("submit", function (e) {
+      e.preventDefault();
+      window.location.href = "https://darrendaily.com/join";
+    });
+
+    const s = document.createElement("script");
+    s.src = "https://js.hsforms.net/forms/embed/v2.js";
+    s.async = true;
+    s.onload = function () {
+      if (!window.hbspt) return showFallback();
+      try {
+        window.hbspt.forms.create({
+          region: "na1",
+          portalId: "2518645",
+          formId: "e74fd54c-8940-43db-99e5-6f016b6dfc8a",
+          target: "#ddJoinForm",
+          onFormReady: function (form) {
+            done = true;
+            fallback.hidden = true;
+            const root = form && form.length ? form[0] : target;
+            const btn = root.querySelector(".hs-button");
+            if (btn) { const t = "Start My Morning Edge →"; btn.tagName === "INPUT" ? (btn.value = t) : (btn.textContent = t); }
+          }
+        });
+      } catch (err) { showFallback(); }
+    };
+    s.onerror = showFallback;
+    document.head.appendChild(s);
+    setTimeout(showFallback, 6000);   // blocked or slow: never leave a dead card
+  })();
+
+  /* ── NAV + REVEALS ──────────────────────────────────────────── */
+  const nav = $("#nav");
+  addEventListener("scroll", () => nav.classList.toggle("stuck", scrollY > 12), { passive: true });
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+  $$(".reveal, .stagger").forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>
