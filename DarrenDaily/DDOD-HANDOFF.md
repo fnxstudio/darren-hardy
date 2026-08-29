@@ -13,7 +13,9 @@ it sits next to the DD home / welcome / expired pages without a reskin.
 Get a visitor listening inside ten seconds, then ask for the daily-mentoring
 opt-in once they have heard what the show is.
 
-- The hero **is** a player. Newest episode already loaded, one tap to play.
+- The hero **is** a player, labelled "Featured Episode", one tap to play.
+  It shows `EPISODES[0]`, the newest baked episode. To feature a different
+  one instead, reorder that row to the top of the array.
 - A **sticky bottom player** follows them down the page, so browsing never
   interrupts listening. Back 15 / forward 30, speed toggle, scrubber,
   keyboard (space, left, right).
