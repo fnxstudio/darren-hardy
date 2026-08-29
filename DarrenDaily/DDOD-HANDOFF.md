@@ -19,9 +19,36 @@ opt-in once they have heard what the show is.
 - A **sticky bottom player** follows them down the page, so browsing never
   interrupts listening. Back 15 / forward 30, speed toggle, scrubber,
   keyboard (space, left, right).
-- **Autoplay-next** at the end of an episode, straight down the feed.
+- **Six curated playlists** sit above the archive, so a visitor can self-select
+  on identity ("I run a team") or need ("this week is a fight") instead of
+  scrolling a list of 1,519. Tapping one loads it into the feed, starts episode
+  one, and autoplay walks that run rather than the archive.
+- **Autoplay-next** at the end of an episode, down whichever list is open.
 - **Resume where you stopped** on the next visit (localStorage).
-- The episode feed is the second section, not buried at the bottom.
+- The episode feed is the third section, not buried at the bottom.
+
+## The playlists
+
+Defined in `PLAYLISTS` near the top of the script: `[name, who it is for,
+[mp3 filenames in play order]]`. Episodes a playlist reaches that are not in
+the recent 30 are baked into `POOL`, so a run starts instantly without waiting
+on the archive fetch.
+
+| Run | For | Episodes |
+|---|---|---|
+| Leading People | anyone with a team | 8, 52 min |
+| Building The Business | founders and owners | 8, 49 min |
+| Getting It Done | procrastination, focus, time | 8, 54 min |
+| When It's Hard | fear, failure, setbacks | 8, 44 min |
+| The Inner Game | beliefs, confidence, ceilings | 8, 45 min |
+| Winning People Over | influence, trust, first impressions | 8, 44 min |
+
+Hand-picked off the full 1,519-episode archive against a keyword pass, then
+filtered by hand. Rules applied, worth keeping if you edit them: nothing over
+11 minutes (the page promises five-minute episodes, and the AMA and BONUS
+shows run to an hour), no episode used in two runs, and multi-part series kept
+together and in order. To reorder or swap, edit the filename list; to add an
+episode from outside the recent 30, add its row to `POOL` too.
 
 ## Where the data comes from
 

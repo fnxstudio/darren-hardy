@@ -311,6 +311,50 @@
   .shead p { font-size: clamp(15.5px, 1.15vw, 18px); line-height: 1.62; color: var(--muted); margin-top: 18px; }
   .shead p b { color: var(--ink); font-weight: 700; }
 
+  /* ============ PLAYLISTS ============ */
+  .pls { padding: 88px 0 76px; background: var(--mist); }
+  .pl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px; }
+  .pl {
+    position: relative; text-align: left; background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 30px 28px 26px; box-shadow: 0 2px 18px rgba(20,23,28,.05);
+    display: flex; flex-direction: column; gap: 0; cursor: pointer; overflow: hidden;
+    transition: border-color .2s, transform .2s var(--ease), box-shadow .2s;
+  }
+  .pl::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--accent);
+    transform: scaleY(0); transform-origin: top; transition: transform .24s var(--ease); }
+  .pl:hover { transform: translateY(-3px); border-color: rgba(var(--accent-rgb), .45); box-shadow: 0 24px 46px -26px rgba(20,23,28,.4); }
+  .pl:hover::before, .pl.on::before { transform: scaleY(1); }
+  .pl.on { border-color: var(--accent); box-shadow: 0 24px 46px -26px rgba(var(--accent-rgb), .55); }
+  .pl-n { font-size: 10.5px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--soft); }
+  .pl.on .pl-n { color: var(--accent); }
+  .pl h3 { font-size: clamp(19px, 1.6vw, 23px); text-transform: uppercase; margin: 11px 0 0; letter-spacing: -.025em; }
+  .pl p { font-size: 14px; line-height: 1.55; color: var(--muted); margin-top: 10px; flex: 1; }
+  .pl-foot { display: flex; align-items: center; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
+  .pl-go {
+    width: 40px; height: 40px; flex: none; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 22px -10px rgba(var(--accent-rgb), .7); transition: transform .2s var(--ease);
+  }
+  .pl:hover .pl-go { transform: scale(1.09); }
+  .pl-go svg { width: 14px; height: 14px; margin-left: 2px; }
+  .pl.on .pl-go svg { margin-left: 0; }
+  .pl-meta { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--soft); line-height: 1.4; }
+  .pl-meta b { color: var(--ink); }
+  @media (max-width: 980px) { .pl-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .pl-grid { grid-template-columns: 1fr; gap: 14px; } .pl { padding: 24px 22px 22px; } }
+
+  /* active-playlist banner above the feed */
+  .ctx { display: none; align-items: center; gap: 14px; flex-wrap: wrap;
+    background: rgba(var(--accent-rgb), .06); border: 1px solid rgba(var(--accent-rgb), .3);
+    border-radius: var(--radius); padding: 13px 18px; margin-bottom: 22px; }
+  .ctx.show { display: flex; }
+  .ctx .k { font-size: 10.5px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+  .ctx .v { font-size: 14.5px; font-weight: 700; color: var(--ink); flex: 1 1 auto; }
+  .ctx .v span { font-weight: 500; color: var(--soft); }
+  .ctx button { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink); border: 1.5px solid var(--line); border-radius: 3px; padding: 9px 14px; transition: border-color .18s, color .18s; }
+  .ctx button:hover { border-color: var(--accent); color: var(--accent); }
+
   /* ============ FEED ============ */
   .feed { padding: 92px 0 84px; }
   .feed-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; margin-bottom: 34px; }
@@ -365,6 +409,8 @@
   @media (prefers-reduced-motion: reduce) { .bars i { animation: none; } }
   .feed-more { text-align: center; margin-top: 40px; }
   .feed-note { font-size: 12.5px; color: var(--soft); margin-top: 14px; }
+  /* fine print keeps the line's grey, underline only, never the accent */
+  .feed-note a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
   .empty { padding: 46px 4px; color: var(--soft); font-size: 15px; }
   @media (max-width: 860px) {
     .ep { grid-template-columns: 44px 1fr; gap: 14px; }
@@ -510,6 +556,7 @@
   .sk-info { min-width: 0; flex: 1; }
   .sk-info .t { font-size: 14px; font-weight: 700; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sk-info .m { font-size: 11.5px; color: rgba(255,255,255,.6); margin-top: 4px; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+  .sk-info .m .plname { color: var(--accent-bright); font-weight: 700; }
   .sk-ctrls { display: flex; align-items: center; gap: 8px; flex: none; }
   .skb {
     width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
@@ -545,6 +592,7 @@
   </a>
   <div class="nav-links">
     <a href="#listen">Listen</a>
+    <a href="#playlists">Playlists</a>
     <a href="#episodes">Episodes</a>
     <a href="#reviews">Reviews</a>
     <a href="#join">Daily Mentoring</a>
@@ -632,6 +680,18 @@
   </div>
 </section>
 
+<!-- ============ CURATED PLAYLISTS ============ -->
+<section class="pls" id="playlists">
+  <div class="container">
+    <div class="shead center reveal">
+      <div class="eyebrow center"><span class="pip"></span><span>Curated Runs</span></div>
+      <h2>Pick The One That <em class="key">Sounds Like Your Week</em></h2>
+      <p>Six short runs through the archive, built around what actually lands on your desk. <b>Tap one and it plays straight through.</b></p>
+    </div>
+    <div class="pl-grid stagger reveal" id="plGrid"></div>
+  </div>
+</section>
+
 <!-- ============ EPISODE FEED ============ -->
 <section class="feed" id="episodes">
   <div class="container">
@@ -645,6 +705,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
         <input type="search" id="q" placeholder="Search 1,519 episodes" aria-label="Search episodes">
       </div>
+    </div>
+
+    <div class="ctx" id="ctx">
+      <span class="k">Now playing</span>
+      <span class="v" id="ctxName"></span>
+      <button id="ctxClear">Show all episodes</button>
     </div>
 
     <div class="eplist" id="eplist"></div>
@@ -927,6 +993,64 @@
   ["MaxStrength Fitness", "Kaizen", "One of our company’s core values and mine personally is Kaizen (constant steady improvement). Darren Daily is a daily habit to fulfill that value every weekday and now I can sharpen the saw even more by reviewing the lessons. Thanks for this amazing gift!!!"],
 ];
 
+
+  /* POOL: episodes that only a curated playlist reaches, so they are baked in
+     alongside the recent 30 rather than waiting on the live archive fetch.
+     Same row shape as EPISODES. A 0 in the first slot means the mp3 filename
+     carried no episode number (true of some pre-2024 shows); the feed prints
+     the date instead.
+     PLAYLISTS rows: [name, who it is for, [mp3 filenames, in play order]].
+     Hand-picked off the full 1,519-episode archive, nothing over 11 minutes,
+     no episode used twice. */
+  const POOL = [
+  [1985, "The One Question Great Leaders Ask That Most Managers Fear", "2026-06-26", "05:36", "DDOD-Episode_1985_Mixdown.mp3", "Fifty million people woke at 4 AM to watch a six-nation field hockey tournament that could have devolved into a brawl in the first 60 seconds."],
+  [1898, "The Hiring Mistake That's Quietly Killing Your Culture", "2026-02-25", "07:58", "DDOD-Episode_1898_Mixdown.mp3", "Can discipline really be taught, or are most leaders solving the wrong problem entirely? Darren Hardy shares a candid insight that reshapes how you think about performance, culture, and accountability."],
+  [1893, "The One Question that Instantly Fixes Team Dysfunction", "2026-02-18", "05:40", "DDOD-Episode_1893_Mixdown.mp3", "Meetings happen. Conversations happen. Frustration grows. Yet outcomes stay the same."],
+  [0, "Stop 'Coaching' People. Instead Do This.", "2024-09-12", "06:08", "DDOD_Episode1508_mixdown.mp3", "Ready to unlock extraordinary results in your leadership? Darren reveals a groundbreaking approach in this episode: become a catalyst, not a coach."],
+  [0, "Unmasking the Motives of A-Players", "2023-10-05", "06:46", "DDOD_Episode1263_mixdown.mp3", "\"Discover how you might be driving your A-players away without even knowing it. Darren Hardy reveals the unconventional wisdom about what truly motivates these invaluable team members."],
+  [1914, "The Dark Side of Servant Leadership", "2026-03-19", "08:19", "DDOD-Episode_1914_Mixdown.mp3", "A lot of leaders pride themselves on being supportive, accommodating, and widely liked."],
+  [0, "3 Keys to Grow Your Business", "2025-04-16", "06:57", "DDOD_Episode1673_mixdown.mp3", "Most overcomplicate business growth. Darren Hardy breaks down a surprising framework that cuts through the noise."],
+  [1983, "The Hidden Profit Leak Costing You 10X More Than You Think", "2026-06-24", "06:42", "DDOD-Episode_1983_Mixdown.mp3", "A single cobweb in an otherwise perfect dental office wiped out thousands of dollars in lifetime customer value and referrals. One patient. One detail."],
+  [1773, "Selling Is Dead. Here's What Top Performers Do Instead", "2025-09-03", "04:18", "DDOD-Episode_1773_Mixdown.mp3", "Sales isn't about pushing products or chasing transactions. Darren Hardy reveals a surprising perspective that reframes what your real job is in selling."],
+  [1957, "A Killer Strategy Your Competition Can't Copy", "2026-05-19", "05:57", "DDOD-Episode_1957_Mixdown.mp3", "The easiest competitive strategy to copy is also the least defensible."],
+  [1885, "The Small Shift That Gets Customers Raving", "2026-02-06", "06:30", "DDOD-Episode_1885_Mixdown.mp3", "Most businesses pour energy into marketing while overlooking what actually drives growth. Darren Hardy unpacks a deceptively simple truth behind referrals, reputation, and repeat business."],
+  [1996, "How to Build Loyalty Money Can't Buy", "2026-07-13", "05:28", "DDOD-Episode_1996_Mixdown.mp3", "A third-grade teacher once warned that he'd grow up to be either a gangster or someone who did a lot of good. He chose to build better systems."],
+  [0, "Key Systems to Scale Hyper-Growth", "2023-11-07", "07:35", "DDOD_Episode1286_mixdown.mp3", "Ever felt like a dog sitting on a nail? In this episode Darren unveils the overlooked power of system building in business."],
+  [1982, "Why Your Morning Routine is Sabotaging Your Success", "2026-06-23", "07:25", "DDOD-Episode_1982_Mixdown.mp3", "Discipline is not a character trait. Darren Hardy makes the case that relying on discipline is a sign the system is broken, not a sign of strength."],
+  [2000, "99% of Your Calendar is Wasted on This (Fix It Now!)", "2026-07-17", "07:15", "DDOD-Episode_2000_Mixdown.mp3", "Look at your calendar today. Almost all of it is about building your resume."],
+  [1904, "The Discipline of NO", "2026-03-05", "04:01", "DDOD-Episode_1904_Mixdown.mp3", "One small word separates the overwhelmed from the extraordinary."],
+  [0, "How to (Successfully!) Block Out Distractions", "2024-12-04", "05:18", "DDOD_Episode1576_mixdown.mp3", "Are distractions keeping you from achieving your full potential?"],
+  [1837, "The Silent Productivity Killer That's Draining 10% of Your Income", "2025-12-02", "04:25", "DDOD-Episode_1837_Mixdown.mp3", "Darren raises a question that cuts straight to how results are created. It challenges the way you think about performance, investment, and the people who help drive your ambitions forward."],
+  [1836, "How to Banish Fear & Anxiety Permanently", "2025-12-01", "06:03", "DDOD-Episode_1836_Mixdown.mp3", "A quiet moment of uncertainty led to an unexpected turning point, one Darren Hardy shares with striking clarity."],
+  [1807, "The Real Cause of Failure (& Success!)", "2025-10-21", "07:23", "DDOD-Episode_1807_Mixdown.mp3", "Darren exposes a hidden truth: failure rarely lands suddenly. It's the result of upstream forces you rarely inspect."],
+  [0, "Transforming Setbacks into Comebacks", "2024-04-06", "04:46", "DDOD_Episode1395_mixdown.mp3", "In an insightful journey, Darren Hardy uncovers the power behind turning misfortune into a launching pad for greatness."],
+  [1766, "High Achievers Hide This Secret Struggle. Do You?", "2025-08-25", "09:54", "DDOD-Episode_1766_Mixdown.mp3", "Feeling stuck is universal. Whether you're at the top of your game or struggling to get momentum. Darren Hardy reminds us that the greatest threat isn't failure."],
+  [1962, "The One Choice That Eliminates Daily Anxiety", "2026-05-26", "03:26", "DDOD-Episode_1962_Mixdown-v2.mp3", "Most of us assume stress comes from outside, from deadlines, from people, from the news."],
+  [1819, "How to Instantly Diffuse Your Stress", "2025-11-06", "01:43", "DDOD-Episode_1819_Mixdown.mp3", "Stress is sneaky. It creeps in, takes over, and blinds you to what really matters."],
+  [0, "Break Through Self-Limiting Beliefs Part 1", "2021-07-20", "05:11", "DDOD_Episode684_mixdown.mp3", "Today begins a three-part series that tackles the #1 killer of your success. Listen in as Darren helps you to conquer the various enemies within that breed self-doubt and lack of belief in one's self."],
+  [0, "Break Through Self-Limiting Beliefs Part 2", "2021-07-21", "03:19", "DDOD_Episode685_mixdown.mp3", "In this episode, Darren reveals the second enemy or limiting belief that blocks you from reaching your potential."],
+  [0, "Break Through Self-Limiting Beliefs Part 3", "2021-07-22", "05:05", "DDOD_Episode686_mixdown.mp3", "Finally, Darren shares the third enemy that blocks you form your greater potential."],
+  [0, "Are Your Beliefs Really Your Own?", "2025-03-19", "05:36", "DDOD_Episode1653_mixdown.mp3", "What happens when you challenge everything people believe to be true? History has shown that questioning the status quo can come at a high price."],
+  [0, "Gain Unshakeable Confidence TODAY!", "2024-12-16", "03:41", "DDOD_Episode1586_mixdown.mp3", "Contrary to popular belief, confidence isn't something you start with. It's something you earn. Darren Hardy reveals the truth about building lasting confidence and how success is the foundation."],
+  [1941, "The Brutal Question That Forces Breakthrough Decisions", "2026-04-27", "05:55", "DDOD-Episode_1941_Mixdown.mp3", "Most leaders already know what needs to change. The harder problem is seeing it clearly enough to act."],
+  [1816, "How to Shatter Every Ceiling You Think You've Hit", "2025-11-03", "09:06", "DDOD-Episode_1816_Mixdown.mp3", "Ever wondered if \"limits\" are real or invented? Darren Hardy rips open the story you tell yourself with sharp stories and one simple practice that proves progress is endless."],
+  [1834, "The Gratitude That You Don't Want to Feel", "2025-11-27", "07:12", "DDOD-Episode_1834_Mixdown.mp3", "Gratitude for the good things is simple. But Darren Hardy challenges you to look deeper towards the kind of gratitude that shapes character, fuels resilience, and forges long-term strength."],
+  [1865, "The Psychology of Persuasion No One Talks About", "2026-01-09", "06:00", "DDOD-Episode_1865_Mixdown.mp3", "Darren challenges everything you have been taught about persuasion. After years in high-stakes conversations, he points to a smarter path where agreement forms without pushing, defending, or chasing."],
+  [1852, "How to Make People Instantly Trust You", "2025-12-23", "05:33", "DDOD-Episode_1852_Mixdown.mp3", "Darren has watched brilliant people lose rooms in seconds while others with ordinary ideas gained instant belief."],
+  [1870, "Mastering the First Impression Game", "2026-01-16", "03:18", "DDOD-Episode_1870_Mixdown.mp3", "The brain decides faster than most people realize."],
+  [1992, "How to Have Magnetic Charisma (3 Secrets)", "2026-07-07", "04:37", "DDOD-Episode_1992_Mixdown.mp3", "Most people think charisma is a mystical gift you're either born with or not. It isn't. Darren Hardy draws on research from Princeton's Dr."],
+  [1874, "Why Introverts Make the Most Powerful Influencers", "2026-01-22", "03:59", "DDOD-Episode_1874_Mixdown.mp3", "When Darren Hardy walked into a boardroom convinced he was about to fail publicly, what happened next rewired everything he believed about confidence, communication, and influence."],
+  [1770, "How to Command Respect Without Saying a Word", "2025-08-29", "06:15", "DDOD-Episode_1770_Mixdown.mp3", "Your face speaks volumes. Even when you're not saying a word. Darren Hardy reveals how our faces often tell a story we never intended."],
+  [1848, "The Wolf of Wall Street's Billion-Dollar Communication Secret", "2025-12-17", "06:10", "DDOD-Episode_1848_Mixdown.mp3", "What would you do if a classic film scene held a blueprint that could dramatically elevate how others respond to you?"],
+];
+  const PLAYLISTS = [
+  ["Leading People", "You run a team, and the hard part was never the work.", ["DDOD-Episode_1985_Mixdown.mp3", "DDOD-Episode_1898_Mixdown.mp3", "DDOD-Episode_2025_Mixdown.mp3", "DDOD-Episode_1893_Mixdown.mp3", "DDOD_Episode1508_mixdown.mp3", "DDOD_Episode1263_mixdown.mp3", "DDOD-Episode_1914_Mixdown.mp3", "DDOD-Episode_2021_Mixdown.mp3"]],
+  ["Building The Business", "Growth, margin, and the parts nobody warns a founder about.", ["DDOD_Episode1673_mixdown.mp3", "DDOD-Episode_1983_Mixdown.mp3", "DDOD-Episode_1773_Mixdown.mp3", "DDOD-Episode_1957_Mixdown.mp3", "DDOD-Episode_2026_Mixdown.mp3", "DDOD-Episode_1885_Mixdown.mp3", "DDOD-Episode_1996_Mixdown.mp3", "DDOD_Episode1286_mixdown.mp3"]],
+  ["Getting It Done", "For the week that is already ahead of you.", ["DDOD-Episode_2004_Mixdown.mp3", "DDOD-Episode_2005_Mixdown.mp3", "DDOD-Episode_1982_Mixdown.mp3", "DDOD-Episode_2000_Mixdown.mp3", "DDOD-Episode_1904_Mixdown.mp3", "DDOD_Episode1576_mixdown.mp3", "DDOD-Episode_1837_Mixdown.mp3", "DDOD-Episode_2014_Mixdown.mp3"]],
+  ["When It's Hard", "Fear, failure, and the days you would rather skip.", ["DDOD-Episode_2006_Mixdown.mp3", "DDOD-Episode_1836_Mixdown.mp3", "DDOD-Episode_1807_Mixdown.mp3", "DDOD-Episode_2027_Mixdown.mp3", "DDOD_Episode1395_mixdown.mp3", "DDOD-Episode_1766_Mixdown.mp3", "DDOD-Episode_1962_Mixdown-v2.mp3", "DDOD-Episode_1819_Mixdown.mp3"]],
+  ["The Inner Game", "The ceiling is rarely where you think it is.", ["DDOD_Episode684_mixdown.mp3", "DDOD_Episode685_mixdown.mp3", "DDOD_Episode686_mixdown.mp3", "DDOD_Episode1653_mixdown.mp3", "DDOD_Episode1586_mixdown.mp3", "DDOD-Episode_1941_Mixdown.mp3", "DDOD-Episode_1816_Mixdown.mp3", "DDOD-Episode_1834_Mixdown.mp3"]],
+  ["Winning People Over", "Influence, trust, and walking into a room properly.", ["DDOD-Episode_1865_Mixdown.mp3", "DDOD-Episode_1852_Mixdown.mp3", "DDOD-Episode_1870_Mixdown.mp3", "DDOD-Episode_1992_Mixdown.mp3", "DDOD-Episode_1874_Mixdown.mp3", "DDOD-Episode_1770_Mixdown.mp3", "DDOD-Episode_1848_Mixdown.mp3", "DDOD-Episode_2016_Mixdown-v2.mp3"]],
+];
   const AUDIO_BASE = "https://traffic.libsyn.com/secure/darrendailyondemand/";
 
   /* ── HELPERS ────────────────────────────────────────────────── */
@@ -966,9 +1090,12 @@
   }
 
   /* ── STATE ──────────────────────────────────────────────────── */
-  let list = EPISODES.slice();      // what the feed renders (grows when the archive loads)
+  let archive = EPISODES.slice();   // the non-playlist feed (grows when the archive loads)
+  let list = archive;               // what the feed renders and what autoplay walks
+  let activePl = null;              // index into PLAYLISTS, or null
   let allLoaded = false;
   let current = null;               // currently loaded episode row
+  let skPrefix = "";                // playlist context shown in the sticky player
   const audio = $("#audio");
   const STORE = "ddod.progress";
 
@@ -980,7 +1107,9 @@
       '<button class="ep-play" tabindex="-1" aria-label="Play episode ' + e[0] + '">' +
         '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>' +
       "<div>" +
-        '<div class="ep-n">Episode <span class="num">' + e[0] + "</span></div>" +
+        '<div class="ep-n">' + (e[0]
+            ? 'Episode <span class="num">' + e[0] + "</span>"
+            : prettyDate(e[2]).toUpperCase()) + "</div>" +
         "<h3>" + esc(e[1]) + "</h3>" +
         (e[5] ? "<p>" + esc(e[5]) + "</p>" : "") +
       "</div>" +
@@ -1007,8 +1136,8 @@
     return hits.slice(0, 200);
   }
 
-  $("#q").addEventListener("input", () => {
-    renderFeed(filtered());
+  function updateNote(loading) {
+    if (loading) { $("#feedNote").textContent = "Searching all 1,519 episodes…"; return; }
     const q = $("#q").value.trim();
     const shown = filtered().length;
     $("#feedNote").textContent = q
@@ -1016,15 +1145,36 @@
       : (allLoaded
           ? "All " + commas(list.length) + " episodes are searchable. Showing the most recent " + shown + "."
           : "Showing the 30 most recent. The full archive loads straight from the feed.");
+  }
+
+  // Debounced: once the archive is open the feed re-renders against 1,519
+  // rows, which is not something to do on every keystroke.
+  let searchTimer = null;
+  function runSearch() {
+    const q = $("#q").value.trim();
+    if (activePl !== null && q) clearPlaylist(true);
+    renderFeed(filtered());
+    // Typing is signal enough to go and fetch the rest. Without this, a search
+    // for "fear" reports no match while 18 of them sit in the unfetched archive.
+    if (q && !allLoaded) {
+      updateNote(true);
+      // Repaint on success only. On failure ensureArchive has already written a
+      // retry message, and this must not bury it under a false "no match".
+      ensureArchive().then(() => { if (allLoaded) { renderFeed(filtered()); updateNote(); } });
+      return;
+    }
+    updateNote();
+  }
+  $("#q").addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(runSearch, 180);
   });
 
   /* ── FULL ARCHIVE: fetch the live RSS on demand ─────────────── */
-  $("#loadAll").addEventListener("click", function () {
-    const btn = this;
-    if (allLoaded) { document.getElementById("q").focus(); return; }
-    btn.disabled = true;
-    btn.innerHTML = "Loading the archive…";
-    fetch("https://darrendailyondemand.libsyn.com/rss")
+  let archivePromise = null;
+  function ensureArchive() {
+    if (archivePromise) return archivePromise;
+    archivePromise = fetch("https://darrendailyondemand.libsyn.com/rss")
       .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(txt => {
         const doc = new DOMParser().parseFromString(txt, "application/xml");
@@ -1050,28 +1200,104 @@
         const blurbs = {};
         EPISODES.forEach(e => { blurbs[e[4]] = e[5]; });
         rows.forEach(r => { if (blurbs[r[4]]) r[5] = blurbs[r[4]]; });
-        list = rows;
+        rows.forEach(r => { if (!INDEX[r[4]]) INDEX[r[4]] = r; });
+        archive = rows;
+        if (activePl === null) list = archive;
         allLoaded = true;
+        $("#loadAll").hidden = true;
         renderFeed(filtered());
-        btn.hidden = true;
-        $("#feedNote").textContent = "All " + commas(list.length) + " episodes are searchable. Showing the most recent " + Math.min(200, list.length) + ", so use the search to reach the rest.";
-        $("#q").focus();
+        updateNote();
       })
-      .catch(() => {
+      .catch(err => {
+        // A dropped request must not cost the visitor the archive for good, so
+        // put the button back the way it was and let the next click retry.
+        console.warn("DDOD: archive load failed", err);
+        archivePromise = null;
+        const btn = $("#loadAll");
+        btn.hidden = false;
         btn.disabled = false;
-        btn.innerHTML = 'Browse The Archive On Apple Podcasts <span class="arrow">&rarr;</span>';
-        btn.onclick = () => window.open("https://podcasts.apple.com/us/podcast/darrendaily-on-demand/id1449270369", "_blank", "noopener");
-        $("#feedNote").textContent = "The live feed did not respond. The full archive is one tap away on Apple Podcasts.";
+        btn.innerHTML = 'Try The Full Archive Again <span class="arrow">&darr;</span>';
+        $("#feedNote").innerHTML = 'The live feed did not answer that time. Try again, or browse every episode on ' +
+          '<a href="https://podcasts.apple.com/us/podcast/darrendaily-on-demand/id1449270369" target="_blank" rel="noopener">Apple Podcasts</a>.';
       });
+    return archivePromise;
+  }
+
+  $("#loadAll").addEventListener("click", function () {
+    if (allLoaded) { $("#q").focus(); return; }
+    this.disabled = true;
+    this.innerHTML = "Loading the archive…";
+    ensureArchive().then(() => $("#q").focus());
   });
+
+  /* ── PLAYLISTS ──────────────────────────────────────────────── */
+  function plEpisodes(i) {
+    return PLAYLISTS[i][2].map(f => INDEX[f]).filter(Boolean);
+  }
+  function runtime(eps) {
+    const mins = eps.reduce((a, e) => {
+      const p = e[3].split(":").map(Number);
+      return a + (p.length === 3 ? p[0] * 60 + p[1] + p[2] / 60 : p[0] + (p[1] || 0) / 60);
+    }, 0);
+    return Math.round(mins);
+  }
+
+  function renderCards() {
+    $("#plGrid").innerHTML = PLAYLISTS.map((pl, i) => {
+      const eps = plEpisodes(i), on = activePl === i;
+      return '<button class="pl' + (on ? " on" : "") + '" data-pl="' + i + '">' +
+        '<div class="pl-n">' + (on ? "Now playing" : "Run " + (i + 1)) + "</div>" +
+        "<h3>" + esc(pl[0]) + "</h3><p>" + esc(pl[1]) + "</p>" +
+        '<div class="pl-foot"><span class="pl-go">' +
+          (on && !audio.paused
+            ? '<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>'
+            : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>') +
+        '</span><span class="pl-meta"><b>' + eps.length + " episodes</b><br>" + runtime(eps) + " minutes end to end</span></div>" +
+      "</button>";
+    }).join("");
+  }
+
+  function selectPlaylist(i) {
+    const eps = plEpisodes(i);
+    if (!eps.length) return;
+    if (activePl === i && current && eps.some(e => e[4] === current[4])) { toggle(null); return; }
+    activePl = i;
+    list = eps;
+    $("#q").value = "";
+    $("#ctxName").innerHTML = esc(PLAYLISTS[i][0]) + " <span>&middot; " + eps.length + " episodes, " + runtime(eps) + " minutes</span>";
+    $("#ctx").classList.add("show");
+    renderFeed(list);
+    renderCards();
+    load(eps[0], true);
+    document.getElementById("episodes").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function clearPlaylist(keepAudio) {
+    activePl = null;
+    list = archive;
+    skPrefix = "";                                 // autoplay walks the archive
+    audio.dispatchEvent(new Event("timeupdate"));  // now, so stop the player
+    $("#ctx").classList.remove("show");            // claiming a run it has left
+    if (!keepAudio) $("#q").value = "";
+    renderFeed(filtered());
+    renderCards();
+    paintIcons();
+  }
+
+  $("#plGrid").addEventListener("click", e => {
+    const card = e.target.closest(".pl");
+    if (card) selectPlaylist(+card.dataset.pl);
+  });
+  $("#ctxClear").addEventListener("click", () => clearPlaylist(false));
 
   /* ── PLAYER ─────────────────────────────────────────────────── */
   const sticky = $("#sticky"), fill = $("#fill"), skPlay = $("#skPlay"), heroPlay = $("#heroPlay");
 
+  const INDEX = {};
+  EPISODES.concat(POOL).forEach(e => { INDEX[e[4]] = e; });
   function byFile(file) {
     for (let i = 0; i < list.length; i++) if (list[i][4] === file) return list[i];
-    for (let i = 0; i < EPISODES.length; i++) if (EPISODES[i][4] === file) return EPISODES[i];
-    return null;
+    return INDEX[file] || null;
   }
 
   function markActive() {
@@ -1097,6 +1323,7 @@
     heroPlay.innerHTML = playing && current && current[4] === EPISODES[0][4] ? pauseSvg : playSvg;
     heroPlay.classList.toggle("is-playing", playing && current && current[4] === EPISODES[0][4]);
     markActive();
+    if (typeof renderCards === "function") renderCards();
   }
 
   function load(ep, autoplay, seekTo) {
@@ -1111,6 +1338,11 @@
       });
     }
     $("#skTitle").textContent = ep[1];
+    if (activePl !== null) {
+      const at = list.findIndex(e => e[4] === ep[4]);
+      skPrefix = '<span class="plname">' + esc(PLAYLISTS[activePl][0]) + "</span> &middot; " +
+                 (at + 1) + " of " + list.length + " &middot; ";
+    } else { skPrefix = ""; }
     sticky.classList.add("up");
     document.body.classList.add("playing");
     $("#resume").classList.remove("show");
@@ -1171,7 +1403,7 @@
   audio.addEventListener("timeupdate", () => {
     const d = audio.duration || 0;
     fill.style.width = d ? (audio.currentTime / d) * 100 + "%" : "0%";
-    $("#skTime").textContent = clock(audio.currentTime) + " / " + (d ? clock(d) : "…");
+    $("#skTime").innerHTML = skPrefix + clock(audio.currentTime) + " / " + (d ? clock(d) : "…");
     if (current && audio.currentTime > 3) {
       try {
         localStorage.setItem(STORE, JSON.stringify({ f: current[4], t: audio.currentTime, n: current[1] }));
@@ -1210,6 +1442,7 @@
     }
   } catch (err) { /* private mode: skip the resume chip */ }
 
+  renderCards();
   renderFeed(list);
 
   /* ── REVIEW WALL ────────────────────────────────────────────── */
