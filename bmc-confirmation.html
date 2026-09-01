@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>You're In · BMC|COLLECTIVE</title>
+<meta name="description" content="Your Business Master Class seat is reserved and your COLLECTIVE activation is already running. Here is everything that just went live, and the three moves to make before Oct 19.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/bmc-confirmation.html">
+<link rel="icon" href="favicon.png">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="BMC|COLLECTIVE">
+<meta property="og:title"       content="You're In. Everything Is Live.">
+<meta property="og:description" content="Your Business Master Class seat is reserved. Your COLLECTIVE activation is already running.">
+<meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/og-image.jpg">
+
+<link rel="preload" as="image" href="DH_BMC_stage_background.webp">
+<link rel="preload" as="image" href="DH_BMC_stage_mobile.webp">
+
+<!-- Brand design system — identical stylesheet to hardybmc.com -->
+<link rel="stylesheet" href="bmc.css">
+
+<style id="bmc-confirmation-css">
+/* =====================================================================
+   CONFIRMATION-ONLY LAYER
+   Everything above comes from bmc.css (the same design system serving
+   hardybmc.com). Nothing here redefines a brand token — these rules only
+   add the components this page needs that the sales page never had.
+   ===================================================================== */
+
+/* Shimmer sweep on the closing CTA. Present on the live sales page but not
+   yet folded back into bmc.css — carried here so the two pages match. */
+.cta-glow { position: relative; overflow: hidden; }
+.cta-glow::after {
+  content: ''; position: absolute; top: 0; left: -80%; width: 55%; height: 100%;
+  background: linear-gradient(105deg, transparent 20%, rgba(var(--bmc-cyan-rgb), 0.28) 50%, transparent 80%);
+  animation: cta-shimmer 4s ease-in-out infinite; pointer-events: none;
+}
+.cta-glow:hover::after { opacity: 0; }
+@keyframes cta-shimmer {
+  0%   { left: -80%; opacity: 1; }
+  38%  { left: 110%; opacity: 1; }
+  39%  { left: 110%; opacity: 0; }
+  99%  { left: -80%; opacity: 0; }
+  100% { left: -80%; opacity: 1; }
+}
+.nobreak { white-space: nowrap; }
+
+/* bmc.css sets weight/case/colour on .section-headline but no font-size —
+   the sales page scopes a size onto every individual section. This page
+   declares the default once, at the brand guide's section-heading scale. */
+.section-headline { font-size: clamp(38px, 4.8vw, 74px); margin-bottom: 0; }
+
+/* ---------------------------------------------------------------------
+   CONFIRMED BADGE — the cyan pill from the brand guide's UI marks.
+   Sits above the hero headline so the "did it work?" question is answered
+   in the first 200ms, before a single word is read.
+   --------------------------------------------------------------------- */
+.conf-badge-row { display: block; margin-bottom: 22px; }
+.conf-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--bmc-cyan); color: var(--black);
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+  padding: 9px 18px; border-radius: 99px;
+  opacity: 0; transform: translateY(10px);
+  animation: revealUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.35s;
+}
+.conf-badge svg { width: 13px; height: 13px; }
+
+/* Hero on this page is shorter than the sales hero — no scroll cue, no
+   4-minute-video detour. The visitor already bought.
+
+   Desktop only: bmc.css positions the mobile portrait with
+   object-position:65% tuned against a 100vh hero. Shortening the hero on a
+   phone re-crops that image and slides Darren out of frame, so mobile keeps
+   the inherited 100vh. */
+@media (min-width: 961px) {
+  .hero.hero--confirm { min-height: 86vh; }
+}
+.hero--confirm .hero-content .eyebrow { margin-bottom: 26px; }
+
+/* bmc.css narrows .hero-content to 58-62% on phones so the portrait keeps
+   the right of the screen. "Enter The Collective" is a longer label than the
+   sales page's "Reserve Your Seat" and overflows that column at nowrap, so
+   this page lets its hero button wrap instead of spilling past the edge. */
+@media (max-width: 600px) {
+  .hero--confirm .hero-cta {
+    white-space: normal; text-align: center; line-height: 1.6;
+    letter-spacing: 0.18em; padding: 14px 18px;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   COUNTDOWN BAND
+   Replaces the old orange HubSpot counter strip. Same job, brand palette:
+   silver label, cyan digits, hairline dividers, 4px radius.
+   --------------------------------------------------------------------- */
+.conf-count { background: var(--ink); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 40px 0; }
+.conf-count-inner { display: flex; align-items: center; justify-content: center; gap: 44px; flex-wrap: wrap; }
+.conf-count-label {
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px;
+  letter-spacing: 0.42em; text-transform: uppercase; color: var(--silver);
+  display: inline-flex; align-items: center; gap: 16px;
+}
+.conf-count-label .pip { display: inline-block; width: 28px; height: 1px; background: var(--silver); }
+.conf-clock { display: flex; align-items: flex-start; gap: 0; }
+.conf-unit { min-width: 92px; text-align: center; padding: 0 18px; border-right: 1px solid var(--rule); }
+.conf-unit:last-child { border-right: 0; }
+.conf-unit-num {
+  font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(32px, 3.4vw, 46px);
+  line-height: 1; letter-spacing: -0.03em; color: var(--bmc-cyan);
+  font-variant-numeric: tabular-nums;
+}
+.conf-unit-lab {
+  margin-top: 10px; font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--grey);
+}
+@media (max-width: 880px) {
+  .conf-count { padding: 32px 0; }
+  .conf-count-inner { gap: 24px; }
+  .conf-unit { min-width: 0; padding: 0 12px; }
+  .conf-count-label { letter-spacing: 0.3em; gap: 12px; }
+  .conf-count-label .pip { width: 20px; }
+}
+
+/* ---------------------------------------------------------------------
+   ACTIVATION STACK — reuses .stack-list / .stack-item from bmc.css, adds
+   the "go here now" affordance the sales page's version didn't need.
+   --------------------------------------------------------------------- */
+.act-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
+.act-head h3 { margin-bottom: 0; }
+.act-live {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 9px;
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--bmc-cyan);
+  border: 1px solid var(--rule-cyan); border-radius: 99px; padding: 4px 10px;
+  display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+}
+.act-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--bmc-cyan); animation: actPulse 2s ease-in-out infinite; }
+@keyframes actPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+.act-link {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 16px;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--bmc-cyan);
+  text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 3px;
+  transition: border-color 0.2s ease, gap 0.2s ease;
+}
+.act-link:hover { border-bottom-color: var(--rule-cyan); gap: 14px; }
+@media (prefers-reduced-motion: reduce) { .act-dot { animation: none; } .act-link:hover { gap: 8px; } }
+
+/* ---------------------------------------------------------------------
+   LIGHT SECTION — the "three moves" block. bmc.css scopes its light-mode
+   rules to #testimonials / #faq, so this page declares its own generic
+   light surface. Plum accent on light, per the brand guide.
+   --------------------------------------------------------------------- */
+.conf-light { background: var(--bone-soft); color: var(--black); padding: 160px 0; border-top: 1px solid var(--rule-dark); }
+.conf-light .eyebrow { color: var(--grey-soft); }
+.conf-light .eyebrow .pip { background: var(--bmc-plum); }
+.conf-light .section-headline { color: var(--black); font-size: clamp(36px, 4.6vw, 68px); }
+.conf-light em.key { color: var(--bmc-plum); font-style: normal; }
+.conf-light .section-sub {
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.65; color: var(--muted); max-width: 720px; margin-top: 22px;
+}
+@media (max-width: 880px) { .conf-light { padding: var(--section-pad-mobile) 0; } }
+
+.move-list { margin-top: 72px; border-top: 1px solid var(--rule-dark); max-width: 1080px; }
+.move-item {
+  display: grid; grid-template-columns: 80px 1fr; gap: 36px;
+  padding: 44px 0; border-bottom: 1px solid var(--rule-dark);
+}
+.move-num {
+  font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px;
+  letter-spacing: 0.24em; color: var(--bmc-plum); padding-top: 4px;
+}
+.move-item h3 {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(18px, 1.6vw, 24px);
+  text-transform: uppercase; color: var(--black); letter-spacing: -0.005em; margin-bottom: 12px;
+}
+.move-item p {
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(15px, 1.3vw, 18px);
+  line-height: 1.6; color: var(--muted); max-width: 720px;
+}
+.move-item p + p { margin-top: 12px; }
+/* Fine-print / instruction links keep the paragraph's own grey — underline
+   only, never an accent colour. */
+.move-item p a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.move-item p a:hover { color: var(--black); }
+/* An address the reader must copy is set apart by weight, not by colour. */
+.move-mail { font-weight: 700; color: var(--black); white-space: nowrap; }
+@media (max-width: 880px) { .move-item { grid-template-columns: 1fr; gap: 10px; padding: 32px 0; } }
+
+/* Ghost CTA on a light surface — plum outline, fills plum on hover. */
+.btn-ghost-light {
+  display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
+  background: transparent; color: var(--bmc-plum); border: 1px solid var(--bmc-plum);
+  border-radius: var(--radius); text-decoration: none;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
+  letter-spacing: 0.24em; text-transform: uppercase; padding: 15px 26px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-ghost-light:hover { background: var(--bmc-plum); color: var(--white); }
+
+/* Calendar row — the six AddEvent destinations, as brand chips instead of
+   AddEvent's stock icon strip. */
+.cal-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.cal-chip {
+  display: inline-flex; align-items: center; gap: 9px;
+  border: 1px solid var(--rule-dark-strong); border-radius: var(--radius);
+  background: transparent; color: var(--black); text-decoration: none;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase; padding: 12px 16px;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.cal-chip:hover { border-color: var(--bmc-plum); background: var(--bmc-plum); color: var(--white); }
+.cal-chip svg { width: 14px; height: 14px; flex: none; }
+
+/* ---------------------------------------------------------------------
+   SEAT DETAIL CARD
+   --------------------------------------------------------------------- */
+.seat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--rule); margin-top: 56px; }
+.seat-cell { padding: 40px 36px; border-right: 1px solid var(--rule); }
+.seat-cell:last-child { border-right: 0; }
+.seat-cell-lab {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--grey); margin-bottom: 14px;
+}
+.seat-cell-val {
+  font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.15; letter-spacing: -0.02em; color: var(--white); text-transform: uppercase;
+}
+.seat-cell-note {
+  margin-top: 12px; font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: 15px; line-height: 1.55; color: var(--silver);
+}
+@media (max-width: 880px) {
+  .seat-grid { grid-template-columns: 1fr; }
+  .seat-cell { border-right: 0; border-bottom: 1px solid var(--rule); padding: 30px 24px; }
+  .seat-cell:last-child { border-bottom: 0; }
+}
+
+/* ---------------------------------------------------------------------
+   BRING YOUR TEAM
+   --------------------------------------------------------------------- */
+.team-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 72px; align-items: center; }
+.team-body p {
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.7; color: var(--silver);
+}
+.team-body p + p { margin-top: 18px; }
+.team-card { background: var(--surface-card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 44px 40px; transition: border-color 0.25s ease; }
+.team-card:hover { border-color: var(--rule-cyan); }
+.team-card-lab {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--grey); margin-bottom: 20px;
+}
+.team-price-row { display: flex; align-items: baseline; gap: 10px; }
+.team-price {
+  font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(34px, 3.6vw, 48px);
+  line-height: 1; letter-spacing: -0.03em; color: var(--white);
+}
+.team-price-unit { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
+.team-price-alt { margin-top: 14px; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; color: var(--silver); }
+.team-rule { height: 1px; background: var(--rule); margin: 28px 0; }
+@media (max-width: 980px) { .team-grid { grid-template-columns: 1fr; gap: 44px; } }
+
+/* ---------------------------------------------------------------------
+   REFERRAL FORM — the "who told you about BMC?" ask. On the live page this
+   is an interrupting modal over the confirmation. Here it is an inline
+   section the reader reaches on their own terms.
+
+   hbspt.forms.create() is called with css:"" so HubSpot never injects its
+   own stylesheet — without that its defaults load AFTER this block and win,
+   which is what puts a red button and white inputs on a dark section.
+   --------------------------------------------------------------------- */
+.ref-wrap { max-width: 720px; }
+.ref-form { margin-top: 40px; }
+.ref-form .hs-form-field { margin-bottom: 24px; }
+.ref-form fieldset { max-width: none !important; }
+.ref-form .input { margin: 0 !important; }
+
+/* Labels are real questions here, not UI chrome — sentence case and
+   readable rather than the 10px tracked caps used for field chrome. */
+.ref-form .hs-form-field > label {
+  display: block; font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: 15px; line-height: 1.5; letter-spacing: 0;
+  text-transform: none; color: var(--silver); margin-bottom: 12px;
+}
+.ref-form .hs-form-required { color: var(--grey); margin-left: 2px; }
+
+.ref-form input[type="text"],
+.ref-form input[type="email"],
+.ref-form input[type="tel"],
+.ref-form textarea,
+.ref-form select,
+.ref-form .hs-input {
+  width: 100% !important; box-sizing: border-box;
+  background: var(--ink-soft); color: var(--white);
+  border: 1px solid var(--rule-strong); border-radius: var(--radius);
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 16px;
+  padding: 15px 16px; transition: border-color 0.2s ease;
+}
+.ref-form .hs-input::placeholder { color: var(--grey-soft); }
+.ref-form .hs-input:focus { outline: none; border-color: var(--bmc-cyan); }
+
+/* Ghost CTA on dark, per the brand guide's button spec. */
+.ref-form .actions { margin-top: 30px; padding: 0; }
+.ref-form input[type="submit"],
+.ref-form .hs-button {
+  background: transparent; color: var(--bmc-cyan);
+  border: 1px solid var(--rule-cyan); border-radius: var(--radius);
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+  padding: 16px 30px; cursor: pointer; width: auto; -webkit-appearance: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.ref-form input[type="submit"]:hover,
+.ref-form .hs-button:hover { background: var(--bmc-cyan); color: var(--black); border-color: var(--bmc-cyan); }
+
+.ref-form .hs-error-msg,
+.ref-form .hs-error-msgs label {
+  color: #ff8b8b; font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: 13px; letter-spacing: 0; text-transform: none; margin-top: 8px;
+}
+.ref-form .hs-error-msgs { list-style: none; padding: 0; }
+.ref-form .submitted-message {
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 17px;
+  line-height: 1.6; color: var(--silver);
+}
+.ref-form .submitted-message p { color: var(--silver); }
+
+/* ---------------------------------------------------------------------
+   FINAL BAND
+   --------------------------------------------------------------------- */
+.conf-final { background: var(--black); padding: 200px 0; text-align: center; }
+.conf-final-headline {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(40px, 5.6vw, 86px); line-height: 1.0; letter-spacing: -0.035em;
+  color: var(--white); text-transform: uppercase; margin-top: 26px;
+}
+.conf-final-body { max-width: 660px; margin: 34px auto 0; }
+.conf-final-body p {
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.7; color: var(--silver);
+}
+.conf-final-body p + p { margin-top: 16px; }
+.conf-final-cta { margin-top: 48px; }
+.conf-final .event-line { margin-top: 30px; }
+.conf-final-secondary {
+  margin-top: 56px; padding-top: 34px; border-top: 1px solid var(--rule);
+  max-width: 660px; margin-left: auto; margin-right: auto;
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px;
+  line-height: 1.6; color: var(--silver);
+}
+.conf-final-secondary a { color: var(--bmc-cyan); text-decoration: none; }
+.conf-final-secondary a:hover { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 880px) { .conf-final { padding: 96px 0; } }
+</style>
+</head>
+<body>
+
+<!-- =====================================================================
+     STICKY BAR
+     Same component as the sales page, one deliberate change: the CTA is no
+     longer "Reserve Your Seat". They reserved. It now points at the thing
+     they just bought and can use in the next ten seconds.
+     ===================================================================== -->
+<div class="sticky-bar" role="banner">
+  <a href="#top" class="sticky-brand" aria-label="BMC COLLECTIVE">
+    <img src="BMC_COLLECTIVE_logo_white.webp" alt="BMC|COLLECTIVE" width="1400" height="272" decoding="async" />
+  </a>
+  <div class="sticky-nav" role="navigation" aria-label="Page sections">
+    <a href="#activated">What&rsquo;s Live</a>
+    <a href="#next">Next Moves</a>
+    <a href="#seat">Your Seat</a>
+    <a href="#team">Your Team</a>
+  </div>
+  <a href="https://hardyclub.darrenhardy.com/" class="sticky-cta">
+    <span class="cta-desk">Enter The Collective &rarr;</span>
+    <span class="cta-mobile">Enter &rarr;</span>
+  </a>
+</div>
+
+<main id="top">
+
+<!-- =====================================================================
+     LAYER 1 — HERO
+     The old page opened with "BRAVO! YOU'RE IN!" over a countdown to a date
+     that had already passed. This opens by answering the two questions a
+     buyer actually has at this second: did it go through, and what do I get
+     right now.
+     ===================================================================== -->
+<section class="hero hero--confirm" id="hero">
+  <picture>
+    <source media="(max-width: 880px)" srcset="DH_BMC_stage_mobile.webp" type="image/webp">
+    <source srcset="DH_BMC_stage_background.webp" type="image/webp">
+    <img class="hero-bkgd" src="DH_BMC_stage_background.webp" alt="" width="2400" height="1339" fetchpriority="high" decoding="async" />
+  </picture>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="conf-badge-row">
+      <div class="conf-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Enrollment Confirmed
+      </div>
+      </div>
+      <div class="eyebrow"><span class="pip"></span>BMC|COLLECTIVE</div>
+      <h1>You&rsquo;re In. <em class="key">Everything Is Live</em>.</h1>
+      <p class="hero-sub"><strong>Your Business Master Class seat is reserved.</strong> Your COLLECTIVE activation is already running &mdash; not on October 19, right now.</p>
+      <p class="hero-sub">A member experience concierge will reach out within the hour. <br class="d-br"/>Until then, start where the compounding starts.</p>
+      <div class="hero-cta-row">
+        <a href="https://hardyclub.darrenhardy.com/" class="btn-primary hero-cta">Enter The Collective &rarr;</a>
+        <a href="#welcome" class="secondary-link">Or watch Darren&rsquo;s welcome first &darr;</a>
+      </div>
+    </div>
+  </div>
+
+  <img class="hero-portrait" src="DH_BMC_stage.webp" alt="Darren Hardy on stage at Business Master Class" width="2752" height="1536" fetchpriority="high" decoding="async" />
+</section>
+
+<!-- =====================================================================
+     LAYER 2 — COUNTDOWN
+     Same component the old page had, with the bug removed: the live page
+     counts down to 2026-05-04, a date four months in the past, while the
+     copy beside it says Oct 19-21. This one reads its target from a single
+     data attribute below and rolls over correctly.
+     ===================================================================== -->
+<section class="conf-count">
+  <div class="container">
+    <div class="conf-count-inner">
+      <div class="conf-count-label"><span class="pip"></span>Your Transformation Starts In</div>
+      <div class="conf-clock" id="conf-clock" data-target="2026-10-19T07:00:00-07:00" role="timer" aria-live="off">
+        <div class="conf-unit"><div class="conf-unit-num" data-unit="days">--</div><div class="conf-unit-lab">Days</div></div>
+        <div class="conf-unit"><div class="conf-unit-num" data-unit="hours">--</div><div class="conf-unit-lab">Hrs</div></div>
+        <div class="conf-unit"><div class="conf-unit-num" data-unit="mins">--</div><div class="conf-unit-lab">Min</div></div>
+        <div class="conf-unit"><div class="conf-unit-num" data-unit="secs">--</div><div class="conf-unit-lab">Sec</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     LAYER 3 — WELCOME VIDEO
+     Same custom player as the sales page VSL (controls off, cyan play
+     button, click anywhere to toggle, sound on by default).
+     ===================================================================== -->
+<section class="vsl-section" id="welcome">
+  <div class="container">
+    <div class="eyebrow eyebrow--center vsl-eyebrow reveal" style="display:flex;justify-content:center;"><span class="pip"></span>A Personal Word</div>
+    <div class="vsl-frame reveal reveal-scale">
+      <iframe id="vsl-player" src="https://player.vimeo.com/video/585926031?controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;dnt=1"
+        loading="lazy" frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+        allowfullscreen
+        title="Darren Hardy &mdash; Welcome to BMC|COLLECTIVE"></iframe>
+      <button class="vsl-toggle" type="button" aria-label="Play or pause video" data-vsl-play>
+        <span class="vsl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg></span>
+        <span class="vsl-pause" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+      </button>
+      <button class="vsl-vol" type="button" aria-label="Mute or unmute">
+        <span class="t-vol t-vol-on" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a8.5 8.5 0 0 1 0 13"/></svg></span>
+        <span class="t-vol t-vol-off" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/><line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/></svg></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     LAYER 4 — EVERYTHING JUST ACTIVATED
+     The single biggest gap on the live page. HardyBMC.com sells one
+     enrollment as "a reserved BMC seat AND immediate COLLECTIVE
+     activation", then the confirmation page never mentions THE COLLECTIVE
+     at all. Nine promises made on the sales page, nine deliveries here,
+     in the same order and the same words the buyer read an hour ago.
+     ===================================================================== -->
+<section class="section-dark section-divider bmc-wash" id="activated">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="pip"></span>The Moment You Enrolled</div>
+    <h2 class="section-headline reveal">Everything Just <em class="key">Activated</em>.</h2>
+
+    <div class="stack-list act-stack stagger" style="margin-top:72px;">
+
+      <div class="stack-item">
+        <div class="stack-numeral">01</div>
+        <div>
+          <div class="act-head">
+            <h3>THE COLLECTIVE</h3>
+            <span class="act-live"><span class="act-dot"></span>Live Now</span>
+          </div>
+          <p>Full access, live from this moment, for the next twelve months. Everything below sits inside it.</p>
+          <a class="act-link" href="https://hardyclub.darrenhardy.com/">Enter The Collective &rarr;</a>
+        </div>
+      </div>
+
+      <div class="stack-item">
+        <div class="stack-numeral">02</div>
+        <div>
+          <div class="act-head">
+            <h3>HARDYbot &middot; 24/7 Strategic Advisor</h3>
+            <span class="act-live"><span class="act-dot"></span>Live Now</span>
+          </div>
+          <p>Trained on Darren&rsquo;s lifetime of work. Unlimited access. Never make a costly call alone again.</p>
+          <a class="act-link" href="https://hardyclub.darrenhardy.com/hardybot">Ask HARDYbot Something &rarr;</a>
+        </div>
+      </div>
+
+      <div class="stack-item">
+        <div class="stack-numeral">03</div>
+        <div>
+          <div class="act-head">
+            <h3>AI Execution Systems</h3>
+            <span class="act-live"><span class="act-dot"></span>Live Now</span>
+          </div>
+          <p>Darren&rsquo;s 35-year methodology encoded into AI. Sales, marketing, and recruiting strategy becomes execution in minutes.</p>
+          <a class="act-link" href="https://hardyclub.darrenhardy.com/ai-systems">Open The Systems &rarr;</a>
+        </div>
+      </div>
+
+      <div class="stack-item">
+        <div class="stack-numeral">04</div>
+        <div>
+          <div class="act-head">
+            <h3>Hardy Club + Elite Leader Network</h3>
+            <span class="act-live"><span class="act-dot"></span>Live Now</span>
+          </div>
+          <p>Full Hardy Club access, plus the private Elite Leader Network reserved for COLLECTIVE members. Introduce yourself &mdash; the room answers.</p>
+          <a class="act-link" href="https://hardyclub.darrenhardy.com/elite-leader-network">Meet The Network &rarr;</a>
+        </div>
+      </div>
+
+      <div class="stack-item">
+        <div class="stack-numeral">05</div>
+        <div>
+          <div class="act-head">
+            <h3>AI Group Workshops</h3>
+            <span class="act-live"><span class="act-dot"></span>Scheduled</span>
+          </div>
+          <p>Live workshops with Darren&rsquo;s <span class="nobreak">A-Team</span> AI experts. Stay months ahead of competitors still figuring it out.</p>
+          <a class="act-link" href="https://hardyclub.darrenhardy.com/workshops">See The Calendar &rarr;</a>
+        </div>
+      </div>
+
+      <div class="stack-item">
+        <div class="stack-numeral">06</div>
+        <div>
+          <div class="act-head">
+            <h3>Expert Open Office Hours</h3>
+            <span class="act-live"><span class="act-dot"></span>Scheduled</span>
+          </div>
+          <p>Vetted industry experts on call. Bring your hardest, most consequential question. Get honest counsel.</p>
+          <a class="act-link" href="https://hardyclub.darrenhardy.com/office-hours">Book A Slot &rarr;</a>
+        </div>
+      </div>
+
+      <div class="stack-item">
+        <div class="stack-numeral">07</div>
+        <div>
+          <div class="act-head">
+            <h3>Discussion Forums</h3>
+            <span class="act-live"><span class="act-dot"></span>Live Now</span>
+          </div>
+          <p>Member forums on needle-moving issues. Solutions from people who have already solved them.</p>
+          <a class="act-link" href="https://hardyclub.darrenhardy.com/forums">Post Your First Question &rarr;</a>
+        </div>
+      </div>
+
+      <div class="stack-item">
+        <div class="stack-numeral">08</div>
+        <div>
+          <div class="act-head">
+            <h3>The Open Vault</h3>
+            <span class="act-live"><span class="act-dot"></span>Live Now</span>
+          </div>
+          <p>Three decades of Darren&rsquo;s strategies, insights, and case studies. Shared openly, nothing held back.</p>
+          <a class="act-link" href="https://hardyclub.darrenhardy.com/vault">Open The Vault &rarr;</a>
+        </div>
+      </div>
+
+      <div class="stack-item">
+        <div class="stack-numeral">09</div>
+        <div>
+          <div class="act-head">
+            <h3>Member Services Concierge</h3>
+            <span class="act-live"><span class="act-dot"></span>Reaching Out</span>
+          </div>
+          <p>A real human handling your member services and member introductions. Not a chatbot. Expect to hear from them within the hour.</p>
+          <a class="act-link" href="https://meetings.hubspot.com/mx-team/experience">Or Book Them Now &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     LAYER 5 — THREE NEXT MOVES  (light surface, plum accent)
+     Everything the old page asked for, in the order it should happen, on
+     one screen instead of scattered between two duplicated card decks.
+     ===================================================================== -->
+<section class="conf-light" id="next">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="pip"></span>Before October 19</div>
+    <h2 class="section-headline reveal">Three Moves. <em class="key">Ten Minutes</em>.</h2>
+    <p class="section-sub reveal">Do these now, while the page is open. Each one takes under four minutes, and each one protects something you have already paid for.</p>
+
+    <div class="move-list stagger">
+
+      <div class="move-item">
+        <div class="move-num">01</div>
+        <div>
+          <h3>Block Your Calendar</h3>
+          <p>Business Master Class runs <strong>Monday through Wednesday, October 19&ndash;21, 2026</strong>. Block all three days end to end.</p>
+          <p>Block Thursday and Friday too. That is when you build your post-BMC action plan, while the thinking is still hot. Members who skip this step go back to their inbox and lose the week.</p>
+          <div class="cal-row">
+            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+google" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>Google</a>
+            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+apple" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>Apple</a>
+            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+outlook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>Outlook</a>
+            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+office365" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>Office 365</a>
+            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+outlookcom" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>Outlook.com</a>
+            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+yahoo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>Yahoo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="move-item">
+        <div class="move-num">02</div>
+        <div>
+          <h3>Whitelist Darren&rsquo;s Address</h3>
+          <p>Between now and go time we send your access links, your pre-work, and your login. Every one of those is time-sensitive, and every one of them can land in Promotions.</p>
+          <p>Add <span class="move-mail">Darren@DarrenHardy.com</span> to your contacts. <a href="https://helpme.darrenhardy.com/hc/en-us/articles/360004901511-How-do-I-make-sure-I-receive-Darren-s-emails" target="_blank" rel="noopener">Step-by-step instructions for your mail app</a>.</p>
+        </div>
+      </div>
+
+      <div class="move-item">
+        <div class="move-num">03</div>
+        <div>
+          <h3>Download Your Pre-Event Checklist</h3>
+          <p>What to prepare, what numbers to bring, and how to set up your three days so you arrive ready to build instead of ready to watch.</p>
+          <a class="btn-ghost-light" href="https://darrenhardy.com/resources/business-master-class/BMC_PreEventChecklist.pdf" target="_blank" rel="noopener">Download The Checklist &darr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     LAYER 6 — YOUR SEAT + THE GUARANTEE
+     Restating the guarantee here is deliberate. The highest-risk hour in
+     any high-ticket enrollment is the hour right after the card clears.
+     ===================================================================== -->
+<section class="section-ink section-divider" id="seat">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="pip"></span>Reserved In Your Name</div>
+    <h2 class="section-headline reveal">Your <em class="key">Seat</em>.</h2>
+
+    <div class="seat-grid reveal">
+      <div class="seat-cell">
+        <div class="seat-cell-lab">Dates</div>
+        <div class="seat-cell-val">Oct 19&ndash;21<br/>2026</div>
+        <div class="seat-cell-note">Monday through Wednesday. Three full days.</div>
+      </div>
+      <div class="seat-cell">
+        <div class="seat-cell-lab">Format</div>
+        <div class="seat-cell-val">Live<br/>Virtual</div>
+        <div class="seat-cell-note">Attend from anywhere. Members in 121 countries do.</div>
+      </div>
+      <div class="seat-cell">
+        <div class="seat-cell-lab">Led By</div>
+        <div class="seat-cell-val">Darren<br/>Hardy</div>
+        <div class="seat-cell-note">Personally, every session. Not a licensed brand.</div>
+      </div>
+    </div>
+
+    <div class="invest-guarantee invest-guarantee--pair" style="margin-top:96px;">
+      <div class="invest-guarantee-seal reveal reveal-left">
+        <img src="https://www.hardybmc.com/wp-content/uploads/2026/08/GUARANTEE-FOR-PAGES-8.webp" alt="300% ROI Or It&rsquo;s Free &mdash; Full Refund Guarantee" class="invest-seal" width="700" height="700" loading="lazy" decoding="async" />
+      </div>
+      <div class="invest-guarantee-divider" aria-hidden="true"></div>
+      <div class="invest-guarantee-copy reveal reveal-right">
+        <div class="eyebrow invest-sub-eyebrow"><span class="pip"></span>Still A Confident Promise</div>
+        <h3 class="invest-sub-headline">300% ROI&hellip; <em class="key">Or It&rsquo;s Free!</em></h3>
+        <div class="invest-guarantee-body stagger">
+          <p>Nothing about that changed when you enrolled. Experience The COLLECTIVE and Day 1 of Business Master Class on us.</p>
+          <p>If by 5 PM PT on Day 1 you don&rsquo;t believe this will produce at least 3X return on your investment, return your materials for a full refund.<br/><span class="risk-promise">No hassles whatsoever.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     LAYER 7 — BRING YOUR TEAM
+     The old page buried this in a card that said "contact us for pricing."
+     The seat-only pass is already published on the sales page, so the price
+     is stated here rather than gated behind an email.
+     ===================================================================== -->
+<section class="section-dark section-divider bmc-wash" id="team">
+  <div class="container">
+    <div class="team-grid">
+      <div class="team-body">
+        <div class="eyebrow reveal"><span class="pip"></span>The 3X Move</div>
+        <h2 class="section-headline reveal" style="margin-bottom:32px;">Don&rsquo;t Come <em class="key">Alone</em>.</h2>
+        <div class="stagger">
+          <p>The members who compound fastest after BMC are never the ones who came by themselves. They are the ones whose key players heard the same thing, in the same room, at the same time.</p>
+          <p>You will leave with strategies that need executing. If your implementers were not there, you spend the next month translating. If they were, you spend it building.</p>
+          <p>Bring your right hand. Your head of sales. Your operator. Whoever actually has to make it happen.</p>
+        </div>
+      </div>
+
+      <div class="team-card reveal reveal-right">
+        <div class="team-card-lab">Business Master Class &middot; Seat Only</div>
+        <div class="team-price-row">
+          <span class="team-price">$5,995</span>
+          <span class="team-price-unit">Paid In Full</span>
+        </div>
+        <div class="team-price-alt">or $499 per month.</div>
+        <div class="team-rule"></div>
+        <p style="font-family:'Inter',sans-serif;font-weight:400;font-size:15px;line-height:1.6;color:var(--silver);">A seat at the three-day Business Master Class for a team member, without COLLECTIVE membership. If you want them inside the full BMC|COLLECTIVE, that is a second enrollment.</p>
+        <a class="act-link" href="mailto:HelpMe@DarrenHardy.com?subject=Team%20seats%20for%20Business%20Master%20Class%20%E2%80%94%20Oct%2019-21" style="margin-top:24px;">Email About Team Seats &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     LAYER 8 — REFERRAL CREDIT
+     On the live page this is a modal that fires over the confirmation. It
+     interrupts the one moment a buyer most wants to feel certain. Here it
+     is an inline section, asked once, after value has been delivered.
+     ===================================================================== -->
+<section class="section-ink section-divider" id="referral">
+  <div class="container">
+    <div class="ref-wrap">
+      <div class="eyebrow reveal"><span class="pip"></span>One Small Thing</div>
+      <h2 class="section-headline reveal" style="font-size:clamp(30px,3.4vw,52px);">Who Sent <em class="key">You</em>?</h2>
+      <p class="reveal" style="font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(16px,1.35vw,18px);line-height:1.65;color:var(--silver);margin-top:22px;">
+        If a member of this community is the reason you are reading this page, tell us their name. We make sure they hear about it.
+      </p>
+      <div class="ref-form reveal" id="ref-form"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     LAYER 9 — FINAL
+     ===================================================================== -->
+<section class="conf-final bmc-wash bmc-wash--center">
+  <div class="container">
+    <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>October Is Closer Than It Looks</div>
+    <h2 class="conf-final-headline reveal">See You On The <em class="key">Big Screen</em>.</h2>
+    <div class="conf-final-body stagger">
+      <p>You stopped building alone the moment you enrolled.</p>
+      <p>THE COLLECTIVE is open tonight. Business Master Class installs the playbook in October. Between now and then, every hour you spend inside is an hour of head start.</p>
+      <p><em class="key"><strong>Start now. Not on October 19.</strong></em></p>
+    </div>
+    <div class="conf-final-cta reveal">
+      <a href="https://hardyclub.darrenhardy.com/" class="btn-primary btn-large cta-glow">Enter The Collective &rarr;</a>
+    </div>
+    <div class="event-line reveal">Your BMC Live Event <span class="event-line-sep">|</span> <span class="event-line-date">Oct 19&ndash;21, 2026</span></div>
+    <div class="conf-final-secondary reveal">
+      Questions about anything above? Your concierge is standing by.
+      <div class="final-secondary-links">
+        <a href="https://direct.lc.chat/8364331/24" target="_blank" rel="noopener">Live Online Chat &rarr;</a>
+        <span class="final-secondary-sep">|</span>
+        <a href="https://meetings.hubspot.com/mx-team/experience" target="_blank" rel="noopener">Schedule a 15-Minute Call &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer-minimal">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>&copy; Darren Hardy, LLC. All Rights Reserved.</span>
+      <div class="legal-links">
+        <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
+        <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Shared behaviour: scroll reveal, stagger groups, Vimeo player, FAQ -->
+<script src="bmc.js" defer></script>
+
+<!-- Countdown. Single source of truth is the data-target attribute on
+     #conf-clock, so the date can never drift from the copy the way it did
+     on the live page. -->
+<script>
+(function () {
+  var clock = document.getElementById('conf-clock');
+  if (!clock) return;
+  var target = new Date(clock.getAttribute('data-target')).getTime();
+  if (isNaN(target)) return;
+
+  var out = {};
+  ['days', 'hours', 'mins', 'secs'].forEach(function (u) {
+    out[u] = clock.querySelector('[data-unit="' + u + '"]');
+  });
+
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+  function tick() {
+    var diff = target - Date.now();
+
+    // Past the start time the band stops counting rather than showing a
+    // negative or a stale number — it says the event is on.
+    if (diff <= 0) {
+      clock.innerHTML = '<div class="conf-unit" style="border-right:0;min-width:0;">' +
+        '<div class="conf-unit-num" style="font-size:clamp(22px,2.4vw,32px);">HAPPENING NOW</div></div>';
+      clearInterval(timer);
+      return;
+    }
+
+    var s = Math.floor(diff / 1000);
+    out.days.textContent  = String(Math.floor(s / 86400));
+    out.hours.textContent = pad(Math.floor(s % 86400 / 3600));
+    out.mins.textContent  = pad(Math.floor(s % 3600 / 60));
+    out.secs.textContent  = pad(s % 60);
+  }
+
+  tick();
+  var timer = setInterval(tick, 1000);
+})();
+</script>
+
+<!-- Referral form — HubSpot portal 2518645, the same form the live page
+     fires as a modal. Rendered inline here. -->
+<script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/embed/v2.js" defer></script>
+<script>
+window.addEventListener('load', function () {
+  if (!window.hbspt) return;
+  hbspt.forms.create({
+    region: "na1",
+    portalId: "2518645",
+    formId: "130715e6-f494-4343-b825-ca8ba8a49d7a",
+    target: "#ref-form",
+    css: ""
+  });
+});
+</script>
+
+</body>
+</html>
