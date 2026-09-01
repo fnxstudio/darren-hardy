@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>By Personal Invitation · STUDIO45 · BMC|COLLECTIVE</title>
+<meta name="description" content="Four days inside the studio where Business Master Class is produced, beside 39 leaders operating at your altitude. October 18-22, 2026. Charleston. 40 seats.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/bmc-private-invitation.html">
+<link rel="icon" href="favicon.png">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="BMC|COLLECTIVE">
+<meta property="og:title"       content="The Room You Asked Me To Build.">
+<meta property="og:description" content="October 18-22, 2026 · Charleston · 40 Elite Members. By personal invitation only.">
+<meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/bmc-og-cover.jpg">
+
+<link rel="preload" as="image" href="studio45-hero-photo.jpg" fetchpriority="high">
+
+<!-- =====================================================================
+     Brand design system. Identical stylesheet to hardybmc.com, so this page
+     and the sales page that precedes it share one set of tokens, one type
+     scale, one motion system, and one button. Nothing below redefines a
+     brand token.
+     ===================================================================== -->
+<link rel="stylesheet" href="bmc.css">
+
+<style id="pi-css">
+/* =====================================================================
+   PRIVATE INVITATION — PAGE LAYER
+   Components this page needs that the sales page never had. Every colour
+   here resolves through a bmc.css token; every radius is var(--radius);
+   every ease is the brand cubic-bezier(.16,1,.3,1).
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   BRAND RULE 1-5 — EMPHASIS & WORD CRAFT
+   The brand never italicises. <em> renders in the accent colour, and the
+   5-shadow stack compensates for cyan reading optically thinner than white
+   at the same weight.
+   --------------------------------------------------------------------- */
+em, .pi-em {
+  font-style: normal;
+  color: var(--bmc-cyan);
+  text-shadow:
+     0.4px 0 0 currentColor, -0.4px 0 0 currentColor,
+     0 0.4px 0 currentColor,  0 -0.4px 0 currentColor,
+     0 0 0.6px currentColor;
+}
+.is-light em, .is-light .pi-em { color: var(--bmc-plum); }
+.nobreak { white-space: nowrap; }
+
+/* Section rhythm — 120-200px desktop (climax largest), 72px mobile. */
+.pi-section      { padding: 140px 0; border-top: 1px solid var(--rule); background: var(--black); }
+.pi-section--ink { background: var(--ink); }
+.pi-section--tight { padding: 110px 0; }
+.pi-section.is-light {
+  background: var(--bone);
+  border-top: 1px solid var(--rule-dark);
+  color: var(--black);
+}
+@media (max-width: 880px) {
+  .pi-section, .pi-section--tight { padding: var(--section-pad-mobile) 0; }
+}
+
+/* A narrower reading column for the letter passages. An invitation to 124
+   people should read like a letter, not a billboard, so prose is capped
+   well below the 1380px container while structural sections use it fully. */
+.pi-read { max-width: 780px; }
+.pi-read--center { margin: 0 auto; text-align: center; }
+
+.pi-h2 {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(30px, 3.6vw, 56px);
+  line-height: 1.02; letter-spacing: -0.03em;
+  text-transform: uppercase; color: var(--white);
+  margin-top: 22px;
+}
+.is-light .pi-h2 { color: var(--black); }
+
+.pi-lede {
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: clamp(20px, 1.9vw, 27px); line-height: 1.4;
+  letter-spacing: -0.01em; color: var(--white); text-wrap: pretty;
+}
+.is-light .pi-lede { color: var(--black); }
+
+.pi-body {
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: clamp(16px, 1.3vw, 18px); line-height: 1.65;
+  color: var(--silver); margin-top: 18px; text-wrap: pretty;
+}
+.is-light .pi-body { color: var(--muted); }
+.pi-body:first-child { margin-top: 0; }
+
+/* ---------------------------------------------------------------------
+   STICKY HEADER — brand CTA pattern is ghost in the header, solid at the
+   close. It stays hidden over the hero (where the hero's own CTA is doing
+   the work) and slides in once the reader has committed to scrolling.
+   --------------------------------------------------------------------- */
+.pi-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  background: rgba(10, 10, 10, 0.86);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+  transform: translateY(-100%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pi-header.is-visible { transform: translateY(0); }
+.pi-header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; height: 68px;
+}
+.pi-header-logo { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.pi-header-logo img { height: 22px; width: auto; display: block; }
+.pi-header-seats {
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--bmc-cyan);
+  border-left: 1px solid var(--rule-strong); padding-left: 16px;
+  white-space: nowrap;
+}
+@media (max-width: 720px) { .pi-header-seats { display: none; } }
+
+/* Ghost button — brand spec. Transparent, cyan border, cyan type; fills
+   solid cyan on hover with dark type. */
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+  padding: 16px 30px; text-decoration: none;
+  background: transparent;
+  border: 1px solid var(--bmc-cyan); color: var(--bmc-cyan);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.btn-ghost:hover { background: var(--bmc-cyan); color: var(--black); border-color: var(--bmc-cyan); }
+.btn-ghost--sm { padding: 12px 20px; font-size: 10px; letter-spacing: 0.2em; }
+/* On bone, the swatch inverts to plum so the contrast logic is unchanged. */
+.is-light .btn-ghost { border-color: var(--bmc-plum); color: var(--bmc-plum); }
+.is-light .btn-ghost:hover { background: var(--bmc-plum); color: var(--white); }
+
+/* The arrow travels on hover. The button colour is held constant. */
+.pi-arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.btn-ghost:hover .pi-arrow,
+.btn-primary:hover .pi-arrow { transform: translateX(5px); }
+
+/* ---------------------------------------------------------------------
+   HERO
+   The supplied photograph is a bright, high-key room, so it carries a
+   heavier scrim than the sales hero needs. Ambient purple/magenta wash
+   sits above the photo and below the type, per the brand's depth rule.
+   --------------------------------------------------------------------- */
+.pi-hero {
+  position: relative; overflow: hidden;
+  background: var(--black);
+  padding: 168px 0 96px;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+}
+.pi-hero-bkgd {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 58%;
+  z-index: 0; display: block; pointer-events: none;
+}
+.pi-hero::before {                       /* photo scrim */
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.80) 42%, rgba(10,10,10,0.90) 100%);
+}
+.pi-hero::after {                        /* ambient wash — background only */
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 8%,  rgba(var(--bmc-purple-rgb),  0.30), transparent 65%),
+    radial-gradient(ellipse 85% 60% at 50% 96%, rgba(var(--bmc-magenta-rgb), 0.16), transparent 70%);
+}
+.pi-hero .container { position: relative; z-index: 3; }
+.pi-hero-inner { max-width: 940px; margin: 0 auto; }
+
+.pi-hero-logo {
+  width: 210px; height: auto; display: block; margin: 0 auto 34px;
+  opacity: 0; animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.25s;
+}
+
+/* Cyan pill — the brand's badge mark. Carries the live scarcity number so
+   the one piece of urgency on the page is a designed object, not a
+   sentence the eye slides past. */
+.pi-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--bmc-cyan); color: var(--black);
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 9px 18px; border-radius: 99px;
+  opacity: 0; transform: translateY(10px);
+  animation: revealUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.5s;
+}
+.pi-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--black); flex: none;
+  animation: piDot 2.4s ease-in-out infinite;
+}
+@keyframes piDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+.pi-hero h1 {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(40px, 5.5vw, 88px);
+  line-height: 1.0; letter-spacing: -0.035em;
+  color: var(--white); text-transform: uppercase;
+  margin: 26px 0 0; text-wrap: balance;
+  opacity: 0; transform: translateY(14px);
+  animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.75s;
+}
+.pi-hero-sub {
+  font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: clamp(12px, 1.1vw, 13px); letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--silver);
+  margin-top: 30px; line-height: 2;
+  opacity: 0; transform: translateY(14px);
+  animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 1.15s;
+}
+.pi-hero-sub .sep { color: var(--muted); margin: 0 12px; }
+@media (max-width: 720px) { .pi-hero-sub .sep { display: block; height: 0; overflow: hidden; margin: 0; } }
+
+/* Shared CTA row. The hero variant adds the timed entrance; elsewhere the
+   row is revealed by the scroll observer like any other block. */
+.pi-cta-row {
+  margin-top: 44px; display: flex; flex-direction: column;
+  align-items: center; gap: 20px;
+}
+.pi-hero-cta {
+  opacity: 0; transform: translateY(14px);
+  animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 1.5s;
+}
+.pi-secondary-link {
+  font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: 13px; letter-spacing: 0.02em;
+  color: var(--silver); text-decoration: none;
+  border-bottom: 1px solid var(--rule-strong); padding-bottom: 3px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.pi-secondary-link:hover { color: var(--bmc-cyan); border-color: var(--rule-cyan); }
+
+@media (max-width: 880px) { .pi-hero { padding: 128px 0 76px; } }
+
+/* ---------------------------------------------------------------------
+   SELECTIVITY BAND — four count-up stats. This is where the page earns
+   the word "invitation": the numbers do the selecting out loud.
+   --------------------------------------------------------------------- */
+.pi-stats-section {
+  background: var(--ink); border-bottom: 1px solid var(--rule);
+  padding: 10px 0;
+}
+.pi-stats { display: grid; grid-template-columns: repeat(4, 1fr); }
+.pi-stats > div { text-align: center; padding: 44px 20px; border-right: 1px solid var(--rule-strong); }
+.pi-stats > div:last-child { border-right: none; }
+.pi-stats .stat-number { font-size: clamp(30px, 3.4vw, 52px); }
+.pi-stats .stat-label { font-size: 11px; letter-spacing: 0.2em; max-width: 190px; }
+@media (max-width: 880px) {
+  .pi-stats { grid-template-columns: 1fr 1fr; }
+  .pi-stats > div { padding: 32px 16px; border-bottom: 1px solid var(--rule-strong); }
+  .pi-stats > div:nth-child(2n) { border-right: none; }
+  .pi-stats > div:nth-last-child(-n+2) { border-bottom: none; }
+}
+
+/* ---------------------------------------------------------------------
+   PROMISE — the three payoff lines, centred, with the closing stamp.
+   --------------------------------------------------------------------- */
+.pi-kicker {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(22px, 2.3vw, 34px); line-height: 1.32;
+  letter-spacing: -0.02em; text-transform: uppercase;
+  color: var(--white); margin-top: 40px; text-wrap: balance;
+}
+.pi-stamp {
+  display: inline-flex; align-items: center; gap: 18px;
+  margin-top: 34px;
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--bmc-cyan);
+}
+.pi-stamp::before, .pi-stamp::after {
+  content: ""; width: 40px; height: 1px; background: var(--rule-cyan);
+}
+.pi-fine  { font-size: 14px; line-height: 1.6; color: var(--silver); margin-top: 22px; }
+.pi-finer { font-size: 12px; line-height: 1.6; color: var(--grey-soft); margin-top: 8px; }
+.is-light .pi-fine { color: var(--muted); }
+.is-light .pi-finer { color: var(--grey); }
+
+/* ---------------------------------------------------------------------
+   SPLIT — a standing left column against a ruled right column. Used for
+   the letter passages so long prose never runs a full 1380px measure.
+   --------------------------------------------------------------------- */
+.pi-split { display: grid; grid-template-columns: 380px 1fr; gap: 64px; align-items: start; }
+.pi-split-right { border-left: 1px solid var(--rule); padding-left: 64px; }
+.is-light .pi-split-right { border-left-color: var(--rule-dark); }
+@media (max-width: 980px) {
+  .pi-split { grid-template-columns: 1fr; gap: 34px; }
+  .pi-split-right { border-left: none; padding-left: 0; }
+}
+
+.pi-stmt {
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: clamp(19px, 1.7vw, 24px); line-height: 1.45;
+  color: var(--white); margin-top: 34px;
+  border-left: 2px solid var(--bmc-cyan); padding-left: 24px;
+}
+.is-light .pi-stmt { color: var(--black); border-left-color: var(--bmc-plum); }
+.pi-sig {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--bmc-cyan); margin-top: 34px;
+}
+
+/* ---------------------------------------------------------------------
+   SELECTION FUNNEL — 11,738 considered, 124 invited, 40 seated. The
+   invitation's central claim, drawn instead of asserted. Bars animate
+   their width in when the group reveals.
+   --------------------------------------------------------------------- */
+.pi-funnel { margin-top: 46px; }
+.pi-funnel-row { padding: 20px 0; border-bottom: 1px solid var(--rule); }
+.pi-funnel-row:last-child { border-bottom: none; }
+.pi-funnel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.pi-funnel-n {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(26px, 2.6vw, 40px); letter-spacing: -0.03em; line-height: 1;
+  color: var(--white);
+}
+.pi-funnel-row--final .pi-funnel-n { color: var(--bmc-cyan); }
+.pi-funnel-l {
+  font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--silver); text-align: right;
+}
+.pi-funnel-bar { display: block; width: 100%; height: 3px; background: var(--rule); margin-top: 14px; overflow: hidden; }
+.pi-funnel-fill {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, rgba(var(--bmc-purple-rgb), 0.9), var(--bmc-cyan));
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.15s;
+}
+.visible .pi-funnel-fill,
+.pi-funnel-row.visible .pi-funnel-fill { width: var(--w, 100%); }
+@media (prefers-reduced-motion: reduce) {
+  .pi-funnel-fill { transition: none; width: var(--w, 100%); }
+}
+
+/* Photo card */
+.pi-photocard {
+  margin-top: 56px; border: 1px solid var(--rule);
+  border-radius: var(--radius); overflow: hidden; background: var(--surface-card);
+  transition: border-color 0.3s ease;
+}
+.pi-photocard:hover { border-color: var(--rule-cyan); }
+.pi-photocard img { display: block; width: 100%; height: auto; }
+.pi-photocard-cap {
+  padding: 20px 26px;
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--silver); border-top: 1px solid var(--rule);
+}
+
+/* ---------------------------------------------------------------------
+   STUDIO vs STREAM — the single largest gap on the current page. A reader
+   can already buy a virtual BMC seat. Nothing explained the delta to
+   $25,000. This is the light counterpoint section; accents re-hue to plum.
+   --------------------------------------------------------------------- */
+.pi-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 56px; }
+@media (max-width: 880px) { .pi-compare { grid-template-columns: 1fr; } }
+.pi-compare-col {
+  border: 1px solid var(--rule-dark); border-radius: var(--radius);
+  background: var(--white); padding: 40px 36px;
+  transition: border-color 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pi-compare-col--studio { border-top: 4px solid var(--bmc-plum); }
+.pi-compare-col--stream { background: var(--bone-soft); }
+.pi-compare-flag {
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--grey-soft);
+}
+.pi-compare-col--studio .pi-compare-flag { color: var(--bmc-plum); }
+.pi-compare-title {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(22px, 2vw, 30px); line-height: 1.1; letter-spacing: -0.02em;
+  text-transform: uppercase; color: var(--black); margin-top: 12px;
+}
+.pi-compare-price {
+  font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--grey-soft); margin-top: 10px;
+}
+.pi-compare-list { list-style: none; margin: 26px 0 0; padding: 0; }
+.pi-compare-list li {
+  display: grid; grid-template-columns: 22px 1fr; gap: 14px;
+  padding: 13px 0; border-top: 1px solid var(--rule-dark);
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: 15px; line-height: 1.55; color: var(--muted);
+}
+.pi-compare-list .tick { color: var(--bmc-plum); font-weight: 700; }
+.pi-compare-col--stream .pi-compare-list .tick { color: var(--grey); }
+.pi-compare-note {
+  margin-top: 40px; text-align: center;
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: clamp(17px, 1.6vw, 22px); line-height: 1.45; color: var(--black);
+}
+
+/* ---------------------------------------------------------------------
+   THE DAYS — four cards, ghost numerals, stagger cascade.
+   --------------------------------------------------------------------- */
+.pi-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 52px; }
+@media (max-width: 880px) { .pi-cards { grid-template-columns: 1fr; } }
+.pi-card {
+  background: var(--surface-card); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 34px 32px;
+  transition: border-color 0.3s ease;
+}
+.pi-card:hover { border-color: var(--rule-cyan); }
+.pi-card-n {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: 42px; line-height: 1; letter-spacing: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(var(--bmc-cyan-rgb), 0.55);
+}
+.pi-card-t {
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--bmc-cyan); margin-top: 18px;
+}
+.pi-card-p {
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: 16px; line-height: 1.6; color: var(--silver); margin-top: 12px;
+}
+
+/* ---------------------------------------------------------------------
+   THE PARTICULARS — a definition grid. Logistics, plainly.
+   --------------------------------------------------------------------- */
+.pi-grid { display: grid; grid-template-columns: 220px 1fr; margin-top: 46px; }
+.pi-gterm, .pi-gdesc { border-top: 1px solid var(--rule); padding: 22px 0; }
+.pi-gterm {
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--bmc-cyan);
+}
+.pi-gdesc {
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: 16px; line-height: 1.6; color: var(--silver); padding-left: 32px;
+}
+@media (max-width: 720px) {
+  .pi-grid { grid-template-columns: 1fr; }
+  .pi-gterm { border-bottom: none; padding-bottom: 8px; }
+  .pi-gdesc { border-top: none; padding: 0 0 22px; }
+}
+
+/* ---------------------------------------------------------------------
+   PROOF — the rating lockup plus three named members. Real people, real
+   quotes, carried over from hardybmc.com.
+   --------------------------------------------------------------------- */
+.pi-rating { display: flex; align-items: center; justify-content: center; gap: 26px; flex-wrap: wrap; }
+.pi-rating-n {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(52px, 6vw, 88px); line-height: 1; letter-spacing: -0.04em;
+  color: var(--bmc-cyan);
+}
+.pi-rating-n small { font-size: 0.32em; font-weight: 700; letter-spacing: 0.02em; }
+.pi-rating-div { width: 1px; height: 56px; background: var(--rule-strong); }
+.pi-rating-l {
+  font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--silver); text-align: left; line-height: 1.7;
+}
+.pi-quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 62px; }
+@media (max-width: 880px) { .pi-quotes { grid-template-columns: 1fr; } }
+.pi-quote {
+  background: var(--surface-card); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 32px 30px;
+  display: flex; flex-direction: column;
+  transition: border-color 0.3s ease;
+}
+.pi-quote:hover { border-color: var(--rule-cyan); }
+.pi-quote-t {
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: 17px; line-height: 1.55; color: var(--text-on-dark); flex: 1;
+}
+.pi-quote-hr { height: 1px; background: var(--rule); margin: 26px 0 20px; }
+.pi-quote-who { display: flex; align-items: center; gap: 14px; }
+.pi-quote-who img {
+  width: 46px; height: 46px; border-radius: 50%; object-fit: cover;
+  border: 1px solid var(--rule-strong); flex: none;
+}
+.pi-quote-n {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px; color: var(--white);
+}
+.pi-quote-r {
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 12px;
+  color: var(--grey); margin-top: 3px; line-height: 1.4;
+}
+
+/* ---------------------------------------------------------------------
+   STEPS — what happens next.
+   --------------------------------------------------------------------- */
+.pi-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 48px; }
+@media (max-width: 880px) { .pi-steps { grid-template-columns: 1fr; } }
+.pi-step {
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  background: var(--surface-card); padding: 34px 32px;
+  display: flex; gap: 22px; align-items: flex-start;
+}
+.pi-step-n {
+  flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--bmc-cyan); color: var(--bmc-cyan);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px;
+}
+.pi-step-h {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 17px; color: var(--white);
+}
+.pi-step-p {
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px;
+  line-height: 1.6; color: var(--silver); margin-top: 6px;
+}
+
+/* ---------------------------------------------------------------------
+   CLOSE — the climax section carries the largest padding on the page and
+   the only solid button, per the brand's one-primary-per-view rule.
+   --------------------------------------------------------------------- */
+.pi-close { padding: 190px 0 150px; text-align: center; }
+@media (max-width: 880px) { .pi-close { padding: 96px 0 84px; } }
+.pi-closeline {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(28px, 3.6vw, 56px); line-height: 1.12; letter-spacing: -0.03em;
+  text-transform: uppercase; color: var(--white); text-wrap: balance;
+}
+.pi-closeline + .pi-closeline { margin-top: 12px; }
+
+/* Shimmer sweep, carried from the sales page so the two closes match. */
+.cta-glow { position: relative; overflow: hidden; }
+.cta-glow::after {
+  content: ''; position: absolute; top: 0; left: -80%; width: 55%; height: 100%;
+  background: linear-gradient(105deg, transparent 20%, rgba(var(--bmc-cyan-rgb), 0.28) 50%, transparent 80%);
+  animation: cta-shimmer 4s ease-in-out infinite; pointer-events: none;
+}
+.cta-glow:hover::after { opacity: 0; }
+@keyframes cta-shimmer {
+  0%   { left: -80%; opacity: 1; }
+  38%  { left: 110%; opacity: 1; }
+  39%  { left: 110%; opacity: 0; }
+  99%  { left: -80%; opacity: 0; }
+  100% { left: -80%; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .cta-glow::after { animation: none; opacity: 0; } }
+
+.pi-contact {
+  margin-top: 34px; padding-top: 30px; border-top: 1px solid var(--rule);
+  display: inline-block;
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px; color: var(--silver);
+}
+.pi-contact a { color: var(--bmc-cyan); text-decoration: none; border-bottom: 1px solid var(--rule-cyan); }
+.pi-contact a:hover { border-bottom-color: var(--bmc-cyan); }
+
+/* Footer. Fine-print links stay the line's own grey, underline only. */
+.pi-footer {
+  background: var(--black); border-top: 1px solid var(--rule);
+  padding: 44px 0 64px; text-align: center;
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: 11px; letter-spacing: 0.08em; line-height: 2; color: var(--grey-soft);
+}
+.pi-footer a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+/* FAQ on this page runs on the dark surface, so it inherits bmc.css's dark
+   defaults untouched. Only the measure is narrowed. */
+.pi-faq .container { max-width: 1000px; }
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================================
+     STICKY HEADER — ghost CTA, low pressure. Hidden until scroll.
+     ===================================================================== -->
+<div class="pi-header" id="pi-header">
+  <div class="container">
+    <div class="pi-header-logo">
+      <img src="studio45-logo-white.png" alt="Studio45" width="1133" height="264" />
+      <span class="pi-header-seats" id="pi-seats-header">29 of 40 seats remain</span>
+    </div>
+    <a href="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit" class="btn-ghost btn-ghost--sm">
+      Place Your Deposit <span class="pi-arrow">&rarr;</span>
+    </a>
+  </div>
+</div>
+
+<!-- =====================================================================
+     HERO
+     ===================================================================== -->
+<section class="pi-hero" id="top">
+  <img class="pi-hero-bkgd" src="studio45-hero-photo.jpg"
+       alt="" width="2400" height="1600" fetchpriority="high" decoding="async" aria-hidden="true" />
+  <div class="container">
+    <div class="pi-hero-inner">
+
+      <img class="pi-hero-logo" src="studio45-logo-white.png"
+           alt="Studio45" width="1133" height="264" />
+
+      <div class="pi-badge">
+        <span class="pi-badge-dot" aria-hidden="true"></span>
+        By Personal Invitation
+      </div>
+
+      <h1>The Room<br>You Asked Me<br>To <em>Build</em>.</h1>
+
+      <div class="pi-hero-sub">
+        October 18&ndash;22, 2026 <span class="sep">&middot;</span>
+        Charleston, South Carolina <span class="sep">&middot;</span>
+        40 Elite Members <span class="sep">&middot;</span>
+        <em class="nobreak">29 Seats Remain</em>
+      </div>
+
+      <div class="pi-cta-row pi-hero-cta">
+        <a href="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit" class="btn-ghost">
+          Place Your Deposit <span class="pi-arrow">&rarr;</span>
+        </a>
+        <a href="#message" class="pi-secondary-link">Or hear it from Darren first &darr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <a href="#selection" class="scroll-cue" aria-label="Scroll down">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+  </a>
+</section>
+
+<!-- =====================================================================
+     SELECTIVITY BAND — count-up stats (bmc.js wires .stat-number[data-count])
+     ===================================================================== -->
+<section class="pi-stats-section" id="selection">
+  <div class="container">
+    <div class="pi-stats stagger">
+      <div>
+        <div class="stat-number" data-count="35" data-decimals="0"><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Years At The Center Of Success</div>
+      </div>
+      <div>
+        <div class="stat-number" data-count="11738" data-decimals="0" data-sep><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Leaders Considered</div>
+      </div>
+      <div>
+        <div class="stat-number" data-count="124" data-decimals="0"><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Personally Invited</div>
+      </div>
+      <div>
+        <div class="stat-number" data-count="40" data-decimals="0"><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Seats In The Room</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     VSL — brand player. Same component and same JS wiring as the sales page.
+     ===================================================================== -->
+<section class="vsl-section" id="message">
+  <div class="container">
+    <div class="eyebrow eyebrow--center vsl-eyebrow reveal" style="display:flex;justify-content:center;">
+      <span class="pip"></span>A Personal Message From Darren &middot; 3 Minutes
+    </div>
+    <div class="vsl-frame reveal reveal-scale">
+      <iframe id="vsl-player"
+        src="https://player.vimeo.com/video/1216189039?controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;dnt=1"
+        loading="lazy" frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+        allowfullscreen
+        title="Studio45 &mdash; A Personal Invitation From Darren Hardy"></iframe>
+      <button class="vsl-toggle" type="button" aria-label="Play or pause video" data-vsl-play>
+        <span class="vsl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg></span>
+        <span class="vsl-pause" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+      </button>
+      <button class="vsl-vol" type="button" aria-label="Mute or unmute">
+        <span class="t-vol t-vol-on" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a8.5 8.5 0 0 1 0 13"/></svg></span>
+        <span class="t-vol t-vol-off" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/><line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/></svg></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     THE PROMISE
+     ===================================================================== -->
+<section class="pi-section pi-section--tight bmc-wash bmc-wash--center">
+  <div class="container">
+    <div class="pi-read pi-read--center">
+      <p class="pi-body reveal">You&rsquo;ll spend four days inside the studio where Business Master Class is produced and delivered live to the world.</p>
+      <p class="pi-body reveal">Beside 39 leaders operating at your altitude, or higher.</p>
+      <p class="pi-body reveal">Then four more weeks with them, and with me, in the Business Mastery Accelerator.</p>
+
+      <div class="pi-kicker reveal">
+        You&rsquo;ll leave with the systems to <em>dominate your category</em>.<br>
+        With <em>39 leaders</em> you can call for the rest of your career.<br>
+        And with <em>AI multiplying a team</em> that moves without you.
+      </div>
+
+      <div class="pi-stamp reveal">Installed. Not Explained.</div>
+
+      <div class="pi-cta-row reveal" style="margin-top:48px;">
+        <a href="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit" class="btn-ghost">
+          Place Your Deposit <span class="pi-arrow">&rarr;</span>
+        </a>
+      </div>
+      <p class="pi-fine reveal">A $500 deposit holds your place among the 40. Applied to your $25,000 investment.</p>
+      <p class="pi-finer reveal">Seats are confirmed in the order deposits arrive. 29 of 40 remain.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     A MESSAGE FROM DARREN
+     ===================================================================== -->
+<section class="pi-section pi-section--ink">
+  <div class="container">
+    <div class="pi-split">
+      <div class="reveal reveal-left">
+        <div class="eyebrow"><span class="pip"></span>A Message From Darren</div>
+        <div class="pi-lede" style="margin-top:22px;">I&rsquo;ve spent 35 years putting high-level people in rooms together.</div>
+        <p class="pi-body">Here&rsquo;s what I&rsquo;ve learned. The biggest variable in what a leader sees, decides, and does next isn&rsquo;t the content. It&rsquo;s <em>who else is in the room</em>.</p>
+      </div>
+      <div class="pi-split-right reveal reveal-right">
+        <p class="pi-body">You&rsquo;ve outgrown most of the rooms you stand in. Not your ambition. Your room. There is nobody left in your building who can tell you something you don&rsquo;t already know about your own business.</p>
+        <p class="pi-body">So we built one that hasn&rsquo;t been outgrown. Small enough that <em>nobody hides</em>. Selected tightly enough that <em>everybody belongs</em>.</p>
+        <div class="pi-stmt">That&rsquo;s the whole idea.<br>Everything else on this page is logistics.</div>
+        <div class="pi-sig">Darren Hardy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     WHO'S IN THE ROOM — the selection funnel, drawn.
+     ===================================================================== -->
+<section class="pi-section">
+  <div class="container">
+    <div class="pi-split">
+      <div class="reveal reveal-left">
+        <div class="eyebrow"><span class="pip"></span>Who&rsquo;s In The Room</div>
+        <h2 class="pi-h2">40 Seats.<br>Every One Of Them<br>A Name I <em>Circled</em>.</h2>
+      </div>
+      <div class="pi-split-right reveal reveal-right">
+        <p class="pi-body">Out of 11,738 leaders who have been through the past 44 Business Master Classes, 124 received an invitation.</p>
+        <p class="pi-body">I wasn&rsquo;t looking for the leaders who needed this most. I was looking for <em>the leaders the room needed most</em>.</p>
+        <p class="pi-body">Several members of my Dirty Dozen will be in the studio.</p>
+
+        <div class="pi-funnel stagger">
+          <div class="pi-funnel-row">
+            <div class="pi-funnel-head">
+              <span class="pi-funnel-n">11,738</span>
+              <span class="pi-funnel-l">Leaders considered</span>
+            </div>
+            <span class="pi-funnel-bar"><span class="pi-funnel-fill" style="--w:100%"></span></span>
+          </div>
+          <div class="pi-funnel-row">
+            <div class="pi-funnel-head">
+              <span class="pi-funnel-n">124</span>
+              <span class="pi-funnel-l">Personally invited</span>
+            </div>
+            <span class="pi-funnel-bar"><span class="pi-funnel-fill" style="--w:22%"></span></span>
+          </div>
+          <div class="pi-funnel-row pi-funnel-row--final">
+            <div class="pi-funnel-head">
+              <span class="pi-funnel-n">40</span>
+              <span class="pi-funnel-l">Seats in the room</span>
+            </div>
+            <span class="pi-funnel-bar"><span class="pi-funnel-fill" style="--w:8%"></span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pi-photocard reveal reveal-scale">
+      <img src="studio45-group-photo.gif" loading="lazy" decoding="async"
+           alt="A previous Business Master Class cohort in the Charleston studio" />
+      <div class="pi-photocard-cap">No spectators. No plus-ones. No lanyard collectors.</div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     IN THE STUDIO vs ON THE STREAM
+     The light counterpoint section. Accents re-hue to plum per the brand's
+     accent logic. This answers the question the current page never does:
+     the reader can already attend BMC virtually, so what is the $25,000 for.
+     ===================================================================== -->
+<section class="pi-section is-light">
+  <div class="container">
+    <div class="pi-read">
+      <div class="eyebrow eyebrow--dark reveal"><span class="pip"></span>Why The Studio</div>
+      <h2 class="pi-h2 reveal">Same Three Days.<br>Entirely Different <em>Room</em>.</h2>
+      <p class="pi-body reveal">Business Master Class is delivered live to leaders in 121 countries. You can watch it from your desk. Thousands will. What follows is what the other 39 chairs change.</p>
+    </div>
+
+    <div class="pi-compare stagger">
+
+      <div class="pi-compare-col pi-compare-col--studio">
+        <div class="pi-compare-flag">By Invitation &middot; 40 Seats</div>
+        <h3 class="pi-compare-title">In The Studio</h3>
+        <div class="pi-compare-price">$25,000 &middot; Charleston &middot; Oct 18&ndash;22</div>
+        <ul class="pi-compare-list">
+          <li><span class="tick">&#10003;</span><span>Four days in the room where BMC is produced, 10:00 AM to 7:00 PM ET.</span></li>
+          <li><span class="tick">&#10003;</span><span>Private rooftop reception the night before. Just the 40 of you.</span></li>
+          <li><span class="tick">&#10003;</span><span>Each evening the doors close for a private Q&amp;A with Darren. No outside audience. No recording.</span></li>
+          <li><span class="tick">&#10003;</span><span>Dinner in curated groups, seated by stage and ambition.</span></li>
+          <li><span class="tick">&#10003;</span><span>Four weeks after, live with Darren, in the Business Mastery Accelerator.</span></li>
+          <li><span class="tick">&#10003;</span><span>Thirty-nine leaders you can call for the rest of your career.</span></li>
+          <li><span class="tick">&#10003;</span><span>A full year in the COLLECTIVE.</span></li>
+        </ul>
+      </div>
+
+      <div class="pi-compare-col pi-compare-col--stream">
+        <div class="pi-compare-flag">Open Enrollment</div>
+        <h3 class="pi-compare-title">On The Stream</h3>
+        <div class="pi-compare-price">From $895/mo &middot; Virtual &middot; Oct 19&ndash;21</div>
+        <ul class="pi-compare-list">
+          <li><span class="tick">&#10003;</span><span>Three days of Business Master Class, delivered live to your screen.</span></li>
+          <li><span class="tick">&#10003;</span><span>The same six strategic installations, taught by Darren.</span></li>
+          <li><span class="tick">&#10003;</span><span>A full year in the COLLECTIVE.</span></li>
+          <li><span class="tick">&#10003;</span><span>HARDYbot, the AI execution systems, and the Elite Leader Network.</span></li>
+          <li><span class="tick">&#8212;</span><span>The room is 11,738 people wide. Nobody knows your name.</span></li>
+          <li><span class="tick">&#8212;</span><span>No reception. No closed-door Q&amp;A. No dinner table.</span></li>
+          <li><span class="tick">&#8212;</span><span>You take the strategy home alone.</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p class="pi-compare-note reveal">
+      The content is the same. <em>The proximity is the product.</em>
+    </p>
+  </div>
+</section>
+
+<!-- =====================================================================
+     THE DAYS
+     ===================================================================== -->
+<section class="pi-section">
+  <div class="container">
+    <div class="pi-read">
+      <div class="eyebrow reveal"><span class="pip"></span>The Days</div>
+      <h2 class="pi-h2 reveal">Sunday Through <em>Thursday</em>.</h2>
+    </div>
+
+    <div class="pi-cards stagger">
+      <div class="pi-card">
+        <div class="pi-card-n">01</div>
+        <div class="pi-card-t">Sunday, October 18</div>
+        <p class="pi-card-p">Private rooftop reception overlooking historic Charleston. Just the 40 of us.</p>
+      </div>
+      <div class="pi-card">
+        <div class="pi-card-n">02</div>
+        <div class="pi-card-t">Monday &ndash; Wednesday, October 19&ndash;21</div>
+        <p class="pi-card-p">Inside the studio, 10:00 AM to 7:00 PM ET, while Business Master Class is delivered live around the world. Each evening the doors close for a private Q&amp;A and discussion. No outside audience. No recording. Dinner in curated groups, seated by stage and ambition.</p>
+      </div>
+      <div class="pi-card">
+        <div class="pi-card-n">03</div>
+        <div class="pi-card-t">Thursday, October 22</div>
+        <p class="pi-card-p">Depart.</p>
+      </div>
+      <div class="pi-card">
+        <div class="pi-card-n">04</div>
+        <div class="pi-card-t">The Four Weeks After</div>
+        <p class="pi-card-p">The same 40, live with Darren, through the Business Mastery Accelerator.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     THE PARTICULARS
+     ===================================================================== -->
+<section class="pi-section pi-section--ink">
+  <div class="container">
+    <div class="pi-read">
+      <div class="eyebrow reveal"><span class="pip"></span>The Particulars</div>
+      <h2 class="pi-h2 reveal">The <em>Logistics</em>.</h2>
+
+      <div class="pi-grid stagger">
+        <div class="pi-gterm">Studio</div>
+        <div class="pi-gdesc">100 Calhoun Street, Suite 220<br>Charleston, SC 29401</div>
+
+        <div class="pi-gterm">Attire</div>
+        <div class="pi-gdesc">Business casual. You will be on camera.</div>
+
+        <div class="pi-gterm">Travel</div>
+        <div class="pi-gdesc">Arrive Sunday afternoon. Depart Thursday morning.</div>
+
+        <div class="pi-gterm">Lodging</div>
+        <div class="pi-gdesc">Hotel of your choice. No room block.</div>
+
+        <div class="pi-gterm">Investment</div>
+        <div class="pi-gdesc">$25,000. Includes your in-studio BMC experience, the 4-week Business Mastery Accelerator, and a full year in the COLLECTIVE.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     PROOF — real members, real quotes, carried from hardybmc.com.
+     ===================================================================== -->
+<section class="pi-section bmc-wash bmc-wash--center">
+  <div class="container">
+    <div class="pi-read pi-read--center">
+      <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;">
+        <span class="pip"></span>What The Room Has Produced
+      </div>
+      <div class="pi-rating reveal" style="margin-top:38px;">
+        <div class="pi-rating-n">9.8<small>/10</small></div>
+        <div class="pi-rating-div" aria-hidden="true"></div>
+        <div class="pi-rating-l">Rating from<br>11,738 CEOs</div>
+      </div>
+    </div>
+
+    <div class="pi-quotes stagger">
+      <div class="pi-quote">
+        <p class="pi-quote-t">&ldquo;It&rsquo;s my 5th BMC and <em>the growth keeps coming</em>.&rdquo;</p>
+        <div class="pi-quote-hr"></div>
+        <div class="pi-quote-who">
+          <img src="https://darrenhardy.com/wp-content/themes/eighteen-tags/new%20website%20php%20files/dh-bmc-images/rebecca_jones.webp" alt="Rebecca Jones" loading="lazy" decoding="async" width="46" height="46" />
+          <div>
+            <div class="pi-quote-n">Rebecca Jones</div>
+            <div class="pi-quote-r">Founder &middot; RLJ Wealth Management</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pi-quote">
+        <p class="pi-quote-t">&ldquo;In the past two years since BMC, my business has gone from $250k in revenue to <em>$6 million</em>.&rdquo;</p>
+        <div class="pi-quote-hr"></div>
+        <div class="pi-quote-who">
+          <img src="https://darrenhardy.com/wp-content/themes/eighteen-tags/new%20website%20php%20files/dh-bmc-images/gerald_leonard.webp" alt="Gerald Leonard" loading="lazy" decoding="async" width="46" height="46" />
+          <div>
+            <div class="pi-quote-n">Gerald Leonard</div>
+            <div class="pi-quote-r">CEO &middot; Principles of Execution, LLC</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pi-quote">
+        <p class="pi-quote-t">&ldquo;My business has skyrocketed. We are on track to exceed <em>$5M</em> with a <em>50% profit margin</em>.&rdquo;</p>
+        <div class="pi-quote-hr"></div>
+        <div class="pi-quote-who">
+          <img src="https://darrenhardy.com/wp-content/themes/eighteen-tags/new%20website%20php%20files/dh-bmc-images/dan_tripp.webp" alt="Dan Tripp" loading="lazy" decoding="async" width="46" height="46" />
+          <div>
+            <div class="pi-quote-n">Dan Tripp</div>
+            <div class="pi-quote-r">CEO &amp; Founder &middot; Advocacy Architects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     FAQ — accordion wired by bmc.js (.faq-q / .faq-a).
+     ===================================================================== -->
+<section class="pi-section pi-section--ink pi-faq">
+  <div class="container">
+    <div class="eyebrow reveal"><span class="pip"></span>Before You Decide</div>
+    <h2 class="pi-h2 reveal" style="margin-bottom:46px;">Straight <em>Answers</em>.</h2>
+
+    <div class="reveal">
+      <div class="faq-row">
+        <button class="faq-q" type="button" aria-expanded="false">
+          I&rsquo;m already enrolled for the October Business Master Class. What changes?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          You move from the stream into the studio. Same three days of content, delivered from the room you&rsquo;d be sitting in. You add the Sunday reception, the closed-door evening sessions, the dinners, the four-week Accelerator, and 39 people you&rsquo;ll know by name. Brenda will reconcile what you&rsquo;ve already paid against the $25,000 when she calls.
+        </div></div>
+      </div>
+
+      <div class="faq-row">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Why $25,000 when the virtual seat is a fraction of that?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          Because you are not buying the content. The content is identical, and it is available for less. You are buying the other 39 chairs, four days of unrecorded access to me with the doors closed, and a four-week Accelerator that exists to make sure what you decide in Charleston is actually running by December. If the strategy alone were the point, take the stream. It&rsquo;s excellent, and thousands will.
+        </div></div>
+      </div>
+
+      <div class="faq-row">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Is there an application or an approval step?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          No. The selection already happened. 11,738 leaders were considered and 124 were invited, which is why you&rsquo;re reading this page. Seats are confirmed in the order deposits arrive.
+        </div></div>
+      </div>
+
+      <div class="faq-row">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Can I bring my business partner or my second-in-command?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          No plus-ones. The invitation is personal and it is not transferable. If your partner was separately invited, they take their own seat out of the 40. Ask Brenda.
+        </div></div>
+      </div>
+
+      <div class="faq-row">
+        <button class="faq-q" type="button" aria-expanded="false">
+          What actually happens in the four weeks after?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          The Business Mastery Accelerator. The same 40, live with me, for four weeks. Charleston is where the strategy gets chosen. The Accelerator is where it gets installed, with the people who watched you choose it holding you to it.
+        </div></div>
+      </div>
+
+      <div class="faq-row">
+        <button class="faq-q" type="button" aria-expanded="false">
+          What does the $500 deposit commit me to?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          It holds one of the 40 seats in your name and is applied in full to your $25,000 investment. Brenda calls you personally to walk through the balance, the schedule, and travel before anything else is due.
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     WHAT HAPPENS NEXT
+     ===================================================================== -->
+<section class="pi-section">
+  <div class="container">
+    <div class="pi-read">
+      <div class="eyebrow reveal"><span class="pip"></span>What Happens Next</div>
+      <h2 class="pi-h2 reveal"><em>Two</em> Steps.</h2>
+    </div>
+
+    <div class="pi-steps stagger">
+      <div class="pi-step">
+        <div class="pi-step-n">1</div>
+        <div>
+          <div class="pi-step-h">Place your $500 deposit.</div>
+          <p class="pi-step-p">It holds your place among the 40.</p>
+        </div>
+      </div>
+      <div class="pi-step">
+        <div class="pi-step-n">2</div>
+        <div>
+          <div class="pi-step-h">Brenda calls you personally.</div>
+          <p class="pi-step-p">She&rsquo;ll walk you through every detail and handle the rest.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="pi-fine reveal" style="margin-top:30px;">No application. No approval process. Seats are confirmed in the order deposits arrive.</p>
+  </div>
+</section>
+
+<!-- =====================================================================
+     CLOSE — the only solid CTA on the page.
+     ===================================================================== -->
+<section class="pi-close bmc-wash bmc-wash--center">
+  <div class="container">
+    <div class="pi-read pi-read--center">
+      <div class="pi-closeline reveal">You built something most people never build.</div>
+      <div class="pi-closeline reveal" style="color:var(--silver);">And you did it <em>without a room like this</em>.</div>
+
+      <div style="margin-top:48px;" class="reveal">
+        <a href="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit" class="btn-primary btn-large cta-glow">
+          Place Your Deposit <span class="pi-arrow">&rarr;</span>
+        </a>
+      </div>
+
+      <p class="pi-fine reveal">$500 holds your place among the 40. <em>29 seats remain.</em></p>
+
+      <div class="pi-contact reveal">
+        Questions? Call or text Brenda: <a href="tel:+16193751257">619-375-1257</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="pi-footer">
+  <div class="container">
+    STUDIO45 &middot; The 45th Business Master Class &middot; Charleston, South Carolina<br>
+    This invitation was extended to 124 Elite members and is not transferable.<br>
+    &copy; Darren Hardy, LLC. All Rights Reserved.
+  </div>
+</footer>
+
+<!-- Shared motion system: scroll reveal, stagger, count-up, FAQ accordion,
+     and the Vimeo play/mute wiring. Same file the sales page loads. -->
+<script src="bmc.js"></script>
+
+<script>
+/* Sticky header — reveals once the hero is behind you, so the ghost CTA is
+   available on every screen after the first without competing with the
+   hero's own call to action. */
+(function () {
+  var header = document.getElementById('pi-header');
+  var hero = document.getElementById('top');
+  if (!header || !hero) return;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      header.classList.toggle('is-visible', !entries[0].isIntersecting);
+    }, { rootMargin: '-90% 0px 0px 0px' }).observe(hero);
+  }
+})();
+
+/* Funnel bars — the .stagger observer in bmc.js adds .visible to the group,
+   which is what drives the fills. Nothing further needed; this block only
+   guarantees the bars are drawn if JS reveal is skipped for reduced motion. */
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.pi-funnel').forEach(function (f) { f.classList.add('visible'); });
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -49,24 +49,41 @@
     els.forEach(el => {
       const end = parseFloat(el.dataset.count);
       const dec = parseInt(el.dataset.decimals) || 0;
+      let txt = end.toFixed(dec);
+      if (el.hasAttribute('data-sep')) {
+        const [i, d] = txt.split('.');
+        txt = i.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (d ? '.' + d : '');
+      }
       // Write to the inner .stat-value if present so a sibling "/10" survives.
-      (el.querySelector('.stat-value') || el).textContent = end.toFixed(dec);
+      (el.querySelector('.stat-value') || el).textContent = txt;
     });
     return;
   }
 
   const ease = t => 1 - Math.pow(1 - t, 3); // ease-out cubic
 
+  // Opt-in thousands separators. A bare toFixed() renders 11738, which reads
+  // as a part number rather than a count. Adding `data-sep` to the element
+  // groups the digits. Absent the attribute nothing changes, so every existing
+  // stat on the sales page (9.8, 121) is untouched.
+  const fmt = (v, dec, sep) => {
+    const s = v.toFixed(dec);
+    if (!sep) return s;
+    const [i, d] = s.split('.');
+    return i.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (d ? '.' + d : '');
+  };
+
   function animate(el) {
     const end = parseFloat(el.dataset.count);
     const dec = parseInt(el.dataset.decimals) || 0;
+    const sep = el.hasAttribute('data-sep');
     // Write to the inner .stat-value if present so a sibling "/10" survives.
     const out = el.querySelector('.stat-value') || el;
     const dur = 1100;
     const t0 = performance.now();
     (function tick(now) {
       const p = Math.min((now - t0) / dur, 1);
-      out.textContent = (ease(p) * end).toFixed(dec);
+      out.textContent = fmt(ease(p) * end, dec, sep);
       if (p < 1) requestAnimationFrame(tick);
     })(t0);
   }
