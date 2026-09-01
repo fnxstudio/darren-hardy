@@ -221,6 +221,39 @@
 /* ---------------------------------------------------------------------
    BRING YOUR TEAM
    --------------------------------------------------------------------- */
+/* Real member photography — the same shots used on bmc-rooms.html. People
+   respond to people; the argument for bringing your team lands harder next
+   to members who actually did it. */
+.together-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 80px; }
+.together-shot {
+  position: relative; aspect-ratio: 4 / 3; overflow: hidden;
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.together-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The same bottom scrim the testimonial cards carry, so member snapshots
+   sit inside the brand instead of on top of it. */
+.together-shot::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom, transparent 58%, rgba(10, 10, 14, 0.5));
+}
+.together-shot:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.40); transform: translateY(-3px); }
+.together-caption {
+  margin-top: 20px; font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--grey); display: inline-flex; align-items: center; gap: 14px;
+}
+.together-caption .pip { display: inline-block; width: 24px; height: 1px; background: var(--grey); }
+@media (max-width: 880px) {
+  .together-strip { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 56px; }
+  .together-caption { letter-spacing: 0.18em; }
+}
+
+/* Member quotes reuse the sales page's .t-quote card wholesale — it is
+   already a dark card, so only the grid wrapper is new here. */
+.team-quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 40px; }
+@media (max-width: 980px) { .team-quotes { grid-template-columns: 1fr; gap: 18px; } }
+
 .team-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 72px; align-items: center; }
 .team-body p {
   font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(16px, 1.35vw, 19px);
@@ -242,71 +275,6 @@
 .team-price-alt { margin-top: 14px; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; color: var(--silver); }
 .team-rule { height: 1px; background: var(--rule); margin: 28px 0; }
 @media (max-width: 980px) { .team-grid { grid-template-columns: 1fr; gap: 44px; } }
-
-/* ---------------------------------------------------------------------
-   REFERRAL FORM — the "who told you about BMC?" ask. On the live page this
-   is an interrupting modal over the confirmation. Here it is an inline
-   section the reader reaches on their own terms.
-
-   hbspt.forms.create() is called with css:"" so HubSpot never injects its
-   own stylesheet — without that its defaults load AFTER this block and win,
-   which is what puts a red button and white inputs on a dark section.
-   --------------------------------------------------------------------- */
-.ref-wrap { max-width: 720px; }
-.ref-form { margin-top: 40px; }
-.ref-form .hs-form-field { margin-bottom: 24px; }
-.ref-form fieldset { max-width: none !important; }
-.ref-form .input { margin: 0 !important; }
-
-/* Labels are real questions here, not UI chrome — sentence case and
-   readable rather than the 10px tracked caps used for field chrome. */
-.ref-form .hs-form-field > label {
-  display: block; font-family: 'Inter', sans-serif; font-weight: 500;
-  font-size: 15px; line-height: 1.5; letter-spacing: 0;
-  text-transform: none; color: var(--silver); margin-bottom: 12px;
-}
-.ref-form .hs-form-required { color: var(--grey); margin-left: 2px; }
-
-.ref-form input[type="text"],
-.ref-form input[type="email"],
-.ref-form input[type="tel"],
-.ref-form textarea,
-.ref-form select,
-.ref-form .hs-input {
-  width: 100% !important; box-sizing: border-box;
-  background: var(--ink-soft); color: var(--white);
-  border: 1px solid var(--rule-strong); border-radius: var(--radius);
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 16px;
-  padding: 15px 16px; transition: border-color 0.2s ease;
-}
-.ref-form .hs-input::placeholder { color: var(--grey-soft); }
-.ref-form .hs-input:focus { outline: none; border-color: var(--bmc-cyan); }
-
-/* Ghost CTA on dark, per the brand guide's button spec. */
-.ref-form .actions { margin-top: 30px; padding: 0; }
-.ref-form input[type="submit"],
-.ref-form .hs-button {
-  background: transparent; color: var(--bmc-cyan);
-  border: 1px solid var(--rule-cyan); border-radius: var(--radius);
-  font-family: 'Inter', sans-serif; font-weight: 700;
-  font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
-  padding: 16px 30px; cursor: pointer; width: auto; -webkit-appearance: none;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-.ref-form input[type="submit"]:hover,
-.ref-form .hs-button:hover { background: var(--bmc-cyan); color: var(--black); border-color: var(--bmc-cyan); }
-
-.ref-form .hs-error-msg,
-.ref-form .hs-error-msgs label {
-  color: #ff8b8b; font-family: 'Inter', sans-serif; font-weight: 400;
-  font-size: 13px; letter-spacing: 0; text-transform: none; margin-top: 8px;
-}
-.ref-form .hs-error-msgs { list-style: none; padding: 0; }
-.ref-form .submitted-message {
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 17px;
-  line-height: 1.6; color: var(--silver);
-}
-.ref-form .submitted-message p { color: var(--silver); }
 
 /* ---------------------------------------------------------------------
    FINAL BAND
@@ -407,7 +375,7 @@
 <section class="conf-count">
   <div class="container">
     <div class="conf-count-inner">
-      <div class="conf-count-label"><span class="pip"></span>Your Transformation Starts In</div>
+      <div class="conf-count-label"><span class="pip"></span>Your BMC Event Starts In</div>
       <div class="conf-clock" id="conf-clock" data-target="2026-10-19T07:00:00-07:00" role="timer" aria-live="off">
         <div class="conf-unit"><div class="conf-unit-num" data-unit="days">--</div><div class="conf-unit-lab">Days</div></div>
         <div class="conf-unit"><div class="conf-unit-num" data-unit="hours">--</div><div class="conf-unit-lab">Hrs</div></div>
@@ -654,30 +622,70 @@
         <a class="act-link" href="mailto:HelpMe@DarrenHardy.com?subject=Team%20seats%20for%20Business%20Master%20Class%20%E2%80%94%20Oct%2019-21" style="margin-top:24px;">Email About Team Seats &rarr;</a>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- =====================================================================
-     LAYER 7 — REFERRAL CREDIT
-     On the live page this is a modal that fires over the confirmation. It
-     interrupts the one moment a buyer most wants to feel certain. Here it
-     is an inline section, asked once, after value has been delivered.
-     ===================================================================== -->
-<section class="section-ink section-divider" id="referral">
-  <div class="container">
-    <div class="ref-wrap">
-      <div class="eyebrow reveal"><span class="pip"></span>One Small Thing</div>
-      <h2 class="section-headline reveal" style="font-size:clamp(30px,3.4vw,52px);">Who Sent <em class="key">You</em>?</h2>
-      <p class="reveal" style="font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(16px,1.35vw,18px);line-height:1.65;color:var(--silver);margin-top:22px;">
-        If a member of this community is the reason you are reading this page, tell us their name. We make sure they hear about it.
-      </p>
-      <div class="ref-form reveal" id="ref-form"></div>
+    <!-- Real member photography (the same shots as bmc-rooms.html) -->
+    <div class="together-strip stagger">
+      <div class="together-shot"><img src="room-photos/room-02.webp" alt="Members watching Business Master Class together in one room" width="960" height="720" loading="lazy" decoding="async" /></div>
+      <div class="together-shot"><img src="room-photos/room-03.webp" alt="Members working through the Business Master Class material together" width="960" height="720" loading="lazy" decoding="async" /></div>
+      <div class="together-shot"><img src="room-photos/room-01.webp" alt="Members debriefing over dinner after a day of Business Master Class" width="960" height="720" loading="lazy" decoding="async" /></div>
+      <div class="together-shot"><img src="room-photos/room-05.webp" alt="Members meeting up before the day&rsquo;s sessions" width="960" height="720" loading="lazy" decoding="async" /></div>
+    </div>
+    <div class="together-caption reveal"><span class="pip"></span>Members who did not come alone</div>
+
+    <!-- Real member quotes, carried over from the sales page verbatim -->
+    <div class="team-quotes stagger">
+
+      <div class="t-quote">
+        <div class="t-quote-photo">
+          <img class="t-quote-img" src="jeannie_henderson.webp" alt="Jeannie Henderson" width="800" height="550" loading="lazy" decoding="async" />
+          <span class="t-quote-chip">Services</span>
+        </div>
+        <div class="t-quote-content">
+          <p class="t-quote-text">&ldquo;Strategies I learned at BMC have <strong>kept turnover 200% below my competitors.</strong>&rdquo;</p>
+          <div class="t-quote-rule"></div>
+          <div class="t-quote-author"><div class="t-quote-author-text">
+            <span class="t-quote-name">Jeannie Henderson</span>
+            <span class="t-quote-title">Founder &amp; CEO &middot; Jeannie Cleaning</span>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="t-quote">
+        <div class="t-quote-photo">
+          <img class="t-quote-img" src="maria_oliver.webp" alt="Maria Oliver" width="800" height="550" loading="lazy" decoding="async" />
+          <span class="t-quote-chip">Wellness</span>
+        </div>
+        <div class="t-quote-content">
+          <p class="t-quote-text">&ldquo;We&rsquo;ve tracked a <strong>50% increase in our business in just 3 weeks</strong> after each BMC. We can&rsquo;t afford not to go!&rdquo;</p>
+          <div class="t-quote-rule"></div>
+          <div class="t-quote-author"><div class="t-quote-author-text">
+            <span class="t-quote-name">Maria Oliver</span>
+            <span class="t-quote-title">Co-Founder &middot; Confident Wellness</span>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="t-quote">
+        <div class="t-quote-photo">
+          <img class="t-quote-img" src="mike_keesee.webp" alt="Mike Keesee" width="800" height="550" loading="lazy" decoding="async" />
+          <span class="t-quote-chip">Consulting</span>
+        </div>
+        <div class="t-quote-content">
+          <p class="t-quote-text">&ldquo;We <strong>doubled our valuation</strong> by using what I learned from the Business Master Class.&rdquo;</p>
+          <div class="t-quote-rule"></div>
+          <div class="t-quote-author"><div class="t-quote-author-text">
+            <span class="t-quote-name">Mike Keesee</span>
+            <span class="t-quote-title">CEO &middot; Total Solutions Group</span>
+          </div></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
 <!-- =====================================================================
-     LAYER 8 — FINAL
+     LAYER 7 — FINAL
      ===================================================================== -->
 <section class="conf-final bmc-wash bmc-wash--center">
   <div class="container">
@@ -759,22 +767,6 @@
   tick();
   var timer = setInterval(tick, 1000);
 })();
-</script>
-
-<!-- Referral form — HubSpot portal 2518645, the same form the live page
-     fires as a modal. Rendered inline here. -->
-<script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/embed/v2.js" defer></script>
-<script>
-window.addEventListener('load', function () {
-  if (!window.hbspt) return;
-  hbspt.forms.create({
-    region: "na1",
-    portalId: "2518645",
-    formId: "130715e6-f494-4343-b825-ca8ba8a49d7a",
-    target: "#ref-form",
-    css: ""
-  });
-});
 </script>
 
 </body>
