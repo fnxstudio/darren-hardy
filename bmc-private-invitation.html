@@ -64,23 +64,20 @@ body { background: var(--bone); color: var(--black); }
    BUTTONS — brand spec, re-hued to plum on the light page. The solid
    white-on-dark primary is reserved for the closing section.
    --------------------------------------------------------------------- */
-/* Deep teal. The cyan family re-hued so it clears contrast on light ground —
-   the value the Spiffy runbook specifies for the checkout on white, and
-   already carrying the drawer's fallback button. Pure --bmc-cyan on bone
-   fails contrast, which is why this exists. */
-:root { --pi-teal: #0a7482; }
-
-/* Solid teal CTA — the hero's conversion point. */
-.btn-teal {
+/* Solid plum CTA — the hero's conversion point. Plum is the guide's accent on
+   light ground, and the guide already shows it as a solid fill with white
+   type (it is the ghost button's hover state). Filled here rather than
+   outlined so the hero's one call to action carries weight. */
+.btn-solid {
   display: inline-flex; align-items: center; gap: 12px; cursor: pointer;
   font-family: 'Inter', sans-serif; font-weight: 700;
   font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
   padding: 19px 36px; text-decoration: none;
-  background: var(--pi-teal); color: var(--white);
-  border: 1px solid var(--pi-teal);
+  background: var(--bmc-plum); color: var(--white);
+  border: 1px solid var(--bmc-plum);
   transition: background 0.25s ease, color 0.25s ease;
 }
-.btn-teal:hover { background: transparent; color: var(--pi-teal); }
+.btn-solid:hover { background: transparent; color: var(--bmc-plum); }
 
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 12px;
@@ -93,9 +90,9 @@ body { background: var(--bone); color: var(--black); }
 .btn-ghost:hover { background: var(--bmc-plum); color: var(--white); }
 .btn-ghost--sm { padding: 12px 22px; font-size: 10px; letter-spacing: 0.2em; }
 /* The deposit CTAs are <button>, not <a> — see the note on the drawer JS. */
-button.btn-ghost, button.btn-primary, button.btn-teal { cursor: pointer; }
+button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 .pi-arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-.btn-ghost:hover .pi-arrow, .btn-primary:hover .pi-arrow, .btn-teal:hover .pi-arrow { transform: translateX(5px); }
+.btn-ghost:hover .pi-arrow, .btn-primary:hover .pi-arrow, .btn-solid:hover .pi-arrow { transform: translateX(5px); }
 
 /* ---------------------------------------------------------------------
    PRIVATE STRIP — the brand's purple, used as a full-bleed bar at the very
@@ -540,27 +537,27 @@ button.btn-ghost, button.btn-primary, button.btn-teal { cursor: pointer; }
 .bco-state[hidden] { display: none !important; }
 .bco-spin {
   width: 34px; height: 34px; border-radius: 50%;
-  border: 2px solid rgba(10, 10, 10, 0.12); border-top-color: #0a7482;
+  border: 2px solid rgba(10, 10, 10, 0.12); border-top-color: var(--bmc-plum);
   animation: bcoSpin 0.8s linear infinite;
 }
 @keyframes bcoSpin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .bco-spin { animation-duration: 2.4s; } }
 .bco-state-title { font-weight: 900; font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ink); }
-.bco-state-note  { font-size: 13.5px; line-height: 1.55; color: #6b6b6b; max-width: 34ch; }
+.bco-state-note  { font-size: 13.5px; line-height: 1.55; color: var(--grey-soft); max-width: 34ch; }
 .bco-state-btn {
   display: inline-flex; align-items: center; gap: 10px; margin-top: 4px;
-  background: var(--pi-teal); color: var(--white); border: 1px solid var(--pi-teal);
+  background: var(--bmc-plum); color: var(--white); border: 1px solid var(--bmc-plum);
   font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px;
   letter-spacing: 0.22em; text-transform: uppercase;
   padding: 16px 30px; border-radius: var(--radius);
   text-decoration: none; cursor: pointer; transition: background 0.2s, color 0.2s;
 }
-.bco-state-btn:hover { background: transparent; color: var(--pi-teal); }
+.bco-state-btn:hover { background: transparent; color: var(--bmc-plum); }
 
 .bco-trust {
-  padding: 15px 30px; border-top: 1px solid #e6e4e2; background: var(--bone);
+  padding: 15px 30px; border-top: 1px solid var(--rule-dark); background: var(--bone);
   font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: #999; text-align: center;
+  color: var(--grey); text-align: center;
 }
 .bco-trust strong { color: var(--ink); font-weight: 700; }
 
@@ -601,7 +598,7 @@ body.bco-open { overflow: hidden; }
       <span>October 18&ndash;22, 2026</span><span class="sep">&middot;</span><span>Charleston, SC</span><span class="sep">&middot;</span><span><b>Limited Seats</b></span>
     </div>
     <div class="pi-hero-cta">
-      <button type="button" data-buy class="btn-teal">
+      <button type="button" data-buy class="btn-solid">
         Reserve My Seat <span class="pi-arrow">&rarr;</span>
       </button>
       <div><a href="#message" class="pi-secondary-link">Or watch Darren&rsquo;s message first &darr;</a></div>
