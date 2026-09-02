@@ -64,6 +64,24 @@ body { background: var(--bone); color: var(--black); }
    BUTTONS — brand spec, re-hued to plum on the light page. The solid
    white-on-dark primary is reserved for the closing section.
    --------------------------------------------------------------------- */
+/* Deep teal. The cyan family re-hued so it clears contrast on light ground —
+   the value the Spiffy runbook specifies for the checkout on white, and
+   already carrying the drawer's fallback button. Pure --bmc-cyan on bone
+   fails contrast, which is why this exists. */
+:root { --pi-teal: #0a7482; }
+
+/* Solid teal CTA — the hero's conversion point. */
+.btn-teal {
+  display: inline-flex; align-items: center; gap: 12px; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+  padding: 19px 36px; text-decoration: none;
+  background: var(--pi-teal); color: var(--white);
+  border: 1px solid var(--pi-teal);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.btn-teal:hover { background: transparent; color: var(--pi-teal); }
+
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 12px;
   font-family: 'Inter', sans-serif; font-weight: 700;
@@ -75,9 +93,9 @@ body { background: var(--bone); color: var(--black); }
 .btn-ghost:hover { background: var(--bmc-plum); color: var(--white); }
 .btn-ghost--sm { padding: 12px 22px; font-size: 10px; letter-spacing: 0.2em; }
 /* The deposit CTAs are <button>, not <a> — see the note on the drawer JS. */
-button.btn-ghost, button.btn-primary { cursor: pointer; }
+button.btn-ghost, button.btn-primary, button.btn-teal { cursor: pointer; }
 .pi-arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-.btn-ghost:hover .pi-arrow, .btn-primary:hover .pi-arrow { transform: translateX(5px); }
+.btn-ghost:hover .pi-arrow, .btn-primary:hover .pi-arrow, .btn-teal:hover .pi-arrow { transform: translateX(5px); }
 
 /* ---------------------------------------------------------------------
    PRIVATE STRIP — the brand's purple, used as a full-bleed bar at the very
@@ -357,11 +375,7 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
   letter-spacing: -0.035em; text-transform: uppercase;
   color: var(--white); text-wrap: balance;
 }
-.pi-line cite {
-  display: block; margin-top: 36px; font-style: normal;
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.28em; text-transform: uppercase; color: var(--bmc-cyan);
-}
+
 
 /* ---------------------------------------------------------------------
    PARTICULARS — a compact two-column definition list.
@@ -535,13 +549,13 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
 .bco-state-note  { font-size: 13.5px; line-height: 1.55; color: #6b6b6b; max-width: 34ch; }
 .bco-state-btn {
   display: inline-flex; align-items: center; gap: 10px; margin-top: 4px;
-  background: #0a7482; color: var(--white); border: 1px solid #0a7482;
+  background: var(--pi-teal); color: var(--white); border: 1px solid var(--pi-teal);
   font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px;
   letter-spacing: 0.22em; text-transform: uppercase;
   padding: 16px 30px; border-radius: var(--radius);
   text-decoration: none; cursor: pointer; transition: background 0.2s, color 0.2s;
 }
-.bco-state-btn:hover { background: transparent; color: #0a7482; }
+.bco-state-btn:hover { background: transparent; color: var(--pi-teal); }
 
 .bco-trust {
   padding: 15px 30px; border-top: 1px solid #e6e4e2; background: var(--bone);
@@ -584,10 +598,10 @@ body.bco-open { overflow: hidden; }
     <img class="pi-hero-logo" src="studio45/logo-dark.png" alt="Studio45 — the private in-studio BMC experience" width="1133" height="906" />
     <h1>The Room You Asked Me To <em>Build</em>.</h1>
     <div class="pi-hero-meta">
-      <span>October 18&ndash;22, 2026</span><span class="sep">&middot;</span><span>Charleston</span><span class="sep">&middot;</span><span><b>Limited Seats</b></span>
+      <span>October 18&ndash;22, 2026</span><span class="sep">&middot;</span><span>Charleston, SC</span><span class="sep">&middot;</span><span><b>Limited Seats</b></span>
     </div>
     <div class="pi-hero-cta">
-      <button type="button" data-buy class="btn-ghost">
+      <button type="button" data-buy class="btn-teal">
         Reserve My Seat <span class="pi-arrow">&rarr;</span>
       </button>
       <div><a href="#message" class="pi-secondary-link">Or watch Darren&rsquo;s message first &darr;</a></div>
@@ -703,6 +717,15 @@ body.bco-open { overflow: hidden; }
 
 </section>
 
+<!-- ===== THE LINE ===== -->
+<section class="pi-line on-dark bmc-wash bmc-wash--center">
+  <div class="container">
+    <blockquote class="reveal">
+      <p>No spectators.<br>No plus-ones.<br>No <em>lanyard collectors</em>.</p>
+    </blockquote>
+  </div>
+</section>
+
 <!-- ===== THE DAYS ===== -->
 <section class="pi-sec pi-sec--soft pi-rule">
   <div class="container">
@@ -748,16 +771,6 @@ body.bco-open { overflow: hidden; }
         </div>
       </article>
     </div>
-  </div>
-</section>
-
-<!-- ===== THE LINE ===== -->
-<section class="pi-line on-dark bmc-wash bmc-wash--center">
-  <div class="container">
-    <blockquote class="reveal">
-      <p>No spectators.<br>No plus-ones.<br>No <em>lanyard collectors</em>.</p>
-      <cite>Darren Hardy</cite>
-    </blockquote>
   </div>
 </section>
 
@@ -910,9 +923,16 @@ body.bco-open { overflow: hidden; }
 (function () {
   var header = document.getElementById('pi-header'), hero = document.getElementById('top');
   if (!header || !hero || !('IntersectionObserver' in window)) return;
-  new IntersectionObserver(function (e) {
-    header.classList.toggle('is-visible', !e[0].isIntersecting);
-  }, { rootMargin: '-80% 0px 0px 0px' }).observe(hero);
+  // Show the header once the hero has actually scrolled past the top of the
+  // screen. The previous version used a -80% rootMargin, which measures
+  // against the VIEWPORT, not the hero: on a phone the hero is shorter than
+  // 80% of the screen, so it counted as "not intersecting" at scroll 0 and
+  // the bar sat over the private strip on load. Reading the hero's own
+  // bottom edge is independent of how tall the screen happens to be.
+  new IntersectionObserver(function (entries) {
+    var e = entries[0];
+    header.classList.toggle('is-visible', !e.isIntersecting && e.boundingClientRect.bottom <= 0);
+  }, { threshold: 0 }).observe(hero);
 })();
 
 /* ═══════════════════════════════════════════════════════════════
