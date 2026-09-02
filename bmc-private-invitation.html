@@ -57,14 +57,6 @@ body { background: var(--bone); color: var(--black); }
 }
 .on-dark .pi-h2 { color: var(--white); }
 
-.pi-body {
-  font-family: 'Inter', sans-serif; font-weight: 400;
-  font-size: clamp(16px, 1.3vw, 18px); line-height: 1.65;
-  color: var(--muted); text-wrap: pretty;
-}
-.on-dark .pi-body { color: var(--silver); }
-.pi-body + .pi-body { margin-top: 14px; }
-
 .pi-fine { font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; color: var(--grey-soft); }
 .on-dark .pi-fine { color: var(--silver); }
 
@@ -196,47 +188,60 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .pi-track, .pi-track + .pi-track { animation: none; } }
 @media (max-width: 720px) { .pi-track img { width: 148px; height: 190px; } }
 
-/* Quiet selectivity line. The numbers do the work; no giant counters. */
-.pi-select {
-  display: flex; justify-content: center; flex-wrap: wrap; gap: 0 44px;
-  margin-top: 56px; padding-top: 34px; border-top: 1px solid var(--rule-dark);
+/* ---------------------------------------------------------------------
+   SELECTIVITY BAND — the ribbon from hardybmc.com: a filled band on ink
+   with the ambient purple/magenta wash, cyan counters at the brand's stat
+   scale. .stat-number and .stat-label come straight from bmc.css, so the
+   size, weight and colour match the sales page exactly, and bmc.js drives
+   the roll-up on the first two.
+   --------------------------------------------------------------------- */
+.pi-ribbon {
+  background: var(--ink);
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  padding: 62px 0 66px;
 }
-.pi-select div { text-align: center; padding: 6px 0; }
-.pi-select b {
-  display: block; font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: 26px; letter-spacing: -0.03em; color: var(--black);
+@media (max-width: 880px) { .pi-ribbon { padding: 44px 0 48px; } }
+.pi-stats { display: grid; grid-template-columns: repeat(3, 1fr); align-items: start; }
+.pi-stats > div { text-align: center; padding: 6px 22px; border-right: 1px solid var(--rule-strong); }
+.pi-stats > div:last-child { border-right: none; }
+.pi-stats .stat-label { margin-top: 12px; }
+@media (max-width: 720px) {
+  .pi-stats { grid-template-columns: 1fr; }
+  .pi-stats > div { padding: 26px 16px; border-right: none; border-bottom: 1px solid var(--rule-strong); }
+  .pi-stats > div:last-child { border-bottom: none; }
 }
-.pi-select span {
-  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10px;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--grey-soft);
+
+/* The seats counter tells a two-beat story: it rolls up to the room size,
+   holds, then counts down to what is actually left and relabels itself.
+   The label cross-fades so the text never swaps mid-glance. */
+.pi-stat-seats .stat-label { transition: opacity 0.24s ease; }
+.pi-stat-seats.is-swapping .stat-label { opacity: 0; }
+.pi-stat-seats .stat-number { display: inline-block; will-change: transform; }
+.pi-stat-seats.is-remaining .stat-number {
+  animation: seatPulse 0.72s cubic-bezier(0.16, 1, 0.3, 1) 2;
 }
-.pi-select div:last-child b { color: var(--bmc-plum); }
+@keyframes seatPulse {
+  0%, 100% { transform: scale(1);    text-shadow: none; }
+  32%      { transform: scale(1.13); text-shadow: 0 0 26px rgba(var(--bmc-cyan-rgb), 0.55); }
+  62%      { transform: scale(0.985); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pi-stat-seats.is-remaining .stat-number { animation: none; }
+  .pi-stat-seats .stat-label { transition: none; }
+}
 
 /* ---------------------------------------------------------------------
-   NOTE — two columns: the short letter, and the room it is about.
+   DARREN'S MESSAGE — the video is the section. The brand VSL frame from
+   bmc.css, which bmc.js already wires for play/pause/mute, re-hued for a
+   light section and given a poster, which the sales page's version does
+   not have. The poster fades on .has-played, a class bmc.js sets the
+   moment the video starts.
    --------------------------------------------------------------------- */
-.pi-note { display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: center; }
-@media (max-width: 980px) { .pi-note { grid-template-columns: 1fr; gap: 40px; } }
-.pi-note-lede {
-  font-family: 'Inter', sans-serif; font-weight: 700;
-  font-size: clamp(21px, 2.1vw, 30px); line-height: 1.36; letter-spacing: -0.015em;
-  color: var(--black); margin-top: 24px; text-wrap: pretty;
-}
-.pi-sig {
-  margin-top: 30px; font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--bmc-plum);
-}
-/* ---------------------------------------------------------------------
-   DARREN'S MESSAGE — the brand VSL frame from bmc.css, which bmc.js
-   already wires for play/pause/mute. Only two things change here: the
-   frame is re-hued for a light section, and it gains a poster, which the
-   sales page's version does not have. The poster fades on .has-played,
-   a class bmc.js sets the moment the video starts.
-   --------------------------------------------------------------------- */
+.pi-video-head { text-align: center; margin-bottom: 40px; }
 .pi-video .vsl-frame {
-  max-width: none; margin: 0;
+  max-width: 1000px; margin: 0 auto;
   border: 1px solid var(--rule-dark-strong);
-  box-shadow: 0 24px 60px rgba(10, 10, 10, 0.18);
+  box-shadow: 0 30px 70px rgba(10, 10, 10, 0.20);
   border-radius: var(--radius);
 }
 .pi-vsl-poster {
@@ -245,17 +250,6 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
   transition: opacity 0.45s ease;
 }
 .vsl-frame.has-played .pi-vsl-poster { opacity: 0; pointer-events: none; }
-.pi-video-note {
-  margin-top: 14px; text-align: center;
-  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px;
-  letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey-soft);
-}
-/* The play button is sized for a 1100px sales-page frame; in this column
-   it would swamp Darren's face. */
-@media (min-width: 981px) {
-  .pi-video .vsl-play { width: 84px; height: 84px; bottom: 20px; right: 20px; }
-  .pi-video .vsl-play svg { width: 27px; height: 27px; }
-}
 
 .pi-secondary-link {
   font-family: 'Inter', sans-serif; font-weight: 500;
@@ -264,15 +258,6 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
   transition: color 0.2s ease, border-color 0.2s ease;
 }
 .pi-secondary-link:hover { color: var(--bmc-plum); border-color: var(--bmc-plum); }
-
-.pi-figure { border-radius: var(--radius); overflow: hidden; }
-.pi-figure img { display: block; width: 100%; height: auto; }
-.pi-figure figcaption {
-  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px;
-  letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey-soft);
-  margin-top: 14px;
-}
-
 /* ---------------------------------------------------------------------
    THE DAYS — four photo cards. White cards on bone, borders over shadows.
    --------------------------------------------------------------------- */
@@ -567,11 +552,24 @@ body.bco-open { overflow: hidden; }
     </div>
   </div>
 
+</section>
+
+<!-- ===== SELECTIVITY BAND ===== -->
+<section class="pi-ribbon bmc-wash bmc-wash--center">
   <div class="container">
-    <div class="pi-select reveal">
-      <div><b>11,738</b><span>Alumni</span></div>
-      <div><b>124</b><span>Invited</span></div>
-      <div><b>40</b><span>Seats</span></div>
+    <div class="pi-stats stagger">
+      <div>
+        <div class="stat-number" data-count="11738" data-decimals="0" data-sep><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Alumni</div>
+      </div>
+      <div>
+        <div class="stat-number" data-count="124" data-decimals="0"><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Invited</div>
+      </div>
+      <div class="pi-stat-seats">
+        <div class="stat-number"><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Seats</div>
+      </div>
     </div>
   </div>
 </section>
@@ -579,17 +577,12 @@ body.bco-open { overflow: hidden; }
 <!-- ===== A NOTE FROM DARREN — written short, and on camera ===== -->
 <section class="pi-sec pi-sec--bone pi-rule pi-video" id="message">
   <div class="container">
-    <div class="pi-note">
-      <div class="reveal">
-        <div class="pi-eyebrow">A Note From Darren</div>
-        <p class="pi-note-lede">You&rsquo;ve been in this room from a screen. This time I&rsquo;d like you in it.</p>
-        <p class="pi-body" style="margin-top:22px;">Four days in the studio where we make Business Master Class. Then four more weeks together to get it installed.</p>
-        <p class="pi-body">That&rsquo;s the whole invitation. <em>The rest is logistics.</em></p>
-        <div class="pi-sig">Darren Hardy</div>
-      </div>
+    <div class="pi-video-head reveal">
+      <div class="pi-eyebrow">A Message From Darren &nbsp;&middot;&nbsp; 3 Minutes</div>
+    </div>
 
-      <div class="reveal reveal-scale">
-        <div class="vsl-frame">
+    <div class="reveal reveal-scale">
+      <div class="vsl-frame">
           <iframe id="vsl-player"
             src="https://player.vimeo.com/video/1216189039?controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;dnt=1"
             loading="lazy" frameborder="0"
@@ -606,8 +599,6 @@ body.bco-open { overflow: hidden; }
             <span class="t-vol t-vol-on" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a8.5 8.5 0 0 1 0 13"/></svg></span>
             <span class="t-vol t-vol-off" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/><line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/></svg></span>
           </button>
-        </div>
-        <div class="pi-video-note">3 Minutes</div>
       </div>
     </div>
   </div>
@@ -813,6 +804,60 @@ body.bco-open { overflow: hidden; }
   new IntersectionObserver(function (e) {
     header.classList.toggle('is-visible', !e[0].isIntersecting);
   }, { rootMargin: '-80% 0px 0px 0px' }).observe(hero);
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   SEATS COUNTER
+   bmc.js rolls the first two stats. This one tells a two-beat story
+   it can't: up to the size of the room, a beat to let it land, then
+   down to what is actually left, with the label following.
+   Same easing and duration as bmc.js so all three read as one system.
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  var wrap = document.querySelector('.pi-stat-seats');
+  if (!wrap) return;
+  var numEl   = wrap.querySelector('.stat-number');
+  var labelEl = wrap.querySelector('.stat-label');
+  var SEATS = 40, REMAIN = 29, LABEL_AFTER = 'Seats Remaining';
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function paint(v) { numEl.textContent = String(Math.round(v)); }
+
+  function relabel() {
+    wrap.classList.add('is-swapping');
+    setTimeout(function () {
+      labelEl.textContent = LABEL_AFTER;
+      wrap.classList.remove('is-swapping');
+      wrap.classList.add('is-remaining');   // fires the pulse
+    }, 240);
+  }
+
+  var ease = function (t) { return 1 - Math.pow(1 - t, 3); };   // matches bmc.js
+  function tween(from, to, dur, done) {
+    var t0 = performance.now();
+    (function frame(now) {
+      var p = Math.min((now - t0) / dur, 1);
+      paint(from + (to - from) * ease(p));
+      if (p < 1) requestAnimationFrame(frame); else if (done) done();
+    })(t0);
+  }
+
+  function run() {
+    if (reduced) { paint(REMAIN); labelEl.textContent = LABEL_AFTER; return; }
+    tween(0, SEATS, 1100, function () {
+      setTimeout(function () { tween(SEATS, REMAIN, 900, relabel); }, 1000);  // hold on 40
+    });
+  }
+
+  if (!('IntersectionObserver' in window)) { run(); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      run();
+    });
+  }, { threshold: 0.45 });
+  io.observe(wrap);
 })();
 
 /* ═══════════════════════════════════════════════════════════════
