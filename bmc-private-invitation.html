@@ -554,26 +554,6 @@ body.bco-open { overflow: hidden; }
 
 </section>
 
-<!-- ===== SELECTIVITY BAND ===== -->
-<section class="pi-ribbon bmc-wash bmc-wash--center">
-  <div class="container">
-    <div class="pi-stats stagger">
-      <div>
-        <div class="stat-number" data-count="11738" data-decimals="0" data-sep><span class="stat-dash">&mdash;</span></div>
-        <div class="stat-label">Alumni</div>
-      </div>
-      <div>
-        <div class="stat-number" data-count="124" data-decimals="0"><span class="stat-dash">&mdash;</span></div>
-        <div class="stat-label">Invited</div>
-      </div>
-      <div class="pi-stat-seats">
-        <div class="stat-number"><span class="stat-dash">&mdash;</span></div>
-        <div class="stat-label">Seats</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ===== A NOTE FROM DARREN — written short, and on camera ===== -->
 <section class="pi-sec pi-sec--bone pi-rule pi-video" id="message">
   <div class="container">
@@ -599,6 +579,26 @@ body.bco-open { overflow: hidden; }
             <span class="t-vol t-vol-on" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a8.5 8.5 0 0 1 0 13"/></svg></span>
             <span class="t-vol t-vol-off" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/><line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/></svg></span>
           </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SELECTIVITY BAND ===== -->
+<section class="pi-ribbon bmc-wash bmc-wash--center">
+  <div class="container">
+    <div class="pi-stats stagger">
+      <div>
+        <div class="stat-number" data-count="11738" data-decimals="0" data-sep><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Alumni</div>
+      </div>
+      <div>
+        <div class="stat-number" data-count="124" data-decimals="0"><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Invited</div>
+      </div>
+      <div class="pi-stat-seats">
+        <div class="stat-number"><span class="stat-dash">&mdash;</span></div>
+        <div class="stat-label">Seats</div>
       </div>
     </div>
   </div>
@@ -824,6 +824,8 @@ body.bco-open { overflow: hidden; }
   function paint(v) { numEl.textContent = String(Math.round(v)); }
 
   function relabel() {
+    settled = true;                         // no stale frame may repaint after this
+    paint(REMAIN);                          // guarantee the figure, not just the frames
     wrap.classList.add('is-swapping');
     setTimeout(function () {
       labelEl.textContent = LABEL_AFTER;
@@ -833,20 +835,38 @@ body.bco-open { overflow: hidden; }
   }
 
   var ease = function (t) { return 1 - Math.pow(1 - t, 3); };   // matches bmc.js
-  function tween(from, to, dur, done) {
-    var t0 = performance.now();
-    (function frame(now) {
-      var p = Math.min((now - t0) / dur, 1);
+  // The clock comes from rAF and nowhere else. Seeding t0 from
+  // performance.now() and then comparing against rAF timestamps mixes two
+  // clocks that are not guaranteed to agree, which lets (now - t0) go
+  // negative; ease() of a negative p overshoots hard, and the counter paints
+  // wild values like 202 before settling. Clamping both ends keeps it honest
+  // even if a timestamp ever arrives out of order.
+  var settled = false;
+  function tween(from, to, dur) {
+    var t0 = null;
+    requestAnimationFrame(function frame(now) {
+      if (settled) return;                  // the countdown may still have frames queued
+      if (t0 === null) t0 = now;
+      var p = Math.min(Math.max((now - t0) / dur, 0), 1);
       paint(from + (to - from) * ease(p));
-      if (p < 1) requestAnimationFrame(frame); else if (done) done();
-    })(t0);
+      if (p < 1) requestAnimationFrame(frame);
+    });
   }
 
+  // Each beat gets its own timer rather than hanging off the end of the
+  // previous tween. Ease-out means the number already reads 29 slightly before
+  // the tween finishes, so chaining the relabel to a final animation frame
+  // makes it wait on a frame that may never arrive. Timers keep the sequence
+  // honest and leave rAF doing nothing but interpolating.
+  var UP = 1100, HOLD = 1000, DOWN = 900;
   function run() {
-    if (reduced) { paint(REMAIN); labelEl.textContent = LABEL_AFTER; return; }
-    tween(0, SEATS, 1100, function () {
-      setTimeout(function () { tween(SEATS, REMAIN, 900, relabel); }, 1000);  // hold on 40
-    });
+    if (reduced) {
+      paint(REMAIN); labelEl.textContent = LABEL_AFTER; wrap.classList.add('is-remaining');
+      return;
+    }
+    tween(0, SEATS, UP);
+    setTimeout(function () { paint(SEATS); tween(SEATS, REMAIN, DOWN); }, UP + HOLD);
+    setTimeout(relabel, UP + HOLD + DOWN);
   }
 
   if (!('IntersectionObserver' in window)) { run(); return; }
