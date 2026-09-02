@@ -78,6 +78,10 @@ body { background: var(--bone); color: var(--black); }
   transition: background 0.25s ease, color 0.25s ease;
 }
 .btn-solid:hover { background: transparent; color: var(--bmc-plum); }
+/* On dark ground the same button re-hues to cyan, mirroring how plum works
+   on light. Dark type on cyan is the guide's badge/pill pairing. */
+.on-dark .btn-solid { background: var(--bmc-cyan); color: var(--black); border-color: var(--bmc-cyan); }
+.on-dark .btn-solid:hover { background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
 
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 12px;
@@ -101,21 +105,16 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
    bars stacked there would fight each other.
    --------------------------------------------------------------------- */
 .pi-topstrip {
-  /* Black, with the purple sitting behind the words as a haze. This is the
-     one sanctioned use of the purple token: a radial wash for background
-     depth. Running it as a saturated left-to-right bar is what made the
-     first cut of this strip read as pink. */
+  /* Brand cyan with dark type — the guide's badge treatment (cyan ground,
+     dark text), scaled up to a full-bleed bar. Cyan is the accent for dark
+     contexts, and it now sits directly above a black hero. */
   position: relative; overflow: hidden;
-  background: var(--black);
-  color: var(--white);
+  background: var(--bmc-cyan);
+  color: var(--black);
   text-align: center;
   padding: 12px 24px;
 }
-.pi-topstrip::before {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 30% 300% at 50% 50%,
-                rgba(var(--bmc-purple-rgb), 0.62), transparent 72%);
-}
+
 .pi-topstrip span {
   position: relative; z-index: 1;
   display: inline-flex; align-items: center; justify-content: center;
@@ -124,8 +123,8 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
   letter-spacing: 0.28em; text-transform: uppercase; line-height: 1.5;
 }
 .pi-topstrip b { font-weight: 900; }
-.pi-topstrip i { font-style: normal; font-weight: 500; color: rgba(255, 255, 255, 0.88); }
-.pi-topstrip .dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, 0.55); flex: none; }
+.pi-topstrip i { font-style: normal; font-weight: 500; color: rgba(10, 10, 10, 0.78); }
+.pi-topstrip .dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(10, 10, 10, 0.42); flex: none; }
 @media (max-width: 600px) {
   .pi-topstrip { padding: 10px 18px; }
   .pi-topstrip span { font-size: 9.5px; letter-spacing: 0.2em; gap: 9px; }
@@ -175,7 +174,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
    HERO — type on bone, photography immediately beneath at full bleed.
    Nothing is laid over a scrim, so the page opens bright.
    --------------------------------------------------------------------- */
-.pi-hero { background: var(--bone); padding: 96px 0 0; text-align: center; }
+.pi-hero { background: var(--black); padding: 96px 0 0; text-align: center; }
 .pi-hero-logo {
   width: 172px; height: auto; display: block; margin: 0 auto 34px;
   opacity: 0; animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.15s;
@@ -193,7 +192,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 .pi-hero h1 {
   font-family: 'Inter', sans-serif; font-weight: 900;
   font-size: clamp(30px, 5.4vw, 86px); line-height: 0.98; letter-spacing: -0.04em;
-  text-transform: uppercase; color: var(--black);
+  text-transform: uppercase; color: var(--white);
   margin: 24px auto 0; max-width: 15ch; text-wrap: balance;
   opacity: 0; transform: translateY(14px);
   animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.62s;
@@ -208,8 +207,8 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
   opacity: 0; animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.9s;
 }
 .pi-hero-meta span { display: inline-block; white-space: nowrap; }
-.pi-hero-meta .sep { color: var(--rule-dark-strong); margin: 0 14px; }
-.pi-hero-meta b { color: var(--black); font-weight: 700; }
+.pi-hero-meta .sep { color: var(--rule-strong); margin: 0 14px; }
+.pi-hero-meta b { color: var(--white); font-weight: 700; }
 @media (max-width: 620px) {
   .pi-hero-meta .sep { display: none; }
   .pi-hero-meta span { display: block; }
@@ -232,12 +231,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
    --------------------------------------------------------------------- */
 .pi-faces { background: var(--white); padding: 84px 0 92px; overflow: hidden; }
 .pi-faces-head { text-align: center; margin-bottom: 46px; }
-.pi-faces-head p {
-  max-width: 46ch; margin: 22px auto 0;
-  font-family: 'Inter', sans-serif; font-weight: 400;
-  font-size: clamp(16px, 1.3vw, 18px); line-height: 1.65;
-  color: var(--muted); text-wrap: pretty;
-}
+
 .pi-marquee { position: relative; }
 .pi-marquee::before, .pi-marquee::after {
   content: ""; position: absolute; top: 0; bottom: 0; width: 14%; z-index: 2; pointer-events: none;
@@ -315,6 +309,42 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
   box-shadow: 0 30px 70px rgba(10, 10, 10, 0.20);
   border-radius: var(--radius);
 }
+/* ---------------------------------------------------------------------
+   FLOATING PLAYER — once the video is running and its section scrolls away,
+   the frame docks bottom-right so the message keeps playing while the
+   visitor reads on. The frame itself is fixed rather than re-parented: the
+   iframe must not be moved in the DOM or it reloads and playback restarts.
+   The holder keeps its height so the page does not jump when it lifts out.
+   --------------------------------------------------------------------- */
+.vsl-frame.is-floating {
+  position: fixed; right: 24px; bottom: 24px; z-index: 90;
+  width: min(360px, 42vw); max-width: none; margin: 0;
+  box-shadow: 0 26px 60px rgba(10, 10, 10, 0.45);
+  animation: vslDock 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes vslDock { from { opacity: 0; transform: translateY(18px) scale(0.96); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .vsl-frame.is-floating { animation: none; } }
+/* the controls are sized for a 1000px frame; scale them for the dock */
+.vsl-frame.is-floating .vsl-play  { width: 48px; height: 48px; bottom: 10px; right: 10px; }
+.vsl-frame.is-floating .vsl-play svg  { width: 16px; height: 16px; }
+.vsl-frame.is-floating .vsl-pause { bottom: 12px; right: 14px; }
+.vsl-frame.is-floating .vsl-pause svg { width: 26px; height: 26px; }
+.vsl-frame.is-floating .vsl-vol   { bottom: 12px; left: 12px; }
+.vsl-frame.is-floating .vsl-vol svg   { width: 20px; height: 20px; }
+@media (max-width: 600px) {
+  .vsl-frame.is-floating { width: 208px; right: 14px; bottom: 14px; }
+}
+/* Sits under the checkout overlay (z 120) so it can never cover the drawer. */
+.pi-vsl-close { display: none; }
+.vsl-frame.is-floating .pi-vsl-close {
+  display: flex; align-items: center; justify-content: center;
+  position: absolute; top: -11px; right: -11px; z-index: 5;
+  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+  background: var(--black); color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.28); font-size: 11px; line-height: 1;
+}
+.vsl-frame.is-floating .pi-vsl-close:hover { border-color: var(--bmc-cyan); color: var(--bmc-cyan); }
+
 .pi-vsl-poster {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; display: block; z-index: 1;
@@ -324,11 +354,11 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 
 .pi-secondary-link {
   font-family: 'Inter', sans-serif; font-weight: 500;
-  font-size: 13px; color: var(--grey-soft); text-decoration: none;
-  border-bottom: 1px solid var(--rule-dark-strong); padding-bottom: 3px;
+  font-size: 13px; color: var(--silver); text-decoration: none;
+  border-bottom: 1px solid var(--rule-strong); padding-bottom: 3px;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
-.pi-secondary-link:hover { color: var(--bmc-plum); border-color: var(--bmc-plum); }
+.pi-secondary-link:hover { color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
 /* ---------------------------------------------------------------------
    THE DAYS — four photo cards. White cards on bone, borders over shadows.
    --------------------------------------------------------------------- */
@@ -590,9 +620,9 @@ body.bco-open { overflow: hidden; }
 </div>
 
 <!-- ===== HERO ===== -->
-<section class="pi-hero" id="top">
+<section class="pi-hero on-dark bmc-wash bmc-wash--center" id="top">
   <div class="container">
-    <img class="pi-hero-logo" src="studio45/logo-dark.png" alt="Studio45 — the private in-studio BMC experience" width="1133" height="906" />
+    <img class="pi-hero-logo" src="studio45/logo-white.png" alt="Studio45 — the private in-studio BMC experience" width="1133" height="906" />
     <h1>The Room You Asked Me To <em>Build</em>.</h1>
     <div class="pi-hero-meta">
       <span>October 18&ndash;22, 2026</span><span class="sep">&middot;</span><span>Charleston, SC</span><span class="sep">&middot;</span><span><b>Limited Seats</b></span>
@@ -633,6 +663,7 @@ body.bco-open { overflow: hidden; }
             <span class="vsl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg></span>
             <span class="vsl-pause" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
           </button>
+          <button class="pi-vsl-close" type="button" aria-label="Close floating video">&#10005;</button>
           <button class="vsl-vol" type="button" aria-label="Mute or unmute">
             <span class="t-vol t-vol-on" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a8.5 8.5 0 0 1 0 13"/></svg></span>
             <span class="t-vol t-vol-off" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/><line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/></svg></span>
@@ -666,9 +697,7 @@ body.bco-open { overflow: hidden; }
 <section class="pi-faces">
   <div class="container pi-faces-head reveal">
     <div class="pi-eyebrow">The Room</div>
-    <h2 class="pi-h2" style="margin-top:20px;">Builders Like <em>You</em>.</h2>
-    <p>Founders, owners and operators who have already built something, and are
-       in the middle of scaling it.</p>
+    <h2 class="pi-h2" style="margin-top:20px;">Finally. <em>Your People</em>.</h2>
   </div>
 
   <div class="pi-marquee" aria-hidden="true">
@@ -718,7 +747,7 @@ body.bco-open { overflow: hidden; }
 <section class="pi-line on-dark bmc-wash bmc-wash--center">
   <div class="container">
     <div class="reveal">
-      <p>You Will Rise To The Level Of <em>Your Associations</em>.</p>
+      <p><em>You Will Rise</em> To The Level Of Your Associations.</p>
     </div>
   </div>
 </section>
@@ -728,7 +757,7 @@ body.bco-open { overflow: hidden; }
   <div class="container">
     <div class="reveal">
       <div class="pi-eyebrow">The Four Days</div>
-      <h2 class="pi-h2" style="margin-top:20px;">Sunday Through <em>Thursday</em>.</h2>
+      <h2 class="pi-h2" style="margin-top:20px;">The <em>Experience</em>.</h2>
     </div>
 
     <div class="pi-days stagger">
@@ -775,7 +804,7 @@ body.bco-open { overflow: hidden; }
 <section class="pi-sec pi-sec--tight pi-rule">
   <div class="container">
     <div class="reveal">
-      <h2 class="pi-h2">Your <em>Details</em>.</h2>
+      <h2 class="pi-h2">The <em>Details</em>.</h2>
     </div>
     <dl class="pi-facts stagger">
       <div class="pi-fact"><dt>Studio</dt><dd>100 Calhoun Street, Suite 220<br>Charleston, SC 29401</dd></div>
@@ -930,6 +959,58 @@ body.bco-open { overflow: hidden; }
     var e = entries[0];
     header.classList.toggle('is-visible', !e.isIntersecting && e.boundingClientRect.bottom <= 0);
   }, { threshold: 0 }).observe(hero);
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   FLOATING PLAYER
+   Docks the video bottom-right once it is playing and its section
+   has scrolled away. bmc.js already maintains .is-playing on the
+   frame, so this only has to watch visibility and toggle a class.
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  var frame = document.querySelector('.pi-video .vsl-frame');
+  if (!frame || !('IntersectionObserver' in window)) return;
+  var holder = frame.parentElement;
+  var closeBtn = frame.querySelector('.pi-vsl-close');
+  var toggle = frame.querySelector('[data-vsl-play]');
+  var inView = true, dismissed = false;
+
+  function apply() {
+    var want = !inView && !dismissed && frame.classList.contains('is-playing');
+    if (want === frame.classList.contains('is-floating')) return;
+    if (want) {
+      // pin the gap first, so lifting the frame out of flow doesn't shift the page
+      holder.style.height = holder.getBoundingClientRect().height + 'px';
+      frame.classList.add('is-floating');
+    } else {
+      frame.classList.remove('is-floating');
+      holder.style.height = '';
+    }
+  }
+
+  new IntersectionObserver(function (entries) {
+    inView = entries[0].isIntersecting;
+    if (inView) dismissed = false;      // scrolling back to it re-arms the dock
+    apply();
+  }, { threshold: 0.3 }).observe(frame);
+
+  // bmc.js toggles .is-playing on the frame; mirror it without polling
+  if (window.MutationObserver) {
+    new MutationObserver(apply).observe(frame, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', function (e) {
+    e.stopPropagation();                // the toggle covers the whole frame
+    dismissed = true;
+    if (frame.classList.contains('is-playing') && toggle) toggle.click();  // pause too
+    apply();
+  });
+
+  // Opening the checkout should silence a docked video rather than talk over it.
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest || !e.target.closest('[data-buy]')) return;
+    if (frame.classList.contains('is-floating') && frame.classList.contains('is-playing') && toggle) toggle.click();
+  }, true);
 })();
 
 /* ═══════════════════════════════════════════════════════════════
