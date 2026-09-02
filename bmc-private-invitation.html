@@ -80,6 +80,35 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
 .btn-ghost:hover .pi-arrow, .btn-primary:hover .pi-arrow { transform: translateX(5px); }
 
 /* ---------------------------------------------------------------------
+   PRIVATE STRIP — the brand's purple, used as a full-bleed bar at the very
+   top rather than an eyebrow inside the hero. It scrolls away with the
+   page: the sticky header takes over the top edge later, and two fixed
+   bars stacked there would fight each other.
+   --------------------------------------------------------------------- */
+.pi-topstrip {
+  background: linear-gradient(90deg,
+    rgb(var(--bmc-plum-rgb)) 0%,
+    rgb(var(--bmc-purple-rgb)) 58%,
+    rgb(var(--bmc-magenta-rgb)) 100%);
+  color: var(--white);
+  text-align: center;
+  padding: 12px 24px;
+}
+.pi-topstrip span {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 12px; flex-wrap: wrap;
+  font-family: 'Inter', sans-serif; font-size: 11px;
+  letter-spacing: 0.28em; text-transform: uppercase; line-height: 1.5;
+}
+.pi-topstrip b { font-weight: 900; }
+.pi-topstrip i { font-style: normal; font-weight: 500; color: rgba(255, 255, 255, 0.88); }
+.pi-topstrip .dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, 0.55); flex: none; }
+@media (max-width: 600px) {
+  .pi-topstrip { padding: 10px 18px; }
+  .pi-topstrip span { font-size: 9.5px; letter-spacing: 0.2em; gap: 9px; }
+}
+
+/* ---------------------------------------------------------------------
    STICKY HEADER — ghost CTA, appears once the hero is behind you.
    --------------------------------------------------------------------- */
 .pi-header {
@@ -111,7 +140,7 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
    HERO — type on bone, photography immediately beneath at full bleed.
    Nothing is laid over a scrim, so the page opens bright.
    --------------------------------------------------------------------- */
-.pi-hero { background: var(--bone); padding: 128px 0 0; text-align: center; }
+.pi-hero { background: var(--bone); padding: 96px 0 0; text-align: center; }
 .pi-hero-logo {
   width: 172px; height: auto; display: block; margin: 0 auto 34px;
   opacity: 0; animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.15s;
@@ -156,7 +185,7 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
 }
 .pi-hero-cta .pi-secondary-link { display: inline-block; margin-top: 22px; }
 .pi-hero-cta .pi-fine { margin-top: 16px; }
-@media (max-width: 880px) { .pi-hero { padding-top: 104px; } .pi-hero-cta { padding-bottom: 56px; } }
+@media (max-width: 880px) { .pi-hero { padding-top: 76px; } .pi-hero-cta { padding-bottom: 56px; } }
 
 /* Full-bleed photograph. The one hero "image" is a real photograph of the
    room at full width, not a background with type fighting it. */
@@ -480,6 +509,10 @@ body.bco-open { overflow: hidden; }
 
 <body>
 
+<div class="pi-topstrip">
+  <span><b>Private</b><span class="dot" aria-hidden="true"></span><i>By Personal Invitation Only</i></span>
+</div>
+
 <div class="pi-header" id="pi-header">
   <div class="container">
     <div class="pi-header-l">
@@ -496,7 +529,6 @@ body.bco-open { overflow: hidden; }
 <section class="pi-hero" id="top">
   <div class="container">
     <img class="pi-hero-logo" src="studio45/logo-dark.png" alt="Studio45 — the private in-studio BMC experience" width="1133" height="906" />
-    <div class="pi-eyebrow">By Personal Invitation</div>
     <h1>The Room You Asked Me To <em>Build</em>.</h1>
     <div class="pi-hero-meta">
       <span>October 18&ndash;22, 2026</span><span class="sep">&middot;</span><span>Charleston</span><span class="sep">&middot;</span><span><b>40 Seats</b></span>
