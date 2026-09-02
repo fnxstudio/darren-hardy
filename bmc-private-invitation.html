@@ -414,6 +414,30 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
    the wash renders as a pink haze under white type. */
 .pi-close { background: var(--black); padding: 150px 0 130px; text-align: center; }
 @media (max-width: 880px) { .pi-close { padding: 92px 0 80px; } }
+/* Brenda beside the ask. She is the literal next step once a deposit lands,
+   so she sits next to the button rather than decorating the section. The
+   photograph was shot on black and her blouse reads only a few levels above
+   the backdrop, so it is feathered into the section rather than cut out —
+   a mask on that edge would either eat the clothing or leave a halo. */
+.pi-close-grid {
+  display: grid; grid-template-columns: 0.9fr 1fr; gap: 60px;
+  align-items: center; text-align: left;
+}
+.pi-brenda { margin: 0; }
+.pi-brenda img { display: block; width: 100%; height: auto; }
+.pi-close-grid .pi-eyebrow { justify-content: flex-start; }
+.pi-close-grid h2 { margin-left: 0; margin-right: 0; }
+.pi-close-grid .pi-steps { justify-content: flex-start; margin-left: 0; }
+.pi-close-grid .pi-close-cta { text-align: left; }
+@media (max-width: 980px) {
+  .pi-close-grid { grid-template-columns: 1fr; gap: 34px; text-align: center; }
+  .pi-close-grid .pi-eyebrow { justify-content: center; }
+  .pi-close-grid h2 { margin-left: auto; margin-right: auto; }
+  .pi-close-grid .pi-steps { justify-content: center; margin-left: auto; }
+  .pi-close-grid .pi-close-cta { text-align: center; }
+  .pi-brenda { max-width: 380px; margin: 0 auto; }
+}
+
 .pi-close h2 {
   font-family: 'Inter', sans-serif; font-weight: 900;
   font-size: clamp(30px, 4vw, 62px); line-height: 1.06; letter-spacing: -0.035em;
@@ -610,7 +634,7 @@ body.bco-open { overflow: hidden; }
 <section class="pi-hero on-dark bmc-wash bmc-wash--center" id="top">
   <div class="container">
     <img class="pi-hero-logo" src="studio45/logo-white.png" alt="Studio45 — the private in-studio BMC experience" width="1133" height="906" />
-    <h1>The Room You Asked Me To <em>Build</em>.</h1>
+    <h1>The Room <em>You Asked</em> Me To Build.</h1>
     <div class="pi-hero-meta">
       <span>October 18&ndash;21, 2026</span><span class="sep">&middot;</span><span>Charleston, SC</span><span class="sep">&middot;</span><span><b>Limited Seats</b></span>
     </div>
@@ -807,8 +831,16 @@ body.bco-open { overflow: hidden; }
 <!-- ===== CLOSE ===== -->
 <section class="pi-close on-dark bmc-wash bmc-wash--center">
   <div class="container">
+   <div class="pi-close-grid">
+
+    <figure class="pi-brenda reveal reveal-scale">
+      <img src="studio45/brenda.webp" alt="Brenda, member services, waving"
+           width="1300" height="1243" loading="lazy" decoding="async" />
+    </figure>
+
+    <div class="pi-close-body">
     <div class="reveal">
-      <div class="pi-eyebrow" style="justify-content:center;">Your Seat In The Room</div>
+      <div class="pi-eyebrow">Your Seat In The Room</div>
       <h2>The Best Seat In The Room Is <em>Yours</em>.</h2>
     </div>
 
@@ -826,6 +858,9 @@ body.bco-open { overflow: hidden; }
         Questions? Call or text Brenda: <a href="tel:+16193751257">619-375-1257</a>
       </div>
     </div>
+    </div>
+
+   </div>
   </div>
 </section>
 
