@@ -51,7 +51,7 @@ body { background: var(--bone); color: var(--black); }
 
 .pi-h2 {
   font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: clamp(28px, 3.2vw, 50px); line-height: 1.04;
+  font-size: clamp(28px, 3.6vw, 56px); line-height: 1.04;
   letter-spacing: -0.03em; text-transform: uppercase;
   color: var(--black); text-wrap: balance;
 }
@@ -155,7 +155,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
   border-left: 1px solid var(--rule-dark-strong); padding-left: 16px;
 }
 .pi-seats-label {
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10px;
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--bmc-plum);
   white-space: nowrap;
 }
@@ -184,8 +184,8 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 }
 .pi-eyebrow {
   display: inline-flex; align-items: center; gap: 14px;
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.28em; text-transform: uppercase; color: var(--bmc-plum);
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px;
+  letter-spacing: 0.42em; text-transform: uppercase; color: var(--bmc-plum);
 }
 .pi-eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--bmc-plum); }
 .on-dark .pi-eyebrow { color: var(--bmc-cyan); }
@@ -194,7 +194,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 
 .pi-hero h1 {
   font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: clamp(30px, 5.4vw, 86px); line-height: 0.98; letter-spacing: -0.04em;
+  font-size: clamp(40px, 5.5vw, 88px); line-height: 0.98; letter-spacing: -0.04em;
   text-transform: uppercase; color: var(--white);
   margin: 24px auto 0; max-width: 15ch; text-wrap: balance;
   opacity: 0; transform: translateY(14px);
@@ -236,6 +236,15 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
   width: 100%; height: 170%;
   object-fit: cover; display: block;
   will-change: transform;
+}
+/* On a phone the band is at its 320px floor while the image still has to be
+   170% of it for the parallax, and covering that tall a box crops 200px off
+   each side — which removes Darren entirely, since he is at the right edge of
+   the frame. Mobile takes a shallower overhang so less is lost sideways, and
+   anchors the crop right so he stays in it. The script drops its travel to
+   match the smaller overhang. */
+@media (max-width: 720px) {
+  .pi-bleed img { top: -12%; height: 124%; object-position: 88% center; }
 }
 
 /* ---------------------------------------------------------------------
@@ -353,7 +362,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 .pi-day img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
 .pi-day-b { padding: 26px 28px 30px; }
 .pi-day-w {
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10px;
   letter-spacing: 0.24em; text-transform: uppercase; color: var(--bmc-plum);
 }
 .pi-day-t {
@@ -361,8 +370,9 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
   letter-spacing: -0.02em; text-transform: uppercase; color: var(--black); margin-top: 10px;
 }
 .pi-day-p {
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px;
-  line-height: 1.6; color: var(--muted); margin-top: 10px;
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: clamp(15px, 1.15vw, 16px); line-height: 1.65;
+  color: var(--muted); margin-top: 10px;
 }
 
 /* ---------------------------------------------------------------------
@@ -388,7 +398,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 @media (max-width: 720px) { .pi-facts { grid-template-columns: 1fr; gap: 0; } }
 .pi-fact { padding: 22px 0; border-top: 1px solid var(--rule-dark); }
 .pi-fact dt {
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10px;
   letter-spacing: 0.24em; text-transform: uppercase; color: var(--grey-soft);
 }
 .pi-fact dd {
@@ -939,6 +949,34 @@ body.bco-open { overflow: hidden; }
 })();
 
 /* ═══════════════════════════════════════════════════════════════
+   CAPTIONS OFF
+   The video is already subtitled in the edit, so the player's own
+   track doubles them up. bmc.js loads Vimeo's SDK lazily on first
+   interaction, so this waits for it rather than pulling it forward,
+   then turns the track off and again on each play in case the
+   player restores it.
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  var iframe = document.getElementById('vsl-player');
+  if (!iframe) return;
+  var tries = 0;
+  var poll = setInterval(function () {
+    if (window.Vimeo && window.Vimeo.Player) {
+      clearInterval(poll);
+      try {
+        var p = new window.Vimeo.Player(iframe);
+        var off = function () { p.disableTextTrack().catch(function () {}); };
+        off();
+        p.on('loaded', off);
+        p.on('play', off);
+      } catch (e) {}
+    } else if (++tries > 120) {      // give up after a minute; nothing breaks
+      clearInterval(poll);
+    }
+  }, 500);
+})();
+
+/* ═══════════════════════════════════════════════════════════════
    PARALLAX BAND
    Drifts the full-bleed photograph against the scroll. Reads on rAF
    from a passive listener, writes one transform, and skips entirely
@@ -950,7 +988,9 @@ body.bco-open { overflow: hidden; }
   if (!img) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var DEPTH = 0.28;              // max travel, as a share of the band's height
+  // Travel must stay inside the overhang or an edge shows; mobile's overhang
+  // is 12% a side rather than 35%, so its travel is smaller to match.
+  function depth() { return window.innerWidth <= 720 ? 0.09 : 0.28; }
   var ticking = false;
 
   function update() {
@@ -960,7 +1000,7 @@ body.bco-open { overflow: hidden; }
     // -1 when the band's centre sits at the bottom of the screen, +1 at the top
     var span = (window.innerHeight + r.height) / 2;
     var progress = (r.top + r.height / 2 - window.innerHeight / 2) / span;
-    img.style.transform = 'translate3d(0,' + (progress * DEPTH * r.height).toFixed(1) + 'px,0)';
+    img.style.transform = 'translate3d(0,' + (progress * depth() * r.height).toFixed(1) + 'px,0)';
   }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
 
