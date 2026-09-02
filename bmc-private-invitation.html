@@ -197,7 +197,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
   font-family: 'Inter', sans-serif; font-weight: 900;
   font-size: clamp(40px, 5.5vw, 88px); line-height: 0.98; letter-spacing: -0.04em;
   text-transform: uppercase; color: var(--white);
-  margin: 24px auto 0; max-width: 15ch; text-wrap: balance;
+  margin: 24px auto 0;
   opacity: 0; transform: translateY(14px);
   animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.62s;
 }
@@ -428,7 +428,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 /* The one dark section on the page. bmc-wash only paints the ambient
    radial gradient, so the black ground has to be declared here — without it
    the wash renders as a pink haze under white type. */
-.pi-close { background: var(--black); padding: 104px 0 130px; text-align: center; }
+.pi-close { background: var(--black); padding: 94px 0 117px; text-align: center; }
 @media (max-width: 880px) { .pi-close { padding: 92px 0 80px; } }
 /* Brenda beside the ask. She is the literal next step once a deposit lands,
    so she sits next to the button rather than decorating the section. The
@@ -436,7 +436,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
    the backdrop, so it is feathered into the section rather than cut out —
    a mask on that edge would either eat the clothing or leave a halo. */
 .pi-close-grid {
-  display: grid; grid-template-columns: 1fr 0.95fr; gap: 24px;
+  display: grid; grid-template-columns: 1fr 1.31fr; gap: 24px;
   align-items: center; text-align: left;
 }
 /* Copy left, Brenda right. Ordered in CSS rather than markup so the stacked
@@ -447,7 +447,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
    it. bmc-wash clips overflow, so pulling her down by the section's bottom
    padding cuts her cleanly at the footer line, the way standing behind
    something reads. */
-.pi-brenda { margin: 0; align-self: end; margin-bottom: -130px; }
+.pi-brenda { margin: 0; align-self: end; margin-bottom: -117px; }
 .pi-brenda img { display: block; width: 100%; height: auto; }
 .pi-close-grid .pi-eyebrow { justify-content: flex-start; }
 .pi-close-grid h2 { margin-left: 0; margin-right: 0; }
@@ -459,7 +459,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
      The pull matches the section's bottom padding, which is 130px until the
      880px breakpoint takes it to 80px. */
   .pi-close-body { order: 1; padding-top: 0; }
-  .pi-brenda { order: 2; align-self: auto; margin-bottom: -130px; max-width: 420px; }
+  .pi-brenda { order: 2; align-self: auto; margin-bottom: -117px; max-width: 420px; }
   .pi-close-grid .pi-eyebrow { justify-content: center; }
   .pi-close-grid h2 { margin-left: auto; margin-right: auto; }
   .pi-close-grid .pi-steps { justify-content: center; margin-left: auto; }
@@ -507,6 +507,34 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .cta-glow::after { animation: none; opacity: 0; } }
 
 .pi-contact { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--rule); display: inline-block; }
+/* On a phone the contact line lifts out of the flow and floats over the lower
+   part of her photograph, 24px above the footer rule, so the ask and the
+   person who answers it read as one block instead of a stack.
+   The offset parent is the GRID, not the section: `.bmc-wash > *` makes the
+   container position:relative, so the section is never the containing block.
+   Brenda's negative bottom margin shrinks the grid row by exactly the
+   section's bottom padding, which puts the grid's bottom edge that far above
+   the footer line. Hence bottom = -(padding - 24) at each padding regime. */
+@media (max-width: 980px) {
+  .pi-close-grid { position: relative; }
+  .pi-contact {
+    position: absolute; left: 0; right: 0; bottom: -93px; z-index: 3;
+    display: block; margin-top: 0; padding-top: 0; border-top: none;
+    text-shadow: 0 1px 6px rgba(0,0,0,.55);
+  }
+}
+@media (max-width: 880px) { .pi-contact { bottom: -56px; } }
+@media (min-width: 981px) { .pi-contact { position: static; } }
+
+/* bmc.css boosts a magenta radial to 0.18 at 50% 92% on phones — exactly
+   where she stands, which haloed her in pink. Keep the purple haze behind the
+   headline, drop the magenta, so she reads as a cutout on black. */
+@media (max-width: 880px) {
+  .pi-close.bmc-wash--center::before {
+    background: radial-gradient(ellipse 100% 45% at 50% 18%,
+                rgba(var(--bmc-purple-rgb), 0.34), transparent 65%);
+  }
+}
 .pi-contact a { color: var(--bmc-cyan); text-decoration: none; border-bottom: 1px solid var(--rule-cyan); }
 
 .pi-footer {
@@ -667,7 +695,7 @@ body.bco-open { overflow: hidden; }
 <section class="pi-hero on-dark bmc-wash bmc-wash--center" id="top">
   <div class="container">
     <img class="pi-hero-logo" src="studio45/logo-white.png" alt="Studio45 — the private in-studio BMC experience" width="1133" height="906" />
-    <h1>The Room <em>You Asked</em> Me To Build.</h1>
+    <h1>The Room<br><em>You Asked</em> Me<br>To Build.</h1>
     <div class="pi-hero-meta">
       <span>October 18&ndash;21, 2026</span><span class="sep">&middot;</span><span>Charleston, SC</span><span class="sep">&middot;</span><span><b>Limited Seats</b></span>
     </div>
@@ -1242,6 +1270,28 @@ body.bco-open { overflow: hidden; }
   // Belt and braces: if the whole drawer failed to wire up, the fallback link
   // still points at the hosted checkout.
   if (fallback) fallback.querySelector('a').href = CHECKOUT;
+})();
+
+/* ===== Contact line: float it over Brenda on phones =====
+   It can't be positioned there from inside .pi-close-cta — that element
+   carries .reveal, and a transform makes an element the containing block for
+   absolutely positioned descendants. The transform clears when the reveal
+   fires, so the line would jump mid-animation. Re-parenting it to the grid
+   (position:relative, never transformed) gives it a stable anchor that tracks
+   her image. Desktop keeps the original markup and the original flow. */
+(function () {
+  var contact = document.querySelector('.pi-contact');
+  var grid    = document.querySelector('.pi-close-grid');
+  var cta     = document.querySelector('.pi-close-cta');
+  if (!contact || !grid || !cta) return;
+  var mq = window.matchMedia('(max-width: 980px)');
+  var apply = function () {
+    var host = mq.matches ? grid : cta;
+    if (contact.parentNode !== host) host.appendChild(contact);
+  };
+  apply();
+  if (mq.addEventListener) mq.addEventListener('change', apply);
+  else if (mq.addListener) mq.addListener(apply);
 })();
 </script>
 
