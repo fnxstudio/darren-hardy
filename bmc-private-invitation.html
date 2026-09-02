@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>By Personal Invitation · STUDIO45 · BMC|COLLECTIVE</title>
-<meta name="description" content="Four days in the studio with Darren and 39 other builders. October 18-22, 2026. Charleston. 40 seats.">
+<meta name="description" content="Four days in the studio with Darren and a small group of builders. October 18-22, 2026. Charleston.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/bmc-private-invitation.html">
 <link rel="icon" href="favicon.png">
@@ -12,7 +12,7 @@
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="BMC|COLLECTIVE">
 <meta property="og:title"       content="The Room You Asked Me To Build.">
-<meta property="og:description" content="October 18-22, 2026 · Charleston · 40 seats. By personal invitation.">
+<meta property="og:description" content="October 18-22, 2026 · Charleston · By personal invitation.">
 <meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/studio45/darren-table.webp">
 
 <link rel="preload" as="image" href="studio45/darren-table.webp" fetchpriority="high">
@@ -162,7 +162,8 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
   margin-top: 40px; padding-bottom: 84px;
   opacity: 0; animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.15s;
 }
-.pi-hero-cta .pi-fine { margin-top: 18px; }
+.pi-hero-cta .pi-secondary-link { display: inline-block; margin-top: 22px; }
+.pi-hero-cta .pi-fine { margin-top: 16px; }
 @media (max-width: 880px) { .pi-hero { padding-top: 104px; } .pi-hero-cta { padding-bottom: 56px; } }
 
 /* Full-bleed photograph. The one hero "image" is a real photograph of the
@@ -225,6 +226,45 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
   margin-top: 30px; font-family: 'Inter', sans-serif; font-weight: 900;
   font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--bmc-plum);
 }
+/* ---------------------------------------------------------------------
+   DARREN'S MESSAGE — the brand VSL frame from bmc.css, which bmc.js
+   already wires for play/pause/mute. Only two things change here: the
+   frame is re-hued for a light section, and it gains a poster, which the
+   sales page's version does not have. The poster fades on .has-played,
+   a class bmc.js sets the moment the video starts.
+   --------------------------------------------------------------------- */
+.pi-video .vsl-frame {
+  max-width: none; margin: 0;
+  border: 1px solid var(--rule-dark-strong);
+  box-shadow: 0 24px 60px rgba(10, 10, 10, 0.18);
+  border-radius: var(--radius);
+}
+.pi-vsl-poster {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block; z-index: 1;
+  transition: opacity 0.45s ease;
+}
+.vsl-frame.has-played .pi-vsl-poster { opacity: 0; pointer-events: none; }
+.pi-video-note {
+  margin-top: 14px; text-align: center;
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey-soft);
+}
+/* The play button is sized for a 1100px sales-page frame; in this column
+   it would swamp Darren's face. */
+@media (min-width: 981px) {
+  .pi-video .vsl-play { width: 84px; height: 84px; bottom: 20px; right: 20px; }
+  .pi-video .vsl-play svg { width: 27px; height: 27px; }
+}
+
+.pi-secondary-link {
+  font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: 13px; color: var(--grey-soft); text-decoration: none;
+  border-bottom: 1px solid var(--rule-dark-strong); padding-bottom: 3px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.pi-secondary-link:hover { color: var(--bmc-plum); border-color: var(--bmc-plum); }
+
 .pi-figure { border-radius: var(--radius); overflow: hidden; }
 .pi-figure img { display: block; width: 100%; height: auto; }
 .pi-figure figcaption {
@@ -448,7 +488,7 @@ body.bco-open { overflow: hidden; }
   <div class="container">
     <div class="pi-header-l">
       <img src="studio45/logo-dark.png" alt="Studio45" width="1133" height="906" />
-      <span class="pi-header-seats">29 of 40 seats remain</span>
+      <span class="pi-header-seats">29 seats remain</span>
     </div>
     <button type="button" data-buy class="btn-ghost btn-ghost--sm">
       Place Your Deposit <span class="pi-arrow">&rarr;</span>
@@ -469,7 +509,8 @@ body.bco-open { overflow: hidden; }
       <button type="button" data-buy class="btn-ghost">
         Place Your Deposit <span class="pi-arrow">&rarr;</span>
       </button>
-      <div class="pi-fine">$500 holds your seat. 29 of 40 remain.</div>
+      <div><a href="#message" class="pi-secondary-link">Or hear it from Darren first &darr;</a></div>
+      <div class="pi-fine">$500 holds your seat. 29 remain.</div>
     </div>
   </div>
 </section>
@@ -482,7 +523,7 @@ body.bco-open { overflow: hidden; }
 <section class="pi-faces">
   <div class="container pi-faces-head reveal">
     <div class="pi-eyebrow">Who&rsquo;s Coming</div>
-    <h2 class="pi-h2" style="margin-top:20px;">Thirty-Nine Others.<br>All Of Them <em>Builders</em>.</h2>
+    <h2 class="pi-h2" style="margin-top:20px;">A Small Group.<br>All Of Them <em>Builders</em>.</h2>
   </div>
 
   <div class="pi-marquee" aria-hidden="true">
@@ -535,21 +576,39 @@ body.bco-open { overflow: hidden; }
   </div>
 </section>
 
-<!-- ===== A NOTE ===== -->
-<section class="pi-sec pi-sec--bone pi-rule">
+<!-- ===== A NOTE FROM DARREN — written short, and on camera ===== -->
+<section class="pi-sec pi-sec--bone pi-rule pi-video" id="message">
   <div class="container">
     <div class="pi-note">
       <div class="reveal">
         <div class="pi-eyebrow">A Note From Darren</div>
         <p class="pi-note-lede">You&rsquo;ve been in this room from a screen. This time I&rsquo;d like you in it.</p>
-        <p class="pi-body" style="margin-top:22px;">Forty of us, in the studio where we make Business Master Class, for four days. Then four more weeks together to get it installed.</p>
+        <p class="pi-body" style="margin-top:22px;">Four days in the studio where we make Business Master Class. Then four more weeks together to get it installed.</p>
         <p class="pi-body">That&rsquo;s the whole invitation. <em>The rest is logistics.</em></p>
         <div class="pi-sig">Darren Hardy</div>
       </div>
-      <figure class="pi-figure reveal reveal-scale" style="margin:0;">
-        <img src="studio45/room-cohort.webp" alt="A Business Master Class cohort together in the Charleston studio" width="2200" height="1320" loading="lazy" decoding="async" />
-        <figcaption>The studio, Charleston</figcaption>
-      </figure>
+
+      <div class="reveal reveal-scale">
+        <div class="vsl-frame">
+          <iframe id="vsl-player"
+            src="https://player.vimeo.com/video/1216189039?controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;dnt=1"
+            loading="lazy" frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+            allowfullscreen
+            title="Studio45 &mdash; a personal invitation from Darren Hardy"></iframe>
+          <img class="pi-vsl-poster" src="studio45/darren-message-poster.webp"
+               alt="" aria-hidden="true" width="1600" height="900" loading="lazy" decoding="async" />
+          <button class="vsl-toggle" type="button" aria-label="Play or pause Darren&rsquo;s message" data-vsl-play>
+            <span class="vsl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg></span>
+            <span class="vsl-pause" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
+          </button>
+          <button class="vsl-vol" type="button" aria-label="Mute or unmute">
+            <span class="t-vol t-vol-on" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a8.5 8.5 0 0 1 0 13"/></svg></span>
+            <span class="t-vol t-vol-off" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/><line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/></svg></span>
+          </button>
+        </div>
+        <div class="pi-video-note">3 Minutes</div>
+      </div>
     </div>
   </div>
 </section>
@@ -568,7 +627,7 @@ body.bco-open { overflow: hidden; }
         <div class="pi-day-b">
           <div class="pi-day-w">Sunday</div>
           <h3 class="pi-day-t">Rooftop Reception</h3>
-          <p class="pi-day-p">Overlooking historic Charleston. Just the 40 of us.</p>
+          <p class="pi-day-p">Overlooking historic Charleston. Just our group.</p>
         </div>
       </article>
 
@@ -595,7 +654,7 @@ body.bco-open { overflow: hidden; }
         <div class="pi-day-b">
           <div class="pi-day-w">The Four Weeks After</div>
           <h3 class="pi-day-t">The Accelerator</h3>
-          <p class="pi-day-p">The same 40, live with Darren, getting it built.</p>
+          <p class="pi-day-p">The same group, live with Darren, getting it built.</p>
         </div>
       </article>
     </div>
@@ -623,7 +682,7 @@ body.bco-open { overflow: hidden; }
 <section class="pi-close on-dark bmc-wash bmc-wash--center">
   <div class="container">
     <div class="reveal">
-      <div class="pi-eyebrow" style="justify-content:center;">One Seat Of Forty</div>
+      <div class="pi-eyebrow" style="justify-content:center;">Your Seat In The Room</div>
       <h2>Come Sit In <em>It</em>.</h2>
     </div>
 
@@ -636,7 +695,7 @@ body.bco-open { overflow: hidden; }
       <button type="button" data-buy class="btn-primary btn-large cta-glow">
         Place Your Deposit <span class="pi-arrow">&rarr;</span>
       </button>
-      <div class="pi-fine">29 of 40 seats remain.</div>
+      <div class="pi-fine">29 seats remain.</div>
       <div class="pi-contact pi-fine">
         Questions? Call or text Brenda: <a href="tel:+16193751257">619-375-1257</a>
       </div>
@@ -666,7 +725,7 @@ body.bco-open { overflow: hidden; }
   <div class="bco-head">
     <div class="bco-eyebrow"><span class="bco-pip"></span>Place Your Deposit</div>
     <div class="bco-title">STUDIO45</div>
-    <div class="bco-sub">$500 holds one of the 40 seats, and is applied in full to your $25,000.</div>
+    <div class="bco-sub">$500 holds your seat, and is applied in full to your $25,000.</div>
     <div class="bco-event">Charleston <strong>Oct 18&ndash;22, 2026</strong></div>
   </div>
 
