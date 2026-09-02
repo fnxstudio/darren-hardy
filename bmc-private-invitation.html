@@ -327,6 +327,111 @@ body { background: var(--bone); color: var(--black); }
   font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.08em;
   line-height: 2; color: var(--grey-soft);
 }
+
+/* =====================================================================
+   CHECKOUT DRAWER
+   The same slide-in component as the BMC|COLLECTIVE checkout drawer:
+   dark branded header, white body, trust strip. The body is deliberately
+   left plain — Spiffy renders its own responsive checkout into the mount,
+   so there is no second form to design or keep in sync. At 500px the
+   checkout lays itself out in its narrow arrangement, which is what we
+   want in a drawer.
+   ===================================================================== */
+.bco-overlay {
+  position: fixed; inset: 0; z-index: 120;
+  background: rgba(4, 3, 8, 0.66);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.bco-overlay.open { opacity: 1; }
+
+.bco-drawer {
+  position: fixed; top: 0; right: 0; height: 100%; width: 500px; max-width: 100vw;
+  z-index: 130; display: flex; flex-direction: column;
+  background: var(--surface-card); color: var(--text-on-dark);
+  font-family: 'Inter', sans-serif;
+  transform: translateX(100%);
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: -24px 0 70px rgba(0, 0, 0, 0.6);
+  border-left: 1px solid rgba(var(--bmc-cyan-rgb), 0.18);
+}
+.bco-drawer.open { transform: none; }
+@media (max-width: 540px) { .bco-drawer { width: 100%; } }
+@media (prefers-reduced-motion: reduce) {
+  .bco-drawer, .bco-overlay { transition: none; }
+}
+
+.bco-close {
+  position: absolute; top: 15px; right: 15px; z-index: 3;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.03); color: var(--silver);
+  font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.2s, border-color 0.2s;
+}
+.bco-close:hover { border-color: var(--bmc-cyan); color: var(--bmc-cyan); }
+
+.bco-head {
+  position: relative; padding: 30px 30px 26px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(ellipse 80% 135% at 4% 0%,  rgba(var(--bmc-purple-rgb), 0.60), transparent 66%),
+    radial-gradient(ellipse 55% 110% at 0% 45%, rgba(var(--bmc-magenta-rgb), 0.20), transparent 70%),
+    linear-gradient(180deg, rgba(var(--bmc-cyan-rgb), 0.05), transparent 45%);
+}
+.bco-eyebrow {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  font-weight: 700; font-size: 11px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--bmc-cyan);
+}
+.bco-eyebrow .bco-pip { width: 22px; height: 1px; background: var(--bmc-cyan); }
+.bco-title { font-weight: 900; font-size: 21px; letter-spacing: -0.01em; text-transform: uppercase; color: var(--white); }
+.bco-sub   { font-size: 12.5px; color: var(--silver); margin-top: 6px; }
+.bco-event { margin-top: 12px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--silver); }
+.bco-event strong { color: var(--bmc-cyan); font-weight: 700; }
+
+.bco-body  { flex: 1; overflow-y: auto; background: var(--white); color: var(--ink); }
+.bco-mount { display: flex; flex-direction: column; min-height: 100%; }
+/* Spiffy's own container, whichever shape it mounts in, fills the body.
+   Before SpiffyJS upgrades it the custom element has no children, and an
+   empty element must not reserve the 560px — that would shove the loading
+   and fallback panels off the bottom of the drawer. */
+.bco-mount spiffy-checkout:not(:empty),
+.bco-mount .spiffy-checkout__container { display: block; width: 100%; flex: 1; min-height: 560px; }
+.bco-mount spiffy-checkout:empty { display: none; }
+
+/* Loading + fallback. Neither is a form — they only cover the moment
+   before Spiffy paints, and the case where SpiffyJS never loads. */
+.bco-state { flex: 1; padding: 40px 34px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.bco-state[hidden] { display: none !important; }
+.bco-spin {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 2px solid rgba(10, 10, 10, 0.12); border-top-color: #0a7482;
+  animation: bcoSpin 0.8s linear infinite;
+}
+@keyframes bcoSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .bco-spin { animation-duration: 2.4s; } }
+.bco-state-title { font-weight: 900; font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ink); }
+.bco-state-note  { font-size: 13.5px; line-height: 1.55; color: #6b6b6b; max-width: 34ch; }
+.bco-state-btn {
+  display: inline-flex; align-items: center; gap: 10px; margin-top: 4px;
+  background: #0a7482; color: var(--white); border: 1px solid #0a7482;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 16px 30px; border-radius: var(--radius);
+  text-decoration: none; cursor: pointer; transition: background 0.2s, color 0.2s;
+}
+.bco-state-btn:hover { background: transparent; color: #0a7482; }
+
+.bco-trust {
+  padding: 15px 30px; border-top: 1px solid #e6e4e2; background: var(--bone);
+  font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #999; text-align: center;
+}
+.bco-trust strong { color: var(--ink); font-weight: 700; }
+
+body.bco-open { overflow: hidden; }
 </style>
 </head>
 
@@ -540,6 +645,70 @@ body { background: var(--bone); color: var(--black); }
   </div>
 </footer>
 
+<!-- =====================================================================
+     CHECKOUT DRAWER
+     Spiffy's own checkout renders into #bcoMount, so there is no second
+     form here to design, validate, or keep in sync with the product.
+     ===================================================================== -->
+<div class="bco-overlay" id="bcoOverlay" hidden></div>
+
+<aside class="bco-drawer" id="bcoDrawer" role="dialog" aria-modal="true" aria-hidden="true"
+       aria-label="Place your deposit — STUDIO45">
+  <button class="bco-close" id="bcoClose" type="button" aria-label="Close">&#10005;</button>
+
+  <div class="bco-head">
+    <div class="bco-eyebrow"><span class="bco-pip"></span>Place Your Deposit</div>
+    <div class="bco-title">STUDIO45</div>
+    <div class="bco-sub">$500 holds one of the 40 seats, and is applied in full to your $25,000.</div>
+    <div class="bco-event">Charleston <strong>Oct 18&ndash;22, 2026</strong></div>
+  </div>
+
+  <div class="bco-body">
+    <div class="bco-mount" id="bcoMount">
+
+      <!-- Spiffy's inline checkout element. SpiffyJS upgrades this into the
+           live checkout as soon as the loader below is present. -->
+      <spiffy-checkout url="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit"></spiffy-checkout>
+
+      <!-- Shown until Spiffy paints. -->
+      <div class="bco-state" id="bcoLoading">
+        <div class="bco-spin" aria-hidden="true"></div>
+        <div class="bco-state-note">Loading secure checkout&hellip;</div>
+      </div>
+
+      <!-- Shown only if SpiffyJS never loads, so the seat can always be taken. -->
+      <div class="bco-state" id="bcoFallback" hidden>
+        <div class="bco-state-title">Continue To Secure Checkout</div>
+        <div class="bco-state-note">Your deposit is handled on Darren&rsquo;s secure checkout. It opens in a new tab.</div>
+        <a class="bco-state-btn" id="bcoFallbackLink"
+           href="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit"
+           target="_blank" rel="noopener">Place Your Deposit <span class="pi-arrow">&rarr;</span></a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bco-trust">&#128274; <strong>Encrypted &amp; Secure</strong> &nbsp;&middot;&nbsp; Powered by Spiffy</div>
+</aside>
+
+<!-- ─────────────────────────────────────────────────────────────────────
+     SPIFFYJS LOADER — the one thing still to paste.
+     Get it from app.spiffy.co → Settings → SpiffyJS ("Get SpiffyJS Code"),
+     and drop the whole snippet in immediately below this comment. The
+     account subdomain is `darrenhardy`, so the call at the end of that
+     snippet should read spiffy.load('darrenhardy').
+
+     Until it is present the drawer still opens and still sells: it shows
+     the fallback panel above, which hands the visitor to the same secure
+     checkout the buttons used to link to directly.
+
+     Note for whoever wires this: the checkout cannot be dropped into a
+     plain <iframe>. secure.darrenhardy.com and darrenhardy.spiffy.co both
+     send `X-Frame-Options: SAMEORIGIN`, so a cross-origin frame is refused
+     on hardybmc.com just as it is here. SpiffyJS is the supported path.
+     ───────────────────────────────────────────────────────────────────── -->
+<!-- PASTE SPIFFYJS LOADER SNIPPET HERE -->
+
 <script src="bmc.js"></script>
 <script>
 /* Sticky header — reveals once the hero has scrolled past. */
@@ -549,6 +718,81 @@ body { background: var(--bone); color: var(--black); }
   new IntersectionObserver(function (e) {
     header.classList.toggle('is-visible', !e[0].isIntersecting);
   }, { rootMargin: '-80% 0px 0px 0px' }).observe(hero);
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   CHECKOUT DRAWER
+   Every deposit button opens the drawer instead of navigating. The
+   href stays on each link, so middle-click, cmd-click, and a JS
+   failure all still reach the checkout.
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  var overlay  = document.getElementById('bcoOverlay');
+  var drawer   = document.getElementById('bcoDrawer');
+  var closeBtn = document.getElementById('bcoClose');
+  var loading  = document.getElementById('bcoLoading');
+  var fallback = document.getElementById('bcoFallback');
+  if (!overlay || !drawer) return;
+
+  var lastFocus = null, opened = false;
+
+  function showFallback() {
+    if (loading)  loading.hidden  = true;
+    if (fallback) fallback.hidden = false;
+  }
+  function hideStates() {
+    if (loading)  loading.hidden  = true;
+    if (fallback) fallback.hidden = true;
+  }
+  // Spiffy fires form:ready once the checkout has painted.
+  window.bcoCheckoutReady = hideStates;
+
+  function open(e) {
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    overlay.hidden = false;
+    // Force a reflow so the transition runs from the off-screen start state.
+    // A rAF would also work but never fires in a backgrounded renderer, which
+    // would leave the drawer un-slid.
+    void overlay.offsetWidth;
+    overlay.classList.add('open');
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('bco-open');
+    if (closeBtn) closeBtn.focus();
+
+    if (opened) return;
+    opened = true;
+    // If SpiffyJS never arrives, hand the visitor to the hosted checkout
+    // rather than leaving them looking at a spinner.
+    setTimeout(function () {
+      var painted = drawer.querySelector('.spiffy-checkout__container, spiffy-checkout iframe');
+      if (!window.spiffy || !painted) showFallback();
+    }, 2600);
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('bco-open');
+    setTimeout(function () { if (!drawer.classList.contains('open')) overlay.hidden = true; }, 420);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('a[href*="/checkout/bmc-in-studio-deposit"]').forEach(function (a) {
+    if (a.closest('#bcoDrawer')) return;   // the fallback link must still navigate
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return; // let new-tab clicks through
+      open(e);
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) close();
+  });
 })();
 </script>
 
