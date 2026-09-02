@@ -205,6 +205,12 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
    --------------------------------------------------------------------- */
 .pi-faces { background: var(--white); padding: 84px 0 92px; overflow: hidden; }
 .pi-faces-head { text-align: center; margin-bottom: 46px; }
+.pi-faces-head p {
+  max-width: 46ch; margin: 22px auto 0;
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: clamp(16px, 1.3vw, 18px); line-height: 1.65;
+  color: var(--muted); text-wrap: pretty;
+}
 .pi-marquee { position: relative; }
 .pi-marquee::before, .pi-marquee::after {
   content: ""; position: absolute; top: 0; bottom: 0; width: 14%; z-index: 2; pointer-events: none;
@@ -275,14 +281,7 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
    moment the video starts.
    --------------------------------------------------------------------- */
 .pi-video-head { text-align: center; margin-bottom: 44px; }
-/* The run time rides on the headline as metadata rather than competing with
-   it at headline scale. */
-.pi-h2-meta {
-  display: inline-block; margin-left: 0.5em; white-space: nowrap;
-  font-size: 0.3em; font-weight: 700; letter-spacing: 0.22em;
-  color: var(--grey-soft); vertical-align: middle;
-}
-@media (max-width: 620px) { .pi-h2-meta { display: block; margin: 12px 0 0; font-size: 11px; } }
+
 .pi-video .vsl-frame {
   max-width: 1000px; margin: 0 auto;
   border: 1px solid var(--rule-dark-strong);
@@ -568,7 +567,8 @@ body.bco-open { overflow: hidden; }
 <section class="pi-sec pi-sec--bone pi-rule pi-video" id="message">
   <div class="container">
     <div class="pi-video-head reveal">
-      <h2 class="pi-h2">A Message From <em>Darren</em><span class="pi-h2-meta">&middot; 3 Minutes</span></h2>
+      <div class="pi-eyebrow">3 Minutes</div>
+      <h2 class="pi-h2">Your Message From <em>Darren</em></h2>
     </div>
 
     <div class="reveal reveal-scale">
@@ -617,8 +617,10 @@ body.bco-open { overflow: hidden; }
 <!-- ===== THE PEOPLE ===== -->
 <section class="pi-faces">
   <div class="container pi-faces-head reveal">
-    <div class="pi-eyebrow">Who&rsquo;s Coming</div>
-    <h2 class="pi-h2" style="margin-top:20px;">A Small Group.<br>All Of Them <em>Builders</em>.</h2>
+    <div class="pi-eyebrow">The Room</div>
+    <h2 class="pi-h2" style="margin-top:20px;">Builders Like <em>You</em>.</h2>
+    <p>Founders, owners and operators who have already built something, and are
+       in the middle of scaling it.</p>
   </div>
 
   <div class="pi-marquee" aria-hidden="true">
