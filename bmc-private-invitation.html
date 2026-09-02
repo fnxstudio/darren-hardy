@@ -178,7 +178,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
    HERO — type on bone, photography immediately beneath at full bleed.
    Nothing is laid over a scrim, so the page opens bright.
    --------------------------------------------------------------------- */
-.pi-hero { background: var(--black); padding: 96px 0 0; text-align: center; }
+.pi-hero { background: var(--black); padding: 115px 0 0; text-align: center; }
 .pi-hero-logo {
   width: 172px; height: auto; display: block; margin: 0 auto 34px;
   opacity: 0; animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.15s;
@@ -218,12 +218,12 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
   .pi-hero-meta span { display: block; }
 }
 .pi-hero-cta {
-  margin-top: 40px; padding-bottom: 84px;
+  margin-top: 40px; padding-bottom: 101px;
   opacity: 0; animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.15s;
 }
 .pi-hero-cta .pi-secondary-link { display: inline-block; margin-top: 22px; }
 .pi-hero-cta .pi-fine { margin-top: 16px; }
-@media (max-width: 880px) { .pi-hero { padding-top: 76px; } .pi-hero-cta { padding-bottom: 56px; } }
+@media (max-width: 880px) { .pi-hero { padding-top: 91px; } .pi-hero-cta { padding-bottom: 67px; } }
 
 /* Full-bleed photograph. The one hero "image" is a real photograph of the
    room at full width, not a background with type fighting it. */
@@ -428,7 +428,7 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 /* The one dark section on the page. bmc-wash only paints the ambient
    radial gradient, so the black ground has to be declared here — without it
    the wash renders as a pink haze under white type. */
-.pi-close { background: var(--black); padding: 150px 0 130px; text-align: center; }
+.pi-close { background: var(--black); padding: 104px 0 130px; text-align: center; }
 @media (max-width: 880px) { .pi-close { padding: 92px 0 80px; } }
 /* Brenda beside the ask. She is the literal next step once a deposit lands,
    so she sits next to the button rather than decorating the section. The
@@ -436,12 +436,12 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
    the backdrop, so it is feathered into the section rather than cut out —
    a mask on that edge would either eat the clothing or leave a halo. */
 .pi-close-grid {
-  display: grid; grid-template-columns: 1fr 0.9fr; gap: 60px;
+  display: grid; grid-template-columns: 1fr 0.95fr; gap: 24px;
   align-items: center; text-align: left;
 }
 /* Copy left, Brenda right. Ordered in CSS rather than markup so the stacked
    layout can still lead with her photograph. */
-.pi-close-body { order: 1; }
+.pi-close-body { order: 1; padding-top: 72px; }
 .pi-brenda { order: 2; }
 /* Anchored to the section's bottom edge rather than floated in the middle of
    it. bmc-wash clips overflow, so pulling her down by the section's bottom
@@ -455,14 +455,21 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 .pi-close-grid .pi-close-cta { text-align: left; }
 @media (max-width: 980px) {
   .pi-close-grid { grid-template-columns: 1fr; gap: 34px; text-align: center; }
-  .pi-brenda { order: 0; align-self: auto; margin-bottom: 0; }   /* stacked: no anchor */
-  .pi-close-body { order: 1; }
+  /* Stacked, she sits under the copy and stays anchored to the section edge.
+     The pull matches the section's bottom padding, which is 130px until the
+     880px breakpoint takes it to 80px. */
+  .pi-close-body { order: 1; padding-top: 0; }
+  .pi-brenda { order: 2; align-self: auto; margin-bottom: -130px; max-width: 420px; }
   .pi-close-grid .pi-eyebrow { justify-content: center; }
   .pi-close-grid h2 { margin-left: auto; margin-right: auto; }
   .pi-close-grid .pi-steps { justify-content: center; margin-left: auto; }
   .pi-close-grid .pi-close-cta { text-align: center; }
-  .pi-brenda { max-width: 380px; margin: 0 auto; }
+  .pi-brenda { margin-left: auto; margin-right: auto; }
 }
+/* Below 880 the section's bottom padding drops to 80px, so the pull that
+   anchors her has to follow it. Declared after the stacked block so it is
+   not overridden by the wider query. */
+@media (max-width: 880px) { .pi-brenda { margin-bottom: -80px; } }
 
 .pi-close h2 {
   font-family: 'Inter', sans-serif; font-weight: 900;
@@ -869,7 +876,7 @@ body.bco-open { overflow: hidden; }
 
     <figure class="pi-brenda reveal reveal-scale">
       <img src="studio45/brenda.webp" alt="Brenda, member services, waving"
-           width="1300" height="1243" loading="lazy" decoding="async" />
+           width="1300" height="1172" loading="lazy" decoding="async" />
     </figure>
 
     <div class="pi-close-body">
