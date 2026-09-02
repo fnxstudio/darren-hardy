@@ -319,42 +319,6 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
   box-shadow: 0 30px 70px rgba(10, 10, 10, 0.20);
   border-radius: var(--radius);
 }
-/* ---------------------------------------------------------------------
-   FLOATING PLAYER — once the video is running and its section scrolls away,
-   the frame docks bottom-right so the message keeps playing while the
-   visitor reads on. The frame itself is fixed rather than re-parented: the
-   iframe must not be moved in the DOM or it reloads and playback restarts.
-   The holder keeps its height so the page does not jump when it lifts out.
-   --------------------------------------------------------------------- */
-.vsl-frame.is-floating {
-  position: fixed; right: 24px; bottom: 24px; z-index: 90;
-  width: min(360px, 42vw); max-width: none; margin: 0;
-  box-shadow: 0 26px 60px rgba(10, 10, 10, 0.45);
-  animation: vslDock 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes vslDock { from { opacity: 0; transform: translateY(18px) scale(0.96); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .vsl-frame.is-floating { animation: none; } }
-/* the controls are sized for a 1000px frame; scale them for the dock */
-.vsl-frame.is-floating .vsl-play  { width: 48px; height: 48px; bottom: 10px; right: 10px; }
-.vsl-frame.is-floating .vsl-play svg  { width: 16px; height: 16px; }
-.vsl-frame.is-floating .vsl-pause { bottom: 12px; right: 14px; }
-.vsl-frame.is-floating .vsl-pause svg { width: 26px; height: 26px; }
-.vsl-frame.is-floating .vsl-vol   { bottom: 12px; left: 12px; }
-.vsl-frame.is-floating .vsl-vol svg   { width: 20px; height: 20px; }
-@media (max-width: 600px) {
-  .vsl-frame.is-floating { width: 208px; right: 14px; bottom: 14px; }
-}
-/* Sits under the checkout overlay (z 120) so it can never cover the drawer. */
-.pi-vsl-close { display: none; }
-.vsl-frame.is-floating .pi-vsl-close {
-  display: flex; align-items: center; justify-content: center;
-  position: absolute; top: -11px; right: -11px; z-index: 5;
-  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
-  background: var(--black); color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.28); font-size: 11px; line-height: 1;
-}
-.vsl-frame.is-floating .pi-vsl-close:hover { border-color: var(--bmc-cyan); color: var(--bmc-cyan); }
-
 .pi-vsl-poster {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; display: block; z-index: 1;
@@ -675,7 +639,6 @@ body.bco-open { overflow: hidden; }
             <span class="vsl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0a0a0a"><polygon points="6,4 20,12 6,20"/></svg></span>
             <span class="vsl-pause" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span>
           </button>
-          <button class="pi-vsl-close" type="button" aria-label="Close floating video">&#10005;</button>
           <button class="vsl-vol" type="button" aria-label="Mute or unmute">
             <span class="t-vol t-vol-on" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a8.5 8.5 0 0 1 0 13"/></svg></span>
             <span class="t-vol t-vol-off" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/><line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/></svg></span>
@@ -1002,58 +965,6 @@ body.bco-open { overflow: hidden; }
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll, { passive: true });
   update();
-})();
-
-/* ═══════════════════════════════════════════════════════════════
-   FLOATING PLAYER
-   Docks the video bottom-right once it is playing and its section
-   has scrolled away. bmc.js already maintains .is-playing on the
-   frame, so this only has to watch visibility and toggle a class.
-   ═══════════════════════════════════════════════════════════════ */
-(function () {
-  var frame = document.querySelector('.pi-video .vsl-frame');
-  if (!frame || !('IntersectionObserver' in window)) return;
-  var holder = frame.parentElement;
-  var closeBtn = frame.querySelector('.pi-vsl-close');
-  var toggle = frame.querySelector('[data-vsl-play]');
-  var inView = true, dismissed = false;
-
-  function apply() {
-    var want = !inView && !dismissed && frame.classList.contains('is-playing');
-    if (want === frame.classList.contains('is-floating')) return;
-    if (want) {
-      // pin the gap first, so lifting the frame out of flow doesn't shift the page
-      holder.style.height = holder.getBoundingClientRect().height + 'px';
-      frame.classList.add('is-floating');
-    } else {
-      frame.classList.remove('is-floating');
-      holder.style.height = '';
-    }
-  }
-
-  new IntersectionObserver(function (entries) {
-    inView = entries[0].isIntersecting;
-    if (inView) dismissed = false;      // scrolling back to it re-arms the dock
-    apply();
-  }, { threshold: 0.3 }).observe(frame);
-
-  // bmc.js toggles .is-playing on the frame; mirror it without polling
-  if (window.MutationObserver) {
-    new MutationObserver(apply).observe(frame, { attributes: true, attributeFilter: ['class'] });
-  }
-
-  if (closeBtn) closeBtn.addEventListener('click', function (e) {
-    e.stopPropagation();                // the toggle covers the whole frame
-    dismissed = true;
-    if (frame.classList.contains('is-playing') && toggle) toggle.click();  // pause too
-    apply();
-  });
-
-  // Opening the checkout should silence a docked video rather than talk over it.
-  document.addEventListener('click', function (e) {
-    if (!e.target.closest || !e.target.closest('[data-buy]')) return;
-    if (frame.classList.contains('is-floating') && frame.classList.contains('is-playing') && toggle) toggle.click();
-  }, true);
 })();
 
 /* ═══════════════════════════════════════════════════════════════
