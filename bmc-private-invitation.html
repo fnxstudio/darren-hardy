@@ -274,7 +274,15 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
    not have. The poster fades on .has-played, a class bmc.js sets the
    moment the video starts.
    --------------------------------------------------------------------- */
-.pi-video-head { text-align: center; margin-bottom: 40px; }
+.pi-video-head { text-align: center; margin-bottom: 44px; }
+/* The run time rides on the headline as metadata rather than competing with
+   it at headline scale. */
+.pi-h2-meta {
+  display: inline-block; margin-left: 0.5em; white-space: nowrap;
+  font-size: 0.3em; font-weight: 700; letter-spacing: 0.22em;
+  color: var(--grey-soft); vertical-align: middle;
+}
+@media (max-width: 620px) { .pi-h2-meta { display: block; margin: 12px 0 0; font-size: 11px; } }
 .pi-video .vsl-frame {
   max-width: 1000px; margin: 0 auto;
   border: 1px solid var(--rule-dark-strong);
@@ -560,7 +568,7 @@ body.bco-open { overflow: hidden; }
 <section class="pi-sec pi-sec--bone pi-rule pi-video" id="message">
   <div class="container">
     <div class="pi-video-head reveal">
-      <div class="pi-eyebrow">A Message From Darren &nbsp;&middot;&nbsp; 3 Minutes</div>
+      <h2 class="pi-h2">A Message From <em>Darren</em><span class="pi-h2-meta">&middot; 3 Minutes</span></h2>
     </div>
 
     <div class="reveal reveal-scale">
