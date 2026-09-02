@@ -378,11 +378,22 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
   background: var(--surface-card); color: var(--text-on-dark);
   font-family: 'Inter', sans-serif;
   transform: translateX(100%);
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
   box-shadow: -24px 0 70px rgba(0, 0, 0, 0.6);
   border-left: 1px solid rgba(var(--bmc-cyan-rgb), 0.18);
+  /* Parked off-screen the drawer is still painted, and its shadow reaches
+     24px + 70px of blur back across the right edge of the page — a dark
+     gradient down every screen that belongs to no part of the brand. It is
+     also still focusable out there, so a keyboard could tab into a closed
+     dialog. visibility:hidden settles both; the delay holds it visible for
+     the length of the slide-out, then drops it. */
+  visibility: hidden;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
 }
-.bco-drawer.open { transform: none; }
+.bco-drawer.open {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
 @media (max-width: 540px) { .bco-drawer { width: 100%; } }
 @media (prefers-reduced-motion: reduce) {
   .bco-drawer, .bco-overlay { transition: none; }
