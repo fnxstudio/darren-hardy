@@ -82,6 +82,8 @@ body { background: var(--bone); color: var(--black); }
 }
 .btn-ghost:hover { background: var(--bmc-plum); color: var(--white); }
 .btn-ghost--sm { padding: 12px 22px; font-size: 10px; letter-spacing: 0.2em; }
+/* The deposit CTAs are <button>, not <a> — see the note on the drawer JS. */
+button.btn-ghost, button.btn-primary { cursor: pointer; }
 .pi-arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 .btn-ghost:hover .pi-arrow, .btn-primary:hover .pi-arrow { transform: translateX(5px); }
 
@@ -393,13 +395,12 @@ body { background: var(--bone); color: var(--black); }
 
 .bco-body  { flex: 1; overflow-y: auto; background: var(--white); color: var(--ink); }
 .bco-mount { display: flex; flex-direction: column; min-height: 100%; }
-/* Spiffy's own container, whichever shape it mounts in, fills the body.
-   Before SpiffyJS upgrades it the custom element has no children, and an
-   empty element must not reserve the 560px — that would shove the loading
-   and fallback panels off the bottom of the drawer. */
-.bco-mount spiffy-checkout:not(:empty),
-.bco-mount .spiffy-checkout__container { display: block; width: 100%; flex: 1; min-height: 560px; }
-.bco-mount spiffy-checkout:empty { display: none; }
+/* Spiffy mounts its checkout as an iframe inside this element and sizes it
+   itself, so it only needs to be a full-width block. Before SpiffyJS
+   upgrades it the element has no children, and an empty element must not
+   reserve space — that would push the loading and fallback panels down. */
+.bco-mount spiffy-element { display: block; width: 100%; }
+.bco-mount spiffy-element:empty { display: none; }
 
 /* Loading + fallback. Neither is a form — they only cover the moment
    before Spiffy paints, and the case where SpiffyJS never loads. */
@@ -443,9 +444,9 @@ body.bco-open { overflow: hidden; }
       <img src="studio45/logo-dark.png" alt="Studio45" width="1133" height="906" />
       <span class="pi-header-seats">29 of 40 seats remain</span>
     </div>
-    <a href="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit" class="btn-ghost btn-ghost--sm">
+    <button type="button" data-buy class="btn-ghost btn-ghost--sm">
       Place Your Deposit <span class="pi-arrow">&rarr;</span>
-    </a>
+    </button>
   </div>
 </div>
 
@@ -459,9 +460,9 @@ body.bco-open { overflow: hidden; }
       <span>October 18&ndash;22, 2026</span><span class="sep">&middot;</span><span>Charleston</span><span class="sep">&middot;</span><span><b>40 Seats</b></span>
     </div>
     <div class="pi-hero-cta">
-      <a href="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit" class="btn-ghost">
+      <button type="button" data-buy class="btn-ghost">
         Place Your Deposit <span class="pi-arrow">&rarr;</span>
-      </a>
+      </button>
       <div class="pi-fine">$500 holds your seat. 29 of 40 remain.</div>
     </div>
   </div>
@@ -626,9 +627,9 @@ body.bco-open { overflow: hidden; }
     </div>
 
     <div class="pi-close-cta reveal">
-      <a href="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit" class="btn-primary btn-large cta-glow">
+      <button type="button" data-buy class="btn-primary btn-large cta-glow">
         Place Your Deposit <span class="pi-arrow">&rarr;</span>
-      </a>
+      </button>
       <div class="pi-fine">29 of 40 seats remain.</div>
       <div class="pi-contact pi-fine">
         Questions? Call or text Brenda: <a href="tel:+16193751257">619-375-1257</a>
@@ -668,7 +669,7 @@ body.bco-open { overflow: hidden; }
 
       <!-- Spiffy's inline checkout element. SpiffyJS upgrades this into the
            live checkout as soon as the loader below is present. -->
-      <spiffy-checkout url="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit"></spiffy-checkout>
+      <spiffy-element type="checkout" url="https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit"></spiffy-element>
 
       <!-- Shown until Spiffy paints. -->
       <div class="bco-state" id="bcoLoading">
@@ -692,22 +693,51 @@ body.bco-open { overflow: hidden; }
 </aside>
 
 <!-- ─────────────────────────────────────────────────────────────────────
-     SPIFFYJS LOADER — the one thing still to paste.
-     Get it from app.spiffy.co → Settings → SpiffyJS ("Get SpiffyJS Code"),
-     and drop the whole snippet in immediately below this comment. The
-     account subdomain is `darrenhardy`, so the call at the end of that
-     snippet should read spiffy.load('darrenhardy').
+     SPIFFY ELEMENTS — the same loader and account the VIP-BMA page runs
+     (profits.darrenhardy.com/vip-bma-invite). load() takes the account
+     and the custom checkout domain.
 
-     Until it is present the drawer still opens and still sells: it shows
-     the fallback panel above, which hands the visitor to the same secure
-     checkout the buttons used to link to directly.
+     Held back until the visitor interacts or the browser goes idle:
+     loaded eagerly it costs roughly 2.8s of main-thread blocking before
+     the page is usable, and nobody clicks a deposit button in the first
+     second. Real visitors trip one of these listeners almost immediately;
+     the idle timeout is only the floor for someone who never moves.
 
-     Note for whoever wires this: the checkout cannot be dropped into a
-     plain <iframe>. secure.darrenhardy.com and darrenhardy.spiffy.co both
-     send `X-Frame-Options: SAMEORIGIN`, so a cross-origin frame is refused
-     on hardybmc.com just as it is here. SpiffyJS is the supported path.
+     A plain <iframe> is not an alternative here — secure.darrenhardy.com
+     and darrenhardy.spiffy.co both send X-Frame-Options: SAMEORIGIN
+     (unchanged across embed params and referrers), so a cross-origin
+     frame is refused on hardybmc.com exactly as it is on this preview.
+     Spiffy's own SDK is the supported path.
      ───────────────────────────────────────────────────────────────────── -->
-<!-- PASTE SPIFFYJS LOADER SNIPPET HERE -->
+<script>
+(function () {
+  var booted = false;
+  function boot() {
+    if (booted) return; booted = true;
+
+    (function(i,t){var f=t.spiffy=t.spiffy||[];if(!f.init){
+    if(f.invoked)return void(t.console&&console.error&&console.warn("Spiffy Elements included twice."))
+    ;f.invoked=!0,f.methods=["identify","config","debug","off","on"],f.factory=function(i){
+    return function(){var t=Array.prototype.slice.call(arguments);return t.unshift(i),f.push(t),f}},
+    f.methods.forEach(function(i){spiffy[i]=f.factory(i)}),f.load=function(t,f){if(!spiffy.ACCOUNT){
+    spiffy.ACCOUNT=t,spiffy.DOMAIN=f;var e=i.createElement("script");e.type="text/javascript",
+    e.async=!0,e.crossorigin="anonymous",e.src="https://js.static.spiffy.co/spiffy.js?a="+t
+    ;var n=i.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)}}}})(document,window);
+    spiffy.SNIPPET_VERSION = "1.1.0";
+    spiffy.config({ hideSidebar: false });
+    spiffy.load("darrenhardy", "secure.darrenhardy.com");
+  }
+  // Opening the drawer must not have to wait for an idle callback.
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('[data-buy]')) boot();
+  }, true);
+  ['pointerdown','touchstart','keydown','wheel','scroll'].forEach(function (ev) {
+    addEventListener(ev, boot, { once: true, passive: true });
+  });
+  if ('requestIdleCallback' in window) requestIdleCallback(boot, { timeout: 5000 });
+  else setTimeout(boot, 4000);
+})();
+</script>
 
 <script src="bmc.js"></script>
 <script>
@@ -722,30 +752,37 @@ body.bco-open { overflow: hidden; }
 
 /* ═══════════════════════════════════════════════════════════════
    CHECKOUT DRAWER
-   Every deposit button opens the drawer instead of navigating. The
-   href stays on each link, so middle-click, cmd-click, and a JS
-   failure all still reach the checkout.
+   Every deposit CTA is a <button data-buy> with no href, and the
+   listener keys off [data-buy]. That is deliberate: Spiffy's SDK
+   claims any anchor pointing at one of its own checkout URLs and
+   navigates there itself, AFTER our preventDefault — which opens
+   the drawer and then abandons it. Same fix the VIP-BMA page landed.
    ═══════════════════════════════════════════════════════════════ */
 (function () {
+  var CHECKOUT = 'https://secure.darrenhardy.com/checkout/bmc-in-studio-deposit';
   var overlay  = document.getElementById('bcoOverlay');
   var drawer   = document.getElementById('bcoDrawer');
   var closeBtn = document.getElementById('bcoClose');
+  var mount    = document.getElementById('bcoMount');
   var loading  = document.getElementById('bcoLoading');
   var fallback = document.getElementById('bcoFallback');
   if (!overlay || !drawer) return;
 
-  var lastFocus = null, opened = false;
+  var lastFocus = null, ready = false, bailTimer = null;
 
-  function showFallback() {
-    if (loading)  loading.hidden  = true;
-    if (fallback) fallback.hidden = false;
-  }
-  function hideStates() {
-    if (loading)  loading.hidden  = true;
-    if (fallback) fallback.hidden = true;
-  }
-  // Spiffy fires form:ready once the checkout has painted.
-  window.bcoCheckoutReady = hideStates;
+  // Spiffy renders the checkout as an iframe inside the element, so an
+  // iframe in the mount is the honest signal that it has painted.
+  var poll = setInterval(function () {
+    if (mount.querySelector('iframe') || (window.spiffy && window.spiffy.ready)) {
+      ready = true;
+      clearInterval(poll);
+      if (bailTimer) { clearTimeout(bailTimer); bailTimer = null; }
+      if (loading)  loading.hidden  = true;
+      if (fallback) fallback.hidden = true;
+    }
+  }, 200);
+  // No cap on the poll — a slow connection must not strand the drawer in a
+  // permanently not-ready state.
 
   function open(e) {
     if (e) e.preventDefault();
@@ -753,7 +790,7 @@ body.bco-open { overflow: hidden; }
     overlay.hidden = false;
     // Force a reflow so the transition runs from the off-screen start state.
     // A rAF would also work but never fires in a backgrounded renderer, which
-    // would leave the drawer un-slid.
+    // would leave the drawer mounted but never slid in.
     void overlay.offsetWidth;
     overlay.classList.add('open');
     drawer.classList.add('open');
@@ -761,14 +798,15 @@ body.bco-open { overflow: hidden; }
     document.body.classList.add('bco-open');
     if (closeBtn) closeBtn.focus();
 
-    if (opened) return;
-    opened = true;
-    // If SpiffyJS never arrives, hand the visitor to the hosted checkout
-    // rather than leaving them looking at a spinner.
-    setTimeout(function () {
-      var painted = drawer.querySelector('.spiffy-checkout__container, spiffy-checkout iframe');
-      if (!window.spiffy || !painted) showFallback();
-    }, 2600);
+    // Only if Spiffy genuinely never loads. Long enough that a slow phone
+    // isn't pushed out of the drawer it just opened.
+    if (!ready && !bailTimer) {
+      bailTimer = setTimeout(function () {
+        if (ready) return;
+        if (loading)  loading.hidden  = true;
+        if (fallback) fallback.hidden = false;
+      }, 15000);
+    }
   }
 
   function close() {
@@ -780,12 +818,10 @@ body.bco-open { overflow: hidden; }
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
-  document.querySelectorAll('a[href*="/checkout/bmc-in-studio-deposit"]').forEach(function (a) {
-    if (a.closest('#bcoDrawer')) return;   // the fallback link must still navigate
-    a.addEventListener('click', function (e) {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return; // let new-tab clicks through
-      open(e);
-    });
+  // Delegated, so it also covers any CTA added later.
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-buy]');
+    if (b) open(e);
   });
 
   if (closeBtn) closeBtn.addEventListener('click', close);
@@ -793,6 +829,10 @@ body.bco-open { overflow: hidden; }
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && drawer.classList.contains('open')) close();
   });
+
+  // Belt and braces: if the whole drawer failed to wire up, the fallback link
+  // still points at the hosted checkout.
+  if (fallback) fallback.querySelector('a').href = CHECKOUT;
 })();
 </script>
 
