@@ -398,9 +398,15 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
 /* Spiffy mounts its checkout as an iframe inside this element and sizes it
    itself, so it only needs to be a full-width block. Before SpiffyJS
    upgrades it the element has no children, and an empty element must not
-   reserve space — that would push the loading and fallback panels down. */
-.bco-mount spiffy-element { display: block; width: 100%; }
-.bco-mount spiffy-element:empty { display: none; }
+   reserve space — that would push the loading and fallback panels down.
+
+   The gutter is ours: Spiffy's own layout runs its fields nearly flush to
+   the frame edge, which reads as cramped inside a drawer. Padding the
+   element insets the iframe instead, and Spiffy re-reports its height
+   through the narrower frame, so the drawer keeps scrolling correctly. */
+.bco-mount spiffy-element { display: block; width: 100%; padding: 16px 22px 26px; }
+.bco-mount spiffy-element:empty { display: none; padding: 0; }
+@media (max-width: 400px) { .bco-mount spiffy-element { padding: 14px 16px 22px; } }
 
 /* Loading + fallback. Neither is a form — they only cover the moment
    before Spiffy paints, and the case where SpiffyJS never loads. */
