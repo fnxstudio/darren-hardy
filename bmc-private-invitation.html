@@ -86,15 +86,23 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
    bars stacked there would fight each other.
    --------------------------------------------------------------------- */
 .pi-topstrip {
-  background: linear-gradient(90deg,
-    rgb(var(--bmc-plum-rgb)) 0%,
-    rgb(var(--bmc-purple-rgb)) 58%,
-    rgb(var(--bmc-magenta-rgb)) 100%);
+  /* Black, with the purple sitting behind the words as a haze. This is the
+     one sanctioned use of the purple token: a radial wash for background
+     depth. Running it as a saturated left-to-right bar is what made the
+     first cut of this strip read as pink. */
+  position: relative; overflow: hidden;
+  background: var(--black);
   color: var(--white);
   text-align: center;
   padding: 12px 24px;
 }
+.pi-topstrip::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 30% 300% at 50% 50%,
+                rgba(var(--bmc-purple-rgb), 0.62), transparent 72%);
+}
 .pi-topstrip span {
+  position: relative; z-index: 1;
   display: inline-flex; align-items: center; justify-content: center;
   gap: 12px; flex-wrap: wrap;
   font-family: 'Inter', sans-serif; font-size: 11px;
