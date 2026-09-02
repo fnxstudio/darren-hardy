@@ -223,7 +223,17 @@ button.btn-ghost, button.btn-primary, button.btn-solid { cursor: pointer; }
 
 /* Full-bleed photograph. The one hero "image" is a real photograph of the
    room at full width, not a background with type fighting it. */
-.pi-bleed { display: block; width: 100%; height: clamp(320px, 46vw, 620px); object-fit: cover; }
+/* Full-bleed band with a parallax pass. The image is taller than its window
+   and overhangs 20% top and bottom, so it can travel without ever exposing an
+   edge; the script below moves it by at most 14%. Without JS, or under
+   reduced motion, it simply sits centred and nothing is lost. */
+.pi-bleed { position: relative; overflow: hidden; width: 100%; height: clamp(320px, 46vw, 620px); }
+.pi-bleed img {
+  position: absolute; left: 0; top: -20%;
+  width: 100%; height: 140%;
+  object-fit: cover; display: block;
+  will-change: transform;
+}
 
 /* ---------------------------------------------------------------------
    FACE MARQUEE — the argument of the whole page. Two identical tracks
@@ -636,9 +646,11 @@ body.bco-open { overflow: hidden; }
   </div>
 </section>
 
-<img class="pi-bleed" src="studio45/darren-table.webp"
-     alt="Darren Hardy in conversation with members around a table in the Charleston studio"
-     width="1600" height="1067" fetchpriority="high" decoding="async" />
+<div class="pi-bleed">
+  <img src="studio45/darren-table.webp"
+       alt="Darren Hardy in conversation with members around a table in the Charleston studio"
+       width="1600" height="1067" fetchpriority="high" decoding="async" />
+</div>
 
 
 <!-- ===== A NOTE FROM DARREN — written short, and on camera ===== -->
@@ -959,6 +971,37 @@ body.bco-open { overflow: hidden; }
     var e = entries[0];
     header.classList.toggle('is-visible', !e.isIntersecting && e.boundingClientRect.bottom <= 0);
   }, { threshold: 0 }).observe(hero);
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   PARALLAX BAND
+   Drifts the full-bleed photograph against the scroll. Reads on rAF
+   from a passive listener, writes one transform, and skips entirely
+   while the band is off-screen.
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+  var wrap = document.querySelector('.pi-bleed');
+  var img = wrap && wrap.querySelector('img');
+  if (!img) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var DEPTH = 0.14;              // max travel, as a share of the band's height
+  var ticking = false;
+
+  function update() {
+    ticking = false;
+    var r = wrap.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return;   // nothing to do off-screen
+    // -1 when the band's centre sits at the bottom of the screen, +1 at the top
+    var span = (window.innerHeight + r.height) / 2;
+    var progress = (r.top + r.height / 2 - window.innerHeight / 2) / span;
+    img.style.transform = 'translate3d(0,' + (progress * DEPTH * r.height).toFixed(1) + 'px,0)';
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll, { passive: true });
+  update();
 })();
 
 /* ═══════════════════════════════════════════════════════════════
