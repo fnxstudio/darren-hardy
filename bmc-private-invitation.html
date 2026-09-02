@@ -130,11 +130,23 @@ button.btn-ghost, button.btn-primary { cursor: pointer; }
 .pi-header.is-visible { transform: translateY(0); }
 .pi-header .container { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 66px; }
 .pi-header img { height: 30px; width: auto; display: block; }
+/* Seats remaining, with a bar showing how full the room is. The fill is the
+   share of seats already taken, so it reads as progress toward sold out
+   rather than as capacity left. Both numbers live in the markup. */
 .pi-header-seats {
+  display: flex; flex-direction: column; gap: 7px; min-width: 156px;
+  border-left: 1px solid var(--rule-dark-strong); padding-left: 16px;
+}
+.pi-seats-label {
   font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--bmc-plum);
-  border-left: 1px solid var(--rule-dark-strong); padding-left: 16px; white-space: nowrap;
+  white-space: nowrap;
 }
+.pi-seats-track {
+  display: block; width: 100%; height: 3px; border-radius: 99px;
+  background: rgba(10, 10, 10, 0.14); overflow: hidden;
+}
+.pi-seats-fill { display: block; height: 100%; border-radius: 99px; background: var(--bmc-plum); }
 .pi-header-l { display: flex; align-items: center; gap: 16px; min-width: 0; }
 .pi-header .btn-ghost { flex: none; }
 @media (max-width: 720px) {
@@ -552,7 +564,13 @@ body.bco-open { overflow: hidden; }
   <div class="container">
     <div class="pi-header-l">
       <img src="studio45/logo-dark.png" alt="Studio45" width="1133" height="906" />
-      <span class="pi-header-seats">29 seats remain</span>
+      <div class="pi-header-seats">
+        <span class="pi-seats-label">Only 29 seats left</span>
+        <!-- 11 of 40 taken -->
+        <span class="pi-seats-track" role="img" aria-label="11 of 40 seats taken">
+          <span class="pi-seats-fill" style="width:27.5%"></span>
+        </span>
+      </div>
     </div>
     <button type="button" data-buy class="btn-ghost btn-ghost--sm">
       Place Your Deposit <span class="pi-arrow">&rarr;</span>
