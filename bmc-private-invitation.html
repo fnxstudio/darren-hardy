@@ -748,7 +748,7 @@ body.bco-open { overflow: hidden; }
     <div class="reveal reveal-scale">
       <div class="vsl-frame">
           <iframe id="vsl-player"
-            src="https://player.vimeo.com/video/1216189039?controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;dnt=1"
+            data-src="https://player.vimeo.com/video/1216189039?controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;dnt=1"
             loading="lazy" frameborder="0"
             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
             allowfullscreen
@@ -1056,11 +1056,16 @@ body.bco-open { overflow: hidden; }
   document.addEventListener('click', function (e) {
     if (e.target.closest && e.target.closest('[data-buy]')) boot();
   }, true);
-  ['pointerdown','touchstart','keydown','wheel','scroll'].forEach(function (ev) {
-    addEventListener(ev, boot, { once: true, passive: true });
+  // Warm it on intent toward a deposit button, which gives the SDK a head
+  // start of a few hundred ms before the click without loading it for the
+  // many visitors who never press one. It used to boot on any scroll, wheel
+  // or keypress, and on an idle callback after 5s, so every single visitor
+  // paid for the whole checkout SDK whether or not they went near it.
+  ['pointerover','pointerdown','focusin'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      if (e.target.closest && e.target.closest('[data-buy]')) boot();
+    }, { passive: true, capture: true });
   });
-  if ('requestIdleCallback' in window) requestIdleCallback(boot, { timeout: 5000 });
-  else setTimeout(boot, 4000);
 })();
 </script>
 
@@ -1322,6 +1327,29 @@ body.bco-open { overflow: hidden; }
   apply();
   if (mq.addEventListener) mq.addEventListener('change', apply);
   else if (mq.addListener) mq.addListener(apply);
+})();
+
+/* ===== Vimeo facade =====
+   The iframe ships without a src. Vimeo's embed pulls well over a megabyte of
+   player JavaScript, and it was loading for every visitor who scrolled past
+   the section, which is what put main-thread work at 8.4s and blocking time
+   at 2.85s on a phone. The poster and the play button are real elements
+   already, so the section looks identical until someone reaches for it.
+   Setting src here is synchronous, and bmc.js only starts DOWNLOADING
+   player.js on the same gesture, so the frame always has its source well
+   before a Vimeo.Player is constructed against it. */
+(function () {
+  var f = document.getElementById('vsl-player');
+  if (!f || !f.dataset.src) return;
+  var attach = function () {
+    if (f.src) return;
+    f.src = f.dataset.src;
+  };
+  ['pointerover','pointerdown','click','focusin'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      if (e.target.closest && e.target.closest('.vsl-frame')) attach();
+    }, { passive: true, capture: true });
+  });
 })();
 </script>
 
