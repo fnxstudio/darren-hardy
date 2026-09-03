@@ -28,7 +28,7 @@
    One screen. Every rule below is lifted verbatim from
    bmc-private-invitation.html so the two pages cannot drift: same top
    strip, same eyebrow, same headline scale, same numbered steps, same
-   anchored Brenda, same footer.
+   footer. A single centred column; nothing sits beside the copy.
 
    The page is deliberately short. Someone reading it has already decided,
    so it affirms the decision and tells them exactly who calls and when.
@@ -63,21 +63,17 @@
 .pi-eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--bmc-plum); }
 .on-dark .pi-eyebrow { color: var(--bmc-cyan); }
 .on-dark .pi-eyebrow::before { background: var(--bmc-cyan); }
-.pi-fine { font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; color: var(--silver); }
 
 /* ---- the confirmation itself ---- */
 .pi-confirm { background: var(--black); padding: 84px 0 117px; }
 @media (max-width: 880px) { .pi-confirm { padding: 64px 0 80px; } }
 
-.pi-confirm-grid {
-  display: grid; grid-template-columns: 1fr 1.05fr; gap: 24px;
-  align-items: center; text-align: left;
-}
-.pi-confirm-body { order: 1; }
-.pi-brenda { order: 2; }
+/* Centred column. Nothing sits beside the copy now, so the measure is
+   capped rather than letting the line run the full container width. */
+.pi-confirm-body { max-width: 760px; margin: 0 auto; text-align: center; }
 
 .pi-logo {
-  width: 150px; height: auto; display: block; margin: 0 0 30px;
+  width: 150px; height: auto; display: block; margin: 0 auto 30px;
   opacity: 0; animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.1s;
 }
 .pi-confirm h1 {
@@ -92,7 +88,7 @@
 .pi-lead {
   font-family: 'Inter', sans-serif; font-weight: 400;
   font-size: clamp(16px, 1.3vw, 18px); line-height: 1.65; color: var(--silver);
-  max-width: 46ch; margin: 24px 0 0;
+  max-width: 52ch; margin: 24px auto 0;
   opacity: 0; animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.72s;
 }
 .pi-lead b { color: var(--white); font-weight: 700; }
@@ -101,7 +97,8 @@
 .pi-next { margin-top: 46px; padding-top: 34px; border-top: 1px solid var(--rule); }
 .pi-steps {
   display: flex; flex-direction: column; gap: 16px;
-  margin: 22px 0 0; max-width: 560px;
+  margin: 22px auto 0; max-width: 560px;
+  text-align: left;   /* the numbered list still reads better ranged left */
 }
 .pi-step {
   display: flex; align-items: flex-start; gap: 14px;
@@ -118,25 +115,8 @@
 .pi-contact { margin-top: 34px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--grey-soft); }
 .pi-contact a { color: var(--bmc-cyan); text-decoration: none; border-bottom: 1px solid var(--rule-cyan); }
 
-/* ---- Brenda, anchored to the footer line exactly as on the invitation ---- */
-.pi-brenda { margin: 0; align-self: end; margin-bottom: -117px; }
-.pi-brenda img { display: block; width: 100%; height: auto; }
-
 @media (max-width: 980px) {
-  .pi-confirm-grid { grid-template-columns: 1fr; gap: 34px; }
-  .pi-brenda { order: 2; align-self: auto; max-width: 400px; margin-left: auto; margin-right: auto; }
   .pi-lead { max-width: none; }
-}
-@media (max-width: 880px) { .pi-brenda { margin-bottom: -80px; } }
-
-/* bmc.css lifts a magenta radial to 0.18 at 50% 92% on phones, which is
-   exactly where she stands. Keep the purple behind the headline, drop the
-   magenta, so she reads as a cutout on black. */
-@media (max-width: 880px) {
-  .pi-confirm.bmc-wash--center::before {
-    background: radial-gradient(ellipse 100% 45% at 50% 18%,
-                rgba(var(--bmc-purple-rgb), 0.34), transparent 65%);
-  }
 }
 
 /* ---- footer ---- */
@@ -160,9 +140,7 @@
 
 <section class="pi-confirm on-dark bmc-wash bmc-wash--center">
   <div class="container">
-    <div class="pi-confirm-grid">
-
-      <div class="pi-confirm-body">
+    <div class="pi-confirm-body">
         <picture>
           <source type="image/avif" srcset="studio45/logo-white.avif?v=1 344w">
           <img class="pi-logo" src="studio45/logo-white.webp?v=12"
@@ -191,18 +169,6 @@
         </div>
       </div>
 
-      <figure class="pi-brenda">
-        <picture>
-          <source type="image/avif"
-                  srcset="studio45/brenda-s.avif?v=14 660w, studio45/brenda.avif?v=14 1300w"
-                  sizes="(max-width: 980px) 317px, 620px">
-          <img src="studio45/brenda.webp?v=14"
-               srcset="studio45/brenda-s.webp?v=14 660w, studio45/brenda.webp?v=14 1300w"
-               sizes="(max-width: 980px) 317px, 620px"
-               alt="Brenda, member services, waving"
-               width="1300" height="1168" loading="lazy" decoding="async" />
-        </picture>
-      </figure>
 
     </div>
   </div>
