@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STUDIO45 · Deposit Confirmation</title>
+<meta name="description" content="Your STUDIO45 deposit is confirmed. Brenda will be in touch within one business day.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/bmc-studio45-deposit-confirmation.html">
+<link rel="icon" href="favicon.png">
+
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="BMC|COLLECTIVE">
+<meta property="og:url"         content="https://fnxstudio.github.io/darren-hardy/bmc-studio45-deposit-confirmation.html">
+<meta property="og:title"       content="Your Seat Is Held.">
+<meta property="og:description" content="STUDIO45 · October 18-21, 2026 · Charleston, SC">
+<meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/studio45/og-card.jpg?v=1">
+<meta property="og:image:type"  content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<link rel="stylesheet" href="bmc.css">
+
+<style id="pc-css">
+/* ---------------------------------------------------------------------
+   STUDIO45 — DEPOSIT CONFIRMATION
+
+   One screen. Every rule below is lifted verbatim from
+   bmc-private-invitation.html so the two pages cannot drift: same top
+   strip, same eyebrow, same headline scale, same numbered steps, same
+   anchored Brenda, same footer.
+
+   The page is deliberately short. Someone reading it has already decided,
+   so it affirms the decision and tells them exactly who calls and when.
+   No second ask, no logistics, nothing to reconsider.
+   --------------------------------------------------------------------- */
+
+/* ---- top strip (from the invitation, cyan ground, dark type) ---- */
+.pi-topstrip {
+  position: relative; overflow: hidden;
+  background: var(--bmc-cyan);
+  color: var(--black);
+  text-align: center;
+  padding: 12px 24px;
+}
+.pi-topstrip span {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 12px; flex-wrap: wrap;
+  font-family: 'Inter', sans-serif; font-size: 11px;
+  letter-spacing: 0.28em; text-transform: uppercase; line-height: 1.5;
+}
+.pi-topstrip b { font-weight: 900; }
+.pi-topstrip i { font-style: normal; font-weight: 500; color: rgba(10, 10, 10, 0.78); }
+.pi-topstrip .dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(10, 10, 10, 0.42); flex: none; }
+
+/* ---- shared type ---- */
+.pi-eyebrow {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px;
+  letter-spacing: 0.42em; text-transform: uppercase; color: var(--bmc-plum);
+}
+.pi-eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--bmc-plum); }
+.on-dark .pi-eyebrow { color: var(--bmc-cyan); }
+.on-dark .pi-eyebrow::before { background: var(--bmc-cyan); }
+.pi-fine { font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; color: var(--silver); }
+
+/* ---- the confirmation itself ---- */
+.pi-confirm { background: var(--black); padding: 84px 0 117px; }
+@media (max-width: 880px) { .pi-confirm { padding: 64px 0 80px; } }
+
+.pi-confirm-grid {
+  display: grid; grid-template-columns: 1fr 1.05fr; gap: 24px;
+  align-items: center; text-align: left;
+}
+.pi-confirm-body { order: 1; }
+.pi-brenda { order: 2; }
+
+.pi-logo {
+  width: 150px; height: auto; display: block; margin: 0 0 30px;
+  opacity: 0; animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.1s;
+}
+.pi-confirm h1 {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(38px, 4.6vw, 72px); line-height: 0.98; letter-spacing: -0.04em;
+  text-transform: uppercase; color: var(--white);
+  margin: 22px 0 0;
+  opacity: 0; transform: translateY(14px);
+  animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.5s;
+}
+.pi-confirm h1 em { font-style: normal; color: var(--bmc-cyan); }
+.pi-lead {
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: clamp(16px, 1.3vw, 18px); line-height: 1.65; color: var(--silver);
+  max-width: 46ch; margin: 24px 0 0;
+  opacity: 0; animation: revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.72s;
+}
+.pi-lead b { color: var(--white); font-weight: 700; }
+
+/* ---- what happens next ---- */
+.pi-next { margin-top: 46px; padding-top: 34px; border-top: 1px solid var(--rule); }
+.pi-steps {
+  display: flex; flex-direction: column; gap: 16px;
+  margin: 22px 0 0; max-width: 560px;
+}
+.pi-step {
+  display: flex; align-items: flex-start; gap: 14px;
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px;
+  line-height: 1.55; color: var(--silver);
+}
+.pi-step b {
+  width: 26px; height: 26px; border-radius: 50%; flex: none; margin-top: 1px;
+  border: 1px solid var(--bmc-cyan); color: var(--bmc-cyan);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+
+.pi-contact { margin-top: 34px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--grey-soft); }
+.pi-contact a { color: var(--bmc-cyan); text-decoration: none; border-bottom: 1px solid var(--rule-cyan); }
+
+/* ---- Brenda, anchored to the footer line exactly as on the invitation ---- */
+.pi-brenda { margin: 0; align-self: end; margin-bottom: -117px; }
+.pi-brenda img { display: block; width: 100%; height: auto; }
+
+@media (max-width: 980px) {
+  .pi-confirm-grid { grid-template-columns: 1fr; gap: 34px; }
+  .pi-brenda { order: 2; align-self: auto; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .pi-lead { max-width: none; }
+}
+@media (max-width: 880px) { .pi-brenda { margin-bottom: -80px; } }
+
+/* bmc.css lifts a magenta radial to 0.18 at 50% 92% on phones, which is
+   exactly where she stands. Keep the purple behind the headline, drop the
+   magenta, so she reads as a cutout on black. */
+@media (max-width: 880px) {
+  .pi-confirm.bmc-wash--center::before {
+    background: radial-gradient(ellipse 100% 45% at 50% 18%,
+                rgba(var(--bmc-purple-rgb), 0.34), transparent 65%);
+  }
+}
+
+/* ---- footer ---- */
+.pi-footer {
+  background: var(--black); border-top: 1px solid var(--rule);
+  padding: 40px 0 56px; text-align: center;
+  font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.08em;
+  line-height: 2; color: var(--grey-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pi-logo, .pi-confirm h1, .pi-lead { animation: none; opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="pi-topstrip">
+  <span><b>Confirmed</b><span class="dot" aria-hidden="true"></span><i>Your Seat Is Held</i></span>
+</div>
+
+<section class="pi-confirm on-dark bmc-wash bmc-wash--center">
+  <div class="container">
+    <div class="pi-confirm-grid">
+
+      <div class="pi-confirm-body">
+        <picture>
+          <source type="image/avif" srcset="studio45/logo-white.avif?v=1 344w">
+          <img class="pi-logo" src="studio45/logo-white.webp?v=12"
+               alt="Studio45" width="344" height="275" fetchpriority="high" decoding="async" />
+        </picture>
+
+        <div class="pi-eyebrow">Deposit Confirmed</div>
+        <h1>Thank You.<br><em>You&rsquo;re In</em>.</h1>
+
+        <p class="pi-lead">
+          Your <b>$500 deposit</b> is confirmed and your seat is held for the private
+          STUDIO45 experience in Charleston, <b>October 18&ndash;21, 2026</b>.
+          It is a good decision, and the room is better for having you in it.
+        </p>
+
+        <div class="pi-next">
+          <div class="pi-eyebrow">What Happens Next</div>
+          <div class="pi-steps">
+            <div class="pi-step"><b>1</b> Brenda calls you within one business day.</div>
+            <div class="pi-step"><b>2</b> She walks you through everything and answers whatever you want to ask.</div>
+            <div class="pi-step"><b>3</b> Keep an eye on your phone and inbox. Nothing else is needed from you today.</div>
+          </div>
+          <div class="pi-contact">
+            Sooner is fine. Call or text Brenda: <a href="tel:+16193751257">619-375-1257</a>
+          </div>
+        </div>
+      </div>
+
+      <figure class="pi-brenda">
+        <picture>
+          <source type="image/avif"
+                  srcset="studio45/brenda-s.avif?v=14 660w, studio45/brenda.avif?v=14 1300w"
+                  sizes="(max-width: 980px) 317px, 620px">
+          <img src="studio45/brenda.webp?v=14"
+               srcset="studio45/brenda-s.webp?v=14 660w, studio45/brenda.webp?v=14 1300w"
+               sizes="(max-width: 980px) 317px, 620px"
+               alt="Brenda, member services, waving"
+               width="1300" height="1168" loading="lazy" decoding="async" />
+        </picture>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<footer class="pi-footer">
+  <div class="container">
+    STUDIO45 &middot; Charleston, South Carolina<br>
+    &copy; Darren Hardy, LLC. All Rights Reserved.
+  </div>
+</footer>
+
+</body>
+</html>
