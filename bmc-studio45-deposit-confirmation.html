@@ -105,6 +105,11 @@
   font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px;
   line-height: 1.55; color: var(--silver);
 }
+/* The text needs its own box: as a bare node beside the marker it is an
+   anonymous flex item, which text-wrap cannot address. Balance evens the two
+   lines rather than leaving one word stranded, and the non-breaking space
+   before the last word holds the same result where balance is unsupported. */
+.pi-step span { text-wrap: balance; }
 .pi-step b {
   width: 26px; height: 26px; border-radius: 50%; flex: none; margin-top: 1px;
   border: 1px solid var(--bmc-cyan); color: var(--bmc-cyan);
@@ -159,9 +164,9 @@
         <div class="pi-next">
           <div class="pi-eyebrow">What Happens Next</div>
           <div class="pi-steps">
-            <div class="pi-step"><b>1</b> Brenda calls you within one business day.</div>
-            <div class="pi-step"><b>2</b> She walks you through everything and answers whatever you want to ask.</div>
-            <div class="pi-step"><b>3</b> Keep an eye on your phone and inbox. Nothing else is needed from you today.</div>
+            <div class="pi-step"><b>1</b><span>Brenda calls you within one business&nbsp;day.</span></div>
+            <div class="pi-step"><b>2</b><span>She walks you through everything and answers whatever you want to&nbsp;ask.</span></div>
+            <div class="pi-step"><b>3</b><span>Keep an eye on your phone and inbox. Nothing else is needed from you&nbsp;today.</span></div>
           </div>
           <div class="pi-contact">
             Sooner is fine. Call or text Brenda: <a href="tel:+16193751257">619-375-1257</a>
