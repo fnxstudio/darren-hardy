@@ -60,7 +60,12 @@ em {
 /* Section rhythm. Tighter than the sales page on purpose: this is three
    short beats, not a long read. */
 .tm-sec { padding: 116px 0; background: var(--black); }
-.tm-sec--close { padding: 128px 0 60px; background: var(--white); }
+.tm-sec--close {
+  padding: 128px 0 60px; background: var(--bone);
+  border-top: 1px solid var(--rule-dark);
+}
+/* The site's light headline scale, from .section-headline.is-light. */
+.tm-sec--close .section-headline { font-size: clamp(34px, 4.4vw, 66px); }
 @media (max-width: 880px) {
   .tm-sec { padding: var(--section-pad-mobile) 0; }
   .tm-sec--close { padding: var(--section-pad-mobile) 0 32px; }
@@ -79,11 +84,14 @@ em {
    cyan appears in this section is inside the dark panel, which carries
    its own ground with it.
    --------------------------------------------------------------------- */
-.tm-sec--light { background: var(--bone); padding: 132px 0; }
+.tm-sec--light {
+  background: var(--bone); padding: 132px 0;
+  border-top: 1px solid var(--rule-dark);
+}
 .tm-sec--light .section-headline { color: var(--black); }
 .tm-sec--light em { color: var(--bmc-plum); }
-.tm-sec--light .eyebrow { color: var(--grey-soft); }
-.tm-sec--light .eyebrow .pip { background: var(--grey-soft); }
+.tm-sec--light .eyebrow { color: var(--bmc-plum); }
+.tm-sec--light .eyebrow .pip { background: var(--bmc-plum); }
 .tm-sec--light .tm-lead { color: var(--muted); }
 .tm-sec--light .tm-lead strong { color: var(--black); }
 @media (max-width: 880px) {
@@ -632,7 +640,7 @@ em {
    inversion rule for a primary CTA on a light ground.
    --------------------------------------------------------------------- */
 .tm-sec--close .tm-form-shell {
-  background: var(--bone); border-color: var(--rule-dark);
+  background: var(--white); border-color: var(--rule-dark);
 }
 .tm-sec--close .tm-form-shell:focus-within { border-color: rgba(var(--bmc-plum-rgb), 0.5); }
 .tm-sec--close .tm-form-loading { color: var(--grey-soft); }
@@ -640,7 +648,7 @@ em {
 .tm-sec--close .tm-form-shell .hs-form-required { color: var(--bmc-plum); }
 
 .tm-sec--close .tm-form-shell .hs-input:not([type="radio"]):not([type="checkbox"]) {
-  background: var(--white) !important;
+  background: var(--bone) !important;
   border-color: var(--rule-dark-strong) !important;
   color: var(--black) !important;
 }
@@ -648,6 +656,7 @@ em {
 .tm-sec--close .tm-form-shell .hs-input:focus {
   border-color: var(--bmc-plum) !important;
   background: var(--white) !important;
+  outline: none;
   box-shadow: 0 0 0 3px rgba(var(--bmc-plum-rgb), 0.16);
 }
 .tm-sec--close .tm-form-shell select.hs-input {
@@ -657,9 +666,11 @@ em {
 }
 .tm-sec--close .tm-form-shell select.hs-input.is-placeholder { color: var(--grey); }
 .tm-sec--close .tm-form-shell select.hs-input option { background: var(--white); color: var(--black); }
+.tm-sec--close .eyebrow { color: var(--bmc-plum); }
+.tm-sec--close .eyebrow .pip { background: var(--bmc-plum); }
 
 .tm-sec--close .tm-form-shell .hs-form-radio label {
-  background: var(--white); border-color: var(--rule-dark-strong);
+  background: var(--bone); border-color: var(--rule-dark-strong);
   color: var(--muted) !important;
 }
 .tm-sec--close .tm-form-shell .hs-form-radio label:hover { border-color: rgba(var(--bmc-plum-rgb), 0.5); color: var(--black) !important; }
@@ -674,18 +685,18 @@ em {
 .tm-sec--close .tm-form-shell .hs-richtext { color: var(--grey-soft); }
 .tm-sec--close .tm-form-shell .hs-richtext em { color: var(--grey-soft); }
 
-/* Plum on a light ground, never black. A black fill reads as a disabled
-   or unstyled control rather than the thing you are meant to press.
-   The colour is held on hover and the button lifts instead. */
+/* This is the site's own .btn-solid, values read off the Webflow build:
+   plum fill, white type, 19/36 padding, and it inverts to a plum outline
+   on hover. Never black on a light ground. */
 .tm-sec--close .tm-form-shell .hs-button {
   background: var(--bmc-plum) !important; color: var(--white) !important;
   border-color: var(--bmc-plum) !important;
+  padding: 19px 36px !important; letter-spacing: 0.24em !important;
+  transition: background 0.25s ease, color 0.25s ease !important;
 }
 .tm-sec--close .tm-form-shell .hs-button:hover {
-  background: var(--bmc-plum) !important; color: var(--white) !important;
-  border-color: var(--bmc-plum) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px -12px rgba(var(--bmc-plum-rgb), 0.65);
+  background: transparent !important; color: var(--bmc-plum) !important;
+  border-color: var(--bmc-plum) !important; transform: none;
 }
 .tm-sec--close .tm-form-shell .hs-button:focus-visible {
   outline: 2px solid var(--bmc-plum); outline-offset: 3px;
@@ -697,8 +708,6 @@ em {
 /* Section furniture on white */
 .tm-sec--close .section-headline { color: var(--black); }
 .tm-sec--close em { color: var(--bmc-plum); }
-.tm-sec--close .eyebrow { color: var(--grey-soft); }
-.tm-sec--close .eyebrow .pip { background: var(--grey-soft); }
 
 /* ---------------------------------------------------------------------
    DECLINE
@@ -706,7 +715,7 @@ em {
    competes with the offer it sits beneath. Here it is fine print: grey,
    underline only, no accent colour, per the brand's sub-copy rule.
    --------------------------------------------------------------------- */
-.tm-decline { text-align: center; padding: 0 0 88px; background: var(--white); }
+.tm-decline { text-align: center; padding: 0 0 88px; background: var(--bone); }
 .tm-decline a {
   font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px;
   color: var(--grey-soft); text-decoration: underline;
