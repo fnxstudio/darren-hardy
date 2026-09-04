@@ -4,48 +4,41 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Add Team Seats &middot; BMC|COLLECTIVE</title>
-<meta name="description" content="You are in. Now bring the people who will build it with you. Team seats at Business Master Class, $4,995 each, a thousand dollars less per person than the standard seat.">
+<meta name="description" content="You are in. Now bring the people who will build it with you. Team seats at Business Master Class, $4,995 each.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/bmc-team.html">
 <link rel="icon" href="favicon.png">
 
-<!-- Open Graph -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="BMC|COLLECTIVE">
 <meta property="og:title"       content="One Seat Changes You. Your Team Changes Everything.">
-<meta property="og:description" content="Bring your people to Business Master Class for $4,995 a seat, a thousand dollars less per person than the standard seat.">
+<meta property="og:description" content="Bring your people to Business Master Class for $4,995 a seat.">
 <meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/og-image.jpg">
 
 <link rel="preload" as="image" href="room-photos/bmc-work-team.webp" fetchpriority="high">
 
-<!-- Brand design system: the same stylesheet serving hardybmc.com and the
+<!-- Brand design system, the same stylesheet serving hardybmc.com and the
      confirmation page this offer sits in front of. -->
 <link rel="stylesheet" href="bmc.css">
 
 <style id="bmc-team-css">
 /* =====================================================================
    TEAM SEATS: ONE-TIME OFFER
-   Sits between checkout and /confirmation. The reader has already
-   enrolled, which changes everything about how this page has to behave:
+   Sits between checkout and /confirmation.
 
-     1. EVERY LINE IS ADDITIVE. This reader just made a five-figure
-        decision. Nothing here may imply that decision was incomplete, or
-        that what they already have is worth less without more. Affirm
-        the move they made, then offer the multiplier. No loss framing,
-        no "what you will miss", no penalty columns.
-     2. Confirm they are in before anything else, in celebration voice,
-        so the page never reads as a failed checkout asking again.
-     3. One decision, one primary CTA, no navigation off the page.
-     4. Benefits and outcomes only. No legal copy, no process copy, no
-        logistics. They invest, they never buy.
-     5. Argue the offer instead of asserting it. The live page states
-        "leaders who get the biggest ROI don't implement alone" once and
-        then goes straight to a form.
-     6. Show BOTH numbers. The live page's headline says $4,995 and never
-        mentions the $419/mo plan that is sitting inside the form.
+   Three rules this page is built on:
 
-   Nothing below redefines a brand token. These rules only add the
-   components this page needs that bmc.css does not already carry.
+     1. THEY ARE ALREADY IN. The selling happened on hardybmc.com. This
+        page does not re-sell Business Master Class, does not stack proof,
+        and does not run a pitch. It affirms the decision, gives one clear
+        reason to bring people, and gets out of the way.
+     2. EVERY LINE IS ADDITIVE. Nothing may imply the decision they just
+        made was incomplete. No loss framing, no penalty columns, no
+        cost-of-inaction. Affirm first, then offer the multiplier.
+     3. BENEFITS AND OUTCOMES ONLY. No legal copy, no process copy, no
+        logistics. They invest, they never buy. No em dashes.
+
+   Photography does most of the persuading. Real members, real rooms.
    ===================================================================== */
 
 /* Brand emphasis rule: never italic, accent-coloured, weight-compensated
@@ -60,18 +53,26 @@ em {
 .nobreak { white-space: nowrap; }
 
 /* bmc.css sets weight/case/colour on .section-headline but no size; the
-   sales page scopes a size per section. Declared once here at the brand
+   sales page scopes a size per section. Declared once at the brand
    guide's section-heading scale. */
-.section-headline { font-size: clamp(30px, 3.9vw, 60px); margin-bottom: 0; }
+.section-headline { font-size: clamp(28px, 3.6vw, 54px); margin-bottom: 0; }
+
+/* Section rhythm. Tighter than the sales page on purpose: this is three
+   short beats, not a long read. */
+.tm-sec { padding: 116px 0; background: var(--black); }
+.tm-sec--close { padding: 120px 0 56px; background: var(--ink); }
+@media (max-width: 880px) {
+  .tm-sec { padding: var(--section-pad-mobile) 0; }
+  .tm-sec--close { padding: var(--section-pad-mobile) 0 32px; }
+}
+.tm-center { text-align: center; }
+.tm-center .eyebrow { justify-content: center; }
 
 /* ---------------------------------------------------------------------
    WELCOME BAR
-   The single most important element on a post-purchase upsell and the one
-   the live page is missing entirely. Someone who just enrolled and lands
-   on another offer needs to know, in the first 200ms, that they are in.
-   Said as congratulations rather than as a receipt: the celebration does
-   the reassuring, so the page opens on their win instead of a
-   transaction.
+   Someone who just enrolled and lands on another offer needs to know, in
+   the first 200ms, that they are in. Said as congratulations rather than
+   as a receipt, so the page opens on their win instead of a transaction.
    --------------------------------------------------------------------- */
 .tm-bar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 70;
@@ -103,11 +104,9 @@ em {
 
 /* ---------------------------------------------------------------------
    HERO
-   Shorter than the sales-page hero on purpose. This is a decision screen,
-   not a pitch: the offer, the reason, and the price live above the fold
-   and the argument for them is below it for anyone who hesitates.
+   Logo, one headline, one sentence, then faces. Nothing else.
    --------------------------------------------------------------------- */
-.tm-hero { padding: 128px 0 88px; text-align: center; position: relative; }
+.tm-hero { padding: 128px 0 96px; text-align: center; position: relative; }
 .tm-hero-logo {
   width: 176px; height: auto; display: block; margin: 0 auto 34px;
   opacity: 0; animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -123,55 +122,36 @@ em {
 .tm-hero-sub {
   font-family: 'Inter', sans-serif; font-weight: 400;
   font-size: clamp(16px, 1.35vw, 19px); line-height: 1.6;
-  color: var(--silver); max-width: 620px; margin: 30px auto 0;
+  color: var(--silver); max-width: 600px; margin: 28px auto 0;
   text-wrap: pretty;
 }
 .tm-hero-sub strong { color: var(--white); font-weight: 700; }
+@media (max-width: 780px) { .tm-hero { padding: 112px 0 var(--section-pad-mobile); } }
 
-/* Offer strip: the three numbers a member needs before they will read a
-   word of argument: what a seat costs, what it normally costs, and that a
-   payment plan exists. The live page reveals the third only inside the
-   form, after the decision has already been asked for. */
-.tm-strip {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  max-width: 940px; margin: 56px auto 0;
-  border: 1px solid var(--rule-strong); border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.02);
+.tm-hero-cta { margin-top: 44px; }
+.tm-arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.btn-primary:hover .tm-arrow { transform: translateY(3px); }
+
+/* Hero cascade, the same staged fade-up the sales-page hero uses, tuned
+   shorter because this is a decision screen. */
+.tm-in {
+  opacity: 0; transform: translateY(16px);
+  animation: revealUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-.tm-strip-cell { padding: 30px 24px; border-right: 1px solid var(--rule); }
-.tm-strip-cell:last-child { border-right: 0; }
-.tm-strip-num {
-  font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: clamp(28px, 3.2vw, 44px); line-height: 1;
-  letter-spacing: -0.035em; color: var(--white);
-}
-.tm-strip-cell--hero .tm-strip-num { color: var(--bmc-cyan); }
-.tm-strip-lab {
-  margin-top: 12px; font-family: 'Inter', sans-serif; font-weight: 500;
-  font-size: 11px; line-height: 1.5; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--silver);
-}
-.tm-strike { color: var(--grey); text-decoration: line-through; text-decoration-thickness: 1px; }
-@media (max-width: 780px) {
-  .tm-hero { padding: 116px 0 var(--section-pad-mobile); }
-  .tm-strip { grid-template-columns: 1fr; margin-top: 40px; }
-  .tm-strip-cell { border-right: 0; border-bottom: 1px solid var(--rule); padding: 22px 20px; }
-  .tm-strip-cell:last-child { border-bottom: 0; }
+.tm-in-1 { animation-delay: 0.30s; }
+.tm-in-2 { animation-delay: 0.42s; }
+.tm-in-3 { animation-delay: 0.58s; }
+.tm-in-4 { animation-delay: 0.74s; }
+.tm-in-5 { animation-delay: 0.90s; }
+@media (prefers-reduced-motion: reduce) {
+  .tm-in, .tm-hero-logo { opacity: 1 !important; transform: none !important; animation: none !important; }
 }
 
 /* ---------------------------------------------------------------------
-   HERO COLLAGE
-   The headline asks who walks in with you; this answers it before the
-   price is mentioned. Three different groups: a small team working the
-   material, a full room watching together, and members gathered at the
-   hotel. The offer reads as something many people already do, not as an
-   upsell someone invented.
-
-   All three run at their native 4:3. These are real member snapshots, not
-   editorial photography, and they crop badly to wide cinematic bands: the
-   subjects fill the frame, so a 2:1 slice takes somebody's head off.
-   Native ratio, small multiples, candid. That reads as authentic rather
-   than as a stock-photo wall.
+   PHOTOGRAPHY
+   All tiles run at native 4:3. These are real member snapshots, not
+   editorial photography, and they crop badly to wide cinematic bands:
+   the subjects fill the frame, so a 2:1 slice takes somebody's head off.
    --------------------------------------------------------------------- */
 .tm-collage {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
@@ -188,365 +168,250 @@ em {
   background: linear-gradient(to bottom, transparent 58%, rgba(10, 10, 14, 0.5));
 }
 .tm-shot:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.40); transform: translateY(-3px); }
-.tm-collage-cap {
+.tm-cap {
   margin-top: 20px; font-family: 'Inter', sans-serif; font-weight: 500;
   font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
   color: var(--grey); display: inline-flex; align-items: center; gap: 14px;
 }
-.tm-collage-cap .pip { display: inline-block; width: 24px; height: 1px; background: var(--grey); }
+.tm-cap .pip { display: inline-block; width: 24px; height: 1px; background: var(--grey); }
 @media (max-width: 880px) {
-  /* Stacked full-width, not a 2-up grid. Two columns on a phone puts each
-     tile at ~166px, which turns every face into a thumbnail, the opposite
-     of the point. Full width at a gentler 3:2 keeps people legible and
-     costs about one extra swipe. */
+  /* Stacked full width, not a 2-up grid. Two columns on a phone puts each
+     tile at ~166px, which turns every face into a thumbnail. */
   .tm-collage { grid-template-columns: 1fr; gap: 10px; margin-top: 34px; }
   .tm-shot { aspect-ratio: 3 / 2; }
-  .tm-collage-cap { letter-spacing: 0.18em; }
+  .tm-cap { letter-spacing: 0.18em; }
 }
 
-.tm-hero-cta { margin-top: 48px; display: flex; flex-direction: column; align-items: center; gap: 22px; }
-.tm-arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-.btn-primary:hover .tm-arrow { transform: translateY(3px); }
-
-/* Hero cascade: the same staged fade-up the sales-page hero uses, tuned
-   shorter because this is a decision screen and the offer should not be
-   two and a half seconds away. bmc.css delays .secondary-link to 2.4s for
-   the sales page; here it lands with the rest. */
-.tm-in {
-  opacity: 0; transform: translateY(16px);
-  animation: revealUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Wide band: the full-team shot runs at its own native 1.87:1 rather than
+   being cropped into a tile, so nobody at the edges is lost. */
+.tm-band {
+  position: relative; overflow: hidden; max-width: 1100px; margin: 64px auto 0;
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  transition: border-color 0.3s ease;
 }
-.tm-in-1 { animation-delay: 0.30s; }
-.tm-in-2 { animation-delay: 0.42s; }
-.tm-in-3 { animation-delay: 0.58s; }
-.tm-in-4 { animation-delay: 0.70s; }
-.tm-in-5 { animation-delay: 0.86s; }
-.tm-in-6 { animation-delay: 1.02s; }
-.tm-in-7 { animation-delay: 1.18s; }
-.tm-hero .secondary-link { animation-delay: 1.32s; }
-@media (prefers-reduced-motion: reduce) {
-  .tm-in, .tm-hero-logo, .tm-hero .secondary-link {
-    opacity: 1 !important; transform: none !important; animation: none !important;
-  }
+.tm-band img { width: 100%; height: auto; display: block; }
+.tm-band::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom, transparent 62%, rgba(10, 10, 14, 0.55));
+}
+.tm-band:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.40); }
+
+/* Supporting trio, shallower than the band so it reads as a footnote to
+   it rather than competing with it. */
+.tm-trio {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  max-width: 1100px; margin: 14px auto 0;
+}
+.tm-trio .tm-shot { aspect-ratio: 16 / 9; }
+.tm-trio img.shot-high { object-position: center 38%; }
+@media (max-width: 880px) {
+  .tm-band { margin-top: 44px; }
+  .tm-trio { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tm-trio .tm-shot:last-child { grid-column: 1 / -1; }
 }
 
 /* ---------------------------------------------------------------------
-   THE MULTIPLIER
-   The live page asserts the claim in one sentence. This gives it a
-   mechanism and puts two outcomes side by side, and BOTH of them are
-   good ones. The left column is what this reader already gets, stated
-   generously; the right is what the same three days become with their
-   people in the room. Escalation, never a penalty column: they have
-   already enrolled, so a "what you lose by coming alone" list would be
-   telling a paying customer they made half a decision.
+   THE WHY
+   The one reason, given once. Two columns, and BOTH outcomes are good
+   ones: the left is what this reader already gets, stated generously;
+   the right is what the same three days become with their people in the
+   room. Escalation, never a penalty column. They have already enrolled,
+   so a "what you lose by coming alone" list would be telling a paying
+   customer they made half a decision.
    --------------------------------------------------------------------- */
 .tm-lead {
   font-family: 'Inter', sans-serif; font-weight: 400;
   font-size: clamp(16px, 1.35vw, 19px); line-height: 1.65;
-  color: var(--silver); max-width: 760px; margin-top: 30px; text-wrap: pretty;
+  color: var(--silver); max-width: 720px; margin-top: 26px; text-wrap: pretty;
 }
-.tm-lead + .tm-lead { margin-top: 16px; }
 .tm-lead strong { color: var(--white); font-weight: 700; }
-.tm-compare { margin-top: 56px; }
+.tm-compare { margin-top: 44px; }
 
 /* ---------------------------------------------------------------------
-   PROOF: real member photography, no stock, no generated imagery.
-   Same treatment as the confirmation page's strip so the two pages read
-   as one sequence rather than two designs.
+   THE OFFER
+   One number, stated plainly. No cards, no badges, no countdown.
    --------------------------------------------------------------------- */
-/* Wide band: the eleven-person team shot runs at its own native 1.87:1
-   rather than being cropped into a tile, so nobody at the edges is lost. */
-.together-band {
-  position: relative; overflow: hidden; max-width: 1100px; margin: 68px auto 0;
-  border: 1px solid var(--rule); border-radius: var(--radius);
-  transition: border-color 0.3s ease;
+.tm-price { margin-top: 34px; }
+.tm-price-row { display: flex; align-items: baseline; justify-content: center; gap: 18px; }
+.tm-price-was {
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: clamp(20px, 2vw, 28px); letter-spacing: -0.02em; color: var(--grey);
+  text-decoration: line-through; text-decoration-thickness: 1px;
 }
-.together-band img { width: 100%; height: auto; display: block; }
-.together-band::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to bottom, transparent 62%, rgba(10, 10, 14, 0.55));
+.tm-price-now {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(46px, 5.6vw, 78px); line-height: 1;
+  letter-spacing: -0.04em; color: var(--bmc-cyan);
 }
-.together-band:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.40); }
-.together-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 72px; }
-/* Supporting pair beneath the band: shallower 16:9 so the band stays the
-   loudest image in the section. */
-.together-strip--pair { grid-template-columns: 1fr 1fr; gap: 14px; max-width: 1100px; margin: 14px auto 0; }
-.together-strip--pair .together-shot { aspect-ratio: 16 / 9; }
-.together-shot img.shot-high { object-position: center 38%; }
-.together-shot {
-  position: relative; aspect-ratio: 4 / 3; overflow: hidden;
-  border: 1px solid var(--rule); border-radius: var(--radius);
-  transition: border-color 0.3s ease, transform 0.3s ease;
+.tm-price-lab {
+  margin-top: 14px; font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--silver);
 }
-.together-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
-/* The same bottom scrim the testimonial cards carry, so member snapshots
-   sit inside the brand instead of on top of it. */
-.together-shot::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to bottom, transparent 58%, rgba(10, 10, 14, 0.5));
-}
-.together-shot:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.40); transform: translateY(-3px); }
-.together-caption {
-  margin-top: 20px; font-family: 'Inter', sans-serif; font-weight: 500;
-  font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--grey); display: inline-flex; align-items: center; gap: 14px;
-}
-.together-caption .pip { display: inline-block; width: 24px; height: 1px; background: var(--grey); }
-.team-quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 56px; }
-@media (max-width: 980px) { .team-quotes { grid-template-columns: 1fr; gap: 20px; } }
-@media (max-width: 880px) {
-  .together-strip { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 48px; }
-  .together-strip--pair { grid-template-columns: 1fr; gap: 10px; }
-  .together-band { margin-top: 48px; }
-  .together-caption { letter-spacing: 0.18em; }
+.tm-price-alt {
+  margin-top: 10px; font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: 15px; color: var(--grey);
 }
 
-/* ---------------------------------------------------------------------
-   PRICE PAIR: .price-card from bmc.css, with the seat-specific bits.
-   Prepay carries the badge and the solid CTA; monthly is the ghost, so
-   the brand guide's "one primary per view" survives inside the pair.
-   --------------------------------------------------------------------- */
-.tm-price-note {
-  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px;
-  letter-spacing: 0.14em; text-transform: uppercase; color: var(--bmc-cyan);
-  margin-top: 14px;
-}
-.tm-price-sub { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px; color: var(--grey); margin-top: 8px; }
-@media (max-width: 780px) { .price-grid { grid-template-columns: 1fr; } }
+/* =====================================================================
+   HUBSPOT FORM SKIN
+   This is the production form (portal 2518645, form 7f8b1d2f-...), not a
+   rebuild, so nothing has to change in HubSpot and every existing
+   workflow, notification and redirect keeps working.
 
-.tm-includes {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-  max-width: 880px; margin: 64px auto 0; padding-top: 44px;
-  border-top: 1px solid var(--rule); text-align: left;
-}
-.tm-includes h3 {
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.32em; text-transform: uppercase; margin: 0 0 18px;
-}
-.tm-includes--yes h3 { color: var(--bmc-cyan); }
-.tm-includes--more h3 { color: var(--silver); }
-.tm-includes ul { list-style: none; padding: 0; margin: 0; }
-.tm-includes li {
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px;
-  line-height: 1.55; color: var(--silver); padding: 7px 0 7px 24px; position: relative;
-}
-.tm-includes--yes li::before {
-  content: ""; position: absolute; left: 0; top: 15px;
-  width: 10px; height: 1px; background: var(--bmc-cyan);
-}
-.tm-includes--more li::before {
-  content: ""; position: absolute; left: 0; top: 15px;
-  width: 10px; height: 1px; background: var(--silver);
-}
-@media (max-width: 780px) { .tm-includes { grid-template-columns: 1fr; gap: 32px; margin-top: 48px; } }
-
-.tm-reassure {
-  max-width: 720px; margin: 44px auto 0; text-align: center;
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px;
-  line-height: 1.65; color: var(--grey);
-}
-.tm-reassure strong { color: var(--silver); font-weight: 700; }
-
-/* ---------------------------------------------------------------------
-   SEAT FORM
-   Built natively rather than embedded. HubSpot renders its embed inside a
-   cross-origin iframe on any domain it does not host, which means the
-   embed cannot be brand-styled at all: it would drop a white, default
-   HubSpot form into the middle of a black BMC page. So the form is built
-   here and posted to HubSpot's public submissions endpoint against the
-   same portal and form GUID the live page uses. Same form record, same
-   properties, same workflows; full control of the surface.
-
-   The seat count is a stepper rather than a dropdown, and the cost of the
-   choice is totalled live. On the live page a member picking "3" from a
-   select has to work out $14,985 in their head before they can decide.
-   --------------------------------------------------------------------- */
-.tm-form-wrap { max-width: 660px; margin: 48px auto 0; text-align: left; }
+   IMPORTANT: it must be embedded with js.hsforms.net/forms/embed/v2.js.
+   That build renders the fields inline in the page DOM, which is what
+   makes everything below reachable. The older /forms/v2.js and
+   /forms/v2-legacy.js builds drop the form into a cross-origin iframe
+   off HubSpot's own domain, and nothing can be styled through that.
+   ===================================================================== */
+.tm-form-wrap { max-width: 640px; margin: 40px auto 0; text-align: left; }
 .tm-form-shell {
   background: var(--surface-card); border: 1px solid var(--rule-strong);
-  border-radius: var(--radius); padding: 44px 44px 40px;
+  border-radius: var(--radius); padding: 42px 42px 38px;
   transition: border-color 0.25s ease;
 }
 .tm-form-shell:focus-within { border-color: rgba(var(--bmc-cyan-rgb), 0.38); }
-@media (max-width: 560px) { .tm-form-shell { padding: 30px 22px 28px; } }
+@media (max-width: 560px) { .tm-form-shell { padding: 28px 20px 26px; } }
 
-.tf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-@media (max-width: 560px) { .tf-row { grid-template-columns: 1fr; gap: 0; } }
-.tf-field { margin-bottom: 22px; }
-.tf-label {
-  display: block; margin-bottom: 9px;
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver);
+.tm-form-loading {
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--grey);
+  text-align: center; padding: 26px 0;
 }
-.tf-req { color: rgba(var(--bmc-cyan-rgb), 0.85); margin-left: 3px; }
 
-.tf-input {
-  width: 100%; box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--rule-strong); border-radius: var(--radius);
-  padding: 15px 16px;
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 16px;
-  color: var(--white); -webkit-appearance: none; appearance: none;
+/* HubSpot caps fieldsets at 500px and floats the fields. Both undone. */
+.tm-form-shell form { margin: 0; }
+.tm-form-shell fieldset { max-width: none !important; border: 0; padding: 0; margin: 0; }
+.tm-form-shell .form-columns-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+.tm-form-shell .hs-form-field { width: 100% !important; float: none !important; padding: 0 !important; margin-bottom: 22px; }
+.tm-form-shell .input { margin-right: 0 !important; }
+@media (max-width: 560px) { .tm-form-shell .form-columns-2 { grid-template-columns: 1fr; } }
+
+/* HubSpot injects its own ~10KB stylesheet AFTER this one, and also drops
+   in a Google Fonts <link> for Lato. Equal-specificity rules there would
+   win, so every declaration the form's own sheet also sets is marked
+   important below. The Lato link is removed in onFormReady; the brand
+   self-hosts Inter and never loads fonts from a CDN. */
+.tm-form-shell form,
+.tm-form-shell input,
+.tm-form-shell select,
+.tm-form-shell label,
+.tm-form-shell .hs-richtext { font-family: 'Inter', sans-serif !important; }
+
+.tm-form-shell .hs-form-field > label {
+  display: block; margin-bottom: 9px;
+  font-weight: 700 !important; font-size: 11px !important;
+  letter-spacing: 0.22em !important; text-transform: uppercase !important;
+  color: var(--silver) !important;
+}
+.tm-form-shell .hs-form-required { color: rgba(var(--bmc-cyan-rgb), 0.85); margin-left: 3px; }
+.tm-form-shell .hs-field-desc { display: none; }
+/* Hidden tracking field still ships a visible label from HubSpot. */
+.tm-form-shell .hs_utm_term { display: none !important; }
+
+.tm-form-shell .hs-input:not([type="radio"]):not([type="checkbox"]) {
+  width: 100% !important; box-sizing: border-box !important;
+  height: auto !important; min-height: 0 !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--rule-strong) !important; border-radius: var(--radius) !important;
+  padding: 15px 16px !important;
+  font-weight: 400 !important; font-size: 16px !important; line-height: 1.4 !important;
+  color: var(--white) !important; -webkit-appearance: none; appearance: none;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
-.tf-input::placeholder { color: var(--grey-soft); }
-.tf-input:focus {
-  outline: none; border-color: var(--bmc-cyan);
-  background: rgba(255, 255, 255, 0.05);
+.tm-form-shell .hs-input::placeholder { color: var(--grey-soft); }
+.tm-form-shell .hs-input:focus {
+  outline: none; border-color: var(--bmc-cyan) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
   box-shadow: 0 0 0 3px rgba(var(--bmc-cyan-rgb), 0.14);
 }
-.tf-input[aria-invalid="true"] { border-color: rgba(255, 138, 138, 0.75); }
-
-.tf-err {
-  display: none; margin-top: 8px;
-  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px; color: #ff8a8a;
+/* Native select needs its own arrow back once appearance is stripped. */
+.tm-form-shell select.hs-input {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--silver) 50%),
+    linear-gradient(135deg, var(--silver) 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(50% + 1px), calc(100% - 14px) calc(50% + 1px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 44px; cursor: pointer;
 }
-.tf-field.is-invalid .tf-err { display: block; }
+.tm-form-shell select.hs-input.is-placeholder { color: var(--grey-soft); }
+.tm-form-shell select.hs-input option { background: var(--ink); color: var(--white); }
 
-/* Seat stepper: one tap per seat, no dropdown to open. */
-.tf-stepper {
-  display: flex; align-items: center; gap: 0;
+/* Payment choice: two selectable cards, not two bare radio dots, so the
+   monthly plan is impossible to miss. */
+.tm-form-shell .inputs-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+@media (min-width: 561px) { .tm-form-shell .inputs-list { grid-template-columns: 1fr 1fr; } }
+.tm-form-shell .hs-form-radio label {
+  display: flex !important; align-items: center; gap: 12px; cursor: pointer;
+  margin: 0 !important; height: 100%;
   border: 1px solid var(--rule-strong); border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.03); overflow: hidden; width: max-content;
+  padding: 16px 18px !important; background: rgba(255, 255, 255, 0.02);
+  font-weight: 500 !important; font-size: 15px !important;
+  letter-spacing: 0 !important; text-transform: none !important; color: var(--silver) !important;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
-.tf-step-btn {
-  width: 56px; height: 56px; flex: none; cursor: pointer;
-  background: transparent; border: 0; color: var(--silver);
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 24px; line-height: 1;
-  transition: background 0.2s ease, color 0.2s ease;
+.tm-form-shell .hs-form-radio label:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.4); color: var(--white); }
+.tm-form-shell .hs-form-radio input[type="radio"] {
+  -webkit-appearance: none; appearance: none; margin: 0; flex: none;
+  width: 17px; height: 17px; border-radius: 50%;
+  border: 1px solid var(--silver); background: transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.tf-step-btn:hover:not(:disabled) { background: rgba(var(--bmc-cyan-rgb), 0.10); color: var(--bmc-cyan); }
-.tf-step-btn:disabled { color: var(--muted); cursor: not-allowed; }
-.tf-step-btn:focus-visible { outline: 2px solid var(--bmc-cyan); outline-offset: -2px; }
-.tf-step-val {
-  min-width: 74px; text-align: center;
-  font-family: 'Inter', sans-serif; font-weight: 900; font-size: 26px;
-  letter-spacing: -0.02em; color: var(--white);
-  border-left: 1px solid var(--rule); border-right: 1px solid var(--rule);
-  height: 56px; display: flex; align-items: center; justify-content: center;
+.tm-form-shell .hs-form-radio input[type="radio"]:checked {
+  border-color: var(--bmc-cyan); box-shadow: inset 0 0 0 4px var(--bmc-cyan);
 }
-.tf-step-cap {
-  margin-top: 10px; font-family: 'Inter', sans-serif; font-weight: 400;
-  font-size: 13px; color: var(--grey);
+.tm-form-shell .hs-form-radio input[type="radio"]:focus-visible { outline: 2px solid var(--bmc-cyan); outline-offset: 3px; }
+.tm-form-shell .hs-form-radio label:has(input:checked) {
+  border-color: var(--bmc-cyan); color: var(--white);
+  background: rgba(var(--bmc-cyan-rgb), 0.06);
 }
 
-/* Payment choice: two cards, not two radio dots. The monthly plan is the
-   one the live page buries; here it is the same size as prepay. */
-.tf-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media (max-width: 560px) { .tf-plans { grid-template-columns: 1fr; } }
-.tf-plan { position: relative; margin: 0; }
-.tf-plan input {
-  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+/* The billing note that lives inside the HubSpot form. Edited in HubSpot,
+   not here. Rendered as quiet fine print. */
+.tm-form-shell .hs-richtext {
+  font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.6;
+  color: var(--grey-soft); margin: -8px 0 22px;
 }
-.tf-plan-face {
-  display: block; cursor: pointer;
-  border: 1px solid var(--rule-strong); border-radius: var(--radius);
-  padding: 18px 20px; background: rgba(255, 255, 255, 0.02);
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-.tf-plan-face:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.4); }
-.tf-plan input:checked + .tf-plan-face {
-  border-color: var(--bmc-cyan); background: rgba(var(--bmc-cyan-rgb), 0.07);
-}
-.tf-plan input:focus-visible + .tf-plan-face { outline: 2px solid var(--bmc-cyan); outline-offset: 3px; }
-.tf-plan-name {
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver);
-  transition: color 0.2s ease;
-}
-.tf-plan input:checked + .tf-plan-face .tf-plan-name { color: var(--bmc-cyan); }
-.tf-plan-amt {
-  margin-top: 10px; font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: 26px; letter-spacing: -0.03em; color: var(--white); line-height: 1;
-}
-.tf-plan-amt small { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; }
-.tf-plan-note { margin-top: 8px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--grey); }
+.tm-form-shell .hs-richtext em { font-style: normal; color: var(--grey-soft); text-shadow: none; }
 
-/* Live total: the arithmetic the live page leaves to the member. */
-.tf-total {
-  margin: 4px 0 26px; padding: 20px 22px;
-  border: 1px solid rgba(var(--bmc-cyan-rgb), 0.30); border-radius: var(--radius);
-  background: rgba(var(--bmc-cyan-rgb), 0.05);
-  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
-}
-.tf-total-lab {
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver);
-}
-.tf-total-val {
-  font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(24px, 3vw, 34px);
-  letter-spacing: -0.03em; color: var(--bmc-cyan); line-height: 1; text-align: right;
-}
-.tf-total-val small { display: block; margin-top: 7px; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--silver); }
-@media (max-width: 460px) { .tf-total { flex-direction: column; align-items: flex-start; gap: 12px; } .tf-total-val { text-align: left; } }
-
-/* Submit: the page's single primary action. Grows on hover; the colour
-   is never darkened. */
-.tf-submit {
-  width: 100%; cursor: pointer;
-  background: var(--white); color: var(--black); border: 1px solid var(--white);
-  border-radius: var(--radius);
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px;
-  letter-spacing: 0.24em; text-transform: uppercase;
-  padding: 20px 28px;
-  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+/* Submit: brand button spec. Grows on hover, never darkens. */
+.tm-form-shell .hs_submit { margin-top: 4px; }
+.tm-form-shell .hs-button {
+  width: 100% !important; cursor: pointer;
+  background: var(--white) !important; color: var(--black) !important;
+  border: 1px solid var(--white) !important; border-radius: var(--radius) !important;
+  font-family: 'Inter', sans-serif !important; font-weight: 700 !important; font-size: 12px !important;
+  letter-spacing: 0.24em !important; text-transform: uppercase !important;
+  padding: 20px 28px !important; height: auto !important;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.tf-submit:hover:not(:disabled) {
-  background: transparent; color: var(--bmc-cyan); border-color: var(--bmc-cyan);
-  transform: translateY(-2px);
+.tm-form-shell .hs-button:hover {
+  background: transparent !important; color: var(--bmc-cyan) !important;
+  border-color: var(--bmc-cyan) !important; transform: translateY(-2px);
 }
-.tf-submit:focus-visible { outline: 2px solid var(--bmc-cyan); outline-offset: 3px; }
-.tf-submit:disabled { opacity: 0.55; cursor: progress; }
-.tf-submit .tm-arrow { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-.tf-submit:hover:not(:disabled) .tm-arrow { transform: translateX(5px); }
+.tm-form-shell .hs-button:focus-visible { outline: 2px solid var(--bmc-cyan); outline-offset: 3px; }
 
-.tf-fine {
-  margin-top: 18px; text-align: center;
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 13px;
-  line-height: 1.6; color: var(--grey-soft);
+/* Validation */
+.tm-form-shell .hs-error-msgs { list-style: none; margin: 8px 0 0; padding: 0; }
+.tm-form-shell .hs-error-msg,
+.tm-form-shell .hs-error-msgs label {
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px;
+  color: #ff8a8a; text-transform: none; letter-spacing: 0;
 }
-/* Fine-print links stay the line's grey: underline only, never accent. */
-.tf-fine a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-
-.tf-formerr {
-  display: none; margin-top: 18px; padding: 14px 16px;
-  border: 1px solid rgba(255, 138, 138, 0.4); border-radius: var(--radius);
-  background: rgba(255, 138, 138, 0.07);
-  font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.55; color: #ffb0b0;
-}
-.tf-formerr.is-shown { display: block; }
-.tf-formerr a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-
-/* Success state: replaces the form in place before the redirect fires,
-   so the last thing a member sees is a confirmation, not a blank beat. */
-.tf-done { display: none; text-align: center; padding: 12px 0 8px; }
-.tf-done.is-shown { display: block; }
-.tf-done-badge {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--bmc-cyan); color: var(--black);
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.24em; text-transform: uppercase;
-  padding: 9px 18px; border-radius: 99px;
-}
-.tf-done-badge svg { width: 13px; height: 13px; }
-.tf-done h3 {
-  margin: 24px 0 0; font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: clamp(24px, 2.6vw, 34px); line-height: 1.1; letter-spacing: -0.03em;
-  text-transform: uppercase; color: var(--white);
-}
-.tf-done p {
-  margin: 16px auto 0; max-width: 460px;
-  font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.65; color: var(--silver);
+.tm-form-shell .hs-input.invalid,
+.tm-form-shell .hs-input.error { border-color: rgba(255, 138, 138, 0.7); }
+.tm-form-shell .submitted-message {
+  font-family: 'Inter', sans-serif; font-size: 17px; line-height: 1.6; color: var(--white);
 }
 
 /* ---------------------------------------------------------------------
    DECLINE
-   The live page renders this at 24px bold, underlined, in cream, where
-   it competes with the offer it sits beneath. Here it is fine print: grey,
+   The live page renders this at 24px bold, underlined, in cream, where it
+   competes with the offer it sits beneath. Here it is fine print: grey,
    underline only, no accent colour, per the brand's sub-copy rule.
    --------------------------------------------------------------------- */
-.tm-decline { text-align: center; padding: 0 0 96px; }
+.tm-decline { text-align: center; padding: 0 0 88px; background: var(--ink); }
 .tm-decline a {
   font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px;
   color: var(--grey); text-decoration: underline;
@@ -555,25 +420,12 @@ em {
 }
 .tm-decline a:hover { color: var(--silver); text-decoration-color: var(--silver); }
 @media (max-width: 780px) { .tm-decline { padding-bottom: var(--section-pad-mobile); } }
-
-/* Section rhythm: the brand's 120–200px desktop scale, 72px uniform on
-   mobile. The closing (form) section takes the largest padding. */
-.tm-sec { padding: 132px 0; background: var(--black); }
-.tm-sec--close { padding: 150px 0 64px; }
-@media (max-width: 880px) {
-  .tm-sec, .tm-sec--close { padding: var(--section-pad-mobile) 0; }
-  .tm-sec--close { padding-bottom: 40px; }
-}
-.tm-center { text-align: center; }
-.tm-center .eyebrow { justify-content: center; }
 </style>
 </head>
 
 <body>
 
-<!-- =====================================================================
-     WELCOME BAR: the affirmation the live page never gives.
-     ===================================================================== -->
+<!-- WELCOME BAR: the affirmation the live page never gives. -->
 <div class="tm-bar">
   <div class="container">
     <div class="tm-bar-inner">
@@ -594,18 +446,16 @@ em {
      ===================================================================== -->
 <section class="tm-hero bmc-wash bmc-wash--center">
   <div class="container">
-    <img class="tm-hero-logo" src="BMC_COLLECTIVE_logo_white.webp" alt="BMC|COLLECTIVE" width="190" height="54" fetchpriority="high" />
+    <img class="tm-hero-logo" src="BMC_COLLECTIVE_logo_white.webp" alt="BMC|COLLECTIVE" width="176" height="50" fetchpriority="high" />
 
     <div class="eyebrow eyebrow--center tm-in tm-in-1" style="display:flex;justify-content:center;"><span class="pip"></span>One More Good Decision</div>
 
     <h1 class="tm-h1 tm-in tm-in-2">One Seat Changes You. Your Team Changes <em>Everything</em>.</h1>
 
-    <p class="tm-hero-sub tm-in tm-in-3"><strong>You just did what most leaders only ever talk about doing.</strong> Your seat at Business Master Class is reserved, and your COLLECTIVE year is already running.</p>
-    <p class="tm-hero-sub tm-in tm-in-4" style="margin-top:14px;">There is one more move that makes all of it land faster: who walks in beside you.</p>
+    <p class="tm-hero-sub tm-in tm-in-3"><strong>Your seat at Business Master Class is reserved.</strong> Here is the one move that makes it land faster: bring the people who will build it with you.</p>
 
-    <!-- Faces before figures. The question in the headline gets answered by
-         people, not by a price. -->
-    <div class="tm-collage tm-in tm-in-5">
+    <!-- Faces before figures. -->
+    <div class="tm-collage tm-in tm-in-4">
       <div class="tm-shot">
         <img src="room-photos/bmc-work-team.webp" alt="Three members working through the Business Master Class material together" width="1600" height="1152" fetchpriority="high" decoding="async" />
       </div>
@@ -616,52 +466,27 @@ em {
         <img src="room-photos/bmc-lobby-group.webp" alt="Members gathered together at the hotel between sessions" width="1000" height="750" fetchpriority="high" decoding="async" />
       </div>
     </div>
-    <div class="tm-collage-cap tm-in tm-in-5"><span class="pip"></span>Members who brought their people</div>
 
-    <div class="tm-strip tm-in tm-in-6">
-      <div class="tm-strip-cell tm-strip-cell--hero">
-        <div class="tm-strip-num">$4,995</div>
-        <div class="tm-strip-lab">Per additional seat<br>Paid in full</div>
-      </div>
-      <div class="tm-strip-cell">
-        <div class="tm-strip-num tm-strike">$5,995</div>
-        <div class="tm-strip-lab">Standard seat<br>You keep $1,000 per person</div>
-      </div>
-      <div class="tm-strip-cell">
-        <div class="tm-strip-num">$419<span style="font-size:0.42em;font-weight:700;letter-spacing:0.06em;">/MO</span></div>
-        <div class="tm-strip-lab">Per seat, 12 payments<br>Spread across the year</div>
-      </div>
-    </div>
-
-    <div class="tm-hero-cta tm-in tm-in-7">
+    <div class="tm-hero-cta tm-in tm-in-5">
       <a href="#claim" class="btn-primary btn-large">Add Team Seats <span class="tm-arrow">&darr;</span></a>
-      <a href="#why" class="secondary-link">Or see what they walk out with &darr;</a>
     </div>
   </div>
 </section>
 
 <!-- =====================================================================
-     THE ARGUMENT
-     The live page makes this claim in a single sentence and moves on.
-     Given the reader has just spent five figures, the claim has earned a
-     mechanism: what the 30 days after BMC look like either way.
+     THE WHY, given once
      ===================================================================== -->
 <section class="tm-sec section-divider bmc-wash" id="why">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>The Multiplier</div>
     <h2 class="section-headline reveal">What Your Team <em>Walks Out With</em>.</h2>
-
-    <div class="stagger">
-      <p class="tm-lead">The members who compound fastest after Business Master Class are the ones whose key people heard it with them. Same room, same three days, same standard.</p>
-      <p class="tm-lead">You are already going to walk out of that room with the playbook. <strong>Bring your people and they walk out holding it too.</strong></p>
-    </div>
+    <p class="tm-lead reveal">You are already going to walk out of that room with the playbook. <strong>Bring your people and they walk out holding it too.</strong></p>
 
     <div class="unfair-compare tm-compare reveal">
       <div class="unfair-compare-col unfair-compare-col--without">
         <div class="unfair-compare-label">What you walk out with</div>
         <ul>
           <li>The full playbook, in your hands.</li>
-          <li>Every strategy, captured in your notes.</li>
           <li>A clear plan for your next twelve months.</li>
           <li>You, back at the office and ready to build.</li>
         </ul>
@@ -670,7 +495,6 @@ em {
         <div class="unfair-compare-label">What you walk out with together</div>
         <ul>
           <li>The full playbook, already in everyone&rsquo;s hands.</li>
-          <li>Every strategy, heard first-hand by the people who will run it.</li>
           <li>A plan your team helped build in the room, so they own it.</li>
           <li>Your whole company, back at the office and ready to build.</li>
         </ul>
@@ -678,240 +502,51 @@ em {
     </div>
 
     <p class="unfair-close reveal">Every seat you add is one more person who comes home<br>already knowing <em>exactly what to do</em>.</p>
-  </div>
-</section>
 
-<!-- =====================================================================
-     PROOF: real member photography and real member quotes, carried
-     verbatim from the sales page so nothing new is being claimed here.
-     ===================================================================== -->
-<section class="tm-sec section-divider" style="background:var(--ink);">
-  <div class="container">
-    <div class="eyebrow reveal"><span class="pip"></span>Bring Your Right Hand</div>
-    <h2 class="section-headline reveal">Your Operator. Your Head Of Sales. <em>Whoever Runs With It</em>.</h2>
-    <p class="tm-lead reveal">You are going to leave BMC with strategies worth executing. The fastest results go to the leaders who bring the people who execute them.</p>
-
-    <!-- One team, one frame, at the photo's own 1.87:1 so nobody on the ends
-         gets cropped out. The hero already carries the small multiples; this
-         is the single image that shows a whole team who came together. -->
-    <div class="together-band reveal reveal-scale">
+    <!-- One team, one frame, at the photo's own 1.87:1 so nobody on the
+         ends gets cropped out. -->
+    <div class="tm-band reveal reveal-scale">
       <img src="room-photos/bmc-team-group.webp" alt="A full team at Business Master Class with Darren Hardy, holding their workbooks" width="1366" height="730" loading="lazy" decoding="async" />
     </div>
 
-    <!-- Two supporting frames, shallower than the band so they read as a
-         footnote to it rather than competing with it. -->
-    <div class="together-strip together-strip--pair stagger">
-      <div class="together-shot"><img src="room-photos/room-01.webp" alt="Members debriefing over dinner after a day of Business Master Class" width="1400" height="1050" loading="lazy" decoding="async" /></div>
-      <div class="together-shot"><img class="shot-high" src="room-photos/bmc-dinner-four.webp" alt="Members eating together after the day&rsquo;s sessions" width="1000" height="750" loading="lazy" decoding="async" /></div>
+    <div class="tm-trio stagger">
+      <div class="tm-shot"><img src="room-photos/room-01.webp" alt="Members over dinner after a day of Business Master Class" width="1400" height="1050" loading="lazy" decoding="async" /></div>
+      <div class="tm-shot"><img class="shot-high" src="room-photos/bmc-dinner-four.webp" alt="Members eating together after the day&rsquo;s sessions" width="1000" height="750" loading="lazy" decoding="async" /></div>
+      <div class="tm-shot"><img src="room-photos/bmc-workbook-group.webp" alt="A group of members with their Business Master Class workbooks" width="370" height="232" loading="lazy" decoding="async" /></div>
     </div>
-    <div class="together-caption reveal"><span class="pip"></span>One company. One Business Master Class. Everybody in the room.</div>
-
-    <div class="team-quotes stagger">
-
-      <div class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="jeannie_henderson.webp" alt="Jeannie Henderson" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Services</span>
-        </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;Strategies I learned at BMC have <strong>kept turnover 200% below my competitors.</strong>&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <span class="t-quote-name">Jeannie Henderson</span>
-            <span class="t-quote-title">Founder &amp; CEO &middot; Jeannie Cleaning</span>
-          </div></div>
-        </div>
-      </div>
-
-      <div class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="maria_oliver.webp" alt="Maria Oliver" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Wellness</span>
-        </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;We&rsquo;ve tracked a <strong>50% increase in our business in just 3 weeks</strong> after each BMC. We can&rsquo;t afford not to go!&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <span class="t-quote-name">Maria Oliver</span>
-            <span class="t-quote-title">Co-Founder &middot; Confident Wellness</span>
-          </div></div>
-        </div>
-      </div>
-
-      <div class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="mike_keesee.webp" alt="Mike Keesee" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Consulting</span>
-        </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;We <strong>doubled our valuation</strong> by using what I learned from the Business Master Class.&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <span class="t-quote-name">Mike Keesee</span>
-            <span class="t-quote-title">CEO &middot; Total Solutions Group</span>
-          </div></div>
-        </div>
-      </div>
-
-    </div>
+    <div class="tm-cap reveal"><span class="pip"></span>Members who brought their people</div>
   </div>
 </section>
 
 <!-- =====================================================================
-     THE OFFER
-     Both payment options given equal visibility. On the live page the
-     monthly plan exists only as a radio button inside the form, so a
-     member who cannot write a $14,985 cheque for three seats never learns
-     it is available.
+     THE OFFER AND THE FORM
      ===================================================================== -->
-<section class="tm-sec section-divider bmc-wash bmc-wash--center tm-center">
-  <div class="container">
-    <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>Your Enrollment-Day Rate</div>
-    <h2 class="section-headline reveal" style="margin-bottom:52px;">Two Ways To <em>Bring Them</em>.</h2>
-
-    <div class="price-grid stagger">
-      <div class="price-card">
-        <div class="price-badge">Save $1,000</div>
-        <div class="price-label">Prepay</div>
-        <div class="price-num">$4,995</div>
-        <div class="tm-price-note">Per additional seat</div>
-        <div class="price-desc">A thousand dollars less per person than the standard Business Master Class seat.</div>
-        <a href="#claim" class="price-cta" data-plan="Prepay">Choose Prepay &rarr;</a>
-      </div>
-
-      <div class="price-card">
-        <div class="price-label">Monthly</div>
-        <div class="price-num">$419</div>
-        <div class="tm-price-note">Per seat, per month</div>
-        <div class="price-desc">Twelve payments per seat. Same seat, same room, same three days, spread across the year.</div>
-        <a href="#claim" class="price-cta price-cta--ghost" data-plan="12 Installments">Choose Monthly &rarr;</a>
-      </div>
-    </div>
-
-    <div class="tm-includes reveal">
-      <div class="tm-includes--yes">
-        <h3>Every seat includes</h3>
-        <ul>
-          <li>All three days of Business Master Class, October 19&ndash;21, 2026</li>
-          <li>The full workbook and every implementation tool</li>
-          <li>The same room, the same sessions, the same access you get</li>
-        </ul>
-      </div>
-      <div class="tm-includes--more">
-        <h3>Want them in for the whole year?</h3>
-        <ul>
-          <li>THE COLLECTIVE is open to your people too, right alongside you.</li>
-          <li>Say the word when we call and we will get them activated.</li>
-        </ul>
-      </div>
-    </div>
-
-    <p class="tm-reassure reveal"><strong>Pick your number below.</strong> Every person you add walks into October holding the same playbook you do.</p>
-  </div>
-</section>
-
-<!-- =====================================================================
-     THE FORM: the page's single conversion point.
-     Production HubSpot embed (portal 2518645, form 7f8b1d2f-…), re-skinned
-     rather than rebuilt, so this ports without touching HubSpot.
-     ===================================================================== -->
-<section class="tm-sec tm-sec--close section-divider tm-center" id="claim" style="background:var(--ink);">
+<section class="tm-sec tm-sec--close section-divider tm-center" id="claim">
   <div class="container">
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>Reserve Their Seats</div>
     <h2 class="section-headline reveal">Who&rsquo;s Coming <em>With You</em>?</h2>
-    <p class="tm-lead reveal" style="margin-left:auto;margin-right:auto;text-align:center;max-width:600px;">Just tell us how many. We will call to get their names and handle everything from there.</p>
+
+    <div class="tm-price reveal">
+      <div class="tm-price-row">
+        <span class="tm-price-was">$9,995</span>
+        <span class="tm-price-now">$4,995</span>
+      </div>
+      <div class="tm-price-lab">Per additional seat</div>
+      <div class="tm-price-alt">or $419 a month per seat</div>
+    </div>
 
     <div class="tm-form-wrap reveal">
       <div class="tm-form-shell">
-
-        <form id="tf-form" novalidate
-              data-portal="2518645"
-              data-form="7f8b1d2f-fc08-451a-a2be-f52d5594138c"
-              data-redirect="bmc-confirmation.html">
-
-          <div class="tf-row">
-            <div class="tf-field">
-              <label class="tf-label" for="tf-first">First Name<span class="tf-req">*</span></label>
-              <input class="tf-input" id="tf-first" name="firstname" type="text" autocomplete="given-name" required />
-              <div class="tf-err">Please enter your first name.</div>
-            </div>
-            <div class="tf-field">
-              <label class="tf-label" for="tf-last">Last Name<span class="tf-req">*</span></label>
-              <input class="tf-input" id="tf-last" name="lastname" type="text" autocomplete="family-name" required />
-              <div class="tf-err">Please enter your last name.</div>
-            </div>
-          </div>
-
-          <div class="tf-field">
-            <label class="tf-label" for="tf-email">Email Address<span class="tf-req">*</span></label>
-            <input class="tf-input" id="tf-email" name="email" type="email" autocomplete="email" required />
-            <div class="tf-err">Please enter a valid email address.</div>
-          </div>
-
-          <div class="tf-field">
-            <span class="tf-label" id="tf-seats-label">How many seats do you want to add?<span class="tf-req">*</span></span>
-            <div class="tf-stepper" role="group" aria-labelledby="tf-seats-label">
-              <button class="tf-step-btn" type="button" data-step="-1" aria-label="One fewer seat">&minus;</button>
-              <div class="tf-step-val" id="tf-seats-val" aria-live="polite">1</div>
-              <button class="tf-step-btn" type="button" data-step="1" aria-label="One more seat">+</button>
-            </div>
-            <div class="tf-step-cap">Up to 10. Bringing more than that? Just tell us on the call.</div>
-            <!-- Mirrors the existing HubSpot property exactly (values "1"–"10"). -->
-            <input type="hidden" name="number_of_additional_team_members_to_add" id="tf-seats" value="1" />
-          </div>
-
-          <div class="tf-field">
-            <span class="tf-label" id="tf-plan-label">How Would You Like To Invest?<span class="tf-req">*</span></span>
-            <div class="tf-plans" role="radiogroup" aria-labelledby="tf-plan-label">
-              <label class="tf-plan">
-                <input type="radio" name="payment_option" value="Prepay" checked />
-                <span class="tf-plan-face">
-                  <span class="tf-plan-name">Prepay</span>
-                  <span class="tf-plan-amt">$4,995</span>
-                  <span class="tf-plan-note">Per seat, paid in full</span>
-                </span>
-              </label>
-              <label class="tf-plan">
-                <input type="radio" name="payment_option" value="12 Installments" />
-                <span class="tf-plan-face">
-                  <span class="tf-plan-name">Monthly</span>
-                  <span class="tf-plan-amt">$419<small>/mo</small></span>
-                  <span class="tf-plan-note">Per seat, 12 payments</span>
-                </span>
-              </label>
-            </div>
-          </div>
-
-          <div class="tf-total">
-            <div class="tf-total-lab">Your investment</div>
-            <div class="tf-total-val" id="tf-total" aria-live="polite">$4,995</div>
-          </div>
-
-          <button class="tf-submit" type="submit" id="tf-submit">
-            <span data-submit-label>Reserve My Seats</span> <span class="tm-arrow">&rarr;</span>
-          </button>
-
-          <div class="tf-formerr" id="tf-formerr" role="alert"></div>
-
-          <p class="tf-fine">Someone from our team will call to get their names and take care of the rest.</p>
-        </form>
-
-        <div class="tf-done" id="tf-done">
-          <div class="tf-done-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            Seats Reserved
-          </div>
-          <h3>They&rsquo;re Coming With You.</h3>
-          <p id="tf-done-copy">Great move. We will call to get their names and make sure they are set for October. Taking you to your confirmation now.</p>
+        <div id="tm-hs-form">
+          <div class="tm-form-loading">Loading&hellip;</div>
         </div>
-
       </div>
     </div>
   </div>
 </section>
 
 <!-- Decline: available, honest, and quiet. -->
-<div class="tm-decline" style="background:var(--ink);">
+<div class="tm-decline">
   <div class="container">
     <a href="bmc-confirmation.html">No thanks, I&rsquo;m coming on my own this time. Take me to my confirmation.</a>
   </div>
@@ -934,178 +569,65 @@ em {
 <!-- Shared behaviour: scroll reveal and stagger groups -->
 <script src="bmc.js" defer></script>
 
-<!-- Seat form: stepper, live total, and submission to HubSpot -->
+<!-- =====================================================================
+     HUBSPOT FORM
+     embed/v2.js is the build that renders fields inline in the page DOM.
+     /forms/v2.js and /forms/v2-legacy.js both drop the form into a
+     cross-origin iframe when the page is not hosted by HubSpot, and an
+     iframe cannot be styled from here. Do not swap this URL.
+     ===================================================================== -->
+<script src="https://js.hsforms.net/forms/embed/v2.js" defer></script>
 <script>
 (function () {
-  var form = document.getElementById('tf-form');
-  if (!form) return;
-
-  var PREPAY_PER_SEAT  = 4995;
-  var MONTHLY_PER_SEAT = 419;
-  var MAX_SEATS = 10;   // matches the HubSpot property's options exactly
-  var MIN_SEATS = 1;
-
-  var seats     = 1;
-  var seatsOut  = document.getElementById('tf-seats-val');
-  var seatsHid  = document.getElementById('tf-seats');
-  var totalOut  = document.getElementById('tf-total');
-  var submitBtn = document.getElementById('tf-submit');
-  var formErr   = document.getElementById('tf-formerr');
-  var doneBox   = document.getElementById('tf-done');
-
-  function money(n) { return '$' + n.toLocaleString('en-US'); }
-
-  function plan() {
-    var checked = form.querySelector('input[name="payment_option"]:checked');
-    return checked ? checked.value : 'Prepay';
-  }
-
-  // The arithmetic the live page leaves the member to do in their head.
-  function render() {
-    seatsOut.textContent = String(seats);
-    seatsHid.value = String(seats);
-
-    form.querySelectorAll('[data-step]').forEach(function (b) {
-      var d = parseInt(b.getAttribute('data-step'), 10);
-      b.disabled = (d < 0 && seats <= MIN_SEATS) || (d > 0 && seats >= MAX_SEATS);
-    });
-
-    var seatWord = seats === 1 ? 'seat' : 'seats';
-    if (plan() === 'Prepay') {
-      totalOut.innerHTML = money(seats * PREPAY_PER_SEAT) +
-        '<small>' + seats + ' ' + seatWord + ' &times; $4,995 &middot; paid in full</small>';
-    } else {
-      totalOut.innerHTML = money(seats * MONTHLY_PER_SEAT) + '<small style="display:inline;font-size:0.5em;">/mo</small>' +
-        '<small>' + seats + ' ' + seatWord + ' &times; $419 &middot; 12 monthly payments</small>';
-    }
-  }
-
-  form.querySelectorAll('[data-step]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      seats = Math.min(MAX_SEATS, Math.max(MIN_SEATS, seats + parseInt(b.getAttribute('data-step'), 10)));
-      render();
-    });
-  });
-  form.querySelectorAll('input[name="payment_option"]').forEach(function (r) {
-    r.addEventListener('change', render);
-  });
-
-  // A plan picked on a price card above pre-selects the matching option
-  // here, so the same decision is never asked for twice.
-  document.querySelectorAll('[data-plan]').forEach(function (el) {
-    el.addEventListener('click', function () {
-      var want = el.getAttribute('data-plan');
-      var r = form.querySelector('input[name="payment_option"][value="' + want + '"]');
-      if (r) { r.checked = true; render(); }
-    });
-  });
+  var CONFIG = {
+    portalId: '2518645',
+    formId: '7f8b1d2f-fc08-451a-a2be-f52d5594138c',
+    region: 'na1',
+    target: '#tm-hs-form',
+    css: ''   // suppress HubSpot's own stylesheet so the skin above wins
+  };
 
   // Checkout can hand this page the member's details on the query string
   // (?firstname=&lastname=&email=). Someone who has just typed all three
   // while enrolling should not have to type them again.
-  (function prefill() {
+  function prefill() {
     var q = new URLSearchParams(window.location.search);
-    [['firstname', 'tf-first'], ['lastname', 'tf-last'], ['email', 'tf-email']].forEach(function (pair) {
-      var v = q.get(pair[0]);
-      var el = document.getElementById(pair[1]);
-      if (v && el && !el.value) el.value = v;
-    });
-  })();
-
-  // ---- Validation -----------------------------------------------------
-  function fieldOf(input) { return input.closest('.tf-field'); }
-
-  function validate(input) {
-    var ok = input.value.trim() !== '';
-    if (ok && input.type === 'email') ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.value.trim());
-    var f = fieldOf(input);
-    if (f) f.classList.toggle('is-invalid', !ok);
-    input.setAttribute('aria-invalid', ok ? 'false' : 'true');
-    return ok;
-  }
-
-  form.querySelectorAll('.tf-input').forEach(function (input) {
-    input.addEventListener('blur', function () { if (input.value.trim() !== '') validate(input); });
-    input.addEventListener('input', function () {
-      var f = fieldOf(input);
-      if (f && f.classList.contains('is-invalid')) validate(input);
-    });
-  });
-
-  function readCookie(name) {
-    var m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return m ? m.pop() : '';
-  }
-
-  // ---- Submit ---------------------------------------------------------
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    formErr.classList.remove('is-shown');
-
-    var inputs = Array.prototype.slice.call(form.querySelectorAll('.tf-input'));
-    var valid = inputs.map(validate).every(Boolean);
-    if (!valid) {
-      var first = form.querySelector('.tf-field.is-invalid .tf-input');
-      if (first) first.focus();
-      return;
-    }
-
-    var label = form.querySelector('[data-submit-label]');
-    submitBtn.disabled = true;
-    label.textContent = 'Reserving Their Seats…';
-
-    var q = new URLSearchParams(window.location.search);
-    var fields = [
-      { objectTypeId: '0-1', name: 'firstname', value: document.getElementById('tf-first').value.trim() },
-      { objectTypeId: '0-1', name: 'lastname',  value: document.getElementById('tf-last').value.trim() },
-      { objectTypeId: '0-1', name: 'email',     value: document.getElementById('tf-email').value.trim() },
-      { objectTypeId: '0-1', name: 'number_of_additional_team_members_to_add', value: String(seats) },
-      { objectTypeId: '0-1', name: 'payment_option', value: plan() }
-    ];
-    if (q.get('utm_term')) fields.push({ objectTypeId: '0-1', name: 'utm_term', value: q.get('utm_term') });
-
-    var payload = {
-      fields: fields,
-      context: {
-        pageUri: window.location.href,
-        pageName: document.title
+    ['firstname', 'lastname', 'email'].forEach(function (name) {
+      var v = q.get(name);
+      if (!v) return;
+      var input = document.querySelector('#tm-hs-form input[name="' + name + '"]');
+      if (input && !input.value) {
+        input.value = v;
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
       }
-    };
-    // Links the submission to this visitor's existing HubSpot analytics
-    // session, exactly as the embedded form would.
-    var hutk = readCookie('hubspotutk');
-    if (hutk) payload.context.hutk = hutk;
+    });
+  }
 
-    var url = 'https://api.hsforms.com/submissions/v3/integration/submit/' +
-      form.dataset.portal + '/' + form.dataset.form;
-
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-      .then(function (r) {
-        if (!r.ok) return r.json().then(function (b) { throw new Error(b.message || ('HTTP ' + r.status)); });
-        return r.json();
-      })
-      .then(function () {
-        form.style.display = 'none';
-        doneBox.classList.add('is-shown');
-        doneBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(function () { window.location.href = form.dataset.redirect; }, 2600);
-      })
-      .catch(function (err) {
-        submitBtn.disabled = false;
-        label.textContent = 'Reserve My Seats';
-        formErr.innerHTML = 'That did not go through. Give it one more try, or email ' +
-          '<a href="mailto:HelpMe@DarrenHardy.com?subject=Team%20seats%20for%20Business%20Master%20Class">HelpMe@DarrenHardy.com</a> ' +
-          'and we will get their seats added for you.';
-        formErr.classList.add('is-shown');
-        if (window.console) console.error('[team seats]', err);
+  function boot() {
+    if (!window.hbspt || !window.hbspt.forms) return false;
+    CONFIG.onFormReady = function () {
+      var ph = document.querySelector('.tm-form-loading');
+      if (ph) ph.remove();
+      // HubSpot injects a Google Fonts <link> for Lato. The brand
+      // self-hosts Inter and never loads fonts from a CDN, and the skin
+      // overrides the family anyway, so drop the request.
+      document.querySelectorAll('link[href*="fonts.googleapis.com"]').forEach(function (l) {
+        l.parentNode && l.parentNode.removeChild(l);
       });
-  });
+      prefill();
+    };
+    hbspt.forms.create(CONFIG);
+    return true;
+  }
 
-  render();
+  // The embed script is deferred, so poll briefly rather than racing it.
+  if (!boot()) {
+    var tries = 0;
+    var t = setInterval(function () {
+      if (boot() || ++tries > 60) clearInterval(t);
+    }, 100);
+  }
 })();
 </script>
 
