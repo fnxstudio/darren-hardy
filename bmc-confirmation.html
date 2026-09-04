@@ -227,15 +227,21 @@
 .conf-hero-cta .secondary-link { animation: none; opacity: 1; transform: none; }
 
 @media (max-width: 900px) {
-  .conf-hero { padding: 104px 0 76px; min-height: 0; }
+  /* No bottom padding: the photo is anchored to the section's bottom edge
+     here too, not floated in the middle of it with a gap underneath. */
+  .conf-hero { padding: 104px 0 0; min-height: 0; }
   /* Text first: the job of this page is to confirm before it impresses. */
   .conf-hero-grid { grid-template-columns: 1fr; gap: 44px; }
   .conf-hero-shot {
-    position: relative; inset: auto; width: 100%; order: 2;
-    border-radius: var(--radius);
+    position: relative; inset: auto; order: 2;
+    border-radius: 0; margin-bottom: 0;
+    /* Full bleed past the container's 48px of side padding. Done with
+       margins rather than a transform, because the reduced-motion block
+       below resets transform on this element. */
+    width: calc(100% + 96px); margin-left: -48px;
+    -webkit-mask-image: none; mask-image: none;
   }
   .conf-hero-shot img { height: auto; }
-  .conf-hero-shot { -webkit-mask-image: none; mask-image: none; }
   /* Centred on a phone. With the photo moved below the copy there is
      nothing on the left for a left rail to align to, so ragged-left text
      reads as though it slid off the edge. */
@@ -244,6 +250,9 @@
   .conf-hero-sub { margin-left: auto; margin-right: auto; }
   .conf-hero-cta { align-items: center; }
   .conf-hero-cta .btn-primary { white-space: normal; text-align: center; line-height: 1.6; letter-spacing: 0.18em; }
+}
+@media (max-width: 720px) {
+  .conf-hero-shot { width: calc(100% + 48px); margin-left: -24px; }
   /* bmc.css turns .m-br on at 880px; the hero breaks at 900px, so the
      hard break is switched on here to match this section's breakpoint. */
   .conf-hero-headline .m-br { display: inline; }
@@ -260,7 +269,20 @@
    Replaces the old orange HubSpot counter strip. Same job, brand palette:
    silver label, cyan digits, hairline dividers, 4px radius.
    --------------------------------------------------------------------- */
-.conf-count { background: var(--ink); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 40px 0; }
+.conf-count {
+  background: var(--ink); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  padding: 40px 0; position: relative; overflow: hidden;
+}
+/* A wash behind the clock. The band sat as a flat grey stripe between two
+   washed sections, which read as a gap in the page rather than a part of
+   it. Centred and wide, so the glow sits behind the numbers. */
+.conf-count::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 52% 150% at 50% 52%, rgba(var(--bmc-purple-rgb), 0.30), transparent 72%),
+    radial-gradient(ellipse 34% 120% at 80% 60%, rgba(var(--bmc-magenta-rgb), 0.13), transparent 74%);
+}
+.conf-count > .container { position: relative; z-index: 1; }
 .conf-count-inner { display: flex; align-items: center; justify-content: center; gap: 44px; flex-wrap: wrap; }
 .conf-count-label {
   font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px;
@@ -373,6 +395,20 @@
   .vsl-frame .vsl-play { animation: none; transform: translate(-50%, -50%); }
 }
 .vsl-frame .vsl-play svg { width: 32%; height: 32%; margin-left: 6%; }
+
+
+/* The video and the three things share a section now, so the breathing
+   room a section break used to provide has to be declared. Without it the
+   eyebrow sits on the bottom edge of the video frame.
+   .section-sub was styled only under .conf-light, which this block no
+   longer carries, so it is restated for the dark ground. */
+.conf-next { margin-top: 116px; }
+#next .section-sub {
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: clamp(16px, 1.3vw, 18px); line-height: 1.65;
+  color: var(--silver); max-width: 720px; margin-top: 22px;
+}
+@media (max-width: 880px) { .conf-next { margin-top: 68px; } }
 
 /* A personal word: the section had an eyebrow and then a video, with no
    headline between them. */
@@ -558,7 +594,7 @@
              srcset="bmc-hero-dh-760.webp 760w, bmc-hero-dh-1120.webp 1120w"
              sizes="(max-width: 900px) 92vw, 560px"
              alt="Darren Hardy on stage at Business Master Class, hundreds of members live on the screen behind him"
-             width="1120" height="1244" fetchpriority="high" decoding="async" />
+             width="1120" height="1057" fetchpriority="high" decoding="async" />
       </figure>
 
       <div class="conf-hero-inner">
