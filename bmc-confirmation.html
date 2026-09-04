@@ -139,11 +139,13 @@
     radial-gradient(ellipse 58% 88% at 100% 44%, rgba(var(--bmc-purple-rgb), 0.26), transparent 64%),
     radial-gradient(ellipse 42% 58% at 90% 12%, rgba(var(--bmc-magenta-rgb), 0.13), transparent 70%);
 }
+/* On a phone the glow comes from the upper LEFT. The copy is centred and
+   the photo sits below it, so a right-hand source has nothing to light. */
 @media (max-width: 880px) {
   .conf-hero.bmc-wash::before {
     background:
-      radial-gradient(ellipse 100% 46% at 78% 14%, rgba(var(--bmc-purple-rgb), 0.28), transparent 66%),
-      radial-gradient(ellipse 80% 40% at 100% 40%, rgba(var(--bmc-magenta-rgb), 0.12), transparent 70%);
+      radial-gradient(ellipse 95% 48% at 0% 0%, rgba(var(--bmc-purple-rgb), 0.30), transparent 68%),
+      radial-gradient(ellipse 70% 34% at 14% 22%, rgba(var(--bmc-magenta-rgb), 0.12), transparent 72%);
   }
 }
 .conf-hero-grid {
@@ -160,8 +162,10 @@
   overflow: hidden; line-height: 0; pointer-events: none;
   opacity: 0; animation: heroShot 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: 0.2s;
-  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 58%, rgba(0, 0, 0, 0) 97%);
-          mask-image: linear-gradient(to right, #000 0%, #000 58%, rgba(0, 0, 0, 0) 97%);
+  /* Short falloff. At 58% nearly half the picture sat at partial opacity
+     over black, which reads as haze rather than as a fade. */
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 82%, rgba(0, 0, 0, 0) 100%);
+          mask-image: linear-gradient(to right, #000 0%, #000 82%, rgba(0, 0, 0, 0) 100%);
 }
 @keyframes heroShot { to { opacity: 1; } }
 .conf-hero-shot img { width: 100%; height: 100%; object-fit: cover; object-position: left bottom; display: block; }
@@ -232,8 +236,17 @@
   }
   .conf-hero-shot img { height: auto; }
   .conf-hero-shot { -webkit-mask-image: none; mask-image: none; }
-  .conf-hero-inner { order: 1; max-width: none; grid-column: auto; }
+  /* Centred on a phone. With the photo moved below the copy there is
+     nothing on the left for a left rail to align to, so ragged-left text
+     reads as though it slid off the edge. */
+  .conf-hero-inner { order: 1; max-width: none; grid-column: auto; text-align: center; }
+  .conf-hero-flags { justify-content: center; }
+  .conf-hero-sub { margin-left: auto; margin-right: auto; }
+  .conf-hero-cta { align-items: center; }
   .conf-hero-cta .btn-primary { white-space: normal; text-align: center; line-height: 1.6; letter-spacing: 0.18em; }
+  /* bmc.css turns .m-br on at 880px; the hero breaks at 900px, so the
+     hard break is switched on here to match this section's breakpoint. */
+  .conf-hero-headline .m-br { display: inline; }
 }
 @media (prefers-reduced-motion: reduce) {
   .conf-hero-flags, .conf-hero-headline, .conf-hero-sub, .conf-hero-cta, .conf-hero-shot {
@@ -334,19 +347,32 @@
 #next .btn-ghost-light { color: var(--bmc-cyan); border-color: var(--bmc-cyan); }
 #next .btn-ghost-light:hover { background: var(--bmc-cyan); color: var(--black); }
 
-/* What is open, on light. The activation stack was built for a dark
-   ground: cyan marks, white hairlines, silver body. All of it re-hues. */
-#activated .act-intro { color: var(--muted); }
-#activated .stack-list { border-top-color: var(--rule-dark); }
-#activated .stack-item { border-bottom-color: var(--rule-dark); }
-#activated .stack-numeral { color: var(--grey-soft); }
-#activated .stack-item h3 { color: var(--black); }
-#activated .stack-item p { color: var(--muted); }
-#activated .act-live { color: var(--bmc-plum); border-color: rgba(var(--bmc-plum-rgb), 0.4); }
-#activated .act-live--soon { color: var(--grey-soft); border-color: var(--rule-dark-strong); }
-#activated .act-dot { background: var(--bmc-plum); }
-#activated .act-link { color: var(--bmc-plum); }
-#activated .act-link:hover { border-bottom-color: rgba(var(--bmc-plum-rgb), 0.5); }
+
+/* The Vimeo thumbnail has its own play box and "Watch Now" caption baked
+   into the image, so the page's cyan button sat beside a second, uglier
+   one. Measured off the 1280x720 thumbnail: the graphic occupies roughly
+   x 550-735, y 320-458, and Darren's chin is at y~290. Centring the
+   button at 50.2%/55.5% at 17.5% of the frame width covers the whole
+   graphic with its top edge landing at his chin, so none of his face
+   goes behind it. Percentages, because the baked-in art scales with the
+   frame and a fixed 108px circle would not. */
+.vsl-frame .vsl-play {
+  top: 55.5%; left: 50.2%; bottom: auto; right: auto;
+  width: 17.5%; height: auto; aspect-ratio: 1 / 1;
+  min-width: 58px;
+  /* bmc.css animates transform, and an animation beats a static
+     declaration, so the centring translate has to live in the keyframes
+     rather than on the rule. */
+  animation-name: vslPulseCentred;
+}
+@keyframes vslPulseCentred {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50%      { transform: translate(-50%, -50%) scale(1.07); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vsl-frame .vsl-play { animation: none; transform: translate(-50%, -50%); }
+}
+.vsl-frame .vsl-play svg { width: 32%; height: 32%; margin-left: 6%; }
 
 /* A personal word: the section had an eyebrow and then a video, with no
    headline between them. */
@@ -543,7 +569,7 @@
           </span>
           <span class="conf-live"><span class="conf-live-dot"></span>Access Open Now</span>
         </div>
-        <h1 class="conf-hero-headline">You&rsquo;re In. <em class="key">Your Access Is Open</em>.</h1>
+        <h1 class="conf-hero-headline">You&rsquo;re In.<br class="m-br"> <em class="key">Your Access Is Open</em>.</h1>
         <p class="conf-hero-sub"><strong>Your Business Master Class seat is reserved for October 19&ndash;21.</strong> Your COLLECTIVE access is open now so you can start today.</p>
         <p class="conf-hero-sub conf-hero-sub--quiet">A member experience concierge will reach out within the hour.</p>
         <div class="conf-hero-cta">
@@ -577,15 +603,17 @@
   </div>
 </section>
 
+
 <!-- =====================================================================
-     LAYER 3: WELCOME VIDEO
-     Same custom player as the sales page VSL (controls off, cyan play
-     button, click anywhere to toggle, sound on by default).
+     LAYER 4: THREE QUICK THINGS  (dark surface, cyan accent)
+     Three cards in a row, not a stacked list. Stacked, these read as a form
+     to work through; side by side they read as three small finishable
+     things, each priced in seconds.
      ===================================================================== -->
-<section class="vsl-section" id="welcome">
+<section class="section-dark section-divider bmc-wash" id="welcome">
   <div class="container">
     <div class="eyebrow eyebrow--center vsl-eyebrow reveal" style="display:flex;justify-content:center;"><span class="pip"></span>A Personal Word</div>
-    <h2 class="vsl-headline reveal">Darren Recorded This <em class="key">For You</em>.</h2>
+    <h2 class="vsl-headline reveal">Bravo. <em class="key">And Welcome</em>.</h2>
     <div class="vsl-frame reveal reveal-scale">
       <iframe id="vsl-player" src="https://player.vimeo.com/video/585926031?controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;dnt=1"
         loading="lazy" frameborder="0"
@@ -601,17 +629,11 @@
         <span class="t-vol t-vol-off" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16.5" y1="9.5" x2="21.5" y2="14.5"/><line x1="21.5" y1="9.5" x2="16.5" y2="14.5"/></svg></span>
       </button>
     </div>
-  </div>
-</section>
 
-<!-- =====================================================================
-     LAYER 4: THREE QUICK THINGS  (dark surface, cyan accent)
-     Three cards in a row, not a stacked list. Stacked, these read as a form
-     to work through; side by side they read as three small finishable
-     things, each priced in seconds.
-     ===================================================================== -->
-<section class="section-dark section-divider bmc-wash" id="next">
-  <div class="container">
+    <!-- Same section, no divider: the video and the three things are one
+         beat, and a section break here made the scroll stop dead between
+         them. -->
+    <div class="conf-next" id="next">
     <div class="eyebrow reveal"><span class="pip"></span>Two Minutes, Total</div>
     <h2 class="section-headline reveal">Three Quick <em class="key">Things</em>.</h2>
     <p class="section-sub reveal">Do them now while the page is open, and you are completely set for October.</p>
@@ -662,18 +684,19 @@
       </div>
 
     </div>
+    </div>
   </div>
 </section>
 
 <!-- =====================================================================
-     LAYER 5: WHAT IS OPEN RIGHT NOW  (light surface, plum accent)
+     LAYER 5: WHAT IS OPEN RIGHT NOW
      The single biggest gap on the live page. HardyBMC.com sells one
      enrollment as "a reserved BMC seat AND immediate COLLECTIVE
      activation", then the confirmation page never mentions THE COLLECTIVE
      at all. Nine promises made on the sales page, nine deliveries here,
      in the same order and the same words they read an hour ago.
      ===================================================================== -->
-<section class="conf-light" id="activated">
+<section class="section-dark section-divider bmc-wash" id="activated">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>Ready When You Are</div>
     <h2 class="section-headline reveal">What&rsquo;s <em class="key">Open Right Now</em>.</h2>
