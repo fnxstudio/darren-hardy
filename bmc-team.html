@@ -168,18 +168,11 @@ em {
   background: linear-gradient(to bottom, transparent 58%, rgba(10, 10, 14, 0.5));
 }
 .tm-shot:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.40); transform: translateY(-3px); }
-.tm-cap {
-  margin-top: 20px; font-family: 'Inter', sans-serif; font-weight: 500;
-  font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--grey); display: inline-flex; align-items: center; gap: 14px;
-}
-.tm-cap .pip { display: inline-block; width: 24px; height: 1px; background: var(--grey); }
 @media (max-width: 880px) {
   /* Stacked full width, not a 2-up grid. Two columns on a phone puts each
      tile at ~166px, which turns every face into a thumbnail. */
   .tm-collage { grid-template-columns: 1fr; gap: 10px; margin-top: 34px; }
   .tm-shot { aspect-ratio: 3 / 2; }
-  .tm-cap { letter-spacing: 0.18em; }
 }
 
 /* Wide band: the full-team shot runs at its own native 1.87:1 rather than
@@ -231,25 +224,34 @@ em {
    THE OFFER
    One number, stated plainly. No cards, no badges, no countdown.
    --------------------------------------------------------------------- */
+/* The monthly figure leads. It is the smallest true number on the page,
+   and the one that decides whether a second or third seat feels possible.
+   Paid in full sits underneath as the alternative, and that is where the
+   $9,995 comparison belongs, next to the number it is actually
+   comparable to. */
 .tm-price { margin-top: 34px; }
-.tm-price-row { display: flex; align-items: baseline; justify-content: center; gap: 18px; }
-.tm-price-was {
-  font-family: 'Inter', sans-serif; font-weight: 700;
-  font-size: clamp(20px, 2vw, 28px); letter-spacing: -0.02em; color: var(--grey);
-  text-decoration: line-through; text-decoration-thickness: 1px;
-}
+.tm-price-row { display: flex; align-items: baseline; justify-content: center; }
 .tm-price-now {
   font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: clamp(46px, 5.6vw, 78px); line-height: 1;
+  font-size: clamp(52px, 6.2vw, 86px); line-height: 1;
   letter-spacing: -0.04em; color: var(--bmc-cyan);
+}
+.tm-price-per {
+  font-size: 0.34em; font-weight: 700; letter-spacing: 0.04em;
+  margin-left: 2px; color: var(--bmc-cyan);
 }
 .tm-price-lab {
   margin-top: 14px; font-family: 'Inter', sans-serif; font-weight: 700;
   font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--silver);
 }
 .tm-price-alt {
-  margin-top: 10px; font-family: 'Inter', sans-serif; font-weight: 400;
-  font-size: 15px; color: var(--grey);
+  margin-top: 16px; font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: 16px; color: var(--silver);
+}
+.tm-price-alt strong { color: var(--white); font-weight: 700; }
+.tm-price-was {
+  font-weight: 400; color: var(--grey);
+  text-decoration: line-through; text-decoration-thickness: 1px;
 }
 
 /* =====================================================================
@@ -514,7 +516,6 @@ em {
       <div class="tm-shot"><img class="shot-high" src="room-photos/bmc-dinner-four.webp" alt="Members eating together after the day&rsquo;s sessions" width="1000" height="750" loading="lazy" decoding="async" /></div>
       <div class="tm-shot"><img src="room-photos/bmc-workbook-group.webp" alt="A group of members with their Business Master Class workbooks" width="370" height="232" loading="lazy" decoding="async" /></div>
     </div>
-    <div class="tm-cap reveal"><span class="pip"></span>Members who brought their people</div>
   </div>
 </section>
 
@@ -528,11 +529,10 @@ em {
 
     <div class="tm-price reveal">
       <div class="tm-price-row">
-        <span class="tm-price-was">$9,995</span>
-        <span class="tm-price-now">$4,995</span>
+        <span class="tm-price-now">$419<span class="tm-price-per">/mo</span></span>
       </div>
       <div class="tm-price-lab">Per additional seat</div>
-      <div class="tm-price-alt">or $419 a month per seat</div>
+      <div class="tm-price-alt">or <span class="tm-price-was">$9,995</span> <strong>$4,995</strong> per seat, paid in full</div>
     </div>
 
     <div class="tm-form-wrap reveal">
@@ -587,6 +587,30 @@ em {
     css: ''   // suppress HubSpot's own stylesheet so the skin above wins
   };
 
+  // Field labels and the billing note are HubSpot form content, so they
+  // are set here rather than in the markup. Both are safe to delete from
+  // this file the moment the same wording is saved in HubSpot itself.
+  var LABELS = {
+    firstname: 'Your First Name',
+    lastname:  'Your Last Name',
+    email:     'Your Email Address'
+  };
+  var FORM_NOTE = '**We will bill your card on file used to make your original BMC seat purchase.';
+
+  function relabel() {
+    Object.keys(LABELS).forEach(function (name) {
+      var field = document.querySelector('#claim .hs_' + name);
+      if (!field) return;
+      // HubSpot renders <label><span>Label</span><span class="hs-form-required">*</span></label>,
+      // so only the first span is rewritten and the asterisk survives.
+      var span = field.querySelector('label > span:not(.hs-form-required)');
+      if (span) span.textContent = LABELS[name];
+    });
+
+    var note = document.querySelector('#claim .hs-richtext');
+    if (note) note.textContent = FORM_NOTE;
+  }
+
   // Checkout can hand this page the member's details on the query string
   // (?firstname=&lastname=&email=). Someone who has just typed all three
   // while enrolling should not have to type them again.
@@ -615,6 +639,7 @@ em {
       document.querySelectorAll('link[href*="fonts.googleapis.com"]').forEach(function (l) {
         l.parentNode && l.parentNode.removeChild(l);
       });
+      relabel();
       prefill();
     };
     hbspt.forms.create(CONFIG);
