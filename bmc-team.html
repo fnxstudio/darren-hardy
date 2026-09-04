@@ -60,13 +60,59 @@ em {
 /* Section rhythm. Tighter than the sales page on purpose: this is three
    short beats, not a long read. */
 .tm-sec { padding: 116px 0; background: var(--black); }
-.tm-sec--close { padding: 120px 0 56px; background: var(--ink); }
+.tm-sec--close { padding: 120px 0 56px; background: var(--black); }
 @media (max-width: 880px) {
   .tm-sec { padding: var(--section-pad-mobile) 0; }
   .tm-sec--close { padding: var(--section-pad-mobile) 0 32px; }
 }
 .tm-center { text-align: center; }
 .tm-center .eyebrow { justify-content: center; }
+
+/* ---------------------------------------------------------------------
+   LIGHT SECTION
+   The checkout flow this page sits inside alternates dark and bone
+   (/vip-upsell runs dark hero, bone proof, dark, bone benefits), so this
+   page does the same: dark hero, bone middle, dark close. Continuity of
+   rhythm, not of palette. Every value below comes from bmc.css, and on a
+   light ground the accent re-hues to plum. Cyan never appears on bone.
+   --------------------------------------------------------------------- */
+.tm-sec--light { background: var(--bone); }
+.tm-sec--light .section-headline { color: var(--black); }
+.tm-sec--light em { color: var(--bmc-plum); }
+.tm-sec--light .eyebrow { color: var(--grey-soft); }
+.tm-sec--light .eyebrow .pip { background: var(--grey-soft); }
+.tm-sec--light .tm-lead { color: var(--muted); }
+.tm-sec--light .tm-lead strong { color: var(--black); }
+.tm-sec--light .unfair-close { color: var(--black); }
+
+/* Cards on bone: white surface, dark hairlines, plum for the better room. */
+.tm-sec--light .tm-vs-col { background: var(--white); border-color: var(--rule-dark); }
+.tm-sec--light .tm-vs-col--solo:hover { border-color: var(--rule-dark-strong); }
+.tm-sec--light .tm-vs-lab { color: var(--grey-soft); border-bottom-color: var(--rule-dark); }
+.tm-sec--light .tm-vs-col li { color: var(--muted); border-bottom-color: var(--rule-dark); }
+.tm-sec--light .tm-vs-col li::before { background: var(--grey-soft); }
+.tm-sec--light .tm-vs-col--together {
+  border-color: rgba(var(--bmc-plum-rgb), 0.32);
+  background:
+    linear-gradient(180deg, rgba(var(--bmc-plum-rgb), 0.06), rgba(var(--bmc-plum-rgb), 0.015) 62%),
+    var(--white);
+}
+.tm-sec--light .tm-vs-col--together:hover { border-color: rgba(var(--bmc-plum-rgb), 0.60); }
+.tm-sec--light .tm-vs-col--together .tm-vs-lab {
+  color: var(--bmc-plum); border-bottom-color: rgba(var(--bmc-plum-rgb), 0.24);
+}
+.tm-sec--light .tm-vs-col--together li { color: var(--black); border-bottom-color: rgba(var(--bmc-plum-rgb), 0.14); }
+.tm-sec--light .tm-vs-col--together li::before {
+  background: none; border-left-color: var(--bmc-plum); border-bottom-color: var(--bmc-plum);
+}
+
+/* Photography on bone: dark hairlines, lighter scrim, plum on hover. */
+.tm-sec--light .tm-shot, .tm-sec--light .tm-band { border-color: var(--rule-dark); }
+.tm-sec--light .tm-shot::after, .tm-sec--light .tm-band::after {
+  background: linear-gradient(to bottom, transparent 68%, rgba(10, 10, 14, 0.28));
+}
+.tm-sec--light .tm-shot:hover { border-color: rgba(var(--bmc-plum-rgb), 0.42); }
+.tm-sec--light .tm-band:hover { border-color: rgba(var(--bmc-plum-rgb), 0.42); }
 
 /* ---------------------------------------------------------------------
    PROGRESS
@@ -558,7 +604,7 @@ em {
    competes with the offer it sits beneath. Here it is fine print: grey,
    underline only, no accent colour, per the brand's sub-copy rule.
    --------------------------------------------------------------------- */
-.tm-decline { text-align: center; padding: 0 0 88px; background: var(--ink); }
+.tm-decline { text-align: center; padding: 0 0 88px; background: var(--black); }
 .tm-decline a {
   font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px;
   color: var(--grey); text-decoration: underline;
@@ -607,7 +653,7 @@ em {
     </div>
 
     <!-- Beat two: the turn, behind a rule so it reads as its own moment. -->
-    <div class="tm-divider tm-in tm-in-4"><span>One Time, Right Now</span></div>
+    <div class="tm-divider tm-in tm-in-4"><span>One Last Thing</span></div>
 
     <p class="tm-h2-hero tm-in tm-in-4">One Seat Changes You. Your Team Changes <em>Everything</em>.</p>
 
@@ -633,7 +679,7 @@ em {
 <!-- =====================================================================
      THE WHY, given once
      ===================================================================== -->
-<section class="tm-sec section-divider bmc-wash" id="why">
+<section class="tm-sec tm-sec--light" id="why">
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>The Multiplier</div>
     <h2 class="section-headline reveal">What Your Team <em>Walks Out With</em>.</h2>
