@@ -74,10 +74,11 @@ em {
    (/vip-upsell runs dark hero, bone proof, dark, bone benefits), so this
    page does the same: dark hero, bone middle, dark close. Continuity of
    rhythm, not of palette. Every value below comes from bmc.css, and on a
-   light ground the accent re-hues to plum. Cyan never appears on bone.
+   light ground the accent re-hues to plum. Cyan and teal are dark-ground
+   colours in this brand and never touch a light surface; the one place
+   cyan appears in this section is inside the dark panel, which carries
+   its own ground with it.
    --------------------------------------------------------------------- */
-/* Plum is the brand's light-ground accent. Cyan and teal are dark-ground
-   only and never appear on bone or white. */
 .tm-sec--light { background: var(--bone); padding: 132px 0; }
 .tm-sec--light .section-headline { color: var(--black); }
 .tm-sec--light em { color: var(--bmc-plum); }
@@ -91,30 +92,6 @@ em {
   .tm-sec--light .unfair-close { margin-top: 44px; }
 }
 
-/* Cards on bone: white surface, dark hairlines, plum for the better room. */
-.tm-sec--light .tm-vs-col { background: var(--white); border-color: var(--rule-dark); }
-.tm-sec--light .tm-vs-col--solo:hover { border-color: var(--rule-dark-strong); }
-.tm-sec--light .tm-vs-lab { color: var(--grey-soft); border-bottom-color: var(--rule-dark); }
-.tm-sec--light .tm-vs-col li { color: var(--muted); border-bottom-color: var(--rule-dark); }
-.tm-sec--light .tm-vs-col li::before { background: var(--grey-soft); }
-/* The winning column is a dark card dropped into the bone section.
-   Contrast does the work a tint could not: a plum wash on white went
-   muddy at this size, and teal is not a colour this brand puts on white.
-   Going dark also puts the accent back where the guide allows it, so the
-   label and the marks can be cyan. */
-.tm-sec--light .tm-vs-col--together {
-  background: var(--black); border-color: var(--black);
-  box-shadow: 0 18px 44px -24px rgba(10, 10, 10, 0.55);
-}
-.tm-sec--light .tm-vs-col--together:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.55); }
-.tm-sec--light .tm-vs-col--together .tm-vs-lab {
-  color: var(--bmc-cyan); border-bottom-color: rgba(var(--bmc-cyan-rgb), 0.28);
-}
-.tm-sec--light .tm-vs-col--together li { color: var(--white); border-bottom-color: var(--rule); }
-.tm-sec--light .tm-vs-col--together li::before {
-  background: none; border-left-color: var(--bmc-cyan); border-bottom-color: var(--bmc-cyan);
-  border-left-width: 2px; border-bottom-width: 2px;
-}
 
 /* Photography on bone: dark hairlines, lighter scrim, plum on hover. */
 .tm-sec--light .tm-shot, .tm-sec--light .tm-band { border-color: var(--rule-dark); }
@@ -373,71 +350,48 @@ em {
 .tm-lead strong { color: var(--white); font-weight: 700; }
 
 /* ---------------------------------------------------------------------
-   THE TWO OUTCOMES
-   Was two plain bullet lists. Now a card pair, because the point is not
-   information, it is the feeling of the second card being the better
-   room to be in. Both are good outcomes: the left is what this member
-   already gets, stated generously; the right is the same three days with
-   their people in it, lifted with the brand's cyan surface, a cyan rule
-   under every line, and the only markers on the page.
+   WHAT BRINGING THEM DELIVERS
+   This was a two-column comparison, you alone beside you with your team.
+   Even with both columns written as good outcomes, setting them side by
+   side asks a member who has already enrolled to weigh their own seat
+   against a better version of it, which is a question this page has no
+   business raising. So there is one panel now and it is only about the
+   upside of the people they bring.
+
+   It runs dark inside the bone section. Contrast does the work a tint
+   could not, and a dark ground is where this brand's cyan is allowed to
+   live, so the numerals can carry the accent.
    --------------------------------------------------------------------- */
-.tm-vs {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-  margin-top: 56px; align-items: stretch;
+.tm-gains {
+  background: var(--black); border-radius: var(--radius);
+  padding: 52px 54px 54px; margin-top: 56px;
+  box-shadow: 0 24px 60px -30px rgba(10, 10, 10, 0.55);
 }
-.tm-vs-col {
-  border: 1px solid var(--rule); border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.02);
-  padding: 46px 42px;
-  transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
-}
-.tm-vs-col:hover { transform: translateY(-3px); }
-.tm-vs-col--solo:hover { border-color: var(--rule-strong); }
-.tm-vs-col--together {
-  border-color: rgba(var(--bmc-cyan-rgb), 0.34);
-  background:
-    linear-gradient(180deg, rgba(var(--bmc-cyan-rgb), 0.07), rgba(var(--bmc-cyan-rgb), 0.02) 62%),
-    var(--surface-card);
-}
-.tm-vs-col--together:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.62); }
-
-.tm-vs-lab {
+.tm-gains-lab {
   font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
-  letter-spacing: 0.34em; text-transform: uppercase; color: var(--grey-soft);
-  padding-bottom: 22px; margin-bottom: 4px;
-  border-bottom: 1px solid var(--rule);
+  letter-spacing: 0.34em; text-transform: uppercase; color: var(--bmc-cyan);
+  padding-bottom: 26px; border-bottom: 1px solid rgba(var(--bmc-cyan-rgb), 0.28);
 }
-.tm-vs-col--together .tm-vs-lab {
-  color: var(--bmc-cyan); border-bottom-color: rgba(var(--bmc-cyan-rgb), 0.28);
+.tm-gains-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+.tm-gain { padding: 40px 36px 0 0; border-right: 1px solid var(--rule); }
+.tm-gain + .tm-gain { padding-left: 36px; }
+.tm-gain:last-child { border-right: 0; padding-right: 0; }
+.tm-gain-n {
+  display: block; margin-bottom: 16px;
+  font-family: 'Inter', sans-serif; font-weight: 900; font-size: 13px;
+  letter-spacing: 0.24em; color: var(--bmc-cyan);
 }
-
-.tm-vs-col ul { list-style: none; margin: 0; padding: 0; }
-.tm-vs-col li {
-  font-family: 'Inter', sans-serif; font-weight: 400;
-  font-size: clamp(16px, 1.35vw, 19px); line-height: 1.45;
-  color: var(--silver);
-  padding: 20px 0 20px 30px; position: relative;
-  border-bottom: 1px solid var(--rule);
-}
-.tm-vs-col li:last-child { border-bottom: 0; padding-bottom: 4px; }
-.tm-vs-col li::before {
-  content: ""; position: absolute; left: 0; top: 30px;
-  width: 14px; height: 1px; background: var(--grey-soft);
-}
-.tm-vs-col--together li {
-  color: var(--white); font-weight: 500;
-  border-bottom-color: rgba(var(--bmc-cyan-rgb), 0.16);
-}
-/* The only checkmarks on the page, and they sit on one column only. */
-.tm-vs-col--together li::before {
-  content: ""; left: 1px; top: 24px;
-  width: 11px; height: 6px; background: none;
-  border-left: 1.6px solid var(--bmc-cyan); border-bottom: 1.6px solid var(--bmc-cyan);
-  transform: rotate(-45deg);
+.tm-gain p {
+  margin: 0; font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: clamp(17px, 1.45vw, 21px); line-height: 1.4;
+  color: var(--white); text-wrap: pretty;
 }
 @media (max-width: 880px) {
-  .tm-vs { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
-  .tm-vs-col { padding: 32px 26px; }
+  .tm-gains { padding: 32px 26px 34px; margin-top: 40px; }
+  .tm-gains-grid { grid-template-columns: 1fr; }
+  .tm-gain { padding: 28px 0 28px; border-right: 0; border-bottom: 1px solid var(--rule); }
+  .tm-gain + .tm-gain { padding-left: 0; }
+  .tm-gain:last-child { border-bottom: 0; padding-bottom: 4px; }
 }
 
 /* ---------------------------------------------------------------------
@@ -833,22 +787,21 @@ em {
     <h2 class="section-headline reveal">What Your Team <em>Walks Out With</em>.</h2>
     <p class="tm-lead reveal">Members who compound fastest after Business Master Class have one thing in common. <strong>They did not come alone.</strong></p>
 
-    <div class="tm-vs stagger">
-      <div class="tm-vs-col tm-vs-col--solo">
-        <div class="tm-vs-lab">You</div>
-        <ul>
-          <li>The full playbook, in your hands.</li>
-          <li>A clear plan for your next twelve months.</li>
-          <li>You, back at the office and ready to build.</li>
-        </ul>
-      </div>
-      <div class="tm-vs-col tm-vs-col--together">
-        <div class="tm-vs-lab">You and your people</div>
-        <ul>
-          <li>The full playbook, already in everyone&rsquo;s hands.</li>
-          <li>A plan your team helped build in the room, so they own it.</li>
-          <li>Your whole company, back at the office and ready to build.</li>
-        </ul>
+    <div class="tm-gains reveal">
+      <div class="tm-gains-lab">What your people walk out with</div>
+      <div class="tm-gains-grid">
+        <div class="tm-gain">
+          <span class="tm-gain-n">01</span>
+          <p>The full playbook, already in everyone&rsquo;s hands.</p>
+        </div>
+        <div class="tm-gain">
+          <span class="tm-gain-n">02</span>
+          <p>A plan your team helped build in the room, so they own it.</p>
+        </div>
+        <div class="tm-gain">
+          <span class="tm-gain-n">03</span>
+          <p>Your whole company, back at the office and ready to build.</p>
+        </div>
       </div>
     </div>
 
