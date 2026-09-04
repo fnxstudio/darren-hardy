@@ -168,7 +168,13 @@
           mask-image: linear-gradient(to right, #000 0%, #000 82%, rgba(0, 0, 0, 0) 100%);
 }
 @keyframes heroShot { to { opacity: 1; } }
-.conf-hero-shot img { width: 100%; height: 100%; object-fit: cover; object-position: left bottom; display: block; }
+/* Anchored to the TOP of the frame, not the bottom. Cover crops whatever
+   does not fit, and his pointing hand is the highest thing in the
+   picture, so a bottom anchor took the finger off the top edge as soon
+   as the column was wide relative to the section height. Anchoring top
+   means the overflow always comes off the bottom, where there is nothing
+   but leg. He still reaches the section's bottom edge either way. */
+.conf-hero-shot img { width: 100%; height: 100%; object-fit: cover; object-position: left top; display: block; }
 /* Bottom fade so the panel sits in the section rather than on it. */
 /* No scrim. A dark gradient laid over the photo greys everything it
    touches, which is what the haze was. The image is masked instead, so
