@@ -233,29 +233,54 @@ em {
 .tm-hero-sub strong { color: var(--white); font-weight: 700; }
 @media (max-width: 780px) { .tm-hero { padding: 96px 0 var(--section-pad-mobile); } }
 
-/* Why this exists here and not on the website. Without it, a rate this
-   far under the public seat price reads as either a gimmick or a price
-   they could have had anyway, and both kill the click. Stated as a
-   reason we are opening something for them, not as a countdown. */
+/* The reason this rate exists here, carried by the numbers rather than by
+   a paragraph. A prose box explaining a discount is not an offer; the
+   discount is the offer, so both savings sit in the hero at size and the
+   urgency is the plain truth of a one-time page: continuing ends it. */
 .tm-once {
-  max-width: 680px; margin: 46px auto 0; text-align: left;
-  border: 1px solid rgba(var(--bmc-cyan-rgb), 0.26); border-radius: var(--radius);
-  background: rgba(var(--bmc-cyan-rgb), 0.05);
-  padding: 26px 30px;
+  position: relative; max-width: 720px; margin: 54px auto 0;
+  border: 1.5px solid rgba(var(--bmc-cyan-rgb), 0.55); border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(var(--bmc-cyan-rgb), 0.11), rgba(var(--bmc-cyan-rgb), 0.03) 70%),
+    rgba(255, 255, 255, 0.02);
+  padding: 40px 34px 30px;
 }
-.tm-once-lab {
+/* Brand badge spec: cyan pill, dark text, fully rounded. */
+.tm-once-flag {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: var(--bmc-cyan); color: var(--black);
   font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
-  letter-spacing: 0.32em; text-transform: uppercase; color: var(--bmc-cyan);
-  margin-bottom: 12px;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  padding: 8px 18px; border-radius: 99px; white-space: nowrap;
 }
-.tm-once p {
-  margin: 0; font-family: 'Inter', sans-serif; font-weight: 400;
-  font-size: 15px; line-height: 1.65; color: var(--silver); text-wrap: pretty;
+.tm-once-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.tm-once-cell { padding: 4px 26px; border-right: 1px solid rgba(var(--bmc-cyan-rgb), 0.22); }
+.tm-once-cell:last-child { border-right: 0; }
+.tm-once-save {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 44px); line-height: 1;
+  letter-spacing: -0.035em; color: var(--bmc-cyan);
 }
-.tm-once strong { color: var(--white); font-weight: 700; }
-@media (max-width: 560px) {
-  .tm-once { padding: 22px 20px; margin-top: 34px; }
-  .tm-once-lab { letter-spacing: 0.22em; }
+.tm-once-save span { font-size: 0.42em; font-weight: 700; letter-spacing: 0.04em; }
+.tm-once-detail {
+  margin-top: 12px; font-family: 'Inter', sans-serif; font-weight: 500;
+  font-size: 14px; letter-spacing: 0.02em; color: var(--silver);
+}
+.tm-once-detail strong { color: var(--white); font-weight: 700; }
+.tm-once-was { color: var(--grey); text-decoration: line-through; text-decoration-thickness: 1px; }
+.tm-once-note {
+  margin: 28px 0 0; padding-top: 22px;
+  border-top: 1px solid rgba(var(--bmc-cyan-rgb), 0.22);
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px;
+  line-height: 1.6; color: var(--silver); text-wrap: pretty;
+}
+.tm-once-note strong { color: var(--white); font-weight: 700; }
+@media (max-width: 620px) {
+  .tm-once { padding: 38px 20px 26px; margin-top: 40px; }
+  .tm-once-flag { letter-spacing: 0.16em; font-size: 9px; }
+  .tm-once-grid { grid-template-columns: 1fr; }
+  .tm-once-cell { padding: 0 0 20px; border-right: 0; border-bottom: 1px solid rgba(var(--bmc-cyan-rgb), 0.22); }
+  .tm-once-cell + .tm-once-cell { padding: 20px 0 0; border-bottom: 0; }
 }
 
 .tm-hero-cta { margin-top: 36px; }
@@ -674,14 +699,21 @@ em {
 .tm-sec--close .tm-form-shell .hs-richtext { color: var(--grey-soft); }
 .tm-sec--close .tm-form-shell .hs-richtext em { color: var(--grey-soft); }
 
-/* Brand inversion on a light ground: the solid primary becomes black. */
+/* Plum on a light ground, never black. A black fill reads as a disabled
+   or unstyled control rather than the thing you are meant to press.
+   The colour is held on hover and the button lifts instead. */
 .tm-sec--close .tm-form-shell .hs-button {
-  background: var(--black) !important; color: var(--white) !important;
-  border-color: var(--black) !important;
+  background: var(--bmc-plum) !important; color: var(--white) !important;
+  border-color: var(--bmc-plum) !important;
 }
 .tm-sec--close .tm-form-shell .hs-button:hover {
-  background: transparent !important; color: var(--bmc-plum) !important;
+  background: var(--bmc-plum) !important; color: var(--white) !important;
   border-color: var(--bmc-plum) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -12px rgba(var(--bmc-plum-rgb), 0.65);
+}
+.tm-sec--close .tm-form-shell .hs-button:focus-visible {
+  outline: 2px solid var(--bmc-plum); outline-offset: 3px;
 }
 .tm-sec--close .tm-form-shell .hs-error-msg,
 .tm-sec--close .tm-form-shell .hs-error-msgs label { color: #c0392b !important; }
@@ -768,8 +800,18 @@ em {
     </div>
 
     <div class="tm-once tm-in tm-in-5">
-      <div class="tm-once-lab">One Time, Right Here</div>
-      <p><strong>This rate is tied to the enrollment you just made</strong>, which is why it shows up on this page and nowhere else. We open it now because the members who bring their people get further, faster, and we would rather you be one of them.</p>
+      <div class="tm-once-flag">One Time Only &middot; This Page</div>
+      <div class="tm-once-grid">
+        <div class="tm-once-cell">
+          <div class="tm-once-save">Save $5,000</div>
+          <div class="tm-once-detail"><span class="tm-once-was">$9,995</span> &rarr; <strong>$4,995</strong> per seat</div>
+        </div>
+        <div class="tm-once-cell">
+          <div class="tm-once-save">Save $476<span>/mo</span></div>
+          <div class="tm-once-detail"><span class="tm-once-was">$895</span> &rarr; <strong>$419</strong> per seat, per month</div>
+        </div>
+      </div>
+      <p class="tm-once-note">This rate is tied to the enrollment you just made, so it lives on this page and nowhere else. <strong>Continue to your confirmation and it is gone.</strong></p>
     </div>
 
     <div class="tm-hero-cta tm-in tm-in-5">
