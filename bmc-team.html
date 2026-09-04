@@ -69,44 +69,104 @@ em {
 .tm-center .eyebrow { justify-content: center; }
 
 /* ---------------------------------------------------------------------
-   WELCOME BAR
-   Someone who just enrolled and lands on another offer needs to know, in
-   the first 200ms, that they are in. Said as congratulations rather than
-   as a receipt, so the page opens on their win instead of a transaction.
+   PROGRESS
+   Half filled. The confirmation page is the other half, and without this
+   a member who has just been told "you're in" has no reason to believe
+   another click is required. It is the only thing on the page that says
+   "not finished yet", so it stays pinned and it stays quiet.
    --------------------------------------------------------------------- */
-.tm-bar {
+.tm-progress {
   position: fixed; top: 0; left: 0; right: 0; z-index: 70;
   background: rgba(10, 10, 10, 0.94);
   -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(var(--bmc-cyan-rgb), 0.22);
+  border-bottom: 1px solid var(--rule);
 }
-.tm-bar-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 24px; height: 54px;
+.tm-progress-inner { display: flex; align-items: center; gap: 22px; height: 46px; }
+.tm-progress-track {
+  flex: 1; height: 3px; border-radius: 99px;
+  background: rgba(255, 255, 255, 0.10); overflow: hidden;
 }
-.tm-bar-receipt {
-  display: inline-flex; align-items: center; gap: 11px; min-width: 0;
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
-  letter-spacing: 0.2em; text-transform: uppercase; color: var(--bmc-cyan);
+.tm-progress-fill {
+  display: block; height: 100%; width: 50%; border-radius: 99px;
+  background: var(--bmc-cyan);
+  transform-origin: left center; transform: scaleX(0);
+  animation: tmFill 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.25s;
 }
-.tm-bar-receipt svg { width: 14px; height: 14px; flex: none; }
-.tm-bar-receipt span { color: var(--silver); font-weight: 500; letter-spacing: 0.16em; }
-.tm-bar-step {
+@keyframes tmFill { to { transform: scaleX(1); } }
+.tm-progress-lab {
   font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
-  letter-spacing: 0.28em; text-transform: uppercase; color: var(--grey);
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--silver);
   white-space: nowrap;
 }
-@media (max-width: 720px) {
-  .tm-bar-inner { height: 48px; }
-  .tm-bar-receipt { letter-spacing: 0.12em; font-size: 10px; gap: 8px; }
-  .tm-bar-receipt span { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .tm-progress-fill { animation: none; transform: scaleX(1); }
+}
+@media (max-width: 560px) {
+  .tm-progress-inner { height: 42px; gap: 14px; }
+  .tm-progress-lab { letter-spacing: 0.16em; font-size: 9px; }
 }
 
 /* ---------------------------------------------------------------------
    HERO
-   Logo, one headline, one sentence, then faces. Nothing else.
+   Two beats, as few words as possible.
+
+   Beat one is the confirmation, and it is the whole top of the page: a
+   cyan badge, two words that tell them they were right, and the event
+   line. Nothing is asked for yet. This used to be a thin fixed bar at the
+   top of the window, which is not where a five-figure decision deserves
+   to be acknowledged.
+
+   Beat two is the pivot, behind a labelled rule so it reads as a separate
+   moment offered to them rather than a pitch tacked onto the receipt.
    --------------------------------------------------------------------- */
-.tm-hero { padding: 128px 0 96px; text-align: center; position: relative; }
+.tm-hero { padding: 104px 0 96px; text-align: center; position: relative; }
+
+/* Brand badge spec: cyan pill, dark text, fully rounded. */
+.tm-badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--bmc-cyan); color: var(--black);
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  padding: 9px 18px; border-radius: 99px;
+}
+.tm-badge svg { width: 13px; height: 13px; }
+
+.tm-meta {
+  margin-top: 24px; display: inline-flex; align-items: center;
+  flex-wrap: wrap; justify-content: center; gap: 0 18px;
+  font-family: 'Inter', sans-serif; font-weight: 500; font-size: 12px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver);
+}
+.tm-meta i { font-style: normal; display: inline-flex; align-items: center; gap: 18px; }
+.tm-meta i::after { content: ""; width: 1px; height: 12px; background: var(--rule-strong); }
+.tm-meta i:last-child::after { display: none; }
+@media (max-width: 640px) {
+  .tm-meta { flex-direction: column; gap: 8px; letter-spacing: 0.16em; }
+  .tm-meta i::after { display: none; }
+}
+
+/* Labelled rule. Marks the turn from "you are in" to "now, one thing". */
+.tm-divider {
+  display: flex; align-items: center; gap: 20px;
+  max-width: 560px; margin: 64px auto 0;
+}
+.tm-divider::before, .tm-divider::after {
+  content: ""; flex: 1; height: 1px; background: var(--rule-strong);
+}
+.tm-divider span {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  letter-spacing: 0.32em; text-transform: uppercase; color: var(--bmc-cyan);
+  white-space: nowrap;
+}
+@media (max-width: 640px) { .tm-divider { margin-top: 48px; gap: 12px; } .tm-divider span { letter-spacing: 0.2em; } }
+
+.tm-h2-hero {
+  font-family: 'Inter', sans-serif; font-weight: 900;
+  font-size: clamp(26px, 3.1vw, 46px); line-height: 1.04;
+  letter-spacing: -0.03em; text-transform: uppercase; color: var(--white);
+  margin: 32px auto 0; max-width: 22ch; text-wrap: balance;
+}
 .tm-hero-logo {
   width: 176px; height: auto; display: block; margin: 0 auto 34px;
   opacity: 0; animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -115,9 +175,9 @@ em {
 .tm-hero .eyebrow { justify-content: center; }
 .tm-h1 {
   font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: clamp(36px, 4.9vw, 76px); line-height: 0.98;
-  letter-spacing: -0.035em; text-transform: uppercase; color: var(--white);
-  margin: 26px auto 0; max-width: 20ch; text-wrap: balance;
+  font-size: clamp(52px, 7.6vw, 118px); line-height: 0.92;
+  letter-spacing: -0.045em; text-transform: uppercase; color: var(--white);
+  margin: 28px auto 0; max-width: 14ch; text-wrap: balance;
 }
 .tm-hero-sub {
   font-family: 'Inter', sans-serif; font-weight: 400;
@@ -126,7 +186,7 @@ em {
   text-wrap: pretty;
 }
 .tm-hero-sub strong { color: var(--white); font-weight: 700; }
-@media (max-width: 780px) { .tm-hero { padding: 112px 0 var(--section-pad-mobile); } }
+@media (max-width: 780px) { .tm-hero { padding: 84px 0 var(--section-pad-mobile); } }
 
 .tm-hero-cta { margin-top: 44px; }
 .tm-arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -218,7 +278,74 @@ em {
   color: var(--silver); max-width: 720px; margin-top: 26px; text-wrap: pretty;
 }
 .tm-lead strong { color: var(--white); font-weight: 700; }
-.tm-compare { margin-top: 44px; }
+
+/* ---------------------------------------------------------------------
+   THE TWO OUTCOMES
+   Was two plain bullet lists. Now a card pair, because the point is not
+   information, it is the feeling of the second card being the better
+   room to be in. Both are good outcomes: the left is what this member
+   already gets, stated generously; the right is the same three days with
+   their people in it, lifted with the brand's cyan surface, a cyan rule
+   under every line, and the only markers on the page.
+   --------------------------------------------------------------------- */
+.tm-vs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  margin-top: 48px; align-items: stretch;
+}
+.tm-vs-col {
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 40px 36px;
+  transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+.tm-vs-col:hover { transform: translateY(-3px); }
+.tm-vs-col--solo:hover { border-color: var(--rule-strong); }
+.tm-vs-col--together {
+  border-color: rgba(var(--bmc-cyan-rgb), 0.34);
+  background:
+    linear-gradient(180deg, rgba(var(--bmc-cyan-rgb), 0.07), rgba(var(--bmc-cyan-rgb), 0.02) 62%),
+    var(--surface-card);
+}
+.tm-vs-col--together:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.62); }
+
+.tm-vs-lab {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  letter-spacing: 0.34em; text-transform: uppercase; color: var(--grey-soft);
+  padding-bottom: 22px; margin-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+}
+.tm-vs-col--together .tm-vs-lab {
+  color: var(--bmc-cyan); border-bottom-color: rgba(var(--bmc-cyan-rgb), 0.28);
+}
+
+.tm-vs-col ul { list-style: none; margin: 0; padding: 0; }
+.tm-vs-col li {
+  font-family: 'Inter', sans-serif; font-weight: 400;
+  font-size: clamp(16px, 1.35vw, 19px); line-height: 1.45;
+  color: var(--silver);
+  padding: 20px 0 20px 30px; position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.tm-vs-col li:last-child { border-bottom: 0; padding-bottom: 4px; }
+.tm-vs-col li::before {
+  content: ""; position: absolute; left: 0; top: 30px;
+  width: 14px; height: 1px; background: var(--grey-soft);
+}
+.tm-vs-col--together li {
+  color: var(--white); font-weight: 500;
+  border-bottom-color: rgba(var(--bmc-cyan-rgb), 0.16);
+}
+/* The only checkmarks on the page, and they sit on one column only. */
+.tm-vs-col--together li::before {
+  content: ""; left: 1px; top: 24px;
+  width: 11px; height: 6px; background: none;
+  border-left: 1.6px solid var(--bmc-cyan); border-bottom: 1.6px solid var(--bmc-cyan);
+  transform: rotate(-45deg);
+}
+@media (max-width: 880px) {
+  .tm-vs { grid-template-columns: 1fr; gap: 14px; margin-top: 36px; }
+  .tm-vs-col { padding: 30px 24px; }
+}
 
 /* ---------------------------------------------------------------------
    THE OFFER
@@ -229,8 +356,18 @@ em {
    Paid in full sits underneath as the alternative, and that is where the
    $9,995 comparison belongs, next to the number it is actually
    comparable to. */
+/* The monthly figure leads, and every line is about what they keep. It is
+   the smallest true number on the page and the one that decides whether a
+   second or third seat feels possible. Both options carry their own
+   saving against the full seat rate ($895/mo or $9,995), so neither is
+   read as the expensive one. */
 .tm-price { margin-top: 34px; }
-.tm-price-row { display: flex; align-items: baseline; justify-content: center; }
+.tm-price-row { display: flex; align-items: baseline; justify-content: center; gap: 20px; }
+.tm-price-was {
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  font-size: clamp(22px, 2.2vw, 34px); letter-spacing: -0.02em; color: var(--grey);
+  text-decoration: line-through; text-decoration-thickness: 1px;
+}
 .tm-price-now {
   font-family: 'Inter', sans-serif; font-weight: 900;
   font-size: clamp(52px, 6.2vw, 86px); line-height: 1;
@@ -244,14 +381,22 @@ em {
   margin-top: 14px; font-family: 'Inter', sans-serif; font-weight: 700;
   font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--silver);
 }
+/* Brand badge spec: cyan pill, dark text, fully rounded. */
+.tm-price-save {
+  display: inline-block; margin-top: 20px;
+  background: var(--bmc-cyan); color: var(--black);
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 9px 18px; border-radius: 99px;
+}
 .tm-price-alt {
-  margin-top: 16px; font-family: 'Inter', sans-serif; font-weight: 400;
+  margin-top: 18px; font-family: 'Inter', sans-serif; font-weight: 400;
   font-size: 16px; color: var(--silver);
 }
 .tm-price-alt strong { color: var(--white); font-weight: 700; }
-.tm-price-was {
-  font-weight: 400; color: var(--grey);
-  text-decoration: line-through; text-decoration-thickness: 1px;
+@media (max-width: 560px) {
+  .tm-price-row { gap: 12px; }
+  .tm-price-save { letter-spacing: 0.14em; }
 }
 
 /* =====================================================================
@@ -427,16 +572,13 @@ em {
 
 <body>
 
-<!-- WELCOME BAR: the affirmation the live page never gives. -->
-<div class="tm-bar">
+<div class="tm-progress">
   <div class="container">
-    <div class="tm-bar-inner">
-      <div class="tm-bar-receipt">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-        You&rsquo;re In
-        <span>&middot;&nbsp; Your BMC seat is reserved</span>
+    <div class="tm-progress-inner">
+      <div class="tm-progress-track" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Enrollment progress">
+        <span class="tm-progress-fill"></span>
       </div>
-      <div class="tm-bar-step">Oct 19&ndash;21, 2026</div>
+      <div class="tm-progress-lab">One Step Left</div>
     </div>
   </div>
 </div>
@@ -450,11 +592,24 @@ em {
   <div class="container">
     <img class="tm-hero-logo" src="BMC_COLLECTIVE_logo_white.webp" alt="BMC|COLLECTIVE" width="176" height="50" fetchpriority="high" />
 
-    <div class="eyebrow eyebrow--center tm-in tm-in-1" style="display:flex;justify-content:center;"><span class="pip"></span>One More Good Decision</div>
+    <!-- Beat one: they were right, and we know they are in. -->
+    <div class="tm-badge tm-in tm-in-1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      You&rsquo;re In
+    </div>
 
-    <h1 class="tm-h1 tm-in tm-in-2">One Seat Changes You. Your Team Changes <em>Everything</em>.</h1>
+    <h1 class="tm-h1 tm-in tm-in-2">Smart <em>Move</em>.</h1>
 
-    <p class="tm-hero-sub tm-in tm-in-3"><strong>Your seat at Business Master Class is reserved.</strong> Here is the one move that makes it land faster: bring the people who will build it with you.</p>
+    <div class="tm-meta tm-in tm-in-3">
+      <i>Business Master Class</i>
+      <i>Oct 19&ndash;21, 2026</i>
+      <i>Your seat is reserved</i>
+    </div>
+
+    <!-- Beat two: the turn, behind a rule so it reads as its own moment. -->
+    <div class="tm-divider tm-in tm-in-4"><span>One Time, Right Now</span></div>
+
+    <p class="tm-h2-hero tm-in tm-in-4">One Seat Changes You. Your Team Changes <em>Everything</em>.</p>
 
     <!-- Faces before figures. -->
     <div class="tm-collage tm-in tm-in-4">
@@ -482,19 +637,19 @@ em {
   <div class="container">
     <div class="eyebrow reveal"><span class="pip"></span>The Multiplier</div>
     <h2 class="section-headline reveal">What Your Team <em>Walks Out With</em>.</h2>
-    <p class="tm-lead reveal">You are already going to walk out of that room with the playbook. <strong>Bring your people and they walk out holding it too.</strong></p>
+    <p class="tm-lead reveal">Members who compound fastest after Business Master Class have one thing in common. <strong>They did not come alone.</strong></p>
 
-    <div class="unfair-compare tm-compare reveal">
-      <div class="unfair-compare-col unfair-compare-col--without">
-        <div class="unfair-compare-label">What you walk out with</div>
+    <div class="tm-vs stagger">
+      <div class="tm-vs-col tm-vs-col--solo">
+        <div class="tm-vs-lab">You</div>
         <ul>
           <li>The full playbook, in your hands.</li>
           <li>A clear plan for your next twelve months.</li>
           <li>You, back at the office and ready to build.</li>
         </ul>
       </div>
-      <div class="unfair-compare-col unfair-compare-col--with">
-        <div class="unfair-compare-label">What you walk out with together</div>
+      <div class="tm-vs-col tm-vs-col--together">
+        <div class="tm-vs-lab">You and your people</div>
         <ul>
           <li>The full playbook, already in everyone&rsquo;s hands.</li>
           <li>A plan your team helped build in the room, so they own it.</li>
@@ -524,15 +679,17 @@ em {
      ===================================================================== -->
 <section class="tm-sec tm-sec--close section-divider tm-center" id="claim">
   <div class="container">
-    <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>Reserve Their Seats</div>
-    <h2 class="section-headline reveal">Who&rsquo;s Coming <em>With You</em>?</h2>
+    <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>No Names Needed</div>
+    <h2 class="section-headline reveal">Grab The Seats. <em>Name Them Later</em>.</h2>
 
     <div class="tm-price reveal">
       <div class="tm-price-row">
+        <span class="tm-price-was">$895</span>
         <span class="tm-price-now">$419<span class="tm-price-per">/mo</span></span>
       </div>
-      <div class="tm-price-lab">Per additional seat</div>
-      <div class="tm-price-alt">or <span class="tm-price-was">$9,995</span> <strong>$4,995</strong> per seat, paid in full</div>
+      <div class="tm-price-lab">Per additional seat, per month</div>
+      <div class="tm-price-save">Save $476 every month, on every seat</div>
+      <div class="tm-price-alt">or <strong>$4,995</strong> paid in full and save <strong>$5,000</strong> a seat</div>
     </div>
 
     <div class="tm-form-wrap reveal">
