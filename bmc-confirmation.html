@@ -45,6 +45,55 @@
 }
 .nobreak { white-space: nowrap; }
 
+/* ---------------------------------------------------------------------
+   PROGRESS BAR, COMPLETING
+   bmc-team.html pins the same bar at 85% reading "One Step Left". This is
+   the page that finishes it, so the fill starts where that page left it
+   and animates the last stretch closed on load. Without that the member is
+   left looking at a progress metaphor nobody ever resolved.
+   --------------------------------------------------------------------- */
+.conf-progress {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 70;
+  background: rgba(10, 10, 10, 0.94);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+.conf-progress-inner { display: flex; align-items: center; gap: 22px; height: 60px; }
+.conf-progress-brand { display: flex; align-items: center; flex: none; }
+.conf-progress-brand img { height: 26px; width: auto; display: block; }
+.conf-progress-track { flex: 1; height: 3px; border-radius: 99px; background: rgba(255, 255, 255, 0.10); overflow: hidden; }
+.conf-progress-fill {
+  display: block; height: 100%; width: 100%; border-radius: 99px;
+  background: var(--bmc-cyan);
+  transform-origin: left center; transform: scaleX(0.85);
+  animation: confComplete 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.45s;
+}
+@keyframes confComplete { to { transform: scaleX(1); } }
+.conf-progress-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none; }
+.conf-progress-lab {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--bmc-cyan);
+  white-space: nowrap;
+}
+.conf-progress-lab svg { width: 11px; height: 11px; }
+.conf-progress-cta {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver);
+  text-decoration: underline; text-underline-offset: 3px;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+  white-space: nowrap; transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.conf-progress-cta:hover { color: var(--white); text-decoration-color: var(--white); }
+@media (prefers-reduced-motion: reduce) { .conf-progress-fill { animation: none; transform: scaleX(1); } }
+@media (max-width: 560px) {
+  .conf-progress-inner { height: 52px; gap: 12px; }
+  .conf-progress-brand img { height: 20px; }
+  .conf-progress-lab { letter-spacing: 0.12em; font-size: 9px; }
+  .conf-progress-cta { letter-spacing: 0.1em; font-size: 9px; }
+}
+
 /* bmc.css sets weight/case/colour on .section-headline but no font-size :
    the sales page scopes a size onto every individual section. This page
    declares the default once, at the brand guide's section-heading scale. */
@@ -192,41 +241,55 @@
 }
 @media (max-width: 880px) { .conf-light { padding: var(--section-pad-mobile) 0; } }
 
-.move-list { margin-top: 72px; border-top: 1px solid var(--rule-dark); max-width: 1080px; }
-.move-item {
-  display: grid; grid-template-columns: 72px 1fr; gap: 32px;
-  padding: 34px 0; border-bottom: 1px solid var(--rule-dark);
+/* Three cards in a row rather than a stacked list. Stacked, the three
+   steps read as a long form to fill in; side by side they read as three
+   small, finishable things, which is the point of the section. */
+.move-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 72px; align-items: stretch;
 }
-/* Heading and its cost-in-seconds sit on one line, so the reader prices
-   the whole block before deciding whether to start it. */
-.move-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
-.move-head h3 { margin-bottom: 0; }
+.move-card {
+  display: flex; flex-direction: column;
+  background: var(--white); border: 1px solid var(--rule-dark);
+  border-radius: var(--radius); padding: 34px 30px 30px;
+  box-shadow: 0 2px 10px rgba(10, 10, 10, 0.04);
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.move-card:hover {
+  border-color: rgba(var(--bmc-plum-rgb), 0.55);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(10, 10, 10, 0.10);
+}
+.move-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
+.move-num {
+  font-family: 'Inter', sans-serif; font-weight: 900; font-size: 15px;
+  letter-spacing: 0.24em; color: var(--bmc-plum);
+}
 .move-time {
   font-family: 'Inter', sans-serif; font-weight: 700; font-size: 9px;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--bmc-plum);
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--bmc-plum);
   border: 1px solid rgba(var(--bmc-plum-rgb), 0.3); border-radius: 99px;
-  padding: 4px 10px; white-space: nowrap;
+  padding: 5px 11px; white-space: nowrap;
 }
-.move-num {
-  font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px;
-  letter-spacing: 0.24em; color: var(--bmc-plum); padding-top: 4px;
+.move-card h3 {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.2; text-transform: uppercase; color: var(--black);
+  letter-spacing: -0.01em; margin-bottom: 12px;
 }
-.move-item h3 {
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(18px, 1.6vw, 24px);
-  text-transform: uppercase; color: var(--black); letter-spacing: -0.005em; margin-bottom: 12px;
+.move-card p {
+  font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px;
+  line-height: 1.6; color: var(--muted);
 }
-.move-item p {
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(15px, 1.3vw, 18px);
-  line-height: 1.6; color: var(--muted); max-width: 720px;
-}
-.move-item p + p { margin-top: 12px; }
-/* Fine-print / instruction links keep the paragraph's own grey: underline
-   only, never an accent colour. */
-.move-item p a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-.move-item p a:hover { color: var(--black); }
-/* An address the reader must copy is set apart by weight, not by colour. */
+/* Every card's action sits on the same baseline no matter how much copy
+   sits above it. */
+.move-action { margin-top: auto; padding-top: 24px; }
+.move-card p a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.move-card p a:hover { color: var(--black); }
 .move-mail { font-weight: 700; color: var(--black); white-space: nowrap; }
-@media (max-width: 880px) { .move-item { grid-template-columns: 1fr; gap: 10px; padding: 32px 0; } }
+@media (max-width: 980px) {
+  .move-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 56px; }
+  .move-action { padding-top: 20px; }
+}
 
 /* Ghost CTA on a light surface: plum outline, fills plum on hover. */
 .btn-ghost-light {
@@ -241,81 +304,40 @@
 
 /* Calendar row: the six AddEvent destinations, as brand chips instead of
    AddEvent's stock icon strip. */
-.cal-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.cal-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .cal-chip {
   display: inline-flex; align-items: center; gap: 9px;
   border: 1px solid var(--rule-dark-strong); border-radius: var(--radius);
   background: transparent; color: var(--black); text-decoration: none;
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
-  letter-spacing: 0.18em; text-transform: uppercase; padding: 12px 16px;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 9px;
+  letter-spacing: 0.12em; text-transform: uppercase; padding: 9px 11px;
   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 .cal-chip:hover { border-color: var(--bmc-plum); background: var(--white); transform: translateY(-2px); }
-.cal-chip img { height: 18px; width: auto; flex: none; display: block; }
+.cal-chip img { height: 15px; width: auto; flex: none; display: block; }
 @media (prefers-reduced-motion: reduce) { .cal-chip:hover { transform: none; } }
-
-/* ---------------------------------------------------------------------
-   BRING YOUR TEAM
-   --------------------------------------------------------------------- */
-/* Real member photography: the same shots used on bmc-rooms.html. People
-   respond to people; the argument for bringing your team lands harder next
-   to members who actually did it. */
-.together-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 80px; }
-.together-shot {
-  position: relative; aspect-ratio: 4 / 3; overflow: hidden;
-  border: 1px solid var(--rule); border-radius: var(--radius);
-  transition: border-color 0.3s ease, transform 0.3s ease;
-}
-.together-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
-/* The same bottom scrim the testimonial cards carry, so member snapshots
-   sit inside the brand instead of on top of it. */
-.together-shot::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to bottom, transparent 58%, rgba(10, 10, 14, 0.5));
-}
-.together-shot:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.40); transform: translateY(-3px); }
-.together-caption {
-  margin-top: 20px; font-family: 'Inter', sans-serif; font-weight: 500;
-  font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--grey); display: inline-flex; align-items: center; gap: 14px;
-}
-.together-caption .pip { display: inline-block; width: 24px; height: 1px; background: var(--grey); }
-@media (max-width: 880px) {
-  .together-strip { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 56px; }
-  .together-caption { letter-spacing: 0.18em; }
-}
-
-/* Member quotes reuse the sales page's .t-quote card wholesale: it is
-   already a dark card, so only the grid wrapper is new here. */
-.team-quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 40px; }
-@media (max-width: 980px) { .team-quotes { grid-template-columns: 1fr; gap: 18px; } }
-
-.team-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 72px; align-items: center; }
-.team-body p {
-  font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(16px, 1.35vw, 19px);
-  line-height: 1.7; color: var(--silver);
-}
-.team-body p + p { margin-top: 18px; }
-.team-card { background: var(--surface-card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 44px 40px; transition: border-color 0.25s ease; }
-.team-card:hover { border-color: var(--rule-cyan); }
-.team-card-lab {
-  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
-  letter-spacing: 0.24em; text-transform: uppercase; color: var(--grey); margin-bottom: 20px;
-}
-.team-card-head {
-  font-family: 'Inter', sans-serif; font-weight: 900;
-  font-size: clamp(26px, 2.6vw, 36px); line-height: 1.05; letter-spacing: -0.03em;
-  color: var(--white); text-transform: uppercase;
-}
-.team-card-body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; line-height: 1.6; color: var(--silver); }
-.team-card .act-link { display: flex; }
-.team-rule { height: 1px; background: var(--rule); margin: 28px 0; }
-@media (max-width: 980px) { .team-grid { grid-template-columns: 1fr; gap: 44px; } }
 
 /* ---------------------------------------------------------------------
    FINAL BAND
    --------------------------------------------------------------------- */
 .conf-final { background: var(--black); padding: 200px 0; text-align: center; }
+/* The headline is literal: this is the wall, and the faces on it are
+   members. It sits above the words so the room is the first thing read,
+   with the lower edge fading into the section so it reads as part of the
+   page rather than a pasted-in photograph. */
+.bigscreen {
+  position: relative; max-width: 1100px; margin: 0 auto 64px;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius);
+  overflow: hidden; line-height: 0;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.55);
+}
+.bigscreen img { width: 100%; height: auto; display: block; }
+.bigscreen::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom, transparent 62%, rgba(10, 10, 10, 0.75));
+}
+@media (max-width: 880px) { .bigscreen { margin-bottom: 42px; } }
+
 .conf-final-headline {
   font-family: 'Inter', sans-serif; font-weight: 900;
   font-size: clamp(40px, 5.6vw, 86px); line-height: 1.0; letter-spacing: -0.035em;
@@ -344,23 +366,28 @@
 
 <!-- =====================================================================
      STICKY BAR
-     Same component as the sales page, one deliberate change: the CTA is no
-     longer "Reserve Your Seat". They reserved. It now points at the thing
-     they just enrolled in and can use in the next ten seconds.
+     No section links: there is one thing to do on this page and the bar
+     says it. bmc.css centres a nav in the middle column, so with the nav
+     gone the grid drops to logo + CTA.
      ===================================================================== -->
-<div class="sticky-bar" role="banner">
-  <a href="#top" class="sticky-brand" aria-label="BMC COLLECTIVE">
-    <img src="BMC_COLLECTIVE_logo_white_310.webp" alt="BMC|COLLECTIVE" width="310" height="60" decoding="async" />
-  </a>
-  <div class="sticky-nav" role="navigation" aria-label="Page sections">
-    <a href="#activated">What&rsquo;s Live</a>
-    <a href="#next">Next Moves</a>
-    <a href="#team">Your Team</a>
+<div class="conf-progress" role="banner">
+  <div class="container">
+    <div class="conf-progress-inner">
+      <a href="#top" class="conf-progress-brand" aria-label="BMC COLLECTIVE">
+        <img src="BMC_COLLECTIVE_logo_white_310.webp" alt="BMC|COLLECTIVE" width="310" height="60" fetchpriority="high" decoding="async" />
+      </a>
+      <div class="conf-progress-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Enrollment progress: complete">
+        <span class="conf-progress-fill"></span>
+      </div>
+      <div class="conf-progress-right">
+        <div class="conf-progress-lab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Complete
+        </div>
+        <a class="conf-progress-cta" href="https://hardyclub.darrenhardy.com/">Enter The Collective &rarr;</a>
+      </div>
+    </div>
   </div>
-  <a href="https://hardyclub.darrenhardy.com/" class="sticky-cta">
-    <span class="cta-desk">Enter The Collective &rarr;</span>
-    <span class="cta-mobile">Enter &rarr;</span>
-  </a>
 </div>
 
 <main id="top">
@@ -569,9 +596,9 @@
 
 <!-- =====================================================================
      LAYER 5: THREE QUICK THINGS  (light surface, plum accent)
-     The old page scattered these across two duplicated card decks and
-     buried them in paragraphs. One line each now, with a time badge on
-     every step, so the block reads as easy before a word of it is read.
+     Three cards in a row, not a stacked list. Stacked, these read as a form
+     to work through; side by side they read as three small finishable
+     things, each priced in seconds.
      ===================================================================== -->
 <section class="conf-light" id="next">
   <div class="container">
@@ -579,46 +606,47 @@
     <h2 class="section-headline reveal">Three Quick <em class="key">Things</em>.</h2>
     <p class="section-sub reveal">Do them now while the page is open, and you are completely set for October.</p>
 
-    <div class="move-list stagger">
+    <div class="move-grid stagger">
 
-      <div class="move-item">
-        <div class="move-num">01</div>
-        <div>
-          <div class="move-head">
-            <h3>Add BMC To Your Calendar</h3>
-            <span class="move-time">30 seconds</span>
-          </div>
-          <p>Monday to Wednesday, October 19&ndash;21. Add Thursday and Friday too, and you will have time to build your action plan while everything is still fresh.</p>
+      <div class="move-card">
+        <div class="move-card-top">
+          <span class="move-num">01</span>
+          <span class="move-time">30 seconds</span>
+        </div>
+        <h3>Add BMC To Your Calendar</h3>
+        <p>Monday to Wednesday, October 19&ndash;21. Add Thursday and Friday too, and you will have time to build your action plan while it is fresh.</p>
+        <div class="move-action">
           <div class="cal-row">
-            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+google" target="_blank" rel="noopener"><img src="cal-icons/google.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Google</a>
-            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+apple" target="_blank" rel="noopener"><img src="cal-icons/apple.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Apple</a>
-            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+outlook" target="_blank" rel="noopener"><img src="cal-icons/outlook.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Outlook</a>
-            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+office365" target="_blank" rel="noopener"><img src="cal-icons/office365.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Office 365</a>
-            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+outlookcom" target="_blank" rel="noopener"><img src="cal-icons/outlookcom.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Outlook.com</a>
-            <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+yahoo" target="_blank" rel="noopener"><img src="cal-icons/yahoo.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Yahoo</a>
+              <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+google" target="_blank" rel="noopener"><img src="cal-icons/google.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Google</a>
+              <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+apple" target="_blank" rel="noopener"><img src="cal-icons/apple.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Apple</a>
+              <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+outlook" target="_blank" rel="noopener"><img src="cal-icons/outlook.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Outlook</a>
+              <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+office365" target="_blank" rel="noopener"><img src="cal-icons/office365.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Office 365</a>
+              <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+outlookcom" target="_blank" rel="noopener"><img src="cal-icons/outlookcom.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Outlook.com</a>
+              <a class="cal-chip" href="https://www.addevent.com/event/x2m3gcjkdxk9+yahoo" target="_blank" rel="noopener"><img src="cal-icons/yahoo.webp" alt="" width="38" height="40" loading="lazy" decoding="async" />Yahoo</a>
           </div>
         </div>
       </div>
 
-      <div class="move-item">
-        <div class="move-num">02</div>
-        <div>
-          <div class="move-head">
-            <h3>Save Darren&rsquo;s Email Address</h3>
-            <span class="move-time">30 seconds</span>
-          </div>
-          <p>Add <span class="move-mail">Darren@DarrenHardy.com</span> to your contacts, so your access links and pre-work land straight in your inbox. <a href="https://helpme.darrenhardy.com/hc/en-us/articles/360004901511-How-do-I-make-sure-I-receive-Darren-s-emails" target="_blank" rel="noopener">Instructions for your mail app</a>.</p>
+      <div class="move-card">
+        <div class="move-card-top">
+          <span class="move-num">02</span>
+          <span class="move-time">30 seconds</span>
+        </div>
+        <h3>Save Darren&rsquo;s Email Address</h3>
+        <p>Add <span class="move-mail">Darren@DarrenHardy.com</span> to your contacts, so your access links and pre-work land straight in your inbox.</p>
+        <div class="move-action">
+          <a class="btn-ghost-light" href="https://helpme.darrenhardy.com/hc/en-us/articles/360004901511-How-do-I-make-sure-I-receive-Darren-s-emails" target="_blank" rel="noopener">How To Whitelist &rarr;</a>
         </div>
       </div>
 
-      <div class="move-item">
-        <div class="move-num">03</div>
-        <div>
-          <div class="move-head">
-            <h3>Grab Your Pre-Event Checklist</h3>
-            <span class="move-time">1 minute</span>
-          </div>
-          <p>What to prepare and what numbers to bring, so you arrive ready to build.</p>
+      <div class="move-card">
+        <div class="move-card-top">
+          <span class="move-num">03</span>
+          <span class="move-time">1 minute</span>
+        </div>
+        <h3>Grab Your Pre-Event Checklist</h3>
+        <p>What to prepare and what numbers to bring, so you arrive ready to build.</p>
+        <div class="move-action">
           <a class="btn-ghost-light" href="https://darrenhardy.com/resources/business-master-class/BMC_PreEventChecklist.pdf" target="_blank" rel="noopener">Download The Checklist &darr;</a>
         </div>
       </div>
@@ -628,101 +656,17 @@
 </section>
 
 <!-- =====================================================================
-     LAYER 6: BRING YOUR PEOPLE
-     Framed as a multiplier on a decision already made, never as something
-     missing from it. No price here on purpose: bmc-team.html makes the
-     team-seat offer one screen earlier, so a second, higher number on this
-     page would undercut it. The concierge carries it instead.
-     ===================================================================== -->
-<section class="section-dark section-divider bmc-wash" id="team">
-  <div class="container">
-    <div class="team-grid">
-      <div class="team-body">
-        <div class="eyebrow reveal"><span class="pip"></span>The Multiplier</div>
-        <h2 class="section-headline reveal" style="margin-bottom:32px;">Bring Your <em class="key">People</em>.</h2>
-        <div class="stagger">
-          <p>One seat changes you. The members who compound fastest bring their key players with them, so the whole team hears the same thing, in the same room, at the same time.</p>
-          <p>Then everyone walks back into the business on Thursday speaking the same language, ready to build the same thing.</p>
-          <p>Your right hand. Your head of sales. Your operator. Whoever turns a strategy into a shipped thing.</p>
-        </div>
-      </div>
-
-      <div class="team-card reveal reveal-right">
-        <div class="team-card-lab">Seats For Your Team</div>
-        <h3 class="team-card-head">Your concierge<br/>handles it.</h3>
-        <div class="team-rule"></div>
-        <p class="team-card-body">One conversation is all it takes to add your people to the same three days you are on. Tell them who you want in the room and they will take it from there.</p>
-        <a class="act-link" href="https://meetings.hubspot.com/mx-team/experience" style="margin-top:26px;">Talk To Your Concierge &rarr;</a>
-        <a class="act-link" href="mailto:HelpMe@DarrenHardy.com?subject=Adding%20team%20seats%20for%20Business%20Master%20Class" style="margin-top:14px;">Or Email The Team &rarr;</a>
-      </div>
-    </div>
-
-    <!-- Real member photography (the same shots as bmc-rooms.html) -->
-    <div class="together-strip stagger">
-      <div class="together-shot"><img src="room-photos/room-02-614.webp" srcset="room-photos/room-02-340.webp 340w, room-photos/room-02-614.webp 614w" sizes="(max-width: 880px) 45vw, 307px" alt="Members watching Business Master Class together in one room" width="614" height="460" loading="lazy" decoding="async" /></div>
-      <div class="together-shot"><img src="room-photos/room-03-614.webp" srcset="room-photos/room-03-340.webp 340w, room-photos/room-03-614.webp 614w" sizes="(max-width: 880px) 45vw, 307px" alt="Members working through the Business Master Class material together" width="614" height="460" loading="lazy" decoding="async" /></div>
-      <div class="together-shot"><img src="room-photos/room-01-614.webp" srcset="room-photos/room-01-340.webp 340w, room-photos/room-01-614.webp 614w" sizes="(max-width: 880px) 45vw, 307px" alt="Members debriefing over dinner after a day of Business Master Class" width="614" height="460" loading="lazy" decoding="async" /></div>
-      <div class="together-shot"><img src="room-photos/room-05-614.webp" srcset="room-photos/room-05-340.webp 340w, room-photos/room-05-614.webp 614w" sizes="(max-width: 880px) 45vw, 307px" alt="Members meeting up before the day&rsquo;s sessions" width="614" height="460" loading="lazy" decoding="async" /></div>
-    </div>
-    <div class="together-caption reveal"><span class="pip"></span>Members who brought their people</div>
-
-    <!-- Real member quotes, carried over from the sales page verbatim -->
-    <div class="team-quotes stagger">
-
-      <div class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="jeannie_henderson.webp" alt="Jeannie Henderson" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Services</span>
-        </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;Strategies I learned at BMC have <strong>kept turnover 200% below my competitors.</strong>&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <span class="t-quote-name">Jeannie Henderson</span>
-            <span class="t-quote-title">Founder &amp; CEO &middot; Jeannie Cleaning</span>
-          </div></div>
-        </div>
-      </div>
-
-      <div class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="maria_oliver.webp" alt="Maria Oliver" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Wellness</span>
-        </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;We&rsquo;ve tracked a <strong>50% increase in our business in just 3 weeks</strong> after each BMC. We can&rsquo;t afford not to go!&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <span class="t-quote-name">Maria Oliver</span>
-            <span class="t-quote-title">Co-Founder &middot; Confident Wellness</span>
-          </div></div>
-        </div>
-      </div>
-
-      <div class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="mike_keesee.webp" alt="Mike Keesee" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Consulting</span>
-        </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;We <strong>doubled our valuation</strong> by using what I learned from the Business Master Class.&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <span class="t-quote-name">Mike Keesee</span>
-            <span class="t-quote-title">CEO &middot; Total Solutions Group</span>
-          </div></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- =====================================================================
-     LAYER 7: FINAL
+     LAYER 6: FINAL
      ===================================================================== -->
 <section class="conf-final bmc-wash bmc-wash--center">
   <div class="container">
+    <figure class="bigscreen reveal reveal-scale">
+      <img src="bmc-bigscreen-1600.webp"
+           srcset="bmc-bigscreen-800.webp 800w, bmc-bigscreen-1600.webp 1600w"
+           sizes="(max-width: 880px) 92vw, 1100px"
+           alt="Darren Hardy on stage pointing at the Business Master Class member wall, hundreds of members live on screen behind him"
+           width="1600" height="900" loading="lazy" decoding="async" />
+    </figure>
     <div class="eyebrow eyebrow--center reveal" style="display:flex;justify-content:center;"><span class="pip"></span>See You In October</div>
     <h2 class="conf-final-headline reveal">See You On The <em class="key">Big Screen</em>.</h2>
     <div class="conf-final-body stagger">
