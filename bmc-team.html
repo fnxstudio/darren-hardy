@@ -60,7 +60,7 @@ em {
 /* Section rhythm. Tighter than the sales page on purpose: this is three
    short beats, not a long read. */
 .tm-sec { padding: 116px 0; background: var(--black); }
-.tm-sec--close { --tm-teal: #0e8fa3; --tm-teal-rgb: 14, 143, 163; padding: 128px 0 60px; background: var(--white); }
+.tm-sec--close { padding: 128px 0 60px; background: var(--white); }
 @media (max-width: 880px) {
   .tm-sec { padding: var(--section-pad-mobile) 0; }
   .tm-sec--close { padding: var(--section-pad-mobile) 0 32px; }
@@ -76,12 +76,11 @@ em {
    rhythm, not of palette. Every value below comes from bmc.css, and on a
    light ground the accent re-hues to plum. Cyan never appears on bone.
    --------------------------------------------------------------------- */
-/* On light the brand allows plum or deep teal. Teal is used here: plum
-   goes muddy against bone at these small sizes and the "together" card
-   needs to be the brightest thing in the section, not the quietest. */
-.tm-sec--light { --tm-teal: #0e8fa3; --tm-teal-rgb: 14, 143, 163; background: var(--bone); padding: 132px 0; }
+/* Plum is the brand's light-ground accent. Cyan and teal are dark-ground
+   only and never appear on bone or white. */
+.tm-sec--light { background: var(--bone); padding: 132px 0; }
 .tm-sec--light .section-headline { color: var(--black); }
-.tm-sec--light em { color: var(--tm-teal); }
+.tm-sec--light em { color: var(--bmc-plum); }
 .tm-sec--light .eyebrow { color: var(--grey-soft); }
 .tm-sec--light .eyebrow .pip { background: var(--grey-soft); }
 .tm-sec--light .tm-lead { color: var(--muted); }
@@ -98,19 +97,22 @@ em {
 .tm-sec--light .tm-vs-lab { color: var(--grey-soft); border-bottom-color: var(--rule-dark); }
 .tm-sec--light .tm-vs-col li { color: var(--muted); border-bottom-color: var(--rule-dark); }
 .tm-sec--light .tm-vs-col li::before { background: var(--grey-soft); }
+/* The winning column is a dark card dropped into the bone section.
+   Contrast does the work a tint could not: a plum wash on white went
+   muddy at this size, and teal is not a colour this brand puts on white.
+   Going dark also puts the accent back where the guide allows it, so the
+   label and the marks can be cyan. */
 .tm-sec--light .tm-vs-col--together {
-  border-color: rgba(var(--tm-teal-rgb), 0.55); border-width: 1.5px;
-  background:
-    linear-gradient(180deg, rgba(var(--tm-teal-rgb), 0.13), rgba(var(--tm-teal-rgb), 0.03) 66%),
-    var(--white);
+  background: var(--black); border-color: var(--black);
+  box-shadow: 0 18px 44px -24px rgba(10, 10, 10, 0.55);
 }
-.tm-sec--light .tm-vs-col--together:hover { border-color: var(--tm-teal); }
+.tm-sec--light .tm-vs-col--together:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.55); }
 .tm-sec--light .tm-vs-col--together .tm-vs-lab {
-  color: var(--tm-teal); border-bottom-color: rgba(var(--tm-teal-rgb), 0.34);
+  color: var(--bmc-cyan); border-bottom-color: rgba(var(--bmc-cyan-rgb), 0.28);
 }
-.tm-sec--light .tm-vs-col--together li { color: var(--black); border-bottom-color: rgba(var(--tm-teal-rgb), 0.20); }
+.tm-sec--light .tm-vs-col--together li { color: var(--white); border-bottom-color: var(--rule); }
 .tm-sec--light .tm-vs-col--together li::before {
-  background: none; border-left-color: var(--tm-teal); border-bottom-color: var(--tm-teal);
+  background: none; border-left-color: var(--bmc-cyan); border-bottom-color: var(--bmc-cyan);
   border-left-width: 2px; border-bottom-width: 2px;
 }
 
@@ -119,8 +121,8 @@ em {
 .tm-sec--light .tm-shot::after, .tm-sec--light .tm-band::after {
   background: linear-gradient(to bottom, transparent 68%, rgba(10, 10, 14, 0.28));
 }
-.tm-sec--light .tm-shot:hover { border-color: rgba(var(--tm-teal-rgb), 0.55); }
-.tm-sec--light .tm-band:hover { border-color: rgba(var(--tm-teal-rgb), 0.55); }
+.tm-sec--light .tm-shot:hover { border-color: rgba(var(--bmc-plum-rgb), 0.55); }
+.tm-sec--light .tm-band:hover { border-color: rgba(var(--bmc-plum-rgb), 0.55); }
 
 /* ---------------------------------------------------------------------
    PROGRESS
@@ -462,8 +464,8 @@ em {
 .tm-price-tag {
   display: inline-block;
   font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
-  letter-spacing: 0.32em; text-transform: uppercase; color: var(--tm-teal);
-  border: 1px solid rgba(var(--tm-teal-rgb), 0.4); border-radius: 99px;
+  letter-spacing: 0.32em; text-transform: uppercase; color: var(--bmc-plum);
+  border: 1px solid rgba(var(--bmc-plum-rgb), 0.4); border-radius: 99px;
   padding: 8px 16px; margin-bottom: 24px;
 }
 .tm-price-row { display: flex; align-items: baseline; justify-content: center; gap: 16px; }
@@ -487,7 +489,7 @@ em {
 }
 .tm-price-save {
   display: inline-block; margin-top: 18px;
-  background: var(--tm-teal); color: var(--white);
+  background: var(--bmc-plum); color: var(--white);
   font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
   letter-spacing: 0.18em; text-transform: uppercase;
   padding: 9px 18px; border-radius: 99px;
@@ -678,10 +680,10 @@ em {
 .tm-sec--close .tm-form-shell {
   background: var(--bone); border-color: var(--rule-dark);
 }
-.tm-sec--close .tm-form-shell:focus-within { border-color: rgba(var(--tm-teal-rgb), 0.5); }
+.tm-sec--close .tm-form-shell:focus-within { border-color: rgba(var(--bmc-plum-rgb), 0.5); }
 .tm-sec--close .tm-form-loading { color: var(--grey-soft); }
 .tm-sec--close .tm-form-shell .hs-form-field > label { color: var(--grey-soft) !important; }
-.tm-sec--close .tm-form-shell .hs-form-required { color: var(--tm-teal); }
+.tm-sec--close .tm-form-shell .hs-form-required { color: var(--bmc-plum); }
 
 .tm-sec--close .tm-form-shell .hs-input:not([type="radio"]):not([type="checkbox"]) {
   background: var(--white) !important;
@@ -690,9 +692,9 @@ em {
 }
 .tm-sec--close .tm-form-shell .hs-input::placeholder { color: var(--grey); }
 .tm-sec--close .tm-form-shell .hs-input:focus {
-  border-color: var(--tm-teal) !important;
+  border-color: var(--bmc-plum) !important;
   background: var(--white) !important;
-  box-shadow: 0 0 0 3px rgba(var(--tm-teal-rgb), 0.16);
+  box-shadow: 0 0 0 3px rgba(var(--bmc-plum-rgb), 0.16);
 }
 .tm-sec--close .tm-form-shell select.hs-input {
   background-image:
@@ -706,14 +708,14 @@ em {
   background: var(--white); border-color: var(--rule-dark-strong);
   color: var(--muted) !important;
 }
-.tm-sec--close .tm-form-shell .hs-form-radio label:hover { border-color: rgba(var(--tm-teal-rgb), 0.5); color: var(--black) !important; }
+.tm-sec--close .tm-form-shell .hs-form-radio label:hover { border-color: rgba(var(--bmc-plum-rgb), 0.5); color: var(--black) !important; }
 .tm-sec--close .tm-form-shell .hs-form-radio input[type="radio"] { border-color: var(--grey); }
 .tm-sec--close .tm-form-shell .hs-form-radio input[type="radio"]:checked {
-  border-color: var(--tm-teal); box-shadow: inset 0 0 0 4px var(--tm-teal);
+  border-color: var(--bmc-plum); box-shadow: inset 0 0 0 4px var(--bmc-plum);
 }
 .tm-sec--close .tm-form-shell .hs-form-radio label:has(input:checked) {
-  border-color: var(--tm-teal); color: var(--black) !important;
-  background: rgba(var(--tm-teal-rgb), 0.07);
+  border-color: var(--bmc-plum); color: var(--black) !important;
+  background: rgba(var(--bmc-plum-rgb), 0.07);
 }
 .tm-sec--close .tm-form-shell .hs-richtext { color: var(--grey-soft); }
 .tm-sec--close .tm-form-shell .hs-richtext em { color: var(--grey-soft); }
@@ -724,8 +726,8 @@ em {
   border-color: var(--black) !important;
 }
 .tm-sec--close .tm-form-shell .hs-button:hover {
-  background: transparent !important; color: var(--tm-teal) !important;
-  border-color: var(--tm-teal) !important;
+  background: transparent !important; color: var(--bmc-plum) !important;
+  border-color: var(--bmc-plum) !important;
 }
 .tm-sec--close .tm-form-shell .hs-error-msg,
 .tm-sec--close .tm-form-shell .hs-error-msgs label { color: #c0392b !important; }
@@ -733,7 +735,7 @@ em {
 
 /* Section furniture on white */
 .tm-sec--close .section-headline { color: var(--black); }
-.tm-sec--close em { color: var(--tm-teal); }
+.tm-sec--close em { color: var(--bmc-plum); }
 .tm-sec--close .eyebrow { color: var(--grey-soft); }
 .tm-sec--close .eyebrow .pip { background: var(--grey-soft); }
 
@@ -948,6 +950,15 @@ em {
   };
   var FORM_NOTE = '**We will bill your card on file used to make your original BMC seat purchase.';
 
+  // The two options ship from HubSpot phrased differently: one uses
+  // parentheses and "each", the other spells out a sentence and wraps
+  // onto a second line, which makes the pair read as two unrelated
+  // choices. Same shape, same unit, both short enough for one line.
+  var OPTIONS = {
+    'Prepay': 'Prepay ($4,995 each)',
+    '12 Installments': '12 Payments ($419 each)'
+  };
+
   function relabel() {
     Object.keys(LABELS).forEach(function (name) {
       var field = document.querySelector('#claim .hs_' + name);
@@ -956,6 +967,13 @@ em {
       // so only the first span is rewritten and the asterisk survives.
       var span = field.querySelector('label > span:not(.hs-form-required)');
       if (span) span.textContent = LABELS[name];
+    });
+
+    Object.keys(OPTIONS).forEach(function (value) {
+      var input = document.querySelector('#claim input[name="payment_option"][value="' + value + '"]');
+      if (!input) return;
+      var span = input.parentNode && input.parentNode.querySelector('span');
+      if (span) span.textContent = OPTIONS[value];
     });
 
     var note = document.querySelector('#claim .hs-richtext');
