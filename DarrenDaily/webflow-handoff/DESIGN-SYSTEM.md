@@ -121,6 +121,22 @@ Deliberately **not** ported: the template's flat `<a>` link stack (the component
 is expressible as a Designer class, a pseudo-element is not). Its social icons were also left
 off — they were styled structurally from custom code, which is the exact pattern being retired.
 
+## The hero / video / cue system is shared (dd-*)
+
+When the 404 rebuild started, its hero turned out to be **26 of 28 CSS rules byte-identical** to
+Welcome's — same full-bleed blurred background, same click-to-mount video facade, same scroll
+cue. Only two values differed (`lead` max-width 600 vs 780, `cue-text` 340 vs 360).
+
+So those classes were **promoted from `wel-*` to `dd-*`** rather than duplicated:
+`dd-hero`, `dd-hero-bg`, `dd-hero-scrim`, `dd-hero-inner`, `dd-hero-h1`, `dd-hero-lead`,
+`dd-hero-lead-b`, `dd-video`, `dd-video-poster`, `dd-video-scrim`, `dd-video-play`,
+`dd-video-play-icon`, `dd-video-chip`, `dd-cue`, `dd-cue-text`, `dd-cue-text-b`,
+`dd-cue-arrow`, `dd-cue-arrow-icon`.
+
+This is the convention's promotion rule in action: page-prefixed until a second page needs it,
+then `dd-`. **Renaming a class breaks any embed that references it** — Welcome's embed selectors
+and its video-facade `querySelector` had to be updated in the same pass.
+
 ## Slim footer IS the full footer's bottom row
 
 They are not two designs. `dd-footer-slim` is only the dark band; the row inside it is the
