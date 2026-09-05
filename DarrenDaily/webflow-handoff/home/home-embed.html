@@ -1,0 +1,265 @@
+<style>
+/* ---- Home page. Shared systems are dd-* (nav, container, buttons, eyebrows,
+   Vantage/intro + seals, footer); page-only sections are home-*. Only keyframes,
+   pseudo-elements, parent-state selectors, sibling selectors, vendor-prefixed
+   properties and the exact 980/900/880/860/760/720/600/560/520/480 breakpoints
+   live here. Everything else is native and Designer-editable. ---- */
+
+@keyframes revealUp { to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { to { opacity:1; } }
+@keyframes scrollBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+@keyframes ddBtnPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+@keyframes ddRingPulse { 0%{box-shadow:0 0 0 0 rgba(167,38,50,0.5)} 70%{box-shadow:0 0 0 26px rgba(167,38,50,0)} 100%{box-shadow:0 0 0 0 rgba(167,38,50,0)} }
+@keyframes ddCtaShimmer { 0%{left:-80%;opacity:1} 38%{left:110%;opacity:1} 39%{opacity:0} 100%{left:110%;opacity:0} }
+@keyframes lbFade { from{opacity:0} to{opacity:1} }
+@keyframes lbRise { from{opacity:0;transform:translateY(14px) scale(.98)} to{opacity:1;transform:none} }
+
+/* Button shimmer + arrow travel */
+.dd-page .dd-btn::after{content:"";position:absolute;top:0;left:-80%;width:60%;height:100%;z-index:2;pointer-events:none;background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.28) 50%,transparent 80%);animation:ddCtaShimmer 4s ease-in-out infinite}
+.dd-page .dd-btn:hover::after{opacity:0}
+.dd-btn:hover .dd-btn-arrow,.dd-btn-line:hover .dd-btn-arrow{transform:translateX(4px)}
+
+/* Hero entrance */
+.dd-js .home-hero .dd-eyebrow,.dd-js .home-hero-h1,.dd-js .home-hero-sub,.dd-js .home-hero-actions{opacity:0;transform:translateY(14px);animation:revealUp .7s cubic-bezier(0.16,1,0.3,1) forwards}
+.dd-js .home-hero .dd-eyebrow{animation-delay:.15s}
+.dd-js .home-hero-h1{animation-delay:.3s}
+.dd-js .home-hero-sub{animation-delay:.45s}
+.dd-js .home-hero-actions{animation-delay:.6s}
+.dd-js .home-scroll-cue{opacity:0;animation:fadeIn 1s ease forwards;animation-delay:2.5s}
+.home-scroll-cue-icon{animation:scrollBob 2.2s ease-in-out infinite}
+
+/* Numbers: adjacent-sibling divider */
+.home-numbers-grid .home-nstat + .home-nstat{border-left:1px solid rgba(255,255,255,0.18)}
+
+/* Featured logos */
+.home-flogo:hover{opacity:0.85}
+
+/* Filter box markers */
+.home-feyebrow::before{content:"";width:28px;height:3px;flex-shrink:0}
+.home-feyebrow-noise::before{background:#616a78}
+.home-feyebrow-signal::before{background:#a72632}
+.home-fbox-item::before{content:"";position:absolute;left:0;top:10px;width:12px;height:2px;background:#616a78}
+.home-fbox-item-signal::before{background:#a72632}
+
+/* Spine: Webflow SILENTLY DROPS -webkit-text-stroke, the only way to draw the
+   outlined numerals. Without it they inherit color:transparent and vanish. */
+.home-spine-n{-webkit-text-stroke:1.5px rgba(20,23,28,0.16);transition:-webkit-text-stroke-color .45s ease}
+.home-spine-row.lit .home-spine-n{-webkit-text-stroke-color:rgba(167,38,50,0.7)}
+.home-spine-row::before{content:"";position:absolute;top:-35px;left:5px;transform:translate(-50%,-50%);width:11px;height:11px;border:2px solid rgba(20,23,28,0.3);background:#f3f5f8;z-index:2}
+.home-spine-row.lit::before{border-color:#a72632}
+
+/* Ritual */
+.home-rd-step{clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%)}
+
+/* Testimonials */
+.home-tw::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(167,38,50,0.07),transparent 62%)}
+.home-tphoto::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,transparent 72%,#000 100%)}
+.home-tbody::before{content:"\2605\2605\2605\2605\2605";display:block;color:#ffce3a;font-size:13px;letter-spacing:3px;line-height:1;margin-bottom:14px}
+.home-tcard:hover{transform:translateY(-5px);border-color:rgba(167,38,50,0.55)}
+
+/* Preview card play button */
+.home-pbtn{animation:ddBtnPulse 1.6s ease-in-out infinite}
+.home-pbtn::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 0 rgba(167,38,50,0.55);animation:ddRingPulse 1.6s cubic-bezier(0.25,0.6,0.3,1) infinite;pointer-events:none}
+.home-dset-play:hover .home-pbtn{background-color:#812a37}
+
+/* Finale */
+.home-finale::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 55% 55% at 82% 4%,rgba(167,38,50,0.12),transparent 58%),radial-gradient(ellipse 60% 55% at 10% 100%,rgba(167,38,50,0.06),transparent 60%),linear-gradient(180deg,#ffffff 0%,#f3f5f8 100%)}
+.home-dd-input:focus,.home-dd-select:focus{outline:none;border-color:#a72632;box-shadow:0 0 0 3px rgba(167,38,50,0.16)}
+.home-dd-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23616a78' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.home-dd-select.dd-chosen{color:#14171c}
+.home-dd-input,.home-dd-select,.home-dd-submit{font-family:inherit}
+
+/* Lightbox */
+.home-lightbox.open{display:flex}
+.home-lightbox-backdrop{animation:lbFade .25s cubic-bezier(0.16,1,0.3,1)}
+.home-lightbox-dialog{animation:lbRise .3s cubic-bezier(0.16,1,0.3,1)}
+.home-lightbox-close:hover{opacity:1}
+.home-lightbox-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* Reveal system */
+.dd-js .dd-reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1),transform .8s cubic-bezier(0.16,1,0.3,1)}
+.dd-js .dd-reveal-left{transform:translateY(30px) translateX(-36px)}
+.dd-js .dd-reveal-right{transform:translateY(30px) translateX(36px)}
+.dd-js .dd-reveal.in{opacity:1;transform:none}
+.dd-js .dd-stagger > *{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(0.16,1,0.3,1),transform .7s cubic-bezier(0.16,1,0.3,1)}
+.dd-js .dd-stagger.in > *{opacity:1;transform:none}
+.dd-js .dd-stagger.in > *:nth-child(2){transition-delay:.08s}
+.dd-js .dd-stagger.in > *:nth-child(3){transition-delay:.16s}
+.dd-js .dd-stagger.in > *:nth-child(4){transition-delay:.24s}
+.dd-js .dd-stagger.in > *:nth-child(5){transition-delay:.32s}
+
+@media (prefers-reduced-motion:reduce){
+  .dd-js .home-hero .dd-eyebrow,.dd-js .home-hero-h1,.dd-js .home-hero-sub,.dd-js .home-hero-actions,.dd-js .home-scroll-cue,.dd-js .dd-reveal,.dd-js .dd-stagger > *{opacity:1;transform:none;animation:none;transition:none}
+  .home-scroll-cue-icon,.home-pbtn,.home-pbtn::after,.dd-page .dd-btn::after{animation:none}
+  .dd-page .dd-btn::after{opacity:0}
+}
+
+/* EXACT original breakpoints. Webflow's are fixed at 991/767/479. */
+@media (min-width:981px){ .dd-page .home-hero-sub{display:block} .dd-page .home-hero-sub-m{display:none} .dd-page .home-scroll-cue{display:block} .dd-page .home-eb-br{display:none} .dd-page .home-hbr{display:none} }
+@media (max-width:980px){
+  .dd-page .home-hero-img{height:100%;bottom:auto;object-position:66% 6%}
+  .dd-page .home-hero-wash{background-image:radial-gradient(ellipse 88% 15% at 12% 0%, rgba(243,245,248,0.98) 0%, rgba(243,245,248,0) 70%)}
+  .dd-page .home-hero .dd-eyebrow{color:#fff;align-items:flex-start;gap:12px;font-size:10.5px;letter-spacing:0.18em;text-shadow:0 1px 14px rgba(0,0,0,0.85)}
+  .dd-page .home-hero .dd-eyebrow-pip{background-color:#cf3a45;margin-top:6px}
+  .dd-page .home-eb-br{display:inline}
+  .dd-page .home-hero-h1{color:#fff;font-size:clamp(28px,7.8vw,44px);line-height:0.98;max-width:none;text-shadow:0 2px 20px rgba(0,0,0,0.65)}
+  .dd-page .home-h1-l2{color:#fff}
+  .dd-page .home-hbr{display:inline}
+  .dd-page .home-h1-l3{color:#cf3a45;text-shadow:0 2px 18px rgba(0,0,0,0.6);margin-top:2px}
+  .dd-page .home-hero-h1 .dd-dot{color:#cf3a45}
+  .dd-page .home-hero-copy{max-width:600px}
+  .dd-page .home-hero-sub{display:none}
+  .dd-page .home-hero-sub-m{display:block;font-size:15px;line-height:1.5;color:rgba(255,255,255,0.94);text-shadow:0 1px 12px rgba(0,0,0,0.7)}
+  .dd-page .home-hero-sub-m .home-hero-sub-b{color:#fff}
+  .dd-page .home-hero-actions .dd-btn-line{color:#fff;border-bottom-color:#cf3a45}
+  .dd-page .home-scroll-cue{display:none}
+}
+@media (min-width:901px){ .dd-page .dd-intro{flex-direction:row} .dd-page .dd-intro-wall{flex:1;min-height:0} .dd-page .home-intro-text{width:42%;padding:84px 64px} .dd-page .home-bio{padding-top:132px;padding-bottom:132px} .dd-page .home-seals{column-gap:20px;row-gap:30px;margin-top:44px} .dd-page .home-seal{height:62px} .dd-page .home-seal-amazon{height:50.8px} .dd-page .home-seal-nyt{height:65.1px} .dd-page .home-tw{padding-top:128px;padding-bottom:128px} .dd-page .home-tw-grid{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:900px){ .dd-page .dd-intro{flex-direction:column} .dd-page .dd-intro-wall{flex:none;min-height:66vh} .dd-page .home-intro-text{width:100%;padding:56px 30px} .dd-page .home-bio{padding-top:84px;padding-bottom:84px} .dd-page .home-seals{column-gap:16px;row-gap:26px;margin-top:38px} .dd-page .home-seal{height:56px} .dd-page .home-seal-amazon{height:45.9px} .dd-page .home-seal-nyt{height:58.8px} .dd-page .home-tw{padding-top:84px;padding-bottom:84px} .dd-page .home-tw-grid{grid-template-columns:1fr 1fr} }
+@media (min-width:881px){ .dd-page .home-ritual{padding-top:128px;padding-bottom:128px} .dd-page .home-rd-grid{grid-template-columns:1.05fr 0.95fr;gap:64px} .dd-page .home-rd-flow{flex-direction:row} .dd-page .home-apple-note{flex-direction:row;gap:18px} }
+@media (max-width:880px){ .dd-page .home-ritual{padding-top:84px;padding-bottom:84px} .dd-page .home-rd-grid{grid-template-columns:1fr;gap:40px} .dd-page .home-rd-photo{max-height:440px} .dd-page .home-rd-flow{flex-direction:column} .dd-page .home-rd-step{clip-path:none;margin-right:0;margin-bottom:6px;border-left:3px solid rgba(167,38,50,0.85)} .dd-page .home-apple-note{flex-direction:column;gap:10px} }
+@media (min-width:861px){ .dd-page .home-filter{padding-top:128px;padding-bottom:128px} .dd-page .home-filter-grid{grid-template-columns:1fr 1fr} .dd-page .home-filter-vs{display:flex} .dd-page .home-fbox{padding:54px 46px} .dd-page .home-numbers-grid{grid-template-columns:repeat(5,1fr);column-gap:0;row-gap:0} .dd-page .home-who-grid{grid-template-columns:1fr 1fr} .dd-page .home-who-card{padding:50px 44px} }
+@media (max-width:860px){
+  .dd-page .home-filter{padding-top:84px;padding-bottom:84px}
+  .dd-page .home-filter-grid{grid-template-columns:1fr}
+  .dd-page .home-filter-vs{display:none}
+  .dd-page .home-fbox{padding:40px 30px}
+  .dd-page .home-numbers-grid{grid-template-columns:repeat(2,1fr);column-gap:0;row-gap:40px}
+  .dd-page .home-numbers-grid .home-nstat:nth-child(odd){border-left:none}
+  .dd-page .home-numbers-grid .home-nstat:nth-child(even){border-left:1px solid rgba(255,255,255,0.18)}
+  .dd-page .home-numbers-grid .home-nstat:last-child{grid-column:1 / -1;border-left:none}
+  .dd-page .home-who-grid{grid-template-columns:1fr}
+  .dd-page .home-who-card{padding:40px 30px}
+  .dd-js .dd-reveal-left,.dd-js .dd-reveal-right{transform:translateY(30px)}
+}
+@media (min-width:761px){ .dd-page .home-voice-spine{padding-top:30px;padding-bottom:72px} .dd-page .home-spine{grid-template-columns:repeat(3,1fr);column-gap:clamp(28px,5vw,60px);padding-top:30px;padding-left:0} .dd-page .home-spine-track{top:7px;bottom:auto;left:0;right:0;width:auto;height:2px} .dd-page .home-spine-fill{width:0%;height:100%} .dd-page .home-spine-row{padding:0} .dd-page .home-spine-row::before{top:-35px;left:5px} .dd-page .home-spine-n{font-size:clamp(64px,8vw,116px);margin-bottom:16px} .dd-page .home-dset-img{aspect-ratio:21/9} .dd-page .home-dset-body{justify-content:center;padding-bottom:0;max-width:640px} }
+@media (max-width:760px){
+  .dd-page .home-voice-spine{padding-top:76px;padding-bottom:76px}
+  .dd-page .home-spine{grid-template-columns:1fr;column-gap:0;row-gap:0;padding-top:0;padding-left:4px}
+  .dd-page .home-spine-track{top:6px;bottom:6px;left:6px;right:auto;width:2px;height:auto}
+  .dd-page .home-spine-fill{width:2px;height:0%}
+  .dd-page .home-spine-row{padding:26px 0 26px 34px}
+  .dd-page .home-spine-row + .home-spine-row{border-top:1px solid rgba(20,23,28,0.07)}
+  .dd-page .home-spine-row::before{top:44px;left:6px}
+  .dd-page .home-spine-n{font-size:58px;margin-bottom:10px}
+  .dd-page .home-dset-img{aspect-ratio:3/4}
+  .dd-page .home-dset-scrim{background-image:linear-gradient(180deg, rgba(11,17,32,0.30) 0%, rgba(11,17,32,0.55) 45%, rgba(11,17,32,0.94) 100%)}
+  .dd-page .home-dset-body{justify-content:flex-end;padding-bottom:40px;max-width:none}
+}
+@media (min-width:721px){ .dd-page .home-featured-row .home-flogo{height:23px} .dd-page .home-featured-row .home-flogo-success{height:29px} .dd-page .home-who-sec{padding-top:132px;padding-bottom:132px} }
+@media (max-width:720px){ .dd-page .home-featured-row .home-flogo{height:17px} .dd-page .home-featured-row .home-flogo-success{height:22px} .dd-page .home-who-sec{padding-top:84px;padding-bottom:84px} }
+@media (max-width:600px){ .dd-page .home-tw-grid{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto} }
+@media (min-width:561px){ .dd-page .home-dd-row{grid-template-columns:1fr 1fr} .dd-page .home-br-m{display:none} }
+@media (max-width:560px){ .dd-page .home-dd-row{grid-template-columns:1fr} .dd-page .home-br-m{display:inline} }
+@media (max-width:480px){ .dd-page .home-seal{height:46px} .dd-page .home-seal-amazon{height:37.7px} .dd-page .home-seal-nyt{height:48.3px} }
+</style>
+<script>
+(function(){
+  var d=document;
+  d.documentElement.classList.add('dd-js');
+
+  /* Webflow derives each image's `sizes` from the asset's intrinsic width, not its
+     CSS box, and the attribute is not authorable through the Designer or the API.
+     These are all loading="lazy", so correcting `sizes` here, at the end of the
+     body, still lands before the browser fetches them. */
+  [['.home-tphoto-img','(max-width: 600px) 90vw, (max-width: 900px) 46vw, 31vw'],
+   ['.dd-covers','(max-width: 900px) 100vw, 58vw'],
+   ['.home-rd-photo-img','(max-width: 880px) 100vw, 46vw'],
+   ['.home-dset-img','(max-width: 760px) 100vw, 92vw'],
+   ['.home-flogo','120px']]
+   .forEach(function(p){ d.querySelectorAll(p[0]).forEach(function(i){ i.sizes=p[1]; }); });
+
+  /* Nav turns solid after the hero */
+  var nav=d.querySelector('.dd-nav');
+  if(nav){ var s=function(){nav.classList.toggle('solid',pageYOffset>24);}; s(); addEventListener('scroll',s,{passive:true}); }
+
+  /* Reveal + stagger */
+  var rev=[['.home-numbers-head',''],['.home-featured-row',''],['.home-sec-head',''],['.home-fbox',''],
+           ['.home-spine-row',''],['.home-rd-content','left'],['.home-rd-photo','right'],['.home-apple-note',''],
+           ['.home-tw-head',''],['.home-who-card-for','left'],['.home-who-card-not','right'],['.home-who-close',''],
+           ['.home-dset-card',''],['.home-dd-form',''],['.home-bio-grid > div','']];
+  var targets=[];
+  rev.forEach(function(p){ d.querySelectorAll(p[0]).forEach(function(el){
+    el.classList.add('dd-reveal'); if(p[1])el.classList.add('dd-reveal-'+p[1]); targets.push(el); }); });
+  ['.home-numbers-grid','.home-tw-grid','.home-rd-flow'].forEach(function(sel){
+    d.querySelectorAll(sel).forEach(function(el){ el.classList.add('dd-stagger'); targets.push(el); }); });
+  function show(el){el.classList.add('in');}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target);}});},{threshold:0.12});
+    targets.forEach(function(el){io.observe(el);});
+    setTimeout(function(){targets.forEach(function(el){if(!el.classList.contains('in')&&el.getBoundingClientRect().top<innerHeight)show(el);});},1500);
+  } else { targets.forEach(show); }
+
+  /* Count-up on the numbers band */
+  var counted=false;
+  var grid=d.querySelector('.home-numbers-grid');
+  function runCount(){
+    if(counted||!grid)return; counted=true;
+    d.querySelectorAll('[data-count]').forEach(function(el){
+      var end=parseInt(el.getAttribute('data-count'),10); if(isNaN(end))return;
+      var dur=1400,t0=null;
+      function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1);
+        var v=Math.round(end*(1-Math.pow(1-p,3)));
+        el.textContent=v.toLocaleString('en-US');
+        if(p<1)requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    });
+  }
+  if(grid&&'IntersectionObserver' in window){
+    var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){runCount();cio.disconnect();}});},{threshold:0.3});
+    cio.observe(grid);
+  } else { runCount(); }
+
+  /* Spine progress fill + lit rows */
+  var spine=d.querySelector('.home-spine'), fill=d.getElementById('spineFill');
+  var rows=[].slice.call(d.querySelectorAll('.home-spine-row'));
+  if(spine&&fill&&rows.length){
+    var vertical=function(){return matchMedia('(max-width:760px)').matches;};
+    var tick=false;
+    function paint(){
+      tick=false;
+      var r=spine.getBoundingClientRect();
+      var p=Math.max(0,Math.min(1,(innerHeight*0.75-r.top)/(r.height||1)));
+      if(vertical()){ fill.style.height=(p*100).toFixed(1)+'%'; fill.style.width='2px'; }
+      else { fill.style.width=(p*100).toFixed(1)+'%'; fill.style.height='100%'; }
+      rows.forEach(function(row,i){ row.classList.toggle('lit', p >= (i+0.35)/rows.length); });
+    }
+    addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(paint);}},{passive:true});
+    addEventListener('resize',paint); paint();
+  }
+
+  /* Preview lightbox. The Vimeo iframe is injected on open, so the video costs
+     zero bytes on initial load. */
+  (function(){
+    var lb=d.getElementById('previewLightbox'); if(!lb)return;
+    var slot=lb.querySelector('.home-lightbox-video'), lastActive=null;
+    function open(e){
+      if(e)e.preventDefault();
+      lastActive=d.activeElement;
+      if(!slot.querySelector('iframe')){
+        var id=slot.getAttribute('data-vimeo-id')||'';
+        var f=d.createElement('iframe');
+        f.src='https://player.vimeo.com/video/'+id+'?autoplay=1&title=0&byline=0&portrait=0';
+        f.setAttribute('allow','autoplay; fullscreen; picture-in-picture');
+        f.setAttribute('allowfullscreen','');
+        f.setAttribute('title','Darren Hardy on who DarrenDaily is for');
+        slot.appendChild(f);
+      }
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); d.body.style.overflow='hidden';
+      var c=lb.querySelector('.home-lightbox-close'); if(c)c.focus();
+    }
+    function close(){
+      lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); d.body.style.overflow='';
+      slot.innerHTML='';
+      if(lastActive&&lastActive.focus)lastActive.focus();
+    }
+    d.querySelectorAll('[data-preview-open]').forEach(function(b){ b.addEventListener('click',open); });
+    lb.querySelectorAll('[data-lb-close]').forEach(function(b){ b.addEventListener('click',close); });
+    d.addEventListener('keydown',function(e){ if(e.key==='Escape'&&lb.classList.contains('open'))close(); });
+  })();
+
+  /* Role select goes from placeholder grey to ink once a real option is picked */
+  var sel=d.getElementById('ddRole');
+  if(sel){ var sync=function(){ sel.classList.toggle('dd-chosen',!!sel.value); }; sync(); sel.addEventListener('change',sync); }
+})();
+</script>
