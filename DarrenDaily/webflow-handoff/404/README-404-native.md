@@ -97,3 +97,22 @@ flags it "SET TO true BEFORE LAUNCH". It currently shows on every trigger.
 
 docH 4587 · nav 87 · hero 1129 · manifesto 579 · sessions 826 · close 672 ·
 intro 949 · footer 433
+
+## Two Webflow defaults fixed after first publish
+
+Both caught from screenshots, both are Webflow element defaults the original CSS
+never had to think about:
+
+1. **Hero copy rendered grey.** `.dd-hero-scrim` is `position:absolute; z-index:1`,
+   but `.dd-hero-inner` was `static / z-index:auto`, so the scrim's
+   `rgba(20,10,12,0.32)` gradient painted **on top of** the white headline and lead.
+   The original has `.hero-confirm .container { position:relative; z-index:2 }` for
+   exactly this reason. Fixed on the shared `.dd-container.dd-hero-inner` combo, which
+   also fixes the same latent wash on /welcome.
+2. **A grey divider bar left of the manifesto quote.** Webflow's Blockquote element
+   ships `border-left: 5px solid #e2e2e2; padding: 10px 20px`. The original is
+   `blockquote { margin: 0 }` with no border. Zeroed on `.exp-quote`.
+
+Note when verifying: the browser pane freezes CSS animations while it is hidden, so
+entrance-animated elements read `opacity: 0` and screenshots come back blank. Call
+`el.getAnimations().forEach(a => a.finish())` before measuring.
