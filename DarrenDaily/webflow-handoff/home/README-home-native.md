@@ -126,3 +126,18 @@ default-hidden CTA beside the existing share CTA, then opt it in per page.
   in the embed, same as the /welcome step numbers.
 - `.home-cnt` was never created (no CSS for it), so the count-up targets
   `[data-count]` instead. Intentional.
+
+## Hero headline line breaks (deliberate change from the original)
+
+The original let the desktop headline wrap naturally inside `max-width: 11ch`, which
+orphaned the last word: "AN" sat alone on its own line. Measured at 1440, the widest
+intended line ("AN ADVANTAGE.") needs **516px** and the box was **495px** — 21px short.
+
+Widening alone does not fix it: at ~540px "DAY WITH AN" fits, so the orphan just moves
+to "ADVANTAGE." instead. The markup already authors the correct break points (the `hbr`
+breaks the original only shows below 980px), so those are now honoured at **every**
+width, and `max-width` went to **12ch** so no line wraps further.
+
+`ch` is font-relative, so the box scales with the clamped font-size. Verified 5 clean
+lines at 1024 / 1200 / 1440 / 1600 / 1920. Hero height is now 818-821 (was 876) — one
+fewer line, which is the point.

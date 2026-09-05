@@ -41,8 +41,12 @@
 
 /* Webflow's builder DROPS the class off <br> elements, so the original's
    responsive line breaks (eb-br / hbr) cannot be targeted by class at all.
-   Hidden structurally instead, or the hero headline gains two extra lines. */
-@media (min-width:981px){ .dd-page .home-hero-h1 br, .dd-page .home-hero .dd-eyebrow br{display:none} }
+   The eyebrow's break stays hidden above 980 as in the original. The headline's
+   breaks are now KEPT at every width: left to wrap naturally the last word
+   orphaned ("AN" alone), and widening the box just moves the orphan to
+   "ADVANTAGE." instead. The markup already authors the right break points, so
+   honouring them is deterministic at every viewport. */
+@media (min-width:981px){ .dd-page .home-hero .dd-eyebrow br{display:none} }
 
 /* home-intro-p is a later combo than dd-intro-p-last, so it re-asserts the
    20px bottom margin the -last class exists to remove. */
