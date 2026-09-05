@@ -66,12 +66,26 @@ boxes, tag 15px `#b8b8b8` max-width 360 margin-bottom 32, column titles `#888888
 `#b8b8b8` -> white on hover, BMC logo 56px, BMC tag 14px `letter-spacing:.02em` **with the
 `<br>`**, legal bar padding-top 28 / gap 32 / `#888888`.
 
-Two deliberate departures:
+**It is a pixel match.** Total height **416px = DH's 416px**, and every block lands on the same
+pixel: grid 81/194, logo 81/48, tag 153/72, socials 257/18, column title 81/12, list 117/129,
+legal 335/41, column left edge 490. The only residual is the BMC corner at 77px vs 74px — the
+`↗` glyph's line box — and it does not affect footer height because that is not the tallest
+column.
 
-- **Container is 1320px, DH's is 1380px.** The whole DarrenDaily site is 1320 and `.dd-container`
-  is shared, so the footer columns are proportionally identical but 60px narrower overall.
-- **The footer is 464px tall vs DH's 416px** purely because the DarrenDaily paragraph is longer
-  and wraps further at the same 360px width. That is the approved copy difference, not drift.
+Getting there took **five Webflow defaults that DH's global reset zeroes and Webflow does not**:
+
+| Property | Webflow default | Needed |
+|---|---|---|
+| `ul` padding-left | 40px | 0 (links were indented off their heading) |
+| `ul` margin-bottom | 10px | 0 |
+| `li` line-height | 20px | `normal` (15px) |
+| **`h3` margin-top** | **20px** | **0** (column headings sat 20px below the logo) |
+| legal-bar / BMC-cta line-height | 20px | `normal` |
+
+The footer uses its own **`dd-footer-container` at 1380px** (DH's width, 24px sides on mobile),
+not the site's 1320px `.dd-container`. That is a deliberate second container: the page content
+is 1320 everywhere else, and widening `.dd-container` would have moved every section on every
+page.
 
 This **supersedes** the CMS-port values recorded below — `#b0a8a6` brand copy and the 13px /
 180px / no-`<br>` BMC tag are gone. The `.dd-footer-legal` bar is shared with the slim footer,
