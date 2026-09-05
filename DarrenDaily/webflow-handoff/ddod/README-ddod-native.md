@@ -231,11 +231,12 @@ also runs on first scroll and on a 2.5s timeout, so it does not depend on the ob
 - The episode and playlist data is baked into the script. `DarrenDaily/refresh-ddod-data.py`
   checks the source page's copy of it against the live feed; it has not been pointed
   at this build.
-- **Podcast app badges.** The row uses uniform chips carrying each platform's real
-  brand mark in its real colour. Apple, Spotify and the rest also publish official
-  "Listen on" badge lockups, which are more instantly recognisable but come in six
-  different shapes and colours and would be the only borrowed visual language on the
-  page. Worth a decision before launch.
+- **Podcast app badges: decided.** Keeping uniform chips carrying each platform's real
+  brand mark in its real colour, rather than the official "Listen on" badge lockups,
+  which come in six different shapes and colours and would be the only borrowed visual
+  language on the page. Marks are 24px (22px under 480). The row is a
+  `repeat(3, max-content)` grid, not flex-wrap, so it always breaks 3+3 and never
+  orphans a single chip on its own line (flex-wrap gave 5+1 at 760px).
 - **Audio costs no Webflow bandwidth.** `traffic.libsyn.com` 302s to signed CloudFront
   (`content.libsyn.com`), so Libsyn serves every byte and the listens count in Libsyn's
   stats. Nothing audio-related is stored on or served from Webflow.
