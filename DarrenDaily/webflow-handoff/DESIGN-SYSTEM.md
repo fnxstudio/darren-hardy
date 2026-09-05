@@ -66,6 +66,12 @@ boxes, tag 15px `#b8b8b8` max-width 360 margin-bottom 32, column titles `#888888
 `#b8b8b8` -> white on hover, BMC logo 56px, BMC tag 14px `letter-spacing:.02em` **with the
 `<br>`**, legal bar padding-top 28 / gap 32 / `#888888`.
 
+The DarrenDaily footer logo is a **link to darrendaily.com** (`dd-footer-logo-link`) — DH's is
+not linked; this is a deliberate DD addition. The wrapper is `display:block; width:fit-content;
+line-height:0` rather than `inline-block`: inline-block added a 5px baseline gap under the logo
+and pushed the whole footer to 421px, and `fit-content` keeps the hit area on the logo instead
+of spanning the column.
+
 **It is a pixel match.** Total height **416px = DH's 416px**, and every block lands on the same
 pixel: grid 81/194, logo 81/48, tag 153/72, socials 257/18, column title 81/12, list 117/129,
 legal 335/41, column left edge 490. The only residual is the BMC corner at 77px vs 74px — the
