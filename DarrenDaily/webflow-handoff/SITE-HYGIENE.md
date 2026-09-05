@@ -117,21 +117,64 @@ Inter loads via preconnect + preload + `media="print" onload` with a `<noscript>
 fallback — the correct non-blocking pattern. All six weights (400/500/600/700/800/900)
 are genuinely used across the site, so none can be dropped without a design change.
 
-### Left on the table (needs your call)
+### Sessions-only code, scoped (2026-09-05)
 
-These are all real, but each removes something currently live:
+All of it now loads **only on the Sessions template**. Nothing else changed pages.
 
-| item | cost per page load | note |
+| moved | from | to |
 |---|---|---|
-| Sessions-only CSS in the site `<head>` | ~4 KB | `.post-*`, `.xsoon-*`, `.quote-*`, `.share-bar`, `.bio-*`, `.c-tile`, `.cta-*`, `.comments-*` — loads on every page, used only by the CMS template |
-| `ddsessions` script (site-wide) | 8.1 KB | Sessions template only |
-| `ddsharefix` + `ddjournalfix` + `ddvimeocolorfix` | ~0.9 KB + 3 requests | loader-era patches, likely obsolete |
-| `ddchampionpopup` | 1.1 KB | champion pages only |
-| `.video-poster` preload script in `<head>` | tiny | runs a MutationObserver on every page for a CMS-only element |
+| `ddsessions` 1.4.0 | site footer | Sessions template page footer |
+| `ddsharefix`, `ddjournalfix`, `ddvimeocolorfix` | site footer | same |
+| `ddchampionpopup` | site footer | same |
+| ~3.4 KB of `.post-* .xsoon-* .quote-* .share-bar .bio-* .c-tile .cta-* .comments-*` CSS | site `<head>` | Sessions template page `<head>` |
 
-Together roughly **14 KB and 5 requests on every page**, including home. They all
-attach site-wide today. Scoping or removing them is safe once the Sessions/post CMS
-area is retired — which is the same sweep as the 52 CMS-only classes above.
+**~11 KB gzipped (31 KB uncompressed) and 5 fewer requests on every other page.**
+No site-level registered scripts remain; `get_site_scripts` now returns empty.
 
-Not touched, unchanged from the first pass: the BMC and DD logos are still oversized
-but live inside components the Data API cannot write.
+Two claims in the earlier version of this file were wrong and are corrected here:
+
+- **`ddchampionpopup` is not a champion-gift-page script.** Its first line is
+  `if(!/^\/sessions\//.test(location.pathname))return;` - it is the exit popup on
+  Sessions posts. It was self-gating, so it did nothing anywhere else, but it still
+  cost a request and 1.1 KB gz on every page.
+- **The `.video-poster` preload script is not CMS-only, so it stayed site-wide.**
+  `.video-poster` is used on /welcome and /404 as well as the Sessions template, and
+  it is the LCP image on those pages - the script promotes it to an eager,
+  high-priority preload. Removing it would have slowed two live pages down.
+
+Checked before moving, so nothing silently regressed: `.dd-reveal`/`.dd-in` stayed
+site-wide (page embeds reference them); no non-Sessions page uses `share-bar`,
+`post-hero`, `xsoon`, `bio-wall`, `c-tile`, `quote-block`, `comments-`, `cta-banner`
+or `ss-card`; and no non-Sessions page builds a Vimeo URL with a `color` param, which
+is the only thing `ddvimeocolorfix` acts on.
+
+`set_page_scripts` is the call that works here - `add_page_script` 404s with
+"Custom code block not found" until the page has a block, and `set_page_scripts`
+creates one.
+
+## Nav "Join free" button (2026-09-05)
+
+The Site Nav component now carries **two** buttons, both hidden by default, each
+opted in by the page that wants it:
+
+| button | classes | shown on | goes to |
+|---|---|---|---|
+| Share DarrenDaily | `dd-nav-cta` + `dd-nav-cta-share` | /welcome | JS share handler (`data-share`) |
+| Join free | `dd-nav-cta` + `dd-nav-cta-join` | Home | `#join`, the finale opt-in section |
+
+`dd-nav-cta` holds the look; the two combo classes carry identity only, so a page can
+reveal one without revealing the other. Home opts in from its own page head. Behaviour
+matches the share button exactly: hidden over the hero, revealed when `.dd-nav` gains
+`.solid` on scroll.
+
+**Not added to /404.** That page's only opt-in target is `#joinModal`, whose
+`#joinForm` is an empty div with nothing populating it - no HubSpot `forms.create`
+call anywhere on the page. Pointing a nav button at it would open an empty modal.
+It should be wired to the drawer system when that lands.
+
+**One trap left deliberately.** /welcome's embed opts in with `.dd-nav .dd-nav-cta`,
+the shared base class, which would also reveal the join button. Rather than
+round-trip that large verified embed to change three selectors, the join variant is
+pinned off in /welcome's page head at higher specificity, with a comment saying to
+narrow the embed's selectors to `-share` and delete the block next time that embed
+is touched.
