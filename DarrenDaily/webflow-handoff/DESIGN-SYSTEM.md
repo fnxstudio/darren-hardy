@@ -72,6 +72,21 @@ Deliberately **not** ported: the template's flat `<a>` link stack (the component
 is expressible as a Designer class, a pseudo-element is not). Its social icons were also left
 off — they were styled structurally from custom code, which is the exact pattern being retired.
 
+## Slim footer IS the full footer's bottom row
+
+They are not two designs. `dd-footer-slim` is only the dark band; the row inside it is the
+**same `dd-footer-legal` class** the full footer uses, with the same `dd-footer-legal-links`
+and `dd-footer-legal-link` children. Change the legal bar once and both footers move together.
+
+To make that possible, `dd-footer-legal` was made context-free: its old `margin-top: 52px`
+(the gap under the link columns) moved to `margin-bottom` on `dd-footer-grid`, where it
+belongs. `dd-footer-slim-row` and `dd-footer-slim-copy` were duplicates and are deleted --
+the copyright `<span>` carries no class at all now and inherits its colour from the row,
+exactly as it does in the full footer.
+
+Slim's `padding-bottom` is 40px, matching the full footer's, so the space under the legal
+text is identical in both. Slim renders 87px at desktop, 127px wrapped at 375px.
+
 ## Still open
 
 - The full **Site Footer** component is currently instanced only on the Sessions CMS template,
