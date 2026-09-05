@@ -329,17 +329,14 @@
   .pl:hover { transform: translateY(-3px); border-color: rgba(var(--accent-rgb), .45); box-shadow: 0 24px 46px -26px rgba(20,23,28,.4); }
   .pl:hover::before, .pl.on::before { transform: scaleY(1); }
   .pl.on { border-color: var(--accent); box-shadow: 0 24px 46px -26px rgba(var(--accent-rgb), .55); }
-  .pl-top { display: flex; align-items: center; gap: 14px; }
   .pl-art {
-    width: 52px; height: 52px; flex: none; border-radius: var(--radius); overflow: hidden;
-    background: var(--dark-2); box-shadow: 0 6px 16px -6px rgba(20,23,28,.5);
+    width: 40px; height: 40px; flex: none; border-radius: var(--radius); overflow: hidden;
+    background: var(--dark-2); box-shadow: 0 5px 14px -5px rgba(20,23,28,.5);
     transition: transform .2s var(--ease);
   }
   .pl-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .pl:hover .pl-art { transform: scale(1.06); }
-  .pl-n { font-size: 10.5px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--soft); }
-  .pl.on .pl-n { color: var(--accent); }
-  .pl h3 { font-size: clamp(19px, 1.6vw, 23px); text-transform: uppercase; margin: 18px 0 0; letter-spacing: -.025em; }
+  .pl:hover .pl-art { transform: scale(1.07); }
+  .pl h3 { font-size: clamp(19px, 1.6vw, 23px); text-transform: uppercase; margin: 0; letter-spacing: -.025em; }
   .pl p { font-size: 14px; line-height: 1.55; color: var(--muted); margin-top: 10px; flex: 1; }
   .pl-foot { display: flex; align-items: center; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
   .pl-go {
@@ -379,7 +376,10 @@
   .ep:hover { background: var(--mist); padding-left: 14px; }
   .ep:hover::before, .ep.active::before { transform: scaleY(1); }
   .ep.active { background: rgba(var(--accent-rgb), .045); padding-left: 14px; }
-  /* the show cover sits in front of every episode. Same ddod-artwork.webp the
+  /* NOT lazy-loaded: this is the one file the hero already fetched eagerly, so
+     every instance is a cache hit. Deferring them buys no bandwidth back and
+     only risks a blank square scrolling into view.
+     The show cover sits in front of every episode. Same ddod-artwork.webp the
      hero already loaded, so every row after the first is a cache hit and the
      repetition costs nothing. Art reads clean at rest; the overlay only comes
      up on hover or while that episode is playing. */
@@ -1154,7 +1154,7 @@
     return '<div class="ep" data-file="' + esc(e[4]) + '" role="button" tabindex="0" ' +
            'aria-label="Play ' + esc(e[1]) + '">' +
       '<span class="ep-art" aria-hidden="true">' +
-        '<img src="ddod-artwork.webp" alt="" width="900" height="900" loading="lazy">' +
+        '<img src="ddod-artwork.webp" alt="" width="900" height="900">' +
         '<span class="ep-ov">' + PLAY_SVG + "</span>" +
       "</span>" +
       "<div>" +
@@ -1172,16 +1172,27 @@
     $("#plGrid").innerHTML = PLAYLISTS.map((pl, i) => {
       const eps = plEpisodes(i), on = activePl === i;
       return '<button class="pl' + (on ? " on" : "") + '" data-pl="' + i + '" aria-expanded="' + on + '">' +
-        '<div class="pl-top"><span class="pl-art" aria-hidden="true">' +
-          '<img src="ddod-artwork.webp" alt="" width="900" height="900" loading="lazy"></span>' +
-          '<span class="pl-n">' + (on ? "Now playing" : "Run " + (i + 1)) + "</span></div>" +
         "<h3>" + esc(pl[0]) + "</h3><p>" + esc(pl[1]) + "</p>" +
-        '<div class="pl-foot"><span class="pl-go">' +
+        '<div class="pl-foot">' +
+          '<span class="pl-art" aria-hidden="true">' +
+            '<img src="ddod-artwork.webp" alt="" width="900" height="900"></span>' +
+          '<span class="pl-go">' +
           (on && !audio.paused ? BARS : PLAY_SVG) +
         '</span><span class="pl-meta"><b>' + eps.length + " episodes</b><br>" +
           runtime(eps) + " minutes end to end</span></div>" +
       "</button>";
     }).join("");
+  }
+
+  // state only: the cards' markup, covers included, is never rebuilt
+  function paintCards() {
+    $$(".pl").forEach(card => {
+      const i = +card.dataset.pl, on = activePl === i;
+      card.classList.toggle("on", on);
+      card.setAttribute("aria-expanded", on);
+      const go = $(".pl-go", card);
+      if (go) go.innerHTML = (on && !audio.paused) ? BARS : PLAY_SVG;
+    });
   }
 
   function renderList() {
@@ -1204,7 +1215,7 @@
     if (activePl === i && current && eps.some(e => e[4] === current[4])) { toggle(null); return; }
     activePl = i;
     list = eps;
-    renderCards();
+    paintCards();
     renderList();
     load(eps[0], true);
     plList.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -1213,7 +1224,7 @@
   function closePlaylist() {
     activePl = null;
     list = current ? [current] : [FEATURED];
-    renderCards();
+    paintCards();
     renderList();
     paintIcons();
   }
@@ -1257,7 +1268,7 @@
     heroPlay.innerHTML = playing && current && current[4] === FEATURED[4] ? pauseSvg : playSvg;
     heroPlay.classList.toggle("is-playing", playing && current && current[4] === FEATURED[4]);
     markActive();
-    if (typeof renderCards === "function") renderCards();
+    if (typeof paintCards === "function") paintCards();
   }
 
   function load(ep, autoplay, seekTo) {
