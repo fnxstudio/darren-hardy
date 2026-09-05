@@ -371,15 +371,26 @@
   .ep:hover { background: var(--mist); padding-left: 14px; }
   .ep:hover::before, .ep.active::before { transform: scaleY(1); }
   .ep.active { background: rgba(var(--accent-rgb), .045); padding-left: 14px; }
-  .ep-play {
-    width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--line);
-    display: flex; align-items: center; justify-content: center; color: var(--accent);
-    transition: background .18s, border-color .18s, color .18s, transform .18s var(--ease); flex: none; background: #fff;
+  /* the show cover sits in front of every episode. Same ddod-artwork.webp the
+     hero already loaded, so every row after the first is a cache hit and the
+     repetition costs nothing. Art reads clean at rest; the overlay only comes
+     up on hover or while that episode is playing. */
+  .ep-art {
+    position: relative; width: 56px; height: 56px; flex: none; padding: 0;
+    border-radius: var(--radius); overflow: hidden; background: var(--dark-2);
+    box-shadow: 0 4px 14px -6px rgba(20,23,28,.55);
+    transition: transform .18s var(--ease), box-shadow .18s;
   }
-  .ep:hover .ep-play { background: var(--accent); border-color: var(--accent); color: #fff; transform: scale(1.06); }
-  .ep.active .ep-play { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .ep-play svg { width: 15px; height: 15px; margin-left: 2px; }
-  .ep.active.playing .ep-play svg { margin-left: 0; }
+  .ep-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ep-ov {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: #fff; background: rgba(20,23,28,.55); opacity: 0;
+    transition: opacity .18s; backdrop-filter: saturate(120%) blur(1px);
+  }
+  .ep-ov svg { width: 17px; height: 17px; margin-left: 2px; }
+  .ep:hover .ep-art { transform: scale(1.05); box-shadow: 0 10px 22px -8px rgba(20,23,28,.6); }
+  .ep:hover .ep-ov, .ep.active .ep-ov { opacity: 1; }
+  .ep.active .ep-ov { background: rgba(var(--accent-rgb), .82); }
   .ep-n { font-size: 10.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--soft); }
   .ep-n .num { color: var(--accent); }
   .ep h3 { font-size: clamp(16px, 1.32vw, 20px); font-weight: 800; line-height: 1.26; letter-spacing: -.02em; margin: 6px 0 0; }
@@ -400,7 +411,10 @@
   @media (prefers-reduced-motion: reduce) { .bars i { animation: none; } }
   /* fine print keeps the line's grey, underline only, never the accent */
   @media (max-width: 860px) {
-    .ep { grid-template-columns: 44px 1fr; gap: 14px; }
+    .ep { grid-template-columns: 48px 1fr; gap: 14px; }
+    /* rows get tall on a narrow screen, so the cover rides the top the way
+       a podcast app does, rather than floating mid-row */
+    .ep-art { width: 48px; height: 48px; align-self: start; margin-top: 2px; }
     .ep-side { grid-column: 2; flex-direction: row; align-items: center; text-align: left; gap: 12px; }
     .ep p { display: none; }
   }
@@ -1114,8 +1128,10 @@
 
   function epRow(e) {
     return '<div class="ep" data-file="' + esc(e[4]) + '" role="button" tabindex="0">' +
-      '<button class="ep-play" tabindex="-1" aria-label="Play ' + esc(e[1]) + '">' +
-        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>' +
+      '<button class="ep-art" tabindex="-1" aria-label="Play ' + esc(e[1]) + '">' +
+        '<img src="ddod-artwork.webp" alt="" width="900" height="900" loading="lazy">' +
+        '<span class="ep-ov"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>' +
+      "</button>" +
       "<div>" +
         '<div class="ep-n">' + (e[0] ? 'Episode <span class="num">' + e[0] + "</span>"
                                      : prettyDate(e[2]).toUpperCase()) + "</div>" +
@@ -1198,9 +1214,9 @@
       const on = current && el.dataset.file === current[4];
       el.classList.toggle("active", !!on);
       el.classList.toggle("playing", !!on && !audio.paused);
-      const btn = $(".ep-play", el);
-      if (!btn) return;
-      btn.innerHTML = (on && !audio.paused)
+      const ov = $(".ep-ov", el);
+      if (!ov) return;
+      ov.innerHTML = (on && !audio.paused)
         ? '<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>'
         : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
     });

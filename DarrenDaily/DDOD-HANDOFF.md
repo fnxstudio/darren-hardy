@@ -43,6 +43,12 @@ The main CTA is, and stays, the DarrenDaily opt-in.
 Eight episodes each, none over 11 minutes, no episode used twice, 43–54
 minutes per run.
 
+The show cover sits in front of every episode in a run, the way a podcast app
+lists them. It is deliberately the same `ddod-artwork.webp` the hero already
+loaded, so every row after the first is a cache hit and the repetition costs
+nothing on the wire. It reads clean at rest; the overlay only comes up on
+hover, or in accent red with an equalizer while that episode is playing.
+
 ## Where the data comes from
 
 Everything on the page is real. Nothing is invented.
