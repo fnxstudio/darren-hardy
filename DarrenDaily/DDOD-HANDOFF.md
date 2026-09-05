@@ -98,7 +98,24 @@ Three different kinds, kept deliberately separate:
 is the phrase given the marker-pen highlight, and it is stored as an **exact
 slice of the body**, so a highlight can never reword or misquote a review.
 
-## The HubSpot opt-in
+## The opt-in drawer
+
+Every "get DarrenDaily" CTA on the page — the nav button, the button on the
+join card, and the one in the closing section — opens the same right-hand
+slide-in drawer. Same pattern as the BMC checkout in
+`compound-effect-slider.html`: dark blurred overlay, Escape and overlay-click
+to close, focus moved in and handed back on exit, tab trapped inside while it
+is open, body scroll locked, full width below 520px.
+
+The form lives **only** in the drawer. The join card keeps its pitch, its fine
+print and its proof line, but its inline form is now a button. That is
+deliberate: two HubSpot instances of the same form on one page conflict, so
+there is exactly one mount point.
+
+It also means HubSpot's script is **not loaded on page load** — it is fetched
+the first time someone actually opens the drawer, and only once no matter how
+many times they open it after that. A visitor who never asks for the form
+never pays for the script.
 
 Portal `2518645`, form `41958dbb-3c3a-439b-b747-bb96acf50680` — the opt-in
 actually running on darrendaily.com/join: First Name, Email, Role, plus hidden

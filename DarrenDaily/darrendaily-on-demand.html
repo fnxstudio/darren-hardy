@@ -549,13 +549,74 @@
   .jfine { font-size: 12px; line-height: 1.55; color: var(--soft); margin-top: 15px; }
   .jfine a { color: var(--soft); text-decoration: underline; text-underline-offset: 2px; }
   .jproof { display: flex; align-items: center; gap: 11px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
-  .jproof .faces { display: flex; }
+  .jproof .faces { display: flex; align-items: center; flex: none; }
   .jproof .faces .av { width: 30px; height: 30px; font-size: 11px; border: 2px solid #fff; margin-left: -9px; }
   .jproof .faces .av:first-child { margin-left: 0; }
   .jproof .t { font-size: 12.5px; color: var(--soft); line-height: 1.45; }
   .jproof .t b { color: var(--ink); font-weight: 700; }
   @media (max-width: 980px) { .join-grid { grid-template-columns: 1fr; gap: 44px; } }
   @media (max-width: 720px) { .jcard { padding: 30px 24px; } .jform .two { grid-template-columns: 1fr; } }
+
+  /* ============ JOIN DRAWER ============ */
+  .jbtn { width: 100%; margin-top: 26px; }
+  body.dd-locked { overflow: hidden; }
+
+  .dd-overlay {
+    position: fixed; inset: 0; z-index: 120;
+    background: rgba(20,17,18,.55);
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+    opacity: 0; transition: opacity .3s ease;
+  }
+  .dd-overlay.open { opacity: 1; }
+
+  .dd-drawer {
+    position: fixed; top: 0; right: 0; height: 100%; width: 468px; max-width: 100vw;
+    background: #fff; z-index: 130; display: flex; flex-direction: column;
+    transform: translateX(100%); transition: transform .42s cubic-bezier(.22,1,.36,1);
+    box-shadow: -20px 0 60px rgba(20,17,18,.28);
+  }
+  .dd-drawer.open { transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .dd-drawer { transition: none; } .dd-overlay { transition: none; }
+  }
+  .dd-close {
+    position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; z-index: 3;
+    border: 1px solid var(--line); background: #fff; border-radius: 50%;
+    font-size: 13px; color: var(--soft); display: flex; align-items: center; justify-content: center;
+    transition: color .2s, border-color .2s;
+  }
+  .dd-close:hover { border-color: var(--accent); color: var(--accent); }
+
+  .dd-dhead { padding: 34px 34px 26px; background: var(--mist); border-bottom: 1px solid var(--line); }
+  .dd-dhead h2 { font-size: 30px; line-height: 1.02; text-transform: uppercase; margin: 16px 0 0; }
+  .dd-dfrom { display: flex; align-items: center; gap: 14px; margin-top: 20px; }
+  .dd-dfrom img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex: none;
+    border: 2px solid #fff; box-shadow: 0 6px 16px -6px rgba(20,23,28,.45); }
+  .dd-dfrom p { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+  .dd-dfrom p b { color: var(--ink); font-weight: 700; }
+
+  .dd-dbody { padding: 30px 34px 34px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+  .dd-dbody .jfine { margin-top: 18px; }
+  .dd-dproof { display: flex; align-items: center; gap: 12px; margin-top: 24px; padding-top: 20px;
+    border-top: 1px solid var(--line-soft); }
+  .dd-dproof .faces { display: flex; align-items: center; flex: none; height: 30px; }
+  .dd-dproof .t { flex: 1; }
+  @media (max-width: 420px) {
+    /* at this width the faces and the line cannot share a row without
+       crushing one of them, so give each its own */
+    .dd-dproof { display: block; }
+    .dd-dproof .faces { margin-bottom: 12px; }
+  }
+  .dd-dproof .faces .av { width: 30px; height: 30px; font-size: 11px; border: 2px solid #fff; margin-left: -9px; }
+  .dd-dproof .faces .av:first-child { margin-left: 0; }
+  .dd-dproof .t { font-size: 12.5px; color: var(--soft); line-height: 1.45; }
+  .dd-dproof .t b { color: var(--ink); font-weight: 700; }
+  @media (max-width: 520px) {
+    .dd-drawer { width: 100%; }
+    .dd-dhead { padding: 30px 22px 22px; }
+    .dd-dhead h2 { font-size: 26px; }
+    .dd-dbody { padding: 26px 22px 30px; }
+  }
 
   /* ============ ABOUT ============ */
   .about { padding: 124px 0; background: var(--mist); }
@@ -646,7 +707,7 @@
     <a href="#reviews">Reviews</a>
     <a href="#join">Daily Mentoring</a>
   </div>
-  <a class="nav-cta" href="#join"><span class="long">Get Daily Mentoring</span><span class="short">Join Free</span> <span>&rarr;</span></a>
+  <a class="nav-cta" href="#join" data-open-join><span class="long">Get Daily Mentoring</span><span class="short">Join Free</span> <span>&rarr;</span></a>
 </nav>
 
 <main id="top">
@@ -839,30 +900,7 @@
         <div class="jt">Start Tomorrow <em class="key">Morning</em></div>
         <p class="js">Add your name and the next session lands in your inbox at sunrise. Leave any time, in one click.</p>
 
-        <!-- ── HUBSPOT OPT-IN ──────────────────────────────────────────
-             The live DarrenDaily opt-in: portal 2518645, form
-             41958dbb-3c3a-439b-b747-bb96acf50680. This is the form actually
-             running on darrendaily.com/join today (firstname, email, role,
-             plus hidden dd_id / mrt / UTM fields that ride along).
-
-             NOT e74fd54c-8940-43db-99e5-6f016b6dfc8a, which is what
-             webflow-handoff/dd-optin-modal.js and dd-optin-upgrade.js still
-             point at. That guid now 404s from HubSpot, so those two scripts
-             render nothing. See DDOD-HANDOFF.md.
-
-             If HubSpot is blocked or slow, the fallback below is revealed
-             so this is never a dead end.
-             ──────────────────────────────────────────────────────── -->
-        <div id="ddJoinForm" class="dd-hsform"></div>
-
-        <form class="jform" id="joinFallback" hidden>
-          <div class="two">
-            <input type="text" placeholder="First name" autocomplete="given-name" required>
-            <input type="text" placeholder="Last name" autocomplete="family-name" required>
-          </div>
-          <input type="email" placeholder="Email address" autocomplete="email" required>
-          <button class="btn" type="submit">Start My Morning Edge <span class="arrow">&rarr;</span></button>
-        </form>
+        <button class="btn jbtn" data-open-join>Start Tomorrow Morning <span class="arrow">&rarr;</span></button>
 
         <p class="jfine">Free forever. No ads, no sponsors, no reselling your address. See the <a href="https://dh.darrenhardy.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
 
@@ -912,7 +950,7 @@
       <p>That is the entire ask. Not a course, not a commitment, not a credit card. Press play on today's episode and decide for yourself whether tomorrow's is worth five minutes.</p>
       <div class="acts">
         <button class="btn" id="finalPlay">Play Today's Episode <span class="arrow">&rarr;</span></button>
-        <a class="btn-ghost" href="#join">Get The Daily Session <span class="arrow">&rarr;</span></a>
+        <a class="btn-ghost" href="#join" data-open-join>Get The Daily Session <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </div>
@@ -939,6 +977,63 @@
     </div>
   </div>
 </footer>
+
+<!-- ============ JOIN DRAWER ============
+     Same slide-in pattern as the BMC checkout in compound-effect-slider.html:
+     right-hand aside, dark blurred overlay, Escape and overlay-click to close,
+     focus moved in and handed back on exit, body scroll locked while open.
+     Every "get DarrenDaily" CTA on the page opens this one drawer, so the
+     HubSpot form is mounted exactly once.
+     ======================================================== -->
+<div class="dd-overlay" id="ddOverlay" hidden></div>
+
+<aside class="dd-drawer" id="ddDrawer" role="dialog" aria-modal="true" aria-hidden="true"
+       aria-labelledby="ddDrawerTitle">
+  <button class="dd-close" id="ddClose" aria-label="Close">&#10005;</button>
+
+  <div class="dd-dhead">
+    <div class="eyebrow"><span class="pip"></span><span>DarrenDaily Mentoring</span></div>
+    <h2 id="ddDrawerTitle">Start Tomorrow <em class="key">Morning</em></h2>
+    <div class="dd-dfrom">
+      <img src="dh-face.webp" alt="Darren Hardy" width="520" height="520" loading="lazy">
+      <p>A short video from Darren, in your inbox before the day gets going. <b>Free, and never a single ad.</b></p>
+    </div>
+  </div>
+
+  <div class="dd-dbody">
+    <!-- ── HUBSPOT OPT-IN ──────────────────────────────────────────
+         The live DarrenDaily opt-in: portal 2518645, form
+         41958dbb-3c3a-439b-b747-bb96acf50680. This is the form actually
+         running on darrendaily.com/join today (firstname, email, role,
+         plus hidden dd_id / mrt / UTM fields that ride along).
+
+         NOT e74fd54c-8940-43db-99e5-6f016b6dfc8a, which is what
+         webflow-handoff/dd-optin-modal.js and dd-optin-upgrade.js still
+         point at. That guid now 404s from HubSpot, so those two scripts
+         render nothing. See DDOD-HANDOFF.md.
+
+         Mounted on the drawer's first open, not on page load, so a visitor
+         who never asks for the form never pays for HubSpot's script.
+         ──────────────────────────────────────────────────────── -->
+    <div id="ddJoinForm" class="dd-hsform"></div>
+
+    <form class="jform" id="joinFallback" hidden>
+      <div class="two">
+        <input type="text" placeholder="First name" autocomplete="given-name" required>
+        <input type="text" placeholder="Last name" autocomplete="family-name" required>
+      </div>
+      <input type="email" placeholder="Email address" autocomplete="email" required>
+      <button class="btn" type="submit">Start My Morning Edge <span class="arrow">&rarr;</span></button>
+    </form>
+
+    <p class="jfine">Free forever. No ads, no sponsors, no reselling your address. See the <a href="https://dh.darrenhardy.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
+
+    <div class="dd-dproof">
+      <div class="faces" id="ddDrawerFaces"></div>
+      <div class="t"><b>350,000 people</b> start their day here.</div>
+    </div>
+  </div>
+</aside>
 
 <!-- ============ STICKY PLAYER ============ -->
 <div class="sticky" id="sticky" role="region" aria-label="Podcast player">
@@ -1416,13 +1511,15 @@
     // each row is rendered twice so the -50% translate loops seamlessly
     $("#row1").innerHTML = (a.map(rcard).join("")).repeat(2);
     $("#row2").innerHTML = (b.map(rcard).join("")).repeat(2);
-    $("#joinFaces").innerHTML = REVIEWS.slice(0, 4).map(r => avatar(r[0], r[4])).join("");
+    // both stacks: the join card's proof line and the drawer's
+    const stack = REVIEWS.slice(0, 4).map(r => avatar(r[0], r[4])).join("");
+    $$("#joinFaces, #ddDrawerFaces").forEach(el => { el.innerHTML = stack; });
   })();
 
   /* ── HUBSPOT OPT-IN ─────────────────────────────────────────── */
-  (function optin() {
+  const mountOptin = (function optin() {
     const target = $("#ddJoinForm"), fallback = $("#joinFallback");
-    let done = false;
+    let done = false, started = false;
     const css = document.createElement("style");
     css.textContent = [
       ".dd-hsform .hs-form fieldset { max-width: none !important; }",
@@ -1447,6 +1544,11 @@
 
     function showFallback() { if (!done) { fallback.hidden = false; } }
 
+    // the styles go in immediately; the script only loads when asked for
+    function start() {
+      if (started) return;
+      started = true;
+
     // Never serialise the fields into a URL. If HubSpot is unavailable, hand
     // the person to the real opt-in page and let it collect the details.
     fallback.addEventListener("submit", function (e) {
@@ -1454,27 +1556,73 @@
       window.location.href = "https://darrendaily.com/join";
     });
 
-    const s = document.createElement("script");
-    s.src = "https://js.hsforms.net/forms/embed/v2.js";
-    s.async = true;
-    s.onload = function () {
-      if (!window.hbspt) return showFallback();
-      try {
-        window.hbspt.forms.create({
-          region: "na1",
-          portalId: "2518645",
-          formId: "41958dbb-3c3a-439b-b747-bb96acf50680",
-          target: "#ddJoinForm",
-          onFormReady: function () {
-            done = true;
-            fallback.hidden = true;
-          }
-        });
-      } catch (err) { showFallback(); }
-    };
-    s.onerror = showFallback;
-    document.head.appendChild(s);
-    setTimeout(showFallback, 6000);   // blocked or slow: never leave a dead card
+      const s = document.createElement("script");
+      s.src = "https://js.hsforms.net/forms/embed/v2.js";
+      s.async = true;
+      s.onload = function () {
+        if (!window.hbspt) return showFallback();
+        try {
+          window.hbspt.forms.create({
+            region: "na1",
+            portalId: "2518645",
+            formId: "41958dbb-3c3a-439b-b747-bb96acf50680",
+            target: "#ddJoinForm",
+            onFormReady: function () {
+              done = true;
+              fallback.hidden = true;
+            }
+          });
+        } catch (err) { showFallback(); }
+      };
+      s.onerror = showFallback;
+      document.head.appendChild(s);
+      setTimeout(showFallback, 6000);  // blocked or slow: never leave a dead drawer
+    }
+    return start;
+  })();
+
+  /* ── JOIN DRAWER ────────────────────────────────────────────── */
+  (function joinDrawer() {
+    const overlay = $("#ddOverlay"), drawer = $("#ddDrawer"), closeBtn = $("#ddClose");
+    if (!overlay || !drawer) return;
+    let lastFocus = null;
+
+    function open(e) {
+      if (e) e.preventDefault();
+      lastFocus = document.activeElement;
+      mountOptin();                       // first open pays for HubSpot, later ones do not
+      overlay.hidden = false;
+      void overlay.offsetWidth;           // flush styles so the fade and slide actually run
+      overlay.classList.add("open");
+      drawer.classList.add("open");
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.classList.add("dd-locked");
+      closeBtn.focus();
+    }
+
+    function close() {
+      overlay.classList.remove("open");
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("dd-locked");
+      setTimeout(() => { overlay.hidden = true; }, 340);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    $$("[data-open-join]").forEach(el => el.addEventListener("click", open));
+    closeBtn.addEventListener("click", close);
+    overlay.addEventListener("click", close);
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && drawer.classList.contains("open")) close();
+      // keep tab inside the drawer while it owns the screen
+      if (e.key !== "Tab" || !drawer.classList.contains("open")) return;
+      const f = drawer.querySelectorAll('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      const list = Array.from(f).filter(el => !el.disabled && el.offsetParent !== null);
+      if (!list.length) return;
+      const first = list[0], last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
   })();
 
   /* ── COUNT-UP ───────────────────────────────────────────────── */
