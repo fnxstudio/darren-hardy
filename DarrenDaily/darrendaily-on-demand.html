@@ -341,16 +341,16 @@
   .pl:hover .pl-art { transform: scale(1.07); }
   .pl h3 { font-size: clamp(17px, 1.42vw, 20px); text-transform: uppercase; margin: 0; letter-spacing: -.025em; line-height: 1.1; }
   .pl p { font-size: 13.5px; line-height: 1.55; color: var(--muted); margin-top: 8px; flex: 1; }
-  .pl-foot { display: flex; align-items: center; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
+  .pl-foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; }
   .pl-go {
-    width: 44px; height: 44px; flex: none; border-radius: 50%; background: var(--accent); color: #fff;
+    width: 32px; height: 32px; flex: none; border-radius: 50%; background: var(--accent); color: #fff;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 10px 22px -10px rgba(var(--accent-rgb), .7); transition: transform .2s var(--ease);
   }
   .pl:hover .pl-go { transform: scale(1.09); }
-  .pl-go svg { width: 15px; height: 15px; margin-left: 2px; }
+  .pl-go svg { width: 11px; height: 11px; margin-left: 1.5px; }
   .pl.on .pl-go svg { margin-left: 0; }
-  .pl-meta { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--soft); line-height: 1.4; margin-top: 11px; }
+  .pl-meta { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--soft); line-height: 1.4; }
   .pl-meta b { color: var(--ink); }
   @media (max-width: 980px) { .pl-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 640px) { .pl-grid { grid-template-columns: 1fr; gap: 14px; } .pl { padding: 24px 22px 22px; } }
@@ -1180,12 +1180,13 @@
             '<img src="ddod-artwork.webp" alt="" width="900" height="900"></span>' +
           '<span class="pl-body">' +
             "<h3>" + esc(pl[0]) + "</h3><p>" + esc(pl[1]) + "</p>" +
-            '<span class="pl-meta"><b>' + eps.length + " episodes</b> &middot; " +
-              runtime(eps) + " minutes total</span>" +
+            '<span class="pl-foot">' +
+              '<span class="pl-go">' + (on && !audio.paused ? BARS : PLAY_SVG) + "</span>" +
+              '<span class="pl-meta"><b>' + eps.length + " episodes</b> &middot; " +
+                runtime(eps) + " minutes total</span>" +
+            "</span>" +
           "</span>" +
         "</span>" +
-        '<span class="pl-foot"><span class="pl-go">' +
-          (on && !audio.paused ? BARS : PLAY_SVG) + "</span></span>" +
       "</button>";
     }).join("");
   }
