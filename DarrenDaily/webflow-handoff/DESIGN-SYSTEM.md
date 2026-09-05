@@ -165,3 +165,20 @@ text is identical in both. Slim renders 87px at desktop, 127px wrapped at 375px.
   verified structurally but **not** on a live URL. Check a session page once one publishes.
 - Full-footer design corrections vs. the real darrenhardy.com home footer are the user's, not
   to be done unprompted.
+
+## Overlays (added with the /404 rebuild, 2026-09-05)
+
+Shared, used by /welcome and /404:
+
+| class | what |
+|---|---|
+| `dd-toast` | share-confirmation toast, `#toast`, `.show` state in the page embed |
+| `dd-exit` + `-card -close -close-icon -accent -eyebrow -title -sub -list -session -session-img -session-date` | exit-intent "latest session" popup. Promoted from `wel-exit*`; the two pages' rules were byte-identical |
+| `dd-modal` + `-card -close -close-icon -logo -accent -headline -headline-b -promise -promise-b` | join/opt-in modal chrome |
+
+The exit popup needs `#exitPopup`, `data-current-slug` on the root and
+`data-session-slug` on each session; the behaviour JS lives in each page's embed.
+
+The join modal is **interim** — it exists so `dd-optin-modal-v3.js` (which requires
+`#joinModal` / `#joinForm` and strips the href off `[data-open-form]`) keeps the CTA
+alive until the drawer system replaces it. See `404/README-404-native.md`.

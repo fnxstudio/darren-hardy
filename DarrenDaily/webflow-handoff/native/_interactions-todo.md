@@ -1,0 +1,32 @@
+# Rules that could NOT be single-classed (rebuild as Webflow Interactions or manual):
+
+- `.btn:hover .arrow` 
+- `.btn-line:hover .arrow` 
+- `.stagger.in > *` 
+- `.stagger.in > *:nth-child(2)` 
+- `.stagger.in > *:nth-child(3)` 
+- `nav.top.solid .nav-brand .logo-white` 
+- `nav.top.solid .nav-brand .logo-color` 
+- `nav.top.solid .nav-cta` 
+- `.nav-cta:hover .arrow` 
+- `.video-frame:hover .vf-play` 
+- `.video-frame iframe` 
+- `.video-frame.playing img` 
+- `.video-frame.playing::after` 
+- `.video-frame.playing .vf-play` 
+- `.video-frame.playing .vf-chip` 
+- `.hero-cue:hover .hero-cue-arrow` 
+- `.tw-proof .proof-avatars` 
+- `.tw-proof .proof-avatars img` 
+- `.tw-proof .proof-avatars img:first-child` 
+- `.tw-proof .proof-avatars img` [@media (max-width: 479px)]
+- `.steps.in .steps-rail::after` 
+- `.steps.in .step::before` 
+- `.steps.in .step:nth-child(3)::before` 
+- `.steps.in .step:nth-child(4)::before` 
+- `.ep-meta svg` 
+- `.close-band p b` 
+- `.xp-modal.open .xp-card` 
+- `.socials a:hover svg` 
+- `.bmc-corner:hover img` 
+- `.bmc-corner:hover .bmc-corner-cta` 
