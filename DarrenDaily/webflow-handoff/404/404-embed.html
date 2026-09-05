@@ -76,6 +76,15 @@
   var d=document;
   d.documentElement.classList.add('dd-js');
 
+  /* Webflow derives each image's `sizes` from the asset's intrinsic width, not its
+     CSS box, and the attribute is not authorable through the Designer or the API.
+     Left alone the 940px video poster pulls the 1600w variant (112KB vs 73KB) and
+     the covers wall pulls 1200w for an 835px box. These are loading="lazy", so
+     correcting `sizes` here, at the end of the body, lands before the fetch. */
+  [['.dd-video-poster','(max-width: 988px) 100vw, 940px'],
+   ['.exp-covers','(max-width: 900px) 100vw, 58vw']]
+   .forEach(function(p){ d.querySelectorAll(p[0]).forEach(function(i){ i.sizes=p[1]; }); });
+
   /* Video facade: the Vimeo iframe is not mounted until the poster is clicked. */
   var vf=d.querySelector('.dd-video');
   if(vf){
