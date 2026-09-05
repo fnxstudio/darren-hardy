@@ -88,7 +88,7 @@
   /* ---------- playlists ---------- */
   function closePlaylist(){ curPl=-1; if(plList) plList.innerHTML='';
     d.querySelectorAll('.ddod-pl').forEach(function(c){ c.classList.remove('is-active'); }); }
-  function openPlaylist(i){
+  function openPlaylist(i, scroll){
     var pl=PLAYLISTS[i]; if(!pl||!plList) return;
     curPl=i;
     d.querySelectorAll('.ddod-pl').forEach(function(c){ c.classList.toggle('is-active', +c.getAttribute('data-pl')===i); });
@@ -103,11 +103,14 @@
     plList.querySelectorAll('.ddod-ep').forEach(function(r){
       r.addEventListener('click',function(){ queue=pl[1].slice(); playAt(+r.getAttribute('data-i')); });
     });
-    plList.scrollIntoView({behavior:'smooth',block:'nearest'});
+    if(scroll!==false) plList.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
   d.querySelectorAll('.ddod-pl').forEach(function(c){
     c.addEventListener('click',function(){ var i=+c.getAttribute('data-pl'); if(i===curPl) closePlaylist(); else openPlaylist(i); });
   });
+  /* Open the first playlist on load so the shelf is never empty.
+     scroll=false, otherwise the page would jump on arrival. */
+  if(PLAYLISTS.length) openPlaylist(0,false);
 
   /* ---------- sticky controls ---------- */
   if(skPlay) skPlay.addEventListener('click',function(){ if(audio.paused) audio.play().catch(function(){}); else audio.pause(); });
@@ -126,21 +129,43 @@
   }catch(err){}
 
   /* ---------- stats count-up ---------- */
+  /* Each figure keeps its finished value in data-final, so the band reads
+     correctly with no JS and under prefers-reduced-motion. */
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var band=d.querySelector('.ddod-band');
-  if(band && !reduced && 'IntersectionObserver' in window){
+  function runCount(root){
+    root.querySelectorAll('[data-count]').forEach(function(el){
+      if(el.dataset.counted) return; el.dataset.counted='1';
+      var end=parseFloat(el.getAttribute('data-count'));
+      var dec=parseInt(el.getAttribute('data-decimals')||'0',10);
+      var suffix=el.getAttribute('data-suffix')||'';
+      var final=el.getAttribute('data-final')||el.textContent;
+      var tail=[].map.call(el.querySelectorAll('b'),function(b){return b.outerHTML;}).join('');
+      if(isNaN(end)||reduced){ el.classList.add('is-counted'); return; }
+      var t0=null;
+      function fmt(v){ return (dec ? v.toFixed(dec) : Math.floor(v).toLocaleString('en-US'))+suffix; }
+      function step(ts){
+        if(!t0) t0=ts;
+        var p=Math.min(1,(ts-t0)/1100), eased=1-Math.pow(1-p,3);
+        el.innerHTML = fmt(end*eased)+tail;
+        if(p<1) requestAnimationFrame(step);
+        else { el.innerHTML = final+tail; el.classList.add('is-counted'); }
+      }
+      el.innerHTML = fmt(0)+tail;
+      requestAnimationFrame(step);
+    });
+  }
+  if(band && !('IntersectionObserver' in window)) runCount(band);
+  if(band && 'IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){
-      es.forEach(function(en){
-        if(!en.isIntersecting) return; io.unobserve(en.target);
-        en.target.querySelectorAll('[data-count]').forEach(function(el){
-          var end=+el.getAttribute('data-count'), final=el.textContent, t0=null;
-          if(!end||end<100) return;
-          function step(ts){ if(!t0) t0=ts; var p=Math.min(1,(ts-t0)/900); var v=Math.floor(end*(1-Math.pow(1-p,3)));
-            el.textContent=v.toLocaleString('en-US'); if(p<1) requestAnimationFrame(step); else el.textContent=final; }
-          el.textContent='0'; requestAnimationFrame(step);
-        });
-      });
+      es.forEach(function(en){ if(en.isIntersecting){ io.unobserve(en.target); runCount(en.target); } });
     },{threshold:.35});
+    /* belt and braces: if the observer never fires (some embedded/headless
+       contexts never deliver entries) the numbers still animate on first scroll. */
+    var kick=function(){ var b=band.getBoundingClientRect();
+      if(b.top<window.innerHeight && b.bottom>0){ runCount(band); window.removeEventListener('scroll',kick); } };
+    window.addEventListener('scroll',kick,{passive:true});
+    setTimeout(kick,2500);
     io.observe(band);
   }
 

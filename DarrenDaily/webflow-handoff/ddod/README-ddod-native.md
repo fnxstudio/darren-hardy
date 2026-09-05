@@ -74,10 +74,10 @@ the scrubber work. No audio is stored in Webflow.
 
 ## Where the code lives
 
-`ddod-player-v3.js` is uploaded as a **site asset** and loaded with `defer`:
+`ddod-player-v6.js` is uploaded as a **site asset** and loaded with `defer`:
 
 ```
-https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9c9ba707b16e5a4a6a7e24_ddod-player-v3.js
+https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9ca29eabb159c415574fe9_ddod-player-v6.js
 ```
 
 19.6 KB, of which ~6.9 KB is the episode and playlist data and ~2.6 KB the podcast
@@ -98,7 +98,7 @@ exact 980 / 760 / 560 breakpoints scoped to `.dd-page`.
 | `dh-face-104.webp` | 3.7 KB | was 520px/37 KB; renders 52x52 |
 | `dh-covers-600.webp` | 59.2 KB | 4:5 portrait crop of the covers wall, for the host section |
 | `ddod-artwork-116.webp` | 4.6 KB | thumbnails: playlist cards, sticky bar, episode rows |
-| `ddod-player-v3.js` | 19.6 KB | |
+| `ddod-player-v6.js` | 19.6 KB | |
 
 Everything else was already on the CDN: the eight media logos, `hero-chair.webp`,
 and `dd-logo-color-286.webp`.
@@ -184,10 +184,58 @@ DarrenDaily members quoting their own words, not Apple reviewers. If a genuinely
 separate source is wanted, YouTube comments on the DD channel are real, public and
 attributable, and could be added as a third card type.
 
+## Third revision
+
+Section order is now hero, stats band, review wall, playlists, join, host, close.
+
+- **Review wall: 9 tiles per row, 6 member cards.** Eight per row broke the "every
+  third tile" rhythm at the loop seam (you got four text cards in a row); nine makes
+  the pattern survive the clone. A woman leads each row.
+- **Member card quotes** are smaller, sentence case, in real quote marks, and the
+  photo scrim is lighter so faces read.
+- **Playlist callout** is a short black tab overlapping the card's top edge. It was a
+  pale pill, then a wide red banner; both read as generic.
+- **Round red play button** on every playlist card, and the first playlist opens on
+  load (without scrolling the page) so the shelf is never empty.
+- **Hero**: the 5/5/0 trio is gone so the featured player comes sooner, the player
+  carries an episode teaser, and a centred bobbing scroll cue closes the section and
+  links to the playlists, matching /welcome and /404.
+- **Stats band**: labels bottom-aligned so they sit on one line while the gold 10M+
+  grows upward; rating shows 4.9/5 with a gold star; count-up handles decimals and
+  suffixes; the listens figure pulses once counted.
+- **Host photo** is absolutely positioned flush to the section's left edge, full
+  height, 36% wide.
+- **Close** adopts the home page's "If you're still reading / You're one of us."
+
+### Two bugs from the same root cause
+
+The builder **drops any class it has no style for**. Twice this shipped an element
+with `class=""` and CSS that matched nothing:
+
+- `ddod-nav-cta-long` was never created, so the mobile rule to hide the long label
+  never applied and the button showed "Get DarrenDaily Join Free" at once.
+- `dd-drawer-form` was never created, so the whole opt-in form rendered with raw
+  browser styling. The embed now targets **`#ddJoinForm`** instead, since the id is
+  guaranteed.
+
+**Rule: if you reference a class from the page embed, make sure the builder was given
+CSS for it, or target an id.**
+
+### Verification note
+
+`IntersectionObserver` never fires in the headless preview used here, even with the
+element fully in view, so the count-up could not be confirmed visually. The script now
+also runs on first scroll and on a 2.5s timeout, so it does not depend on the observer.
+
 ## Still open
 - The episode and playlist data is baked into the script. `DarrenDaily/refresh-ddod-data.py`
   checks the source page's copy of it against the live feed; it has not been pointed
   at this build.
+- **Podcast app badges.** The row uses uniform chips carrying each platform's real
+  brand mark in its real colour. Apple, Spotify and the rest also publish official
+  "Listen on" badge lockups, which are more instantly recognisable but come in six
+  different shapes and colours and would be the only borrowed visual language on the
+  page. Worth a decision before launch.
 - **Audio costs no Webflow bandwidth.** `traffic.libsyn.com` 302s to signed CloudFront
   (`content.libsyn.com`), so Libsyn serves every byte and the listens count in Libsyn's
   stats. Nothing audio-related is stored on or served from Webflow.
