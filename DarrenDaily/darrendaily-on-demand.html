@@ -900,7 +900,18 @@
         <div class="jt">Start Tomorrow <em class="key">Morning</em></div>
         <p class="js">Add your name and the next session lands in your inbox at sunrise. Leave any time, in one click.</p>
 
-        <button class="btn jbtn" data-open-join>Start Tomorrow Morning <span class="arrow">&rarr;</span></button>
+        <!-- inline opt-in. Its twin lives in the drawer; see the JOIN DRAWER
+             block for why there are two mounts rather than one moved node. -->
+        <div id="ddJoinForm" class="dd-hsform"></div>
+
+        <form class="jform" id="joinFallback" hidden>
+          <div class="two">
+            <input type="text" placeholder="First name" autocomplete="given-name" required>
+            <input type="text" placeholder="Last name" autocomplete="family-name" required>
+          </div>
+          <input type="email" placeholder="Email address" autocomplete="email" required>
+          <button class="btn" type="submit">Start My Morning Edge <span class="arrow">&rarr;</span></button>
+        </form>
 
         <p class="jfine">Free forever. No ads, no sponsors, no reselling your address. See the <a href="https://dh.darrenhardy.com/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
 
@@ -1012,12 +1023,17 @@
          point at. That guid now 404s from HubSpot, so those two scripts
          render nothing. See DDOD-HANDOFF.md.
 
-         Mounted on the drawer's first open, not on page load, so a visitor
-         who never asks for the form never pays for HubSpot's script.
+         TWO MOUNTS, not one node moved between surfaces: HubSpot's DOM embed
+         carries a hidden submit-target iframe, and re-parenting an iframe
+         reloads it. HubSpot namespaces repeat embeds of the same form, so two
+         targets is the supported way to have the opt-in inline AND in the
+         drawer. The inline one mounts when the join section comes into view;
+         this one mounts on the drawer's first open. Neither is fetched by a
+         visitor who never reaches either.
          ──────────────────────────────────────────────────────── -->
-    <div id="ddJoinForm" class="dd-hsform"></div>
+    <div id="ddDrawerForm" class="dd-hsform"></div>
 
-    <form class="jform" id="joinFallback" hidden>
+    <form class="jform" id="ddDrawerFallback" hidden>
       <div class="two">
         <input type="text" placeholder="First name" autocomplete="given-name" required>
         <input type="text" placeholder="Last name" autocomplete="family-name" required>
@@ -1516,10 +1532,13 @@
     $$("#joinFaces, #ddDrawerFaces").forEach(el => { el.innerHTML = stack; });
   })();
 
-  /* ── HUBSPOT OPT-IN ─────────────────────────────────────────── */
+  /* ── HUBSPOT OPT-IN ───────────────────────────────────────────
+     One script, two independent mounts: the inline form in the join card and
+     its twin in the drawer. Each mounts once, on demand, and each has its own
+     fallback so one failing never takes the other down. */
   const mountOptin = (function optin() {
-    const target = $("#ddJoinForm"), fallback = $("#joinFallback");
-    let done = false, started = false;
+    const FORM = { region: "na1", portalId: "2518645",
+                   formId: "41958dbb-3c3a-439b-b747-bb96acf50680" };
     const css = document.createElement("style");
     css.textContent = [
       ".dd-hsform .hs-form fieldset { max-width: none !important; }",
@@ -1532,7 +1551,7 @@
       ".dd-hsform .hs-form .hs-input:focus { outline: none; border-color: #a72632; box-shadow: 0 0 0 3px rgba(167,38,50,.16); }",
       ".dd-hsform .hs_mobilephone, .dd-hsform .hs_text_messaging_optin_property, .dd-hsform .legal-consent-container { display: none !important; }",
       ".dd-hsform .hs-form .hs_company_role > label { display: none !important; }",
-      ".dd-hsform .hs-form select.hs-input { -webkit-appearance: none; appearance: none; cursor: pointer; padding-right: 42px; color: #757575; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23616a78' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right 16px center; color: #14171c; }",
+      ".dd-hsform .hs-form select.hs-input { -webkit-appearance: none; appearance: none; cursor: pointer; padding-right: 42px; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23616a78' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\"); background-repeat: no-repeat; background-position: right 16px center; color: #14171c; }",
       ".dd-hsform .hs-form select.hs-input.is-placeholder { color: #757575; }",
       ".dd-hsform .hs-error-msgs { list-style: none; margin: 5px 0 0; padding: 0; }",
       ".dd-hsform .hs-error-msg { color: #a72632; font-size: 12.5px; }",
@@ -1542,44 +1561,56 @@
     ].join("\n");
     document.head.appendChild(css);
 
-    function showFallback() { if (!done) { fallback.hidden = false; } }
+    let loading = false, ready = false;
+    const queue = [];
 
-    // the styles go in immediately; the script only loads when asked for
-    function start() {
-      if (started) return;
-      started = true;
-
-    // Never serialise the fields into a URL. If HubSpot is unavailable, hand
-    // the person to the real opt-in page and let it collect the details.
-    fallback.addEventListener("submit", function (e) {
-      e.preventDefault();
-      window.location.href = "https://darrendaily.com/join";
-    });
-
-      const s = document.createElement("script");
-      s.src = "https://js.hsforms.net/forms/embed/v2.js";
-      s.async = true;
-      s.onload = function () {
-        if (!window.hbspt) return showFallback();
-        try {
-          window.hbspt.forms.create({
-            region: "na1",
-            portalId: "2518645",
-            formId: "41958dbb-3c3a-439b-b747-bb96acf50680",
-            target: "#ddJoinForm",
-            onFormReady: function () {
-              done = true;
-              fallback.hidden = true;
-            }
-          });
-        } catch (err) { showFallback(); }
+    function loadScript() {
+      if (loading) return;
+      loading = true;
+      const sc = document.createElement("script");
+      sc.src = "https://js.hsforms.net/forms/embed/v2.js";
+      sc.async = true;
+      sc.onload = () => {
+        if (!window.hbspt) return queue.splice(0).forEach(m => m.fail());
+        ready = true;
+        queue.splice(0).forEach(m => m.run());
       };
-      s.onerror = showFallback;
-      document.head.appendChild(s);
-      setTimeout(showFallback, 6000);  // blocked or slow: never leave a dead drawer
+      sc.onerror = () => queue.splice(0).forEach(m => m.fail());
+      document.head.appendChild(sc);
     }
-    return start;
+
+    // mount(targetSel, fallbackSel, instanceId) - safe to call repeatedly.
+    // instanceId is not optional in practice: without it HubSpot stamps both
+    // embeds with identical element ids, and the drawer's labels then focus
+    // the inline form's inputs.
+    const mounted = {};
+    return function mount(targetSel, fallbackSel, instanceId) {
+      if (mounted[targetSel]) return;
+      mounted[targetSel] = true;
+      const fallback = $(fallbackSel);
+      let done = false;
+      const fail = () => { if (!done && fallback) fallback.hidden = false; };
+      const run = () => {
+        try {
+          window.hbspt.forms.create(Object.assign({}, FORM, {
+            target: targetSel,
+            formInstanceId: instanceId,
+            onFormReady: function () { done = true; if (fallback) fallback.hidden = true; }
+          }));
+        } catch (err) { fail(); }
+      };
+      // blocked or slow: never leave a dead card or a dead drawer
+      setTimeout(fail, 6000);
+      if (ready) run(); else { queue.push({ run, fail }); loadScript(); }
+    };
   })();
+
+  // The inline form is the page's primary CTA, so it is never gated on a
+  // scroll observer firing: if that missed, the card would show neither the
+  // form nor its fallback. Deferred past first paint, then guaranteed.
+  const mountInline = () => mountOptin("#ddJoinForm", "#joinFallback", "inline");
+  if (document.readyState === "complete") mountInline();
+  else addEventListener("load", mountInline);
 
   /* ── JOIN DRAWER ────────────────────────────────────────────── */
   (function joinDrawer() {
@@ -1590,7 +1621,7 @@
     function open(e) {
       if (e) e.preventDefault();
       lastFocus = document.activeElement;
-      mountOptin();                       // first open pays for HubSpot, later ones do not
+      mountOptin("#ddDrawerForm", "#ddDrawerFallback", "drawer");   // first open only
       overlay.hidden = false;
       void overlay.offsetWidth;           // flush styles so the fade and slide actually run
       overlay.classList.add("open");
