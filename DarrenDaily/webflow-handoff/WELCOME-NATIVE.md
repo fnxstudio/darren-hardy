@@ -63,10 +63,27 @@ The live section headings end in a **plain** period; only the hero uses the acce
 `<span class="dot">`. Three `dd-dot` spans were added by mistake and removed —
 `.dd-dot` should appear exactly once on this page.
 
-## NOT built yet
+## Exit popup + toast (built)
 
-The **exit-intent popup** (`xp-modal`) and the **toast** are not rebuilt. The live page has
-both. Everything else on the page is complete.
+Both are native: `dd-toast` (shared, reusable) and `wel-exit` / `wel-exit-card` / `-close` /
+`-accent` / `-eyebrow` / `-title` / `-sub` / `-list` / `-session`. Only the `.open` / `.show`
+state classes live in the embed. Verified: opens, `resolveLatest()` shows exactly one session
+and hides the rest, scroll locks, close restores scroll and records the dismissal.
+
+`CAP_ENABLED` is **false**, carried over verbatim from the original, which flags it
+"SET TO true BEFORE LAUNCH". It currently shows on every trigger. Change it before go-live.
+
+`window.ddExitOpen()` is exposed as a QA trigger so the popup can be opened without
+performing exit intent.
+
+## Two bugs found and fixed during the build
+
+1. **Webflow silently drops `-webkit-text-stroke`.** The step numerals are drawn as outlines
+   (`color: transparent` + stroke). The colour survived the parser and the stroke did not, so
+   01/02/03 rendered invisible. The rule now lives in the embed — the only place it can.
+2. **Inline embed scripts run at parse time.** The embed was appended before the popup markup,
+   so `querySelector('.wel-exit')` returned null and the whole popup block bailed out silently
+   (no console error). The embed must be the **last** child of `.dd-page`.
 
 Also still hardcoded, exactly as on the live page: the two session cards point at
 **July 2026** sessions and link to `dd.darrenhardy.com`, not the Webflow Sessions CMS. Those
