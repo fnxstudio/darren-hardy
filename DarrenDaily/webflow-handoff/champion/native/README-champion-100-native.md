@@ -4,8 +4,11 @@ Native rebuild of `/champion-100-gift`, built exactly like the $25 page. **Read
 `README-champion-25-native.md` first** — the architecture, class list, breakpoint handling,
 custom-code caveat and parser gotchas are all documented there and apply identically here.
 
-- **Native page:** https://darrendaily.webflow.io/champion-100-gift-native — page id `6a9c48148dd513bfc47da627`
-- **Live original (unchanged):** https://darrendaily.webflow.io/champion-100-gift — page id `6a6a78950fc7ccd49a1c98f3`
+**PROMOTED 2026-09-05** — now served at the canonical slug; the old loader-embed page was renamed
+to `champion-100-gift-legacy`, set to draft, and is awaiting deletion in the Designer.
+
+- **Live page:** https://darrendaily.webflow.io/champion-100-gift — page id `6a9c48148dd513bfc47da627`
+- **Retired loader-embed page:** slug `champion-100-gift-legacy`, draft — page id `6a6a78950fc7ccd49a1c98f3`
 - Embed element `dbcf0cf2-6a47-afd7-45c9-60a7fa42f4b8`; source is `champion-100-embed.html` here.
 
 ## What this build reused
@@ -61,7 +64,16 @@ IntersectionObserver and CSS transitions are suspended by the browser, so `.cham
 and `.gift-card` will report `opacity: 0` even though the winning rule declares `opacity: 1`.
 That is the harness, not the page — confirm with a visible viewport before chasing it.
 
-## To promote over the live pages
+## The slug swap (done 2026-09-05)
 
-Swap the slugs for both pages together (`champion-{25,100}-gift-native` -> `champion-{25,100}-gift`,
-old pages renamed/archived) so the printed and emailed URLs keep working, then publish.
+Order that works: rename the old pages to `-legacy` **and** set `draft: true` (this frees the
+canonical slug — two pages cannot share one), then rename the native pages onto the canonical
+slugs, then publish. Verified afterwards: `/champion-25-gift` and `/champion-100-gift` both 200
+and serve the native markup (no `#dd-app` loader div); `-legacy`, `-native` and the component
+preview all 404.
+
+**`bulk_update_pages` silently ignores the `draft` flag** — it returned `draft: false` for both
+pages. `update_page_settings`, one page per action, applies it correctly. Use that.
+
+Still to do by hand: the Data API has no delete-page action, so deleting the two `-legacy` pages
+and the component preview is a Designer step. All three are marked draft so they are easy to find.

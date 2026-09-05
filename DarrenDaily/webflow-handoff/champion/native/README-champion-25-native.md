@@ -1,10 +1,11 @@
 # champion-25-gift — NATIVE Webflow rebuild
 
-Native (Designer-editable) rebuild of `/champion-25-gift`. The live loader-embed page is
-untouched; this is a parallel page pending sign-off, then a slug swap.
+Native (Designer-editable) rebuild of `/champion-25-gift`. **PROMOTED 2026-09-05** — this is now
+the page served at the canonical slug; the old loader-embed page was renamed to
+`champion-25-gift-legacy`, set to draft, and is awaiting deletion in the Designer.
 
-- **Native page:** https://darrendaily.webflow.io/champion-25-gift-native — page id `6a9c3ecca80c51e1c14c78d2`
-- **Live original (unchanged):** https://darrendaily.webflow.io/champion-25-gift — page id `6a6a78974ff16085509d80dc`
+- **Live page:** https://darrendaily.webflow.io/champion-25-gift — page id `6a9c3ecca80c51e1c14c78d2`
+- **Retired loader-embed page:** slug `champion-25-gift-legacy`, draft — page id `6a6a78974ff16085509d80dc`
 - Site `6a66d7a6f9d116b514a13ae1`. Built headlessly via the Data API (no Designer session).
 
 ## What is native vs. embedded
