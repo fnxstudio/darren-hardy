@@ -1,0 +1,194 @@
+<style>
+/* ---- /404 (expired session). Shared systems are dd-* (nav, hero, video facade,
+   cue, sessions cards, close band, exit popup, toast, modal, footer -- most also
+   used by /welcome); page-only sections are exp-*. Only keyframes,
+   pseudo-elements, parent-state selectors and the exact 900/760/720/520/480
+   breakpoints live here. Everything else is native and Designer-editable. ---- */
+
+@keyframes ddUp { to { opacity:1; transform:none; } }
+@keyframes ddDotPulse { 0%,100%{box-shadow:0 0 0 0 rgba(167,38,50,0.55)} 70%{box-shadow:0 0 0 9px rgba(167,38,50,0)} }
+@keyframes ddBtnPulse { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.06)} }
+@keyframes ddRing { 0%{box-shadow:0 0 0 0 rgba(167,38,50,0.5)} 70%{box-shadow:0 0 0 30px rgba(167,38,50,0)} 100%{box-shadow:0 0 0 0 rgba(167,38,50,0)} }
+@keyframes ddBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+.dd-js .exp-eyebrow,.dd-js .dd-hero-h1,.dd-js .dd-hero-lead,.dd-js .dd-video,.dd-js .dd-cue{opacity:0;transform:translateY(14px)}
+.dd-js .exp-eyebrow{animation:ddUp 1s cubic-bezier(0.16,1,0.3,1) 0s forwards}
+.dd-js .dd-hero-h1{animation:ddUp 1s cubic-bezier(0.16,1,0.3,1) .1s forwards}
+.dd-js .dd-hero-lead{animation:ddUp 1s cubic-bezier(0.16,1,0.3,1) .35s forwards}
+.dd-js .dd-video{transform:translateY(16px);animation:ddUp 1s cubic-bezier(0.16,1,0.3,1) .6s forwards}
+.dd-js .dd-cue{transform:none;animation:ddUp 1s cubic-bezier(0.16,1,0.3,1) 1s forwards}
+
+.exp-dotpip{animation:ddDotPulse 1.8s ease-in-out infinite}
+
+.dd-video-play{animation:ddBtnPulse 1.8s ease-in-out infinite}
+.dd-video-play::after{content:"";position:absolute;inset:0;border-radius:50%;animation:ddRing 1.8s cubic-bezier(0.25,0.6,0.3,1) infinite}
+.dd-video:hover .dd-video-play{background-color:#cf3a45}
+.dd-video:hover .dd-video-scrim{opacity:.9}
+.dd-video.playing .dd-video-poster,.dd-video.playing .dd-video-scrim,.dd-video.playing .dd-video-play,.dd-video.playing .dd-video-chip{display:none}
+.dd-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:5}
+.dd-cue-arrow{animation:ddBob 2s ease-in-out infinite}
+.dd-cue:hover .dd-cue-arrow{border-color:#cf3a45;background-color:rgba(167,38,50,0.55)}
+
+.dd-btn:hover .dd-btn-arrow,.dd-btn-line:hover .dd-btn-arrow{transform:translateX(4px)}
+.exp-cb-help-link:hover{border-bottom-color:#ffffff}
+
+.dd-js .dd-reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1),transform .8s cubic-bezier(0.16,1,0.3,1)}
+.dd-js .dd-reveal.in{opacity:1;transform:none}
+.dd-js .dd-stagger > *{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(0.16,1,0.3,1),transform .7s cubic-bezier(0.16,1,0.3,1)}
+.dd-js .dd-stagger.in > *{opacity:1;transform:none}
+.dd-js .dd-stagger.in > *:nth-child(2){transition-delay:.10s}
+.dd-js .dd-stagger.in > *:nth-child(3){transition-delay:.20s}
+
+.dd-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.dd-exit.open{opacity:1;visibility:visible}
+.dd-exit.open .dd-exit-card{transform:none}
+.dd-exit-session[hidden]{display:none}
+.dd-exit-close:hover{background-color:#f3f5f8;color:#14171c}
+.dd-modal.open{opacity:1;visibility:visible}
+.dd-modal.open .dd-modal-card{transform:none}
+.dd-modal-close:hover{background-color:#f3f5f8;color:#14171c}
+
+@media (prefers-reduced-motion:reduce){
+  .dd-js .exp-eyebrow,.dd-js .dd-hero-h1,.dd-js .dd-hero-lead,.dd-js .dd-video,.dd-js .dd-cue,.dd-js .dd-reveal,.dd-js .dd-stagger > *{opacity:1;transform:none;animation:none;transition:none}
+  .exp-dotpip,.dd-video-play,.dd-video-play::after,.dd-cue-arrow{animation:none}
+}
+
+/* This page opts the shared nav into its dark-hero white logo. The nav's Join
+   and Share CTAs both stay hidden here (component default). */
+.dd-nav .dd-nav-logo{display:none}
+.dd-nav .dd-nav-logo-white{display:block}
+.dd-nav.solid .dd-nav-logo{display:block}
+.dd-nav.solid .dd-nav-logo-white{display:none}
+
+/* EXACT original breakpoints. Webflow's are fixed at 991/767/479. */
+@media (min-width:901px){ .dd-page .exp-intro{flex-direction:row} .dd-page .exp-intro-wall{flex:1;min-height:0} .dd-page .exp-intro-text{width:42%;padding:64px 54px} .dd-page .exp-seals{column-gap:20px;row-gap:26px;margin-top:34px} .dd-page .exp-seal{height:50px} .dd-page .exp-seal-amazon{height:41px} .dd-page .exp-seal-nyt{height:52.5px} }
+@media (max-width:900px){ .dd-page .exp-intro{flex-direction:column} .dd-page .exp-intro-wall{flex:none;min-height:66vh} .dd-page .exp-intro-text{width:100%;padding:56px 30px} .dd-page .exp-seals{column-gap:16px;row-gap:26px;margin-top:38px} .dd-page .exp-seal{height:56px} .dd-page .exp-seal-amazon{height:45.9px} .dd-page .exp-seal-nyt{height:58.8px} }
+@media (min-width:761px){ .dd-page .dd-sessions{padding-top:120px;padding-bottom:120px} .dd-page .dd-ep-grid{grid-template-columns:1fr 1fr;max-width:1040px} }
+@media (max-width:760px){ .dd-page .dd-sessions{padding-top:84px;padding-bottom:84px} .dd-page .dd-ep-grid{grid-template-columns:1fr;max-width:480px} }
+@media (min-width:721px){ .dd-page .dd-close{padding-top:116px;padding-bottom:116px} }
+@media (max-width:720px){ .dd-page .dd-close{padding-top:84px;padding-bottom:84px} .dd-page .dd-hero{justify-content:flex-start;padding-top:86px;padding-bottom:68px} .dd-page .dd-video{margin-top:28px;box-shadow:0 0 0 2px #fff,0 24px 56px -28px rgba(0,0,0,0.5)} .dd-page .dd-video-play{width:68px;height:68px} .dd-page .dd-video-play-icon{width:24px;height:24px} .dd-page .dd-cue{margin-top:28px} .dd-page .dd-cue-text{font-size:11px} }
+@media (min-width:521px){ .dd-exit-card{padding:38px 34px 30px} .dd-modal-card{padding:40px 36px 32px} }
+@media (max-width:520px){ .dd-exit-card{padding:34px 22px 26px} .dd-modal-card{padding:36px 22px 26px} }
+@media (max-width:480px){ .dd-page .exp-seal{height:46px} .dd-page .exp-seal-amazon{height:37.7px} .dd-page .exp-seal-nyt{height:48.3px} }
+</style>
+<script>
+(function(){
+  var d=document;
+  d.documentElement.classList.add('dd-js');
+
+  /* Video facade: the Vimeo iframe is not mounted until the poster is clicked. */
+  var vf=d.querySelector('.dd-video');
+  if(vf){
+    function play(){
+      if(vf.classList.contains('playing'))return;
+      vf.classList.add('playing');vf.style.cursor='default';
+      var f=d.createElement('iframe');
+      f.src='https://player.vimeo.com/video/298896900?autoplay=1&title=0&byline=0&portrait=0';
+      f.setAttribute('allow','autoplay; fullscreen; picture-in-picture');
+      f.setAttribute('allowfullscreen','');
+      f.setAttribute('title','Why DarrenDaily expires after 72 hours');
+      vf.appendChild(f);
+    }
+    vf.setAttribute('role','button');vf.setAttribute('tabindex','0');
+    vf.setAttribute('aria-label','Play Darren’s message on why DarrenDaily expires after 72 hours');
+    vf.addEventListener('click',play);
+    vf.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();play();}});
+  }
+
+  var reveals=[].slice.call(d.querySelectorAll('.exp-manifesto,.dd-ep-head'));
+  var staggers=[].slice.call(d.querySelectorAll('.dd-ep-grid'));
+  reveals.forEach(function(el){el.classList.add('dd-reveal');});
+  staggers.forEach(function(el){el.classList.add('dd-stagger');});
+  var targets=reveals.concat(staggers);
+  function show(el){el.classList.add('in');}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target);}});},{threshold:0.12});
+    targets.forEach(function(el){io.observe(el);});
+    setTimeout(function(){targets.forEach(function(el){if(!el.classList.contains('in')&&el.getBoundingClientRect().top<innerHeight)show(el);});},1500);
+  } else { targets.forEach(show); }
+
+  var toast=d.querySelector('.dd-toast'),tt;
+  function showToast(msg){ if(!toast)return; toast.textContent=msg; toast.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){toast.classList.remove('show');},2600); }
+  var SHARE={title:'DarrenDaily',text:'Daily mentoring with Darren Hardy. One idea, five minutes, every weekday morning. Free.',url:'https://darrendaily.com/'};
+  d.querySelectorAll('[data-share]').forEach(function(b){
+    b.addEventListener('click',function(e){
+      e.preventDefault();
+      if(navigator.share){navigator.share(SHARE).catch(function(){});return;}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(SHARE.url).then(function(){showToast('Link copied. Thank you for sharing.');}).catch(function(){showToast('Copy this link: '+SHARE.url);});return;}
+      showToast('Copy this link: '+SHARE.url);
+    });
+  });
+
+  /* Join modal close. Opening is wired by dd-optin-modal-v3.js, which also
+     swaps #joinForm for the HubSpot form and hardens every [data-open-form]. */
+  (function(){
+    var m=d.getElementById('joinModal'); if(!m)return;
+    function close(){ m.classList.remove('open'); d.body.style.overflow=''; }
+    d.querySelectorAll('[data-close-form]').forEach(function(b){ b.addEventListener('click',function(e){e.preventDefault();close();}); });
+    m.addEventListener('click',function(e){ if(e.target===m)close(); });
+    d.addEventListener('keydown',function(e){ if(e.key==='Escape'&&m.classList.contains('open'))close(); });
+  })();
+
+  /* Exit-intent popup. Shared dd-exit system, same behaviour as /welcome. */
+  (function(){
+    var pop=d.querySelector('.dd-exit'); if(!pop)return;
+    var STORE=window.sessionStorage;
+    var SHOWN_KEY='dd-exit-shown', DISMISS_KEY='dd-exit-dismissed';
+    var CAP_ENABLED=false;   /* TESTING: false = show on every trigger. SET TO true BEFORE LAUNCH. */
+    var listEl=pop.querySelector('.dd-exit-list');
+    var lastActive=null, reachedBottom=false;
+    function isDismissed(){try{return !!STORE.getItem(DISMISS_KEY);}catch(e){return false;}}
+    function canShow(){if(!CAP_ENABLED)return true;try{return !STORE.getItem(SHOWN_KEY);}catch(e){return true;}}
+    function markShown(){if(!CAP_ENABLED)return;try{STORE.setItem(SHOWN_KEY,String(Date.now()));}catch(e){}}
+    function currentSlug(){var a=pop.getAttribute('data-current-slug');return a?a.trim():'';}
+    function resolveLatest(){
+      var cur=currentSlug(), items=[].slice.call(listEl.querySelectorAll('.dd-exit-session')), shown=null;
+      items.forEach(function(it){
+        var slug=(it.getAttribute('data-session-slug')||'').trim();
+        if(!shown&&slug!==cur){it.hidden=false;shown=it;}else{it.hidden=true;}
+      });
+      return shown;
+    }
+    function open(force){
+      if(pop.classList.contains('open'))return;
+      if(!force&&isDismissed())return;
+      if(!force&&!reachedBottom)return;
+      if(!force&&!canShow())return;
+      if(!resolveLatest())return;
+      lastActive=d.activeElement;
+      pop.classList.add('open');
+      d.body.style.overflow='hidden';
+      markShown();
+      var c=pop.querySelector('.dd-exit-close'); if(c)c.focus();
+    }
+    function close(){
+      pop.classList.remove('open');
+      d.body.style.overflow='';
+      try{STORE.setItem(DISMISS_KEY,'1');}catch(e){}
+      if(lastActive&&lastActive.focus)lastActive.focus();
+    }
+    window.ddExitOpen=function(){open(true);};
+    var closeBtn=pop.querySelector('.dd-exit-close');
+    if(closeBtn){
+      closeBtn.addEventListener('click',close);
+      closeBtn.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();close();}});
+    }
+    pop.addEventListener('click',function(e){if(e.target===pop)close();});
+    d.addEventListener('keydown',function(e){if(e.key==='Escape'&&pop.classList.contains('open'))close();});
+    function checkBottom(){ if(!reachedBottom&&(innerHeight+pageYOffset)>=(d.body.scrollHeight-120))reachedBottom=true; }
+    addEventListener('scroll',checkBottom,{passive:true});
+    checkBottom();
+    d.addEventListener('mouseout',function(e){ if(e.clientY<=0&&!e.relatedTarget)open(false); });
+    try{ history.pushState(null,'',location.href);
+      addEventListener('popstate',function(){ if(canShow()){history.pushState(null,'',location.href);open(false);} });
+    }catch(e){}
+    var lastY=pageYOffset,lastT=Date.now();
+    addEventListener('scroll',function(){
+      var y=pageYOffset,t=Date.now(),dt=(t-lastT)||1;
+      if((y-lastY)/dt<-0.5&&lastY>300)open(false);
+      lastY=y;lastT=t;
+    },{passive:true});
+  })();
+})();
+</script>
+<script src="https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a6abd58bdcb589808647b2b_dd-optin-modal-v3.js"></script>
