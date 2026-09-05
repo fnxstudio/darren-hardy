@@ -74,10 +74,10 @@ the scrubber work. No audio is stored in Webflow.
 
 ## Where the code lives
 
-`ddod-player-v2.js` is uploaded as a **site asset** and loaded with `defer`:
+`ddod-player-v3.js` is uploaded as a **site asset** and loaded with `defer`:
 
 ```
-https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9c994f1ba891a427d5f34f_ddod-player-v2.js
+https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9c9ba707b16e5a4a6a7e24_ddod-player-v3.js
 ```
 
 19.6 KB, of which ~6.9 KB is the episode and playlist data and ~2.6 KB the podcast
@@ -97,7 +97,8 @@ exact 980 / 760 / 560 breakpoints scoped to `.dd-page`.
 | `ddod-artwork-760.webp` | 49.7 KB | was 900px/84 KB; renders 380 max |
 | `dh-face-104.webp` | 3.7 KB | was 520px/37 KB; renders 52x52 |
 | `dh-covers-600.webp` | 59.2 KB | 4:5 portrait crop of the covers wall, for the host section |
-| `ddod-player-v2.js` | 19.6 KB | |
+| `ddod-artwork-116.webp` | 4.6 KB | thumbnails: playlist cards, sticky bar, episode rows |
+| `ddod-player-v3.js` | 19.6 KB | |
 
 Everything else was already on the CDN: the eight media logos, `hero-chair.webp`,
 and `dd-logo-color-286.webp`.
@@ -132,6 +133,56 @@ highlight cannot misquote.
   undersized: at 387x483 the 600x750 source is 1.55x density.
 - **The credibility logos are a 4-column grid**, so they always form two equal rows of
   four with no orphan, at every width down to mobile.
+
+## Second revision
+
+- **Four full-image cards in the wall**, one every third card, 300px wide and stretching
+  to the row height so they always match the text cards exactly (verified 312px each).
+  Photo, gradient scrim, gold stars, a 3-5 word quote, the person's name and their source.
+- **Every quote on those cards is an exact slice of that person's own testimonial** on the
+  DD home page, the same rule the Apple highlights follow. Nobody's face carries words
+  they did not say. Their line reads "DarrenDaily member", which is true; no company or
+  job title was invented for them.
+- **Text cards now carry "Apple Podcasts listener"** under the handle, so an anonymous
+  handle like "Crayon2" reads as what it is.
+- **Category labels use the brand device** — an 18x2 red pip plus tracked caps, the same
+  language as every section eyebrow. They were a bordered pill, which read as generic.
+- **A round red play button on every playlist card**, matching the hero play button.
+- **Thumbnails now use a 116px file** (4.6 KB) instead of reusing the 760px hero cover.
+  No bandwidth change (the hero file was cached) but the playlist cards, sticky bar and
+  episode rows were each decoding a 577,600-pixel image for a 48-58px slot; now 13,456.
+- **The host photo fills the full height of its column** rather than floating as a fixed
+  ratio card: 387x504, exactly the row height, 29% of the width.
+
+### Copy corrections in the reviews
+
+Brand name and clear typos were normalised, in the same spirit as the source's
+"punctuation only lightly normalised" note. Every highlight was re-checked afterwards
+and is still an exact slice of its own body.
+
+| Reviewer | Was | Now |
+|---|---|---|
+| Justin Woodbury | "Darren Daily" | "DarrenDaily" |
+| Justin Woodbury | "good enough- as" | "good enough, as" |
+| Lavishlyloved | "just Day to day" | "just day to day" |
+| Flor!! | "#bettereveyday" | "#BetterEveryDay" |
+| jamesdean77 | "playing revelry" | "playing reveille" |
+| MaxStrength Fitness | "Darren Daily" (body + highlight) | "DarrenDaily" |
+| TrentJNeisen | "excellent l and" | "excellent and" |
+
+### Why the reviews are Apple-only
+
+Checked for a second written-review source and there is not one to pull from:
+Podchaser has no reviews for this show, and Podbay returns "No reviews yet" with a
+"REVIEWS VIA APPLE PODCASTS" header, which is the pattern across the aggregators
+(Podbay, Chartable, Listen Notes syndicate Apple's reviews rather than hosting their
+own). Spotify publishes aggregate ratings only, never review text. So a second logo
+would mean either re-badging the same Apple reviews or inventing them.
+
+The wall gets its diversity a different way instead: four of the sixteen cards are
+DarrenDaily members quoting their own words, not Apple reviewers. If a genuinely
+separate source is wanted, YouTube comments on the DD channel are real, public and
+attributable, and could be added as a third card type.
 
 ## Still open
 - The episode and playlist data is baked into the script. `DarrenDaily/refresh-ddod-data.py`
