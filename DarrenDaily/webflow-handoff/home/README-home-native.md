@@ -54,31 +54,60 @@ Its embed was moved to sit *after* `.dd-page` so `#ddForm` exists when it runs.
 
 ## Verified live (1440 x 900)
 
-| section | live before | native now |
-|---|---|---|
-| featured | 165 | **165** |
-| Vantage/intro | 1111 | **1111** |
-| numbers | 496 | 497 |
-| testimonials | 2168 | 2170 |
-| filter | 1066 | 1070 |
-| spine | 391 | 396 |
-| bio | 848 | 842 |
-| ritual | 1287 | 1253 |
-| finale | 793 | 852 |
-| who-for | 2242 | 1972 |
-| nav | 87 | 75 |
-| footer | 433 | 416 |
-| **docH** | **11876** | **11695** (-1.5%) |
+Verified by rendering the **original** page (its real CSS + v17 markup, pulled from
+the CDN) in an iframe beside the live rebuild and diffing computed styles and
+section heights. Nine of eleven sections match **exactly**:
 
-Zero broken images (31), no `##INLINE` corruption. Behaviours confirmed live:
-count-up, spine fill (100% + all rows lit), lightbox (injects Vimeo `298902445`
-on open, clears on close), HubSpot swap, nav solid-on-scroll.
+| section | original | native | diff |
+|---|---|---|---|
+| hero | 876 | 876 | 0 |
+| numbers | 496 | 496 | 0 |
+| bio | 848 | 848 | 0 |
+| featured | 165 | 165 | 0 |
+| Vantage/intro | 1111 | 1111 | 0 |
+| filter | 1066 | 1066 | 0 |
+| voice spine | 391 | 391 | 0 |
+| ritual | 1287 | 1287 | 0 |
+| testimonials | 2168 | 2168 | 0 |
+| who-for | 2255 | 1986 | -269 (see below) |
+| finale | 818 | 870 | +52 (form, see below) |
 
-**nav -12** is the missing Join CTA (see below). **footer -17** is intentional —
-the footer was rebuilt to match darrenhardy.com/about. **who-for -270** is the
-one gap I could not source: every child measures to within a few px of the
-original CSS (head 302, grid 520, close 187, card 526, padding 264 = 1972), so
-the 2242 reference reading is likely the outlier rather than the build.
+The computed-style diff across 30 element pairs (font size/weight/line-height/
+letter-spacing/colour/padding/margin/text-align/max-width) returns **empty**.
+
+### What the first pass got wrong, and why
+
+1. **`h1,h2,h3 { font-weight:900 }`** — the original's global heading rule. I set it
+   on every heading class except the hero h1, which fell back to Webflow's 700.
+2. **`line-height:1.0`** — the same global rule. I had used 1.02 on eight headings.
+3. **Webflow's own heading/paragraph margins.** The original page *also* ran inside
+   Webflow, so `h1,h2,h3 { margin:20px 0 10px }` and `p { margin-bottom:10px }`
+   (specificity 0,0,1) beat its own `*{margin:0}` reset (0,0,0). My build zeroed
+   them. Restored on eleven elements.
+4. **The builder DROPS classes off `<br>` elements.** The original's responsive line
+   breaks (`eb-br`, `hbr`) are `display:none` above 980px — but with no class to
+   target, they rendered, giving the hero headline two extra lines and the eyebrow
+   one. Now hidden structurally from the embed. This alone was the whole +75 hero gap.
+5. **`dd-optin-upgrade-v6.js` replaces `#ddForm` wholesale**, re-creating the urgency
+   and micro copy as its own `.dd-urgency` / `.dd-micro`. Those were styled by
+   `dd-home.css`, which this rebuild retired, so they lost their centering. Restyled
+   in the embed.
+6. **Combo-class ordering:** `home-intro-p` is a later combo than `dd-intro-p-last`,
+   so it re-asserted the bottom margin that `-last` exists to remove.
+
+### The two remaining deltas
+
+**who-for -269 is a deliberate deviation.** The original's preview card markup carries
+`height="789"` on the `<img>`. That presentational hint defeats the stylesheet's own
+`aspect-ratio: 21/9`, so the shipped card rendered ~16:9 (791px) instead of the
+cinematic 21:9 band (526px) the CSS asks for. The rebuild honours the CSS. Content
+inside the card is 268px, so nothing is clipped at the shorter height. **If you want
+the original's taller card, say so** — but matching it means hardcoding a pixel height
+that would also defeat the 3/4 ratio the design switches to under 760px.
+
+**finale +52 is not a real gap** — the iframe original shows the *native* form (no JS),
+the live rebuild shows the swapped-in HubSpot form. The earlier 793 reading from the
+live original was almost certainly captured before HubSpot finished rendering.
 
 ## Not built
 

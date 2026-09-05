@@ -29,6 +29,25 @@
 .home-scroll-cue-icon{animation:scrollBob 2.2s ease-in-out infinite}
 
 /* Numbers: adjacent-sibling divider */
+/* The hero eyebrow is accent red here, not the shared soft grey (.hero .eyebrow
+   in the original). Descendant selector, so it cannot live on the class. */
+.dd-page .home-hero .dd-eyebrow{color:#a72632}
+
+/* dd-optin-upgrade-v6.js REPLACES #ddForm wholesale, re-creating the urgency and
+   micro copy as its own .dd-urgency / .dd-micro. The script ships no CSS for them
+   -- they were styled by dd-home.css, which this rebuild retired. */
+.dd-hsform .dd-urgency{margin-top:20px;font-weight:700;font-size:15px;color:#14171c;text-align:center}
+.dd-hsform .dd-micro{font-size:12.5px;line-height:1.5;color:#616a78;text-align:center;margin-top:4px}
+
+/* Webflow's builder DROPS the class off <br> elements, so the original's
+   responsive line breaks (eb-br / hbr) cannot be targeted by class at all.
+   Hidden structurally instead, or the hero headline gains two extra lines. */
+@media (min-width:981px){ .dd-page .home-hero-h1 br, .dd-page .home-hero .dd-eyebrow br{display:none} }
+
+/* home-intro-p is a later combo than dd-intro-p-last, so it re-asserts the
+   20px bottom margin the -last class exists to remove. */
+.dd-page .dd-intro-text .dd-intro-p:last-child{margin-bottom:0}
+
 .home-numbers-grid .home-nstat + .home-nstat{border-left:1px solid rgba(255,255,255,0.18)}
 
 /* Featured logos */
