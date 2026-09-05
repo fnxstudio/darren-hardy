@@ -317,7 +317,7 @@
 
   /* ============ PLAYLISTS ============ */
   .pls { padding: 124px 0 116px; background: var(--mist); }
-  .pl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 60px; }
+  .pl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px 26px; margin-top: 60px; align-items: start; }
   .pl {
     position: relative; text-align: left; background: #fff; border: 1px solid var(--line);
     border-radius: var(--radius); padding: 36px 32px 30px; box-shadow: 0 2px 18px rgba(20,23,28,.05);
@@ -490,6 +490,101 @@
   .rmeta .who { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.3; }
   .rmeta .src { font-size: 11px; font-weight: 600; color: var(--soft); margin-top: 3px; letter-spacing: .03em; }
   @media (max-width: 720px) { .rcard { width: 300px; padding: 22px; } .rmask::before, .rmask::after { width: 50px; } }
+
+  /* ══════ STAGING: six card layouts, same content in each ══════
+     Delete this whole block and the .v1-.v6 markup once one is chosen. */
+  .pl-opt { display: flex; flex-direction: column; gap: 10px; }
+  .pl-optlabel { font-size: 10px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--soft); opacity: .75; }
+
+  /* every variant keeps the same play button and cover primitives */
+  .pl-art { width: 40px; height: 40px; flex: none; border-radius: var(--radius); overflow: hidden;
+    background: var(--dark-2); box-shadow: 0 5px 14px -5px rgba(20,23,28,.5); transition: transform .2s var(--ease); }
+  .pl-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pl:hover .pl-art { transform: scale(1.07); }
+
+  /* ── 1. ALBUM: cover down the full left edge ── */
+  .pl.v1 { flex-direction: row; padding: 0; align-items: stretch; }
+  .pl.v1::before { display: none; }
+  .pl.v1 .v1-art { width: 116px; height: auto; border-radius: 0; box-shadow: none; align-self: stretch; }
+  .pl.v1:hover .v1-art { transform: none; }
+  .pl.v1 .v1-body { display: flex; flex-direction: column; padding: 28px 26px 24px; flex: 1; min-width: 0; }
+  .pl.v1 h3 { margin: 0; }
+  .pl.v1 .pl-foot { margin-top: auto; }
+
+  /* ── 2. BANNER: cover across the top, name on it, button on the seam ── */
+  .pl.v2 { padding: 0; }
+  .pl.v2::before { display: none; }
+  .v2-banner { position: relative; display: block; height: 130px; overflow: hidden; }
+  .v2-banner img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block;
+    transition: transform .3s var(--ease); }
+  .pl.v2:hover .v2-banner img { transform: scale(1.05); }
+  .v2-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,23,28,.05) 30%, rgba(20,23,28,.86)); }
+  .pl.v2 h3 { position: absolute; left: 24px; right: 76px; bottom: 16px; margin: 0; color: #fff; z-index: 2; }
+  .pl.v2 .v2-go { position: absolute; right: 22px; top: 130px; transform: translateY(-50%); z-index: 3;
+    width: 46px; height: 46px; border: 3px solid #fff; }
+  .pl.v2:hover .v2-go { transform: translateY(-50%) scale(1.08); }
+  .pl.v2 .v2-body { display: block; padding: 26px 24px 24px; }
+  .pl.v2 .pl-meta { display: block; margin-top: 14px; }
+
+  /* ── 3. EDITORIAL: type first, chrome last ── */
+  .pl.v3 { padding: 34px 30px 26px; }
+  .pl.v3 h3 { margin: 0; font-size: clamp(21px, 1.8vw, 26px); }
+  .v3-rule { display: block; width: 46px; height: 3px; background: var(--accent); margin: 16px 0 16px; }
+  .pl.v3 p { flex: 1; margin-top: 0; }
+  .v3-foot { display: flex; align-items: center; gap: 12px; margin-top: 24px; padding-top: 18px;
+    border-top: 1px solid var(--line-soft); }
+  .pl.v3 .v3-art { width: 34px; height: 34px; }
+  .pl.v3 .pl-meta { flex: 1; }
+  .pl.v3 .v3-go { width: 38px; height: 38px; background: transparent; color: var(--accent);
+    border: 2px solid var(--accent); box-shadow: none; }
+  .pl.v3:hover .v3-go { background: var(--accent); color: #fff; }
+
+  /* ── 4. COMPACT: one dense row ── */
+  .pl.v4 { flex-direction: row; align-items: center; gap: 16px; padding: 22px 22px; }
+  .pl.v4 .v4-art { width: 58px; height: 58px; }
+  .pl.v4 .v4-body { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+  .pl.v4 h3 { margin: 0; font-size: clamp(17px, 1.4vw, 20px); }
+  .pl.v4 p { margin-top: 6px; font-size: 13px; }
+  .pl.v4 .pl-meta { margin-top: 10px; }
+  .pl.v4 .v4-go { width: 44px; height: 44px; }
+
+  /* ── 5. DARK: inverted, cover and button share the top line ── */
+  .pl.v5 { background: var(--dark); border-color: transparent; padding: 26px 26px 28px; }
+  .pl.v5::before { background: var(--accent-bright); }
+  .pl.v5 h3 { color: #fff; margin: 22px 0 0; }
+  .pl.v5 p { color: rgba(255,255,255,.7); }
+  .pl.v5 .pl-meta { color: rgba(255,255,255,.55); margin-top: 22px; padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,.14); }
+  .pl.v5 .pl-meta b { color: #fff; }
+  .v5-top { display: flex; align-items: center; justify-content: space-between; }
+  .pl.v5 .v5-art { width: 52px; height: 52px; }
+  .pl.v5:hover { border-color: var(--accent-bright); }
+
+  /* ── 6. STAT: the count is the headline, play is a bar ── */
+  .pl.v6 { padding: 30px 28px 26px; }
+  .v6-stat { display: flex; align-items: baseline; gap: 9px; }
+  .v6-stat b { font-weight: 900; font-size: 44px; line-height: .85; letter-spacing: -.05em; color: var(--accent); }
+  .v6-stat i { font-style: normal; font-size: 10.5px; font-weight: 800; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--soft); }
+  .pl.v6 h3 { margin: 18px 0 0; }
+  .pl.v6 p { flex: 1; }
+  .v6-bar { display: flex; align-items: center; gap: 12px; margin-top: 24px; padding: 10px 10px 10px 10px;
+    border: 1.5px solid var(--line); border-radius: var(--radius); transition: border-color .2s, background .2s; }
+  .pl.v6:hover .v6-bar { border-color: var(--accent); background: rgba(var(--accent-rgb), .05); }
+  .pl.v6 .v6-art { width: 34px; height: 34px; }
+  .v6-bartext { flex: 1; font-size: 12px; font-weight: 700; color: var(--ink); letter-spacing: .01em; }
+  .pl.v6 .v6-go { width: 36px; height: 36px; }
+
+  @media (max-width: 980px) {
+    .pl.v1 { flex-direction: column; }
+    .pl.v1 .v1-art { width: 100%; height: 120px; }
+  }
+  @media (max-width: 620px) {
+    .pl.v4 { flex-wrap: wrap; }
+    .pl.v2 h3 { right: 70px; }
+  }
+  /* ══════ end staging block ══════ */
 
   /* ============ THE ROOM (real faces) ============ */
   .room { padding: 124px 0 128px; }
@@ -1168,19 +1263,65 @@
     "</div>";
   }
 
+  /* ── STAGING: six layout options ────────────────────────────────
+     Every card carries the SAME content: cover, play button, run name,
+     tagline, episode count, total runtime. Only the arrangement differs, so
+     the six can be compared like for like. Pick one and all six collapse to
+     it; this whole block goes with the decision.
+     Every variant must keep .pl, data-pl and exactly one .pl-go, which is
+     what paintCards() drives.
+     ──────────────────────────────────────────────────────────── */
+  const ART = '<img src="ddod-artwork.webp" alt="" width="900" height="900">';
+  const art = (cls) => '<span class="pl-art ' + (cls || "") + '" aria-hidden="true">' + ART + "</span>";
+  const go  = (live, cls) => '<span class="pl-go ' + (cls || "") + '">' + (live ? BARS : PLAY_SVG) + "</span>";
+
+  function cardInner(v, pl, eps, live) {
+    const name = "<h3>" + esc(pl[0]) + "</h3>";
+    const tag  = "<p>" + esc(pl[1]) + "</p>";
+    const n    = eps.length, mins = runtime(eps);
+    const metaStack  = '<span class="pl-meta"><b>' + n + " episodes</b><br>" + mins + " minutes total</span>";
+    const metaInline = '<span class="pl-meta"><b>' + n + " episodes</b> &middot; " + mins + " minutes total</span>";
+
+    switch (v) {
+      case 1:  // Album: cover runs the full height down the left
+        return art("v1-art") +
+          '<span class="v1-body">' + name + tag +
+            '<span class="pl-foot">' + go(live) + metaStack + "</span>" +
+          "</span>";
+
+      case 2:  // Banner: cover across the top, name over it, button on the seam
+        return '<span class="v2-banner">' + ART + '<span class="v2-scrim"></span>' + name + "</span>" +
+          go(live, "v2-go") +
+          '<span class="v2-body">' + tag + metaInline + "</span>";
+
+      case 3:  // Editorial: type first, everything else quiet underneath
+        return name + '<span class="v3-rule"></span>' + tag +
+          '<span class="v3-foot">' + art("v3-art") + metaInline + go(live, "v3-go") + "</span>";
+
+      case 4:  // Compact: one dense row, nothing stacked
+        return art("v4-art") +
+          '<span class="v4-body">' + name + tag + metaInline + "</span>" + go(live, "v4-go");
+
+      case 5:  // Dark: inverted card, cover and button share the top line
+        return '<span class="v5-top">' + art("v5-art") + go(live, "v5-go") + "</span>" +
+          name + tag + metaStack;
+
+      case 6:  // Stat: the count is the headline, play is a full-width bar
+        return '<span class="v6-stat"><b>' + n + "</b><i>Episodes</i></span>" + name + tag +
+          '<span class="v6-bar">' + art("v6-art") +
+            '<span class="v6-bartext">Play this run &middot; ' + mins + " minutes total</span>" +
+            go(live, "v6-go") + "</span>";
+    }
+  }
+
   function renderCards() {
     $("#plGrid").innerHTML = PLAYLISTS.map((pl, i) => {
-      const eps = plEpisodes(i), on = activePl === i;
-      return '<button class="pl' + (on ? " on" : "") + '" data-pl="' + i + '" aria-expanded="' + on + '">' +
-        "<h3>" + esc(pl[0]) + "</h3><p>" + esc(pl[1]) + "</p>" +
-        '<div class="pl-foot">' +
-          '<span class="pl-art" aria-hidden="true">' +
-            '<img src="ddod-artwork.webp" alt="" width="900" height="900"></span>' +
-          '<span class="pl-go">' +
-          (on && !audio.paused ? BARS : PLAY_SVG) +
-        '</span><span class="pl-meta"><b>' + eps.length + " episodes</b><br>" +
-          runtime(eps) + " minutes end to end</span></div>" +
-      "</button>";
+      const eps = plEpisodes(i), on = activePl === i, v = i + 1;
+      return '<div class="pl-opt">' +
+        '<span class="pl-optlabel">Option ' + v + "</span>" +
+        '<button class="pl v' + v + (on ? " on" : "") + '" data-pl="' + i + '" aria-expanded="' + on + '">' +
+          cardInner(v, pl, eps, on && !audio.paused) +
+        "</button></div>";
     }).join("");
   }
 
