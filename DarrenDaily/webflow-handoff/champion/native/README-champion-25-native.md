@@ -35,14 +35,19 @@ All three were made with `transform_element_to_component` and are ready to drop 
 pages. Edit once, changes everywhere they are instanced.
 
 **Site Footer Slim** is the legal-bar-only footer (hairline rule, copyright left, Terms and
-Privacy right; 73px tall at desktop), for post-conversion, checkout and utility pages where the
-full footer is a distraction — the same full/slim pair Unbreakable Sole uses. It reuses
-`.dd-container`, `.f-footer-bottom-legal-links` and `.f-footer-bottom-a`; its own classes are
-`.site-footer-slim`, `.footer-bottom-slim` and `.footer-slim-copy`. Live preview:
-https://darrendaily.webflow.io/component-preview-slim-footer (page `6a9c4721f1b18939623d9a00`
-— a throwaway preview, safe to delete once the component is placed for real).
+Privacy right; 73px tall at desktop, 113px wrapped at 375px), for post-conversion, checkout and
+utility pages where the full footer is a distraction — the same full/slim pair Unbreakable Sole
+uses. It reuses `.dd-container`, `.f-footer-bottom-legal-links` and `.f-footer-bottom-a`; its own
+classes are `.site-footer-slim`, `.footer-bottom-slim` and `.footer-slim-copy`.
 
-The champion page still uses the **full** footer, to keep its parity with the live page.
+**Both champion pages now use Site Footer Slim** (swapped 2026-09-05, deliberate). That is the
+one intentional divergence from the live pages: document height at 1440px is now 1525 (was 1885)
+on the $25 page and 1592 (was 1952) on the $100 page — the 360px the full footer used to take.
+Everything above the footer is still pixel-identical to live.
+
+The embeds still carry the `.dd-page .footer-grid` / `.foot-brand` / `.socials` rules. They are
+inert with the slim footer in place, and left deliberately so the full footer drops back in
+correctly if either page ever switches back.
 
 ## Classes
 

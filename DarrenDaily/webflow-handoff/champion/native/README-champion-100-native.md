@@ -31,7 +31,15 @@ than copied markup — the first page to consume them that way.
 The two extra grid rules (`.hs_shirt_style`, `.hs_shirt_size`) are the only CSS difference
 between the two embeds; everything else in them is byte-identical.
 
-## Parity vs. the live page (measured)
+## Footer
+
+This page uses the **Site Footer Slim** component (swapped 2026-09-05), not the full footer —
+see `README-champion-25-native.md`. The parity table below was measured *before* that swap, when
+the page still carried the full footer; it is the record that the rebuild itself is faithful.
+With slim in place the document height at 1440px is **1592** rather than 1952, the 360px the full
+footer used to take. Everything above the footer is unchanged.
+
+## Parity vs. the live page (measured, with the full footer)
 
 | Viewport | Live doc height | Native doc height |
 |---|---|---|
