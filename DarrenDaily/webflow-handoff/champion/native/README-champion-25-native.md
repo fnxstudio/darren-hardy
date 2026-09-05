@@ -29,9 +29,20 @@ Form GUID `1aebadef-303a-4398-9834-a6f4f15c5274`, portal `2518645`, region `na1`
 |---|---|---|
 | Site Nav | Global | `033d1565-317d-9443-72c2-3a51e1dc0940` |
 | Site Footer | Global | `536ecfab-8245-b46e-1146-06542f759ebc` |
+| Site Footer Slim | Global | `2a7f26af-7b55-2597-099b-da6c2165d855` |
 
-Both were made with `transform_element_to_component` and are ready to drop onto the other pages.
-Edit once, changes everywhere they are instanced.
+All three were made with `transform_element_to_component` and are ready to drop onto the other
+pages. Edit once, changes everywhere they are instanced.
+
+**Site Footer Slim** is the legal-bar-only footer (hairline rule, copyright left, Terms and
+Privacy right; 73px tall at desktop), for post-conversion, checkout and utility pages where the
+full footer is a distraction — the same full/slim pair Unbreakable Sole uses. It reuses
+`.dd-container`, `.f-footer-bottom-legal-links` and `.f-footer-bottom-a`; its own classes are
+`.site-footer-slim`, `.footer-bottom-slim` and `.footer-slim-copy`. Live preview:
+https://darrendaily.webflow.io/component-preview-slim-footer (page `6a9c4721f1b18939623d9a00`
+— a throwaway preview, safe to delete once the component is placed for real).
+
+The champion page still uses the **full** footer, to keep its parity with the live page.
 
 ## Classes
 
