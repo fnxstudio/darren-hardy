@@ -206,6 +206,9 @@ Section order is now hero, stats band, review wall, playlists, join, host, close
 - **Host photo** is absolutely positioned flush to the section's left edge, full
   height, 36% wide.
 - **Close** adopts the home page's "If you're still reading / You're one of us."
+  Its lead was corrected: an earlier draft implied the opt-in delivers *today's
+  episode*, which it does not. The email is the mentoring session itself, sent ahead
+  of the feed, plus extras that never reach the podcast. The podcast is the replay.
 
 ### Two bugs from the same root cause
 
