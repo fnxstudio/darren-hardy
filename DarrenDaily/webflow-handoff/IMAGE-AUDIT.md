@@ -81,48 +81,44 @@ source images; the CDN copies are the only ones available.
 
 ## Component logos (2026-09-05)
 
-The three logos live inside the Site Nav and Site Footer **components**, whose
-internals the Data API refuses to write (`set_image_asset` -> "Element not found";
-component-id-as-pageId -> 400; `update_asset` is metadata-only). All three were
-oversized. Right-sized copies are uploaded and ready:
+All three logos live inside the Site Nav and Site Footer **components** and were
+shipping at 2-4x the pixels they render. All are now fixed at the source: the
+component images point at right-sized assets, and no script is involved.
 
-| Asset | Renders at | Was | Now | Saved | Status |
-|---|---|---|---|---|---|
-| `bmc-logo-112.webp` | 56x56 | 236x240, 17.4 KB | 112x114, 5.7 KB | **11.7 KB (−67%)** | **live** |
-| `dd-logo-white-428.webp` | 214x48 | 534x120, 12.1 KB | 428x96, 10.5 KB | 1.6 KB | uploaded, not wired |
-| `dd-logo-color-286.webp` | 143x34 | 600x143, 12.2 KB | 286x68, 9.1 KB | 3.1 KB | uploaded, not wired |
+| Asset | Renders at | Was | Now | Saved |
+|---|---|---|---|---|
+| `bmc-logo-112.webp` | 56x56 | 236x240, 17.4 KB | 112x114, 5.7 KB | **11.7 KB (-67%)** |
+| `dd-logo-white-428.webp` | 214x48 footer / 143x34 nav | 534x120, 12.1 KB | 428x96, 10.5 KB | 1.6 KB |
+| `dd-logo-color-286.webp` | 143x34 | 600x143, 12.2 KB | 286x68, 9.1 KB | 3.1 KB |
+
+**16.4 KB off the first visit**, every page. Each asset is now exactly 2x its
+measured render box. Verified live: all three load, none broken, and the nav and
+footer share one white file.
 
 ### Why the BMC logo collapsed 67%
 
 It is drawn as a pure white silhouette (`filter: brightness(0) invert(1) opacity(.85)`),
-so the RGB channels are discarded by the browser and **only alpha carries information**.
+so its colour channels never reach the screen and **only alpha carries information**.
 Forcing RGB to a constant white before encoding leaves the encoder nothing but the
-alpha channel to describe. Lossless WebP then beats lossy. Verified the filter is
-applied on every page that shows the logo (home, /welcome, /404; the champion pages
-use the slim footer and never show it), so this is safe, not a quality trade.
+alpha channel to describe, and lossless WebP then beats lossy. A plain resize got 57%.
 
-`dd-logo-white` is pure-white artwork too (every visible pixel R=255) and got the same
-treatment; it simply had less headroom.
+Checked `getComputedStyle(img).filter` on every page that shows the logo before
+flattening (home, /welcome, /404; the champion pages use the slim footer and never
+show it) - one unfiltered instance would have destroyed it. `dd-logo-white` is
+pure-white artwork too (every visible pixel R=255) and got the same treatment.
 
-### Why only the BMC one is wired up
+### How the component images were written
 
-Delivered from the **site footer custom code**, which rewrites `src` before the fetch.
-That is only safe when the browser has not already started the request:
+Not a Designer session, and not the `src`-swap workaround that was briefly shipped
+here. `data_element_tool`'s write actions accept **`scope_component_id`** alongside
+`id`, the same way `query_elements` does:
 
-- `.dd-footer-bmc-logo` is `loading="lazy"` at **y=11,287px** — 12.5 viewports down.
-  Enormous headroom. Verified live: only the new file is requested, the old one never is.
-- `.dd-nav-logo` sits at **y=20**, in-viewport, and fetches immediately. Swapping it
-  would make the visitor download the old file *and* the new one — worse than doing
-  nothing. Left alone.
-- `dd-logo-white` is shared by the footer (below fold) and the nav on /welcome
-  (in-viewport). Swapping only the footer copy would split one cached request into two
-  separate files on /welcome, costing more than the 1.6 KB it saves. Left alone.
+```
+pageId: <any real page id>        # not the component id
+id: { component: <componentId>, element: <elementId> }
+scope_component_id: <componentId>
+```
 
-### The 30-second permanent fix
-
-In the Designer, set the image on the **Site Nav** component to `dd-logo-color-286.webp`
-and the **Site Footer** component to `bmc-logo-112.webp` + `dd-logo-white-428.webp`.
-That captures the full 16.4 KB with no script and no timing risk, and the swap block in
-the site footer custom code (marked `PERMANENT FIX:`) can then be deleted.
-
-Note this is a **first-visit** saving: logos are cached across the site afterwards.
+Omitting `scope_component_id` returns "Element not found" and passing the component
+id as `pageId` returns 400 - two errors that together look like a hard API limit and
+are not. Alt text is preserved through the write.
