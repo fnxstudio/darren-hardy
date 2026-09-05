@@ -53,7 +53,34 @@ Webflow is fixed at 991 / 767 / 479; the hand-written CSS used 860 / 720 / 520. 
 on canvas. Page-specific spacing that must hit an exact pixel keeps a small `@media` block in
 that page's embed, scoped to `.dd-page` so it out-ranks Webflow's own rules.
 
-## The footer that won (2026-09-05)
+## The footer now matches darrenhardy.com/about/ (2026-09-05, supersedes the CMS port below)
+
+The global footer was rebuilt to match the **live darrenhardy.com/about/ footer**. Only two
+things differ, by instruction: the **logo** (DarrenDaily's, kept big) and the **paragraph copy**
+(DarrenDaily's, styled exactly like DH's `.tag`).
+
+Verified against the live DH page, identical: padding `80px 0 40px`, top hairline
+`rgba(255,255,255,0.08)`, grid `1.5fr 1fr 0.8fr 1.4fr` / gap 56 / margin-bottom 60,
+socials **YouTube, LinkedIn, Facebook, Instagram, X** at gap 21 with **18px** icons and no
+boxes, tag 15px `#b8b8b8` max-width 360 margin-bottom 32, column titles `#888888`, links
+`#b8b8b8` -> white on hover, BMC logo 56px, BMC tag 14px `letter-spacing:.02em` **with the
+`<br>`**, legal bar padding-top 28 / gap 32 / `#888888`.
+
+Two deliberate departures:
+
+- **Container is 1320px, DH's is 1380px.** The whole DarrenDaily site is 1320 and `.dd-container`
+  is shared, so the footer columns are proportionally identical but 60px narrower overall.
+- **The footer is 464px tall vs DH's 416px** purely because the DarrenDaily paragraph is longer
+  and wraps further at the same 360px width. That is the approved copy difference, not drift.
+
+This **supersedes** the CMS-port values recorded below — `#b0a8a6` brand copy and the 13px /
+180px / no-`<br>` BMC tag are gone. The `.dd-footer-legal` bar is shared with the slim footer,
+so the slim footer picked all of this up automatically.
+
+Note: DH's socials have no padded hit area (bare 18px icons). That is matched deliberately, but
+it is a small touch target.
+
+## The earlier CMS port (superseded)
 
 When the Sessions CMS template was migrated onto the Site Footer component, the component
 initially replaced the template's own footer wholesale. The template's version was the better
