@@ -53,6 +53,25 @@ Webflow is fixed at 991 / 767 / 479; the hand-written CSS used 860 / 720 / 520. 
 on canvas. Page-specific spacing that must hit an exact pixel keeps a small `@media` block in
 that page's embed, scoped to `.dd-page` so it out-ranks Webflow's own rules.
 
+## The footer that won (2026-09-05)
+
+When the Sessions CMS template was migrated onto the Site Footer component, the component
+initially replaced the template's own footer wholesale. The template's version was the better
+one in several respects, so those details were **ported into the component** rather than
+kept as a second system:
+
+| Detail | Ported value |
+|---|---|
+| `dd-footer-tag` colour | `#b0a8a6` (was `#fff`) — this warm grey is what every page has actually been rendering; it used to come from an `!important` rule in site custom code |
+| `dd-footer-bmc-tag` | 13px, `max-width:180px`, `letter-spacing:0.28px` (was 14px, unbounded) |
+| BMC tag copy | single text run, wraps naturally (the hard `<br>` is gone) |
+| `dd-footer-grid` | two columns below **767** (was 991); one column below 479 retained |
+
+Deliberately **not** ported: the template's flat `<a>` link stack (the component keeps
+`ul`/`li`/`a`, which is better for screen readers) and its `::after` BMC arrow (a real `<span>`
+is expressible as a Designer class, a pseudo-element is not). Its social icons were also left
+off — they were styled structurally from custom code, which is the exact pattern being retired.
+
 ## Still open
 
 - The full **Site Footer** component is currently instanced only on the Sessions CMS template,
