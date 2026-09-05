@@ -77,6 +77,14 @@ This **supersedes** the CMS-port values recorded below — `#b0a8a6` brand copy 
 180px / no-`<br>` BMC tag are gone. The `.dd-footer-legal` bar is shared with the slim footer,
 so the slim footer picked all of this up automatically.
 
+**Webflow does not zero list defaults.** The old site custom code carried
+`.footer-col ul { list-style:none; padding-left:0; margin:0 }`. Removing that block during the
+cleanup brought the browser's default `<ul>` back: `padding-left:40px` (links indented 40px off
+their column) and `margin-bottom:10px`. Webflow's default `line-height:20px` on the `li` also
+made each row 5px taller than DH's `normal` (15px). All three are now set explicitly on
+`.dd-footer-col-list` / `.dd-footer-col-item`. **When you delete a reset from custom code, check
+what it was holding back.**
+
 Note: DH's socials have no padded hit area (bare 18px icons). That is matched deliberately, but
 it is a small touch target.
 
