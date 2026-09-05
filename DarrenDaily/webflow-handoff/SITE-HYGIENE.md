@@ -74,3 +74,64 @@ components, and against classes referenced only from embed CSS/JS.
   moment a second page needs one.
 - Promotion checklist, learned the hard way: rename the style **and** re-point every
   element that used it, **and** rewrite any page embed that references the old name.
+
+
+## Second bandwidth pass (hero + page payload)
+
+### Hero: real responsive srcset
+
+Webflow's **Image element rejects both `srcset` and `sizes`** via the API ("Use
+set_image_asset instead"), which is why API-built pages serve one size to every
+device. The way round it: build the hero as a **DOM element with `tag: img`** — not a
+managed Image — which accepts every attribute natively.
+
+The home hero is now a plain `<img>` with:
+- `srcset` = 820w (53 KB) + 1600w (117 KB), `sizes="100vw"`
+- `loading="eager"` + `fetchpriority="high"`
+
+Two wins. **Mobile now pulls 53 KB instead of 117 KB (-64 KB)**, and the hero is no
+longer `loading="lazy"` — it is the LCP element, and lazy-loading it was delaying the
+largest paint on every visit. The 820w mobile asset already existed (it was the
+original page's mobile hero) so no new upload was needed.
+
+Verified: mobile@2x resolves to the 820w file, desktop to 1600w.
+
+Trade-off: a DOM `img` is not a Webflow Image, so the Designer's image picker will not
+target it — swap the photo by editing the `src`/`srcset` attributes. Worth it for the
+hero; the other images stay as normal Image elements.
+
+### Class collision fixed
+
+The site-head custom CSS defines `.dd-covers` as the Sessions template's **covers
+grid** (`display:grid; repeat(5,1fr)`), and the rebuild had also used `dd-covers` for
+the Vantage **image** on home and /404. Two unrelated things, one name, one of them in
+custom code where nothing would flag it. The image class is now **`dd-covers-img`**.
+
+While fixing it, the covers `sizes` override was removed from both embeds: that image
+is *undersized* for its box already (1200px into 835x1111), so capping it to a smaller
+variant was working against sharpness for ~8 KB.
+
+### Fonts: already optimal, nothing to do
+
+Inter loads via preconnect + preload + `media="print" onload` with a `<noscript>`
+fallback — the correct non-blocking pattern. All six weights (400/500/600/700/800/900)
+are genuinely used across the site, so none can be dropped without a design change.
+
+### Left on the table (needs your call)
+
+These are all real, but each removes something currently live:
+
+| item | cost per page load | note |
+|---|---|---|
+| Sessions-only CSS in the site `<head>` | ~4 KB | `.post-*`, `.xsoon-*`, `.quote-*`, `.share-bar`, `.bio-*`, `.c-tile`, `.cta-*`, `.comments-*` — loads on every page, used only by the CMS template |
+| `ddsessions` script (site-wide) | 8.1 KB | Sessions template only |
+| `ddsharefix` + `ddjournalfix` + `ddvimeocolorfix` | ~0.9 KB + 3 requests | loader-era patches, likely obsolete |
+| `ddchampionpopup` | 1.1 KB | champion pages only |
+| `.video-poster` preload script in `<head>` | tiny | runs a MutationObserver on every page for a CMS-only element |
+
+Together roughly **14 KB and 5 requests on every page**, including home. They all
+attach site-wide today. Scoping or removing them is safe once the Sessions/post CMS
+area is retired — which is the same sweep as the 52 CMS-only classes above.
+
+Not touched, unchanged from the first pass: the BMC and DD logos are still oversized
+but live inside components the Data API cannot write.
