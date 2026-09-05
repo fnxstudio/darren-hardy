@@ -329,9 +329,17 @@
   .pl:hover { transform: translateY(-3px); border-color: rgba(var(--accent-rgb), .45); box-shadow: 0 24px 46px -26px rgba(20,23,28,.4); }
   .pl:hover::before, .pl.on::before { transform: scaleY(1); }
   .pl.on { border-color: var(--accent); box-shadow: 0 24px 46px -26px rgba(var(--accent-rgb), .55); }
+  .pl-top { display: flex; align-items: center; gap: 14px; }
+  .pl-art {
+    width: 52px; height: 52px; flex: none; border-radius: var(--radius); overflow: hidden;
+    background: var(--dark-2); box-shadow: 0 6px 16px -6px rgba(20,23,28,.5);
+    transition: transform .2s var(--ease);
+  }
+  .pl-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pl:hover .pl-art { transform: scale(1.06); }
   .pl-n { font-size: 10.5px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--soft); }
   .pl.on .pl-n { color: var(--accent); }
-  .pl h3 { font-size: clamp(19px, 1.6vw, 23px); text-transform: uppercase; margin: 11px 0 0; letter-spacing: -.025em; }
+  .pl h3 { font-size: clamp(19px, 1.6vw, 23px); text-transform: uppercase; margin: 18px 0 0; letter-spacing: -.025em; }
   .pl p { font-size: 14px; line-height: 1.55; color: var(--muted); margin-top: 10px; flex: 1; }
   .pl-foot { display: flex; align-items: center; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
   .pl-go {
@@ -384,18 +392,30 @@
   .ep-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .ep-ov {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    color: #fff; background: rgba(20,23,28,.55); opacity: 0;
-    transition: opacity .18s; backdrop-filter: saturate(120%) blur(1px);
+    color: #fff; background: rgba(var(--accent-rgb), .84); opacity: 0;
+    transition: opacity .18s;
   }
-  .ep-ov svg { width: 17px; height: 17px; margin-left: 2px; }
-  .ep:hover .ep-art { transform: scale(1.05); box-shadow: 0 10px 22px -8px rgba(20,23,28,.6); }
-  .ep:hover .ep-ov, .ep.active .ep-ov { opacity: 1; }
-  .ep.active .ep-ov { background: rgba(var(--accent-rgb), .82); }
+  .ep-ov svg { width: 18px; height: 18px; margin-left: 2px; }
+  .ep:hover .ep-art { transform: scale(1.05); box-shadow: 0 10px 24px -8px rgba(var(--accent-rgb), .55); }
+  .ep:hover .ep-ov, .ep:focus-visible .ep-ov, .ep.active .ep-ov { opacity: 1; }
+  .ep.active .ep-ov { background: rgba(var(--accent-rgb), .9); }
+
+  /* the second, explicit play button, sitting with the runtime */
+  .ep-go {
+    width: 38px; height: 38px; flex: none; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--accent); color: #fff;
+    box-shadow: 0 10px 22px -10px rgba(var(--accent-rgb), .75);
+    transition: transform .18s var(--ease), background .18s;
+  }
+  .ep-go svg { width: 14px; height: 14px; margin-left: 2px; }
+  .ep:hover .ep-go { transform: scale(1.1); background: var(--accent-bright); }
+  .ep.active .ep-go { background: var(--accent-deep); }
   .ep-n { font-size: 10.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--soft); }
   .ep-n .num { color: var(--accent); }
   .ep h3 { font-size: clamp(16px, 1.32vw, 20px); font-weight: 800; line-height: 1.26; letter-spacing: -.02em; margin: 6px 0 0; }
   .ep p { font-size: 13.5px; line-height: 1.55; color: var(--muted); margin-top: 7px; max-width: 78ch; }
-  .ep-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+  .ep-side { display: flex; flex-direction: row; align-items: center; gap: 14px; }
   .ep-dur {
     display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800;
     letter-spacing: .05em; color: var(--ink); background: var(--mist);
@@ -415,7 +435,8 @@
     /* rows get tall on a narrow screen, so the cover rides the top the way
        a podcast app does, rather than floating mid-row */
     .ep-art { width: 48px; height: 48px; align-self: start; margin-top: 2px; }
-    .ep-side { grid-column: 2; flex-direction: row; align-items: center; text-align: left; gap: 12px; }
+    .ep-side { grid-column: 2; align-items: center; gap: 12px; }
+    .ep-go { width: 34px; height: 34px; }
     .ep p { display: none; }
   }
 
@@ -1126,19 +1147,24 @@
     }, 0));
   }
 
+  const PLAY_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  const BARS = '<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>';
+
   function epRow(e) {
-    return '<div class="ep" data-file="' + esc(e[4]) + '" role="button" tabindex="0">' +
-      '<button class="ep-art" tabindex="-1" aria-label="Play ' + esc(e[1]) + '">' +
+    return '<div class="ep" data-file="' + esc(e[4]) + '" role="button" tabindex="0" ' +
+           'aria-label="Play ' + esc(e[1]) + '">' +
+      '<span class="ep-art" aria-hidden="true">' +
         '<img src="ddod-artwork.webp" alt="" width="900" height="900" loading="lazy">' +
-        '<span class="ep-ov"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>' +
-      "</button>" +
+        '<span class="ep-ov">' + PLAY_SVG + "</span>" +
+      "</span>" +
       "<div>" +
         '<div class="ep-n">' + (e[0] ? 'Episode <span class="num">' + e[0] + "</span>"
                                      : prettyDate(e[2]).toUpperCase()) + "</div>" +
         "<h3>" + esc(e[1]) + "</h3>" +
         (e[5] ? "<p>" + esc(e[5]) + "</p>" : "") +
       "</div>" +
-      '<div class="ep-side"><span class="ep-dur">' + esc(prettyDur(e[3])) + "</span></div>" +
+      '<div class="ep-side"><span class="ep-dur">' + esc(prettyDur(e[3])) + "</span>" +
+        '<span class="ep-go" aria-hidden="true">' + PLAY_SVG + "</span></div>" +
     "</div>";
   }
 
@@ -1146,12 +1172,12 @@
     $("#plGrid").innerHTML = PLAYLISTS.map((pl, i) => {
       const eps = plEpisodes(i), on = activePl === i;
       return '<button class="pl' + (on ? " on" : "") + '" data-pl="' + i + '" aria-expanded="' + on + '">' +
-        '<div class="pl-n">' + (on ? "Now playing" : "Run " + (i + 1)) + "</div>" +
+        '<div class="pl-top"><span class="pl-art" aria-hidden="true">' +
+          '<img src="ddod-artwork.webp" alt="" width="900" height="900" loading="lazy"></span>' +
+          '<span class="pl-n">' + (on ? "Now playing" : "Run " + (i + 1)) + "</span></div>" +
         "<h3>" + esc(pl[0]) + "</h3><p>" + esc(pl[1]) + "</p>" +
         '<div class="pl-foot"><span class="pl-go">' +
-          (on && !audio.paused
-            ? '<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>'
-            : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>') +
+          (on && !audio.paused ? BARS : PLAY_SVG) +
         '</span><span class="pl-meta"><b>' + eps.length + " episodes</b><br>" +
           runtime(eps) + " minutes end to end</span></div>" +
       "</button>";
@@ -1214,11 +1240,10 @@
       const on = current && el.dataset.file === current[4];
       el.classList.toggle("active", !!on);
       el.classList.toggle("playing", !!on && !audio.paused);
-      const ov = $(".ep-ov", el);
-      if (!ov) return;
-      ov.innerHTML = (on && !audio.paused)
-        ? '<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>'
-        : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+      const live = on && !audio.paused;
+      const ov = $(".ep-ov", el), go = $(".ep-go", el);
+      if (ov) ov.innerHTML = live ? BARS : PLAY_SVG;
+      if (go) go.innerHTML = live ? BARS : PLAY_SVG;
     });
   }
 
