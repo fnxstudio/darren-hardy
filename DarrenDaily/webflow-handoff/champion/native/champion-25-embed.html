@@ -1,0 +1,60 @@
+<!-- SOURCE OF TRUTH for the single HTML Embed on /champion-25-gift-native
+     (page 6a9c3ecca80c51e1c14c78d2, embed element 78b5128e-edd1-b874-2e82-2600e131735f).
+     Everything else on that page is native Designer elements.
+     To change it: edit here, then set_settings key "code" on that element, then publish. -->
+<style>
+/* HubSpot form, restyled to the DarrenDaily brand. These rules live in this embed
+   because Webflow's native style engine accepts single-class selectors only --
+   every other style on this page is a real, editable Designer class. */
+.gift-card .hs-form fieldset{max-width:none !important}
+.gift-card .hs-form .hs-form-field{margin-bottom:14px;min-width:0}
+.gift-card .hs-form .hs-form-required{color:#a72632;margin-left:2px}
+.gift-card .hs-form .hs-input{width:100% !important;box-sizing:border-box;font-family:'Inter',sans-serif;font-size:15px;color:#14171c;padding:15px 16px;border:1.5px solid rgba(20,23,28,0.12);border-radius:4px;background:#fff;transition:border-color .18s,box-shadow .18s}
+.gift-card .hs-form .hs-input:focus{outline:none;border-color:#a72632;box-shadow:0 0 0 3px rgba(167,38,50,0.16)}
+.gift-card .hs-form select.hs-input{-webkit-appearance:none;appearance:none;cursor:pointer;padding-right:42px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23616a78' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.gift-card .hs-form .hs-error-msgs{list-style:none;margin:6px 0 0;padding:0}
+.gift-card .hs-form .hs-error-msg{color:#a72632;font-size:12.5px}
+.gift-card .hs-form .hs_submit{margin-top:20px}
+.gift-card .hs-form .hs-button{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:800;font-size:12.5px;letter-spacing:0.2em;text-transform:uppercase;padding:19px 28px;border-radius:4px;background:#a72632;color:#fff;border:2px solid #a72632;box-shadow:0 14px 30px -12px rgba(167,38,50,0.5);transition:background .2s,color .2s,transform .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
+.gift-card .hs-form .hs-button:hover{background:#fff;color:#a72632;transform:translateY(-2px)}
+.gift-card .hs-form{display:grid;grid-template-columns:repeat(6,1fr);column-gap:14px;align-items:start}
+.gift-card .hs-form > *{grid-column:1 / -1}
+.gift-card .hs-form > .hs_firstname{grid-column:span 3}
+.gift-card .hs-form > .hs_lastname{grid-column:span 3}
+.gift-card .hs-form > .hs_city{grid-column:span 2}
+.gift-card .hs-form > .hs_state{grid-column:span 2}
+.gift-card .hs-form > .hs_shipping_zipcode{grid-column:span 2}
+.gift-card .hs-form > .hs_submit{grid-column:1 / -1}
+.gift-card .hs-form > input[type=hidden]{display:none}
+.gift-card .hs-form > iframe{position:absolute;width:0;height:0;border:0}
+@media (max-width:560px){.gift-card .hs-form{grid-template-columns:1fr}.gift-card .hs-form > *{grid-column:1 / -1 !important}}
+.gift-card .hs-form .hs-form-field > label{display:none}
+.gift-card .hs-form .hs-field-desc{display:none}
+.gift-card .hs-form .hs-input::placeholder{color:#616a78;opacity:1}
+.gift-card .hs-form textarea.hs-input::placeholder{color:#616a78;opacity:1}
+.gift-card .hs-form select.hs-input.is-placeholder{color:#616a78}
+/* Scroll reveal -- gated on .dd-js so content is never hidden if JS does not run */
+.dd-js .champ-inner,.dd-js .gift-card{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1),transform .8s cubic-bezier(0.16,1,0.3,1)}
+.dd-js .champ-inner.in,.dd-js .gift-card.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.dd-js .champ-inner,.dd-js .gift-card{opacity:1;transform:none}}
+</style>
+<script>
+(function(){
+  var d=document;
+  d.documentElement.classList.add('dd-js');
+  // Headline personalization from ?firstname= (HubSpot email/CTA links carry it)
+  try{var p=new URLSearchParams(location.search);var nm=(p.get('firstname')||p.get('fn')||p.get('name')||'').trim();
+    if(nm){nm=nm.replace(/[<>&"'/]/g,'').slice(0,40).trim();var el=d.querySelector('.champ-name');if(el&&nm)el.textContent=nm;}}catch(e){}
+  // Field name inside the field as a grey placeholder (labels hidden via CSS)
+  function ddPz(){var f=d.querySelector('.gift-card form.hs-form');if(!f)return;f.querySelectorAll('.hs-form-field').forEach(function(fd){var lab=fd.querySelector('label');if(!lab)return;var ns=lab.querySelector('span:not(.hs-form-required)');var t=(ns?ns.textContent:lab.textContent).replace(/\*/g,'').trim();var r=!!fd.querySelector('.hs-form-required');var i=fd.querySelector('input.hs-input, textarea.hs-input');if(i&&i.name==='shipping_zipcode')t='Zip Code';var ph=t+(r?' *':'');if(i){i.setAttribute('placeholder',ph);i.setAttribute('aria-label',t);}var se=fd.querySelector('select.hs-input');if(se){var o=se.querySelector('option[value=""]');if(o)o.textContent=ph;se.setAttribute('aria-label',t);}});}
+  var s=d.createElement('script');s.src='https://js.hsforms.net/forms/embed/v2.js';
+  s.onload=function(){if(window.hbspt)hbspt.forms.create({region:'na1',portalId:'2518645',formId:'1aebadef-303a-4398-9834-a6f4f15c5274',target:'.hs-form-embed',onFormReady:function(){ddPz();setTimeout(ddPz,200);}});};
+  d.head.appendChild(s);
+  // Nav: transparent at top, solid white after a small scroll
+  var nav=d.querySelector('.top');
+  if(nav)addEventListener('scroll',function(){nav.classList.toggle('solid',window.scrollY>24);},{passive:true});
+  // Scroll reveal
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
+  d.querySelectorAll('.champ-inner,.gift-card').forEach(function(el){io.observe(el);});
+})();
+</script>
