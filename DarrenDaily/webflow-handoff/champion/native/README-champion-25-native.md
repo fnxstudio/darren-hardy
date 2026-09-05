@@ -67,20 +67,42 @@ Edit once, changes everywhere they are instanced.
 
 ## Parity vs. the live page (measured, not eyeballed)
 
-Identical at 1440px (**total document height 1885px on both**), at 600px (2054px) and at 375px (2450px):
-hero, card, badges, headline metrics, form grid, button, footer, nav solid state, images, all colours.
+Verified **identical** at every breakpoint band, comparing computed styles and box
+geometry on both pages:
 
-**One accepted drift — the 721–767px band.** The original CSS breaks at 720px/520px/860px; Webflow's
-fixed breakpoints are 767/479/991. Between 721 and 767 the native page adopts mobile spacing ~47px
-earlier than the live page (nav `14px 22px`, hero `128/60`, container `22px`; doc height 2038 vs 2104).
-Everywhere else the two are pixel-identical. Exact-pixel media queries could be forced through the
-embed's `<style>`, but that would take the spacing back out of the Designer — not worth it.
+| Viewport | Live doc height | Native doc height | Band being tested |
+|---|---|---|---|
+| 1440px | 1885 | 1885 | desktop |
+| 900px | 2020 | 2020 | 4-col footer (861-991 band) |
+| 700px | 2030 | 2030 | 2-col footer + mobile nav |
+| 500px | 2375 | 2375 | card padding (480-520 band) |
+| 375px | 2450 | 2450 | full mobile |
 
-## Not regressed
+Hero, card, badges, headline metrics, footer grid tracks (down to the fractional
+column widths), form grid, button, nav solid state, images and colours all match.
 
-- `/champion-25-gift` (live) is untouched: `nav.top` (0,1,1) out-specifies the shared `.top` (0,1,0),
-  so the new `.top` small-breakpoint padding does not reach it. Verified at 750px and 800px.
-- `/welcome-native` is improved, not broken, by the `.f-footer-col-h3` line-height fix.
+### How the breakpoints are handled
+
+Webflow's breakpoints are **fixed at 991 / 767 / 479** and the original CSS breaks at
+**860 / 720 / 520**. Mapping one onto the other left visible drift bands -- at 500px the
+card kept desktop padding, so the heading wrapped onto two lines instead of one; at 700px
+the footer collapsed to a single column while the original was still two.
+
+So the Designer breakpoint variants were removed and this page's responsive steps are
+pinned in the embed's `<style>`, scoped to `.dd-page` (specificity 0,2,0) so they always
+outrank the plain class rules Webflow emits. **Desktop/base values still live on the
+classes in the Designer** -- only the mobile steps are in the embed. If you change a base
+value on canvas, check whether its mobile step in the embed needs the same change.
+
+## The site's custom code also styles the footer
+
+Site Settings > Custom Code carries a second, structural footer stylesheet that overrides
+the classes -- e.g. `.foot-brand > div:last-child a` (the social icon boxes),
+`.foot-brand p { color: #b0a8a6 !important }`. It applies to **every** DarrenDaily page.
+
+The social icon boxes were removed for this page by overriding it in the embed. To drop
+them site-wide, delete that border rule from the custom code -- that changes the live
+pages too, so it is a deliberate call, not a side effect.
 
 ## To promote this page over the live one
 

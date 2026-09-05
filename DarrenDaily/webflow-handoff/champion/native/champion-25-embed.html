@@ -33,6 +33,44 @@
 .gift-card .hs-form .hs-input::placeholder{color:#616a78;opacity:1}
 .gift-card .hs-form textarea.hs-input::placeholder{color:#616a78;opacity:1}
 .gift-card .hs-form select.hs-input.is-placeholder{color:#616a78}
+/* ---- EXACT original breakpoints: 860 / 720 / 520.
+   Webflow's breakpoints are fixed at 991 / 767 / 479 and cannot be changed, so this
+   page's responsive spacing is pinned here instead of as Designer breakpoint variants.
+   Scoped to .dd-page (0,2,0) so it always outranks the plain class rules Webflow emits.
+   Base/desktop values still live on the classes in the Designer -- only the mobile
+   steps are here. Keep these in sync if you change the desktop values on canvas. ---- */
+@media (min-width:861px){
+  .dd-page .footer-grid{grid-template-columns:2fr 1fr 1fr 1.2fr;column-gap:40px;row-gap:40px}
+}
+@media (max-width:860px){
+  .dd-page .footer-grid{grid-template-columns:1fr 1fr;column-gap:34px;row-gap:34px}
+  .dd-page .foot-brand{grid-column:1 / -1}
+}
+@media (min-width:721px){
+  .dd-page .top{padding:20px 40px}
+}
+@media (max-width:720px){
+  .dd-page .top{padding:14px 22px}
+  .dd-page .dd-container{padding-left:22px;padding-right:22px}
+  .dd-page .champ-hero{padding-top:128px;padding-bottom:60px}
+  .dd-page .champ-logo{height:30px}
+}
+@media (max-width:520px){
+  .dd-page .footer-grid{grid-template-columns:1fr}
+  .dd-page .gift-card{padding:50px 22px 34px}
+}
+/* Scrolled nav keeps 40px side padding at every width, as on the original */
+.dd-page .top.solid{padding:14px 40px}
+
+/* ---- Social icons: no box. The site's own custom code styles these structurally
+   (.foot-brand > div:last-child a) and out-ranks the .f-socials-a class, so the
+   box is removed here. Hover now brightens the icon instead of filling a square.
+   To drop the boxes site-wide, delete that border rule from Site Settings > Custom Code. ---- */
+.dd-page .socials a.f-socials-a{border:0;background:transparent}
+.dd-page .socials a.f-socials-a:hover{background:transparent}
+.dd-page .socials a.f-socials-a .f-socials-svg{transition:fill .2s}
+.dd-page .socials a.f-socials-a:hover .f-socials-svg{fill:#ffffff}
+
 /* Scroll reveal -- gated on .dd-js so content is never hidden if JS does not run */
 .dd-js .champ-inner,.dd-js .gift-card{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1),transform .8s cubic-bezier(0.16,1,0.3,1)}
 .dd-js .champ-inner.in,.dd-js .gift-card.in{opacity:1;transform:none}
