@@ -35,7 +35,13 @@
       plList=d.getElementById('plList');
 
   function clock(s){ s=Math.max(0,Math.floor(s||0)); var m=Math.floor(s/60); return m+':'+('0'+(s%60)).slice(-2); }
-  function icon(el,playing){ if(el) el.textContent = playing ? '\u2016' : '\u25b6'; }
+  /* U+25B6 has an emoji presentation and iOS renders it as a colour emoji, so
+     every play/pause glyph is a real SVG instead of a character. */
+  var SVG_PLAY='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+  var SVG_PAUSE='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z"/></svg>';
+  function icon(el,playing){ if(el) el.innerHTML = playing ? SVG_PAUSE : SVG_PLAY; }
+  d.querySelectorAll('.ddod-pl-play-icon').forEach(function(e){ e.innerHTML=SVG_PLAY; });
+  icon(d.querySelector('.ddod-play-icon'), false);
 
   function load(file, autoplay){
     var e=byFile[file]; if(!e) return;
@@ -124,6 +130,7 @@
   if(PLAYLISTS.length) openPlaylist(0,false);
 
   /* ---------- sticky controls ---------- */
+  icon(skPlay,false);
   if(skPlay) skPlay.addEventListener('click',function(){ if(audio.paused) audio.play().catch(function(){}); else audio.pause(); });
   var back=d.getElementById('skBack'), fwd=d.getElementById('skFwd'), skx=d.getElementById('skClose');
   if(back) back.addEventListener('click',function(){ audio.currentTime=Math.max(0,audio.currentTime-15); });

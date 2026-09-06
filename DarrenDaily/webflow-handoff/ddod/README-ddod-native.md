@@ -74,10 +74,10 @@ the scrubber work. No audio is stored in Webflow.
 
 ## Where the code lives
 
-`ddod-player-v7.js` is uploaded as a **site asset** and loaded with `defer`:
+`ddod-player-v8.js` is uploaded as a **site asset** and loaded with `defer`:
 
 ```
-https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9ca87422df5cbebecc28e1_ddod-player-v7.js
+https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9cbd362a83ac25ac77a503_ddod-player-v8.js
 ```
 
 19.6 KB, of which ~6.9 KB is the episode and playlist data and ~2.6 KB the podcast
@@ -98,7 +98,7 @@ exact 980 / 760 / 560 breakpoints scoped to `.dd-page`.
 | `dh-face-104.webp` | 3.7 KB | was 520px/37 KB; renders 52x52 |
 | `dh-covers-600.webp` | 59.2 KB | 4:5 portrait crop of the covers wall, for the host section |
 | `ddod-artwork-116.webp` | 4.6 KB | thumbnails: playlist cards, sticky bar, episode rows |
-| `ddod-player-v7.js` | 19.6 KB | |
+| `ddod-player-v8.js` | 19.6 KB | |
 
 Everything else was already on the CDN: the eight media logos, `hero-chair.webp`,
 and `dd-logo-color-286.webp`.
@@ -256,6 +256,20 @@ also runs on first scroll and on a 2.5s timeout, so it does not depend on the ob
 `dd-drawer-form`, `ddod-about-text`, and suffixed duplicates on `ddod-cue`).
 When rebuilding a section: pass CSS for every class in the markup, and re-query
 afterwards for `-1` suffixes.
+
+## Play glyphs are SVG, not characters
+
+`\u25B6` BLACK RIGHT-POINTING TRIANGLE carries an emoji presentation, and iOS renders
+it as the colour emoji everywhere it appears. All eight play buttons (hero, six
+playlist cards, sticky bar) and the pause state now use inline SVG injected by the
+script. `font-size:0` on the glyph containers hides the raw character until the
+script runs, so there is no emoji flash on first paint.
+
+Audited the rest of the page for the same trap. `\u2605` BLACK STAR (96 of them),
+`\u2715`, `\u2192` and `\u2197` are all text-presentation by default and safe;
+`\u2B50` is the emoji star and is not used. The only other risky glyph is the `\u00A9`
+in the shared Site Footer, which renders as text unqualified and is left alone since
+it is site-wide.
 
 ## Still open
 - The episode and playlist data is baked into the script. `DarrenDaily/refresh-ddod-data.py`
