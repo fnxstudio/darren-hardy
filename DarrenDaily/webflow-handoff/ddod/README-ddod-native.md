@@ -1433,3 +1433,64 @@ drawer joins *DarrenDaily the daily mentoring*, which genuinely is an email
 join, while the six podcast-app links are the subscribe path for *On-Demand*.
 But whether the page should lead with subscribe rather than join is a
 positioning call that has not been made yet.
+
+---
+
+## Bio, seals and a real subscribe band, 2026-09-06
+
+### The bio is Darren's own copy
+
+Four paragraphs, supplied verbatim, replacing the three written for the first
+build. The closing line carries `ddod-about-p-last` (near-black, 600) so it
+lands as a beat: "...350,000 ambitious achievers committed to growing
+#BetterEveryDay."
+
+**The host section is now WHITE**, so it separates from the playlists band
+above it.
+
+### Seals: three static, five scrolling
+
+All eight come from **hardybmc.com** (`darrenhardy.com/wp-content/.../dh-images/`),
+the same files DarrenHardy.com uses.
+
+- **Three award seals sit statically under the bio** (`.ddod-awards`): Apple
+  Podcast, DarrenDaily blog, NSA Master of Influence. Outer two at **62px**,
+  the middle one at **78px** via the `ddod-award-mid` combo.
+- **Five bestseller seals scroll** in `.ddod-ribbon` below the host section,
+  replacing the two stacked rows of media wordmarks that were there.
+
+**Two of the eight shipped for dark backgrounds and had to be recoloured.**
+The NSA seal is light-on-transparent; inverting its luminance only reached
+mid-grey (measured mean luminance **88** against **1.2** for the other two).
+The fix was to ignore its colour entirely and **repaint its alpha channel**
+near-black, which is what the shape actually is. Measured **7.7** afterwards.
+If another light-ground seal is ever added, repaint from alpha, do not invert.
+
+### The subscribe band
+
+Darren's note: **people subscribe to the podcast on their platform of choice,
+they do not join it by email.** So subscribing is now the page's first action
+after the hero, not a small row inside it.
+
+`.ddod-sub-band` sits directly under the hero: white section, `#f3f5f8` inset
+panel, a **34px brand-red heading** "Subscribe to the podcast", and the six
+apps as **369x66 cards** in a 3-up grid. It matches the treatment on the live
+darrenhardy.com page but carries all six options rather than three.
+
+**The block was MOVED, not rebuilt.** The player injects each brand mark by
+matching the link's trimmed `textContent` against its `ICONS` map, so
+rebuilding the links by hand would have silently dropped every icon. Moving
+the existing `.ddod-subs` node and restyling its classes kept all six working.
+**If you retype a link's label, its icon disappears.**
+
+The section class came back as `ddod-listen-1` because `.ddod-listen` already
+exists as the hero's player wrapper; renamed to `ddod-sub-band` so the two are
+not confused.
+
+### Watch this: the ribbon seals load eagerly
+
+`data_whtml_builder` drops `loading` from `<img>` markup and `set_attributes`
+conflicts on anything it created, so the five ribbon seals plus three award
+seals **cannot be set lazy through the API**. That is roughly **50 KB** on
+first view for imagery that sits far below the fold. Same three-click Designer
+fix as the other images: select each, Settings, Loading -> Lazy.

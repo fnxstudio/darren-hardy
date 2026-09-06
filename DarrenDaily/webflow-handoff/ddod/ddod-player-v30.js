@@ -320,6 +320,25 @@
     io.observe(band);
   }
 
+  /* ---------- credibility ribbon ----------------------------------------
+     #sealTrack holds ONE set of seals in the markup, so the Designer shows
+     each award and bestseller badge as its own editable Image. The -50%
+     marquee needs exactly two sets, so the set is cloned once here rather
+     than duplicated by hand: add or remove a seal in the Designer and the
+     loop stays seamless with no other change.
+     Clones are aria-hidden with empty alt so a screen reader hears each
+     claim once, not twice. */
+  (function(){
+    var t=d.getElementById('sealTrack'); if(!t) return;
+    var kids=[].slice.call(t.children); if(!kids.length) return;
+    kids.forEach(function(n){
+      var c=n.cloneNode(true);
+      c.setAttribute('aria-hidden','true');
+      c.setAttribute('alt','');
+      t.appendChild(c);
+    });
+  })();
+
   /* ---------- opt-in drawer ---------- */
   var drawer=d.getElementById('ddDrawer'), overlay=d.getElementById('ddOverlay'),
       closeBtn=d.getElementById('ddClose'), mount=d.getElementById('ddJoinForm'), lastFocus=null, hsLoaded=false;
