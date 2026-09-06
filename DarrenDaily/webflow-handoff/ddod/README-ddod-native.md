@@ -1383,3 +1383,53 @@ One cosmetic flaw, not worth a fix: `dh-waving.webp` (166 KB) and
 because the original is itself 1600px. The browser may take the heavier of the
 two. Webflow generates that srcset itself and the API cannot author srcset on
 an Image element, so it is not addressable headlessly.
+
+---
+
+## The TCE audiobook offer is gone, 2026-09-06
+
+Darren's note: **people do not "join" DarrenDaily On-Demand by email — they
+subscribe to it on their podcast platform of choice.** The audiobook was framed
+as a gift *for joining*, so once that framing did not fit the podcast page, the
+gift had nothing to attach to.
+
+Everything is preserved, unused, at
+`DarrenDaily/webflow-handoff/tce-audiobook-ARCHIVE/`: the section markup, the
+shared drawer/popup panel, all 25 compiled CSS rules, every asset, the parked
+audiobook-form player build, and the copy in full. **Read its README before
+rebuilding this anywhere** — it carries the four hard-won constraints,
+including that the audiobook HubSpot form renders as an unstyleable
+cross-origin iframe.
+
+### What came out
+
+- the whole `#join` section
+- the `.ddod-ab-strip` gift panel that the drawer and exit popup shared
+- both its slots, `#ddGiftHome` and `#ddGiftHomeExit`
+- three embed rules that only served it (`.ddod-join-li:before`, and its
+  980px/760px breakpoint rules)
+- **26 classes**: the whole `ddod-ab-*`, `ddod-jn-by-*` and `ddod-join-*`
+  families, plus `dd-key-b-light` and `dd-sec-title-ondark`, which existed only
+  for that section's dark headline
+
+### What changed rather than went
+
+- closing button: "Join + the audiobook, free" -> **"Join DarrenDaily free"**
+- exit popup copy lost its audiobook half; it is now the daily offer alone
+- **player v29** drops the gift-panel hosting. `hostPanel()` takes one argument
+  now and moves only `#ddJoinForm`. The form sharing between drawer and popup
+  is untouched and still verified.
+
+The page is six sections: hero, stats band, review wall, playlists, about,
+closing. Zero occurrences of "Compound Effect", "audiobook", "bestseller" or
+"Limited time" remain anywhere in it.
+
+### Still open from Darren's note
+
+The join-versus-subscribe distinction is **only half-applied**. The audiobook
+is gone, but the page still says "Join DarrenDaily" in the nav and the closing
+CTA, and still opens an email opt-in drawer. That is arguably correct — the
+drawer joins *DarrenDaily the daily mentoring*, which genuinely is an email
+join, while the six podcast-app links are the subscribe path for *On-Demand*.
+But whether the page should lead with subscribe rather than join is a
+positioning call that has not been made yet.
