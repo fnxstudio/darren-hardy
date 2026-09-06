@@ -1352,3 +1352,34 @@ regenerated the 512 as **49.4 KB RGBA** from the 256 upload, where the supplied
 flattened file was 3.9 KB. In practice a browser fetches one icon (the 32, at
 1.3 KB), so this is not first-view cost - but the 512 is still heavier than it
 needs to be if anything ever requests it.
+
+### Reading the Webflow asset bandwidth report
+
+That report shows **historical** bandwidth and **max file size**, not what the
+site serves today. Checked every heavy row against all seven live pages:
+
+| asset | status |
+|---|---|
+| `DDJ_5 (1) (1).jpg` 1.31 MB | **already replaced** by `rd-photo-1800.webp` (118 KB, full variant set). Zero references. |
+| `hero-garden.webp` 361 KB | **already replaced** in the page by `hero-garden-m` (820w) + `hero-garden-1600`. Still referenced as home's **og:image** - see below. |
+| `Wall-DH-blue.webp` 242 KB | zero references |
+| `Wall-DH.webp` 121 KB | zero references |
+| `SM_12_01_DOWNEY.webp` 113 KB | zero references |
+| `rd-photo-1800` / `dh-waving` / `dh-expired` | fine - full p-500/800/1080/1600 sets, browser picks small |
+
+So the heavy rows are **orphaned originals plus historical traffic**, not live
+page weight. They cost storage, not bandwidth.
+
+**Two real findings the report surfaced:**
+
+1. **Home's `og:image` is the 361 KB hero photo.** Social scrapers refetch it,
+   which is where that 4.33 MB across 12 requests comes from. /welcome and /404
+   use a 167 KB `og-image.jpg` instead. A purpose-cut 1200x630 would be ~60 KB.
+2. **The DDOD page has no `og:image` at all**, so sharing it produces a preview
+   with no picture.
+
+One cosmetic flaw, not worth a fix: `dh-waving.webp` (166 KB) and
+`dh-waving-p-1600.webp` (141 KB) both carry the **same 1600w descriptor**,
+because the original is itself 1600px. The browser may take the heavier of the
+two. Webflow generates that srcset itself and the API cannot author srcset on
+an Image element, so it is not addressable headlessly.
