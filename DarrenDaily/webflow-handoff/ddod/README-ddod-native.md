@@ -1064,3 +1064,47 @@ desktop and the form needs roughly 280px under it.
 
 Closing paragraph names the brand rather than the page: "...350,000+ people
 start their morning on DarrenDaily. Yours can start with us tomorrow."
+
+### The drawer stays light. This was tried both ways.
+
+A dark maroon drawer (matching the audiobook section) was built and rejected:
+**DarrenDaily is a morning brand and the panel should not go dark.** Everything
+is back on white. The embed's drawer block carries a note saying so; do not
+"unify" it with the dark section later.
+
+What survived from that pass, because it was right either way:
+
+- **the divider is gone** - `.dd-drawer-head` border-bottom is 0, padding-bottom 6px
+- **the portrait is gone** - the small square face beside the pitch read as odd
+- **no pink** - `.ddod-ab-strip` went from `#fdf4f4` to the page's neutral
+  `#f3f5f8`. Pink was the specific complaint, not the lightness.
+- **"every day" is emphasised** in the title, in `#a72632`, and carries
+  `white-space:nowrap` so the two words can never split across lines
+- **an action line above the form**: "Where should Darren send it?"
+
+**Watch the builder with leading spaces.** `<b> with an advantage</b>` inserted
+via `data_whtml_builder` came back with the leading space stripped, rendering
+"EVERY DAYWITH". `set_text` preserves spaces where the builder does not, so fix
+it in a second call rather than trusting the insert.
+
+### Drawer testimonials
+
+Two, under the form, both lifted from **darrendaily.com** so they are real and
+already client-approved:
+
+- Cindy Santos Mendoza: "DarrenDaily is my morning mindset anchor. **Darren
+  helps me quiet the noise and focus on one thing that truly matters** that day."
+- Mark McInnes: "DarrenDaily provided me with **a clear path to becoming a
+  better version of myself**."
+
+Chosen against two constraints: general about Darren rather than about a
+product (the brief explicitly ruled out naming TCE or anything else), and
+already attached to a real name. **No photographs** - darrendaily.com pairs
+these quotes with generic placeholder SVGs, so there is no real headshot to
+use, and inventing one would break the rule that a face never carries another
+person's words.
+
+The tce.darrenhardy.com/bundle page was checked too. Most of its quotes name a
+product ("the Weekly Rhythm Register Assessment"); the two that do not
+(Douglas Philipstein on his marriage, David Watson on sales force performance)
+are off-topic for this drawer. Left unused, but they are there if needed.
