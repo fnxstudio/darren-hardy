@@ -371,40 +371,6 @@ wasted CPU on the LCP screen for detail nobody can see at that size.
 not touched by this change: it only ever addressed `#heroPlay`, `#heroBar` and
 `#heroFill` by id, never by structure.
 
-## The nav is not there on load
-
-The DDOD bar starts translated up out of the viewport and slides in once the
-page scrolls past **24px** - the same threshold the rest of the site uses to
-flip `.dd-nav` solid, so the two behave alike.
-
-The resting hidden state lives on the **`.ddod-nav` Designer class**
-(`transform: translateY(-100%)`, `opacity: 0`, `visibility: hidden`,
-`pointer-events: none`) so it is visible and editable in the Designer. Only the
-revealed state and the transition are in the page embed, because a Designer
-class cannot hold `.is-on`.
-
-`visibility` is used alongside `opacity` on purpose: an opacity-0 bar is still
-in the tab order and still read by screen readers. Its transition is delayed
-`.28s` on the way out so the fade still reads, and zeroed on the way in.
-
-**No `requestAnimationFrame` throttle.** The first version had one, and it is a
-trap: if the rAF callback never fires (a backgrounded tab), the queued flag
-latches `true` and the toggle is dead for the rest of the session. One
-comparison per scroll event is cheap and is what the rest of the site does.
-
-One consequence worth knowing: above 24px of scroll there is no opt-in CTA on
-screen, because the nav button is the only one in the hero. Every other "get
-DarrenDaily" entry point is further down the page.
-
-### Verifying this in a hidden browser pane
-
-`window.scrollTo()` does **not** emit a scroll event while
-`document.visibilityState === 'hidden'`, and CSS transitions are frozen at
-`currentTime: 0`. Both make a working scroll-reveal look broken. Dispatch
-`new Event('scroll')` by hand to drive the handler, then
-`el.getAnimations().forEach(a => a.finish())` before reading the settled
-opacity and offset.
-
 ## Hero: cover alignment and the rating card
 
 The cover no longer centres in its grid row. `.ddod-hero-art` is `align-self:
@@ -428,3 +394,38 @@ since this card is on white.
 
 Below 980px none of this applies: the embed already resets `.ddod-rate` to
 `position: static` and centres it under the stacked cover.
+
+## The nav is a brand bar
+
+`Site Nav DDOD` carries the logo and the On-Demand tag, nothing else. It is
+present from first paint, fixed to the top.
+
+It briefly had two other things, both reverted, and the reasons are worth
+keeping:
+
+- **A "Get DarrenDaily" button.** Removed. The drawer is still reached from the
+  join card and the closing section, so nothing was stranded, but there is now
+  no opt-in above the fold at all. If one is ever wanted back there, put it in
+  the hero copy rather than the bar.
+- **A scroll-reveal** (hidden on load, slid in past 24px). Reverted: the hero
+  read as broken with no bar at the top. The revert also removed the scroll
+  handler, which is why the live script is **v11** and not v14 - stripping that
+  block leaves a file byte-identical to v11, so it was repointed rather than
+  re-uploaded. v12 and v13 exist in the asset library and are dead.
+
+`ddod-nav-cta`, `ddod-nav-cta-long` and `ddod-nav-cta-short` were deleted with
+the button, along with their embed hover and breakpoint rules.
+
+**No second nav component was needed.** `Site Nav DDOD` is used on this page
+only, so it can be edited freely without touching the site-wide `Site Nav`. A
+second instance would only be worth building if another page needed the
+CTA-less variant while this one kept a CTA.
+
+### Verifying a scroll behaviour in a hidden browser pane
+
+Worth keeping even though the feature was reverted. `window.scrollTo()` does
+**not** emit a scroll event while `document.visibilityState === 'hidden'`,
+`requestAnimationFrame` never fires, and CSS transitions are frozen at
+`currentTime: 0`. All three make working code look broken. Dispatch
+`new Event('scroll')` by hand, and call
+`el.getAnimations().forEach(a => a.finish())` before reading settled values.
