@@ -54,13 +54,17 @@
   /* U+25B6 has an emoji presentation and iOS renders it as a colour emoji, so
      every play/pause glyph is a real SVG instead of a character. */
   var SVG_PLAY='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+  /* The playlist cards open a panel, they do not start audio, so their control
+     is a disclosure chevron rather than a play triangle. Play all lives in the
+     panel head, where it can carry a word. */
+  var SVG_CHEV='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
   var SVG_PAUSE='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z"/></svg>';
   var SVG_PREV='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M7 5.5v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M18.5 5.8 9.6 12l8.9 6.2z" fill="currentColor"/></svg>';
   var SVG_NEXT='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M17 5.5v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M5.5 5.8 14.4 12 5.5 18.2z" fill="currentColor"/></svg>';
   var SVG_BACK='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.2a8 8 0 1 0 5.66 2.34"/><polyline points="12 2.2 12 6.2 8.4 6.2"/></g><text x="12" y="15.4" text-anchor="middle" font-size="7.6" font-weight="700" fill="currentColor" stroke="none">15</text></svg>';
   var SVG_FWD='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.2a8 8 0 1 1-5.66 2.34"/><polyline points="12 2.2 12 6.2 15.6 6.2"/></g><text x="12" y="15.4" text-anchor="middle" font-size="7.6" font-weight="700" fill="currentColor" stroke="none">30</text></svg>';
   function icon(el,playing){ if(el) el.innerHTML = playing ? SVG_PAUSE : SVG_PLAY; }
-  d.querySelectorAll('.ddod-pl-play-icon').forEach(function(e){ e.innerHTML=SVG_PLAY; });
+  d.querySelectorAll('.ddod-pl-play-icon').forEach(function(e){ e.innerHTML=SVG_CHEV; });
   icon(d.querySelector('.ddod-play-icon'), false);
 
   var stickyDismissed=false;
@@ -131,7 +135,14 @@
     d.querySelectorAll('.ddod-pl').forEach(function(c){ c.classList.toggle('is-active', +c.getAttribute('data-pl')===i); });
     /* No title here: the connected tab directly above already names the
        playlist, so repeating it just pushed the first episode down. */
-    var head='<div class="ddod-pl-head"><div class="ddod-pl-close" role="button" tabindex="0" aria-label="Close this playlist">Close<span class="ddod-pl-close-x">\u00d7</span></div></div>';
+    /* No title here: the connected tab directly above already names the
+       playlist. The head carries the two actions instead. */
+    var head='<div class="ddod-pl-head">'
+      +'<div class="ddod-pl-all" role="button" tabindex="0" aria-label="Play this whole playlist">'
+        +'<span class="ddod-pl-all-icon">'+SVG_PLAY+'</span>Play all'
+      +'</div>'
+      +'<div class="ddod-pl-close" role="button" tabindex="0" aria-label="Close this playlist">Close<span class="ddod-pl-close-x">\u00d7</span></div>'
+    +'</div>';
     var rows=pl[1].map(function(f,n){ var e=byFile[f]; if(!e) return '';
       return '<div class="ddod-ep" data-file="'+f+'" data-i="'+n+'">'
         +'<div class="ddod-ep-art"><img src="'+ART+'" alt="" width="96" height="96" loading="lazy"></div>'
@@ -156,6 +167,8 @@
     }
     plList.innerHTML=head+rows;
     plList.querySelector('.ddod-pl-close').addEventListener('click',closePlaylist);
+    plList.querySelector('.ddod-pl-all').addEventListener('click',function(){
+      queue=pl[1].slice(); playAt(0); });
     plList.querySelectorAll('.ddod-ep').forEach(function(r){
       r.addEventListener('click',function(){ queue=pl[1].slice(); playAt(+r.getAttribute('data-i')); });
     });

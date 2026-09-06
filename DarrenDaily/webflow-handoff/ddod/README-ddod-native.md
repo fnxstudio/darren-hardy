@@ -630,3 +630,24 @@ pseudo-state** (`data_style_tool` accepts `pseudo: "empty"`), not embed CSS, so
 it stays visible and editable in the Designer and needed no script change. It
 also kills the flash of an empty bordered bar between first paint and the
 deferred script filling the panel on load.
+
+### The card control was promising the wrong thing
+
+A playlist card's round red button looked exactly like the transport buttons
+elsewhere on the page, but clicking a card **opens a panel; it never starts
+audio**. Two changes made it honest:
+
+- The card's control is now an **outlined disclosure chevron** that rotates 180
+  degrees and fills red when its tab is open. Hover tints it instead of
+  scaling, because a scale would fight the rotation.
+- **Play all** is a real, labelled control in the panel head, next to Close. It
+  sets the playlist as the queue and starts episode one. The head had room for
+  it because the redundant playlist title came out.
+
+`.ddod-play` in the hero is now the only round red play button on the page, and
+it is the only one that starts audio on click. That is the rule to keep.
+
+One gotcha: `.ddod-ico { fill: currentColor }` is set for the filled triangles,
+and CSS beats the SVG's own `fill="none"` attribute, so a stroked chevron
+renders as a filled blob. `.ddod-pl-play-icon .ddod-ico` opts back out with
+`fill: none`.
