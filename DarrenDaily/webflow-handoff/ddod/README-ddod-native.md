@@ -1566,3 +1566,37 @@ the h2 renders **"1,500 EPISODES. SIX CURATED PLAYLISTS"**.
 
 The short-label String now reads `DarrenDaily` (was `JOIN DARRENDAILY`). The
 arrow stays. `.ddod-nav-cta-long` / `-short` swap at 560px.
+
+## Bio photo resolution (2026-09-06)
+
+`.ddod-about-img` looked grainy. It was not compression and no sharpening
+filter would have helped: the file simply never had the pixels.
+
+**What was happening.** The asset was `dh-covers-ddod-640.webp`, **640x400
+landscape**, rendering into a **298x373 portrait** box. `object-fit: cover`
+therefore used only a 320x400 slice of it and the browser upscaled that slice
+~1.9x to fill the box at 2x device resolution. Half the file was cropped away
+and what survived was stretched.
+
+**The fix.** Crop the portrait from the full-size colour original rather than
+letting CSS crop a downscaled landscape. `DarrenDaily/dh-covers.webp` is
+1200x750 and sharp; cropping the widest 0.799-aspect portrait from it gives
+**599x750**, taken 1:1 with no resampling at all, centred at x=301 so he stays
+centred (his figure spans roughly x 350-850).
+
+| | file | pixels actually seen | vs the box at 2x |
+|---|---|---|---|
+| before | 640x400 | 320x400 | 0.97x (upscaled) |
+| after | 599x750 | 599x750 | **2.01x** |
+
+**3.5x the visible pixels for +6.6 KB** (56.5 -> 64.6 KB, WebP q82). Live asset
+`6a9d8f44657b94e2f604a243`. Verified: desktop box 298x373 at 2.01x, mobile box
+331x414 at 1.81x, both within the 2x bandwidth cap.
+
+**599px is the ceiling from current sources.** A portrait can be no wider than
+the 750px height of the colour original. The only other copy in the repo,
+`site-backup/dh-covers-bw.webp`, is larger at 1500x940 but is fully black and
+white, so it cannot be used here. If this photo ever needs to be bigger than
+599px wide, a higher-resolution **colour** original has to come from Darren's
+archive; nothing on darrenhardy.com carries one (the covers image served there
+is a 530x107 strip).
