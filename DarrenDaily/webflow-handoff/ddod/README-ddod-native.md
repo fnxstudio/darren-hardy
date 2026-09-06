@@ -824,3 +824,36 @@ the drawer.
 "No exceptions." That line belongs to the 72-hour expiry claim on the session
 popups. This popup offers an audiobook, where the phrase would be meaningless,
 so it is not forced.
+
+## Bandwidth audit, 2026-09-06
+
+Measured cold with curl (resource timing came back warm-cached and is not a
+valid first-load figure). Same-origin assets: **545KB raw across 31 requests**,
+but that counts all five favicons; a browser fetches one or two, so the real
+figure is nearer **405KB**.
+
+**Fixed:** the host photo was the shared `dh-covers.webp`, 1200px wide and
+99.5KB, rendering into a **298px** box on this page (4x). It could not simply be
+shrunk - `/` and `/404` render the same asset large and would have gone soft. A
+page-specific `dh-covers-ddod-640.webp` (56.5KB) is now bound here only;
+verified the other two pages still use the original and its srcset variants.
+**43KB saved.**
+
+**Still open, with measurements:**
+
+| item | measured | note |
+|---|---|---|
+| favicons | **142KB across 5 PNGs**, the 512x512 alone is **99.9KB** | site settings, so it hits every page; a 512 icon should be 10-15KB. Not fixable through the API - `compress_assets` only converts to webp/avif, which is wrong for a `type="image/png"` favicon |
+| 6 review portraits | 800px into 224-280px boxes (**3.6x**), ~108KB | ~55KB at 560px |
+| drawer audiobook thumb | reuses the 700px phone mock for a **58px** box (12x) | needs its own ~120px variant |
+
+**The heaviest thing touching this page is not on this page.** `hs-scripts`
+(HubSpot tracking) is in the head, and because the portal is shared across the
+whole DH family it injects the portal's tag stack at runtime - which pulled
+`fbevents.js` at **106KB transferred, 406KB decoded**. There is no Facebook
+pixel in this page's own markup; grepping the published HTML for `fbevents`,
+`connect.facebook.net` and `fbq(` returns nothing. It is portal configuration,
+not page code.
+
+Ignore the SVG ratios in any oversize report: natural dimensions are
+meaningless for vectors and those logos are 0.6-2.3KB each.
