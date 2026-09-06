@@ -1519,3 +1519,50 @@ YouTube `#FF0000`, iHeart `#C6002B`, Amazon `#25D1DA`, RSS `#F26522`).
 **Two consequences.** Retyping a link's label silently kills its logo, since
 the label IS the key. And if the logos ever need to be visible in the Designer,
 they have to become native inline SVG elements instead of injected ones.
+
+## Subscribe grid: responsive (2026-09-06)
+
+The subscribe block lives in the hero, above the down-arrow cue. Its grid is
+3 / 2 / 2 columns:
+
+| breakpoint | `.ddod-subs-row` columns | `.ddod-subs` side padding |
+|---|---|---|
+| main | `repeat(3,minmax(0,1fr))`, 18px gaps | 48px |
+| small (<=767) | `repeat(2,minmax(0,1fr))` | 24px |
+| tiny (<=479) | `minmax(0,1fr) minmax(0,1fr)`, 10px gaps | 18px |
+
+### What was broken
+
+`.ddod-subs-row` still carried a `tiny` variant from the original small-pill
+design: `grid-template-columns: repeat(2, max-content)`. `max-content` sizes a
+column to its widest child regardless of the container, so at 375px the two
+columns measured 222px + 147px and the cards ran to **R435 on a 375px
+viewport**. Never use `max-content` in a grid that has to fit a phone.
+
+### And the over-correction
+
+The first fix dropped `tiny` to a single full-width column. That removed the
+overflow but the buttons then ran edge to edge, one per row, six rows tall.
+Two columns is the right density for this list. Corrected back.
+
+### Why the tiny card values are what they are
+
+At 375px: 375 - 36 (gutters) - 10 (gap) = **164.5px per card**. Minus 20px of
+card padding and the 22px brand icon plus its 8px gap leaves ~114px of label.
+`Apple Podcasts` is the longest label and wraps at 13.5px; it fits on one line
+at **13px with `letter-spacing: 0.02em`** (the base 0.06em tracking is what
+pushed it over). `min-height: 56px` then holds all six cards identical even if
+a longer label is ever added.
+
+Verified live at 375px: six cards, `165x56` each, L18 / R357, no horizontal
+overflow. Two columns confirmed at 700px.
+
+## Playlists headline (2026-09-06)
+
+`These six first.` -> `Six curated playlists`. `.dd-sec-title` uppercases, so
+the h2 renders **"1,500 EPISODES. SIX CURATED PLAYLISTS"**.
+
+## Mobile nav CTA (2026-09-06)
+
+The short-label String now reads `DarrenDaily` (was `JOIN DARRENDAILY`). The
+arrow stays. `.ddod-nav-cta-long` / `-short` swap at 560px.
