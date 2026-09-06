@@ -1600,3 +1600,93 @@ white, so it cannot be used here. If this photo ever needs to be bigger than
 599px wide, a higher-resolution **colour** original has to come from Darren's
 archive; nothing on darrenhardy.com carries one (the covers image served there
 is a 530x107 strip).
+
+## Author Cred Row: now a global component (2026-09-06)
+
+The credibility ribbon is a Webflow **component**, `Author Cred Row`, in the
+`Global` group (`22b22283-461d-50d9-0fa2-e9e3e740658f`). It is self-contained,
+so it can be dropped on any page.
+
+### Two hard-coded sets, no script
+
+The track holds **TWO identical sets of five seals, in the same order**
+(amazon, nyt, bnn, wsj, usatoday). That is what makes the `-50%` translate loop
+seamless: shifting by half the track lands exactly on the start of set two.
+
+> **If you add, remove or reorder a seal you must do it in BOTH sets, in the
+> same order, or the loop will visibly jump.**
+
+Previously the markup held one set and `ddod-player-v30.js` cloned it at
+runtime. That was fewer images to edit but it tied the ribbon to this page's
+script. **v31 removes the clone.** Do not reinstate it: it would double an
+already-complete track.
+
+### Its own keyframes
+
+The component carries an **HtmlEmbed** with `@keyframes ddodCredSlide`, the
+animation, the hover pause and the reduced-motion opt-out. Deliberately its own
+keyframe name rather than the page embed's `ddodSlideA`, so the component does
+not depend on the DDOD page at all.
+
+### The page embed no longer styles the ribbon
+
+Every `.ddod-seal` / `.ddod-ribbon-*` rule is gone from the page's HTML embed.
+This matters: those rules were `.dd-page`-scoped (specificity 0,2,0) and
+**silently out-ranked both the Designer breakpoint values and the component's
+own embed**, which is why the seals stayed 44px on phones after the class said
+56px. Sizes now live on the Designer classes where they belong:
+
+| | seal height | track gap |
+|---|---|---|
+| main | 88px | 150px |
+| small (<=767) | 66px | 68px |
+| tiny (<=479) | 56px | 52px |
+
+**Do not re-add ribbon rules to the page embed.** A comment at the top of the
+embed says so.
+
+Spacing is set so roughly one full set is on screen at a time (5.4 seals at
+1280px against 5 unique), which is what stops the same mark appearing twice.
+
+## Seal and award artwork: one greyscale, one weight (2026-09-06)
+
+The marks were never a set. Measured on the visible pixels of each file:
+
+| | was | note |
+|---|---|---|
+| WSJ | mean 0.7 | pure black |
+| B&N | mean 76 | dark grey |
+| Amazon | mean 98 | mid grey |
+| USA Today | mean 194 | near-white **filled** badge |
+| NYT | mean 193, colour cast 8.9 | near-white filled badge, warm |
+
+So only NYT was actually tan; the bigger problem was that two of the five are
+filled badges whose fill was nearly the same value as the page background.
+
+Each is now converted to greyscale (which kills any cast) and remapped onto one
+ink tone, `#848484`, by one of two treatments:
+
+- **flat** (WSJ, Amazon, B&N): every visible pixel is ink on transparency, so
+  the whole mark is filled with the target tone and the **alpha channel carries
+  the shape and the antialiasing**. Ramping these instead spreads the ink from
+  grey to white and washes the mark out, which is exactly what the first
+  attempt did to Amazon.
+- **ramp** (USA Today, NYT): ink and knockout are both visible, so the
+  luminance is stretched ink -> grey, knockout -> white. USA Today is inverted
+  first, because its source is a light badge and the reference is a dark badge
+  with white type.
+
+Every file is then **trimmed to its ink bounding box** and exported at a common
+height, so equal CSS height means equal visual size.
+
+### That trim is what fixed the third award
+
+The award laurels looked mismatched at identical CSS height because their ink
+filled different fractions of their canvases: DDOD 98%, DD 98%, but **NSA only
+79% x 79%**. At 62px tall that made the NSA laurel render ~51px of actual
+artwork against 62px for the other two. Trimming removes the difference.
+
+The awards are also now the same `#848484` as the seal row rather than black,
+and the row is centred under the bio copy: outer two **74px**, middle **82px**.
+
+Sources are the full-size originals in this folder, not the small live files.
