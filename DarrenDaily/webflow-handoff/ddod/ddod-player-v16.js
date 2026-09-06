@@ -14,6 +14,22 @@
     a.insertBefore(w,a.firstChild);
   });
 
+  /* ---------- nav CTA reveals on scroll ----------
+     The bar itself is present from first paint; only the button is held back,
+     so the hero opens clean but the page never looks headless. .is-on goes on
+     the NAV (not the button) so the CSS can also shift the bar if it ever needs
+     to. 24px is the threshold the rest of the site uses to flip .dd-nav solid.
+     Synced once on load in case the browser restores a scroll position.
+     Deliberately no requestAnimationFrame throttle: a rAF that never fires (a
+     background tab) would latch the queued flag and kill the toggle for good. */
+  var nav=d.querySelector('.ddod-nav');
+  if(nav){
+    var navSync=function(){
+      nav.classList.toggle('is-on', (window.pageYOffset||d.documentElement.scrollTop||0) > 24); };
+    window.addEventListener('scroll',navSync,{passive:true});
+    navSync();
+  }
+
   /* ---------- review marquee ---------- */
   /* each row is duplicated once so the -50% translate loops seamlessly.
      The originals stay in the Designer; only the clones are generated. */
@@ -47,17 +63,23 @@
   d.querySelectorAll('.ddod-pl-play-icon').forEach(function(e){ e.innerHTML=SVG_PLAY; });
   icon(d.querySelector('.ddod-play-icon'), false);
 
+  var stickyDismissed=false;
+  function revealSticky(){ if(sticky && !stickyDismissed) sticky.classList.add('is-on'); }
+
   function load(file, autoplay){
     var e=byFile[file]; if(!e) return;
     audio.src=BASE+file;
     if(skTitle) skTitle.textContent=e[0];
     if(skTime) skTime.textContent='0:00 / '+clock(e[2]);
-    if(sticky) sticky.classList.add('is-on');
     try{ localStorage.setItem('ddod:last',file); }catch(err){}
-    if(autoplay!==false) audio.play().catch(function(){});
+    /* Revealing is deliberately tied to intent, not to loading. A silent
+       load (the resume-where-you-stopped path below) primes the transport
+       and leaves it hidden; only an actual play, or scrolling past the
+       playlists, brings it on screen. */
+    if(autoplay!==false){ revealSticky(); audio.play().catch(function(){}); }
     mark();
   }
-  function playAt(i){ if(i<0||i>=queue.length) return; qi=i; load(queue[qi],true); if(typeof syncQueueBtns==='function') syncQueueBtns(); }
+  function playAt(i){ if(i<0||i>=queue.length) return; stickyDismissed=false; qi=i; load(queue[qi],true); if(typeof syncQueueBtns==='function') syncQueueBtns(); }
   function mark(){
     var f=queue[qi];
     d.querySelectorAll('.ddod-ep').forEach(function(r){
@@ -107,7 +129,7 @@
     var pl=PLAYLISTS[i]; if(!pl||!plList) return;
     curPl=i;
     d.querySelectorAll('.ddod-pl').forEach(function(c){ c.classList.toggle('is-active', +c.getAttribute('data-pl')===i); });
-    var head='<div class="ddod-pl-head"><div class="ddod-pl-head-t">'+pl[0]+'</div><div class="ddod-pl-close" role="button" tabindex="0">Close</div></div>';
+    var head='<div class="ddod-pl-head"><div class="ddod-pl-head-t">'+pl[0]+'</div><div class="ddod-pl-close" role="button" tabindex="0" aria-label="Close this playlist">Close<span class="ddod-pl-close-x">\u00d7</span></div></div>';
     var rows=pl[1].map(function(f,n){ var e=byFile[f]; if(!e) return '';
       return '<div class="ddod-ep" data-file="'+f+'" data-i="'+n+'">'
         +'<div class="ddod-ep-art"><img src="'+ART+'" alt="" width="96" height="96" loading="lazy"></div>'
@@ -160,7 +182,7 @@
     ri=(ri+1)%RATES.length; audio.playbackRate=RATES[ri];
     rate.textContent=(RATES[ri]%1===0?RATES[ri]:RATES[ri])+'\u00d7';
   });
-  if(skx) skx.addEventListener('click',function(){ audio.pause(); if(sticky) sticky.classList.remove('is-on'); });
+  if(skx) skx.addEventListener('click',function(){ audio.pause(); stickyDismissed=true; if(sticky) sticky.classList.remove('is-on'); });
   /* grey out queue steps that lead nowhere */
   function syncQueueBtns(){
     if(next) next.classList.toggle('is-off', qi>=queue.length-1);
@@ -175,6 +197,25 @@
       audio.addEventListener('loadedmetadata',function once(){ audio.currentTime=saved.t; audio.removeEventListener('loadedmetadata',once); });
     }
   }catch(err){}
+
+  /* ---------- the transport arrives on the way out of the playlists --------
+     It stays off screen until the listener has actually chosen something, or
+     until they have scrolled past the playlists without choosing - at which
+     point it primes itself with the featured episode, paused, so there is a
+     one-tap way back into the show. Closing it with the X opts out until the
+     next real selection. */
+  (function(){
+    var sec=d.querySelector('.ddod-playlists'); if(!sec||!sticky) return;
+    function check(){
+      if(stickyDismissed || sticky.classList.contains('is-on')) return;
+      if(sec.getBoundingClientRect().bottom > window.innerHeight) return;
+      if(!audio.src){ queue=[EPS[0][3]]; qi=0; load(EPS[0][3],false); }
+      revealSticky();
+      window.removeEventListener('scroll',check);
+    }
+    window.addEventListener('scroll',check,{passive:true});
+    check();
+  })();
 
   /* ---------- stats count-up ---------- */
   /* Each figure keeps its finished value in data-final, so the band reads

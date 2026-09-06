@@ -395,41 +395,6 @@ since this card is on white.
 Below 980px none of this applies: the embed already resets `.ddod-rate` to
 `position: static` and centres it under the stacked cover.
 
-## The nav is a brand bar
-
-`Site Nav DDOD` carries the logo and the On-Demand tag, nothing else. It is
-present from first paint, fixed to the top.
-
-It briefly had two other things, both reverted, and the reasons are worth
-keeping:
-
-- **A "Get DarrenDaily" button.** Removed. The drawer is still reached from the
-  join card and the closing section, so nothing was stranded, but there is now
-  no opt-in above the fold at all. If one is ever wanted back there, put it in
-  the hero copy rather than the bar.
-- **A scroll-reveal** (hidden on load, slid in past 24px). Reverted: the hero
-  read as broken with no bar at the top. The revert also removed the scroll
-  handler, which is why the live script is **v11** and not v14 - stripping that
-  block leaves a file byte-identical to v11, so it was repointed rather than
-  re-uploaded. v12 and v13 exist in the asset library and are dead.
-
-`ddod-nav-cta`, `ddod-nav-cta-long` and `ddod-nav-cta-short` were deleted with
-the button, along with their embed hover and breakpoint rules.
-
-**No second nav component was needed.** `Site Nav DDOD` is used on this page
-only, so it can be edited freely without touching the site-wide `Site Nav`. A
-second instance would only be worth building if another page needed the
-CTA-less variant while this one kept a CTA.
-
-### Verifying a scroll behaviour in a hidden browser pane
-
-Worth keeping even though the feature was reverted. `window.scrollTo()` does
-**not** emit a scroll event while `document.visibilityState === 'hidden'`,
-`requestAnimationFrame` never fires, and CSS transitions are frozen at
-`currentTime: 0`. All three make working code look broken. Dispatch
-`new Event('scroll')` by hand, and call
-`el.getAnimations().forEach(a => a.finish())` before reading settled values.
-
 ## Cleanup audit, 2026-09-06
 
 Run after the edit rounds above. Method: fetch every published page (all 8 plus
@@ -482,3 +447,104 @@ smaller**, no JS errors, playlists/player/drawer all verified working.
 
 The DDOD page itself carries **no registered scripts and no freeform page
 custom code** - everything is the single embed plus the hosted player.
+
+## The nav: bar always, button on scroll
+
+`Site Nav DDOD` paints from the first frame so the hero never looks headless.
+Only the **CTA** is held back: it rests hidden on `.ddod-nav-cta` (a Designer
+class, so the state is visible there) and reveals when the script puts `.is-on`
+on the nav past **24px** of scroll, the same threshold the rest of the site uses
+to flip `.dd-nav` solid.
+
+It got there the long way. The whole bar was hidden on scroll first, which made
+the hero read as broken; then the button was removed entirely, which left no
+opt-in above the fold. Bar always, button on scroll is the version that holds.
+
+`visibility` is toggled with `opacity` so the hidden button is out of the tab
+order, and there is **no `requestAnimationFrame` throttle** on the scroll
+handler: a rAF that never fires (a background tab) would latch the queued flag
+and kill the toggle for the session.
+
+**No second nav component.** `Site Nav DDOD` is used on this page only.
+
+## The playlist panel is a real tab
+
+Clicking a card opens its panel inside the card grid, spanning every column,
+directly under the row that was clicked, so the other playlists stay in view and
+clicking another switches the panel.
+
+The **connection** is the fiddly part and should not be "tidied":
+
+- the grid puts 20px of row-gap between the cards and the panel, so the panel
+  cancels it with `margin-top:-20px` and lands flush against the card row;
+- the active card drops its bottom radii, paints its bottom border white and
+  pulls down `margin-bottom:-1px`, so it sits ON the panel's top border and the
+  two shapes read as one tab.
+
+Episode rows are a divided list **inside** the panel, not cards of their own -
+bordered cards inside a bordered panel is what made this read as a dropped list.
+The close control is a bordered pill with a `U+00D7` glyph (text-presentation,
+so no iOS emoji swap), not a bare word.
+
+## The transport arrives late, and primed
+
+The sticky player stays off screen until the listener has **chosen** something,
+or has **scrolled past the playlists** without choosing - at which point it
+primes itself with the featured episode, paused, so there is a one-tap way back
+in. Closing it with the X opts out until the next real selection
+(`stickyDismissed`).
+
+Revealing is deliberately tied to intent, not to loading: the
+resume-where-you-stopped path calls `load(file,false)` and stays hidden.
+
+## The closing section sits on the home hero
+
+`.ddod-final` carries the home page's `hero-garden` photo under a **90% white
+wash** (a flat `linear-gradient` layered over the image, so no extra element and
+no z-index fight), cropped `70% top` at the same section height as before, which
+keeps Darren's head in frame - at cover scale his head lands 45px down of an
+804px render, so a centred crop would have taken it off. The 820w file is
+swapped in below 767px.
+
+**Gotcha:** writing a `breakpoint_id` variant of a style silently dropped
+`background-position` from the base. Re-read the style after any breakpoint
+write and restore what vanished.
+
+## Copy changes
+
+- playlists headline -> **"The playlists you actually need"**, red on the payoff
+  phrase, matching the hero and reviews headlines. 31 characters; 25 is the
+  one-line ceiling at 82px in this container, so it wraps to two like the
+  reviews headline does.
+- hero cue -> "Get started with these popular playlists". This also retires the
+  unverified "most popular" claim: the playlists are hand-curated, not
+  play-count ranked.
+
+## Only one thing on this page pulses
+
+The featured episode's play button uses the hardybmc.com VSL treatment - a
+gentle scale on the button plus an expanding ring behind it - in DD red, with
+the ring scaled for a 52px target rather than 108px. Hover switches to a glow
+because a transform would fight the scale animation.
+
+It is scoped to `.ddod-play`, which exists exactly once. The playlist cards'
+`.ddod-pl-play` and the episode rows' `.ddod-ep-play` are deliberately left
+alone: a page that pulses in fourteen places pulses nowhere.
+
+## Verifying any of this in a hidden browser pane
+
+The pane freezes more than it looks like. In a hidden pane
+(`document.visibilityState === 'hidden'`):
+
+- `window.scrollTo()` fires **no scroll event** - dispatch `new Event('scroll')`;
+- `requestAnimationFrame` **never fires**;
+- CSS transitions are frozen at `currentTime: 0`, so any **transitioned**
+  property reads its start value forever. This one cost real time: `.ddod-pl`
+  has `transition: border-color`, so the active card's border read grey no
+  matter what, while `margin-bottom` and `border-radius` from the same rule read
+  correctly. An inline style did not move it either. Call
+  `el.getAnimations().forEach(a => a.finish())` before reading;
+- screenshots come back blank.
+
+When a computed value contradicts a rule you can see in `document.styleSheets`,
+check whether the property is transitioned before hunting for a cascade bug.
