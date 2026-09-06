@@ -318,7 +318,8 @@ same undersized-source issue flagged in the first image audit.
 - The episode and playlist data is baked into the script. `DarrenDaily/refresh-ddod-data.py`
   checks the source page's copy of it against the live feed; it has not been pointed
   at this build.
-- **"Most popular playlists"** is the wording on the hero cue, set 2026-09-05 at the
+- **"Get started with the most popular playlists"** is the wording on the hero cue,
+  set 2026-09-05 at the
   client's instruction. Worth knowing that the six playlists were **hand-curated**, not
   chosen by play count, and no play-count data was available to this build. If real
   numbers exist, the claim is safe; if not, "curated" is the defensible word.
