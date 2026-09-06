@@ -618,3 +618,15 @@ Checked after a report that the hero looked off-centre on a phone. Swept 390,
 right gaps are **equal at every width**, the rating block is centred on the
 cover at every width, and `document.scrollWidth` equals the viewport, so there
 is no horizontal overflow. Nothing was changed.
+
+### The empty panel bar
+
+`closePlaylist()` empties `plList.innerHTML` but leaves the element in the
+grid. Once the panel gained a border, a background and padding, that empty
+element rendered as a thin red bar under the row.
+
+Fixed with `.ddod-pl-list:empty { display: none }` - written as a **Designer
+pseudo-state** (`data_style_tool` accepts `pseudo: "empty"`), not embed CSS, so
+it stays visible and editable in the Designer and needed no script change. It
+also kills the flash of an empty bordered bar between first paint and the
+deferred script filling the panel on load.
