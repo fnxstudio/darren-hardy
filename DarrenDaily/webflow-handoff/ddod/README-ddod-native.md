@@ -1040,3 +1040,27 @@ the phone inside the wider artwork still renders at its previous size.
 
 The exit popup's `.ddod-xp-btn` still reads "Get the audiobook free" at 330px
 and was left alone deliberately: different moment, different ask.
+
+### The drawer pitches DarrenDaily, not "tomorrow morning"
+
+The drawer head is now a summary of the **live darrendaily.com hero**, which is
+the canonical pitch. "Start tomorrow morning" is gone from the page entirely.
+
+| slot | copy |
+|---|---|
+| eyebrow | Daily mentoring with Darren Hardy |
+| title | Start every day with an advantage |
+| beside Darren's face | One strategic idea every weekday morning, distilled from 35 years behind closed doors with the world's best. Small enough to install before the day gets going. **Free, and never a single ad.** |
+
+The gift box names the product, which it previously did not:
+**"The Compound Effect, complete audiobook."** followed by "Two million copies
+sold. Yours to start listening to today, free."
+
+Verified the drawer still works on a short phone: at 375x667 the head plus the
+form is 906px against a 667px viewport, `.dd-drawer` is `overflow-y:auto`, and
+the submit button is reachable at the bottom of the scroll. **Adding anything
+else to the drawer head needs that check re-run** - the head is now 461px on
+desktop and the form needs roughly 280px under it.
+
+Closing paragraph names the brand rather than the page: "...350,000+ people
+start their morning on DarrenDaily. Yours can start with us tomorrow."
