@@ -429,3 +429,56 @@ Worth keeping even though the feature was reverted. `window.scrollTo()` does
 `currentTime: 0`. All three make working code look broken. Dispatch
 `new Event('scroll')` by hand, and call
 `el.getAnimations().forEach(a => a.finish())` before reading settled values.
+
+## Cleanup audit, 2026-09-06
+
+Run after the edit rounds above. Method: fetch every published page (all 8 plus
+one Sessions CMS detail page), extract every class in the markup, and diff that
+against all 578 site styles - then re-check each miss against the page embeds
+and the hosted player, so classes that only ever exist at runtime are not
+mistaken for orphans.
+
+**Deleted, 7 classes**, each verified at zero occurrences across every page and
+the player script:
+
+| class | what it was |
+|---|---|
+| `ddod-facts`, `ddod-fact`, `ddod-fact-n`, `ddod-fact-l` | the original hero facts strip, replaced by the stats band |
+| `ddod-pl-cat-pip` | a red pip from an early category-callout design |
+| `ddod-pl-link` | a text link on the playlist cards, replaced by the whole card being clickable |
+| `ddod-sk-x` | superseded by the sticky player's close button class |
+
+**Deleted, 13 assets**: `ddod-player-v1` through `v10` plus `v12` and `v13`
+(v11 is live), and `dh-covers-600.webp`, which was uploaded for the host section
+and then abandoned when the full-height photo replaced it.
+
+Result: published body markup **byte-identical**, site stylesheet **968 bytes
+smaller**, no JS errors, playlists/player/drawer all verified working.
+
+### Two traps in this audit
+
+1. **Thirteen embed CSS selectors look dead and are not.** `.ddod-ep*`,
+   `.ddod-ico`, `.ddod-pl-head*`, `.ddod-pl-close` and `.ddod-sub-ico` never
+   appear in page markup because the player injects them at runtime. Always
+   check the script before deleting a class that the embed styles.
+2. **Unreferenced does not mean unused, for assets.** The audit also flags ~45
+   non-DDOD assets, and the `dd-31xx-*` banner images among them are almost
+   certainly live CMS content reached from collection item fields, not page
+   markup. They were left alone. Only assets whose whole lifecycle is known
+   should be deleted on this evidence.
+
+### Left alone, and why
+
+- 12 site-wide orphan classes (`ondark`, `dd-sec-lead-ondark`,
+  `home-sec-head-filter`, `f-footer-col-a-hover`, `dd-footer-*-hover`,
+  `Utility Page Wrap/Content`, `_w-input`, `post-caption-secondary`,
+  `ss-card-img`, `ss-date`). Not this page. The `Utility Page *` and `_w-input`
+  entries are Webflow system styles and are not deletable anyway.
+- 18 superseded `ddsessions` registered-script versions and the dormant
+  `sidebarcardtypes`. Registered scripts only load where applied, so these cost
+  nothing at runtime.
+- ~45 non-DDOD assets: old `dd-home-v9..v17`, `dd-welcome`, `dd-expired` and
+  champion loader bundles from the pre-native era, plus the CMS images above.
+
+The DDOD page itself carries **no registered scripts and no freeform page
+custom code** - everything is the single embed plus the hosted player.
