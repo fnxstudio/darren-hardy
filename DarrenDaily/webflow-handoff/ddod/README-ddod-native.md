@@ -698,3 +698,29 @@ Dispatch `new Event('resize')` by hand after changing the size.
 Also worth knowing: setting `document.documentElement.style.width` does **not**
 re-evaluate media queries, so it cannot be used to test breakpoint behaviour at
 all. Only a real viewport change reflows the grid.
+
+### The episode row pause icon was a lie
+
+Clicking a row always ran `playAt()`, which re-set `audio.src` and restarted the
+episode from zero - so the pause icon on the playing row did the one thing it
+promised not to. A row that is already the loaded episode now toggles
+play/pause and returns early.
+
+## TCE audiobook offer: what is established
+
+- **The audiobook form is `83c40a17-5190-48bf-b33c-23452ee4bd6e`** (portal
+  2518645, region na1). Confirmed structurally, not guessed: on
+  `tce.darrenhardy.com/free-audiobook` it targets
+  `#hs_form_target_widget_1739784326084`, and that widget is the one rendered
+  immediately below the `ACCESS THE AUDIO BOOK` heading. It redirects to
+  `/resource-delivery`. The other form on that page, `1c62fd1d-...`, targets a
+  different module and redirects to `/resources-invite`.
+- Per the client, that form subscribes to DarrenDaily as well as delivering the
+  audiobook, so it replaces the DD form on this page rather than sitting
+  alongside it.
+- **Cover art**: `ce-front-cover.webp`, 1100x1622, from the compound-effect
+  page. Note the printed cover says "OVER 1 MILLION COPIES SOLD" (10th
+  anniversary edition artwork) while the current claim everywhere else is 2M+.
+  The copy uses 2M+; the artwork is what it is.
+- The hardcover is deliberately NOT shown: the offer is the audio, so the mock
+  is the cover on a phone.

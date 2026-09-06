@@ -198,7 +198,17 @@
     plList.querySelector('.ddod-pl-all').addEventListener('click',function(){
       queue=pl[1].slice(); playAt(0); });
     plList.querySelectorAll('.ddod-ep').forEach(function(r){
-      r.addEventListener('click',function(){ queue=pl[1].slice(); playAt(+r.getAttribute('data-i')); });
+      r.addEventListener('click',function(){
+        /* Clicking the row that is already loaded toggles it. Without this the
+           pause icon was a lie: the click ran playAt() again, which reset
+           audio.src and restarted the episode from zero. */
+        var f=r.getAttribute('data-file');
+        if(f && audio.src.indexOf(f)>-1){
+          if(audio.paused) audio.play().catch(function(){}); else audio.pause();
+          return;
+        }
+        queue=pl[1].slice(); playAt(+r.getAttribute('data-i'));
+      });
     });
 
   }
