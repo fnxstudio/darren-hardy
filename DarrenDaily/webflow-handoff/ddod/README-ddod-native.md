@@ -1784,3 +1784,70 @@ Rule of thumb for any future logo/seal row: **trim to the ink, then normalise on
 the dimension that dominates the silhouette** — width for wide marks, height for
 tall ones. Matching the wrong axis leaves a visible mismatch that looks like a
 CSS bug and is not one.
+
+---
+
+## Full-site code clean — 2026-09-06
+
+### What was measured
+
+Every text asset is already well compressed (shared CSS 123KB raw but **23KB over
+the wire**; jQuery 30.7KB; home HTML 21.1KB). Every `srcset`/`sizes` on the site is
+hand-tuned and each image picks a variant at or below its ideal width, so nothing
+over-fetches. Raw byte totals are misleading here — always measure compressed.
+
+### What was removed (real, shipped bytes)
+
+`/welcome` and `/404` were still shipping the CSS **and JavaScript** for systems
+whose elements had already been deleted with the Sessions CMS:
+
+| | /welcome | /404 |
+|---|---|---|
+| raw HTML | 37.6KB -> 33.8KB | 35.5KB -> 30.4KB |
+| **gzipped** | **11.37KB -> 10.28KB** | **11.35KB -> 9.91KB** |
+
+Removed: the `dd-exit*` exit-popup system (CSS + a ~2.9KB IIFE that ran on every
+visit and early-returned), the `dd-cue*` hero cue (CSS + the `ddBob` keyframe),
+the `dd-sessions`/`dd-ep-*` card styles (two whole media queries plus a `sizes`
+entry), and on /404 the `dd-stagger` system. The /404 footer's long HTML comment
+was moved into `cms-archive/README.md` rather than shipped to every visitor.
+
+**Kept, and why it looks dead but is not:** `.dd-reveal` is added by JavaScript at
+runtime, so a static class scan reports it unused. On /welcome it targets `.wel-*`
+and on /404 `.exp-manifesto` — both live. Likewise `.dd-modal-card` shares two
+media queries with `.dd-exit-card`; only the exit half came out. **Check what the
+scripts actually query before deleting any class that JS applies.**
+
+### What was deliberately NOT done
+
+- **Orphaned CSS purge.** 105 orphan rules = 13.9KB raw but only **1.85KB
+  gzipped**, and most belong to the retired Sessions template, which is *draft,
+  not deleted*. Deleting those styles saves under 2KB and silently breaks a page
+  the client chose to preserve. Not worth it.
+- **Registered-script deletion.** The Data API refuses `delete_registered_script`
+  (HTTP 400) — it is a Designer-only action. In any case unapplied registrations
+  cost **zero** bandwidth. Note that the draft Sessions Template still applies
+  five of them (`ddsessions` 1.4.0, `ddsharefix`, `ddjournalfix`,
+  `ddvimeocolorfix`, `ddchampionpopup`), so only four (`ddcoverslazy`,
+  `ddfeaturedctahide`, `ddctaantiflash`, `sidebarcardtypes`) are safe to remove by
+  hand.
+
+### The finding that dwarfs everything else
+
+The site's own assets are ~125KB per page. The **third-party tag stack is ~265KB**:
+
+| Source | Transfer |
+|---|---|
+| `connect.facebook.net/.../1490399231274221` | 123KB |
+| `connect.facebook.net/en_US/fbevents.js` | 106KB |
+| `js.hs-banner.com/banner.js` | 33KB |
+| `googleads.g.doubleclick.net` | 3KB |
+
+On champion-25-gift — a 6KB page — the browser contacts **22 third-party hosts**.
+All of it descends from one line in the **site footer freeform code**:
+`js.hs-scripts.com/2518645.js`. Portal 2518645 is shared across the whole DH
+family, so this site inherits the portal's entire tag stack. `hsBanner` reads
+`false` — banner.js pulls 33KB and renders no banner at all.
+
+Nothing in the site's own code can offset this; it is a marketing decision, not an
+engineering one. Raised in the cutover runbook.

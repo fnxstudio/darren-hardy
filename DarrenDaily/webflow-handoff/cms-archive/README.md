@@ -80,3 +80,36 @@ The **`/sessions-feed` page** (titled "DO NOT DELETE | Sessions Feed") and the
 Sessions CMS collection behind it are untouched. Nothing reads the feed any
 more. Deleting them is a separate decision, and the Sessions template at
 `/sessions/{slug}` may still depend on that collection.
+
+## Where the removed code lived (note moved off the live page, 2026-09-06)
+
+The following note was previously parked as an HTML comment in the **/404 page
+footer custom code**, where it shipped to every visitor. It is recorded here
+instead and the footer block is now empty:
+
+> The DYNAMIC SESSIONS script that lived there fetched `/sessions-feed` and
+> injected live sessions into `.ep-grid` and `[data-xp-list]`. Both targets are
+> gone: the sessions section and the exit popup were removed when the Sessions
+> CMS was retired, so the script had nothing to write to and was fetching the
+> feed on every visit for nothing.
+
+### Dead code removed from the /welcome and /404 page embeds, 2026-09-06
+
+Both pages still shipped the CSS and JavaScript for systems whose elements had
+already been deleted. Verified dead by checking every referenced class against
+the published HTML of each page:
+
+| System | /welcome | /404 |
+|---|---|---|
+| `dd-exit*` exit popup (CSS + ~2.9KB IIFE) | removed | removed |
+| `dd-cue*` hero cue (CSS + `ddBob` keyframe) | removed | removed |
+| `dd-sessions` / `dd-ep-*` cards (2 media queries + `sizes` entry) | removed | removed |
+| `dd-stagger` (4 rules + JS) | n/a | removed |
+| `dd-reveal` | **KEPT** — live, targets `.wel-*` | **KEPT** — live, targets `.exp-manifesto` |
+| `.dd-modal-card` | n/a | **KEPT** — join modal is live |
+
+`.dd-reveal` is applied by JavaScript at runtime, so a static class scan reports
+it as unused. It is not. Check what the reveal script actually queries before
+touching it.
+
+Saved 3,900 bytes raw on /welcome and 4,589 bytes on /404.
