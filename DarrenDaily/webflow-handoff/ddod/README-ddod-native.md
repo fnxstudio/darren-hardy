@@ -1494,3 +1494,28 @@ conflicts on anything it created, so the five ribbon seals plus three award
 seals **cannot be set lazy through the API**. That is roughly **50 KB** on
 first view for imagery that sits far below the fold. Same three-click Designer
 fix as the other images: select each, Settings, Loading -> Lazy.
+
+### Subscribe lives in the hero, above the scroll cue
+
+Tried as its own band under the hero first; it belongs in the hero itself,
+directly above the down-arrow cue. `.ddod-subs` is now a direct child of
+`.ddod-hero` at `max-width:1000px`, centred, with container-matching 48px
+gutters, and the standalone band section and its two classes are gone.
+
+Heading is 34px brand red, six apps as 289x66 white cards, 3-up.
+
+### The brand logos are injected at RUNTIME, so the Designer shows none
+
+This will look like a bug and is not one. The player builds each mark from its
+`ICONS` map and matches it to the link by the link's **trimmed `textContent`**:
+
+    d.querySelectorAll('.ddod-sub') -> ICONS[label] -> prepend .ddod-sub-ico
+
+The Designer canvas does not run the page's footer script, so the cards show
+text only there. Verified on the published page: all six render 24x24 inside
+their card with their real brand fills (Apple gradient, Spotify `#1DB954`,
+YouTube `#FF0000`, iHeart `#C6002B`, Amazon `#25D1DA`, RSS `#F26522`).
+
+**Two consequences.** Retyping a link's label silently kills its logo, since
+the label IS the key. And if the logos ever need to be visible in the Designer,
+they have to become native inline SVG elements instead of injected ones.
