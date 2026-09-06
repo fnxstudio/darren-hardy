@@ -371,30 +371,6 @@ wasted CPU on the LCP screen for detail nobody can see at that size.
 not touched by this change: it only ever addressed `#heroPlay`, `#heroBar` and
 `#heroFill` by id, never by structure.
 
-## Hero: cover alignment and the rating card
-
-The cover no longer centres in its grid row. `.ddod-hero-art` is `align-self:
-start` with a `4px` top margin, which is exactly the offset of the eyebrow's own
-line box, so the cover's top edge and the eyebrow's top edge share a line.
-
-The rating card sits at the cover's **bottom-left corner**: `bottom: -118px`,
-`left: -34px`, no transform. That leaves 28px of overlap onto the cover and
-118px hanging below, with a 34px left overhang.
-
-The 118px is not arbitrary. The artwork's own type occupies fixed bands (the
-ON-DEMAND mark at 8-28% of its height, the DARRENDAILY banner at 70-92%), and
-this is the shallowest overlap that clears the ON-DEMAND strip underneath the
-banner. Slide the card up and it starts eating the brand lockup. The card used
-to sit at `top: 46%` for the same reason: that was the clear band in the middle.
-
-The number reads **4.9/5**, matching the stats band. The suffix is a `<b>` with
-its own class, sized in `em` so it tracks the number, at 42% like
-`.ddod-bstat-of` - but in `rgba(20,23,28,.42)` rather than the band's white,
-since this card is on white.
-
-Below 980px none of this applies: the embed already resets `.ddod-rate` to
-`position: static` and centres it under the stacked cover.
-
 ## Cleanup audit, 2026-09-06
 
 Run after the edit rounds above. Method: fetch every published page (all 8 plus
@@ -548,3 +524,33 @@ The pane freezes more than it looks like. In a hidden pane
 
 When a computed value contradicts a rule you can see in `document.styleSheets`,
 check whether the property is transitioned before hunting for a cascade bug.
+
+## Hero: the rating sits above the cover
+
+The 4.9/5 was a floating white card overhanging the cover's bottom-left corner.
+It never sat comfortably against the artwork, so it is now **plain centred type
+directly above the cover**: stars, `4.9/5`, then the ratings count. No card, no
+shadow, no absolute positioning - `.ddod-rate` is a static block with
+`text-align:center` and a 26px bottom margin.
+
+With the rating in the flow, the art column went back to being **vertically
+centred** in the hero row (28px of space above and below at 1440), so the
+`align-self:start` that used to line the cover up with the eyebrow is gone.
+
+Removing the card also retired its `@media (max-width:980px)` override, which
+existed only to un-float it when stacked and would otherwise have re-added a
+shadow to something that is no longer a card.
+
+The `/5` is a `<b>` sized in `em` so it tracks the number, at 42% like
+`.ddod-bstat-of` in the stats band, but in a grey rather than the band's white.
+
+## Tab depth
+
+The playlist category tabs overhang the top-left corner of their card. They used
+to sit **68% inside** it, which left 3px between the tab and the title and read
+as crowding. They now sit **35% inside** - the bottom third, 12px of a 34px tab -
+for a 15px gap to the title.
+
+Note the featured episode card's `FEATURED EPISODE` label is still at the old
+`top:-12px` / 68% geometry. It has not been flagged as a problem, but the two
+tabs no longer match, so match them if that ever looks wrong.
