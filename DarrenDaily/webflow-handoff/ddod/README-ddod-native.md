@@ -370,3 +370,37 @@ wasted CPU on the LCP screen for detail nobody can see at that size.
 `.ddod-player-row` is gone - the card is now a flex row itself. The player script was
 not touched by this change: it only ever addressed `#heroPlay`, `#heroBar` and
 `#heroFill` by id, never by structure.
+
+## The nav is not there on load
+
+The DDOD bar starts translated up out of the viewport and slides in once the
+page scrolls past **24px** - the same threshold the rest of the site uses to
+flip `.dd-nav` solid, so the two behave alike.
+
+The resting hidden state lives on the **`.ddod-nav` Designer class**
+(`transform: translateY(-100%)`, `opacity: 0`, `visibility: hidden`,
+`pointer-events: none`) so it is visible and editable in the Designer. Only the
+revealed state and the transition are in the page embed, because a Designer
+class cannot hold `.is-on`.
+
+`visibility` is used alongside `opacity` on purpose: an opacity-0 bar is still
+in the tab order and still read by screen readers. Its transition is delayed
+`.28s` on the way out so the fade still reads, and zeroed on the way in.
+
+**No `requestAnimationFrame` throttle.** The first version had one, and it is a
+trap: if the rAF callback never fires (a backgrounded tab), the queued flag
+latches `true` and the toggle is dead for the rest of the session. One
+comparison per scroll event is cheap and is what the rest of the site does.
+
+One consequence worth knowing: above 24px of scroll there is no opt-in CTA on
+screen, because the nav button is the only one in the hero. Every other "get
+DarrenDaily" entry point is further down the page.
+
+### Verifying this in a hidden browser pane
+
+`window.scrollTo()` does **not** emit a scroll event while
+`document.visibilityState === 'hidden'`, and CSS transitions are frozen at
+`currentTime: 0`. Both make a working scroll-reveal look broken. Dispatch
+`new Event('scroll')` by hand to drive the handler, then
+`el.getAnimations().forEach(a => a.finish())` before reading the settled
+opacity and offset.
