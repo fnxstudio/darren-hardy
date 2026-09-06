@@ -1253,3 +1253,102 @@ overflow.
 margin, so the gift panel has air under it before "Where should we send it?".
 In the drawer the strip is the last thing in `.dd-drawer-head`, so this reads
 as 58px before the form block, which is right.
+
+---
+
+## Optimisation sweep, 2026-09-06
+
+**First view went 517 KB -> 229 KB across 12 requests** (cold, desktop, measured
+with curl; resource timing lies because it reads warm).
+
+| | KB |
+|---|---|
+| HTML (gzip) | 19.8 |
+| Webflow CSS | 22.2 |
+| jQuery + Webflow JS | 44.0 |
+| DDOD player v28 | 15.2 |
+| Inter (variable, one file) | 47.9 |
+| images that actually load (6) | 78.4 |
+| favicon | 1.3 |
+| **page total** | **229** |
+
+Add the HubSpot loader and the portal's injected pixel stack for roughly
+**347 KB** all-in. That stack is not ours (see the tracking note above).
+
+### The font was more than half the page
+
+`family=Inter:wght@400;500;600;700;800;900` makes Google serve **six separate
+static files at 47.3 KB each = 284 KB**. `wght@400..900` serves the **variable
+font: one 47.3 KB file** covering the whole range. Same family, same weights,
+**236 KB saved on every page of the site.**
+
+An earlier audit recorded "Fonts: already optimal, nothing to do". That was
+wrong: it checked the *loading pattern* (preconnect, preload, non-blocking) and
+never checked what was being loaded. The pattern was fine; the payload was six
+times bigger than it needed to be.
+
+### Images that were loading for no reason
+
+- The hero cover was `loading="lazy"` while being the first thing painted on
+  desktop. Now `eager` + `fetchpriority="high"`.
+- The 52 KB phone mock was **eager in three places**, two of which are hidden
+  panels. The exit popup no longer has its own copy at all.
+
+### Two shared nodes, not two copies
+
+The exit popup mirrors the drawer, so v28 moves both the form **and** the gift
+panel between them rather than duplicating them:
+
+    #ddJoinForm     -> #ddFormHome / #ddFormHomeExit
+    .ddod-ab-strip  -> #ddGiftHome / #ddGiftHomeExit
+
+Besides keeping the 52 KB artwork off the first view, this means the gift copy
+only ever has to be edited once.
+
+### Three API limits worth knowing
+
+1. **`set_attributes` conflicts on elements created by `data_whtml_builder`**
+   in the same session: "[Conflict] The operation could not be applied to the
+   component map". `set_image_asset` on the same element works fine. Publishing
+   and waiting does not clear it.
+2. **The builder DROPS `loading`** from `<img>` markup, so rebuilding the
+   element with `loading="lazy"` inline does not work around (1).
+3. **`id` is not a generic attribute** - `set_attributes` with `name:"id"`
+   fails with an internal error. The builder CAN create an element with an id,
+   which is how the four slots above exist.
+
+Net effect: `dh-pod-mic-200`, `tm-cindy-160` and `tm-mark-160` (**14.9 KB**
+combined) still load eagerly and cannot be deferred through the API. **This is
+a three-click fix in the Designer:** select each image, Settings, Loading ->
+Lazy.
+
+### 14 orphan classes removed
+
+`dd-drawer-face`, `dd-drawer-fine-link`, `ddod-xp-btn`, `ddod-ab-flag`,
+`ddod-join-card`, `ddod-join-h3`, `ddod-join-p`, `ddod-hero-lead`,
+`ddod-h1-tag`, `ddod-bstat-star`, `ddod-sk-x`, `dd-sec-lead-ondark`, `ondark`,
+`home-sec-head-filter`.
+
+Checked against **all seven published pages plus the player**, not just this
+one. `_w-input` looked orphaned too but is Webflow's own and was left alone.
+The `post-*`, `bio-*`, `xsoon-*`, `share-*`, `cta-*`, `ss-*`, `champ-*` and
+`gift-*` families also look orphaned from those seven pages and are **not** -
+they belong to the Sessions CMS template.
+
+### Superseded assets, NOT deleted
+
+Deleting assets is irreversible and they cost nothing but storage, so these are
+listed rather than removed. Confirm before clearing:
+
+`ddod-player-v25/v26/v27.js`, `dh-mic-bubble-128.webp`, `dh-pod-mic-128.webp`,
+`tce-audiobook-phone.webp` (superseded by `-buds`), `dh-face-social-200.webp`
+(the drawer portrait that was cut). Keep `ddod-player-v22` - it is the parked
+audiobook-form build.
+
+### Favicons: better, one file still fat
+
+The uploaded set is live and the total went **139 KB -> 73.5 KB**. But Webflow
+regenerated the 512 as **49.4 KB RGBA** from the 256 upload, where the supplied
+flattened file was 3.9 KB. In practice a browser fetches one icon (the 32, at
+1.3 KB), so this is not first-view cost - but the 512 is still heavier than it
+needs to be if anything ever requests it.

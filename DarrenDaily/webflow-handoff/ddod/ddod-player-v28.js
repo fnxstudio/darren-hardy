@@ -333,9 +333,14 @@
      re-rendering it, and HubSpot's listeners are bound to the node itself, so
      a form part-way through being filled survives the move.
      Never add a second forms.create for this formId. */
-  function hostForm(slotId){
+  var giftStrip=d.querySelector('.ddod-ab-strip');
+  function hostInto(node,slotId){
     var slot=d.getElementById(slotId);
-    if(mount && slot && mount.parentNode!==slot) slot.appendChild(mount);
+    if(node && slot && node.parentNode!==slot) slot.appendChild(node);
+  }
+  function hostPanel(formSlot,giftSlot){
+    hostInto(giftStrip,giftSlot);
+    hostInto(mount,formSlot);
   }
 
   /* HubSpot ships the Role select with a bare "Role" placeholder while the two
@@ -364,7 +369,7 @@
     drawer.classList.add('is-open'); if(overlay) overlay.classList.add('is-open');
     drawer.setAttribute('aria-hidden','false');
     page.style.overflow='hidden'; d.body.style.overflow='hidden';
-    hostForm('ddFormHome');
+    hostPanel('ddFormHome','ddGiftHome');
     mountForm();
     setTimeout(function(){ var f=drawer.querySelector('input,button,[tabindex]'); if(f) f.focus(); },120);
   }
@@ -417,8 +422,8 @@
       if(drawerOpen()) return;
       set(SHOWN);
       lastFocusX=d.activeElement;
-      /* the popup mirrors the drawer, form included, so it borrows the node */
-      hostForm('ddFormHomeExit');
+      /* the popup mirrors the drawer, so it borrows BOTH shared nodes */
+      hostPanel('ddFormHomeExit','ddGiftHomeExit');
       mountForm();
       pop.classList.add('open');
       pop.setAttribute('aria-hidden','false');
