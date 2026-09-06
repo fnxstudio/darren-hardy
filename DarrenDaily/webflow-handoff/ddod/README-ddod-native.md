@@ -933,9 +933,10 @@ ratio between the two phone bodies (559/206 = 2.71) and composited behind the
 phone so the cable tucks under its right edge. Nothing is drawn or generated.
 `.ddod-ab-mock` max-width 310px -> 420px so the phone keeps its size.
 
-**Still unresolved:** the cover in the mock reads "OVER 1 MILLION COPIES SOLD"
-while the section copy claims two million. The mock uses the real 10th
-anniversary jacket, so fixing it needs a newer jacket image, not a retouch.
+The cover in the mock reads "OVER 1 MILLION COPIES SOLD" while the section
+copy claims two million. That is the real 10th anniversary jacket and the
+client has explicitly accepted it, so **do not raise it again or retouch it**.
+The two million figure is current sales; the jacket is a historical artifact.
 
 ### Member card swap
 
@@ -979,3 +980,63 @@ At runtime it injects a **Meta pixel (1490399231274221)**, **Google Ads
 sets `_fbp` and `_gcl_au`. None of it is installed on this site. It is
 inherited from the shared HubSpot portal, so grepping the published HTML for
 `fbevents` finds nothing. Turning it off is a portal-level decision.
+
+### Both closing buttons carry one offer
+
+The audiobook section and the closing section now use the identical label
+**"Join + get the audiobook, free"** (stored sentence case; `.dd-btn` uppercases
+it). Both render 398x64. The closing button previously said "Get tomorrow's
+session first".
+
+The exit popup's `.ddod-xp-btn` still reads "Get the audiobook free" at 330px
+and was deliberately left alone, since that is a different moment.
+
+### The Role field's missing chevron was a shorthand, not a browser quirk
+
+`.dd-page #ddJoinForm select` carried the chevron and `padding-right:42px`, and
+the rule shipped intact, but the field computed `background-image: none` and
+`padding-right: 16px`.
+
+Cause: the shared input rule ends in `.dd-page #ddJoinForm .hs-input`, which is
+**one class more specific** than the bare `select` rule, and it set the
+`background` **shorthand** — which resets `background-image` to `none`. Its
+`padding` shorthand beat the select's `padding-right` the same way.
+
+Two fixes, both in the embed:
+
+- `background:#fff` -> `background-color:#fff`, so the shorthand stops wiping
+  the image
+- the select rule is now `select.hs-input, select`, so it out-ranks `.hs-input`
+  on padding
+
+**Do not put a `background` or `padding` shorthand back into that input rule.**
+
+### Player v26
+
+`onFormReady` relabels the Role select's placeholder option to **"Your Role*"**.
+HubSpot ships it as a bare "Role" while the two fields above read "First Name*"
+and "Email*"; the placeholder is field config on HubSpot's side, so it is
+corrected on render. It runs three times (immediately, 400ms, 1500ms) because
+HubSpot re-renders the field group when validation attaches.
+
+### Drawer strip
+
+Now carries a **"Limited time gift"** eyebrow above the copy, which meant
+wrapping the paragraph in `.ddod-ab-strip-body` (a flex column) so the eyebrow
+could sit above it rather than beside it. Copy is
+**"Two million copies sold. Yours to start listening to today, free."**
+
+It shows the same earbud mock as the section. That is a 900px asset in a 74px
+box, which normally breaks the sizing rule, but the section above already
+loaded it, so reusing it costs **zero extra bytes** where a dedicated small
+variant would cost a whole request. `.ddod-ab-strip-img` went 58px -> 74px so
+the phone inside the wider artwork still renders at its previous size.
+
+### Final offer copy
+
+- eyebrow: **"Limited time gift"**
+- headline: **"Join today. Get the bestseller, free."**
+- both closing buttons: **"Join + the audiobook, free"**, 359px each
+
+The exit popup's `.ddod-xp-btn` still reads "Get the audiobook free" at 330px
+and was left alone deliberately: different moment, different ask.
