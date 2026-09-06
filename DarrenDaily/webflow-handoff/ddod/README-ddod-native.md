@@ -1239,3 +1239,17 @@ First crop was tight on his face and the gold mic was outside the frame, which
 was the whole point of choosing that photo. `dh-pod-mic-200.webp` is a wider
 530px box (x 250..780, y 150..680) that holds the mic, mirrored, displayed at
 **76px** rather than 52px so it actually reads.
+
+### Both panels open on the same promise
+
+The exit popup's headline is now the drawer's: **"Start every day with an
+advantage"**, with "every day" on `.dd-drawer-key` rather than `.dd-key-b`.
+That class carries the same `#a72632` **plus `white-space:nowrap`**, so the two
+words cannot split in the narrower card either. `.dd-key-b` was left alone
+because it is shared with the playlists headline, where a global nowrap could
+overflow.
+
+`.ddod-ab-strip` gained `margin-bottom:22px` and gave back 4px of its top
+margin, so the gift panel has air under it before "Where should we send it?".
+In the drawer the strip is the last thing in `.dd-drawer-head`, so this reads
+as 58px before the form block, which is right.
