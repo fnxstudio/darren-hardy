@@ -98,6 +98,17 @@
         +'<div class="ddod-ep-art"><img src="'+ART+'" alt="" width="96" height="96" loading="lazy"></div>'
         +'<div class="ddod-ep-t">'+e[0]+'</div>'
         +'<div class="ddod-ep-d">'+clock(e[2])+'</div></div>'; }).join('');
+    /* Drop the list directly under the row that was clicked, so the open
+       playlist stays visually attached to its card instead of appearing below
+       the whole grid. Column count changes at each breakpoint, so read it. */
+    var grid=d.querySelector('.ddod-pl-grid');
+    if(grid){
+      var cols=getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
+      var cards=[].slice.call(grid.querySelectorAll('.ddod-pl'));
+      var lastInRow=Math.min(Math.floor(i/cols)*cols + (cols-1), cards.length-1);
+      var anchor=cards[lastInRow];
+      if(anchor && anchor.nextSibling!==plList) grid.insertBefore(plList, anchor.nextSibling);
+    }
     plList.innerHTML=head+rows;
     plList.querySelector('.ddod-pl-close').addEventListener('click',closePlaylist);
     plList.querySelectorAll('.ddod-ep').forEach(function(r){

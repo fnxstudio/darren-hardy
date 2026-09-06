@@ -74,10 +74,10 @@ the scrubber work. No audio is stored in Webflow.
 
 ## Where the code lives
 
-`ddod-player-v6.js` is uploaded as a **site asset** and loaded with `defer`:
+`ddod-player-v7.js` is uploaded as a **site asset** and loaded with `defer`:
 
 ```
-https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9ca29eabb159c415574fe9_ddod-player-v6.js
+https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9ca87422df5cbebecc28e1_ddod-player-v7.js
 ```
 
 19.6 KB, of which ~6.9 KB is the episode and playlist data and ~2.6 KB the podcast
@@ -98,7 +98,7 @@ exact 980 / 760 / 560 breakpoints scoped to `.dd-page`.
 | `dh-face-104.webp` | 3.7 KB | was 520px/37 KB; renders 52x52 |
 | `dh-covers-600.webp` | 59.2 KB | 4:5 portrait crop of the covers wall, for the host section |
 | `ddod-artwork-116.webp` | 4.6 KB | thumbnails: playlist cards, sticky bar, episode rows |
-| `ddod-player-v6.js` | 19.6 KB | |
+| `ddod-player-v7.js` | 19.6 KB | |
 
 Everything else was already on the CDN: the eight media logos, `hero-chair.webp`,
 and `dd-logo-color-286.webp`.
@@ -229,6 +229,33 @@ CSS for it, or target an id.**
 `IntersectionObserver` never fires in the headless preview used here, even with the
 element fully in view, so the count-up could not be confirmed visually. The script now
 also runs on first scroll and on a 2.5s timeout, so it does not depend on the observer.
+
+## Fourth revision
+
+- **Playlists stay cards, not tabs.** A card carries the category, the one-line
+  description, the runtime and a play button, which is what someone needs to choose a
+  playlist they have never heard of; a tab reduces that to a bare title, and six
+  titles this long would wrap or need horizontal scroll on mobile. The real friction
+  was that the open list appeared below the *whole* grid, detached from the card that
+  was clicked. It is now injected into the grid directly under the row you clicked
+  (column count is read at runtime, so it follows the 3 / 2 / 1 breakpoints).
+- **The hero cue no longer reuses `dd-cue-*`.** Those classes are styled for the dark
+  heroes on /welcome and /404, so on this light hero they rendered as a grey filled
+  circle with a text shadow. It now has its own `ddod-cue-*` classes: quiet grey caps
+  and a bare red chevron that bobs, no circle, no shadow.
+- **The close has one button**, "Get tomorrow's session first", since the lead now
+  sells the membership rather than the episode. The play CTA was redundant with the
+  hero player and the six play buttons above it.
+- **The bio copy was invisible on desktop.** Anchoring the photo with
+  `position:absolute` took it out of the grid flow, so the text fell into column 1
+  *underneath* it. `ddod-about-text` had also been dropped (the same missing-class
+  bug), so there was nothing to target. The class now exists and pins the bio to
+  column 2, reverting to column 1 when the section stacks.
+
+**That is now four elements lost to the same cause** (`ddod-nav-cta-long`,
+`dd-drawer-form`, `ddod-about-text`, and suffixed duplicates on `ddod-cue`).
+When rebuilding a section: pass CSS for every class in the markup, and re-query
+afterwards for `-1` suffixes.
 
 ## Still open
 - The episode and playlist data is baked into the script. `DarrenDaily/refresh-ddod-data.py`
