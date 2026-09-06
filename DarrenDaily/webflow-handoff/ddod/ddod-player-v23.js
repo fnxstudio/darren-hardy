@@ -87,10 +87,17 @@
   function mark(){
     var f=queue[qi];
     d.querySelectorAll('.ddod-ep').forEach(function(r){
-      var on = r.getAttribute('data-file')===f;
-      r.classList.toggle('is-playing', on);
+      /* Three states, not two. A row is CURRENT once it has been started, and
+         PLAYING only while the audio is actually running. The artwork veil
+         follows: equalizer while playing, red play triangle once it has been
+         started and paused, nothing at all if it was never touched. */
+      var cur = r.getAttribute('data-file')===f;
+      r.classList.toggle('is-current', cur);
+      r.classList.toggle('is-playing', cur && !audio.paused);
       var btn=r.querySelector('.ddod-ep-play');
-      if(btn) btn.innerHTML = (on && !audio.paused) ? SVG_PAUSE : SVG_PLAY;
+      if(btn) btn.innerHTML = (cur && !audio.paused) ? SVG_PAUSE : SVG_PLAY;
+      var eb=r.querySelector('.ddod-ep-date');
+      if(eb) eb.textContent = cur ? 'Now playing' : (eb.getAttribute('data-rest')||eb.textContent);
     });
     var onFeatured = audio.src.indexOf(EPS[0][3])>-1;
     icon(d.querySelector('.ddod-play-icon'), onFeatured && !audio.paused);
@@ -183,9 +190,11 @@
     +'</div>';
     var rows=pl[1].map(function(f,n){ var e=byFile[f]; if(!e) return '';
       return '<div class="ddod-ep" data-file="'+f+'" data-i="'+n+'">'
-        +'<div class="ddod-ep-art"><img src="'+ART+'" alt="" width="96" height="96" loading="lazy"></div>'
+        +'<div class="ddod-ep-art"><img src="'+ART+'" alt="" width="96" height="96" loading="lazy">'
+          +'<span class="ddod-ep-veil"><span class="ddod-ep-eq"><i></i><i></i><i></i></span>'
+          +'<span class="ddod-ep-cue">'+SVG_PLAY+'</span></span></div>'
         +'<div class="ddod-ep-body">'
-          +'<div class="ddod-ep-date">Episode '+e[5]+'</div>'
+          +'<div class="ddod-ep-date" data-rest="Episode '+e[5]+'">Episode '+e[5]+'</div>'
           +'<div class="ddod-ep-t">'+e[0]+'</div>'
           +'<p class="ddod-ep-desc">'+(e[4]||'')+'</p>'
         +'</div>'
@@ -215,10 +224,9 @@
   d.querySelectorAll('.ddod-pl').forEach(function(c){
     c.addEventListener('click',function(){ var i=+c.getAttribute('data-pl'); if(i===curPl) closePlaylist(); else openPlaylist(i); });
   });
-  /* Open the first playlist on load so the shelf is never empty. Opening
-     never scrolls: the panel appears directly under the card you clicked, so
-     moving the page underneath the pointer only felt like a glitch. */
-  if(PLAYLISTS.length) openPlaylist(0);
+  /* Nothing is open on load. The shelf reads as six closed tabs until the
+     visitor picks one; .ddod-pl-list:empty keeps the panel out of the layout
+     until then. */
 
   /* ---------- sticky controls ---------- */
   icon(skPlay,false);
@@ -352,5 +360,94 @@
     if(e.shiftKey && d.activeElement===first){ e.preventDefault(); last.focus(); }
     else if(!e.shiftKey && d.activeElement===last){ e.preventDefault(); first.focus(); }
   });
+
+  /* ---------- exit intent -------------------------------------------------
+     Same rule set as the DarrenDaily session popup: sessionStorage so it shows
+     once a session and stays closed once dismissed, the corner X as the only
+     way out (no "No thanks" button), and five triggers - pointer leaving
+     through the top edge, the first mobile back gesture, a fast upward flick,
+     90% scroll depth, and 30 seconds idle.
+
+     If the opt-in drawer is open, the popup must not fire: the visitor is
+     already doing the thing it would ask for. It closes the drawer first only
+     when a real exit signal arrives while the drawer sits open and untouched. */
+  (function(){
+    var pop=d.getElementById('exitPopup'); if(!pop) return;
+    var STORE, SHOWN='dd-exit-shown', DISMISS='dd-exit-dismissed';
+    try{ STORE=window.sessionStorage; }catch(err){ return; }
+    function got(k){ try{ return !!STORE.getItem(k); }catch(err){ return false; } }
+    function set(k){ try{ STORE.setItem(k,'1'); }catch(err){} }
+    var lastFocusX=null;
+
+    function drawerOpen(){ return drawer && drawer.classList.contains('is-open'); }
+
+    function openExit(){
+      if(pop.classList.contains('open')) return;
+      if(got(DISMISS) || got(SHOWN)) return;
+      /* the drawer is the stronger moment; never talk over it */
+      if(drawerOpen()) return;
+      set(SHOWN);
+      lastFocusX=d.activeElement;
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      page.style.overflow='hidden'; d.body.style.overflow='hidden';
+      var c=pop.querySelector('[data-xp-close]'); if(c) c.focus();
+    }
+    function closeExit(){
+      if(!pop.classList.contains('open')) return;
+      set(DISMISS);
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      page.style.overflow=''; d.body.style.overflow='';
+      if(lastFocusX && lastFocusX.focus) lastFocusX.focus();
+    }
+    pop.querySelectorAll('[data-xp-close]').forEach(function(b){
+      b.addEventListener('click',function(e){ e.preventDefault(); closeExit(); });
+    });
+    /* clicking the backdrop closes; clicking the card does not */
+    pop.addEventListener('click',function(e){ if(e.target===pop) closeExit(); });
+    d.addEventListener('keydown',function(e){ if(e.key==='Escape' && pop.classList.contains('open')) closeExit(); });
+    /* the popup's own CTA hands over to the drawer */
+    pop.querySelectorAll('[data-open-drawer]').forEach(function(b){
+      b.addEventListener('click',function(e){ e.preventDefault(); closeExit(); openDrawer(); });
+    });
+
+    /* 1. desktop: pointer leaves through the top edge */
+    d.addEventListener('mouseout',function(e){
+      if(e.clientY<=0 && !e.relatedTarget && !e.toElement) openExit();
+    });
+    /* 2. mobile: intercept the first back gesture */
+    try{
+      history.pushState(null,'',location.href);
+      window.addEventListener('popstate',function(){
+        if(!got(DISMISS) && !got(SHOWN)){ history.pushState(null,'',location.href); openExit(); }
+      });
+    }catch(err){}
+    /* 3. a fast upward flick after scrolling down reads as leave-intent */
+    var lastY=window.pageYOffset, lastT=Date.now();
+    window.addEventListener('scroll',function(){
+      var y=window.pageYOffset, t=Date.now(), dt=(t-lastT)||1;
+      if((y-lastY)/dt < -0.5 && lastY>300) openExit();
+      lastY=y; lastT=t;
+    },{passive:true});
+    /* 4. they reached the end of the page */
+    var depthTick=false;
+    window.addEventListener('scroll',function(){
+      if(depthTick) return; depthTick=true;
+      requestAnimationFrame(function(){
+        depthTick=false;
+        var seen=window.pageYOffset+window.innerHeight;
+        if(seen/d.documentElement.scrollHeight >= 0.9) openExit();
+      });
+    },{passive:true});
+    /* 5. idle for 30s */
+    var idle;
+    function resetIdle(){ clearTimeout(idle); idle=setTimeout(openExit,30000); }
+    ['touchstart','scroll','click','keydown','mousemove'].forEach(function(ev){
+      window.addEventListener(ev,resetIdle,{passive:true});
+    });
+    resetIdle();
+  })();
+
   window.ddodOpenDrawer=openDrawer;
 })();

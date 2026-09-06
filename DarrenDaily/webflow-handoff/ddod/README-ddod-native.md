@@ -777,3 +777,50 @@ sitting beside it: two solid red objects, one of them not clickable.
 The review rows run 40% faster below 560px (66s / 77s against the desktop 92s /
 108s). A narrow viewport shows so little of the row that the desktop pace reads
 as stalled.
+
+## Episode rows: three states, not two
+
+`.is-current` means the row has been started. `.is-playing` means audio is
+actually running. The artwork veil follows:
+
+| state | artwork |
+|---|---|
+| never touched | plain cover |
+| current, playing | red veil, animated equalizer |
+| current, paused | red veil, white play triangle |
+
+The eyebrow swaps `Episode NNNN` for **Now playing** on the current row and
+restores the original from `data-rest` when another row takes over. Clicking the
+artwork toggles, because the whole row toggles.
+
+**Open question:** the eyebrow currently reads "Now playing" even while that row
+is paused, since it keys off `.is-current`. Arguably it should revert while
+paused. Left as is because the row IS the current one either way.
+
+## Nothing is open on load
+
+`openPlaylist(0)` on load is gone. The shelf reads as six closed tabs until a
+card is picked, and `.ddod-pl-list:empty` keeps the panel out of the layout.
+
+## Exit intent
+
+Reuses the site-wide `dd-exit-*` system and its `.open` convention from /404, so
+this popup matches every other DarrenDaily exit popup. Same rule set as
+`session-exit-popup.html`:
+
+- `sessionStorage`, `dd-exit-shown` and `dd-exit-dismissed`; once dismissed it
+  stays gone for the session.
+- **The corner X is the only dismiss.** No "No thanks" button, per the DD rule.
+- Five triggers: pointer out through the top edge, first mobile back gesture
+  (`history.pushState` + `popstate`), a fast upward flick after scrolling
+  (>500px/s past 300px), 90% scroll depth, and 30s idle.
+- Escape and a backdrop click also close it.
+
+**It never fires while the opt-in drawer is open** - the visitor is already
+doing the thing it would ask for. Its own CTA closes the popup and hands over to
+the drawer.
+
+**One rule deliberately not applied:** the DD popup body normally ends with
+"No exceptions." That line belongs to the 72-hour expiry claim on the session
+popups. This popup offers an audiobook, where the phrase would be meaningless,
+so it is not forced.
