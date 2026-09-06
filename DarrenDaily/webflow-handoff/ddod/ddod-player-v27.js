@@ -324,6 +324,20 @@
   var drawer=d.getElementById('ddDrawer'), overlay=d.getElementById('ddOverlay'),
       closeBtn=d.getElementById('ddClose'), mount=d.getElementById('ddJoinForm'), lastFocus=null, hsLoaded=false;
 
+  /* ---- ONE form, two homes -----------------------------------------------
+     The drawer and the exit popup show the same offer, so both need the same
+     HubSpot form. Two hbspt.forms.create calls for one formId on one page
+     collide (duplicate field ids, and the second render can blank the first),
+     so instead there is exactly ONE #ddJoinForm node and it gets MOVED into
+     whichever panel is opening. appendChild relocates a live node without
+     re-rendering it, and HubSpot's listeners are bound to the node itself, so
+     a form part-way through being filled survives the move.
+     Never add a second forms.create for this formId. */
+  function hostForm(slotId){
+    var slot=d.getElementById(slotId);
+    if(mount && slot && mount.parentNode!==slot) slot.appendChild(mount);
+  }
+
   /* HubSpot ships the Role select with a bare "Role" placeholder while the two
      inputs above it read "First Name*" and "Email*". That is field config on
      HubSpot's side, so it is corrected on render here rather than left
@@ -350,6 +364,7 @@
     drawer.classList.add('is-open'); if(overlay) overlay.classList.add('is-open');
     drawer.setAttribute('aria-hidden','false');
     page.style.overflow='hidden'; d.body.style.overflow='hidden';
+    hostForm('ddFormHome');
     mountForm();
     setTimeout(function(){ var f=drawer.querySelector('input,button,[tabindex]'); if(f) f.focus(); },120);
   }
@@ -402,6 +417,9 @@
       if(drawerOpen()) return;
       set(SHOWN);
       lastFocusX=d.activeElement;
+      /* the popup mirrors the drawer, form included, so it borrows the node */
+      hostForm('ddFormHomeExit');
+      mountForm();
       pop.classList.add('open');
       pop.setAttribute('aria-hidden','false');
       page.style.overflow='hidden'; d.body.style.overflow='hidden';

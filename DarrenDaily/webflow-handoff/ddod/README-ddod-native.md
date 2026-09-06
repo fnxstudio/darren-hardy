@@ -1204,3 +1204,38 @@ were already defined (the red dash `:before` lives in the embed), so no new CSS.
 Title "Join, and take the whole book with you.", the same two-part offer as the
 drawer, and its button now matches the other two at 359px. The X remains the
 only dismiss, per the DD popup rule.
+
+### The exit popup mirrors the drawer, form included
+
+It used to be a button that opened the drawer. It now carries the whole offer:
+title, pitch, the audiobook gift panel, "Where should we send it?", **the form
+itself**, and the fine print. Its own CTA button is gone, since the form's
+submit is the action.
+
+**ONE HubSpot form, two homes.** Two `hbspt.forms.create` calls for one formId
+on one page collide (duplicate field ids; the second render can blank the
+first). So there is still exactly one `#ddJoinForm` node, and **v27 moves it**
+into whichever panel is opening:
+
+    #ddFormHome      <- inside .dd-drawer-body
+    #ddFormHomeExit  <- inside .dd-exit-card
+
+`hostForm(slotId)` does the move on open. `appendChild` relocates a live node
+without re-rendering, and HubSpot's listeners are bound to the node, so a
+part-filled form survives the trip. Verified: popup opens with the form in it,
+closing and opening the drawer hands it back, and
+`document.querySelectorAll('#ddJoinForm form').length` stays at **1**.
+
+**Never add a second forms.create for 41958dbb-.** If the popup ever renders
+empty, the cause is almost certainly that someone did.
+
+`.dd-exit-card` already had `max-height:calc(100vh - 48px)` and `overflow-y:auto`,
+so the taller content needed no new CSS. At 950px viewport the card is 763px
+and does not scroll.
+
+### The portrait needed the microphone in it
+
+First crop was tight on his face and the gold mic was outside the frame, which
+was the whole point of choosing that photo. `dh-pod-mic-200.webp` is a wider
+530px box (x 250..780, y 150..680) that holds the mic, mirrored, displayed at
+**76px** rather than 52px so it actually reads.
