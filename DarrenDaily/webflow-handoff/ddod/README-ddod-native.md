@@ -74,10 +74,10 @@ the scrubber work. No audio is stored in Webflow.
 
 ## Where the code lives
 
-`ddod-player-v8.js` is uploaded as a **site asset** and loaded with `defer`:
+`ddod-player-v9.js` is uploaded as a **site asset** and loaded with `defer`:
 
 ```
-https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9cbd362a83ac25ac77a503_ddod-player-v8.js
+https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9cc3580b94f55d304db1f9_ddod-player-v9.js
 ```
 
 19.6 KB, of which ~6.9 KB is the episode and playlist data and ~2.6 KB the podcast
@@ -98,7 +98,7 @@ exact 980 / 760 / 560 breakpoints scoped to `.dd-page`.
 | `dh-face-104.webp` | 3.7 KB | was 520px/37 KB; renders 52x52 |
 | `dh-covers-600.webp` | 59.2 KB | 4:5 portrait crop of the covers wall, for the host section |
 | `ddod-artwork-116.webp` | 4.6 KB | thumbnails: playlist cards, sticky bar, episode rows |
-| `ddod-player-v8.js` | 19.6 KB | |
+| `ddod-player-v9.js` | 19.6 KB | |
 
 Everything else was already on the CDN: the eight media logos, `hero-chair.webp`,
 and `dd-logo-color-286.webp`.
@@ -270,6 +270,28 @@ Audited the rest of the page for the same trap. `\u2605` BLACK STAR (96 of them)
 `\u2B50` is the emoji star and is not used. The only other risky glyph is the `\u00A9`
 in the shared Site Footer, which renders as text unqualified and is left alone since
 it is site-wide.
+
+## Fifth revision
+
+- **Episode rows carry the full record**: cover, date, title, the episode's own blurb,
+  the exact runtime and a round red play button, with a tinted active state. The
+  descriptions were in the source data all along; the first build dropped them, so the
+  script data grew from 6.9 KB to 11.7 KB to carry them back.
+  Runtimes stay **exact** (`5:19`), not rounded to "5 min".
+- **Stats band is three up**: episodes, 12M+ listens in the middle, 4.9/5. The
+  350,000 figure came out; it still appears in the playlists lead and the closing copy.
+- **The hero rating is an overlay card** on the cover art rather than a caption under
+  it. Placed at 46% height hanging off the left edge, which is measured to clear the
+  artwork's own lockup: the ON-DEMAND mark occupies y=8-28% and the DARRENDAILY banner
+  y=70-92%, leaving y=32-68% free. It reverts to a centred card under the cover when
+  the hero stacks, since a 280px cover has no room for an overhang.
+- **Subscribe row** reads "Subscribe on", centred, with larger chips.
+- **Review wall** leads with gold stars instead of the eyebrow pip, and the headline is
+  "What listeners like you are saying".
+- **The drawer leaves a 52px sliver** of the page visible rather than covering the
+  screen, and the overlay carries a 7px backdrop blur. Done with
+  `max-width: calc(100vw - 52px)` on the base class, so it needs no breakpoint rule and
+  the existing `width:100%` mobile rule resolves against it correctly.
 
 ## Still open
 - The episode and playlist data is baked into the script. `DarrenDaily/refresh-ddod-data.py`
