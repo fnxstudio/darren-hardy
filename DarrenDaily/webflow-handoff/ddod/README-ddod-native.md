@@ -1108,3 +1108,60 @@ The tce.darrenhardy.com/bundle page was checked too. Most of its quotes name a
 product ("the Weekly Rhythm Register Assessment"); the two that do not
 (Douglas Philipstein on his marriage, David Watson on sales force performance)
 are off-topic for this drawer. Left unused, but they are there if needed.
+
+### The dark card reference was for the GIFT section, not the drawer
+
+Worth writing down because it was misread once: the dark maroon card from the
+GitHub page is the target for **`.ddod-join`, the TCE gift section**, which was
+already `#2a1015`. The drawer stays white. Two changes brought the gift section
+to the reference:
+
+- **`.dd-key-b-light` went `#f0777f` -> `#cf3a45`.** That salmon pink was the
+  "pinkish color" complaint. Checked first: the class is used on **this page
+  only** (2 occurrences, both the gift headline), so changing it globally was
+  safe. Home, /welcome and /404 do not use it.
+- **A narrator row above the eyebrow**, matching the reference's "Darren
+  records every one of them himself" line: a 52px square tile with the
+  **mirrored** BMC stage shot, then "Darren reads the whole book himself." /
+  "Not a voice actor. The same voice you hear every morning."
+
+`dh-mic-bubble-128.webp` is cropped from `dh-bmc-stage-v2.avif` on dhbmc.com
+(the only DH shot there; he is holding a clicker, not a mic) and **mirrored**,
+so he faces into the copy instead of off the edge. Composited onto `#3a181e`, a
+step up from the section ground so the tile reads as its own object.
+
+**The narration claim is sourced, not assumed.** tce.darrenhardy.com/bundle
+says "the EXTENDED edition audiobook read by Darren Hardy".
+
+### Playlists headline
+
+"The playlists you actually need" was called weak. Now
+**"1,500 episodes. These six first."** - the archive's size is the tension and
+the six picks are the resolution, so the headline does the work the lead used
+to. The lead lost its duplicated numbers as a result: "Hand-picked from the
+show 350,000 people wake up to and 12 million listens deep."
+
+### Testimonial headshots
+
+`tm-cindy-160.webp` and `tm-mark-160.webp`, cropped from the client's Air
+library to 160px for a 34px circle. Both Air share links are publicly readable,
+so the originals can be re-pulled without an account.
+
+**Mark's source is not a headshot** despite the filename: a low-resolution
+office snapshot, unsmiling, framed wide. A swap to another male member is
+pending. Candidates already on darrendaily.com, all real name-and-quote pairs:
+
+| who | quote |
+|---|---|
+| Jay Irwin | "Darren helped me see that I needed to take a risk to have no regrets." |
+| Michael Rutowski | "Can't start my day without DarrenDaily! Puts me in the right mindset!" |
+| Shane Reid | "My whole team takes advantage of DarrenDaily!..." |
+
+Jay is the closest fit: it opens "Darren helped me see", which mirrors Cindy's
+"Darren helps me quiet the noise" and is squarely about Darren giving clarity.
+The trim above is an **exact leading clause** of his real quote, not a reword.
+
+**One wording change to flag:** Mark's line on darrendaily.com is "**DarrenDaily**
+provided me with a clear path"; the page now reads "**Darren** provided me". That
+is the client's edit to a real member's words. Fine as their call, but it is an
+edit, not a quote.
