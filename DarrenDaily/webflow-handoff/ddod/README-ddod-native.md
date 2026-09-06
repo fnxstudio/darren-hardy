@@ -404,3 +404,27 @@ DarrenDaily" entry point is further down the page.
 `new Event('scroll')` by hand to drive the handler, then
 `el.getAnimations().forEach(a => a.finish())` before reading the settled
 opacity and offset.
+
+## Hero: cover alignment and the rating card
+
+The cover no longer centres in its grid row. `.ddod-hero-art` is `align-self:
+start` with a `4px` top margin, which is exactly the offset of the eyebrow's own
+line box, so the cover's top edge and the eyebrow's top edge share a line.
+
+The rating card sits at the cover's **bottom-left corner**: `bottom: -118px`,
+`left: -34px`, no transform. That leaves 28px of overlap onto the cover and
+118px hanging below, with a 34px left overhang.
+
+The 118px is not arbitrary. The artwork's own type occupies fixed bands (the
+ON-DEMAND mark at 8-28% of its height, the DARRENDAILY banner at 70-92%), and
+this is the shallowest overlap that clears the ON-DEMAND strip underneath the
+banner. Slide the card up and it starts eating the brand lockup. The card used
+to sit at `top: 46%` for the same reason: that was the clear band in the middle.
+
+The number reads **4.9/5**, matching the stats band. The suffix is a `<b>` with
+its own class, sized in `em` so it tracks the number, at 42% like
+`.ddod-bstat-of` - but in `rgba(20,23,28,.42)` rather than the band's white,
+since this card is on white.
+
+Below 980px none of this applies: the embed already resets `.ddod-rate` to
+`position: static` and centres it under the stacked cover.
