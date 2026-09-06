@@ -40,12 +40,43 @@ that were hardcoded in the markup for when the fetch failed. Those fallbacks are
 real session slugs and thumbnails and are the most reusable part of this archive:
 they are what the page showed with no CMS at all.
 
-## Status
+## Status: all removed, 2026-09-06
 
-- **Exit popups: removed from both pages** on 2026-09-06. They led with a live
-  session, so with no feed they would have shown a stale or empty list on every
-  visit.
-- **"Expiring Soon" and "What To Do Instead": still on the pages** as of this
-  archive. They still render their hardcoded fallback cards, so they are not
-  broken, only frozen. Decide separately whether to keep them on static content,
-  repoint them at another source, or remove them.
+Everything listed above is off both pages. Also removed, because they only made
+sense alongside the sessions:
+
+- **Both hero cues** (`hero-cues.html`). Each was an `href="#sessions"` link
+  whose copy promised the content: "Good news: the latest sessions are still
+  live. Watch them below." on /404 and "Bonus: Watch the latest sessions now
+  before they expire." on /welcome. Left in place they would have been dead
+  anchors promising something no longer on the page.
+- **The feed script**, from the /404 page footer. With `.ep-grid` and
+  `[data-xp-list]` both gone it had nothing to write to and was fetching
+  `/sessions-feed` on every visit for nothing.
+
+Section order is now:
+
+| page | sections |
+|---|---|
+| /404 | `dd-hero`, `exp-manifesto`, `dd-close`, `dd-intro` |
+| /welcome | `dd-hero`, `wel-next`, `wel-proof`, `dd-close` |
+
+### Deliberately kept
+
+**`dd-close` on /404 still reads "#NeverMiss / Don't let the next one slip by."**
+That is the closing opt-in CTA, not a sessions block. It never touched the CMS
+and still works, so it stayed.
+
+### Left behind, harmless
+
+Orphaned `.dd-sessions` / `.ep-card` / `.ep-grid` CSS is still in both page
+embeds, and both pages' reveal-animation scripts still list `.ep-grid` among
+their selectors. Neither matches anything now, so nothing renders or errors.
+Worth sweeping next time those embeds are opened.
+
+### Still live, and now unused
+
+The **`/sessions-feed` page** (titled "DO NOT DELETE | Sessions Feed") and the
+Sessions CMS collection behind it are untouched. Nothing reads the feed any
+more. Deleting them is a separate decision, and the Sessions template at
+`/sessions/{slug}` may still depend on that collection.
