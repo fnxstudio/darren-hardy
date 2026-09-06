@@ -1761,3 +1761,26 @@ After `transform_element_to_component` the page-level ids are stale and return
 earlier pass recorded this as unfixable and a Designer-only job. It is not.
 Re-query with `scope_component_id`, then pass the id it returns *and*
 `scope_component_id` on the write.
+
+### Correction: normalise the laurels on WIDTH, not height (2026-09-06)
+
+Trimming to the ink and matching **height** still left the third laurel looking
+bigger than the first, and it was: these wreaths have different proportions, so
+at a common height the bounding boxes came out
+
+| | at 176px tall | aspect |
+|---|---|---|
+| DDOD | 277px wide | 1.574 |
+| DD | 299px wide | 1.699 |
+| NSA | 292px wide | 1.659 |
+
+NSA is **5.4% wider than DDOD at the same height**. For a shape much wider than
+it is tall, the eye reads width as size, so the outer two are now matched on
+**width** (116px each) with the middle at 130px, and their heights fall where
+the artwork puts them (74 / 77 / 70). Live file `award-row-900.webp`, 900x154,
+renders 450x77, **22.5 KB**.
+
+Rule of thumb for any future logo/seal row: **trim to the ink, then normalise on
+the dimension that dominates the silhouette** — width for wide marks, height for
+tall ones. Matching the wrong axis leaves a visible mismatch that looks like a
+CSS bug and is not one.
