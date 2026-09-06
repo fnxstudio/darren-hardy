@@ -1,6 +1,6 @@
 # DarrenDaily social cards
 
-`og-dd-home-1200.jpg` (94 KB) and `og-ddod-1200.jpg` (74 KB), both **1200x630**.
+`og-dd-home-1200.jpg` (94 KB) and `og-ddod-cover-1200.jpg` (83 KB), both **1200x630**.
 Live as the `og:image` on `/` and `/darrendaily-on-demand`.
 
 ## Why they exist
@@ -24,7 +24,7 @@ photograph bleeding off the right edge from x=690.
 |---|---|---|
 | eyebrow | DAILY MENTORING WITH DARREN HARDY | THE DARRENDAILY PODCAST |
 | headline | START EVERY DAY / WITH AN / **ADVANTAGE.** | YOUR 5-MINUTE / STRATEGIC / ADVANTAGE. / **ON-DEMAND.** |
-| photo | `hero-garden.webp` cropped right | `DH_pod_room.webp` (hardybmc.com) |
+| right | `hero-garden.webp` cropped, bleeding off the edge | the **square show artwork**, 428px, with the same soft lift it has on the page |
 
 Both headlines are the pages' own H1s, so the card matches what you land on.
 
@@ -40,3 +40,28 @@ Fonts are Inter Display Black + Inter SemiBold from the rsms/inter v4.0
 release; Google's CDN only serves woff2, which PIL cannot read.
 
 Photography is real and cropped only. Nothing here is generated.
+
+## The on-demand card carries the cover, not a photo
+
+First build used the studio mic photo. The show artwork is the thing people
+recognise in a feed, so it sits inset at 428px on the light ground with a
+blurred drop shadow, matching how the cover sits in the page hero. A square
+asset cannot bleed off the edge the way the home photograph does, so the two
+cards differ on the right-hand side by design.
+
+## Metadata went stale before the cards did
+
+The on-demand page's own SEO and OG text still described the daily rather than
+this archive, and the OG description opened on **"Press play"**, which is copy
+the page no longer uses. Now:
+
+- **title** DarrenDaily On-Demand · Your 5-Minute Strategic Advantage
+- **description** More than 1,500 five-minute sessions from Darren Hardy, free
+  and on-demand. Six hand-picked playlists to start with. No ads, no sponsors, ever.
+- **og:title** Your 5-Minute Strategic Advantage. On-Demand.
+- **og:description** Sharper about what actually matters, in five minutes. More
+  than 1,500 sessions from Darren Hardy, free and on-demand, with six playlists to start.
+
+**Metadata is not covered by any of the page checks.** It lives in page
+settings, not markup, so nothing about editing the page surfaces that it has
+drifted. Re-read it whenever the H1 or the offer changes.
