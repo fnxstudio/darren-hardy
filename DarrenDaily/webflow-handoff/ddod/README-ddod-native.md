@@ -1165,3 +1165,42 @@ The trim above is an **exact leading clause** of his real quote, not a reword.
 provided me with a clear path"; the page now reads "**Darren** provided me". That
 is the client's edit to a real member's words. Fine as their call, but it is an
 edit, not a quote.
+
+### The mic shot is DH_pod_room, not the stage shot
+
+First attempt used `dh-bmc-stage-v2.avif` from **dhbmc.com** (the new
+BMC|COLLECTIVE port). Wrong image: he is holding a clicker there. The one asked
+for is `DH_pod_room.webp` on **hardybmc.com** (served from
+darrenhardy.com/wp-content/.../dh-bmc-images/) - Darren at the gold studio mic,
+black polo, THE EXCEPTION mug.
+
+`dh-pod-mic-128.webp` is a 380px square around his head, **mirrored**, so he
+faces into the copy instead of off the edge of the card. 52px box, 4px radius.
+
+### What the gift section actually argues
+
+Two rewrites came from the same note: **the pitch is results, not applause.**
+
+- The old lead led on "two million people have read it and raved about it".
+  Now: "What you do on an ordinary Tuesday is what decides the year. That is the
+  argument of Darren's bestseller, and the complete unabridged audiobook is
+  yours the moment you join."
+- The narrator row led on "Darren reads the whole book himself / not a voice
+  actor", which nobody is buying for. Now it connects the book to the daily
+  practice: **"One more way Darren gets you #BetterEveryDay."** / "Five minutes
+  each weekday morning here. The whole method in his voice whenever you want
+  more."
+
+**The linkage rule still holds.** TCE is not the source of DarrenDaily and
+nothing may imply it is. It is *another thing from Darren*, and that is the
+only bridge the copy is allowed to build. The exit popup was still breaking
+this ("the book underneath them") and has been fixed.
+
+Bullets are back, reusing the `.ddod-join-list` / `.ddod-join-li` classes that
+were already defined (the red dash `:before` lives in the embed), so no new CSS.
+
+### Exit popup carries the drawer offer
+
+Title "Join, and take the whole book with you.", the same two-part offer as the
+drawer, and its button now matches the other two at 359px. The X remains the
+only dismiss, per the DD popup rule.
