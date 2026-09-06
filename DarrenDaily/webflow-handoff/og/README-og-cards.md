@@ -65,3 +65,18 @@ the page no longer uses. Now:
 **Metadata is not covered by any of the page checks.** It lives in page
 settings, not markup, so nothing about editing the page surfaces that it has
 drifted. Re-read it whenever the H1 or the offer changes.
+
+## Set the share image as `imageUrl`, not `imageAssetId`
+
+`update_page_settings` accepts either, and **both publish a correct
+`og:image`** - but only `imageUrl` shows up in the Designer's SEO/Share panel.
+Set as `imageAssetId` the card is live on the page yet the picker in Webflow
+looks empty, so it reads as missing and **a Designer save could wipe it**.
+
+The two fields are mutually exclusive; sending one as `null` alongside the
+other is rejected with "Provide either openGraph.imageUrl or
+openGraph.imageAssetId, not both." Send `imageUrl` on its own and it replaces
+the asset-id form.
+
+/welcome and /404 already stored theirs as `imageUrl`, which is why they were
+visible in the Designer all along.
