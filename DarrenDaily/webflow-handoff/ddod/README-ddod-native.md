@@ -555,27 +555,6 @@ Note the featured episode card's `FEATURED EPISODE` label is still at the old
 `top:-12px` / 68% geometry. It has not been flagged as a problem, but the two
 tabs no longer match, so match them if that ever looks wrong.
 
-## Review cards on phones
-
-The marquee cards were 280px on a 375px screen, so barely one and a quarter
-showed and the row read as a single card rather than something that scrolls.
-
-They are now **172px with an 11px gap** below 560px: `172 + 11 + 172 = 355`,
-which leaves a **20px sliver** of the third card at 375px. The sliver is the
-point - two cards that exactly fill the screen look like a static pair.
-
-Text and image cards share one width (`.ddod-rv` and `.ddod-rvi` both 172px) so
-the rhythm holds regardless of which type lands where; every third tile is an
-image card, so a mismatch would be visible constantly.
-
-Padding and type come down with the width, because the text column is only
-142px: 18/14/16 padding, 14px title, 12.5px body at 1.5, and smaller stars,
-name and source. The row grows from 382px to 412px tall, which is the cost of
-the narrower column and is worth it.
-
-The 560-760px band also came down, from 300/240 to a uniform 230px, so tablets
-show two full cards plus a wide sliver rather than one and a half.
-
 ## Later round of fixes
 
 - **Rating order** is now number, stars, attribution.
@@ -724,3 +703,23 @@ play/pause and returns early.
   The copy uses 2M+; the artwork is what it is.
 - The hardcover is deliberately NOT shown: the offer is the audio, so the mock
   is the cover on a phone.
+
+## Review cards on phones
+
+Sized twice, and the second size is the right one.
+
+The first pass chased "two whole cards on a 375px screen" and landed at 172px.
+That was the wrong trade: a **142px text column** ran the quotes to **412px
+tall**, so the row got taller than the thing it was trying to fit.
+
+They are now **224px with a 12px gap** below 560px - 30% wider - which gives a
+**190px text column** and a **318px row**, 94px shorter. One full card plus most
+of the next is still plainly a row that scrolls.
+
+Text and image cards share one width (`.ddod-rv` and `.ddod-rvi` both 224px), so
+the rhythm holds regardless of which type lands where; every third tile is an
+image card, so a mismatch would be constantly visible. Padding and type stay
+scaled down for the narrower column: 18/16/16 padding, 14px title, 12.5px body.
+
+The 560-760px band is a uniform 230px, which is where the phone width was headed
+anyway - the two are now within 6px of each other.
