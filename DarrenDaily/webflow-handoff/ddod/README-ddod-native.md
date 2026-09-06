@@ -554,3 +554,24 @@ for a 15px gap to the title.
 Note the featured episode card's `FEATURED EPISODE` label is still at the old
 `top:-12px` / 68% geometry. It has not been flagged as a problem, but the two
 tabs no longer match, so match them if that ever looks wrong.
+
+## Review cards on phones
+
+The marquee cards were 280px on a 375px screen, so barely one and a quarter
+showed and the row read as a single card rather than something that scrolls.
+
+They are now **172px with an 11px gap** below 560px: `172 + 11 + 172 = 355`,
+which leaves a **20px sliver** of the third card at 375px. The sliver is the
+point - two cards that exactly fill the screen look like a static pair.
+
+Text and image cards share one width (`.ddod-rv` and `.ddod-rvi` both 172px) so
+the rhythm holds regardless of which type lands where; every third tile is an
+image card, so a mismatch would be visible constantly.
+
+Padding and type come down with the width, because the text column is only
+142px: 18/14/16 padding, 14px title, 12.5px body at 1.5, and smaller stars,
+name and source. The row grows from 382px to 412px tall, which is the cost of
+the narrower column and is worth it.
+
+The 560-760px band also came down, from 300/240 to a uniform 230px, so tablets
+show two full cards plus a wide sliver rather than one and a half.
