@@ -1690,3 +1690,74 @@ The awards are also now the same `#848484` as the seal row rather than black,
 and the row is centred under the bio copy: outer two **74px**, middle **82px**.
 
 Sources are the full-size originals in this folder, not the small live files.
+
+## Award Laurels: one image, one component (2026-09-06)
+
+The three laurels were wrapping to 2+1 on phones. They are now **one composite
+image**, `award-row-932.webp` (932x164, renders at 466x82), in a second global
+component, `Award Laurels` (`ae5dc168-ffaa-b68b-8e47-2f5ec1b7becf`).
+
+A single image cannot wrap, at any width, ever. It just scales: 466x82 on
+desktop, 331x58 at 375px, still one line. `.ddod-awards` is now a plain centred
+block and `.ddod-award-row` is `width:100%; max-width:466px; height:auto`.
+
+Trade-off accepted: the three laurels are no longer individually swappable in
+the Designer, and they share one alt string naming all three awards. To change
+one, rebuild the composite from the sources in `seals/` and re-upload.
+
+## The compression that matters here: posterise ALPHA, keep RGB flat
+
+These marks are one flat tone plus an alpha mask, and **lossy WebP is the wrong
+tool for that** - it stores the alpha channel losslessly, and the laurel leaf
+edges are all alpha detail, so the file stays huge no matter how far the quality
+drops. Encoding the same art as:
+
+1. RGB flattened to a single value everywhere (including transparent pixels),
+2. alpha posterised to **32 levels**,
+3. **lossless** WebP with `exact=False`,
+
+collapses it, because lossless WebP now has one constant colour plane and a
+32-value alpha plane to predict.
+
+| | lossy WebP q88 | this method | error |
+|---|---|---|---|
+| award row (3 laurels) | 77.1 KB as 3 files | **24.0 KB as 1** | max alpha 5/255 |
+| WSJ | 19.3 KB | **6.3 KB** | invisible |
+| Amazon | 20.4 KB | **5.5 KB** | invisible |
+| B&N | 14.5 KB | **4.4 KB** | invisible |
+
+32 levels is the knee: 16 saves another 25% but pushes max alpha error to 8;
+64 costs 25% more for error already below 2. USA Today and NYT are **not**
+repacked this way - they are filled badges with real tonal range, so the flat-RGB
+trick does not apply and the method makes them *bigger*. Both kept as-is.
+
+Palette-quantising the whole RGBA (the obvious first idea) gets to 23.7 KB but
+with **max alpha error 28**, which bands the leaf edges. Posterising alpha alone
+beats it on both size and fidelity.
+
+## Credibility imagery: the whole bandwidth picture
+
+| | before today | now |
+|---|---|---|
+| files | 8 | 6 |
+| bytes | 69.2 KB | **54.1 KB** |
+| loading | all **eager** | all **lazy** |
+| first-view cost | ~69 KB | **0 KB** |
+| rendered size | seals 44-62px | seals 88px, awards 74-82px |
+
+So it is smaller *and* roughly twice the size on screen, and none of it is on
+the critical path any more.
+
+### The eager-loading bug, and why it was easy to miss
+
+Six of these images had **no `loading` attribute at all** while sitting ~6,800px
+(9+ screens) down the page, so every visitor paid for them. Only the five images
+created through `data_element_builder` came out `loading="lazy"` by default; the
+older ones did not.
+
+`set_attributes` fixes it, but **only with the component-scoped element id**.
+After `transform_element_to_component` the page-level ids are stale and return
+"Element not found" - which reads like the API refusing to write, and is why an
+earlier pass recorded this as unfixable and a Designer-only job. It is not.
+Re-query with `scope_component_id`, then pass the id it returns *and*
+`scope_component_id` on the write.
