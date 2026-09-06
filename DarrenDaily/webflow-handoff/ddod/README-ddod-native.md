@@ -335,3 +335,38 @@ same undersized-source issue flagged in the first image audit.
 - `home-nstat*` (home's dark stat band) and `ddod-bstat*` do the same job under two
   names. A later pass could fold them into one `dd-stat-*` set; not done here because
   it means re-pointing 19 live elements on home.
+
+## Episode rows show episode numbers, not dates (v11)
+
+The eyebrow line above each episode title used to be the air date (`MAR 19, 2026`).
+It now reads `Episode 1582`. The number is not scraped from anywhere at runtime: it
+is a **sixth field on each `EPS` row**, derived once from the mp3 filename
+(`DDOD_Episode1582_mixdown.mp3`) and cross-checked against the source page's own id
+field. All 49 curated episodes have one, they range 684-2027, and no filename and id
+disagreed.
+
+`EPS` rows are now `[title, date, seconds, file, description, episodeNumber]`. The
+date field is deliberately **kept** even though nothing renders it - it is what
+`refresh-ddod-data.py` matches on, and it is the only record of when an episode
+aired.
+
+`prettyDate()` and the `MONTHS` array were removed with the date line. The class is
+still called `.ddod-ep-date`; renaming it would have meant re-pointing every row the
+player renders for no visual gain.
+
+## Featured episode card
+
+The hero's featured episode uses the **same layout as the playlist cards**: a black
+category tab overhanging the top-left corner, the show cover, then title,
+description and a red uppercase meta line, with the round red play button at the
+right edge. The scrub bar is a 3px hairline pinned to the card's bottom edge rather
+than a bar in the flow, so the card keeps the playlist card's proportions.
+
+The cover is `ddod-artwork-116.webp` - the same file the playlist cards use, so it
+costs nothing extra on the wire. It renders into a 76px box (62px on small), so it
+is ~1.5x, not 2x. The 760px artwork was not used: a 760px decode into a 76px box is
+wasted CPU on the LCP screen for detail nobody can see at that size.
+
+`.ddod-player-row` is gone - the card is now a flex row itself. The player script was
+not touched by this change: it only ever addressed `#heroPlay`, `#heroBar` and
+`#heroFill` by id, never by structure.
