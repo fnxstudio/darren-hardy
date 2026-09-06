@@ -74,10 +74,10 @@ the scrubber work. No audio is stored in Webflow.
 
 ## Where the code lives
 
-`ddod-player-v9.js` is uploaded as a **site asset** and loaded with `defer`:
+`ddod-player-v10.js` is uploaded as a **site asset** and loaded with `defer`:
 
 ```
-https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9cc3580b94f55d304db1f9_ddod-player-v9.js
+https://cdn.prod.website-files.com/6a66d7a6f9d116b514a13ae1/6a9cc606af8f1544fe1862b8_ddod-player-v10.js
 ```
 
 19.6 KB, of which ~6.9 KB is the episode and playlist data and ~2.6 KB the podcast
@@ -98,7 +98,7 @@ exact 980 / 760 / 560 breakpoints scoped to `.dd-page`.
 | `dh-face-104.webp` | 3.7 KB | was 520px/37 KB; renders 52x52 |
 | `dh-covers-600.webp` | 59.2 KB | 4:5 portrait crop of the covers wall, for the host section |
 | `ddod-artwork-116.webp` | 4.6 KB | thumbnails: playlist cards, sticky bar, episode rows |
-| `ddod-player-v9.js` | 19.6 KB | |
+| `ddod-player-v10.js` | 19.6 KB | |
 
 Everything else was already on the CDN: the eight media logos, `hero-chair.webp`,
 and `dd-logo-color-286.webp`.
@@ -293,10 +293,35 @@ it is site-wide.
   `max-width: calc(100vw - 52px)` on the base class, so it needs no breakpoint rule and
   the existing `width:100%` mobile rule resolves against it correctly.
 
+## Sixth revision
+
+- **Full player transport**: previous, back 15, play, forward 30, next, and a playback
+  speed control cycling 1x / 1.25x / 1.5x / 2x. The skip icons are circular arrows with
+  the number inside, drawn as SVG (rendered and eyeballed before shipping rather than
+  written blind). Previous restarts the current episode if more than 3 seconds in,
+  which is how every podcast app behaves; next greys out at the end of a playlist.
+- **Close moved to the bar's top right corner**, out of the control row.
+- **The whole transport stays on mobile.** The bar wraps to two lines below 700px, art
+  and title on the first, controls centred on the second. Verified 6/6 buttons visible
+  and no overflow at 980 / 760 / 560 / 390.
+- **Hero cover fills its column**: 380px cap removed, now 490px on desktop and 440px
+  stacked (was 280).
+- **Host photo is half the section** and back on the full-width `dh-covers.webp`
+  source rather than the portrait crop, so the magazine wall shows on both sides.
+  Height unchanged.
+
+**Resolution note:** the host photo is now a 720x739 box fed by a 1200x750 source, so
+it is upscaled slightly on the vertical. A taller original would fix it; this is the
+same undersized-source issue flagged in the first image audit.
+
 ## Still open
 - The episode and playlist data is baked into the script. `DarrenDaily/refresh-ddod-data.py`
   checks the source page's copy of it against the live feed; it has not been pointed
   at this build.
+- **"Most popular playlists"** is the wording on the hero cue, set 2026-09-05 at the
+  client's instruction. Worth knowing that the six playlists were **hand-curated**, not
+  chosen by play count, and no play-count data was available to this build. If real
+  numbers exist, the claim is safe; if not, "curated" is the defensible word.
 - **Podcast app badges: decided.** Keeping uniform chips carrying each platform's real
   brand mark in its real colour, rather than the official "Listen on" badge lockups,
   which come in six different shapes and colours and would be the only borrowed visual

@@ -44,6 +44,10 @@
      every play/pause glyph is a real SVG instead of a character. */
   var SVG_PLAY='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
   var SVG_PAUSE='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z"/></svg>';
+  var SVG_PREV='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M7 5.5v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M18.5 5.8 9.6 12l8.9 6.2z" fill="currentColor"/></svg>';
+  var SVG_NEXT='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><path d="M17 5.5v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M5.5 5.8 14.4 12 5.5 18.2z" fill="currentColor"/></svg>';
+  var SVG_BACK='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.2a8 8 0 1 0 5.66 2.34"/><polyline points="12 2.2 12 6.2 8.4 6.2"/></g><text x="12" y="15.4" text-anchor="middle" font-size="7.6" font-weight="700" fill="currentColor" stroke="none">15</text></svg>';
+  var SVG_FWD='<svg viewBox="0 0 24 24" class="ddod-ico" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.2a8 8 0 1 1-5.66 2.34"/><polyline points="12 2.2 12 6.2 15.6 6.2"/></g><text x="12" y="15.4" text-anchor="middle" font-size="7.6" font-weight="700" fill="currentColor" stroke="none">30</text></svg>';
   function icon(el,playing){ if(el) el.innerHTML = playing ? SVG_PAUSE : SVG_PLAY; }
   d.querySelectorAll('.ddod-pl-play-icon').forEach(function(e){ e.innerHTML=SVG_PLAY; });
   icon(d.querySelector('.ddod-play-icon'), false);
@@ -58,7 +62,7 @@
     if(autoplay!==false) audio.play().catch(function(){});
     mark();
   }
-  function playAt(i){ if(i<0||i>=queue.length) return; qi=i; load(queue[qi],true); }
+  function playAt(i){ if(i<0||i>=queue.length) return; qi=i; load(queue[qi],true); if(typeof syncQueueBtns==='function') syncQueueBtns(); }
   function mark(){
     var f=queue[qi];
     d.querySelectorAll('.ddod-ep').forEach(function(r){
@@ -148,10 +152,25 @@
   /* ---------- sticky controls ---------- */
   icon(skPlay,false);
   if(skPlay) skPlay.addEventListener('click',function(){ if(audio.paused) audio.play().catch(function(){}); else audio.pause(); });
-  var back=d.getElementById('skBack'), fwd=d.getElementById('skFwd'), skx=d.getElementById('skClose');
-  if(back) back.addEventListener('click',function(){ audio.currentTime=Math.max(0,audio.currentTime-15); });
-  if(fwd) fwd.addEventListener('click',function(){ audio.currentTime=Math.min(audio.duration||0,audio.currentTime+30); });
+  var back=d.getElementById('skBack'), fwd=d.getElementById('skFwd'), skx=d.getElementById('skClose'),
+      prev=d.getElementById('skPrev'), next=d.getElementById('skNext'), rate=d.getElementById('skRate');
+  if(back){ back.innerHTML=SVG_BACK; back.addEventListener('click',function(){ audio.currentTime=Math.max(0,audio.currentTime-15); }); }
+  if(fwd){ fwd.innerHTML=SVG_FWD; fwd.addEventListener('click',function(){ audio.currentTime=Math.min(audio.duration||0,audio.currentTime+30); }); }
+  if(prev){ prev.innerHTML=SVG_PREV; prev.addEventListener('click',function(){
+    /* restart the track first, the way every podcast app behaves, then step back */
+    if(audio.currentTime>3 || qi<=0){ audio.currentTime=0; } else { playAt(qi-1); } }); }
+  if(next){ next.innerHTML=SVG_NEXT; next.addEventListener('click',function(){ if(qi<queue.length-1) playAt(qi+1); }); }
+  var RATES=[1,1.25,1.5,2], ri=0;
+  if(rate) rate.addEventListener('click',function(){
+    ri=(ri+1)%RATES.length; audio.playbackRate=RATES[ri];
+    rate.textContent=(RATES[ri]%1===0?RATES[ri]:RATES[ri])+'\u00d7';
+  });
   if(skx) skx.addEventListener('click',function(){ audio.pause(); if(sticky) sticky.classList.remove('is-on'); });
+  /* grey out queue steps that lead nowhere */
+  function syncQueueBtns(){
+    if(next) next.classList.toggle('is-off', qi>=queue.length-1);
+  }
+  audio.addEventListener('play',syncQueueBtns);
 
   /* resume where the listener stopped, without autoplaying */
   try{
