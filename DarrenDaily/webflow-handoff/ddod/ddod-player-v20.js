@@ -110,9 +110,27 @@
   audio.addEventListener('ended',function(){ if(qi<queue.length-1) playAt(qi+1); else mark(); });
 
   /* ---------- hero featured ---------- */
+  /* The featured episode belongs to no playlist, so on its own it left the
+     next button with nowhere to go and autoplay with nothing to follow. Queue
+     it ahead of the first playlist so next carries straight on into the first
+     episode on the page. Anything else resumes inside its own playlist. */
+  function featuredQueue(){
+    var q=[EPS[0][3]];
+    if(PLAYLISTS.length) PLAYLISTS[0][1].forEach(function(f){ if(q.indexOf(f)===-1) q.push(f); });
+    return q;
+  }
+  function queueFor(file){
+    if(file===EPS[0][3]) return {q:featuredQueue(), i:0};
+    for(var p=0;p<PLAYLISTS.length;p++){
+      var idx=PLAYLISTS[p][1].indexOf(file);
+      if(idx>-1) return {q:PLAYLISTS[p][1].slice(), i:idx};
+    }
+    return {q:[file], i:0};
+  }
+
   function toggleFeatured(){
     var f=EPS[0][3];
-    if(audio.src.indexOf(f)===-1){ queue=[f]; qi=0; load(f,true); return; }
+    if(audio.src.indexOf(f)===-1){ queue=featuredQueue(); qi=0; load(f,true); syncQueueBtns(); return; }
     if(audio.paused) audio.play().catch(function(){}); else audio.pause();
   }
   if(heroPlay){ heroPlay.addEventListener('click',toggleFeatured);
@@ -129,6 +147,26 @@
   /* ---------- playlists ---------- */
   function closePlaylist(){ curPl=-1; if(plList) plList.innerHTML='';
     d.querySelectorAll('.ddod-pl').forEach(function(c){ c.classList.remove('is-active'); }); }
+  /* Put the panel directly under the ROW holding the open card, so the tab
+     stays attached to its own card instead of appearing below the whole grid.
+     The column count changes at every breakpoint, so it is read live - and
+     this has to re-run on resize, or a panel opened at three columns stays
+     anchored to a row that no longer exists at two, which strands the tab
+     seam against the wrong card. */
+  function placePanel(){
+    if(curPl<0 || !plList) return;
+    var grid=d.querySelector('.ddod-pl-grid'); if(!grid) return;
+    var cols=getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
+    var cards=[].slice.call(grid.querySelectorAll('.ddod-pl'));
+    var lastInRow=Math.min(Math.floor(curPl/cols)*cols + (cols-1), cards.length-1);
+    var anchor=cards[lastInRow];
+    if(anchor && anchor.nextSibling!==plList) grid.insertBefore(plList, anchor.nextSibling);
+  }
+  var placeTimer;
+  window.addEventListener('resize',function(){
+    clearTimeout(placeTimer); placeTimer=setTimeout(placePanel,120);
+  },{passive:true});
+
   function openPlaylist(i){
     var pl=PLAYLISTS[i]; if(!pl||!plList) return;
     curPl=i;
@@ -154,17 +192,7 @@
         +'<div class="ddod-ep-dur">'+clock(e[2])+'</div>'
         +'<div class="ddod-ep-play">'+SVG_PLAY+'</div>'
       +'</div>'; }).join('');
-    /* Drop the list directly under the row that was clicked, so the open
-       playlist stays visually attached to its card instead of appearing below
-       the whole grid. Column count changes at each breakpoint, so read it. */
-    var grid=d.querySelector('.ddod-pl-grid');
-    if(grid){
-      var cols=getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
-      var cards=[].slice.call(grid.querySelectorAll('.ddod-pl'));
-      var lastInRow=Math.min(Math.floor(i/cols)*cols + (cols-1), cards.length-1);
-      var anchor=cards[lastInRow];
-      if(anchor && anchor.nextSibling!==plList) grid.insertBefore(plList, anchor.nextSibling);
-    }
+    placePanel();
     plList.innerHTML=head+rows;
     plList.querySelector('.ddod-pl-close').addEventListener('click',closePlaylist);
     plList.querySelector('.ddod-pl-all').addEventListener('click',function(){
@@ -209,7 +237,7 @@
   try{
     var saved=JSON.parse(localStorage.getItem('ddod:pos')||'null');
     if(saved && saved.f && byFile[saved.f] && saved.t>5){
-      queue=[saved.f]; qi=0; load(saved.f,false);
+      var rq=queueFor(saved.f); queue=rq.q; qi=rq.i; load(saved.f,false); syncQueueBtns();
       audio.addEventListener('loadedmetadata',function once(){ audio.currentTime=saved.t; audio.removeEventListener('loadedmetadata',once); });
     }
   }catch(err){}
@@ -225,7 +253,7 @@
     function check(){
       if(stickyDismissed || sticky.classList.contains('is-on')) return;
       if(sec.getBoundingClientRect().bottom > window.innerHeight) return;
-      if(!audio.src){ queue=[EPS[0][3]]; qi=0; load(EPS[0][3],false); }
+      if(!audio.src){ queue=featuredQueue(); qi=0; load(EPS[0][3],false); syncQueueBtns(); }
       revealSticky();
       window.removeEventListener('scroll',check);
     }

@@ -651,3 +651,50 @@ One gotcha: `.ddod-ico { fill: currentColor }` is set for the filled triangles,
 and CSS beats the SVG's own `fill="none"` attribute, so a stroked chevron
 renders as a filled blob. `.ddod-pl-play-icon .ddod-ico` opts back out with
 `fill: none`.
+
+## The script moved out of the embed
+
+The player `<script src>` now lives in the page's **footer custom code**, not in
+the HTML embed. The embed is styles only. Bumping the player version used to
+mean rewriting the whole 16KB CSS block; now it is a two-line edit in one small
+field. Read/write it with `data_scripts_tool`'s
+`get_page_freeform_code` / `set_page_freeform_code` (location `footer`).
+
+Verified after the move that the published page carries **exactly one** script
+tag - the danger being a stale tag left in the embed loading the player twice.
+
+## Panel anchoring on resize
+
+The panel's row anchor was computed once inside `openPlaylist` and never again,
+so a panel opened at three columns stayed pinned to a row that no longer existed
+at two: the tab seam stranded against the wrong card, with the active card's
+white bottom edge left hanging over grey. Fresh loads at any width were always
+correct; only a reflow broke it.
+
+`placePanel()` is now its own function, called on open and again on a debounced
+`resize`.
+
+## The featured episode's next button
+
+The featured episode belongs to no playlist, so `queue=[featured]` left next
+disabled and autoplay with nothing to follow. `featuredQueue()` now puts it
+ahead of the whole first playlist, so next goes to the first episode on the
+page and autoplay carries into Leading People. `queueFor()` does the same
+service for the resume path, restoring whichever playlist the saved episode
+belongs to instead of a queue of one.
+
+## Rating lockup
+
+Score and stars share one baseline-aligned flex line (`4.9/5 ★★★★★`) with the
+attribution forced to its own line by `flex-basis:100%`.
+
+## A third hidden-pane trap
+
+Already documented: no scroll events, no rAF, frozen transitions, blank
+screenshots. Add **no `resize` events**. Emulating a viewport size reflows the
+page but fires no `resize`, so a resize handler looks broken when it is fine.
+Dispatch `new Event('resize')` by hand after changing the size.
+
+Also worth knowing: setting `document.documentElement.style.width` does **not**
+re-evaluate media queries, so it cannot be used to test breakpoint behaviour at
+all. Only a real viewport change reflows the grid.
