@@ -575,3 +575,46 @@ the narrower column and is worth it.
 
 The 560-760px band also came down, from 300/240 to a uniform 230px, so tablets
 show two full cards plus a wide sliver rather than one and a half.
+
+## Later round of fixes
+
+- **Rating order** is now number, stars, attribution.
+- **Both tabs sit at one third.** `.ddod-player-label` was still at the old
+  `top:-12px` / 68% while `.ddod-pl-cat` had moved; they now match at `-23px`.
+- **Hero bottom padding** 104px -> 56px (84 -> 48 below 980), which was the
+  entire gap between the scroll cue and the stats band.
+- **Opening a tab no longer scrolls the page.** `openPlaylist` ended with
+  `plList.scrollIntoView({block:'nearest'})`, which fired on every card click
+  and read as a glitch - the panel already appears directly under the card you
+  clicked. The `scroll` parameter went with it.
+- **The panel head no longer repeats the playlist name.** The connected tab
+  above already says it; the head is now just the close pill, pushed right with
+  `justify-content:flex-end`. `.ddod-pl-head-t` was runtime-only, so it needed
+  no style deletion, only removal from the embed CSS.
+
+## Pushing the host right in the closing section
+
+`background-position` could not do this. At any viewport wider than about
+1.79x the section height, `cover` scales the photo by **width**, so there is
+zero horizontal slack and position-x is inert - which is also why the original
+`70% top` had been doing nothing on desktop all along.
+
+The options were to zoom past `cover` (which breaks coverage at other widths,
+since a percentage `background-size` is relative to width while the section's
+height varies) or to change the source. **The source was re-cropped**: the
+1600x893 photo trimmed to **1400x893** from the right edge, which moves his
+face from 71% to 81% of the section without inventing a single pixel. Plain
+`cover` still works at every width. `ddod-closer-1400.webp` (109KB) and
+`ddod-closer-m.webp` (48KB) replaced the two `hero-garden` files.
+
+**The `background-position` drop is reproducible.** Every `update_style` write
+on `.ddod-final` dropped `background-position` from the base, not just the
+breakpoint writes. Set it last, in its own call, and re-read.
+
+## Mobile centring, measured
+
+Checked after a report that the hero looked off-centre on a phone. Swept 390,
+414, 430, 480, 497, 560, 640, 760, 860, 980 and 1024: the art column's left and
+right gaps are **equal at every width**, the rating block is centred on the
+cover at every width, and `document.scrollWidth` equals the viewport, so there
+is no horizontal overflow. Nothing was changed.

@@ -125,11 +125,13 @@
   /* ---------- playlists ---------- */
   function closePlaylist(){ curPl=-1; if(plList) plList.innerHTML='';
     d.querySelectorAll('.ddod-pl').forEach(function(c){ c.classList.remove('is-active'); }); }
-  function openPlaylist(i, scroll){
+  function openPlaylist(i){
     var pl=PLAYLISTS[i]; if(!pl||!plList) return;
     curPl=i;
     d.querySelectorAll('.ddod-pl').forEach(function(c){ c.classList.toggle('is-active', +c.getAttribute('data-pl')===i); });
-    var head='<div class="ddod-pl-head"><div class="ddod-pl-head-t">'+pl[0]+'</div><div class="ddod-pl-close" role="button" tabindex="0" aria-label="Close this playlist">Close<span class="ddod-pl-close-x">\u00d7</span></div></div>';
+    /* No title here: the connected tab directly above already names the
+       playlist, so repeating it just pushed the first episode down. */
+    var head='<div class="ddod-pl-head"><div class="ddod-pl-close" role="button" tabindex="0" aria-label="Close this playlist">Close<span class="ddod-pl-close-x">\u00d7</span></div></div>';
     var rows=pl[1].map(function(f,n){ var e=byFile[f]; if(!e) return '';
       return '<div class="ddod-ep" data-file="'+f+'" data-i="'+n+'">'
         +'<div class="ddod-ep-art"><img src="'+ART+'" alt="" width="96" height="96" loading="lazy"></div>'
@@ -157,14 +159,15 @@
     plList.querySelectorAll('.ddod-ep').forEach(function(r){
       r.addEventListener('click',function(){ queue=pl[1].slice(); playAt(+r.getAttribute('data-i')); });
     });
-    if(scroll!==false) plList.scrollIntoView({behavior:'smooth',block:'nearest'});
+
   }
   d.querySelectorAll('.ddod-pl').forEach(function(c){
     c.addEventListener('click',function(){ var i=+c.getAttribute('data-pl'); if(i===curPl) closePlaylist(); else openPlaylist(i); });
   });
-  /* Open the first playlist on load so the shelf is never empty.
-     scroll=false, otherwise the page would jump on arrival. */
-  if(PLAYLISTS.length) openPlaylist(0,false);
+  /* Open the first playlist on load so the shelf is never empty. Opening
+     never scrolls: the panel appears directly under the card you clicked, so
+     moving the page underneath the pointer only felt like a glitch. */
+  if(PLAYLISTS.length) openPlaylist(0);
 
   /* ---------- sticky controls ---------- */
   icon(skPlay,false);
