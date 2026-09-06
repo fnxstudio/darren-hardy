@@ -723,3 +723,57 @@ scaled down for the narrower column: 18/16/16 padding, 14px title, 12.5px body.
 
 The 560-760px band is a uniform 230px, which is where the phone width was headed
 anyway - the two are now within 6px of each other.
+
+## The join section is now the audiobook offer
+
+The whole section was replaced, not added to. The old "podcast is the replay"
+headline, its lead and its four bullets are gone, along with the bordered
+opt-in card. What is there now:
+
+- **Left column**: eyebrow "Free for DarrenDaily members", headline "You've
+  heard five minutes. **Take the whole book.**", two sentences, the button, the
+  fine print.
+- **Right column**: the phone mock, nothing else. No card, no border.
+
+The copy leans on access and on getting *more*, because the playlists already
+give visitors plenty of episodes for free. "Start tomorrow morning" is gone as
+a CTA: it promised something the page already hands over.
+
+`ddod-join-card`, `ddod-join-h3`, `ddod-join-p`, `ddod-join-list`,
+`ddod-join-li` and `ddod-ab-flag` are now orphaned by this change and should go
+in the next hygiene pass.
+
+### The mock
+
+Built rather than sourced: the real `ce-front-cover.webp` composited onto a
+device drawn in PIL, with a player UI (AUDIOBOOK label, scrubber, transport).
+700x1265, 39KB. `DarrenDaily/webflow-handoff/ddod/build-audiobook-mock.py` is
+the generator.
+
+**No headphones.** They were built and cut: drawn earbuds read as pale lollipops
+on a stray wire and cheapened an otherwise clean asset. Add them only from a
+real photo or licensed mockup.
+
+**The cover art says "OVER 1 MILLION COPIES SOLD"** (10th anniversary printing)
+while the copy claims two million, which is what the TCE page and
+compound-effect.html both state. At render size the cover line is sub-pixel.
+
+### The form is back on the DD opt-in
+
+The audiobook form `83c40a17-...` works and does subscribe to DarrenDaily, but
+it renders as a **cross-origin iframe**, so every `#ddJoinForm` rule in the
+embed is dead against it and it sizes itself to about 238x150 inside the drawer.
+Reverted to `41958dbb-...` at the client's direction; the backend will deliver
+the audiobook instead. v22 is the parked build that mounts the audiobook form.
+
+## The nav mark
+
+`ON-DEMAND` is plain text with a pulsing record dot to its left, not a filled
+red badge. The badge version shipped briefly and fought the red CTA button
+sitting beside it: two solid red objects, one of them not clickable.
+
+## Phone marquee speed
+
+The review rows run 40% faster below 560px (66s / 77s against the desktop 92s /
+108s). A narrow viewport shows so little of the row that the desktop pace reads
+as stalled.
