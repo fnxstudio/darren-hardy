@@ -140,6 +140,74 @@
       text-transform:uppercase;padding:9px 14px}
   .tg button.on{background:var(--red-ink);color:#fff}
   @media(max-width:620px){.tg{right:12px;top:12px}.tg button{padding:8px 10px;font-size:9px}}
+
+  /* ===================================================================
+     PRESENCE. What the polite version was missing:
+       scale     type at jacket scale, not web scale
+       bleed     it runs off the edge instead of sitting in a box
+       overlap   the book crosses the type, so there is depth
+       the band  the jacket's own structural device, used structurally
+     =================================================================== */
+  .big{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden;
+       padding:120px 0 0;background:var(--ink0)}
+  .big .inner{position:relative;width:100%;max-width:1560px;margin:0 auto;padding:0 clamp(20px,4vw,64px)}
+
+  /* grain. cheap, and it is most of why a flat dark field stops looking flat */
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:.30;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+
+  .kicker{font-family:var(--font-display);font-weight:500;font-size:clamp(11px,1vw,13px);
+    letter-spacing:.34em;text-transform:uppercase;color:var(--red);margin-bottom:clamp(14px,2vw,26px)}
+
+  /* the line above, at a size that still reads as display */
+  .over{font-family:var(--font-display);font-weight:700;text-transform:uppercase;
+    font-size:clamp(30px,4.4vw,74px);line-height:.9;letter-spacing:-.01em;color:var(--w);
+    white-space:nowrap;position:relative;z-index:3}
+
+  /* the word, at jacket scale, running off the right edge on purpose */
+  .huge{font-family:var(--font-display);font-weight:700;text-transform:uppercase;
+    font-size:clamp(78px,15.4vw,272px);line-height:.78;letter-spacing:-.035em;
+    color:var(--w);white-space:nowrap;position:relative;z-index:1;margin-top:.04em;
+    margin-left:-.014em}
+  .huge b{color:var(--red);font-weight:inherit}
+
+  /* the book crosses the word. that overlap is the whole trick */
+  .float{position:absolute;right:clamp(-30px,1vw,60px);top:50%;transform:translateY(-54%);
+    width:clamp(190px,23vw,346px);z-index:2}
+  .float .bk{position:relative;border-radius:2px 5px 5px 2px;overflow:hidden;
+    transform:perspective(1800px) rotateY(-15deg) rotateX(2.5deg) rotate(-2deg);
+    box-shadow:0 0 0 1px rgba(255,255,255,.12),0 60px 110px rgba(0,0,0,.78),0 0 140px rgba(255,0,71,.16);
+    transition:transform .8s cubic-bezier(.16,1,.3,1)}
+  .float .bk img{display:block;width:100%;height:auto}
+  .float .bk::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,.02) 24%,transparent 44%)}
+  .big:hover .float .bk{transform:perspective(1800px) rotateY(-9deg) rotateX(1.5deg) rotate(-1deg) translateY(-10px)}
+  .float::before{content:"";position:absolute;inset:-22% -18%;z-index:-1;
+    background:radial-gradient(50% 44% at 50% 46%,rgba(255,0,71,.26),transparent 70%);filter:blur(14px)}
+
+  .said{max-width:40ch;font-size:clamp(15px,1.25vw,18px);line-height:1.62;color:var(--g30);
+    margin-top:clamp(26px,3.4vw,44px);position:relative;z-index:3}
+
+  /* the band. white, full bleed, the jacket's device doing structural work */
+  .band{margin-top:clamp(40px,5vw,78px);background:var(--w);color:var(--ink0);
+    display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+    padding:clamp(14px,1.6vw,22px) clamp(20px,4vw,64px)}
+  body.lt .band{background:var(--ink0);color:#fff}
+  .band .nm{font-family:var(--font-display);font-weight:700;text-transform:uppercase;
+    font-size:clamp(19px,2.4vw,34px);letter-spacing:.01em;line-height:1}
+  .band a{display:inline-block;background:var(--red-ink);color:#fff;text-decoration:none;
+    padding:14px 26px;border-radius:var(--radius);font-size:11.5px;font-weight:800;
+    letter-spacing:.16em;text-transform:uppercase;
+    transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s}
+  .band a:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(225,19,46,.4)}
+
+  @media(max-width:860px){
+    .big{min-height:0;padding:104px 0 0}
+    .float{position:static;transform:none;width:min(58vw,260px);margin:26px 0 0}
+    .float .bk{transform:perspective(1400px) rotateY(-10deg)}
+    .huge{font-size:clamp(56px,17vw,120px)}
+    .over{white-space:normal}
+  }
 </style>
 </head>
 <body>
@@ -149,24 +217,24 @@
   <button id="bLight" type="button">Light</button>
 </div>
 
-<section class="hero wash">
-  <div class="w">
-    <div class="grid">
-      <div class="stg">
-        <div class="eb">The new book</div>
-        <h1 class="dsp"><span class="ln">Your business is</span><span class="ln">already</span><span class="ln" style="color:var(--red)">compounding.</span></h1>
-        <p class="lede">The only question is which direction. Nothing looks broken. That is exactly what makes it dangerous.</p>
-        <div><a class="cta" href="#">Pre-order for your team</a></div>
-      </div>
+<section class="big wash">
+  <div class="grain"></div>
+  <div class="inner">
+    <div class="kicker rv">The new book &middot; Darren Hardy</div>
+    <div class="over rv">Your business is already</div>
+    <div class="huge rv">Compound<b>ing</b>.</div>
+    <p class="said rv">The only question is which direction. Nothing looks broken. That is exactly what makes it dangerous.</p>
 
-      <div class="stage rv">
-        <div class="book">
-          <img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" width="760" height="975" fetchpriority="high" decoding="async" />
-        </div>
-      </div>
+    <div class="float rv">
+      <div class="bk"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" width="760" height="975" fetchpriority="high" decoding="async" /></div>
     </div>
   </div>
 </section>
+
+<div class="band">
+  <span class="nm">Darren Hardy</span>
+  <a href="#">Pre-order for your team</a>
+</div>
 
 <section class="comp wash">
   <div class="w">
