@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TCEB · Four-Step Tonal System</title>
+<meta name="description" content="Internal design study: extending the TCEB ground system with the neutrals.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="tceb.css?v=1">
+<style>
+  /* ===================================================================
+     PROPOSED EXTENSION — two neutrals added to the ground system.
+     Everything else on this page is stock tceb.css.
+
+     MIST  #dcd9d5  the working tertiary ground.
+       ink 13.10:1, red-deep 4.90:1 (clears body AA), fg-soft 7.56:1.
+       Warm, so it sits in the paper family rather than reading as grey.
+
+     SILVER #b9b6b1  structural only.
+       ink 9.11:1 but red-deep collapses to 3.41:1, so no accent can live
+       here. Rules, mattes, dividers, disabled states. Never type + accent.
+     =================================================================== */
+  :root { --c-mist: #dcd9d5; --c-silver: #b9b6b1; }
+
+  .ground-mist {
+    background: var(--c-mist);
+    --bg: var(--c-mist);
+    --surface: var(--c-paper);
+    --surface-2: var(--c-bone);
+    --fg-soft: #413e3a;              /* 7.56:1 on mist */
+    --fg-mute: #4f4c48;
+    --line: rgba(0,0,0,0.16);
+    --line-strong: rgba(0,0,0,0.26);
+    --accent: var(--c-red-deep);     /* the red HAS to deepen here */
+  }
+  .ground-silver {
+    background: var(--c-silver);
+    --bg: var(--c-silver);
+    --surface: var(--c-paper);
+    --fg-soft: #35322e;
+    --line: rgba(0,0,0,0.20);
+    --accent: var(--c-ink);          /* no accent survives; ink or nothing */
+  }
+
+  /* Study chrome only, not part of the system. */
+  .study {
+    position: sticky; top: 0; z-index: 50;
+    background: #141414; color: #fff;
+    padding: 9px 20px; font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; font-weight: 700;
+    display: flex; gap: 18px; align-items: center; justify-content: center;
+  }
+  .study span { color: #f5b301; }
+  .stepmark {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: var(--font-body); font-size: 10px; font-weight: 800;
+    letter-spacing: .2em; text-transform: uppercase;
+    padding: 5px 11px; border: 1px solid var(--line-strong);
+    border-radius: 3px; color: var(--fg-mute); margin-bottom: 26px;
+  }
+  .stepmark i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+  .toolgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 34px; }
+  .tool { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 24px; }
+  .tool h4 { font-family: var(--font-display); font-weight: 500; text-transform: uppercase; font-size: 19px; letter-spacing: .01em; margin-bottom: 9px; color: var(--fg); }
+  .tool p { font-size: 14.5px; line-height: 1.62; color: var(--fg-soft); }
+  .tool .n { font-family: var(--font-display); font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: .12em; display: block; margin-bottom: 12px; }
+  .rulebox { border-top: 1px solid var(--line); margin-top: 44px; padding-top: 22px; font-size: 13.5px; line-height: 1.66; color: var(--fg-mute); }
+  .rulebox b { color: var(--fg); }
+  @media (max-width: 860px) { .toolgrid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="study">Design study <span>·</span> four-step tonal system <span>·</span> not a live page</div>
+
+<!-- ========== STEP 1 · PAPER — the argument lives here ========== -->
+<section class="sec ground-paper">
+  <div class="container-narrow">
+    <div class="stepmark"><i style="background:#fbfaf8;border:1px solid #d5d2cd"></i>Step 1 · Paper · Primary</div>
+    <div class="eyebrow">Chapter One</div>
+    <h1 class="d1">Your business already has<br>an operating system.</h1>
+    <p class="lede" style="margin-top:24px">You just did not write it. It is running right now, made of defaults: what happens when nobody decides.</p>
+    <p class="body" style="margin-top:20px">Every strategy, tool, campaign, hire and technology you install sits on top of that system and performs, or fails, according to it. Most leaders keep upgrading the applications while ignoring the operating system underneath.</p>
+
+    <div class="mathbox" style="margin-top:34px">
+      <div class="mathbox-label">The two-minute leak</div>
+      <div class="mathbox-line">2 minutes &times; 5 times a day &times; 12 employees</div>
+      <div class="mathbox-line">&times; 250 days &times; $75 loaded cost</div>
+      <div class="mathbox-line"><strong>= $37,500 a year</strong></div>
+      <div class="mathbox-note">A dozen leaks of the same size runs $450,000. Waste never disappears. It changes addresses.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STEP 2 · BONE — secondary weight ========== -->
+<section class="sec ground-bone">
+  <div class="container-narrow">
+    <div class="stepmark"><i style="background:#f2f1ef;border:1px solid #d5d2cd"></i>Step 2 · Bone · Secondary</div>
+    <div class="moneyline">
+      <div class="moneyline-rule"></div>
+      <p class="d3">The penny doubles.<br>But an org chart multiplies.</p>
+    </div>
+    <p class="body" style="margin-top:26px">In the first book the unit of compounding was one person's behavior. In a business, every behavior repeats through frequency, people, handoffs, customers and time, all at once. Enterprise compounding is faster, bigger, and less forgiving. In both directions.</p>
+  </div>
+</section>
+
+<!-- ========== STEP 3 · MIST — the new step. Tools, cards, apparatus ========== -->
+<section class="sec ground-mist">
+  <div class="container">
+    <div class="stepmark"><i style="background:#dcd9d5;border:1px solid #bfbcb7"></i>Step 3 · Mist · Tertiary <span style="color:var(--accent);margin-left:6px">NEW</span></div>
+    <h2 class="d2">The apparatus.</h2>
+    <p class="lede" style="margin-top:18px;max-width:52ch">Tools, sidebars, worksheets and reference cards. The step that stops a long page reading as one flat sheet.</p>
+    <div class="toolgrid">
+      <div class="tool"><span class="n">Tool 01</span><h4>The Compounding Audit</h4><p>Seven surfaces. One arrow each, up, flat or down, and one sentence of evidence. Evidence, not vibes.</p></div>
+      <div class="tool"><span class="n">Tool 02</span><h4>The Leader's Ledger</h4><p>Seven days of decisions, two columns. What you chose, and what it will cost on repeat.</p></div>
+      <div class="tool"><span class="n">Tool 03</span><h4>The Success Vitals</h4><p>Six to twelve numbers on one page, each with a single name beside it.</p></div>
+    </div>
+    <div class="rulebox">
+      <b>Why this ground earns its place.</b> Cards on paper need a border to exist. On mist they read as raised surfaces without one, so the apparatus separates from the argument using tone instead of outlines. The red deepens to <b>#b01e1c</b> here, which is the only red that clears body contrast on this ground.
+    </div>
+  </div>
+</section>
+
+<!-- ========== STEP 4 · BLACK — punctuation, and the only home for gold ========== -->
+<section class="sec ground-black">
+  <div class="container-narrow">
+    <div class="stepmark" style="border-color:rgba(255,255,255,.22)"><i style="background:#000;border:1px solid #444"></i>Step 4 · Black · Punctuation</div>
+    <div class="eyebrow eyebrow-gold">The founding class</div>
+    <h2 class="d2">Earned, never sold.</h2>
+    <p class="lede" style="margin-top:20px">Black arrives once, and it arrives late. It is the only ground gold can live on, and gold is the only thing that marks this tier.</p>
+    <div style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap">
+      <a class="btn btn-gold" href="#">Founding tier</a>
+      <a class="btn btn-ghost" href="#">Secondary</a>
+    </div>
+    <div class="rulebox" style="border-color:rgba(255,255,255,.16)">
+      <b>The constraint that sets the whole system.</b> Gold is 11.33:1 on black and 1.78:1 on paper. It physically cannot carry type on a light ground, so rather than weaken the colour the founding tiers keep their own ground. That rule is unchanged by this proposal.
+    </div>
+  </div>
+</section>
+
+<!-- ========== BACK TO PAPER — the rhythm resolves ========== -->
+<section class="sec ground-paper">
+  <div class="container-narrow">
+    <div class="stepmark"><i style="background:#fbfaf8;border:1px solid #d5d2cd"></i>Back to paper</div>
+    <h2 class="d3">Four grounds, one direction of travel.</h2>
+    <p class="body" style="margin-top:18px">Paper argues. Bone holds the quotable line. Mist carries the apparatus. Black marks what was earned. The page moves without introducing a single new hue, which is what keeps it on brand while giving it somewhere to breathe.</p>
+    <div class="rulebox">
+      <b>Two tokens added.</b> <code>--c-mist #dcd9d5</code> as a working ground, and <code>--c-silver #b9b6b1</code> for structure only: rules, mattes, dividers and disabled states. Silver never carries an accent, because at that value the red collapses to 3.41:1.
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
