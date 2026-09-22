@@ -56,7 +56,11 @@
   .ns-short{display:none}
 
   /* ---------- HERO ---------- */
-  .hero{position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:center;padding:104px 0 44px}
+    /* Content is top-aligned, not centred. Centring made the gap under the nav
+     a function of viewport height, so it drifted on every screen. Now the
+     eyebrow sits a fixed distance below the nav and the card carries its own
+     offset. */
+  .hero{position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:flex-start;padding:124px 0 56px}
   .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;z-index:0;opacity:.62}
   .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:
     linear-gradient(104deg,rgba(27,27,31,.95) 0%,rgba(27,27,31,.80) 30%,rgba(27,27,31,.34) 58%,rgba(27,27,31,.60) 100%),
@@ -76,7 +80,7 @@
      aligns to the top of the grid with a small offset instead of centring.
      Measured 139px below the nav before, about 105 after. */
   .grid{position:relative;z-index:3;display:grid;grid-template-columns:1.22fr .78fr;gap:clamp(30px,4vw,68px);align-items:start;width:100%}
-  .grid>.card{margin-top:clamp(20px,3.6vw,52px)}
+  .grid>.card{margin-top:clamp(18px,5.4vw,78px)}
   @media(max-width:940px){.grid{grid-template-columns:1fr;gap:42px}}
 
   .kicker{display:flex;align-items:center;gap:14px;font-family:var(--font-display);font-weight:400;
