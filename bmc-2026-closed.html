@@ -65,6 +65,13 @@
     .ns-full { display: none; }
     .ns-short { display: inline; }
   }
+  /* At 390 the three nav items plus padding and gaps measured 474px against a
+     390 viewport, so the CTA was being clipped by overflow-x. Trim all three. */
+  @media (max-width: 600px) {
+    .sticky-bar { padding: 0 14px; gap: 10px; }
+    .sticky-brand img { width: 96px; height: auto; }
+    .sticky-cta { padding: 9px 12px; font-size: 9px; letter-spacing: 0.14em; }
+  }
 
   /* ============ HERO — the close AND the form, above the fold ============ */
   .closed-hero {
@@ -213,7 +220,14 @@
   @media (max-width: 880px) {
     .closed-hero { padding: 120px 0 72px; }
     .closed-grid { grid-template-columns: 1fr; gap: 44px; }
-    .closed-hero-bg { object-position: 62% 40%; }
+    /* On mobile the box is far taller than the image's aspect, so cover scales
+       by height and there is no vertical crop at all: the ceiling panels were
+       always in frame. Oversizing the element and pulling it up creates the
+       crop. X below 50% slides the window left, which moves him right. */
+    .closed-hero-bg {
+      top: -26%; height: 132%; bottom: auto;
+      object-position: 45% 50%;
+    }
     .closed-hero::after {
       background:
         linear-gradient(to bottom, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.54) 34%, rgba(0,0,0,0.78) 72%, var(--black) 100%);
