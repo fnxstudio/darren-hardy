@@ -9,205 +9,182 @@
 <link rel="stylesheet" href="tceb.css?v=1">
 <link rel="preload" as="image" href="../bmc-closed-bg-v14.webp" media="(min-width: 881px)">
 <style>
-  /* Proposed ground extension, same two tokens as the tonal study. */
-  :root { --c-mist: #dcd9d5; --c-silver: #b9b6b1; }
-  .ground-mist {
-    background: var(--c-mist); --bg: var(--c-mist);
-    --surface: var(--c-paper); --surface-2: var(--c-bone);
-    --fg-soft: #413e3a; --fg-mute: #4f4c48;
-    --line: rgba(0,0,0,0.16); --line-strong: rgba(0,0,0,0.26);
-    --accent: var(--c-red-deep);
-  }
+  /* ===================================================================
+     DISCIPLINE, NOT DECORATION.
+     Two grounds: black for what ended, paper for what is next.
+     Oswald appears exactly twice, on the year and on the payoff. Every
+     other word on the page is Inter in sentence case. One column, one
+     action. The restraint is the design.
+     =================================================================== */
 
   /* ---------- NAV ---------- */
   .nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 60; height: 58px;
-    background: rgba(0,0,0,0.94);
-    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-    gap: 20px; padding: 0 30px;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 60; height: 54px;
+    background: #000; border-bottom: 1px solid rgba(255,255,255,0.11);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px;
   }
   .nav-mark {
     font-family: var(--font-display); font-weight: 500; text-transform: uppercase;
-    font-size: 16px; letter-spacing: .06em; color: #fff;
+    font-size: 15px; letter-spacing: .07em; color: #fff;
   }
   .nav-status {
-    justify-self: center; display: inline-flex; align-items: center; gap: 11px;
-    font-family: var(--font-body); font-size: 11px; font-weight: 700;
-    letter-spacing: .2em; text-transform: uppercase; color: #a8a5a2; white-space: nowrap;
+    font-family: var(--font-body); font-size: 10.5px; font-weight: 700;
+    letter-spacing: .2em; text-transform: uppercase; color: #8c8c8c; white-space: nowrap;
   }
-  .nav-status b { color: var(--c-gold); font-weight: 800; }   /* gold: black ground only */
-  .nav-status i { width: 6px; height: 6px; border-radius: 50%; background: var(--c-gold); }
-  .nav-cta { justify-self: end; }
+  .nav-status b { color: var(--c-gold); font-weight: 700; }
 
-  /* ---------- STEP 1 · BLACK. What ended. ---------- */
-  .closed { position: relative; overflow: hidden; padding: 152px 0 96px; }
-  .closed-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
-  .closed::after {
+  /* ---------- BAND · BLACK. The season that ended. One line over it. ---------- */
+  .band { position: relative; height: 340px; margin-top: 54px; overflow: hidden; background: #000; }
+  .band img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 34%; }
+  .band::after {
     content: ""; position: absolute; inset: 0;
-    background:
-      linear-gradient(100deg, rgba(0,0,0,.90) 0%, rgba(0,0,0,.66) 26%, rgba(0,0,0,.24) 56%, rgba(0,0,0,.40) 100%),
-      linear-gradient(to bottom, rgba(0,0,0,.45) 0%, transparent 22%, transparent 64%, #000 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,.42) 0%, rgba(0,0,0,.20) 42%, rgba(0,0,0,.86) 88%, #000 100%);
   }
-  .closed .container { position: relative; z-index: 2; }
-  .closed-stat { display: flex; gap: 46px; margin-top: 34px; flex-wrap: wrap; }
-  .closed-stat div { }
-  .closed-stat .n { font-family: var(--font-display); font-weight: 500; font-size: 40px; line-height: 1; color: var(--c-gold); }
-  .closed-stat .l { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #a8a5a2; margin-top: 7px; font-weight: 700; }
+  .band-line {
+    position: absolute; left: 0; right: 0; bottom: 28px; z-index: 2;
+    font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: #a8a5a2;
+  }
+  .band-line b { color: var(--c-gold); font-weight: 700; }
 
-  /* ---------- STEP 2 · PAPER. What's next. ---------- */
+  /* ---------- PAPER. Everything else. ---------- */
+  .main { padding: 96px 0 104px; }
+
   .year {
-    font-family: var(--font-display); font-weight: 500; line-height: .82;
-    font-size: clamp(96px, 17vw, 236px); letter-spacing: -.02em; color: var(--c-ink);
+    font-family: var(--font-display); font-weight: 500; line-height: .80;
+    font-size: clamp(104px, 15vw, 210px); letter-spacing: -.025em; color: var(--c-ink);
+    margin: 14px 0 0 -0.055em;                 /* optical align to the margin */
   }
   .year em { color: var(--c-red); }
-  .payoff-set { margin-top: 44px; padding-top: 30px; border-top: 2px solid var(--c-ink); display: inline-block; }
-  .payoff-lead { font-size: clamp(17px, 1.5vw, 20px); font-weight: 700; color: var(--c-ink); }
+
+  .say { font-size: clamp(20px, 2.1vw, 27px); line-height: 1.34; color: var(--c-ink); font-weight: 600; letter-spacing: -.015em; max-width: 19ch; margin-top: 30px; }
+  .para { font-size: 17px; line-height: 1.75; color: var(--fg-soft); max-width: 58ch; margin-top: 22px; }
+
+  .payoff-lead { font-size: 16px; font-weight: 600; color: var(--fg-soft); }
   .payoff {
     font-family: var(--font-display); font-weight: 500; text-transform: uppercase;
-    font-size: clamp(30px, 4.4vw, 58px); line-height: 1.02; color: var(--c-red-deep); margin-top: 8px;
+    font-size: clamp(28px, 3.9vw, 50px); line-height: 1.02; color: var(--c-red);
+    margin-top: 7px; letter-spacing: .005em;
   }
+  .rule { height: 1px; background: var(--line); margin: 58px 0 0; }
 
-  /* ---------- STEP 3 · MIST. The apparatus. ---------- */
-  .form-card {
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius); padding: 42px 40px 34px;
-    max-width: 560px; margin: 34px auto 0; box-shadow: var(--shadow);
+  /* ---------- FORM. In the column, no card, no band. ---------- */
+  .ask { margin-top: 52px; max-width: 460px; }
+  .ask h2 { font-size: 19px; font-weight: 700; color: var(--c-ink); letter-spacing: -.01em; }
+  .ask p.note { font-size: 15px; line-height: 1.6; color: var(--fg-mute); margin-top: 8px; }
+  .fields { margin-top: 26px; }
+  .fields input, .fields select {
+    width: 100%; padding: 11px 2px; font-family: var(--font-body); font-size: 16px;
+    color: var(--c-ink); background: transparent; border: 0;
+    border-bottom: 1px solid var(--line-strong); border-radius: 0;
+    margin-bottom: 20px; -webkit-appearance: none; appearance: none;
   }
-  .form-card label {
-    display: block; font-size: 10px; font-weight: 800; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--fg-mute); margin: 0 0 7px;
+  .fields input::placeholder { color: var(--fg-fine); }
+  .fields select { color: var(--fg-fine); }
+  .fields select.filled { color: var(--c-ink); }
+  .fields select {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237d7a76' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 2px center; background-size: 16px; padding-right: 26px;
   }
-  .form-card input, .form-card select {
-    width: 100%; padding: 14px 15px; font-family: var(--font-body); font-size: 16px;
-    color: var(--c-ink); background: #fff; border: 1px solid var(--line-strong);
-    border-radius: var(--radius); margin-bottom: 16px; -webkit-appearance: none; appearance: none;
-  }
-  .form-card select {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236f6c68' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 14px center; background-size: 17px; padding-right: 42px;
-  }
-  .form-card input:focus, .form-card select:focus { outline: none; border-color: var(--c-red); }
-  .form-card select:invalid { color: var(--fg-fine); }
-  .form-fine { margin-top: 16px; font-size: 12.5px; line-height: 1.6; color: var(--fg-fine); }
-  .form-fine a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-  .form-done { display: none; }
-  .form-card.is-done form, .form-card.is-done .form-intro { display: none; }
-  .form-card.is-done .form-done { display: block; }
+  .fields input:focus, .fields select:focus { outline: none; border-bottom-color: var(--c-red); }
+  .fine { margin-top: 18px; font-size: 12.5px; line-height: 1.6; color: var(--fg-fine); max-width: 44ch; }
+  .fine a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .done { display: none; }
+  .ask.is-done .fields, .ask.is-done .note, .ask.is-done h2 { display: none; }
+  .ask.is-done .done { display: block; }
+  .done b { color: var(--c-red); }
 
-  /* ---------- STEP 4 · BONE. Footer. ---------- */
-  .foot { padding: 26px 0; font-size: 12px; color: var(--fg-mute); }
-  .foot .row { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .foot { padding: 24px 0; font-size: 12px; color: var(--fg-mute); }
+  .foot .row { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
   .foot a { color: inherit; text-decoration: none; }
   .foot a:hover { text-decoration: underline; }
 
-  @media (max-width: 860px) {
-    .nav { padding: 0 16px; gap: 12px; grid-template-columns: auto 1fr auto; }
-    .nav-status { font-size: 9px; letter-spacing: .1em; gap: 7px; flex-direction: column; }
-    .nav-status i { display: none; }
-    .closed { padding: 118px 0 68px; }
-    .closed-bg { object-position: 58% 34%; }
-    .form-card { padding: 30px 22px 26px; }
+  @media (max-width: 720px) {
+    .nav { padding: 0 18px; }
+    .nav-status { font-size: 9px; letter-spacing: .13em; }
+    .band { height: 236px; }
+    .main { padding: 62px 0 74px; }
+    .year { margin-left: -0.04em; }
   }
 </style>
 </head>
-<body>
+<body class="ground-paper">
 
 <nav class="nav">
-  <span class="nav-mark">BMC<span style="opacity:.45">|</span>COLLECTIVE</span>
-  <span class="nav-status"><i></i>2026 Season <b>Closed</b></span>
-  <a class="btn btn-red btn-sm nav-cta" href="#list">Get first access</a>
+  <span class="nav-mark">BMC<span style="opacity:.4">|</span>COLLECTIVE</span>
+  <span class="nav-status">2026 Season <b>Closed</b></span>
 </nav>
 
-<!-- ============ STEP 1 · BLACK — the season that just ended ============ -->
-<section class="sec closed ground-black">
+<!-- Black. What ended. One line, no headline, no stats. -->
+<div class="band">
   <picture>
     <source media="(max-width: 880px)" srcset="../bmc-closed-bg-mobile-v16.webp" type="image/webp">
     <source srcset="../bmc-closed-bg-v14.webp" type="image/webp">
-    <img class="closed-bg" src="../bmc-closed-bg-v14.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
+    <img src="../bmc-closed-bg-v14.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
   </picture>
-  <div class="container">
-    <div class="eyebrow eyebrow-gold">The season just ended</div>
-    <h1 class="d2" style="margin-top:12px;max-width:16ch">The 2026 season is closed.</h1>
-    <p class="lede" style="margin-top:20px;max-width:50ch">Every seat was taken. There is no waiting list, no late entry, and no seat opening back up.</p>
-    <div class="closed-stat">
-      <div><div class="n">9.8</div><div class="l">Rated by 11,738 CEOs</div></div>
-      <div><div class="n">121</div><div class="l">Countries represented</div></div>
-    </div>
-  </div>
-</section>
+  <div class="container"><div class="band-line">The forty-fifth class. Every seat taken. <b>Enrollment closed.</b></div></div>
+</div>
 
-<!-- ============ STEP 2 · PAPER — what comes next ============ -->
-<section class="sec ground-paper">
+<!-- Paper. Everything else, one column. -->
+<main class="main">
   <div class="container-narrow">
     <div class="eyebrow">What&rsquo;s next</div>
-    <div class="year" style="margin-top:10px">20<em>27</em></div>
-    <h2 class="d3" style="margin-top:26px;max-width:22ch">Darren has been building something for years.</h2>
-    <p class="body" style="margin-top:20px;max-width:62ch">For thirty-five years he has sat at the center of this industry, collecting what actually builds an enterprise from the people who built the largest ones, and writing the best-selling books that put it to work in 2+ million lives.</p>
-    <div class="payoff-set">
+    <div class="year">20<em>27</em></div>
+
+    <p class="say">Darren has been building something for years.</p>
+    <p class="para">For thirty-five years he has sat at the center of this industry, collecting what actually builds an enterprise from the people who built the largest ones, and writing the best-selling books that put it to work in 2+ million lives.</p>
+
+    <div class="rule"></div>
+
+    <div style="margin-top:34px">
       <div class="payoff-lead">In 2027 he does something with it&hellip;</div>
       <div class="payoff">He has never done before.</div>
     </div>
-  </div>
-</section>
 
-<!-- ============ STEP 3 · MIST — the apparatus ============ -->
-<section class="sec ground-mist" id="list">
-  <div class="container-narrow" style="text-align:center">
-    <div class="eyebrow eyebrow-center">First access &middot; 2027</div>
-    <h2 class="d2" style="margin-top:12px">Know before anyone else.</h2>
-    <p class="lede form-intro" style="margin-top:16px;max-width:46ch;margin-left:auto;margin-right:auto">When it opens, this list moves first. Everyone else finds out afterward.</p>
-
-    <div class="form-card" id="card">
-      <p class="form-intro small" style="margin-bottom:26px;color:var(--fg-mute)">Two fields and your role. That is all we need.</p>
+    <div class="ask" id="ask">
+      <h2>Know before anyone else.</h2>
+      <p class="note">When it opens, this list moves first. Everyone else finds out afterward.</p>
       <!-- MOCK. Production swaps in the HubSpot form via embed/v2.js, portal 2518645. -->
-      <form id="f" novalidate style="text-align:left">
-        <label for="fn">First name</label>
-        <input id="fn" type="text" autocomplete="given-name" required />
-        <label for="em">Email</label>
-        <input id="em" type="email" autocomplete="email" required />
-        <label for="rl">Your role</label>
-        <select id="rl" required>
-          <option value="" disabled selected>Select one</option>
+      <form class="fields" id="f" novalidate>
+        <input id="fn" type="text" placeholder="First name" autocomplete="given-name" aria-label="First name" required />
+        <input id="em" type="email" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
+        <select id="rl" aria-label="Your role" required>
+          <option value="" disabled selected>Your role</option>
           <option>Owner / Founder</option>
           <option>CEO / President</option>
           <option>COO / GM / Executive Leader</option>
           <option>Department or Team Leader</option>
           <option>Other</option>
         </select>
-        <button type="submit" class="btn btn-red btn-block" style="margin-top:8px">Put me at the front</button>
+        <button type="submit" class="btn btn-red" style="margin-top:6px">Put me at the front</button>
       </form>
-      <div class="form-done">
-        <p class="d4" style="color:var(--c-red-deep)">You are at the front of the line.</p>
-        <p class="body" style="margin-top:12px">Nothing else to do. You will hear it from Darren before it goes anywhere else.</p>
+      <div class="done">
+        <p class="say" style="margin-top:0;font-size:22px"><b>You are at the front of the line.</b></p>
+        <p class="para" style="margin-top:10px">Nothing else to do. You will hear it from Darren before it goes anywhere else.</p>
       </div>
-      <p class="form-fine">One email, when there is something worth telling you. Unsubscribe any time. <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>.</p>
+      <p class="fine">One email, when there is something worth telling you. Unsubscribe any time. <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>.</p>
     </div>
   </div>
-</section>
+</main>
 
-<!-- ============ STEP 4 · BONE — footer ============ -->
 <footer class="ground-bone foot">
   <div class="container">
     <div class="row">
       <span>&copy; Darren Hardy, LLC. All Rights Reserved.</span>
-      <span>
-        <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
-        &nbsp;&nbsp;
-        <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
-      </span>
+      <span><a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a> &nbsp; <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a></span>
     </div>
   </div>
 </footer>
 
 <script>
+  var rl = document.getElementById('rl');
+  rl.addEventListener('change', function(){ rl.classList.add('filled'); });
   document.getElementById('f').addEventListener('submit', function (e) {
     e.preventDefault();
-    var em = document.getElementById('em'), rl = document.getElementById('rl');
+    var em = document.getElementById('em');
     if (!em.value || em.value.indexOf('@') === -1) { em.focus(); return; }
     if (!rl.value) { rl.focus(); return; }
-    document.getElementById('card').classList.add('is-done');
+    document.getElementById('ask').classList.add('is-done');
   });
 </script>
 </body>
