@@ -177,7 +177,10 @@
      empty lower right, so the type is never covered. */
   .lower{display:grid;grid-template-columns:1fr auto;gap:clamp(24px,4vw,64px);
     align-items:end;margin-top:clamp(20px,2.6vw,38px)}
-  .float{position:relative;width:clamp(150px,16.5vw,244px);z-index:2;justify-self:end}
+  /* A deliberate kiss, not a cover: the book rises just into the word's
+     baseline so the two layers touch. z-index 2 keeps it over the type. */
+  .float{position:relative;width:clamp(150px,16.5vw,244px);z-index:2;justify-self:end;
+    margin-top:clamp(-58px,-2.8vw,-22px)}
   .float .bk{position:relative;border-radius:2px 5px 5px 2px;overflow:hidden;
     transform:perspective(1800px) rotateY(-15deg) rotateX(2.5deg) rotate(-2deg);
     box-shadow:0 0 0 1px rgba(255,255,255,.12),0 60px 110px rgba(0,0,0,.78),0 0 140px rgba(255,0,71,.16);
@@ -211,7 +214,7 @@
   @media(max-width:860px){
     .big{min-height:0;padding:104px 0 26px}
     .lower{grid-template-columns:1fr;gap:26px}
-    .float{width:min(54vw,230px);justify-self:start;margin-top:4px}
+    .float{width:min(54vw,230px);justify-self:start;margin-top:4px}   /* no overlap once stacked */
     .float .bk{transform:perspective(1400px) rotateY(-10deg)}
     .huge{font-size:clamp(56px,17vw,120px)}
     .over{white-space:normal}
