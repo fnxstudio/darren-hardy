@@ -35,7 +35,7 @@
   /* ============ HERO — the close AND the form, above the fold ============ */
   .closed-hero {
     position: relative; overflow: hidden;
-    padding: 124px 0 88px;
+    padding: 76px 0 92px;
     background: var(--black);
   }
   .closed-hero-bg {
@@ -59,22 +59,28 @@
     gap: 72px; align-items: center;
   }
 
-  .closed-chip {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 8px 15px; margin-bottom: 26px;
-    border: 1px solid var(--rule-cyan); border-radius: var(--radius);
-    font-size: 11px; font-weight: 800; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--bmc-cyan);
-    background: rgba(var(--bmc-cyan-rgb), 0.07);
+  /* The 2026 close is a status announcement, so it gets its own full-width
+     strip under the nav rather than a chip competing with the hero eyebrow. */
+  .season-bar {
+    margin-top: 56px; padding: 13px 24px;
+    background: rgba(255,255,255,0.035);
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
   }
-  .closed-chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bmc-cyan); flex: none; }
+  .season-bar span {
+    display: inline-flex; align-items: center; gap: 11px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.24em;
+    text-transform: uppercase; color: #9a96a4;
+  }
+  .season-bar strong { color: var(--bmc-cyan); font-weight: 700; }
+  .season-bar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--bmc-cyan); flex: none; }
+  @media (max-width: 600px) {
+    .season-bar { padding: 11px 18px; }
+    .season-bar span { font-size: 9px; letter-spacing: 0.18em; gap: 8px; }
+  }
 
-  /* Sits between the closed-season chip and the year. Forced onto its own
-     row: the shared .eyebrow is inline-flex, so it otherwise trails the chip. */
-  .hero-eyebrow { display: flex; margin: 4px 0 16px; }
-
-  /* Cyan bold. Reserved for the single most load-bearing phrase in the copy. */
-  .closed-lede strong.hi { color: var(--bmc-cyan); font-weight: 800; }
+  /* Own row above the year. The shared .eyebrow is inline-flex. */
+  .hero-eyebrow { display: flex; margin: 0 0 18px; }
 
   /* The year is the display element. It carries the weight so the headline
      can stay at a readable size. */
@@ -91,19 +97,28 @@
   }
   .closed-h1 em { font-style: normal; color: var(--bmc-cyan); }
 
-  .closed-lede { font-size: 17.5px; line-height: 1.66; color: #d8d6de; max-width: 32em; }
-  .closed-lede strong { color: var(--white); font-weight: 700; }
-  .closed-lede + .closed-lede { margin-top: 15px; }
+  /* Fragment stack, HardyBMC cadence. Each credential lands on its own line
+     instead of running together as a paragraph. */
+  .closed-stack { list-style: none; margin: 0 0 28px; padding: 0; max-width: 30em; }
+  .closed-stack li {
+    font-size: clamp(15.5px, 1.45vw, 17.5px); line-height: 1.5; color: #d8d6de;
+    padding: 10px 0 10px 20px; position: relative;
+  }
+  .closed-stack li + li { border-top: 1px solid var(--rule); }
+  .closed-stack li::before {
+    content: ""; position: absolute; left: 0; top: 50%;
+    width: 7px; height: 1px; background: rgba(var(--bmc-cyan-rgb), 0.75);
+  }
+  .closed-lede { font-size: clamp(18px, 1.8vw, 21px); line-height: 1.45; color: var(--white); font-weight: 700; max-width: 26em; }
 
   /* The disqualifier. The single most important line on the page: it is what
      stops an alum filing 2027 as the next Business Master Class. */
+  /* The payoff. Completes the sentence the lede starts, in cyan, at size. */
   .closed-turn {
-    display: inline-block; margin-top: 30px; padding: 15px 0 0;
-    border-top: 2px solid var(--bmc-cyan);
-    font-size: clamp(17px, 1.9vw, 21px); line-height: 1.38; font-weight: 800;
-    color: var(--white); letter-spacing: -0.005em;
+    display: block; margin-top: 4px;
+    font-size: clamp(23px, 2.7vw, 34px); line-height: 1.2; font-weight: 900;
+    letter-spacing: -0.028em; color: var(--bmc-cyan);
   }
-  .closed-turn em { font-style: normal; color: var(--bmc-cyan); }
 
   /* ============ THE FORM CARD — in the hero, not below it ============ */
   .listcard {
@@ -174,7 +189,6 @@
       background:
         linear-gradient(to bottom, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.58) 34%, rgba(10,10,10,0.80) 72%, var(--black) 100%);
     }
-    .closed-turn { max-width: none; }
     .listcard { padding: 32px 24px 28px; }
   }
 
@@ -267,6 +281,9 @@
   </a>
 </div>
 
+<!-- Status announcement, full width, out of the hero's way. -->
+<div class="season-bar"><span><i class="dot"></i>The 2026 BMC Season Is <strong>Closed</strong></span></div>
+
 <main>
 
 <!-- ===== HERO — closes 2026 and captures, in one screen. ===== -->
@@ -281,20 +298,23 @@
     <div class="closed-grid">
 
       <div class="closed-copy">
-        <div class="closed-chip"><span class="dot"></span>The 2026 BMC Season Is Closed</div>
         <div class="eyebrow hero-eyebrow"><span class="pip"></span>What&rsquo;s Next</div>
         <div class="hero-year">20<em>27</em></div>
         <h1 class="closed-h1">Darren Has Been Building Something For&nbsp;Years.</h1>
-        <p class="closed-lede">For thirty-five years he has sat at the center of this industry, collecting what actually builds an enterprise from the people who built the largest&nbsp;ones.</p>
-        <p class="closed-lede">Next year he does something with all of it that <strong class="hi">he has never done&nbsp;before</strong>.</p>
-        <div class="closed-turn">It is not another Business Master&nbsp;Class.</div>
+        <ul class="closed-stack">
+          <li>More than 35 years at the center of this&nbsp;industry.</li>
+          <li>More than 11,000 companies&nbsp;advised.</li>
+          <li>Everything he learned from the people who built the largest companies in the&nbsp;world.</li>
+        </ul>
+        <p class="closed-lede">Next year he does something with all of&nbsp;it</p>
+        <div class="closed-turn">that he has never done&nbsp;before.</div>
       </div>
 
       <!-- The form is IN the hero. Nothing stands between the close and the ask. -->
       <div class="listcard" id="listcard">
         <div class="listcard-eyebrow">First Access &middot; 2027</div>
         <h2 class="listcard-head" id="list">Know Before Anyone&nbsp;Else</h2>
-        <p class="listcard-sub">When 2027 opens, <strong>this list moves first</strong>. Everyone else finds out&nbsp;afterward.</p>
+        <p class="listcard-sub">When it opens, <strong>this list moves first</strong>. Everyone else finds out&nbsp;afterward.</p>
 
         <!-- MOCK ONLY. Production swaps this for the HubSpot form via
              embed/v2.js, the only build that renders inline and styleable
