@@ -53,16 +53,20 @@
 
   /* ---------- HERO ---------- */
   .hero{padding:132px 0 128px}
-  .grid{display:grid;grid-template-columns:1.04fr .96fr;gap:80px;align-items:center}
+  .grid{display:grid;grid-template-columns:1.16fr .84fr;gap:72px;align-items:center}
   @media(max-width:940px){.grid{grid-template-columns:1fr;gap:64px}}
   .eb{display:flex;align-items:center;gap:14px;font-family:var(--font-display);font-weight:500;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--red)}
   .eb::before{content:"";width:30px;height:2px;background:var(--red)}
   /* Display type never auto-wraps: breaks are authored with <br>, and balance
      is a safety net for the sizes in between. An orphan like "IS" alone on a
      line is the single most common way this face is made to look cheap. */
-  h1{font-size:clamp(38px,5.2vw,74px);margin-top:22px;text-wrap:balance}
-  h1 br{display:inline}
-  @media(max-width:620px){h1 br{display:none}}
+  /* Each line is its own nowrap block, so a line can never break inside
+     itself and orphan a word. text-wrap:balance is deliberately NOT used:
+     it re-flows across authored breaks and undoes them. Type is sized so
+     the longest line clears the column. */
+  h1{margin-top:22px}
+  h1 .ln{display:block;white-space:nowrap;font-size:clamp(34px,4.9vw,70px);line-height:.94}
+  @media(max-width:620px){h1 .ln{white-space:normal;font-size:clamp(30px,8.4vw,44px)}}
   .lede{font-size:18px;line-height:1.62;color:var(--g30);max-width:52ch;margin-top:24px}
   .cta{display:inline-block;margin-top:34px;background:var(--red-ink);color:#fff;text-decoration:none;
     padding:17px 30px;border-radius:var(--radius);font-size:12.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
@@ -150,7 +154,7 @@
     <div class="grid">
       <div class="stg">
         <div class="eb">The new book</div>
-        <h1 class="dsp">Your business is<br>already <span style="color:var(--red)">compounding</span>.</h1>
+        <h1 class="dsp"><span class="ln">Your business is</span><span class="ln">already</span><span class="ln" style="color:var(--red)">compounding.</span></h1>
         <p class="lede">The only question is which direction. Nothing looks broken. That is exactly what makes it dangerous.</p>
         <div><a class="cta" href="#">Pre-order for your team</a></div>
       </div>
