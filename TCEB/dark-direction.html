@@ -148,10 +148,10 @@
        overlap   the book crosses the type, so there is depth
        the band  the jacket's own structural device, used structurally
      =================================================================== */
-  .big{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;
-       padding:118px 0 34px;background:var(--ink0)}
+  .big{position:relative;min-height:90vh;display:flex;align-items:center;overflow:hidden;
+       padding:116px 0 40px;background:var(--ink0)}
   .big .inner{position:relative;width:100%;max-width:1560px;margin:0 auto;padding:0 clamp(20px,4vw,64px);
-       min-height:clamp(420px,34vw,560px);display:flex;flex-direction:column;justify-content:center}
+       display:flex;flex-direction:column;justify-content:center}
 
   /* grain. cheap, and it is most of why a flat dark field stops looking flat */
   .grain{position:absolute;inset:0;pointer-events:none;opacity:.30;mix-blend-mode:overlay;
@@ -173,8 +173,11 @@
   .huge b{color:var(--red);font-weight:inherit}
 
   /* the book crosses the word. that overlap is the whole trick */
-  .float{position:absolute;right:clamp(-26px,1.4vw,56px);top:50%;transform:translateY(-50%);
-    width:clamp(180px,21vw,320px);z-index:2}
+    /* The word keeps its bleed. The book drops below its baseline into the
+     empty lower right, so the type is never covered. */
+  .lower{display:grid;grid-template-columns:1fr auto;gap:clamp(24px,4vw,64px);
+    align-items:end;margin-top:clamp(20px,2.6vw,38px)}
+  .float{position:relative;width:clamp(150px,16.5vw,244px);z-index:2;justify-self:end}
   .float .bk{position:relative;border-radius:2px 5px 5px 2px;overflow:hidden;
     transform:perspective(1800px) rotateY(-15deg) rotateX(2.5deg) rotate(-2deg);
     box-shadow:0 0 0 1px rgba(255,255,255,.12),0 60px 110px rgba(0,0,0,.78),0 0 140px rgba(255,0,71,.16);
@@ -187,7 +190,7 @@
     background:radial-gradient(50% 44% at 50% 46%,rgba(255,0,71,.26),transparent 70%);filter:blur(14px)}
 
   .said{max-width:40ch;font-size:clamp(15px,1.25vw,18px);line-height:1.62;color:var(--g30);
-    margin-top:clamp(26px,3.4vw,44px);position:relative;z-index:3}
+    position:relative;z-index:3;margin:0 0 6px}
 
   /* the band. white, full bleed, the jacket's device doing structural work */
   .band{margin-top:clamp(40px,5vw,78px);background:var(--w);color:var(--ink0);
@@ -206,8 +209,9 @@
   .band a:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(225,19,46,.4)}
 
   @media(max-width:860px){
-    .big{min-height:0;padding:104px 0 0}
-    .float{position:static;transform:none;width:min(58vw,260px);margin:26px 0 0}
+    .big{min-height:0;padding:104px 0 26px}
+    .lower{grid-template-columns:1fr;gap:26px}
+    .float{width:min(54vw,230px);justify-self:start;margin-top:4px}
     .float .bk{transform:perspective(1400px) rotateY(-10deg)}
     .huge{font-size:clamp(56px,17vw,120px)}
     .over{white-space:normal}
@@ -227,10 +231,11 @@
     <div class="kicker rv">The new book &middot; Darren Hardy</div>
     <div class="over rv">Your business is already</div>
     <div class="huge rv">Compound<b>ing</b>.</div>
-    <p class="said rv">The only question is which direction. Nothing looks broken. That is exactly what makes it dangerous.</p>
-
-    <div class="float rv">
-      <div class="bk"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" width="760" height="975" fetchpriority="high" decoding="async" /></div>
+    <div class="lower">
+      <p class="said rv">The only question is which direction. Nothing looks broken. That is exactly what makes it dangerous.</p>
+      <div class="float rv">
+        <div class="bk"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" width="760" height="975" fetchpriority="high" decoding="async" /></div>
+      </div>
     </div>
   </div>
 </section>
