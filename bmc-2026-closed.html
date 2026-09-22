@@ -3,119 +3,235 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BMC|COLLECTIVE · The 45th Business Master Class Is In Session</title>
-<meta name="description" content="Enrollment for 2026 is closed. In 2027, something new.">
+<title>BMC|COLLECTIVE · The 2026 Season Is Closed</title>
+<meta name="description" content="The 2026 season is closed. In 2027, something that has never been done before. Get first access.">
 <meta name="author" content="Darren Hardy">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/bmc-2026-closed.html">
 
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="BMC|COLLECTIVE">
-<meta property="og:title"       content="BMC|COLLECTIVE · The 45th Business Master Class Is In Session">
-<meta property="og:description" content="Enrollment for 2026 is closed. In 2027, something new.">
+<meta property="og:title"       content="BMC|COLLECTIVE · The 2026 Season Is Closed">
+<meta property="og:description" content="The 2026 season is closed. In 2027, something that has never been done before.">
 <meta property="og:url"         content="https://fnxstudio.github.io/darren-hardy/bmc-2026-closed.html">
 <meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/bmc-og-cover.jpg">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 
 <link rel="stylesheet" href="bmc.css?v=1">
+<link rel="preload" as="image" href="bmc-closed-bg.webp" media="(min-width: 881px)">
 
 <style id="page-css">
   /* ===================================================================
-     PAGE-SPECIFIC ONLY. Everything else comes from bmc.css.
-     This page sells nothing. One CTA: the 2027 list.
+     BMC 2026 CLOSED. This page sells nothing. One job: the 2027 list.
+     Everything not defined here comes from bmc.css.
      =================================================================== */
 
-  /* Sticky bar without the section nav — logo left, single CTA right. */
   .sticky-bar .sticky-nav { display: none; }
 
-  /* The closing status chip that sits above the H1. */
-  .closed-chip {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 7px 14px; margin-bottom: 22px;
-    border: 1px solid var(--rule-cyan); border-radius: var(--radius);
-    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--bmc-cyan);
-    background: rgba(var(--bmc-cyan-rgb), 0.06);
+  /* ============ HERO — the close AND the form, above the fold ============ */
+  .closed-hero {
+    position: relative; overflow: hidden;
+    padding: 150px 0 96px;
+    background: var(--black);
   }
-  .closed-chip .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--bmc-cyan); flex: none;
+  .closed-hero-bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 38%;
+    opacity: 0.85;
   }
-  .hero-note {
-    margin-top: 16px; font-size: 13px; line-height: 1.6;
-    letter-spacing: 0.02em; color: var(--silver); max-width: 34em;
+  /* Darkens the left half so the headline always holds contrast over the
+     attendee wall, and fades the bottom into the next section. */
+  .closed-hero::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(100deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.80) 38%, rgba(10,10,10,0.34) 72%, rgba(10,10,10,0.55) 100%),
+      linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, transparent 22%, transparent 66%, var(--black) 100%);
+  }
+  .closed-hero .container { position: relative; z-index: 2; }
+
+  .closed-grid {
+    display: grid; grid-template-columns: 1.08fr 0.92fr;
+    gap: 72px; align-items: center;
   }
 
-  /* ---- 2027 block. Deliberately NOT built like a BMC module card:
-     no numbered grid, no chips, no columns. One centred statement with
-     a lot of air, so it reads as significant rather than promotional. --- */
-  .next-block { padding: 150px 0 140px; text-align: center; }
-  .next-inner { max-width: 820px; margin: 0 auto; }
+  .closed-chip {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 15px; margin-bottom: 26px;
+    border: 1px solid var(--rule-cyan); border-radius: var(--radius);
+    font-size: 11px; font-weight: 800; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--bmc-cyan);
+    background: rgba(var(--bmc-cyan-rgb), 0.07);
+  }
+  .closed-chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bmc-cyan); flex: none; }
+
+  .closed-h1 {
+    font-size: clamp(44px, 6.2vw, 88px); font-weight: 900; line-height: 0.98;
+    letter-spacing: -0.035em; color: var(--white); margin-bottom: 28px;
+  }
+  .closed-h1 em { font-style: normal; color: var(--bmc-cyan); }
+
+  .closed-lede { font-size: 19px; line-height: 1.62; color: #d8d6de; max-width: 30em; }
+  .closed-lede strong { color: var(--white); font-weight: 700; }
+  .closed-lede + .closed-lede { margin-top: 16px; }
+
+  .closed-turn {
+    margin-top: 32px; padding-top: 28px;
+    border-top: 1px solid var(--rule-strong);
+    font-size: 23px; line-height: 1.42; font-weight: 700;
+    color: var(--white); max-width: 22em; letter-spacing: -0.01em;
+  }
+  .closed-turn em { font-style: normal; color: var(--bmc-cyan); }
+
+  /* ============ THE FORM CARD — in the hero, not below it ============ */
+  .listcard {
+    background: rgba(14, 12, 18, 0.92);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--rule-strong);
+    border-top: 3px solid var(--bmc-cyan);
+    border-radius: var(--radius);
+    padding: 40px 38px 34px;
+    box-shadow: 0 28px 70px rgba(0,0,0,0.6);
+  }
+  .listcard-eyebrow {
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--bmc-cyan); margin-bottom: 14px;
+  }
+  .listcard-head {
+    font-size: clamp(25px, 2.5vw, 31px); font-weight: 900; line-height: 1.16;
+    letter-spacing: -0.025em; color: var(--white); margin-bottom: 14px;
+  }
+  .listcard-sub { font-size: 15px; line-height: 1.6; color: var(--silver); margin-bottom: 26px; }
+  .listcard-sub strong { color: var(--white); font-weight: 700; }
+
+  .listform { display: flex; flex-direction: column; gap: 11px; }
+  .listform input {
+    width: 100%; padding: 16px 16px; font-family: 'Inter', sans-serif; font-size: 15.5px;
+    color: var(--white); background: rgba(255,255,255,0.05);
+    border: 1px solid var(--rule-strong); border-radius: var(--radius);
+    transition: border-color 0.18s, background 0.18s;
+  }
+  .listform input::placeholder { color: #6f6b78; }
+  .listform input:focus { outline: none; border-color: var(--bmc-cyan); background: rgba(255,255,255,0.08); }
+
+  /* The CTA. Loud on purpose: full width, heavy, cyan, arrow travels on
+     hover. Colour is held constant, the button grows. */
+  .cta-big {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    width: 100%; margin-top: 8px; padding: 21px 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(16px, 1.5vw, 18.5px); font-weight: 900;
+    letter-spacing: 0.02em; text-transform: uppercase;
+    color: #06181b; background: var(--bmc-cyan);
+    border: none; border-radius: var(--radius); cursor: pointer;
+    box-shadow: 0 0 0 0 rgba(var(--bmc-cyan-rgb), 0.45);
+    transition: transform 0.22s cubic-bezier(0.16,1,0.3,1), box-shadow 0.28s ease;
+  }
+  .cta-big .arw { transition: transform 0.22s cubic-bezier(0.16,1,0.3,1); }
+  .cta-big:hover { transform: translateY(-2px) scale(1.018); box-shadow: 0 0 34px 0 rgba(var(--bmc-cyan-rgb), 0.38); }
+  .cta-big:hover .arw { transform: translateX(6px); }
+  .cta-big:focus-visible { outline: 3px solid var(--white); outline-offset: 3px; }
+
+  .listcard-fine { margin-top: 18px; font-size: 12px; line-height: 1.55; color: var(--grey-soft); }
+  /* Fine-print links stay the line's grey. Underline only, never an accent. */
+  .listcard-fine a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+  .listcard-done { display: none; }
+  .listcard.is-done .listform,
+  .listcard.is-done .listcard-sub { display: none; }
+  .listcard.is-done .listcard-done { display: block; }
+  .listcard-done p { font-size: 16px; line-height: 1.7; color: #d8d6de; }
+  .listcard-done strong { color: var(--bmc-cyan); }
+
+  @media (max-width: 1024px) { .closed-grid { gap: 48px; } }
+  @media (max-width: 880px) {
+    .closed-hero { padding: 120px 0 72px; }
+    .closed-grid { grid-template-columns: 1fr; gap: 44px; }
+    .closed-hero-bg { object-position: 62% 40%; }
+    .closed-hero::after {
+      background:
+        linear-gradient(to bottom, rgba(10,10,10,0.90) 0%, rgba(10,10,10,0.72) 45%, rgba(10,10,10,0.88) 78%, var(--black) 100%);
+    }
+    .closed-turn { max-width: none; }
+    .listcard { padding: 32px 24px 28px; }
+  }
+
+  /* ============ RESULTS — stat-led, on dark, so the numbers carry ============ */
+  .results { padding: 104px 0 110px; }
+  .results-head {
+    font-size: clamp(30px, 4vw, 46px); font-weight: 900; line-height: 1.1;
+    letter-spacing: -0.03em; color: var(--white); margin-bottom: 12px;
+  }
+  .results-head em { font-style: normal; color: var(--bmc-cyan); }
+  .results-sub { font-size: 16px; line-height: 1.6; color: var(--grey); margin-bottom: 52px; max-width: 38em; }
+
+  .results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+  /* Rectangular portrait beside the quote. Never a circular avatar, never a
+     cutout. The photo sits on its own real background. */
+  .rcard {
+    display: grid; grid-template-columns: 172px 1fr;
+    background: var(--surface-card);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius); overflow: hidden;
+    transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.16,1,0.3,1);
+  }
+  .rcard:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.45); transform: translateY(-3px); }
+  .rcard-photo { position: relative; overflow: hidden; background: #111; }
+  .rcard-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; display: block; }
+  .rcard-chip {
+    position: absolute; left: 10px; bottom: 10px;
+    padding: 4px 9px; border-radius: 3px;
+    font-size: 9.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--white); background: rgba(10,10,10,0.74);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  }
+  .rcard-body { padding: 26px 26px 22px; display: flex; flex-direction: column; }
+  .rcard-stat {
+    font-size: clamp(42px, 4.6vw, 58px); font-weight: 900; line-height: 0.92;
+    letter-spacing: -0.045em; color: var(--bmc-cyan); margin-bottom: 4px;
+  }
+  .rcard-statlabel {
+    font-size: 11px; font-weight: 800; letter-spacing: 0.19em; text-transform: uppercase;
+    color: #cfcbd8; margin-bottom: 16px;
+  }
+  .rcard-quote {
+    font-size: 14.5px; line-height: 1.58; color: var(--silver);
+    margin-bottom: 18px; flex: 1;
+  }
+  .rcard-rule { width: 34px; height: 2px; background: rgba(var(--bmc-cyan-rgb), 0.55); margin-bottom: 13px; }
+  .rcard-name { font-size: 14px; font-weight: 800; color: var(--white); line-height: 1.3; }
+  .rcard-title { font-size: 12px; color: var(--grey); margin-top: 3px; line-height: 1.4; }
+
+  @media (max-width: 980px) { .results-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) {
+    .rcard { grid-template-columns: 1fr; }
+    .rcard-photo { height: 190px; }
+    .rcard-photo img { object-position: center 20%; }
+    .results { padding: 76px 0 80px; }
+  }
+
+  /* ============ 2027 — deliberately not shaped like a BMC module ============ */
+  .next-block { padding: 140px 0 132px; text-align: center; }
+  .next-inner { max-width: 840px; margin: 0 auto; }
   .next-year {
-    font-size: clamp(64px, 12vw, 150px); font-weight: 900; line-height: 0.9;
-    letter-spacing: -0.04em; color: var(--white);
-    margin-bottom: 26px;
+    font-size: clamp(66px, 12.5vw, 158px); font-weight: 900; line-height: 0.88;
+    letter-spacing: -0.045em; color: var(--white); margin-bottom: 28px;
   }
   .next-year em { font-style: normal; color: var(--bmc-cyan); }
   .next-head {
-    font-size: clamp(24px, 3.4vw, 38px); font-weight: 800; line-height: 1.22;
-    letter-spacing: -0.02em; color: var(--white); margin-bottom: 26px;
+    font-size: clamp(25px, 3.5vw, 40px); font-weight: 800; line-height: 1.2;
+    letter-spacing: -0.025em; color: var(--white); margin-bottom: 26px;
   }
-  .next-body {
-    font-size: 17px; line-height: 1.72; color: var(--silver);
-    max-width: 40em; margin: 0 auto 18px;
+  .next-body { font-size: 17.5px; line-height: 1.72; color: var(--silver); max-width: 40em; margin: 0 auto 18px; }
+  .next-rule { width: 64px; height: 2px; background: var(--bmc-cyan); margin: 44px auto 32px; opacity: 0.75; }
+  .next-meta { font-size: 13px; letter-spacing: 0.17em; text-transform: uppercase; font-weight: 800; color: #cfcbd8; }
+  .next-cta { margin-top: 44px; display: flex; justify-content: center; }
+  .next-cta .cta-big { width: auto; min-width: 340px; margin-top: 0; }
+  @media (max-width: 720px) {
+    .next-block { padding: 90px 0 88px; }
+    .next-cta .cta-big { width: 100%; min-width: 0; }
   }
-  .next-rule {
-    width: 64px; height: 2px; background: var(--bmc-cyan);
-    margin: 42px auto 34px; opacity: 0.7;
-  }
-  .next-meta {
-    font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase;
-    font-weight: 700; color: var(--grey);
-  }
-  @media (max-width: 720px) { .next-block { padding: 96px 0 88px; } }
-
-  /* ---- Capture. The only interactive thing on the page. ---- */
-  .capture { padding: 110px 0 120px; }
-  .capture-card {
-    max-width: 640px; margin: 0 auto; text-align: center;
-    background: var(--surface-card); border: 1px solid var(--rule-strong);
-    border-radius: var(--radius); padding: 56px 48px;
-  }
-  .capture-head {
-    font-size: clamp(24px, 3vw, 32px); font-weight: 800; line-height: 1.25;
-    letter-spacing: -0.02em; margin-bottom: 14px; color: var(--white);
-  }
-  .capture-head em { font-style: normal; color: var(--bmc-cyan); }
-  .capture-sub { font-size: 15px; line-height: 1.65; color: var(--silver); margin-bottom: 32px; }
-  .capture-form { display: flex; flex-direction: column; gap: 12px; text-align: left; }
-  .capture-form label {
-    font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em;
-    text-transform: uppercase; color: var(--grey); margin-bottom: 6px; display: block;
-  }
-  .capture-form input {
-    width: 100%; padding: 15px 16px; font-family: 'Inter', sans-serif; font-size: 15px;
-    color: var(--white); background: rgba(255,255,255,0.04);
-    border: 1px solid var(--rule-strong); border-radius: var(--radius);
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .capture-form input::placeholder { color: var(--muted); }
-  .capture-form input:focus {
-    outline: none; border-color: var(--bmc-cyan); background: rgba(255,255,255,0.06);
-  }
-  .capture-form .btn-primary { width: 100%; margin-top: 10px; text-align: center; justify-content: center; }
-  .capture-fine {
-    margin-top: 20px; font-size: 12px; line-height: 1.6; color: var(--grey-soft);
-  }
-  /* Sub-copy links stay the line's grey, underline only. Never an accent. */
-  .capture-fine a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-  .capture-done { display: none; }
-  .capture-card.is-done .capture-form,
-  .capture-card.is-done .capture-sub { display: none; }
-  .capture-card.is-done .capture-done { display: block; }
-  .capture-done p { font-size: 16px; line-height: 1.7; color: var(--silver); }
-  @media (max-width: 600px) { .capture-card { padding: 40px 26px; } }
 
   /* Without JS the reveal utility would leave the page blank. */
   .no-js .reveal, .no-js .stagger > * { opacity: 1 !important; transform: none !important; }
@@ -124,146 +240,144 @@
 <body class="no-js">
 <script>document.body.classList.remove('no-js');</script>
 
-<!-- ===== STICKY BAR — logo + the single CTA. No section nav, no Reserve. ===== -->
+<!-- ===== STICKY BAR — logo + the one CTA. No section nav, no Reserve. ===== -->
 <div class="sticky-bar" role="banner">
   <a href="#hero" class="sticky-brand" aria-label="BMC COLLECTIVE">
     <img src="BMC_COLLECTIVE_logo_white.webp?v=2" alt="BMC|COLLECTIVE" width="1400" height="272" decoding="async" />
   </a>
   <div class="sticky-nav" role="navigation" aria-label="Page sections"></div>
   <a href="#list" class="sticky-cta">
-    <span class="cta-desk">Be Told First &rarr;</span>
-    <span class="cta-mobile">Notify Me &rarr;</span>
+    <span class="cta-desk">Get First Access &rarr;</span>
+    <span class="cta-mobile">First Access &rarr;</span>
   </a>
 </div>
 
 <main>
 
-<!-- ===== HERO — this is where 2026 closes. ===== -->
-<section class="hero" id="hero">
+<!-- ===== HERO — closes 2026 and captures, in one screen. ===== -->
+<section class="closed-hero" id="hero">
   <picture>
-    <source media="(max-width: 880px)" srcset="DH_BMC_stage_mobile.webp" type="image/webp">
-    <source srcset="DH_BMC_stage_background.webp" type="image/webp">
-    <img class="hero-bkgd" src="DH_BMC_stage_background.webp" alt="" width="2400" height="1339" fetchpriority="high" decoding="async" />
+    <source media="(max-width: 880px)" srcset="bmc-closed-bg-mobile.webp" type="image/webp">
+    <source srcset="bmc-closed-bg.webp" type="image/webp">
+    <img class="closed-hero-bg" src="bmc-closed-bg.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
   </picture>
 
   <div class="container">
-    <div class="hero-content">
-      <div class="closed-chip"><span class="dot"></span>Enrollment For 2026 Is Closed</div>
-      <h1>The 45th Business Master Class <em class="key">Is In Session</em>.</h1>
-      <p class="hero-sub">Three days, live, with the leaders who came to build something their category cannot copy.</p>
-      <p class="hero-sub">In 2027, Darren does something he has <strong>never done before</strong>.</p>
-      <div class="hero-cta-row">
-        <a href="#list" class="btn-primary hero-cta">Be Told First &rarr;</a>
+    <div class="closed-grid">
+
+      <div class="closed-copy">
+        <div class="closed-chip"><span class="dot"></span>Enrollment Closed</div>
+        <h1 class="closed-h1">The 2026 Season <em>Is Closed</em>.</h1>
+        <p class="closed-lede">Every seat is taken. Business Master Class runs this week for the leaders who claimed one.</p>
+        <p class="closed-lede"><strong>There is no waiting list for 2026.</strong> There is no late entry, and no seat opening back up.</p>
+        <div class="closed-turn">In 2027, Darren does something he has <em>never done before</em>.</div>
       </div>
-      <p class="hero-note">No date yet. No details yet. When it is ready, this list hears before anyone.</p>
+
+      <!-- The form is IN the hero. Nothing stands between the close and the ask. -->
+      <div class="listcard" id="listcard">
+        <div class="listcard-eyebrow">First Access &middot; 2027</div>
+        <h2 class="listcard-head" id="list">Know Before Your Competitors Do.</h2>
+        <p class="listcard-sub">When 2027 opens, <strong>this list moves first</strong>. Everyone else finds out afterward, when the good seats are already spoken for.</p>
+
+        <!-- MOCK ONLY. Production swaps this for the HubSpot form via
+             embed/v2.js, the only build that renders inline and styleable
+             off-domain. Portal 2518645. -->
+        <form class="listform" id="listform" novalidate>
+          <input type="text"  id="fname" name="firstname" placeholder="First name" autocomplete="given-name" aria-label="First name" required />
+          <input type="email" id="email" name="email" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
+          <button type="submit" class="cta-big">Put Me At The Front <span class="arw">&rarr;</span></button>
+        </form>
+
+        <div class="listcard-done" role="status">
+          <p><strong>You are at the front of the line.</strong><br />Nothing else to do. You will hear it from Darren before it goes anywhere else.</p>
+        </div>
+
+        <p class="listcard-fine">One email, when there is something worth telling you. Unsubscribe any time. <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>.</p>
+      </div>
+
     </div>
   </div>
-
-  <img class="hero-portrait" src="DH_BMC_stage.webp" alt="Darren Hardy on stage at Business Master Class" width="2752" height="1536" fetchpriority="high" decoding="async" />
-
-  <a href="#proof" class="scroll-cue" aria-label="Scroll down">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
-  </a>
 </section>
 
-<!-- ===== PROOF RIBBON — not time-bound, so it survives the close. ===== -->
-<section class="ribbon-section bmc-wash" id="proof">
+<!-- ===== RESULTS =====
+     SELECTION RULE: no elapsed-time markers ("since BMC", "the following
+     year", "in the two years since") and no projections ("on track to"), so
+     every number reads as plausibly banked by someone who attended this year.
+     Swap freely from the library on the same filter. -->
+<section class="results bmc-wash" id="results">
   <div class="container">
-    <div class="stats-row stagger">
-      <div>
-        <div class="stat-number" data-count="9.8" data-decimals="1"><span class="stat-value"><span class="stat-dash">&mdash;</span></span><span class="stat-outof">/10</span></div>
-        <div class="stat-label">Rating From 11,738 CEOs</div>
-      </div>
-      <div>
-        <div class="stat-number" data-count="121" data-decimals="0"><span class="stat-dash">&mdash;</span></div>
-        <div class="stat-label">Countries Represented</div>
-      </div>
-    </div>
-    <div class="flag-block reveal">
-      <div class="flag-caption">A network of elite business leaders, on every inhabited continent.</div>
-    </div>
-  </div>
-</section>
+    <div class="eyebrow reveal"><span class="pip"></span>What Those Seats Were Worth</div>
+    <h2 class="results-head reveal">Three Days. <em>These Numbers</em>.</h2>
+    <p class="results-sub reveal">From leaders who took a seat at a Business Master Class and went back to work.</p>
 
-<!-- ===== WHAT IT PRODUCES =====
-     SELECTION RULE for this page: no elapsed-time markers ("since BMC",
-     "the following year", "in the two years since") and no projections
-     ("on track to"). Every quote here has to read as plausibly banked by
-     someone who attended this year. Swap freely from the library on the
-     same filter. -->
-<section class="section-ink section-divider is-light" id="testimonials">
-  <div class="container">
-    <div class="eyebrow reveal"><span class="pip"></span>In Their Own Words</div>
-    <h2 class="section-headline reveal">What Three Days <em class="key">Produces</em>.</h2>
+    <div class="results-grid stagger">
 
-    <div class="t-quote-grid-wall stagger">
-      <article class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="suzanne_grady.webp" alt="Suzanne Grady" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Dentistry</span>
+      <article class="rcard">
+        <div class="rcard-photo">
+          <img src="emeka_ikechi.webp?v=2" alt="Emeka Ikechi" width="800" height="550" loading="lazy" decoding="async" />
+          <span class="rcard-chip">Photography</span>
         </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;This BMC turned &lsquo;ideas&rsquo; into powerful &lsquo;why did I wait?&rsquo; moments, giving me the clarity to <strong>10x my profit!</strong>&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <div class="t-quote-name">Suzanne Grady</div>
-            <div class="t-quote-title">Pediatric Dentist &middot; Open Sesame Dentistry</div>
-          </div></div>
+        <div class="rcard-body">
+          <div class="rcard-stat">25x</div>
+          <div class="rcard-statlabel">Profit Increase</div>
+          <p class="rcard-quote">&ldquo;BMC helped me achieve a 25x profit increase.&rdquo;</p>
+          <div class="rcard-rule"></div>
+          <div class="rcard-name">Emeka Ikechi</div>
+          <div class="rcard-title">Founder &amp; CEO &middot; Vanity Studios</div>
         </div>
       </article>
 
-      <article class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="maria_oliver.webp" alt="Maria Oliver" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Wellness</span>
+      <article class="rcard">
+        <div class="rcard-photo">
+          <img src="suzanne_grady.webp" alt="Suzanne Grady" width="800" height="550" loading="lazy" decoding="async" />
+          <span class="rcard-chip">Dentistry</span>
         </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;We&rsquo;ve tracked a <strong>50% increase in our business in just 3 weeks</strong> after each BMC. We can&rsquo;t afford not to go!&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <div class="t-quote-name">Maria Oliver</div>
-            <div class="t-quote-title">Co-Founder &middot; Confident Wellness</div>
-          </div></div>
-        </div>
-      </article>
-
-      <article class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="mike_keesee.webp" alt="Mike Keesee" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Consulting</span>
-        </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;We <strong>doubled our valuation</strong> by using what I learned from the Business Master Class.&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <div class="t-quote-name">Mike Keesee</div>
-            <div class="t-quote-title">CEO &middot; Total Solutions Group</div>
-          </div></div>
+        <div class="rcard-body">
+          <div class="rcard-stat">10x</div>
+          <div class="rcard-statlabel">Profit</div>
+          <p class="rcard-quote">&ldquo;This BMC turned &lsquo;ideas&rsquo; into powerful &lsquo;why did I wait?&rsquo; moments, giving me the clarity to 10x my profit!&rdquo;</p>
+          <div class="rcard-rule"></div>
+          <div class="rcard-name">Suzanne Grady</div>
+          <div class="rcard-title">Pediatric Dentist &middot; Open Sesame Dentistry</div>
         </div>
       </article>
 
-      <article class="t-quote">
-        <div class="t-quote-photo">
-          <img class="t-quote-img" src="jeannie_henderson.webp" alt="Jeannie Henderson" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="t-quote-chip">Services</span>
+      <article class="rcard">
+        <div class="rcard-photo">
+          <img src="maria_oliver.webp" alt="Maria Oliver" width="800" height="550" loading="lazy" decoding="async" />
+          <span class="rcard-chip">Wellness</span>
         </div>
-        <div class="t-quote-content">
-          <p class="t-quote-text">&ldquo;Strategies I learned at BMC have <strong>kept turnover 200% below my competitors.</strong>&rdquo;</p>
-          <div class="t-quote-rule"></div>
-          <div class="t-quote-author"><div class="t-quote-author-text">
-            <div class="t-quote-name">Jeannie Henderson</div>
-            <div class="t-quote-title">Founder &amp; CEO &middot; Jeannie Cleaning</div>
-          </div></div>
+        <div class="rcard-body">
+          <div class="rcard-stat">+50%</div>
+          <div class="rcard-statlabel">In Three Weeks</div>
+          <p class="rcard-quote">&ldquo;We&rsquo;ve tracked a 50% increase in our business in just 3 weeks after each BMC. We can&rsquo;t afford not to go!&rdquo;</p>
+          <div class="rcard-rule"></div>
+          <div class="rcard-name">Maria Oliver</div>
+          <div class="rcard-title">Co-Founder &middot; Confident Wellness</div>
         </div>
       </article>
+
+      <article class="rcard">
+        <div class="rcard-photo">
+          <img src="mike_keesee.webp" alt="Mike Keesee" width="800" height="550" loading="lazy" decoding="async" />
+          <span class="rcard-chip">Consulting</span>
+        </div>
+        <div class="rcard-body">
+          <div class="rcard-stat">2x</div>
+          <div class="rcard-statlabel">Company Valuation</div>
+          <p class="rcard-quote">&ldquo;We doubled our valuation by using what I learned from the Business Master Class.&rdquo;</p>
+          <div class="rcard-rule"></div>
+          <div class="rcard-name">Mike Keesee</div>
+          <div class="rcard-title">CEO &middot; Total Solutions Group</div>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
 
-<!-- ===== 2027 — the teaser. NO reveal of TCEB, the book, the event name,
-     the format, the price or the date. It says one thing: next year is
-     not more of this. ===== -->
-<section class="next-block bmc-wash" id="next">
+<!-- ===== 2027 — NO reveal. No book, no event name, no format, no date. ===== -->
+<section class="next-block" id="next">
   <div class="container">
     <div class="next-inner">
       <div class="eyebrow reveal" style="justify-content:center;"><span class="pip"></span>What Comes Next</div>
@@ -273,37 +387,9 @@
       <p class="next-body reveal">Next year he does something with all of it that he has never done before.</p>
       <div class="next-rule reveal"></div>
       <div class="next-meta reveal">It is not another Business Master Class</div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== THE LIST — the only conversion on the page. ===== -->
-<section class="capture" id="list">
-  <div class="container">
-    <div class="capture-card reveal" id="captureCard">
-      <h2 class="capture-head">When It Is Ready, <em>You Hear First</em>.</h2>
-      <p class="capture-sub">Before the announcement. Before the invitation goes out. Before anyone outside this list knows it exists.</p>
-
-      <!-- MOCK ONLY. Production swaps this for the HubSpot form via
-           embed/v2.js (the only build that renders inline and styleable
-           off-domain). Portal 2518645. -->
-      <form class="capture-form" id="captureForm" novalidate>
-        <div>
-          <label for="fname">First Name</label>
-          <input type="text" id="fname" name="firstname" placeholder="First name" autocomplete="given-name" required />
-        </div>
-        <div>
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@company.com" autocomplete="email" required />
-        </div>
-        <button type="submit" class="btn-primary">Be Told First &rarr;</button>
-      </form>
-
-      <div class="capture-done" role="status">
-        <p><strong>You are on the list.</strong><br />Nothing else to do. You will hear from Darren directly.</p>
+      <div class="next-cta reveal">
+        <a href="#listcard" class="cta-big">Put Me At The Front <span class="arw">&rarr;</span></a>
       </div>
-
-      <p class="capture-fine">We send one email when there is something worth telling you. Unsubscribe any time. <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>.</p>
     </div>
   </div>
 </section>
@@ -334,11 +420,11 @@
   }, 2000);
 
   /* Mock submit only. Production hands this to HubSpot. */
-  document.getElementById('captureForm').addEventListener('submit', function (e) {
+  document.getElementById('listform').addEventListener('submit', function (e) {
     e.preventDefault();
     var email = document.getElementById('email');
     if (!email.value || email.value.indexOf('@') === -1) { email.focus(); return; }
-    document.getElementById('captureCard').classList.add('is-done');
+    document.getElementById('listcard').classList.add('is-done');
   });
 </script>
 
