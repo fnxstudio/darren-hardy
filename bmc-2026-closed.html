@@ -19,7 +19,7 @@
 <meta property="og:image:height" content="630">
 
 <link rel="stylesheet" href="bmc.css?v=1">
-<link rel="preload" as="image" href="bmc-closed-bg-v4.webp" media="(min-width: 881px)">
+<link rel="preload" as="image" href="bmc-closed-bg-v6.webp" media="(min-width: 881px)">
 
 <style id="page-css">
   /* ===================================================================
@@ -69,7 +69,7 @@
   /* ============ HERO — the close AND the form, above the fold ============ */
   .closed-hero {
     position: relative; overflow: hidden;
-    padding: 122px 0 92px;
+    padding: 122px 0 118px;
     background: var(--black);
   }
   .closed-hero-bg {
@@ -83,8 +83,8 @@
   .closed-hero::after {
     content: ""; position: absolute; inset: 0; pointer-events: none;
     background:
-      linear-gradient(100deg, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.64) 22%, rgba(0,0,0,0.24) 46%, rgba(0,0,0,0.10) 70%, rgba(0,0,0,0.20) 100%),
-      linear-gradient(to bottom, rgba(0,0,0,0.34) 0%, transparent 16%, transparent 70%, var(--black) 100%);
+      linear-gradient(100deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.56) 24%, rgba(0,0,0,0.14) 48%, rgba(0,0,0,0.04) 70%, rgba(0,0,0,0.16) 100%),
+      linear-gradient(to bottom, rgba(0,0,0,0.30) 0%, transparent 14%, transparent 74%, var(--black) 100%);
   }
   .closed-hero .container { position: relative; z-index: 2; }
 
@@ -218,77 +218,6 @@
     .listcard { padding: 32px 24px 28px; }
   }
 
-  /* ============ RESULTS — stat-led, on dark, so the numbers carry ============ */
-  .results { padding: 104px 0 110px; }
-  .results-head {
-    font-size: clamp(30px, 4vw, 46px); font-weight: 900; line-height: 1.1;
-    letter-spacing: -0.03em; color: var(--white); margin-bottom: 12px;
-  }
-  .results-head em { font-style: normal; color: var(--bmc-cyan); }
-  .results-sub { font-size: 16px; line-height: 1.6; color: var(--grey); margin-bottom: 52px; max-width: 38em; }
-
-  .results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-
-  /* Rectangular portrait beside the quote. Never a circular avatar, never a
-     cutout. The photo sits on its own real background. */
-  .rcard {
-    display: grid; grid-template-columns: 172px 1fr;
-    background: var(--surface-card);
-    border: 1px solid var(--rule-strong);
-    border-radius: var(--radius); overflow: hidden;
-    transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.16,1,0.3,1);
-  }
-  .rcard:hover { border-color: rgba(var(--bmc-cyan-rgb), 0.45); transform: translateY(-3px); }
-  .rcard-photo { position: relative; overflow: hidden; background: #0d0d0d; }
-  .rcard-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; display: block; }
-  .rcard-chip {
-    position: absolute; left: 10px; bottom: 10px;
-    padding: 4px 9px; border-radius: 3px;
-    font-size: 9.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--white); background: rgba(10,10,10,0.74);
-    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-  }
-  .rcard-body { padding: 26px 26px 22px; display: flex; flex-direction: column; }
-  .rcard-stat {
-    font-size: clamp(42px, 4.6vw, 58px); font-weight: 900; line-height: 0.92;
-    letter-spacing: -0.045em; color: var(--bmc-cyan); margin-bottom: 4px;
-  }
-  .rcard-statlabel {
-    font-size: 11px; font-weight: 800; letter-spacing: 0.19em; text-transform: uppercase;
-    color: #cfcbd8; margin-bottom: 16px;
-  }
-  .rcard-quote {
-    font-size: 14.5px; line-height: 1.58; color: var(--silver);
-    margin-bottom: 18px; flex: 1;
-  }
-  .rcard-rule { width: 34px; height: 2px; background: rgba(var(--bmc-cyan-rgb), 0.55); margin-bottom: 13px; }
-  .rcard-name { font-size: 14px; font-weight: 800; color: var(--white); line-height: 1.3; }
-  .rcard-title { font-size: 12px; color: var(--grey); margin-top: 3px; line-height: 1.4; }
-
-  @media (max-width: 980px) { .results-grid { grid-template-columns: 1fr; } }
-  @media (max-width: 520px) {
-    .rcard { grid-template-columns: 1fr; }
-    .rcard-photo { height: 190px; }
-    .rcard-photo img { object-position: center 20%; }
-    .results { padding: 76px 0 80px; }
-  }
-
-  /* ============ CLOSING BAND ============ */
-  .closer { padding: 104px 0 118px; text-align: center; border-top: 1px solid var(--rule); }
-  .closer-inner { max-width: 760px; margin: 0 auto; }
-  .closer-head {
-    font-size: clamp(28px, 3.8vw, 44px); font-weight: 900; line-height: 1.12;
-    letter-spacing: -0.03em; color: var(--white); margin-bottom: 14px;
-  }
-  .closer-head em { font-style: normal; color: var(--bmc-cyan); }
-  .closer-sub { font-size: 17px; line-height: 1.6; color: var(--grey); margin-bottom: 38px; }
-  .closer-cta { display: flex; justify-content: center; }
-  .closer-cta .cta-big { width: auto; min-width: 360px; margin-top: 0; }
-  @media (max-width: 720px) {
-    .closer { padding: 74px 0 80px; }
-    .closer-cta .cta-big { width: 100%; min-width: 0; }
-  }
-
   /* Without JS the reveal utility would leave the page blank. */
   .no-js .reveal, .no-js .stagger > * { opacity: 1 !important; transform: none !important; }
 </style>
@@ -313,9 +242,9 @@
 <!-- ===== HERO — closes 2026 and captures, in one screen. ===== -->
 <section class="closed-hero" id="hero">
   <picture>
-    <source media="(max-width: 880px)" srcset="bmc-closed-bg-mobile-v4.webp" type="image/webp">
-    <source srcset="bmc-closed-bg-v4.webp" type="image/webp">
-    <img class="closed-hero-bg" src="bmc-closed-bg-v4.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
+    <source media="(max-width: 880px)" srcset="bmc-closed-bg-mobile-v6.webp" type="image/webp">
+    <source srcset="bmc-closed-bg-v6.webp" type="image/webp">
+    <img class="closed-hero-bg" src="bmc-closed-bg-v6.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
   </picture>
 
   <div class="container">
@@ -360,96 +289,6 @@
         <p class="listcard-fine">One email, when there is something worth telling&nbsp;you. Unsubscribe any time. <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>.</p>
       </div>
 
-    </div>
-  </div>
-</section>
-
-<!-- ===== RESULTS =====
-     SELECTION RULE: no elapsed-time markers ("since BMC", "the following
-     year", "in the two years since") and no projections ("on track to"), so
-     every number reads as plausibly banked by someone who attended this year.
-     Swap freely from the library on the same filter. -->
-<section class="results bmc-wash" id="results">
-  <div class="container">
-    <div class="eyebrow reveal"><span class="pip"></span>The Track Record</div>
-    <h2 class="results-head reveal">Three Days. <em>These&nbsp;Numbers</em>.</h2>
-    <p class="results-sub reveal">What a Business Master Class seat has produced for the leaders who took one. That was three days of&nbsp;it.</p>
-
-    <div class="results-grid stagger">
-
-      <article class="rcard">
-        <div class="rcard-photo">
-          <img src="emeka_ikechi.webp?v=2" alt="Emeka Ikechi" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="rcard-chip">Photography</span>
-        </div>
-        <div class="rcard-body">
-          <div class="rcard-stat">25x</div>
-          <div class="rcard-statlabel">Profit Increase</div>
-          <p class="rcard-quote">&ldquo;BMC helped me achieve a 25x profit increase.&rdquo;</p>
-          <div class="rcard-rule"></div>
-          <div class="rcard-name">Emeka Ikechi</div>
-          <div class="rcard-title">Founder &amp; CEO &middot; Vanity Studios</div>
-        </div>
-      </article>
-
-      <article class="rcard">
-        <div class="rcard-photo">
-          <img src="suzanne_grady.webp" alt="Suzanne Grady" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="rcard-chip">Dentistry</span>
-        </div>
-        <div class="rcard-body">
-          <div class="rcard-stat">10x</div>
-          <div class="rcard-statlabel">Profit</div>
-          <p class="rcard-quote">&ldquo;This BMC turned &lsquo;ideas&rsquo; into powerful &lsquo;why did I wait?&rsquo; moments, giving me the clarity to 10x my profit!&rdquo;</p>
-          <div class="rcard-rule"></div>
-          <div class="rcard-name">Suzanne Grady</div>
-          <div class="rcard-title">Pediatric Dentist &middot; Open Sesame Dentistry</div>
-        </div>
-      </article>
-
-      <article class="rcard">
-        <div class="rcard-photo">
-          <img src="maria_oliver.webp" alt="Maria Oliver" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="rcard-chip">Wellness</span>
-        </div>
-        <div class="rcard-body">
-          <div class="rcard-stat">+50%</div>
-          <div class="rcard-statlabel">In Three Weeks</div>
-          <p class="rcard-quote">&ldquo;We&rsquo;ve tracked a 50% increase in our business in just 3 weeks after each BMC. We can&rsquo;t afford not to go!&rdquo;</p>
-          <div class="rcard-rule"></div>
-          <div class="rcard-name">Maria Oliver</div>
-          <div class="rcard-title">Co-Founder &middot; Confident Wellness</div>
-        </div>
-      </article>
-
-      <article class="rcard">
-        <div class="rcard-photo">
-          <img src="mike_keesee.webp" alt="Mike Keesee" width="800" height="550" loading="lazy" decoding="async" />
-          <span class="rcard-chip">Consulting</span>
-        </div>
-        <div class="rcard-body">
-          <div class="rcard-stat">2x</div>
-          <div class="rcard-statlabel">Company Valuation</div>
-          <p class="rcard-quote">&ldquo;We doubled our valuation by using what I learned from the Business Master Class.&rdquo;</p>
-          <div class="rcard-rule"></div>
-          <div class="rcard-name">Mike Keesee</div>
-          <div class="rcard-title">CEO &middot; Total Solutions Group</div>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===== CLOSING BAND — one line and the button. ===== -->
-<section class="closer">
-  <div class="container">
-    <div class="closer-inner reveal">
-      <h2 class="closer-head">When 2027 Opens, <em>This List Moves&nbsp;First</em>.</h2>
-      <p class="closer-sub">Everyone else finds out&nbsp;afterward.</p>
-      <div class="closer-cta">
-        <a href="#listcard" class="cta-big">Put Me At The Front <span class="arw">&rarr;</span></a>
-      </div>
     </div>
   </div>
 </section>
