@@ -220,17 +220,23 @@
   @media (max-width: 880px) {
     .closed-hero { padding: 120px 0 72px; }
     .closed-grid { grid-template-columns: 1fr; gap: 44px; }
-    /* On mobile the box is far taller than the image's aspect, so cover scales
-       by height and there is no vertical crop at all: the ceiling panels were
-       always in frame. Oversizing the element and pulling it up creates the
-       crop. X below 50% slides the window left, which moves him right. */
+    /* A 390-wide hero this tall makes cover scale by height, which shows the
+       full image height and only ~19% of its width: he ends up huge and the
+       ceiling is unavoidable. So mobile gets its own asset, cropped to wall
+       only, shown as a band across the top that fades out rather than
+       stretched over the whole hero. That is what lets him sit smaller. */
     .closed-hero-bg {
-      top: -26%; height: 132%; bottom: auto;
-      object-position: 45% 50%;
+      top: 0; height: 58%; bottom: auto;
+      object-position: 46% 50%;
+    }
+    .closed-hero::before {
+      content: ""; position: absolute; left: 0; right: 0; top: 0;
+      height: 58%; z-index: 1; pointer-events: none;
+      background: linear-gradient(to bottom, transparent 0%, transparent 46%, rgba(0,0,0,0.72) 78%, var(--black) 100%);
     }
     .closed-hero::after {
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.54) 34%, rgba(0,0,0,0.78) 72%, var(--black) 100%);
+        linear-gradient(to bottom, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.30) 26%, rgba(0,0,0,0.62) 50%, var(--black) 62%);
     }
     .listcard { padding: 32px 24px 28px; }
   }
@@ -259,7 +265,7 @@
 <!-- ===== HERO — closes 2026 and captures, in one screen. ===== -->
 <section class="closed-hero" id="hero">
   <picture>
-    <source media="(max-width: 880px)" srcset="bmc-closed-bg-mobile-v14.webp" type="image/webp">
+    <source media="(max-width: 880px)" srcset="bmc-closed-bg-mobile-v16.webp" type="image/webp">
     <source srcset="bmc-closed-bg-v14.webp" type="image/webp">
     <img class="closed-hero-bg" src="bmc-closed-bg-v14.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
   </picture>
