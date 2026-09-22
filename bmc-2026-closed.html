@@ -218,7 +218,9 @@
 
   @media (max-width: 1024px) { .closed-grid { gap: 48px; } }
   @media (max-width: 880px) {
-    .closed-hero { padding: 120px 0 72px; }
+    /* Copy starts low enough that his head sits in clear air above it
+       instead of competing with the headline. */
+    .closed-hero { padding: 208px 0 72px; }
     .closed-grid { grid-template-columns: 1fr; gap: 44px; }
     /* A 390-wide hero this tall makes cover scale by height, which shows the
        full image height and only ~19% of its width: he ends up huge and the
@@ -232,11 +234,12 @@
     .closed-hero::before {
       content: ""; position: absolute; left: 0; right: 0; top: 0;
       height: 58%; z-index: 1; pointer-events: none;
-      background: linear-gradient(to bottom, transparent 0%, transparent 46%, rgba(0,0,0,0.72) 78%, var(--black) 100%);
+      background: linear-gradient(to bottom, transparent 0%, transparent 34%, rgba(0,0,0,0.78) 66%, var(--black) 88%);
     }
+    /* Light over the band so he reads, dark from where the copy begins. */
     .closed-hero::after {
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.30) 26%, rgba(0,0,0,0.62) 50%, var(--black) 62%);
+        linear-gradient(to bottom, rgba(0,0,0,0.34) 0%, rgba(0,0,0,0.06) 8%, rgba(0,0,0,0.52) 15%, rgba(0,0,0,0.86) 27%, var(--black) 46%);
     }
     .listcard { padding: 32px 24px 28px; }
   }
