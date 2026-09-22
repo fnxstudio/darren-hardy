@@ -193,7 +193,10 @@
   .band{margin-top:clamp(40px,5vw,78px);background:var(--w);color:var(--ink0);
     display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
     padding:clamp(14px,1.6vw,22px) clamp(20px,4vw,64px)}
-  body.lt .band{background:var(--ink0);color:#fff}
+  /* The band always opposes the page: white band on a dark page, dark band on
+     a light one. It cannot reference --ink0, which flips with the theme and
+     made this white-on-white. */
+  body.lt .band{background:#0e0d10;color:#fff}
   .band .nm{font-family:var(--font-display);font-weight:700;text-transform:uppercase;
     font-size:clamp(19px,2.4vw,34px);letter-spacing:.01em;line-height:1}
   .band a{display:inline-block;background:var(--red-ink);color:#fff;text-decoration:none;
