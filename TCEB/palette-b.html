@@ -91,6 +91,26 @@
   .kill{margin-top:34px;border-top:1px solid var(--g12)}
   .kill div{display:flex;gap:16px;padding:13px 0;border-bottom:1px solid var(--g12);font-size:14.5px;color:var(--g70)}
   .kill span{flex:none;width:22px;font-weight:700}
+
+  /* Type scale spec */
+  .scale{margin-top:36px;border-top:2px solid var(--blk)}
+  .scale .r{display:grid;grid-template-columns:84px 118px 118px 74px 1fr;gap:18px;padding:13px 0;border-bottom:1px solid var(--g12);font-size:13.5px;align-items:baseline;color:var(--g70)}
+  .scale .r.h{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--g55);font-weight:700;padding:10px 0}
+  .scale .tok{font-family:ui-monospace,Menlo,monospace;font-weight:700;color:var(--blk);font-size:12.5px}
+  .scale .num{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+  @media(max-width:860px){.scale .r{grid-template-columns:1fr 1fr;gap:6px 14px}.scale .r.h{display:none}}
+
+  /* Live specimens */
+  .sp{border:1px solid var(--g12);border-top:0}
+  .sp:first-of-type{border-top:1px solid var(--g12)}
+  .sp .in{display:grid;grid-template-columns:120px 1fr;gap:26px;padding:26px 30px;align-items:baseline}
+  .sp .tag{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--g55);font-weight:700}
+  @media(max-width:760px){.sp .in{grid-template-columns:1fr;gap:10px}}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:36px;border:1px solid var(--g12)}
+  .two>div{padding:30px 28px}
+  .two>div+div{border-left:1px solid var(--g12)}
+  .two .hd{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  @media(max-width:760px){.two{grid-template-columns:1fr}.two>div+div{border-left:0;border-top:1px solid var(--g12)}}
 </style>
 </head>
 <body>
@@ -195,29 +215,78 @@
 <!-- 04 -->
 <section class="sec">
   <div class="w">
-    <div class="eb">04 &middot; Type</div>
-    <h2 class="dsp t2">Condensed caps.<br><span class="red">Set tight. Set large.</span></h2>
-    <p class="lede">The jacket runs one display face at one extreme and one body face at the other. The gap between them is the whole typographic idea. There is no middle.</p>
+    <div class="eb">04 &middot; The two faces</div>
+    <h2 class="dsp t2">One face shouts.<br><span class="red">One face speaks.</span></h2>
+    <p class="lede">There are two, and they never trade jobs. The distance between them is the typographic idea: display is enormous, condensed and uppercase; body is small, open and sentence case. Nothing sits in the middle.</p>
 
-    <div class="spec">
-      <div class="lbl">Display</div>
-      <div class="dsp" style="font-size:clamp(38px,6.4vw,84px);line-height:.9">The Compound<br>Effect <span class="red">in Business</span></div>
-      <div class="meta">Oswald 700 &middot; uppercase &middot; tracking -0.005em &middot; leading 0.92</div>
-    </div>
-    <div class="spec">
-      <div class="lbl">Body</div>
-      <p style="font-size:15.5px;line-height:1.7;color:var(--g85);max-width:58ch">Darren Hardy takes the law behind The Compound Effect and turns it on the enterprise. Same principle. Bigger machine. Much higher stakes. What you will find here is not a new theory of business. It is the oldest one.</p>
-      <div class="meta">Inter 400 / 700 &middot; sentence case &middot; 15.5px &middot; leading 1.7 &middot; max 66ch</div>
+    <div class="two">
+      <div>
+        <div class="hd red">Display</div>
+        <div class="dsp" style="font-size:44px;line-height:.92">Oswald</div>
+        <p class="bd" style="margin-top:14px;font-size:14.5px">Weight 500, uppercase, tracking near zero. Headlines, eyebrows, moneylines, pull quotes, tier names, prices and any standalone number. Weight 300 exists as <span class="dsp" style="font-weight:300;font-size:15px">the light variant</span> for a quieter display line.</p>
+        <p class="bd" style="margin-top:12px;font-size:13px;color:var(--g55)">Self-hosted, variable 200 to 700. Latin and latin-ext.</p>
+      </div>
+      <div>
+        <div class="hd" style="color:var(--g55)">Body</div>
+        <div style="font-size:44px;font-weight:700;letter-spacing:-.02em">Inter</div>
+        <p class="bd" style="margin-top:14px;font-size:14.5px">Weight 400, 600 for emphasis inside copy. Every paragraph, every lede, captions, form fields, fine print, buttons and UI. If a person reads more than one line of it, it is Inter.</p>
+        <p class="bd" style="margin-top:12px;font-size:13px;color:var(--g55)">Self-hosted, variable 400 to 900. Latin and latin-ext.</p>
+      </div>
     </div>
 
-    <div class="note"><b>Open item, and it needs a decision.</b> The jacket's display face is heavier and wider than Oswald. Oswald 700 is the closest face already licensed and self-hosted, and everything here is set in it. Before anything goes to print or to a live site, the jacket's actual face needs identifying and licensing, or the jacket needs resetting in Oswald. The two should not diverge.</div>
+    <div class="kill">
+      <div><span class="no">No</span><b style="color:var(--blk)">Never set a paragraph in Oswald.</b> It is a display face. At running-copy size it is unreadable and it is the fastest way to make the brand look amateur.</div>
+      <div><span class="no">No</span>Never set a headline in Inter. A big bold Inter line reads as a web app, not as this book.</div>
+      <div><span class="no">No</span>Never italicise anything. The system has no italic: emphasis is the accent colour instead, which is why <code style="font-family:ui-monospace,monospace;font-size:13px">em</code> is redefined as red, not slanted.</div>
+      <div><span class="no">No</span>Never mix a third face. Not for quotes, not for numerals, not for code.</div>
+      <div><span class="yes">Yes</span>One <code style="font-family:ui-monospace,monospace;font-size:13px">.d1</code> per page. If two things are the biggest, nothing is.</div>
+    </div>
+
+    <div class="note"><b>Print and web deliberately diverge here.</b> The jacket sets everything in the condensed face, body copy included, because at jacket sizes and reading distance that works. On screen it does not: Oswald at 17px over 60 characters is punishing. So web splits the job. If anyone asks why the site does not look exactly like the back cover, this is why, and it is on purpose.</div>
+  </div>
+</section>
+
+<!-- 04b -->
+<section class="sec">
+  <div class="w">
+    <div class="eb">05 &middot; The scale</div>
+    <h2 class="dsp t2">Nine steps.<br><span class="red">Use these, not new ones.</span></h2>
+    <p class="lede">Every size below is already built into <code style="font-family:ui-monospace,monospace;font-size:15px">tceb.css</code>. Display sizes are fluid and clamp between a phone minimum and a desktop maximum.</p>
+
+    <div class="scale">
+      <div class="r h"><div>Token</div><div>Face</div><div>Size</div><div>Leading</div><div>Where it goes</div></div>
+      <div class="r"><div class="tok">.d1</div><div>Oswald 500 caps</div><div class="num">42 &rarr; 96</div><div class="num">0.94</div><div>The page headline. One only.</div></div>
+      <div class="r"><div class="tok">.d2</div><div>Oswald 500 caps</div><div class="num">32 &rarr; 60</div><div class="num">0.98</div><div>Section headline.</div></div>
+      <div class="r"><div class="tok">.d3</div><div>Oswald 500 caps</div><div class="num">23 &rarr; 36</div><div class="num">1.04</div><div>Sub-section, moneyline, pull quote.</div></div>
+      <div class="r"><div class="tok">.d4</div><div>Oswald 500 caps</div><div class="num">18 &rarr; 23</div><div class="num">1.16</div><div>Card titles, tier names, labels. Tracking +0.02em.</div></div>
+      <div class="r"><div class="tok">.eyebrow</div><div>Oswald 500 caps</div><div class="num">12</div><div class="num">&mdash;</div><div>Section marker above a headline. Tracking wide.</div></div>
+      <div class="r"><div class="tok">.lede</div><div>Inter 400</div><div class="num">17 &rarr; 20</div><div class="num">1.62</div><div>The paragraph directly under a headline.</div></div>
+      <div class="r"><div class="tok">.body</div><div>Inter 400</div><div class="num">17</div><div class="num">1.72</div><div>Running copy. Max 66 characters per line.</div></div>
+      <div class="r"><div class="tok">.small</div><div>Inter 400</div><div class="num">13.5</div><div class="num">1.60</div><div>Captions, notes, table cells.</div></div>
+      <div class="r"><div class="tok">.fine</div><div>Inter 400</div><div class="num">12</div><div class="num">1.55</div><div>Legal, disclaimers, unsubscribe. Grey, underline links only.</div></div>
+    </div>
+
+    <h3 class="dsp t3" style="margin-top:64px">At size</h3>
+    <div style="margin-top:20px">
+      <div class="sp"><div class="in"><div class="tag">.d1</div><div class="dsp" style="font-size:clamp(40px,5.4vw,72px);line-height:.94">Month thirty-one</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.d2</div><div class="dsp" style="font-size:clamp(30px,3.6vw,50px);line-height:.98">The operating system</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.d3</div><div class="dsp" style="font-size:clamp(22px,2.4vw,32px);line-height:1.04">The penny doubles. An org chart multiplies.</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.d4</div><div class="dsp" style="font-size:21px;line-height:1.16;letter-spacing:.02em">The compounding audit</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.eyebrow</div><div class="dsp" style="font-size:12px;font-weight:500;letter-spacing:.28em;color:var(--g70)">Chapter one</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.lede</div><div style="font-size:19px;line-height:1.62;color:var(--g70);max-width:56ch">You just did not write it. It is running right now, made of defaults: what happens when nobody decides.</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.body</div><div style="font-size:17px;line-height:1.72;color:var(--g70);max-width:62ch">Every strategy, tool, campaign, hire and technology you install sits on top of that system and performs, or fails, according to it.</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.small</div><div style="font-size:13.5px;line-height:1.6;color:var(--g55);max-width:62ch">A dozen leaks of the same size runs $450,000 a year.</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.fine</div><div style="font-size:12px;line-height:1.55;color:var(--g55);max-width:62ch">Year two renews at $9,995. Cancel any time.</div></div></div>
+    </div>
+
+    <div class="note"><b>The caps ceiling.</b> Display is always uppercase, and uppercase is capped by word count, not by line count: <b>eight words maximum, six preferred.</b> A longer idea splits into a short caps punch plus a sentence-case line beneath it. This is the rule most often broken, because a headline that fits the box can still be four words too long.</div>
   </div>
 </section>
 
 <!-- 05 -->
 <section class="sec">
   <div class="w">
-    <div class="eb">05 &middot; Composition</div>
+    <div class="eb">06 &middot; Composition</div>
     <h2 class="dsp t2">The band.</h2>
     <p class="lede">The cover's structure is a black field framed by two white bands. That device is the layout system, not just cover art. It gives a page its rhythm without a single extra colour.</p>
 
