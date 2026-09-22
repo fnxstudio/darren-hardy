@@ -27,15 +27,31 @@
      Everything not defined here comes from bmc.css.
      =================================================================== */
 
-  /* No section nav on this page, so the bar is two columns and the CTA sits
-     hard right instead of landing in the centre grid track. */
-  .sticky-bar { grid-template-columns: auto 1fr; }
+  /* Logo left, season status centre, CTA hard right. bmc.css re-columns the
+     bar at 960px, so the mobile grid is restated below rather than inherited. */
+  .sticky-bar { grid-template-columns: 1fr auto 1fr; }
   .sticky-cta { justify-self: end; }
+  .nav-season {
+    justify-self: center;
+    display: inline-flex; align-items: center; gap: 13px;
+    font-size: 14.5px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #cfcbd8; white-space: nowrap;
+  }
+  .nav-season .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bmc-cyan); flex: none; }
+  .nav-season strong { color: var(--bmc-cyan); font-weight: 800; }
+  .ns-short { display: none; }
+  @media (max-width: 960px) {
+    .sticky-bar { grid-template-columns: auto 1fr auto; }
+    .nav-season { font-size: 11px; gap: 8px; letter-spacing: 0.06em; }
+    .nav-season .dot { width: 5px; height: 5px; }
+    .ns-full { display: none; }
+    .ns-short { display: inline; }
+  }
 
   /* ============ HERO — the close AND the form, above the fold ============ */
   .closed-hero {
     position: relative; overflow: hidden;
-    padding: 76px 0 92px;
+    padding: 122px 0 92px;
     background: var(--black);
   }
   .closed-hero-bg {
@@ -57,26 +73,6 @@
   .closed-grid {
     display: grid; grid-template-columns: 1.08fr 0.92fr;
     gap: 72px; align-items: center;
-  }
-
-  /* The 2026 close is a status announcement, so it gets its own full-width
-     strip under the nav rather than a chip competing with the hero eyebrow. */
-  .season-bar {
-    margin-top: 56px; padding: 13px 24px;
-    background: rgba(255,255,255,0.035);
-    border-bottom: 1px solid var(--rule);
-    text-align: center;
-  }
-  .season-bar span {
-    display: inline-flex; align-items: center; gap: 11px;
-    font-size: 10.5px; font-weight: 700; letter-spacing: 0.24em;
-    text-transform: uppercase; color: #9a96a4;
-  }
-  .season-bar strong { color: var(--bmc-cyan); font-weight: 700; }
-  .season-bar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--bmc-cyan); flex: none; }
-  @media (max-width: 600px) {
-    .season-bar { padding: 11px 18px; }
-    .season-bar span { font-size: 9px; letter-spacing: 0.18em; gap: 8px; }
   }
 
   /* Own row above the year. The shared .eyebrow is inline-flex. */
@@ -275,14 +271,12 @@
   <a href="#hero" class="sticky-brand" aria-label="BMC COLLECTIVE">
     <img src="BMC_COLLECTIVE_logo_white.webp?v=2" alt="BMC|COLLECTIVE" width="1400" height="272" decoding="async" />
   </a>
+  <div class="nav-season"><span class="ns-full">2026 BMC Season</span><span class="ns-short">2026</span><i class="dot"></i><strong>Closed</strong></div>
   <a href="#list" class="sticky-cta">
     <span class="cta-desk">Get First Access &rarr;</span>
     <span class="cta-mobile">First Access &rarr;</span>
   </a>
 </div>
-
-<!-- Status announcement, full width, out of the hero's way. -->
-<div class="season-bar"><span><i class="dot"></i>The 2026 BMC Season Is <strong>Closed</strong></span></div>
 
 <main>
 
