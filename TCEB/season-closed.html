@@ -88,36 +88,44 @@
   .payoff{font-size:clamp(28px,4.4vw,66px);color:var(--red);margin-top:6px;white-space:nowrap}
   @media(max-width:620px){.h1 .ln,.payoff{white-space:normal}}
 
-  /* ---------- CARD. Crosses the year, sits on glass. ---------- */
-  .card{position:relative;background:rgba(22,21,26,.78);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
-    border:1px solid var(--line);border-top:4px solid var(--red-ink);border-radius:var(--radius);
+  /* ---------- CARD. Always opposes the page. ----------
+     Dark page gets a white card, light page gets a black one. It runs on its
+     own tokens rather than the page's, so it can never quietly follow the
+     theme and turn invisible the way the band and footer did. */
+  .card{--card-bg:#fff;--card-fg:#000;--card-muted:#4d4d4d;--card-faint:#6e6e6e;
+    --card-line:rgba(0,0,0,.17);--card-field:#fff;--card-accent:#e1132e;
+    position:relative;background:var(--card-bg);
+    border:1px solid var(--card-line);border-top:4px solid var(--card-accent);border-radius:var(--radius);
     padding:clamp(28px,3vw,42px) clamp(22px,2.6vw,38px) clamp(24px,2.4vw,32px);
-    box-shadow:0 40px 90px rgba(0,0,0,.66)}
-  .cardeb{font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--red)}
-  .cardh{font-size:clamp(28px,3vw,42px);margin-top:12px}
-  .cardsub{font-size:15px;line-height:1.62;color:var(--g30);margin-top:13px}
-  .cardsub b{color:var(--w);font-weight:700}
+    box-shadow:0 44px 96px rgba(0,0,0,.52)}
+  body.lt .card{--card-bg:#0e0d10;--card-fg:#fff;--card-muted:#b3b3b3;--card-faint:#7d7a82;
+    --card-line:rgba(255,255,255,.14);--card-field:rgba(255,255,255,.06);--card-accent:#ff0047;
+    box-shadow:0 40px 90px rgba(0,0,0,.30)}
+  .cardeb{font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--card-accent)}
+  .cardh{font-size:clamp(28px,3vw,42px);margin-top:12px;color:var(--card-fg)}
+  .cardsub{font-size:15px;line-height:1.62;color:var(--card-muted);margin-top:13px}
+  .cardsub b{color:var(--card-fg);font-weight:700}
   .fields{margin-top:26px}
-  .fields input,.fields select{width:100%;padding:14px 15px;font-family:var(--font-body);font-size:16px;color:var(--w);
-    background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:11px;
-    -webkit-appearance:none;appearance:none}
-  .fields input::placeholder{color:var(--g55)}
-  .fields select{color:var(--g55);padding-right:40px;
-    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237d7a82' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  .fields input,.fields select{width:100%;padding:14px 15px;font-family:var(--font-body);font-size:16px;
+    color:var(--card-fg);background:var(--card-field);border:1px solid var(--card-line);border-radius:var(--radius);
+    margin-bottom:11px;-webkit-appearance:none;appearance:none}
+  .fields input::placeholder{color:var(--card-faint)}
+  .fields select{color:var(--card-faint);padding-right:40px;
+    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236e6e6e' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 14px center;background-size:16px}
-  .fields select.filled{color:var(--w)}
-  .fields input:focus,.fields select:focus{outline:none;border-color:var(--red-ink);background:rgba(255,255,255,.08)}
+  .fields select.filled{color:var(--card-fg)}
+  .fields input:focus,.fields select:focus{outline:none;border-color:var(--card-accent)}
   .submit{width:100%;margin-top:7px;padding:18px 20px;border:0;border-radius:var(--radius);cursor:pointer;
-    background:var(--red-ink);color:#fff;font-family:var(--font-body);font-size:12.5px;font-weight:800;
+    background:#e1132e;color:#fff;font-family:var(--font-body);font-size:12.5px;font-weight:800;
     letter-spacing:.16em;text-transform:uppercase;transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s}
   .submit:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(225,19,46,.46)}
-  .fine{margin-top:15px;font-size:12px;line-height:1.55;color:var(--g55)}
+  .fine{margin-top:15px;font-size:12px;line-height:1.55;color:var(--card-faint)}
   .fine a{color:inherit;text-decoration:underline;text-underline-offset:2px}
   .done{display:none}
   .card.is-done .fields,.card.is-done .cardsub{display:none}
   .card.is-done .done{display:block}
-  .done p{font-size:15.5px;line-height:1.66;color:var(--g30)}
-  .done b{color:var(--red)}
+  .done p{font-size:15.5px;line-height:1.66;color:var(--card-muted)}
+  .done b{color:var(--card-accent)}
 
   /* ---------- SLIM FOOTER. The house standard for action pages. ---------- */
   /* Always dark, in both themes. Same rule as any inverted element: it cannot
@@ -172,18 +180,6 @@
      therefore keeps its dark-ground treatment, because --w has flipped. */
   body.lt .card{background:#0e0d10;border-color:rgba(255,255,255,.13);
     border-top-color:var(--red-ink);box-shadow:0 40px 90px rgba(0,0,0,.30)}
-  body.lt .card .cardeb{color:#ff0047}
-  body.lt .card .cardh{color:#fff}
-  body.lt .card .cardsub{color:#b3b3b3}
-  body.lt .card .cardsub b{color:#fff}
-  body.lt .card .fields input,body.lt .card .fields select{
-    background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:#fff}
-  body.lt .card .fields input::placeholder{color:#7d7a82}
-  body.lt .card .fields select{color:#7d7a82}
-  body.lt .card .fields select.filled{color:#fff}
-  body.lt .card .fine{color:#7d7a82}
-  body.lt .card .done p{color:#b3b3b3}
-  body.lt .card .done b{color:#ff0047}
 
   .tg{position:fixed;right:18px;bottom:18px;z-index:70;display:flex;border:1px solid var(--line);
       border-radius:var(--radius);overflow:hidden;background:var(--ink1)}
