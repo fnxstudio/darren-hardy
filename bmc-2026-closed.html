@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BMC|COLLECTIVE · The 2026 Season Is Closed</title>
-<meta name="description" content="The 2026 season is closed. In 2027, something that has never been done before. Get first access.">
+<title>BMC|COLLECTIVE · 2027</title>
+<meta name="description" content="The 2026 BMC season is closed. In 2027, something that has never been done before. Get first access.">
 <meta name="author" content="Darren Hardy">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/bmc-2026-closed.html">
 
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="BMC|COLLECTIVE">
-<meta property="og:title"       content="BMC|COLLECTIVE · The 2026 Season Is Closed">
-<meta property="og:description" content="The 2026 season is closed. In 2027, something that has never been done before.">
+<meta property="og:title"       content="BMC|COLLECTIVE · 2027">
+<meta property="og:description" content="The 2026 BMC season is closed. In 2027, something that has never been done before.">
 <meta property="og:url"         content="https://fnxstudio.github.io/darren-hardy/bmc-2026-closed.html">
 <meta property="og:image"       content="https://fnxstudio.github.io/darren-hardy/bmc-og-cover.jpg">
 <meta property="og:image:width"  content="1200">
@@ -27,7 +27,10 @@
      Everything not defined here comes from bmc.css.
      =================================================================== */
 
-  .sticky-bar .sticky-nav { display: none; }
+  /* No section nav on this page, so the bar is two columns and the CTA sits
+     hard right instead of landing in the centre grid track. */
+  .sticky-bar { grid-template-columns: auto 1fr; }
+  .sticky-cta { justify-self: end; }
 
   /* ============ HERO — the close AND the form, above the fold ============ */
   .closed-hero {
@@ -66,21 +69,32 @@
   }
   .closed-chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bmc-cyan); flex: none; }
 
+  /* The year is the display element. It carries the weight so the headline
+     can stay at a readable size. */
+  .hero-year {
+    font-size: clamp(68px, 9vw, 116px); font-weight: 900; line-height: 0.84;
+    letter-spacing: -0.05em; color: var(--white); margin-bottom: 20px;
+  }
+  .hero-year em { font-style: normal; color: var(--bmc-cyan); }
+
   .closed-h1 {
-    font-size: clamp(44px, 6.2vw, 88px); font-weight: 900; line-height: 0.98;
-    letter-spacing: -0.035em; color: var(--white); margin-bottom: 28px;
+    font-size: clamp(29px, 3.9vw, 50px); font-weight: 900; line-height: 1.08;
+    letter-spacing: -0.03em; color: var(--white); margin-bottom: 24px;
+    max-width: 15em;
   }
   .closed-h1 em { font-style: normal; color: var(--bmc-cyan); }
 
-  .closed-lede { font-size: 19px; line-height: 1.62; color: #d8d6de; max-width: 30em; }
+  .closed-lede { font-size: 17.5px; line-height: 1.66; color: #d8d6de; max-width: 32em; }
   .closed-lede strong { color: var(--white); font-weight: 700; }
-  .closed-lede + .closed-lede { margin-top: 16px; }
+  .closed-lede + .closed-lede { margin-top: 15px; }
 
+  /* The disqualifier. The single most important line on the page: it is what
+     stops an alum filing 2027 as the next Business Master Class. */
   .closed-turn {
-    margin-top: 32px; padding-top: 28px;
-    border-top: 1px solid var(--rule-strong);
-    font-size: 23px; line-height: 1.42; font-weight: 700;
-    color: var(--white); max-width: 22em; letter-spacing: -0.01em;
+    display: inline-block; margin-top: 30px; padding: 15px 0 0;
+    border-top: 2px solid var(--bmc-cyan);
+    font-size: clamp(17px, 1.9vw, 21px); line-height: 1.38; font-weight: 800;
+    color: var(--white); letter-spacing: -0.005em;
   }
   .closed-turn em { font-style: normal; color: var(--bmc-cyan); }
 
@@ -212,26 +226,20 @@
     .results { padding: 76px 0 80px; }
   }
 
-  /* ============ 2027 — deliberately not shaped like a BMC module ============ */
-  .next-block { padding: 140px 0 132px; text-align: center; }
-  .next-inner { max-width: 840px; margin: 0 auto; }
-  .next-year {
-    font-size: clamp(66px, 12.5vw, 158px); font-weight: 900; line-height: 0.88;
-    letter-spacing: -0.045em; color: var(--white); margin-bottom: 28px;
+  /* ============ CLOSING BAND ============ */
+  .closer { padding: 104px 0 118px; text-align: center; border-top: 1px solid var(--rule); }
+  .closer-inner { max-width: 760px; margin: 0 auto; }
+  .closer-head {
+    font-size: clamp(28px, 3.8vw, 44px); font-weight: 900; line-height: 1.12;
+    letter-spacing: -0.03em; color: var(--white); margin-bottom: 14px;
   }
-  .next-year em { font-style: normal; color: var(--bmc-cyan); }
-  .next-head {
-    font-size: clamp(25px, 3.5vw, 40px); font-weight: 800; line-height: 1.2;
-    letter-spacing: -0.025em; color: var(--white); margin-bottom: 26px;
-  }
-  .next-body { font-size: 17.5px; line-height: 1.72; color: var(--silver); max-width: 40em; margin: 0 auto 18px; }
-  .next-rule { width: 64px; height: 2px; background: var(--bmc-cyan); margin: 44px auto 32px; opacity: 0.75; }
-  .next-meta { font-size: 13px; letter-spacing: 0.17em; text-transform: uppercase; font-weight: 800; color: #cfcbd8; }
-  .next-cta { margin-top: 44px; display: flex; justify-content: center; }
-  .next-cta .cta-big { width: auto; min-width: 340px; margin-top: 0; }
+  .closer-head em { font-style: normal; color: var(--bmc-cyan); }
+  .closer-sub { font-size: 17px; line-height: 1.6; color: var(--grey); margin-bottom: 38px; }
+  .closer-cta { display: flex; justify-content: center; }
+  .closer-cta .cta-big { width: auto; min-width: 360px; margin-top: 0; }
   @media (max-width: 720px) {
-    .next-block { padding: 90px 0 88px; }
-    .next-cta .cta-big { width: 100%; min-width: 0; }
+    .closer { padding: 74px 0 80px; }
+    .closer-cta .cta-big { width: 100%; min-width: 0; }
   }
 
   /* Without JS the reveal utility would leave the page blank. */
@@ -246,7 +254,6 @@
   <a href="#hero" class="sticky-brand" aria-label="BMC COLLECTIVE">
     <img src="BMC_COLLECTIVE_logo_white.webp?v=2" alt="BMC|COLLECTIVE" width="1400" height="272" decoding="async" />
   </a>
-  <div class="sticky-nav" role="navigation" aria-label="Page sections"></div>
   <a href="#list" class="sticky-cta">
     <span class="cta-desk">Get First Access &rarr;</span>
     <span class="cta-mobile">First Access &rarr;</span>
@@ -267,11 +274,12 @@
     <div class="closed-grid">
 
       <div class="closed-copy">
-        <div class="closed-chip"><span class="dot"></span>Enrollment Closed</div>
-        <h1 class="closed-h1">The 2026 Season <em>Is Closed</em>.</h1>
-        <p class="closed-lede">Every seat is taken. Business Master Class runs this week for the leaders who claimed one.</p>
-        <p class="closed-lede"><strong>There is no waiting list for 2026.</strong> There is no late entry, and no seat opening back up.</p>
-        <div class="closed-turn">In 2027, Darren does something he has <em>never done before</em>.</div>
+        <div class="closed-chip"><span class="dot"></span>The 2026 BMC Season Is Closed</div>
+        <div class="hero-year">20<em>27</em></div>
+        <h1 class="closed-h1">Darren Has Been Building Something For Years.</h1>
+        <p class="closed-lede">For thirty-five years he has sat at the center of this industry, collecting what actually builds an enterprise from the people who built the largest ones.</p>
+        <p class="closed-lede">Next year he does something with all of it that <strong>he has never done before</strong>.</p>
+        <div class="closed-turn">It is not another Business Master Class.</div>
       </div>
 
       <!-- The form is IN the hero. Nothing stands between the close and the ask. -->
@@ -307,9 +315,9 @@
      Swap freely from the library on the same filter. -->
 <section class="results bmc-wash" id="results">
   <div class="container">
-    <div class="eyebrow reveal"><span class="pip"></span>What Those Seats Were Worth</div>
+    <div class="eyebrow reveal"><span class="pip"></span>The Track Record</div>
     <h2 class="results-head reveal">Three Days. <em>These Numbers</em>.</h2>
-    <p class="results-sub reveal">From leaders who took a seat at a Business Master Class and went back to work.</p>
+    <p class="results-sub reveal">What a Business Master Class seat has produced for the leaders who took one. That was three days of it.</p>
 
     <div class="results-grid stagger">
 
@@ -377,18 +385,13 @@
   </div>
 </section>
 
-<!-- ===== 2027 — NO reveal. No book, no event name, no format, no date. ===== -->
-<section class="next-block" id="next">
+<!-- ===== CLOSING BAND — one line and the button. ===== -->
+<section class="closer">
   <div class="container">
-    <div class="next-inner">
-      <div class="eyebrow reveal" style="justify-content:center;"><span class="pip"></span>What Comes Next</div>
-      <div class="next-year reveal">20<em>27</em></div>
-      <h2 class="next-head reveal">Darren Has Been Building Something For Years.</h2>
-      <p class="next-body reveal">For thirty-five years he has sat at the center of this industry, collecting what actually builds an enterprise from the people who built the largest ones.</p>
-      <p class="next-body reveal">Next year he does something with all of it that he has never done before.</p>
-      <div class="next-rule reveal"></div>
-      <div class="next-meta reveal">It is not another Business Master Class</div>
-      <div class="next-cta reveal">
+    <div class="closer-inner reveal">
+      <h2 class="closer-head">When 2027 Opens, <em>This List Moves First</em>.</h2>
+      <p class="closer-sub">Everyone else finds out afterward.</p>
+      <div class="closer-cta">
         <a href="#listcard" class="cta-big">Put Me At The Front <span class="arw">&rarr;</span></a>
       </div>
     </div>
