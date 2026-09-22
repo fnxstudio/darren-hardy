@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TCEB · Dark Direction</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="tceb.css?v=1">
+<style>
+  /* ===================================================================
+     DARK-DOMINANT, WITH A BLACK BOOK ON IT.
+     The ground is NOT the jacket's black. It is #0e0d10, a near-black
+     carrying a faint warm cast. The jacket stays pure black, so it sits
+     DARKER than the page, and then it is separated by light rather than
+     by value: an ambient pool behind it, a rim along the lit edge, and a
+     real cast shadow under it. That is how black product is photographed,
+     and it is the answer to "the jacket is black so the page cannot be."
+     =================================================================== */
+  :root{
+    --ink0:#0e0d10;      /* page ground. never #000, or the jacket vanishes */
+    --ink1:#141318;      /* raised surface */
+    --ink2:#1c1a21;      /* card */
+    --red:#ff0047;       /* 5.34 on dark */
+    --red-ink:#e1132e;   /* fills that carry white type */
+    --w:#fff; --g30:#b3b3b3; --g55:#7d7a82; --line:rgba(255,255,255,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--ink0);color:var(--w);font-family:var(--font-body);font-size:16px;line-height:1.65;overflow-x:hidden}
+  .w{max-width:1200px;margin:0 auto;padding:0 44px}
+  @media(max-width:760px){.w{padding:0 20px}}
+  .dsp{font-family:var(--font-display);font-weight:700;text-transform:uppercase;line-height:.92;letter-spacing:-.005em}
+
+  /* ---------- ATMOSPHERE. The thing tceb.css has none of. ---------- */
+  .wash{position:relative;overflow:hidden}
+  .wash::before{
+    content:"";position:absolute;inset:-20% -10%;pointer-events:none;
+    background:
+      radial-gradient(48% 42% at 22% 18%, rgba(255,0,71,.16), transparent 62%),
+      radial-gradient(42% 46% at 82% 72%, rgba(225,19,46,.12), transparent 66%),
+      radial-gradient(70% 60% at 50% 110%, rgba(255,120,60,.07), transparent 70%);
+  }
+  .wash>*{position:relative;z-index:1}
+
+  /* ---------- MOTION. Ported from the BMC layer, recoloured. ---------- */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+  .rv.on{opacity:1;transform:none}
+  .stg>*{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+  .stg.on>*{opacity:1;transform:none}
+  .stg.on>*:nth-child(2){transition-delay:.09s}
+  .stg.on>*:nth-child(3){transition-delay:.18s}
+  .stg.on>*:nth-child(4){transition-delay:.27s}
+  @media(prefers-reduced-motion:reduce){.rv,.stg>*{opacity:1!important;transform:none!important}}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:132px 0 128px}
+  .grid{display:grid;grid-template-columns:1.04fr .96fr;gap:80px;align-items:center}
+  @media(max-width:940px){.grid{grid-template-columns:1fr;gap:64px}}
+  .eb{display:flex;align-items:center;gap:14px;font-family:var(--font-display);font-weight:500;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--red)}
+  .eb::before{content:"";width:30px;height:2px;background:var(--red)}
+  h1{font-size:clamp(40px,5.6vw,78px);margin-top:22px}
+  .lede{font-size:18px;line-height:1.62;color:var(--g30);max-width:52ch;margin-top:24px}
+  .cta{display:inline-block;margin-top:34px;background:var(--red-ink);color:#fff;text-decoration:none;
+    padding:17px 30px;border-radius:var(--radius);font-size:12.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+    transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(225,19,46,.42)}
+
+  /* ---------- THE BLACK BOOK ON A DARK PAGE ---------- */
+  .stage{position:relative;display:flex;justify-content:center;padding:34px 0}
+  .stage::before{                       /* the pool of light it sits in */
+    content:"";position:absolute;inset:-6% -12% -2%;
+    background:radial-gradient(52% 46% at 50% 40%, rgba(255,0,71,.22), rgba(255,0,71,.07) 42%, transparent 70%);
+    filter:blur(10px);
+  }
+  .stage::after{                        /* contact shadow on the floor */
+    content:"";position:absolute;left:18%;right:18%;bottom:2%;height:44px;
+    background:radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,.85), transparent 72%);
+    filter:blur(12px);
+  }
+  .book{position:relative;z-index:2;width:100%;max-width:330px;aspect-ratio:5/7.6;
+    background:linear-gradient(157deg,#141414 0%,#050505 44%,#000 100%);
+    border-radius:2px 5px 5px 2px;padding:10% 9%;display:flex;flex-direction:column;justify-content:center;text-align:center;
+    transform:perspective(1600px) rotateY(-13deg) rotateX(2deg);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.11),          /* the edge that makes it exist */
+      0 50px 90px rgba(0,0,0,.70),
+      0 0 120px rgba(255,0,71,.12);             /* bloom picked up from the wash */
+    transition:transform .7s cubic-bezier(.16,1,.3,1),box-shadow .7s}
+  .book:hover{transform:perspective(1600px) rotateY(-7deg) rotateX(1deg) translateY(-8px)}
+  .book::before{                        /* spine */
+    content:"";position:absolute;left:0;top:0;bottom:0;width:14px;border-radius:2px 0 0 2px;
+    background:linear-gradient(90deg,rgba(0,0,0,.95),rgba(255,255,255,.09) 60%,transparent)}
+  .book::after{                         /* rim light down the lit edge */
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(148deg,rgba(255,255,255,.17),rgba(255,255,255,.03) 26%,transparent 46%)}
+  .bk-top{font-family:var(--font-display);font-weight:500;font-size:11px;letter-spacing:.24em;color:#8f8c93}
+  .bk-ttl{font-family:var(--font-display);font-weight:700;text-transform:uppercase;line-height:.9;font-size:clamp(26px,3.4vw,40px);color:#fff;margin-top:10px}
+  .bk-ttl em{color:var(--red);font-style:normal;display:block;font-size:.62em;margin-top:6px}
+  .bk-rule{width:34px;height:2px;background:var(--red);margin:16px auto}
+  .bk-sub{font-family:var(--font-display);font-weight:500;font-size:9.5px;letter-spacing:.18em;color:#a9a6ad;line-height:1.7}
+  .bk-by{position:absolute;left:0;right:0;bottom:7%;font-family:var(--font-display);font-weight:500;font-size:11px;letter-spacing:.22em;color:#cfccd3}
+
+  /* ---------- COMPOUNDING COUNTER — motion TCEB can own ---------- */
+  .comp{padding:112px 0;border-top:1px solid var(--line)}
+  .cbig{font-family:var(--font-display);font-weight:700;font-size:clamp(52px,9vw,124px);line-height:.9;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .cbig span{color:var(--red)}
+  .cmeta{display:flex;gap:44px;margin-top:30px;flex-wrap:wrap}
+  .cmeta div{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--g55);font-weight:700}
+  .cmeta b{display:block;font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:0;color:#fff;margin-top:8px}
+  .track{height:2px;background:rgba(255,255,255,.10);margin-top:40px;position:relative;overflow:hidden}
+  .track i{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,rgba(255,0,71,.25),var(--red));transition:width 2.4s cubic-bezier(.4,0,.2,1)}
+
+  .foot{padding:34px 0;border-top:1px solid var(--line);font-size:12px;color:var(--g55)}
+</style>
+</head>
+<body>
+
+<section class="hero wash">
+  <div class="w">
+    <div class="grid">
+      <div class="stg">
+        <div class="eb">The new book</div>
+        <h1 class="dsp">Your business is<br>already <span style="color:var(--red)">compounding</span>.</h1>
+        <p class="lede">The only question is which direction. Nothing looks broken. That is exactly what makes it dangerous.</p>
+        <div><a class="cta" href="#">Pre-order for your team</a></div>
+      </div>
+
+      <div class="stage rv">
+        <div class="book">
+          <div class="bk-top">The</div>
+          <div class="bk-ttl">Compound<br>Effect<em>in Business</em></div>
+          <div class="bk-rule"></div>
+          <div class="bk-sub">Multiply your profits,<br>your people, your advantage</div>
+          <div class="bk-by">Darren Hardy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="comp wash">
+  <div class="w">
+    <div class="eb rv">Month thirty-one</div>
+    <div class="cbig rv" style="margin-top:22px">$<span id="n">0</span></div>
+    <div class="cmeta stg">
+      <div>Starting amount<b>1&cent;</b></div>
+      <div>Doubled every month<b>31&times;</b></div>
+      <div>Visible by month ten<b>$5.12</b></div>
+    </div>
+    <div class="track rv"><i id="bar"></i></div>
+    <p class="lede rv" style="margin-top:34px">Nearly all of it arrives in the last few months, long after everyone else has quit.</p>
+  </div>
+</section>
+
+<footer class="foot"><div class="w">Direction study &middot; dark-dominant with the jacket on the page &middot; not a live page</div></footer>
+
+<script>
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.18});
+  document.querySelectorAll('.rv,.stg').forEach(function(el){io.observe(el);});
+
+  // the penny, compounding — the count-up TCEB owns because it is the subject
+  var n=document.getElementById('n'),bar=document.getElementById('bar'),done=false;
+  var co=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting&&!done){done=true;bar.style.width='100%';
+      var end=10737418.24,t0=null,dur=2400;
+      requestAnimationFrame(function step(ts){
+        if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);
+        var v=end*Math.pow(p,3.2);   // slow, then everything at the end
+        n.textContent=v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+        if(p<1)requestAnimationFrame(step);
+      });
+    }});},{threshold:.4});
+  co.observe(document.getElementById('n'));
+</script>
+</body>
+</html>
