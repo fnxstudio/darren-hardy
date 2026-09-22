@@ -147,6 +147,23 @@
   .listform input::placeholder { color: #6f6b78; }
   .listform input:focus { outline: none; border-color: var(--bmc-cyan); background: rgba(255,255,255,0.08); }
 
+  /* Role. Same box as the inputs, native arrow replaced so it matches on
+     every platform. Unselected state reads as a placeholder. */
+  .listform select {
+    width: 100%; padding: 16px 44px 16px 16px;
+    font-family: 'Inter', sans-serif; font-size: 15.5px;
+    color: var(--white); background-color: rgba(255,255,255,0.05);
+    border: 1px solid var(--rule-strong); border-radius: var(--radius);
+    appearance: none; -webkit-appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236f6b78' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 15px center; background-size: 17px;
+    transition: border-color 0.18s, background-color 0.18s;
+  }
+  .listform select:invalid { color: #6f6b78; }
+  .listform select:focus { outline: none; border-color: var(--bmc-cyan); background-color: rgba(255,255,255,0.08); }
+  .listform select option { color: var(--white); background: #16141c; }
+  .listform select option[value=""] { color: #6f6b78; }
+
   /* The CTA. Loud on purpose: full width, heavy, cyan, arrow travels on
      hover. Colour is held constant, the button grows. */
   .cta-big {
@@ -316,6 +333,14 @@
         <form class="listform" id="listform" novalidate>
           <input type="text"  id="fname" name="firstname" placeholder="First name" autocomplete="given-name" aria-label="First name" required />
           <input type="email" id="email" name="email" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
+          <select id="role" name="role" aria-label="Your role" required>
+            <option value="" disabled selected>Your role</option>
+            <option>Owner / Founder</option>
+            <option>CEO / President</option>
+            <option>COO / GM / Executive Leader</option>
+            <option>Department or Team Leader</option>
+            <option>Other</option>
+          </select>
           <button type="submit" class="cta-big">Put Me At The Front <span class="arw">&rarr;</span></button>
         </form>
 
@@ -450,6 +475,8 @@
     e.preventDefault();
     var email = document.getElementById('email');
     if (!email.value || email.value.indexOf('@') === -1) { email.focus(); return; }
+    var role = document.getElementById('role');
+    if (!role.value) { role.focus(); return; }
     document.getElementById('listcard').classList.add('is-done');
   });
 </script>
