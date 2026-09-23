@@ -71,8 +71,16 @@
    photograph is just a restless background. Deliberately NOT a 3D rig,
    because a preserve-3d ancestor breaks backdrop-filter and the form's
    glass is worth more than a few degrees of depth. */
-.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;z-index:0;opacity:.62}
+.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;z-index:0;opacity:.62;
+  /* oversized so the parallax can never translate an edge into frame.
+     `scale` is its own property, so it composes with `translate` instead
+     of fighting it the way a second transform would. */
+  scale:1.07}
 .px{will-change:transform}
+/* will-change creates a backdrop root, and a backdrop root is exactly
+   what stops the card's own backdrop-filter layers from seeing the page
+   behind them. The card moves, but it does not get the hint. */
+.card.px{will-change:auto}
 
   .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:
     linear-gradient(104deg,rgba(27,27,31,.95) 0%,rgba(27,27,31,.80) 30%,rgba(27,27,31,.34) 58%,rgba(27,27,31,.60) 100%),
@@ -470,27 +478,27 @@
   <picture>
     <source media="(max-width: 880px)" srcset="tceb-hero-mobile.webp" type="image/webp">
     <source srcset="tceb-hero.webp" type="image/webp">
-    <img class="shot" src="tceb-hero.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
+    <img class="shot px" data-px="0.22" src="tceb-hero.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
   </picture>
-  <div class="year px" data-px="1.5" aria-hidden="true">20<b>27</b></div>
+  <div class="year px" data-px="0.52" aria-hidden="true">20<b>27</b></div>
   <div class="grain"></div>
 
   <div class="wrap">
     <div class="grid">
 
       <div class="stg">
-        <div class="kicker px" data-px="-0.5">What&rsquo;s next</div>
+        <div class="kicker px" data-px="0.85">What&rsquo;s next</div>
         <h1 class="h1 dsp">
-          <span class="ln px" data-px="-1.15">Darren has been</span>
-          <span class="ln px" data-px="-0.85">building something</span>
-          <span class="ln sm px" data-px="-0.58">for years.</span>
+          <span class="ln px" data-px="1.35">Darren has been</span>
+          <span class="ln px" data-px="1.16">building something</span>
+          <span class="ln sm px" data-px="0.99">for years.</span>
         </h1>
-        <p class="para px" data-px="-0.34">For thirty-five years he has sat at the center of this industry, collecting what actually builds an enterprise from the people who built the largest ones, and writing the best-selling books that put it to work in 2+ million&nbsp;lives.</p>
-        <div class="lead px" data-px="-0.42">Next year, he does something with it&hellip;</div>
-        <div class="payoff dsp px" data-px="-0.72">He has never done&nbsp;before.</div>
+        <p class="para px" data-px="0.78">For thirty-five years he has sat at the center of this industry, collecting what actually builds an enterprise from the people who built the largest ones, and writing the best-selling books that put it to work in 2+ million&nbsp;lives.</p>
+        <div class="lead px" data-px="0.90">Next year, he does something with it&hellip;</div>
+        <div class="payoff dsp px" data-px="1.22">He has never done&nbsp;before.</div>
       </div>
 
-      <div class="card rv" id="card">
+      <div class="card rv px" data-px="0.78" id="card">
         <span class="frost" aria-hidden="true"></span>
         <span class="refract" aria-hidden="true"></span>
         <span class="lens" aria-hidden="true"></span>
@@ -556,35 +564,60 @@
     if(!rl.value){rl.focus();return;}
     document.getElementById('card').classList.add('is-done');
   });
-  // Pointer parallax on the TYPE. Each line carries its own rate in
-  // data-px, so the block separates as the cursor moves. The first pass
-  // ran at +/-8px, which is technically motion and visually nothing.
-  // Eased toward the target every frame rather than set outright, because
-  // snapping to the cursor reads as a jitter and gliding reads as weight.
+  // THE MOTION LAYER.
+  // Three inputs summed into one target, painted once per frame:
+  //   pointer   where the eye is
+  //   scroll    the page moving under it
+  //   ambient   a slow figure-eight so the scene is alive when the
+  //             cursor is still, which is the whole difference between
+  //             a page that responds and a page that feels fluid
+  // Every layer carries its own rate in data-px, so near things travel
+  // further than far ones and the composition opens up rather than
+  // sliding as one piece. Eased toward the target each frame: snapping
+  // to a cursor reads as jitter, gliding reads as weight.
   (function(){
     var ls=[].slice.call(document.querySelectorAll('.px')),
         hero=document.getElementById('top');
     if(!ls.length||!hero) return;
     if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-    if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
-    var tx=0,ty=0,cx=0,cy=0,run=false;
-    var AX=52, AY=30;                       // px of travel at rate 1
-    ls.forEach(function(el){ el.dataset.cx=0; el.dataset.cy=0; });
-    function frame(){
-      cx+=(tx-cx)*0.075; cy+=(ty-cy)*0.075;
-      ls.forEach(function(el){
-        var r=parseFloat(el.dataset.px)||0;
+
+    var AX=54, AY=30, px=0, py=0, sy=0, cx=0, cy=0, t0=0, live=false, raf=0;
+    var fine=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+    function frame(now){
+      if(!t0) t0=now;
+      var t=(now-t0)/1000;
+      // ambient drift. Two periods that do not divide into each other, so
+      // the path never visibly repeats.
+      var ax=Math.sin(t*0.17)*0.17, ay=Math.cos(t*0.11)*0.13;
+      var tx=px+ax, ty=py+ay+sy;
+      cx+=(tx-cx)*0.055; cy+=(ty-cy)*0.055;
+      for(var i=0;i<ls.length;i++){
+        var el=ls[i], r=parseFloat(el.dataset.px)||0;
         el.style.translate=(cx*r*AX).toFixed(2)+'px '+(cy*r*AY).toFixed(2)+'px';
-      });
-      if(Math.abs(tx-cx)>0.0005||Math.abs(ty-cy)>0.0005){ requestAnimationFrame(frame); }
-      else { run=false; }
+      }
+      raf=live?requestAnimationFrame(frame):0;
     }
-    function start(){ if(!run){run=true;requestAnimationFrame(frame);} }
-    hero.addEventListener('pointermove',function(e){
-      var b=hero.getBoundingClientRect();
-      tx=(e.clientX-b.left)/b.width-.5; ty=(e.clientY-b.top)/b.height-.5; start();
-    });
-    hero.addEventListener('pointerleave',function(){ tx=0;ty=0;start(); });
+
+    // only while the hero is on screen: a permanent rAF on a page nobody
+    // is looking at is just a battery tax
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        live=e.isIntersecting;
+        if(live&&!raf){ t0=0; raf=requestAnimationFrame(frame); }
+      });
+    },{threshold:0}).observe(hero);
+
+    if(fine){
+      hero.addEventListener('pointermove',function(e){
+        var b=hero.getBoundingClientRect();
+        px=(e.clientX-b.left)/b.width-.5; py=(e.clientY-b.top)/b.height-.5;
+      });
+      hero.addEventListener('pointerleave',function(){ px=0;py=0; });
+    }
+    addEventListener('scroll',function(){
+      sy=Math.min(.6,Math.max(-.6,(scrollY/innerHeight)*0.5));
+    },{passive:true});
   })();
 
 </script>
