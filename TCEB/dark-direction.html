@@ -576,6 +576,149 @@
   .bigtype{font-family:var(--font-display);font-weight:400;text-transform:uppercase;
     letter-spacing:-.022em;line-height:.80;white-space:nowrap}
 
+  /* ===================================================================
+     PUSHED. Bold 1 was the only one with any charge in it, and the
+     reason is narrow: type that does not fit, sitting in the same space
+     as the object rather than beside it. Everything else I built was
+     centred and safe. So these four take only that idea and push it
+     past where Bold 1 stopped, at 26-30vw instead of 19, with the
+     object INSIDE the stack rather than on top of it.
+     =================================================================== */
+
+  /* ---------- B6 - DEPTH. A scene with a camera in it. ---------------- */
+  /* Stacking z-index only decides what covers what. Depth needs the
+     layers to be at different DISTANCES, so four things follow from one
+     translateZ and none of them can be faked with shadows:
+       scale      a line at -760px renders at 0.59 of its own size, and
+                  one at +180px at 1.20, from the same font-size
+       blur       far things lose their edges (atmospheric perspective)
+       value      far things lose contrast against the air
+       parallax   move the camera and near layers travel further than
+                  far ones. This is the cue that actually sells it, and
+                  it is why the scene follows the cursor.
+     =================================================================== */
+  .deep{position:relative;min-height:100vh;overflow:hidden;display:grid;place-content:center;
+    perspective:1100px;perspective-origin:50% 48%}
+  .deepcam{position:relative;transform-style:preserve-3d;display:grid;place-items:center;
+    transition:transform .5s cubic-bezier(.16,1,.3,1);will-change:transform}
+  .dl{grid-area:1/1;font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+    white-space:nowrap;letter-spacing:-.025em;line-height:.78;
+    font-size:clamp(58px,15vw,230px);color:var(--w)}
+  .dl em{font-style:normal;color:var(--red)}
+  /* far to near. blur and opacity track distance, they are not decoration */
+  .dz1{transform:translate3d(-18%,-138%,-880px);filter:blur(7px);opacity:.22}
+  .dz2{transform:translate3d(15%,-74%,-560px);filter:blur(4px);opacity:.34}
+  .dz3{transform:translate3d(-12%,-14%,-300px);filter:blur(1.8px);opacity:.46}
+  /* the message. Near the camera plane, so depth does not cost legibility */
+  .dz5{transform:translate3d(-14%,96%,60px);font-size:clamp(34px,6.6vw,104px);
+    text-shadow:0 8px 40px rgba(0,0,0,.75)}
+  body.lt .dz5{text-shadow:0 8px 40px rgba(255,255,255,.75)}
+  .dbook{grid-area:1/1;width:clamp(150px,17vw,265px);aspect-ratio:1784/2289;
+    transform:translate3d(46%,-16%,-30px) rotateY(-16deg) rotateX(3deg);
+    box-shadow:0 70px 130px rgba(0,0,0,.82),0 0 0 1px rgba(255,255,255,.14);
+    animation:dbook 18s ease-in-out infinite}
+  body.lt .dbook{box-shadow:0 70px 130px rgba(0,0,0,.34),0 0 0 1px rgba(0,0,0,.14)}
+  @keyframes dbook{
+    0%,100%{transform:translate3d(46%,-14%,-30px) rotateY(-16deg) rotateX(3deg)}
+    50%{transform:translate3d(46%,-21%,40px) rotateY(-5deg) rotateX(-1deg)}}
+  .dbook img{width:100%;height:100%;object-fit:cover;display:block}
+  /* haze between the layers, so the far ones sit in air rather than in
+     front of a flat colour */
+  .deephaze{position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:radial-gradient(64% 54% at 50% 44%,transparent,var(--ink0) 92%)}
+
+  /* ---------- B10 - CORRIDOR. The word receding to a vanishing point. - */
+  /* Same word eight times, each one further away and turned slightly, so
+     it reads as one thing going back rather than eight things stacked.
+     The whole corridor drifts toward the camera on a loop. */
+  .corr{position:relative;min-height:100vh;overflow:hidden;display:grid;place-content:center;
+    perspective:820px;perspective-origin:50% 50%}
+  .corrin{position:relative;transform-style:preserve-3d;display:grid;place-items:center;
+    animation:corrfly 24s linear infinite}
+  @keyframes corrfly{from{transform:translateZ(0)}to{transform:translateZ(300px)}}
+  .cr{grid-area:1/1;font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+    white-space:nowrap;letter-spacing:-.02em;line-height:.8;color:var(--w);
+    font-size:clamp(58px,15vw,235px)}
+  .corrhaze{position:absolute;inset:0;z-index:3;pointer-events:none;
+    background:radial-gradient(56% 48% at 50% 50%,transparent 30%,var(--ink0) 88%)}
+  .corrbook{position:absolute;z-index:4;left:66%;top:50%;width:clamp(130px,14vw,215px);
+    aspect-ratio:1784/2289;transform:translate(-50%,-50%) rotate(-4deg);
+    box-shadow:0 60px 120px rgba(0,0,0,.84),0 0 0 1px rgba(255,255,255,.16);
+    animation:cobook 13s ease-in-out infinite}
+  body.lt .corrbook{box-shadow:0 60px 120px rgba(0,0,0,.36),0 0 0 1px rgba(0,0,0,.14)}
+  @keyframes cobook{0%,100%{transform:translate(-50%,-53%) rotate(-4deg)}50%{transform:translate(-50%,-45%) rotate(0deg)}}
+  .corrbook img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* ---------- B7 - KNOCKOUT. The type inverts the photograph. --------- */
+  /* difference blending is the move those agency sites are making: the
+     word does not sit on the image, it turns the image inside out
+     wherever it lands. isolation keeps it blending with the photograph
+     only, and never with the page behind. */
+  .ko{position:relative;min-height:100vh;overflow:hidden;isolation:isolate;
+    display:grid;align-content:center;background:#0a0a0c}
+  .kophoto{position:absolute;inset:0;z-index:0}
+  .kophoto img{width:100%;height:100%;object-fit:cover;display:block;
+    filter:grayscale(1) contrast(1.22) brightness(.92);
+    transform:scale(1.06);animation:kopush 30s ease-in-out infinite alternate}
+  @keyframes kopush{from{transform:scale(1.06) translate3d(0,0,0)}to{transform:scale(1.14) translate3d(-2%,1.5%,0)}}
+  .koline{display:block;position:relative;z-index:2;mix-blend-mode:difference;color:#fff;
+    font-family:var(--font-display);font-weight:400;text-transform:uppercase;white-space:nowrap;
+    letter-spacing:-.025em;line-height:.80;font-size:clamp(66px,21vw,320px)}
+  .k1{margin-left:-4vw}
+  .k2{margin-left:7vw}
+  .kofoot{position:absolute;left:0;right:0;bottom:clamp(22px,3.4vw,44px);z-index:3}
+
+  /* ---------- B8 - BROKEN. The word does not fit, so it breaks. ------- */
+  /* An editorial hyphen through the middle of the title. It only works
+     at a size where the break is obviously deliberate rather than an
+     accident of wrapping. */
+  .brk{position:relative;min-height:100vh;overflow:hidden;display:grid;align-content:center}
+  .brkline{display:block;font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+    white-space:nowrap;letter-spacing:-.03em;line-height:.76;
+    font-size:clamp(76px,27vw,410px);color:var(--w)}
+  .brkline em{font-style:normal;color:var(--red)}
+  .brkbook{position:absolute;z-index:3;right:7vw;bottom:11vh;width:clamp(150px,18vw,286px);
+    aspect-ratio:1784/2289;transform:rotate(7deg);
+    box-shadow:0 56px 116px rgba(0,0,0,.78),0 0 0 1px rgba(255,255,255,.14);
+    animation:bkbook 18s ease-in-out infinite}
+  body.lt .brkbook{box-shadow:0 56px 116px rgba(0,0,0,.34),0 0 0 1px rgba(0,0,0,.14)}
+  @keyframes bkbook{0%,100%{transform:rotate(7deg) translateY(0)}50%{transform:rotate(3deg) translateY(-16px)}}
+  .brkbook img{width:100%;height:100%;object-fit:cover;display:block}
+  /* the label runs up the left edge, because there is no room anywhere else */
+  .brkrail{position:absolute;left:clamp(14px,2.4vw,34px);top:50%;z-index:4;
+    transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;
+    font-size:11.5px;letter-spacing:.34em;text-transform:uppercase;font-weight:800;color:var(--g55)}
+
+  /* ---------- B9 - COLLISION. Three weights of one idea, overlapping. - */
+  .col2{position:relative;min-height:100vh;overflow:hidden;display:grid;place-content:center;
+    justify-items:center}
+  .colstack{position:relative;display:grid;justify-items:center}
+  .colword{font-family:var(--font-display);font-weight:400;text-transform:uppercase;white-space:nowrap;
+    letter-spacing:-.025em;line-height:.78;grid-area:1/1}
+  .cw1{font-size:clamp(60px,19vw,290px);color:var(--w);transform:translate(-9%,-22%)}
+  .cw2{font-size:clamp(76px,25vw,380px);color:transparent;-webkit-text-stroke:2px var(--red);
+    transform:translate(8%,14%);animation:colpulse 9s ease-in-out infinite}
+  @keyframes colpulse{0%,100%{opacity:.55}50%{opacity:1}}
+  .cw3{font-size:clamp(20px,3.2vw,50px);color:var(--red);transform:translate(26%,120%);letter-spacing:.06em}
+  .colbook{position:absolute;z-index:3;left:50%;top:50%;width:clamp(140px,15vw,230px);
+    aspect-ratio:1784/2289;transform:translate(-172%,-44%) rotate(-9deg);
+    box-shadow:0 52px 110px rgba(0,0,0,.78),0 0 0 1px rgba(255,255,255,.14);
+    animation:cbook 15s ease-in-out infinite}
+  body.lt .colbook{box-shadow:0 52px 110px rgba(0,0,0,.34),0 0 0 1px rgba(0,0,0,.14)}
+  @keyframes cbook{0%,100%{transform:translate(-172%,-47%) rotate(-9deg)}50%{transform:translate(-172%,-40%) rotate(-5deg)}}
+  .colbook img{width:100%;height:100%;object-fit:cover;display:block}
+
+  @media(max-width:860px){
+    .sandbook{right:3vw;width:clamp(110px,30vw,180px)}
+    .brkbook{right:3vw;bottom:8vh;width:clamp(100px,28vw,160px)}
+    .brkrail{display:none}
+    .colbook{transform:translate(-50%,180%) rotate(-9deg);width:clamp(96px,24vw,150px)}
+    .cw2{-webkit-text-stroke-width:1.4px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .s1,.s2,.s3,.sandbook,.kophoto img,.brkbook,.cw2,.colbook{animation:none}
+  }
+
   /* ---------- B1 - BLEED. The type is the hero and it does not fit. --- */
   .bleed{position:relative}
   .bleedline{display:block;font-size:clamp(64px,19.5vw,290px);color:var(--w);
@@ -1425,6 +1568,84 @@
   </div>
 </section>
 
+
+<!-- ============ BOLD 6 · DEPTH ============ -->
+<section class="hero-s bold">
+  <span class="tag">Bold 6 &middot; depth &middot; move the cursor</span>
+  <div class="deep" data-deep>
+    <div class="deepcam">
+      <span class="dl dz1">Compounding</span>
+      <span class="dl dz2">Compounding</span>
+      <span class="dl dz3">Your business</span>
+      <div class="dbook"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" loading="lazy" decoding="async" /></div>
+      <span class="dl dz5">is already <em>compounding</em>.</span>
+    </div>
+    <div class="deephaze" aria-hidden="true"></div>
+  </div>
+  <div class="boldfoot">
+    <div class="w">
+      <p class="boldnote">Five layers, five distances. The near ones travel further than the far ones.</p>
+      <a class="boldgo" href="#">Get on the list <i>&rarr;</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOLD 10 · CORRIDOR ============ -->
+<section class="hero-s bold">
+  <span class="tag">Bold 10 &middot; corridor</span>
+  <div class="corr" data-deep>
+    <div class="corrin"><span class="cr" style="transform:translate3d(-7%,-5%,0px);filter:blur(0.0px);opacity:1.00">Compounding</span><span class="cr" style="transform:translate3d(6%,4%,-300px);filter:blur(1.1px);opacity:0.88">Compounding</span><span class="cr" style="transform:translate3d(-4%,-3%,-600px);filter:blur(2.3px);opacity:0.76">Compounding</span><span class="cr" style="transform:translate3d(8%,6%,-900px);filter:blur(3.4px);opacity:0.64">Compounding</span><span class="cr" style="transform:translate3d(-9%,-7%,-1200px);filter:blur(4.6px);opacity:0.52">Compounding</span><span class="cr" style="transform:translate3d(3%,2%,-1500px);filter:blur(5.8px);opacity:0.40">Compounding</span><span class="cr" style="transform:translate3d(-5%,-4%,-1800px);filter:blur(6.9px);opacity:0.28">Compounding</span><span class="cr" style="transform:translate3d(7%,5%,-2100px);filter:blur(7.2px);opacity:0.16">Compounding</span></div>
+    <div class="corrhaze" aria-hidden="true"></div>
+    <div class="corrbook"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" loading="lazy" decoding="async" /></div>
+  </div>
+  <div class="boldfoot">
+    <div class="w">
+      <p class="boldnote">One word, eight distances, moving toward you.</p>
+      <a class="boldgo" href="#">Get on the list <i>&rarr;</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOLD 7 · KNOCKOUT ============ -->
+<section class="hero-s bold">
+  <span class="tag">Bold 7 &middot; knockout</span>
+  <div class="ko">
+    <div class="kophoto" aria-hidden="true"><img src="tceb-hero.webp" alt="" loading="lazy" decoding="async" /></div>
+    <span class="koline k1">Already</span>
+    <span class="koline k2">compounding.</span>
+  </div>
+  <div class="kofoot">
+    <div class="w">
+      <p class="boldnote">The word does not sit on the photograph. It turns it inside out.</p>
+      <a class="boldgo" href="#">Get on the list <i>&rarr;</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOLD 8 · BROKEN ============ -->
+<section class="hero-s bold">
+  <span class="tag">Bold 8 &middot; broken</span>
+  <div class="brk">
+    <span class="brkrail">The new book &middot; April 2027</span>
+    <span class="brkline">Compound&shy;-</span>
+    <span class="brkline"><em>ing</em>.</span>
+    <div class="brkbook"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" loading="lazy" decoding="async" /></div>
+  </div>
+</section>
+
+<!-- ============ BOLD 9 · COLLISION ============ -->
+<section class="hero-s bold">
+  <span class="tag">Bold 9 &middot; collision</span>
+  <div class="col2">
+    <div class="colstack">
+      <span class="colword cw1">Compound</span>
+      <span class="colword cw2">Effect</span>
+      <span class="colword cw3">In business</span>
+    </div>
+    <div class="colbook"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" loading="lazy" decoding="async" /></div>
+  </div>
+</section>
+
 <!-- ================= SAMPLE ROW A · THE CURVE ================= -->
 <section class="row wash">
   <div class="w">
@@ -1553,6 +1774,28 @@
     addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(run);}},{passive:true});
     run();
   })();
+  // Move the camera, not the layers. Rotating the rig makes every layer
+  // shift by an amount proportional to its own translateZ, which is the
+  // parallax you cannot get from stacking.
+  (function(){
+    var scenes=document.querySelectorAll('[data-deep]');
+    if(!scenes.length||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    scenes.forEach(function(sc){
+      var cam=sc.querySelector('.deepcam,.corrin'); if(!cam)return;
+      var base=getComputedStyle(cam).animationName!=='none';
+      sc.addEventListener('pointermove',function(e){
+        var r=sc.getBoundingClientRect();
+        var x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+        sc.style.perspectiveOrigin=(50+x*22)+'% '+(48+y*18)+'%';
+        if(!base) cam.style.transform='rotateY('+(x*9)+'deg) rotateX('+(-y*7)+'deg)';
+      });
+      sc.addEventListener('pointerleave',function(){
+        sc.style.perspectiveOrigin='50% 48%';
+        if(!base) cam.style.transform='';
+      });
+    });
+  })();
+
 </script>
 </body>
 </html>
