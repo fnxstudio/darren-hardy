@@ -33,7 +33,7 @@
   --red:#ff0047; --red-ink:#e1132e;
   --line:rgba(255,255,255,.12);
   --ease:cubic-bezier(.22,1,.30,1);
-  --T:56px;                 /* half the block. 180 pages is a thin book. */
+  --T:132px;                /* half the block, at macro scale */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 /* tceb.css sets `html, body { background: var(--bg) }`. Overriding only
@@ -53,42 +53,53 @@ a{color:inherit}
 /* ------------------------------------------------------------- THE BOOK */
 /* The hit area is the book, generously padded, so the swing triggers
    from anywhere on it rather than only on the visible sliver. */
-.hinge{position:absolute;right:46%;top:50%;z-index:3;
-  transform:translateY(-50%);transform-style:preserve-3d;
-  padding:0 60px;margin:0 -60px;cursor:pointer}
-.b{position:relative;height:min(86vh,800px);width:auto;aspect-ratio:1784/2289;
+/* At rest the block runs off the TOP of the frame and stops just short
+   of the bottom. That is what reads as an object photographed close
+   rather than a shape placed in a box, and it is the whole reason the
+   first crop worked. On open it recentres, because a cover has to be
+   seen whole. */
+.hinge{position:absolute;right:52%;top:50%;z-index:3;
+  transform:translateY(-50%) translateY(-17vh);transform-style:preserve-3d;
+  padding:0 70px;margin:0 -70px;cursor:pointer;
+  transition:transform 1.25s var(--ease)}
+.hinge:hover,.hinge:focus-visible{transform:translateY(-50%)}
+.b{position:relative;height:148vh;width:auto;aspect-ratio:1784/2289;
   transform-style:preserve-3d;transform-origin:100% 50%;
-  transform:rotateY(-90deg);   /* exactly edge-on: the cover has zero
-                                  projected width, so it is not there at
-                                  all rather than faded out */
+  transform:rotateY(-90.5deg); /* a half degree PAST edge-on, so the
+                                  front face is back-facing and
+                                  backface-visibility removes it rather
+                                  than antialiasing it into a sliver */
   transition:transform 1.25s var(--ease);will-change:transform}
-.hinge:hover .b,.hinge:focus-visible .b{transform:rotateY(-6deg)}
+.hinge:hover .b,.hinge:focus-visible .b{transform:rotateY(-7deg) scale(.50)}
 .b .f{position:absolute;inset:0;backface-visibility:hidden}
 .b .front{transform:translateZ(var(--T));box-shadow:0 0 0 1px rgba(255,255,255,.10)}
 .b .front img{width:100%;height:100%;object-fit:cover;display:block}
 .b .back{transform:translateZ(calc(var(--T) * -1)) rotateY(180deg);background:#08080a}
 
-/* THE PAGE EDGE. Three stripe widths at three values, unevenly spaced,
-   or it reads as a barcode rather than paper. */
+/* THE PAGE EDGE is a photograph, not a gradient.
+   CSS stripes are perfectly regular however much the widths are varied,
+   and paper never is: the tell is that every edge has the same
+   crispness. This is a macro of a real fore-edge, cropped to the
+   parallel middle of the block. Stretching it vertically costs nothing,
+   because the detail is purely vertical striation. */
 .b .edge{right:0;width:calc(var(--T) * 2);height:100%;
   transform:translateX(var(--T)) rotateY(90deg);
-  background:
-    repeating-linear-gradient(90deg,
-      #f4f1ea 0 1.2px, #e0dcd2 1.2px 2.1px, #c7c2b6 2.1px 2.6px,
-      #ece8df 2.6px 4px, #d3cec2 4px 4.9px, #b9b4a7 4.9px 5.4px),
-    linear-gradient(90deg, rgba(0,0,0,.50), transparent 26%, transparent 74%, rgba(0,0,0,.42))}
-/* a block of pages bows, and the highlight sits on the bow */
+  background-image:url("paper-edge.webp");background-size:100% 100%;background-repeat:no-repeat}
+/* the ends of a text block fall into shadow, and the specular sits on
+   the bow rather than lying flat across the face */
 .b .edge::after{content:"";position:absolute;inset:0;
   background:
-    linear-gradient(180deg, rgba(0,0,0,.46), transparent 12%, transparent 88%, rgba(0,0,0,.46)),
-    radial-gradient(130% 56% at 50% 50%, rgba(255,255,255,.30), transparent 64%)}
+    linear-gradient(180deg, rgba(0,0,0,.60), transparent 10%, transparent 90%, rgba(0,0,0,.60)),
+    linear-gradient(90deg, rgba(0,0,0,.44), transparent 22%, transparent 78%, rgba(0,0,0,.36)),
+    radial-gradient(128% 54% at 44% 50%, rgba(255,255,255,.18), transparent 60%)}
+
 /* the spine is the hinge, so it stays put while everything else swings */
 .b .spine{left:0;width:calc(var(--T) * 2);height:100%;
   transform:translateX(calc(var(--T) * -1)) rotateY(-90deg);
   background:linear-gradient(90deg,#000,#1b1b21 40%,#24242c 52%,#101014 74%,#000)}
 
 /* the floor it stands on */
-.shadow{position:absolute;right:46%;top:50%;z-index:2;width:760px;height:120px;
+.shadow{position:absolute;right:52%;top:50%;z-index:2;width:760px;height:120px;
   transform:translate(46%,calc(min(43vh,400px) - 40px));
   background:radial-gradient(50% 50% at 78% 50%, rgba(0,0,0,.85), transparent 72%);
   filter:blur(26px);opacity:.9;transition:opacity 1.25s var(--ease)}
@@ -152,14 +163,15 @@ a{color:inherit}
 /* --------------------------------------------------------- LIGHT MODE */
 body.lt{--ink0:#ececed;--w:#0a0a0d;--g30:#4d4d55;--g55:#71717a;--red:#d4112b;--red-ink:#d4112b;
   --line:rgba(0,0,0,.16)}
-body.lt .b .edge{background:
-  repeating-linear-gradient(90deg,
-    #fbf9f4 0 1.2px, #dbd6cb 1.2px 2.1px, #b0aa9d 2.1px 2.6px,
-    #f4f1e9 2.6px 4px, #ccc6ba 4px 4.9px, #a5a092 4.9px 5.4px),
-  linear-gradient(90deg, rgba(0,0,0,.26), transparent 26%, transparent 74%, rgba(0,0,0,.22))}
 body.lt .b .edge::after{background:
-  linear-gradient(180deg, rgba(0,0,0,.22), transparent 12%, transparent 88%, rgba(0,0,0,.26)),
-  radial-gradient(130% 56% at 50% 50%, rgba(255,255,255,.42), transparent 64%)}
+  linear-gradient(180deg, rgba(0,0,0,.28), transparent 10%, transparent 90%, rgba(0,0,0,.28)),
+  linear-gradient(90deg, rgba(0,0,0,.34), transparent 24%, transparent 76%, rgba(0,0,0,.30)),
+  radial-gradient(128% 54% at 44% 50%, rgba(255,255,255,.24), transparent 60%)}
+/* the frame darkens at its edges on a pale ground, where on a dark one
+   it lightens. Same job, opposite sign. */
+body.lt .vig{background:
+  radial-gradient(58% 70% at 44% 50%, transparent 26%, rgba(40,40,46,.12) 68%, rgba(40,40,46,.20) 100%)}
+
 body.lt .b .back{background:#dcdce0}
 body.lt .b .front{box-shadow:0 0 0 1px rgba(0,0,0,.18)}
 body.lt .shadow{background:radial-gradient(50% 50% at 78% 50%, rgba(0,0,0,.34), transparent 72%)}
@@ -171,7 +183,7 @@ body.lt .grain{mix-blend-mode:multiply;opacity:.13}
 /* No hover on a phone, so the swing is a tap, and the layout stacks:
    the block sits above the copy rather than beside it. */
 @media(max-width:860px){
-  :root{--T:34px}
+  :root{--T:66px}
   .stage{perspective:1200px;perspective-origin:50% 40%}
   .hinge{right:auto;left:50%;top:clamp(160px,26vh,240px);transform:translateX(-50%)}
   .b{height:min(38vh,320px);transform-origin:100% 50%}
@@ -251,7 +263,7 @@ body.lt .grain{mix-blend-mode:multiply;opacity:.13}
   var open=false;
   hinge.addEventListener('click',function(){
     open=!open;
-    b.style.transform=open?'rotateY(-6deg)':'';
+    b.style.transform=open?'rotateY(-7deg) scale(.50)':'';
     stage.classList.add('opened');
   });
   hinge.addEventListener('keydown',function(e){
