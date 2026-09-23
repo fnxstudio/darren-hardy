@@ -305,6 +305,77 @@
   .pill:hover{color:var(--w);border-color:var(--red)}
   @media(max-width:860px){.pills{display:none}.spin{width:88vw}}
   @media(prefers-reduced-motion:reduce){.spin{animation:none}.node circle.p{animation:none}}
+
+  /* ===================================================================
+     HERO STUDIES. Each one is a different way to use the jacket, since
+     the book is the only real asset this property has. Depth comes from
+     giving it thickness, repetition or a floor, not from a drop shadow.
+     =================================================================== */
+  .hero-s{position:relative;padding:clamp(70px,8vw,120px) 0 clamp(70px,8vw,120px);
+    border-top:1px solid var(--line);overflow:hidden}
+  .tag{position:absolute;top:18px;left:clamp(20px,4vw,64px);z-index:8;font-family:var(--font-body);
+    font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--g55);
+    border:1px solid var(--line);border-radius:100px;padding:6px 13px}
+
+  /* ---------- H1 · the jacket with real thickness ---------- */
+  .scene{perspective:2000px;display:grid;place-items:center;min-height:clamp(420px,48vw,600px)}
+  .b3d{position:relative;width:clamp(200px,22vw,300px);aspect-ratio:1784/2289;
+    transform-style:preserve-3d;animation:book 22s ease-in-out infinite;will-change:transform}
+  @keyframes book{
+    0%,100%{transform:rotateY(-26deg) rotateX(6deg) translateY(0)}
+    50%{transform:rotateY(18deg) rotateX(-3deg) translateY(-14px)}}
+  .b3d .f{position:absolute;inset:0;backface-visibility:hidden}
+  .b3d .front{transform:translateZ(17px);box-shadow:0 0 0 1px rgba(255,255,255,.10)}
+  .b3d .front img{width:100%;height:100%;object-fit:cover;display:block}
+  .b3d .back{transform:translateZ(-17px) rotateY(180deg);background:#0b0b0d}
+  .b3d .spine{left:0;width:34px;height:100%;transform:translateX(-17px) rotateY(-90deg);
+    background:linear-gradient(90deg,#000,#1a1a1e 40%,#000);display:grid;place-items:center}
+  .b3d .spine span{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--font-display);
+    font-weight:400;text-transform:uppercase;font-size:10px;letter-spacing:.22em;color:#cfcbd3;white-space:nowrap}
+  .b3d .edge{right:0;width:34px;height:100%;transform:translateX(17px) rotateY(90deg);
+    background:repeating-linear-gradient(90deg,#e8e6e1 0 1px,#c9c6bf 1px 2px)}
+  .floor{position:relative;width:clamp(200px,22vw,300px);aspect-ratio:1784/2289;margin-top:10px;
+    transform:rotateX(180deg);opacity:.16;
+    -webkit-mask-image:linear-gradient(to top,#000,transparent 62%);
+            mask-image:linear-gradient(to top,#000,transparent 62%);filter:blur(1px)}
+  .floor img{width:100%;height:100%;object-fit:cover;display:block}
+  .glow{position:absolute;width:60%;height:34%;left:20%;top:38%;z-index:-1;
+    background:radial-gradient(50% 50% at 50% 50%,rgba(255,0,71,.30),transparent 70%);filter:blur(30px)}
+
+  /* ---------- H2 · a wall of them ---------- */
+  .wall{position:relative;min-height:clamp(420px,46vw,580px);overflow:hidden;
+    perspective:1200px;display:grid;place-items:center}
+  .wallgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:clamp(10px,1.4vw,20px);
+    width:150%;transform:rotateX(26deg) rotateZ(-6deg);animation:crawl 40s linear infinite}
+  @keyframes crawl{from{transform:rotateX(26deg) rotateZ(-6deg) translateY(0)}
+                   to{transform:rotateX(26deg) rotateZ(-6deg) translateY(-33.4%)}}
+  .wallgrid img{width:100%;aspect-ratio:1784/2289;object-fit:cover;opacity:.30;border-radius:2px}
+  .wallgrid img:nth-child(7n+3){opacity:.70}
+  .wall::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:
+    radial-gradient(60% 55% at 50% 50%,transparent,var(--ink0) 76%),
+    linear-gradient(to bottom,var(--ink0),transparent 26%,transparent 70%,var(--ink0))}
+  .wallcopy{position:absolute;z-index:3;text-align:center;padding:0 20px}
+
+  /* ---------- H3 · the stack ---------- */
+  .stackwrap{display:grid;place-items:center;min-height:clamp(380px,42vw,520px);perspective:1400px}
+  .stack{position:relative;width:clamp(210px,24vw,320px);aspect-ratio:1784/2289;transform-style:preserve-3d;
+    transform:rotateX(52deg) rotateZ(-28deg)}
+  .stack img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:2px;
+    box-shadow:0 1px 0 rgba(255,255,255,.14),0 14px 26px rgba(0,0,0,.5);
+    transition:transform .8s cubic-bezier(.16,1,.3,1)}
+  .stackwrap:hover .stack img{transform:translateZ(var(--z)) translate(var(--sx),var(--sy))}
+
+  /* ---------- H4 · cover inside the type ---------- */
+  .lockup{position:relative;display:grid;place-items:center;min-height:clamp(380px,44vw,560px)}
+  .lockword{font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+    font-size:clamp(70px,15vw,230px);line-height:.8;letter-spacing:-.02em;color:var(--w);
+    text-align:center;position:relative;z-index:1}
+  .lockbook{position:absolute;z-index:2;width:clamp(120px,14vw,200px);aspect-ratio:1784/2289;
+    transform:rotate(-7deg) translateY(6%);box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.10);
+    transition:transform .8s cubic-bezier(.16,1,.3,1)}
+  .lockup:hover .lockbook{transform:rotate(-2deg) translateY(0) scale(1.04)}
+  .lockbook img{width:100%;height:100%;object-fit:cover;display:block}
+  @media(prefers-reduced-motion:reduce){.b3d,.wallgrid{animation:none}}
 </style>
 </head>
 <body>
@@ -348,6 +419,66 @@
   </div>
 </section>
 
+
+
+<!-- ============ HERO STUDY 1 · THICKNESS ============ -->
+<section class="hero-s wash">
+  <span class="tag">Hero 1 &middot; the object</span>
+  <div class="w" style="text-align:center;margin-bottom:clamp(20px,3vw,40px)">
+    <div class="rowhead rv" style="justify-content:center">A real object</div>
+    <h2 class="rowtitle rv">Give it thickness.</h2>
+    <p class="rowsub rv" style="margin-left:auto;margin-right:auto;text-align:center">Spine, page edge and a floor. It turns slowly on its own, so the cover is a thing in a room rather than a picture on a page.</p>
+  </div>
+  <div class="scene rv">
+    <div>
+      <div class="b3d">
+        <div class="glow"></div>
+        <div class="f front"><img src="tceb-cover.webp" alt="The Compound Effect in Business" /></div>
+        <div class="f back"></div>
+        <div class="f spine"><span>The Compound Effect in Business &nbsp;&middot;&nbsp; Darren Hardy</span></div>
+        <div class="f edge"></div>
+      </div>
+      <div class="floor" aria-hidden="true"><img src="tceb-cover.webp" alt="" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HERO STUDY 2 · THE WALL ============ -->
+<section class="hero-s">
+  <span class="tag">Hero 2 &middot; repetition</span>
+  <div class="wall">
+    <div class="wallgrid" aria-hidden="true"><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /></div>
+    <div class="wallcopy">
+      <div class="rowhead rv" style="justify-content:center">Ten thousand copies</div>
+      <h2 class="rowtitle rv">Put it in<br>every building.</h2>
+      <p class="rowsub rv" style="margin-left:auto;margin-right:auto;text-align:center">The wall crawls slowly upward and never repeats visibly. One copy is lit; the rest are the market.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HERO STUDY 3 · THE STACK ============ -->
+<section class="hero-s wash">
+  <span class="tag">Hero 3 &middot; quantity</span>
+  <div class="w" style="text-align:center;margin-bottom:clamp(16px,2.4vw,32px)">
+    <div class="rowhead rv" style="justify-content:center">The hundred</div>
+    <h2 class="rowtitle rv">Bought by the box.</h2>
+    <p class="rowsub rv" style="margin-left:auto;margin-right:auto;text-align:center">Seven copies in isometric. Hover and the stack fans apart. For any page selling volume rather than a single copy.</p>
+  </div>
+  <div class="stackwrap rv"><div class="stack"><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" style="--z:0px;--sx:0px;--sy:0px;transform:translateZ(0px)" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" style="--z:14px;--sx:-5px;--sy:-5px;transform:translateZ(7px)" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" style="--z:28px;--sx:-10px;--sy:-10px;transform:translateZ(14px)" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" style="--z:42px;--sx:-15px;--sy:-15px;transform:translateZ(21px)" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" style="--z:56px;--sx:-20px;--sy:-20px;transform:translateZ(28px)" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" style="--z:70px;--sx:-25px;--sy:-25px;transform:translateZ(35px)" /><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" style="--z:84px;--sx:-30px;--sy:-30px;transform:translateZ(42px)" /></div></div>
+</section>
+
+<!-- ============ HERO STUDY 4 · IN THE TYPE ============ -->
+<section class="hero-s">
+  <span class="tag">Hero 4 &middot; lockup</span>
+  <div class="w" style="text-align:center;margin-bottom:clamp(8px,1.4vw,18px)">
+    <div class="rowhead rv" style="justify-content:center">Type and object</div>
+    <h2 class="rowtitle rv">Let it interrupt.</h2>
+  </div>
+  <div class="lockup rv">
+    <div class="lockword">2027</div>
+    <div class="lockbook"><img src="tceb-cover.webp" alt="The Compound Effect in Business" /></div>
+  </div>
+</section>
 
 <!-- ================= SAMPLE ROW A · THE CURVE ================= -->
 <section class="row wash">
