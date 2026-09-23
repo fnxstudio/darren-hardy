@@ -87,28 +87,42 @@ a{color:inherit}
    grid is there so the distance is legible rather than merely pretty,
    and it converges on its own because it is a flat plane laid down in
    the same perspective as everything else. */
-/* The first attempt laid these on a floor tilted back in perspective.
-   It was accurate and invisible: the jacket owns the right of the frame,
-   the copy owns the left and the bar cuts the bottom, so there was no
-   open ground left for a floor to read against. The rings work in the
-   picture plane instead, centred on the base of the jacket, sweeping out
-   across the one part of the frame that is actually empty. */
-.rip{position:absolute;left:50%;top:50%;width:0;height:0;transform:translate3d(16vw,16vh,-300px)}
-.ripple{position:absolute;left:0;top:0;width:44vw;aspect-ratio:1;border-radius:50%;
-  border:1px solid var(--red);opacity:0;will-change:transform,opacity;
-  animation:ripple 12s cubic-bezier(.24,.58,.3,1) infinite}
-@keyframes ripple{
-  0%{transform:translate(-50%,-50%) scale(.04);opacity:0;border-width:2px}
-  10%{opacity:.62}
-  100%{transform:translate(-50%,-50%) scale(4.6);opacity:0;border-width:.5px}}
-.r2{animation-delay:2.4s}.r3{animation-delay:4.8s}.r4{animation-delay:7.2s}.r5{animation-delay:9.6s}
-/* the point it all comes from */
-.impact{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;
-  transform:translate(-50%,-50%);background:var(--red);
-  box-shadow:0 0 34px 10px rgba(255,0,71,.50);animation:pulse 2.6s ease-in-out infinite}
-body.lt .impact{box-shadow:0 0 34px 10px rgba(212,17,43,.30)}
-body.lt .ripple{opacity:0}
-@media(max-width:860px){.rip{transform:translate3d(6vw,10vh,-300px)}.ripple{width:72vw}}
+/* WHAT SIGNIFIES COMPOUNDING.
+   Rings say "one action, spreading consequence", which is true but it is
+   the same size forever. Compounding is not spreading, it is ACCELERATING,
+   so the shape has to grow.
+
+   Fourteen columns. Each is about a third taller than the one before it,
+   and each is also CLOSER to the camera than the one before it. Those are
+   the same gesture: growth and depth are one move, so the curve is not
+   drawn on a flat background, the curve IS the depth. The last four carry
+   the accent, because that is where a compound curve stops being boring.
+
+   Each column sits at its own translateZ, so scale, blur and contrast all
+   come from distance, which is what makes it read on white. On a pale
+   ground there is no glow to lean on and no dark to hide in: atmospheric
+   perspective is the only depth cue left, and it has to be right. */
+.growth{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;
+  transform:translate3d(1vw,26vh,0)}
+.bp{position:absolute;left:0;top:0;transform-style:preserve-3d}
+.gb{position:absolute;bottom:0;left:0;width:clamp(13px,1.5vw,25px);height:var(--h);
+  transform-origin:50% 100%;border-radius:1px;
+  background:linear-gradient(180deg,var(--w),rgba(255,255,255,.18));
+  animation:grow 10s cubic-bezier(.22,.66,.28,1) var(--d) infinite}
+body.lt .gb{background:linear-gradient(180deg,#14141a,rgba(20,20,26,.16))}
+.gb.hot{background:linear-gradient(180deg,var(--red),rgba(255,0,71,.20))}
+body.lt .gb.hot{background:linear-gradient(180deg,#d4112b,rgba(212,17,43,.18))}
+@keyframes grow{
+  0%,3%{transform:scaleY(.015);opacity:0}
+  14%{opacity:1}
+  26%,88%{transform:scaleY(1);opacity:1}
+  100%{transform:scaleY(.015);opacity:0}}
+/* the baseline the whole thing stands on, receding with them */
+.base{position:absolute;left:0;top:0;height:1px;width:64vw;
+  transform:translate3d(-2vw,0,-560px);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.26),transparent)}
+body.lt .base{background:linear-gradient(90deg,transparent,rgba(0,0,0,.24),transparent)}
+@media(max-width:860px){.growth{transform:translate3d(-2vw,26vh,0)}}
 
 /* ------------------------------------------------------------- THE OBJECT */
 /* A jacket with a spine and a page edge. A flat image of a cover reads as
@@ -117,13 +131,16 @@ body.lt .ripple{opacity:0}
    means the entrance's `transform:none` end state silently wipes the
    positioning once fill-mode holds it, which drops the jacket off the
    bottom of the frame. */
-.objp{transform:translate(-50%,-50%) translate3d(34vw,-2vh,-90px);transform-style:preserve-3d}
+.objp{transform:translate(-50%,-50%) translate3d(33vw,4vh,-90px);transform-style:preserve-3d}
 .objin{transform-style:preserve-3d}
-.book{position:relative;height:min(96vh,940px);width:auto;aspect-ratio:1784/2289;
+.book{position:relative;height:min(84vh,830px);width:auto;aspect-ratio:1784/2289;
   transform-style:preserve-3d;animation:bookturn 24s ease-in-out infinite;will-change:transform}
+/* leaning, not just turned. A book standing perfectly upright reads as
+   a rendering; a few degrees of roll is what makes it an object someone
+   put down. */
 @keyframes bookturn{
-  0%,100%{transform:rotateY(-19deg) rotateX(3deg) translateY(0)}
-  50%{transform:rotateY(-8deg) rotateX(-1deg) translateY(-22px)}}
+  0%,100%{transform:rotateY(-19deg) rotateX(3deg) rotateZ(-4.5deg) translateY(0)}
+  50%{transform:rotateY(-9deg) rotateX(-1deg) rotateZ(-2deg) translateY(-22px)}}
 .book .f{position:absolute;inset:0;backface-visibility:hidden}
 .book .front{transform:translateZ(28px);box-shadow:0 0 0 1px rgba(255,255,255,.14)}
 .book .front img{width:100%;height:100%;object-fit:cover;display:block}
@@ -225,7 +242,7 @@ body.lt .ripple{opacity:0}
 .rail-l{animation-delay:.24s}
 .rail-r{animation-delay:.30s}
 .bar{animation-delay:1.05s}
-.rip{--o:1;animation:fadeto 1.6s var(--ease) both}
+.growth{--o:1;animation:fadeto 1.6s var(--ease) both}
 /* the only type in the middle distance, so it reads as a caption
    rather than wallpaper */
 .band{--o:.30;transform:translate(-50%,-50%) translate3d(0,30vh,-240px);filter:blur(.5px);
@@ -296,13 +313,9 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
   <div class="sweep" aria-hidden="true"></div>
 
   <div class="rig" id="rig">
-    <div class="rip" aria-hidden="true">
-      <span class="ripple r1"></span>
-      <span class="ripple r2"></span>
-      <span class="ripple r3"></span>
-      <span class="ripple r4"></span>
-      <span class="ripple r5"></span>
-      <span class="impact"></span>
+    <div class="growth" aria-hidden="true">
+      <span class="base"></span>
+      <span class="bp" style="transform:translate3d(-36.00vw,0,-900px);opacity:0.3;filter:blur(2.44px)"><i class="gb" style="--h:9px;--d:0.0s"></i></span><span class="bp" style="transform:translate3d(-32.85vw,0,-854px);opacity:0.333;filter:blur(2.27px)"><i class="gb" style="--h:12px;--d:0.13s"></i></span><span class="bp" style="transform:translate3d(-29.70vw,0,-808px);opacity:0.384;filter:blur(2.09px)"><i class="gb" style="--h:16px;--d:0.26s"></i></span><span class="bp" style="transform:translate3d(-26.55vw,0,-762px);opacity:0.436;filter:blur(1.92px)"><i class="gb" style="--h:21px;--d:0.39s"></i></span><span class="bp" style="transform:translate3d(-23.40vw,0,-716px);opacity:0.487;filter:blur(1.75px)"><i class="gb" style="--h:29px;--d:0.52s"></i></span><span class="bp" style="transform:translate3d(-20.25vw,0,-670px);opacity:0.538;filter:blur(1.57px)"><i class="gb" style="--h:38px;--d:0.65s"></i></span><span class="bp" style="transform:translate3d(-17.10vw,0,-624px);opacity:0.589;filter:blur(1.4px)"><i class="gb" style="--h:51px;--d:0.78s"></i></span><span class="bp" style="transform:translate3d(-13.95vw,0,-578px);opacity:0.64;filter:blur(1.22px)"><i class="gb" style="--h:68px;--d:0.91s"></i></span><span class="bp" style="transform:translate3d(-10.80vw,0,-532px);opacity:0.691;filter:blur(1.05px)"><i class="gb" style="--h:91px;--d:1.04s"></i></span><span class="bp" style="transform:translate3d(-7.65vw,0,-486px);opacity:0.742;filter:blur(0.88px)"><i class="gb" style="--h:121px;--d:1.17s"></i></span><span class="bp" style="transform:translate3d(-4.50vw,0,-440px);opacity:0.793;filter:blur(0.7px)"><i class="gb hot" style="--h:162px;--d:1.3s"></i></span><span class="bp" style="transform:translate3d(-1.35vw,0,-394px);opacity:0.844;filter:blur(0.53px)"><i class="gb hot" style="--h:216px;--d:1.43s"></i></span><span class="bp" style="transform:translate3d(1.80vw,0,-348px);opacity:0.896;filter:blur(0.36px)"><i class="gb hot" style="--h:288px;--d:1.56s"></i></span><span class="bp" style="transform:translate3d(4.95vw,0,-302px);opacity:0.947;filter:blur(0.18px)"><i class="gb hot" style="--h:385px;--d:1.69s"></i></span>
     </div>
 
     <span class="pl band" aria-hidden="true">Thirty-five years &middot; Two million readers &middot; One book he has never written before</span>
