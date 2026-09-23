@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TCEB · Hero · Bleed</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="tceb.css?v=1">
+<style>
+/* ======================================================================
+   BLEED.
+   Type too big for the frame, with the jacket in among it rather than
+   beside it.
+
+   The lines are anchored to a real left margin and overflow to the
+   RIGHT only. The study version let them run off both edges, which cost
+   the first letter of the word the whole page is about: "OMPOUNDING".
+   Losing the right end of a line reads as scale; losing the left end
+   reads as a mistake, because that is the edge the eye returns to on
+   every line.
+   ====================================================================== */
+:root{
+  --ink0:#0a0a0d;
+  --w:#fff; --g30:#a3a3ac; --g55:#6b6b75;
+  --red:#ff0047; --red-ink:#e1132e;
+  --line:rgba(255,255,255,.12);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --edge:clamp(18px,3vw,46px);       /* the margin the type never crosses */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+/* tceb.css sets `html, body { background: var(--bg) }`. Overriding only
+   body is not enough: once html carries a background of its own, body's
+   no longer propagates to the canvas, so anything past the body box
+   paints in the base sheet's colour. Clearing html lets body's
+   background propagate again, which also keeps the theme switch on
+   body working. */
+html{background:transparent}
+body{background:var(--ink0);color:var(--w);font-family:var(--font-body);font-size:16px;
+  line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+
+.stage{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;
+  display:grid;align-content:center}
+
+.wash{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(54% 46% at 74% 38%, rgba(255,0,71,.15), transparent 66%),
+    radial-gradient(60% 50% at 22% 76%, rgba(120,70,255,.06), transparent 70%)}
+.grain{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.28;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+
+/* -------------------------------------------------------------- THE TYPE */
+.lines{position:relative;z-index:2;padding-left:var(--edge)}
+.ln{display:block;font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+  white-space:nowrap;line-height:.80;letter-spacing:-.024em;
+  font-size:clamp(46px,15.8vw,232px);color:var(--w);will-change:transform}
+.ln em{font-style:normal;color:var(--red)}
+.l1{animation:drift1 30s ease-in-out infinite alternate}
+.l2{animation:drift2 36s ease-in-out infinite alternate}
+.l3{animation:drift3 26s ease-in-out infinite alternate}
+/* the drift only ever moves right, so the left margin is never eaten */
+@keyframes drift1{from{transform:translateX(0)}to{transform:translateX(2.4vw)}}
+@keyframes drift2{from{transform:translateX(1.4vw)}to{transform:translateX(4.6vw)}}
+@keyframes drift3{from{transform:translateX(0)}to{transform:translateX(1.8vw)}}
+
+/* ------------------------------------------------------------ THE OBJECT */
+.book{position:absolute;z-index:3;right:clamp(-70px,-3vw,-20px);top:50%;
+  height:min(80vh,740px);width:auto;aspect-ratio:1784/2289;
+  transform:translateY(-50%) rotate(4deg);
+  box-shadow:0 60px 130px rgba(0,0,0,.80),0 0 0 1px rgba(255,255,255,.14),
+             0 0 180px rgba(255,0,71,.12);
+  animation:float 15s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(-53%) rotate(4deg)}
+                 50%{transform:translateY(-47%) rotate(1.4deg)}}
+.book img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* -------------------------------------------------------------- CHROME */
+.bfoot{position:absolute;left:0;right:0;bottom:clamp(20px,3.4vw,44px);z-index:5}
+.bfoot .w{width:100%;max-width:1440px;margin:0 auto;padding:0 var(--edge);
+  display:flex;align-items:flex-end;justify-content:flex-start;
+  gap:clamp(28px,6vw,86px);flex-wrap:wrap}
+.note{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
+  color:var(--g55);line-height:2}
+.note b{display:block;font-weight:800;color:var(--g30)}
+.go{color:var(--w);text-decoration:none;font-family:var(--font-display);font-weight:400;
+  font-size:clamp(20px,2.3vw,36px);text-transform:uppercase;letter-spacing:.02em;
+  border-bottom:2px solid var(--red);padding-bottom:4px;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:14px;transition:gap .26s var(--ease)}
+.go:hover{gap:24px}
+
+.nav{position:absolute;top:0;left:0;right:0;z-index:9;padding:26px 0}
+.nav .w{width:100%;max-width:1440px;margin:0 auto;padding:0 var(--edge);
+  display:flex;align-items:center;gap:28px}
+.logo{font-family:var(--font-name);font-weight:700;text-transform:uppercase;letter-spacing:.16em;
+  font-size:15px;text-decoration:none;white-space:nowrap}
+.navlinks{margin-left:auto;display:flex;gap:clamp(16px,2vw,28px)}
+.navlinks a{text-decoration:none;font-size:11px;font-weight:800;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--g30);transition:color .25s}
+.navlinks a:hover{color:var(--w)}
+.navcta{border:1px solid var(--line);border-radius:3px;padding:11px 21px;text-decoration:none;
+  font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;
+  transition:background .3s,color .3s,border-color .3s}
+.navcta:hover{background:var(--w);color:var(--ink0);border-color:var(--w)}
+@media(max-width:940px){.navlinks{display:none}.navcta{margin-left:auto}}
+
+/* --------------------------------------------------------- ENTRANCE */
+@keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.nav,.bfoot{animation:fade 1s var(--ease) both}
+.nav{animation-delay:.1s}.bfoot{animation-delay:.95s}
+/* the lines carry a drift animation, so their entrance is opacity only:
+   a transform keyframe here would overwrite the drift's end state */
+.ln{opacity:0;animation-name:fade,none}
+.l1{animation:fade .9s var(--ease) .18s both, drift1 30s ease-in-out 1.2s infinite alternate}
+.l2{animation:fade .9s var(--ease) .30s both, drift2 36s ease-in-out 1.3s infinite alternate}
+.l3{animation:fade .9s var(--ease) .42s both, drift3 26s ease-in-out 1.4s infinite alternate}
+.book{opacity:0;animation:fade 1.1s var(--ease) .58s both, float 15s ease-in-out 1.6s infinite}
+
+/* -------------------------------------------------------- LIGHT MODE */
+body.lt{--ink0:#ededee;--w:#0a0a0d;--g30:#4d4d55;--g55:#71717a;--red:#d4112b;--red-ink:#d4112b;
+  --line:rgba(0,0,0,.16)}
+body.lt .wash{background:
+  radial-gradient(54% 46% at 74% 38%, rgba(212,17,43,.09), transparent 66%),
+  radial-gradient(60% 50% at 20% 78%, rgba(0,0,0,.07), transparent 72%)}
+body.lt .grain{mix-blend-mode:multiply;opacity:.14}
+body.lt .book{box-shadow:0 60px 130px rgba(0,0,0,.34),0 0 0 1px rgba(0,0,0,.14)}
+
+/* ------------------------------------------------------------ MOBILE */
+@media(max-width:860px){
+  .stage{align-content:start;padding-top:clamp(96px,16vh,150px)}
+  .ln{font-size:clamp(42px,15.5vw,92px);line-height:.84}
+  .book{position:relative;right:auto;top:auto;transform:none;margin:clamp(22px,4vh,40px) var(--edge) 0 auto;
+    height:min(40vh,340px);animation:fade 1.1s var(--ease) .58s both}
+  .l1,.l2,.l3{animation:fade .9s var(--ease) both}
+  .bfoot{position:relative;bottom:auto;margin-top:clamp(24px,5vh,48px);padding-bottom:26px}
+  .bfoot .w{flex-direction:column;align-items:flex-start;gap:18px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;opacity:1!important}}
+
+.tg{position:fixed;right:14px;bottom:14px;z-index:50;display:flex;gap:6px;
+  background:rgba(128,128,140,.18);border:1px solid var(--line);border-radius:3px;padding:5px;
+  backdrop-filter:blur(14px)}
+.tg button{border:0;background:transparent;color:var(--g30);font:700 10px/1 var(--font-body);
+  letter-spacing:.16em;text-transform:uppercase;padding:8px 13px;border-radius:2px;cursor:pointer}
+.tg button.on{background:var(--w);color:var(--ink0)}
+@media(max-width:860px){.tg{right:8px;bottom:auto;top:70px;transform:scale(.8);transform-origin:100% 0}}
+</style>
+</head>
+<body>
+
+<div class="tg" role="group" aria-label="Theme">
+  <button id="bD" class="on" type="button">Dark</button>
+  <button id="bL" type="button">Light</button>
+</div>
+
+<section class="stage">
+  <div class="wash" aria-hidden="true"></div>
+
+  <div class="lines">
+    <span class="ln l1">Your business</span>
+    <span class="ln l2">is already</span>
+    <span class="ln l3"><em>compounding</em>.</span>
+  </div>
+
+  <div class="book">
+    <img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" width="760" height="975" fetchpriority="high" decoding="async" />
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="w">
+      <a class="logo" href="#">Darren Hardy</a>
+      <nav class="navlinks">
+        <a href="#">The book</a>
+        <a href="#">The event</a>
+        <a href="#">Darren</a>
+      </nav>
+      <a class="navcta" href="#">Get on the list</a>
+    </div>
+  </header>
+
+  <div class="bfoot">
+    <div class="w">
+      <p class="note">The only question is<br>which&nbsp;direction.<b>The new book, April 2027</b></p>
+      <a class="go" href="#">Get on the list <i>&rarr;</i></a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var bD=document.getElementById('bD'),bL=document.getElementById('bL');
+  function set(l){document.body.classList.toggle('lt',l);bL.classList.toggle('on',l);bD.classList.toggle('on',!l);}
+  bD.onclick=function(){set(false)};bL.onclick=function(){set(true)};
+})();
+</script>
+</body>
+</html>

@@ -32,6 +32,13 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+/* tceb.css sets `html, body { background: var(--bg) }`. Overriding only
+   body is not enough: once html carries a background of its own, body's
+   no longer propagates to the canvas, so anything past the body box
+   paints in the base sheet's colour. Clearing html lets body's
+   background propagate again, which also keeps the theme switch on
+   body working. */
+html{background:transparent}
 body{background:var(--ink0);color:var(--w);font-family:var(--font-body);font-size:16px;line-height:1.6;
   overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{color:inherit}

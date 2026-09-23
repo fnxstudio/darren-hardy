@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TCEB · Hero · Macro</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="tceb.css?v=1">
+<style>
+/* ======================================================================
+   THE MACRO CROP.
+   The hero never shows the cover. It opens on the page edge and the
+   spine at a magnification where you can count the paper, and the jacket
+   only arrives when you scroll.
+
+   That is only possible because of WHICH parts are enlarged. A 760px
+   cover image cannot fill a 1440px frame, let alone be zoomed into. The
+   page edge and the spine are not images at all: they are gradients, so
+   they stay razor sharp at any size, and the cover face is held at a
+   steep angle where it is compressed to a sliver until the reveal.
+
+   Scroll drives one number. Rotation, scale, the depth-of-field veil,
+   the light and every value in the type are all functions of it, so
+   there is nothing to keep in sync.
+   ====================================================================== */
+:root{
+  --ink0:#070709;
+  --w:#fff; --g30:#9d9da6; --g55:#63636d;
+  --red:#ff0047; --red-ink:#e1132e;
+  --line:rgba(255,255,255,.12);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --p:0;                      /* scroll progress, 0 to 1 */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+/* tceb.css sets `html, body { background: var(--bg) }`. Overriding only
+   body is not enough: once html carries a background of its own, body's
+   no longer propagates to the canvas, so anything past the body box
+   paints in the base sheet's colour. Clearing html lets body's
+   background propagate again, which also keeps the theme switch on
+   body working. */
+html{background:transparent}
+body{background:var(--ink0);color:var(--w);font-family:var(--font-body);font-size:16px;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+
+.scroller{position:relative;height:260vh}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate;
+  perspective:1700px;perspective-origin:66% 50%;
+  display:grid;place-items:center;background:var(--ink0)}
+
+/* ----------------------------------------------------------- THE OBJECT */
+.rig{position:relative;transform-style:preserve-3d;will-change:transform}
+.b{position:relative;height:200vh;width:auto;aspect-ratio:1784/2289;
+  transform-style:preserve-3d;will-change:transform}
+.b .f{position:absolute;inset:0;backface-visibility:hidden}
+/* thickness is the subject here, so it is authored in real pixels rather
+   than derived from the cover: at this magnification a book block is
+   340px of paper */
+.b .front{transform:translateZ(170px)}
+.b .front img{width:100%;height:100%;object-fit:cover;display:block}
+.b .back{transform:translateZ(-170px) rotateY(180deg);background:#08080a}
+
+/* THE PAGE EDGE. Three stripe widths at three values, deliberately not
+   evenly spaced, or it reads as a barcode instead of paper. */
+.b .edge{right:0;width:340px;height:100%;transform:translateX(170px) rotateY(90deg);
+  background:
+    repeating-linear-gradient(90deg,
+      #f4f1ea 0 1.5px, #e2ded4 1.5px 2.6px, #cbc6ba 2.6px 3.2px,
+      #efebe2 3.2px 5px, #d6d1c5 5px 6.1px, #bdb8ab 6.1px 6.7px),
+    linear-gradient(90deg, rgba(0,0,0,.55), transparent 22%, transparent 78%, rgba(0,0,0,.45))}
+/* paper is not flat: a block of pages bows, and the highlight sits on
+   the bow rather than lying across the whole face */
+.b .edge::after{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.50), transparent 14%, transparent 86%, rgba(0,0,0,.50)),
+    radial-gradient(120% 60% at 50% 50%, rgba(255,255,255,.34), transparent 62%)}
+
+/* THE SPINE. */
+.b .spine{left:0;width:340px;height:100%;transform:translateX(-170px) rotateY(-90deg);
+  background:
+    linear-gradient(90deg,#000 0%,#1c1c22 34%,#26262e 50%,#141418 72%,#000 100%)}
+.b .spine::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;
+  transform:translateX(-50%);background:linear-gradient(180deg,transparent,rgba(255,255,255,.26),transparent)}
+
+/* ------------------------------------------------------------ THE LIGHT */
+/* One hard raking source across the paper. At macro it is the only thing
+   that makes the edge read as a surface rather than a pattern. */
+.rake{position:absolute;inset:-20%;z-index:4;pointer-events:none;
+  background:linear-gradient(101deg,transparent 30%,rgba(255,255,255,.16) 45%,
+    rgba(255,220,225,.10) 52%,transparent 66%);
+  background-size:260% 100%;animation:rake 16s ease-in-out infinite;mix-blend-mode:screen}
+@keyframes rake{0%,100%{background-position:120% 0}50%{background-position:-20% 0}}
+
+/* DEPTH OF FIELD. A real macro lens holds almost nothing in focus, and
+   that shallow plane is most of why a close-up reads as a close-up. The
+   veil blurs what is behind it and is masked to fade in toward the far
+   end of the block. */
+.dof{position:absolute;inset:0;z-index:5;pointer-events:none;
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
+  -webkit-mask:linear-gradient(97deg,#000 0%,rgba(0,0,0,.72) 18%,transparent 46%);
+          mask:linear-gradient(97deg,#000 0%,rgba(0,0,0,.72) 18%,transparent 46%);
+  opacity:calc(1 - var(--p))}
+.vig{position:absolute;inset:0;z-index:6;pointer-events:none;
+  background:radial-gradient(76% 72% at 68% 50%, transparent 34%, var(--ink0) 96%)}
+.grain{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.28;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+
+/* -------------------------------------------------------------- THE TYPE */
+.copy{position:absolute;z-index:8;left:calc(max((100vw - 1440px) / 2, 0px) + clamp(20px,4vw,56px));
+  top:50%;transform:translateY(-50%);width:min(560px,46vw);pointer-events:none}
+.eb{display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-weight:400;
+  font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--red)}
+.eb s{width:6px;height:6px;border-radius:50%;background:var(--red);text-decoration:none}
+.h1{font-family:var(--font-display);font-weight:400;text-transform:uppercase;line-height:.86;
+  font-size:clamp(40px,6.6vw,104px);letter-spacing:-.02em;margin-top:18px}
+.h1 em{font-style:normal;color:var(--red)}
+.sub{margin-top:20px;max-width:38ch;font-size:15.5px;line-height:1.6;color:var(--g30)}
+/* the caption belongs to the magnification, so it leaves with it */
+.cap{margin-top:26px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;
+  font-weight:800;color:var(--g55);opacity:calc(1 - var(--p) * 2.2)}
+
+/* -------------------------------------------------------------- CHROME */
+.nav{position:absolute;top:0;left:0;right:0;z-index:9;padding:26px 0}
+.w{width:100%;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
+.nav .w{display:flex;align-items:center;gap:28px}
+.logo{font-family:var(--font-name);font-weight:700;text-transform:uppercase;letter-spacing:.16em;
+  font-size:15px;text-decoration:none;white-space:nowrap}
+.navlinks{margin-left:auto;display:flex;gap:clamp(16px,2vw,28px)}
+.navlinks a{text-decoration:none;font-size:11px;font-weight:800;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--g30);transition:color .25s}
+.navlinks a:hover{color:var(--w)}
+.navcta{border:1px solid var(--line);border-radius:3px;padding:11px 21px;text-decoration:none;
+  font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;
+  transition:background .3s,color .3s,border-color .3s}
+.navcta:hover{background:var(--w);color:var(--ink0);border-color:var(--w)}
+@media(max-width:940px){.navlinks{display:none}.navcta{margin-left:auto}}
+
+.hint{position:absolute;z-index:9;left:50%;bottom:26px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--g55);font-weight:800;
+  opacity:calc(1 - var(--p) * 3)}
+.hint i{width:1px;height:36px;background:linear-gradient(180deg,transparent,var(--g55));
+  animation:sc 2.6s ease-in-out infinite;transform-origin:top}
+@keyframes sc{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+
+/* -------------------------------------------------------------- LIGHT */
+/* Paper on a pale ground needs the opposite treatment: the block stops
+   glowing and starts casting, and the edge reads by shadow between the
+   pages rather than by highlight on them. */
+body.lt{--ink0:#ececed;--w:#0a0a0d;--g30:#4d4d55;--g55:#71717a;--red:#d4112b;
+  --line:rgba(0,0,0,.16)}
+body.lt .b .edge{background:
+  repeating-linear-gradient(90deg,
+    #fbf9f4 0 1.5px, #ddd8cd 1.5px 2.6px, #b4afa2 2.6px 3.2px,
+    #f5f2ea 3.2px 5px, #cfc9bd 5px 6.1px, #a9a496 6.1px 6.7px),
+  linear-gradient(90deg, rgba(0,0,0,.30), transparent 22%, transparent 78%, rgba(0,0,0,.26))}
+body.lt .b .edge::after{background:
+  linear-gradient(180deg, rgba(0,0,0,.26), transparent 14%, transparent 86%, rgba(0,0,0,.30)),
+  radial-gradient(120% 60% at 50% 50%, rgba(255,255,255,.44), transparent 62%)}
+body.lt .b .back{background:#dcdce0}
+body.lt .rake{mix-blend-mode:multiply;
+  background:linear-gradient(101deg,transparent 30%,rgba(0,0,0,.10) 45%,transparent 66%)}
+body.lt .grain{mix-blend-mode:multiply;opacity:.14}
+
+/* -------------------------------------------------------------- MOBILE */
+@media(max-width:860px){
+  .scroller{height:240vh}
+  .stage{perspective:1100px;perspective-origin:50% 44%}
+  .b{height:150vh}
+  .b .front{transform:translateZ(90px)}
+  .b .back{transform:translateZ(-90px) rotateY(180deg)}
+  .b .edge{width:180px;transform:translateX(90px) rotateY(90deg)}
+  .b .spine{width:180px;transform:translateX(-90px) rotateY(-90deg)}
+  .copy{left:0;right:0;width:auto;padding:0 20px;top:auto;bottom:clamp(74px,12vh,110px);
+    transform:none}
+  .h1{font-size:clamp(34px,10vw,54px)}
+  .sub{font-size:14px;max-width:34ch}
+  .vig{background:radial-gradient(90% 60% at 50% 34%, transparent 30%, var(--ink0) 96%)}
+}
+@media(prefers-reduced-motion:reduce){.rake,.hint i{animation:none}}
+
+.tg{position:fixed;right:14px;bottom:14px;z-index:50;display:flex;gap:6px;
+  background:rgba(128,128,140,.18);border:1px solid var(--line);border-radius:3px;padding:5px;
+  backdrop-filter:blur(14px)}
+.tg button{border:0;background:transparent;color:var(--g30);font:700 10px/1 var(--font-body);
+  letter-spacing:.16em;text-transform:uppercase;padding:8px 13px;border-radius:2px;cursor:pointer}
+.tg button.on{background:var(--w);color:var(--ink0)}
+@media(max-width:860px){.tg{right:8px;bottom:auto;top:70px;transform:scale(.8);transform-origin:100% 0}}
+</style>
+</head>
+<body>
+
+<div class="tg" role="group" aria-label="Theme">
+  <button id="bD" class="on" type="button">Dark</button>
+  <button id="bL" type="button">Light</button>
+</div>
+
+<div class="scroller" id="scroller">
+  <section class="stage" id="stage">
+    <div class="rig" id="rig">
+      <div class="b" id="b">
+        <div class="f back"></div>
+        <div class="f spine"></div>
+        <div class="f edge"></div>
+        <div class="f front"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" width="760" height="975" fetchpriority="high" decoding="async" /></div>
+      </div>
+    </div>
+
+    <div class="rake" aria-hidden="true"></div>
+    <div class="dof" aria-hidden="true"></div>
+    <div class="vig" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="copy">
+      <div class="eb"><s></s>The new book &middot; April 2027</div>
+      <h1 class="h1">Three hundred<br>and twenty pages<br>of <em>compounding</em>.</h1>
+      <p class="sub">Thirty-five years at the center of what builds a business, written down in one place for the first time.</p>
+      <div class="cap">Shown at magnification &middot; scroll to open it</div>
+    </div>
+
+    <header class="nav">
+      <div class="w">
+        <a class="logo" href="#">Darren Hardy</a>
+        <nav class="navlinks">
+          <a href="#">The book</a>
+          <a href="#">The event</a>
+          <a href="#">Darren</a>
+        </nav>
+        <a class="navcta" href="#">Get on the list</a>
+      </div>
+    </header>
+
+    <div class="hint" aria-hidden="true">Scroll<i></i></div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var bD=document.getElementById('bD'),bL=document.getElementById('bL');
+  function set(l){document.body.classList.toggle('lt',l);bL.classList.toggle('on',l);bD.classList.toggle('on',!l);}
+  bD.onclick=function(){set(false)};bL.onclick=function(){set(true)};
+
+  var sc=document.getElementById('scroller'), rig=document.getElementById('rig'),
+      b=document.getElementById('b'), root=document.documentElement;
+  var q=false;
+  // One number. Rotation, scale, position, the depth-of-field veil and
+  // every value in the type are functions of it, so nothing can drift
+  // out of sync with anything else.
+  function paint(){
+    q=false;
+    var r=sc.getBoundingClientRect();
+    var p=Math.min(1,Math.max(0,(-r.top)/(sc.offsetHeight-innerHeight)));
+    var e=p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2;      // ease in-out
+    root.style.setProperty('--p',e.toFixed(4));
+    // -74 was not nearly enough: at that angle the cover is still 28% of
+    // its width, which is 590px of jacket against 330px of paper, so the
+    // hero opened on the cover and the macro idea never happened. -87
+    // compresses the face to a 5% sliver and lays the paper almost flat.
+    var ry = -87 + e*71;
+    var s  = 1 - e*0.80;                               // pull back as it opens
+    // the copy holds the left, so the paper has to hold the right. The
+    // first pass pushed the block left and the type sat on top of it.
+    var tx = 21 - e*21;                                // recentre as it shrinks
+    rig.style.transform='translateX('+tx.toFixed(2)+'vw) scale('+s.toFixed(4)+')';
+    b.style.transform='rotateY('+ry.toFixed(2)+'deg) rotateX('+(2-e*1.5).toFixed(2)+'deg)';
+  }
+  function queue(){ if(!q){q=true;requestAnimationFrame(paint);} }
+  addEventListener('scroll',queue,{passive:true});
+  addEventListener('resize',queue);
+  paint();
+})();
+</script>
+</body>
+</html>
