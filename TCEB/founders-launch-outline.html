@@ -1,0 +1,472 @@
+<title>TCEB Launch Waterfall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Narrow:wght@500;600&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{
+  --c-paper:#fbfaf8;--c-white:#fff;--c-bone:#f2f1ef;--c-ink:#141414;--c-black:#000;
+  --c-red:#e02826;--c-red-deep:#b01e1c;--c-red-bright:#ff4b3e;
+  --c-gold:#d4a017;--c-gold-deep:#a87f12;--c-gold-ink:#8a6300;
+  --radius:4px;--container:1180px;
+  --font-display:'Bebas Neue','Haettenschweiler','Arial Narrow',sans-serif;
+  --font-name:'Archivo Narrow','Franklin Gothic Medium Cond','Arial Narrow',sans-serif;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --bg:var(--c-paper);--surface:var(--c-white);--surface-2:var(--c-bone);
+  --fg:var(--c-ink);--fg-soft:#55524f;--fg-mute:#6f6c68;--fg-fine:#7d7a76;
+  --line:rgba(0,0,0,.12);--line-strong:rgba(0,0,0,.24);
+  --accent:var(--c-red);--gold-type:var(--c-gold-ink);--gold-mark:var(--c-gold-deep);
+  --wash:rgba(224,40,38,.05);--gold-wash:rgba(212,160,23,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 12px 32px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:var(--c-black);--surface:#131313;--surface-2:#1b1b1b;
+  --fg:#fff;--fg-soft:#a8a5a2;--fg-mute:#8c8c8c;--fg-fine:#7a7a7a;
+  --line:rgba(255,255,255,.11);--line-strong:rgba(255,255,255,.22);
+  --accent:var(--c-red-bright);--gold-type:var(--c-gold);--gold-mark:var(--c-gold);
+  --wash:rgba(255,75,62,.09);--gold-wash:rgba(212,160,23,.12);
+  --shadow:0 2px 4px rgba(0,0,0,.5),0 24px 60px rgba(0,0,0,.55);
+}}
+:root[data-theme="dark"]{
+  --bg:var(--c-black);--surface:#131313;--surface-2:#1b1b1b;
+  --fg:#fff;--fg-soft:#a8a5a2;--fg-mute:#8c8c8c;--fg-fine:#7a7a7a;
+  --line:rgba(255,255,255,.11);--line-strong:rgba(255,255,255,.22);
+  --accent:var(--c-red-bright);--gold-type:var(--c-gold);--gold-mark:var(--c-gold);
+  --wash:rgba(255,75,62,.09);--gold-wash:rgba(212,160,23,.12);
+  --shadow:0 2px 4px rgba(0,0,0,.5),0 24px 60px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 28px}
+h1,h2,h3,h4{margin:0;text-wrap:balance}
+p{margin:0 0 1em}
+.display{font-family:var(--font-display);font-weight:400;letter-spacing:.012em;line-height:.92;text-transform:uppercase}
+h1.display{font-size:clamp(46px,7.2vw,84px)}
+h2.display{font-size:clamp(27px,3.4vw,38px)}
+.eyebrow{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.16em;font-size:12px;color:var(--fg-mute)}
+.eyebrow.red{color:var(--accent)}
+
+.masthead{padding:56px 0 34px;border-bottom:2px solid var(--fg)}
+.masthead .lede{font-size:19px;line-height:1.55;color:var(--fg-soft);max-width:62ch;margin-top:18px}
+.meta-row{display:flex;flex-wrap:wrap;gap:26px;margin-top:26px;font-size:13px;color:var(--fg-mute)}
+.meta-row b{display:block;font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:11px;color:var(--fg-fine);margin-bottom:3px}
+
+section{padding:50px 0}
+section+section{border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:14px}
+.sec-head .num{font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1}
+.sec-intro{color:var(--fg-soft);max-width:70ch;margin-top:10px}
+
+/* doctrine */
+.doctrine{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:28px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.doctrine>div{padding:22px 24px;border-right:1px solid var(--line)}
+.doctrine>div:last-child{border-right:0}
+.doctrine h4{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.11em;font-size:11.5px;color:var(--accent);margin-bottom:9px}
+.doctrine p{font-size:14.5px;color:var(--fg-soft);margin:0}
+
+/* tables */
+.scroller{overflow-x:auto;margin-top:26px;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+table.tl{min-width:860px}
+table.wf{min-width:1000px}
+thead th{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:10.5px;color:var(--fg-fine);text-align:left;padding:13px 16px;border-bottom:1px solid var(--line-strong);white-space:nowrap;background:var(--surface-2)}
+tbody td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--fg-soft)}
+tbody tr:last-child td{border-bottom:0}
+td.ph{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:var(--fg);white-space:nowrap}
+td.dt{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--fg);font-weight:500}
+td.win{white-space:nowrap;font-variant-numeric:tabular-nums}
+td.aud{color:var(--fg)}
+tr.gold td.ph{color:var(--gold-type)}
+tr.gold{background:var(--gold-wash)}
+tr.hot{background:var(--wash)}
+.pill{display:inline-block;font-family:var(--font-name);font-weight:600;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;padding:2px 8px;border-radius:2px;border:1px solid currentColor;white-space:nowrap}
+.pill.yes{color:var(--gold-type)}
+.pill.no{color:var(--fg-fine)}
+.pill.tight{color:var(--accent)}
+
+/* decision block */
+.decide{background:var(--c-black);color:#fff;border-radius:var(--radius);padding:34px 34px 30px;margin-top:28px}
+.decide .eyebrow{color:var(--c-gold)}
+.decide h2{color:#fff;margin:8px 0 14px}
+.decide>p{color:#c2bfbb;max-width:68ch}
+.opts{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:24px}
+.opt{border:1px solid rgba(255,255,255,.16);border-radius:var(--radius);padding:20px 22px}
+.opt.rec{border-color:var(--c-gold);background:rgba(212,160,23,.08)}
+.opt h4{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:11.5px;color:#fff;margin-bottom:4px}
+.opt .tag{font-family:var(--font-name);font-weight:600;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--c-gold);display:block;margin-bottom:10px}
+.opt p{font-size:14px;color:#b9b6b2;margin:0}
+.scen{margin-top:26px;overflow-x:auto}
+.scen table{min-width:560px;font-size:13.5px}
+.scen thead th{background:transparent;color:#8c8987;border-bottom:1px solid rgba(255,255,255,.22)}
+.scen tbody td{color:#c2bfbb;border-bottom:1px solid rgba(255,255,255,.1)}
+.scen tbody td.k{color:#fff;font-weight:500}
+.scen tbody td.bad{color:var(--c-red-bright)}
+.scen tbody td.ok{color:var(--c-gold)}
+
+/* angle cards */
+.angles{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:26px}
+.angle{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--radius);padding:20px 22px;background:var(--surface)}
+.angle.g{border-left-color:var(--gold-mark)}
+.angle .who{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:11.5px;color:var(--fg)}
+.angle .when{font-size:11.5px;color:var(--fg-fine);font-variant-numeric:tabular-nums;margin-top:2px;margin-bottom:11px;font-family:var(--font-name);letter-spacing:.06em;text-transform:uppercase}
+.angle p{font-size:14.5px;color:var(--fg-soft);margin-bottom:.7em}
+.angle p:last-child{margin-bottom:0}
+.angle .line{color:var(--fg);font-weight:500}
+
+/* asset checklists */
+.assets{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));margin-top:26px}
+.ast{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:20px 22px}
+.ast h3{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--fg);padding-bottom:9px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.ast h3 span{display:block;font-size:10.5px;color:var(--fg-fine);letter-spacing:.09em;margin-top:3px}
+.ast ul{margin:0;padding:0;list-style:none;font-size:14px}
+.ast li{padding-left:22px;position:relative;margin-bottom:8px;color:var(--fg-soft)}
+.ast li:last-child{margin-bottom:0}
+.ast li::before{content:"";position:absolute;left:0;top:5px;width:11px;height:11px;border:1px solid var(--line-strong);border-radius:2px}
+.ast li.key{color:var(--fg);font-weight:500}
+.ast li.key::before{border-color:var(--accent);border-width:1.5px}
+
+/* flags */
+.flags{margin-top:24px;border-top:1px solid var(--line-strong)}
+.flag{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;padding:18px 0;border-bottom:1px solid var(--line)}
+.flag .k{font-family:var(--font-display);font-size:20px;color:var(--gold-type);line-height:1.15}
+.flag h3{font-size:16px;font-weight:600;color:var(--fg);grid-column:2}
+.flag p{grid-column:2;font-size:14.5px;color:var(--fg-soft);margin:6px 0 0;max-width:76ch}
+footer{padding:38px 0 64px;color:var(--fg-fine);font-size:13px;border-top:2px solid var(--fg);margin-top:18px;max-width:76ch}
+@media (max-width:620px){.doctrine>div{border-right:0;border-bottom:1px solid var(--line)}.decide{padding:26px 22px}}
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow red">The Compound Effect in Business &middot; Shock &amp; Awe</div>
+  <h1 class="display">TCEB Launch<br>Waterfall</h1>
+  <p class="lede">The book is the news. A second Compound Effect, in print, from the author this audience re-reads every summer, is the most re-engaging thing Darren has announced in a decade. The Founders Event is what a reader does about it. This is the release order, the dates, and what each audience hears first.</p>
+  <div class="meta-row">
+    <span><b>Window</b>Oct 7 &ndash; Dec 31, 2026</span>
+    <span><b>Tiers</b>6, waterfalled</span>
+    <span><b>Anchor</b>BMC45 closes Oct 21</span>
+    <span><b>Hard date</b>Print, and the names list with it</span>
+    <span><b>Install</b>Jan 18 &rarr; April 26&ndash;28</span>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head"><span class="num">01</span><h2 class="display">The doctrine</h2></div>
+  <p class="sec-intro">Three rules that govern every tier. They are the reason this is a book launch with an enrollment inside it rather than an enrollment campaign wearing a book.</p>
+  <div class="doctrine">
+    <div>
+      <h4>First contact is news</h4>
+      <p>The first thing any audience receives is that the book exists, what it is, and why it took this long. No price in it. They have been asking him "what about my business?" for fifteen years and this is the answer arriving. Let it be that for one email before it is anything else.</p>
+    </div>
+    <div>
+      <h4>Position is the reward</h4>
+      <p>Nobody is told their tier. They feel it: earlier audiences simply hear it earlier, and their Founders window is longer. The waterfall is the status mechanism. It needs no copy of its own and it survives being noticed.</p>
+    </div>
+    <div>
+      <h4>Founder is a role, not a price</h4>
+      <p>A leader who enrolls before print gets a name in the book and a seat at the making of it. The $4,995 is Darren paying $5,000 of a $9,995 COLLECTIVE year toward a mission, stated as such. Never a discount, an early bird, or a savings.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">02</span><h2 class="display">Launch timeline</h2></div>
+  <p class="sec-intro">Phases in the Shock &amp; Awe shape. The BOA and Tease phases run before BMC45 so Darren has real reader reactions in hand when he opens from the stage. The waterfall proper is section 03.</p>
+  <div class="scroller">
+    <table class="tl">
+      <thead><tr><th>Phase</th><th>Audience</th><th>Start</th><th>End</th><th>Goal</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ph">BOA</td>
+          <td class="aud">50 to 100 hand-picked alumni, HPF and COLLECTIVE members who are in the avatar</td>
+          <td class="dt">Wed Oct 7</td><td class="dt">Fri Oct 16</td>
+          <td>Reactions to the title, subtitle and jacket. Harvest the "what about my business" quotes in their own words. Tell them they hear everything first, and they do.</td>
+        </tr>
+        <tr>
+          <td class="ph">Tease</td>
+          <td class="aud">Ecosphere properties only. No list sends.</td>
+          <td class="dt">Mon Oct 12</td><td class="dt">Wed Oct 21</td>
+          <td>Anticipation and pixel. Page takeovers, DD banners, the 404 and expired pages, vault login screens, team email signatures. No title, no date, no offer.</td>
+        </tr>
+        <tr class="hot">
+          <td class="ph">Reveal &rarr; Waterfall</td>
+          <td class="aud">Six tiers in order. BMC45 attendees through cold.</td>
+          <td class="dt">Wed Oct 21</td><td class="dt">Wed Nov 11</td>
+          <td>The book is real. Cover reveal, the story of why now, the Founders role behind it. Tier detail in section 03.</td>
+        </tr>
+        <tr>
+          <td class="ph">Public / Choir</td>
+          <td class="aud">Everything open. Paid, remarketing, ecosystem takeovers.</td>
+          <td class="dt">Wed Nov 11</td><td class="dt">Thu Dec 31</td>
+          <td>Seats for April, the in-studio award, and the tool library as the capture for everyone not ready to enroll.</td>
+        </tr>
+        <tr class="gold">
+          <td class="ph">Print</td>
+          <td class="aud">Manuscript to press. Founders names list closes with it.</td>
+          <td class="dt">Sun Nov 1 as planned</td><td class="dt">Fri Nov 20 recommended</td>
+          <td>The only genuine deadline in the campaign. See section 04, because as currently dated it lands in the middle of the waterfall.</td>
+        </tr>
+        <tr class="gold">
+          <td class="ph">Install opens</td>
+          <td class="aud">Founders, then all seat holders</td>
+          <td class="dt">Mon Jan 18</td><td class="dt">Tue Apr 28</td>
+          <td>First-run copies ship off the press. Twelve weekly sessions Jan 18 to the week of Apr 5. The Founders Event Apr 26 to 28, in-studio reception Apr 25. Public book release just after.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">03</span><h2 class="display">The waterfall</h2></div>
+  <p class="sec-intro">Your release order, dated off BMC45 closing Wednesday October 21. Each gap is read as days after the previous tier. Two readings needed a call and both are flagged in section 06: the Saturday landing on tier 1, and the tier 4 to tier 5 gap, which you left open and I have set to five days to match the pattern.</p>
+  <div class="scroller">
+    <table class="wf">
+      <thead><tr><th>#</th><th>Audience</th><th>Release</th><th>Gap</th><th>Founders window</th><th>What this tier hears first</th></tr></thead>
+      <tbody>
+        <tr class="hot">
+          <td class="ph">1</td>
+          <td class="aud">BMC45 attendees<br><span style="color:var(--fg-fine);font-size:12.5px">Plus the in-room reveal at the close, Oct 21</span></td>
+          <td class="dt">Sat Oct 24</td><td class="win">3 days post event</td>
+          <td class="win"><span class="pill yes">7 days</span></td>
+          <td>You just spent three days installing the machine. Here is the book that teaches it, and you are the first people alive to hold the offer.</td>
+        </tr>
+        <tr>
+          <td class="ph">2</td>
+          <td class="aud">HPF and BMC alumni<br><span style="color:var(--fg-fine);font-size:12.5px">11,738 alumni, plus Forum members</span></td>
+          <td class="dt">Thu Oct 29</td><td class="win">+5 days</td>
+          <td class="win"><span class="pill tight">2 days</span></td>
+          <td>The vocabulary you already speak, in print, permanently. Your name in it, and the way back into the studio.</td>
+        </tr>
+        <tr>
+          <td class="ph">3</td>
+          <td class="aud">Hardy Club members</td>
+          <td class="dt">Fri Oct 30</td><td class="win">+1 to 2 days</td>
+          <td class="win"><span class="pill tight">1 day</span></td>
+          <td>You are already inside. This is the thing being built while you were in here, and membership is why you are hearing it before the list does.</td>
+        </tr>
+        <tr>
+          <td class="ph">4</td>
+          <td class="aud">DarrenDaily and Compound Effect readers<br><span style="color:var(--fg-fine);font-size:12.5px">The largest and most emotionally invested audience</span></td>
+          <td class="dt">Wed Nov 4</td><td class="win">+5 days</td>
+          <td class="win"><span class="pill no">none as dated</span></td>
+          <td>The question you have been asking him since you finished the first one has an answer, and it is a book you can hold. Same law, bigger machine.</td>
+        </tr>
+        <tr>
+          <td class="ph">5</td>
+          <td class="aud">Ecosphere sites and the rest of the database</td>
+          <td class="dt">Mon Nov 9</td><td class="win">+5 days, proposed</td>
+          <td class="win"><span class="pill no">none as dated</span></td>
+          <td>There is a new Compound Effect. Here are the tools from it, free, today.</td>
+        </tr>
+        <tr>
+          <td class="ph">6</td>
+          <td class="aud">Cold</td>
+          <td class="dt">Wed Nov 11</td><td class="win">2 days after tier 5</td>
+          <td class="win"><span class="pill no">none as dated</span></td>
+          <td>Symptom-led, never the book first. The Big Shiny Lie and Month Thirty-One carry the hooks. No revenue floor named.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="decide">
+    <div class="eyebrow">Decision required before anything is built</div>
+    <h2 class="display">The print date lands in the middle of your waterfall</h2>
+    <p>Print is currently November 1, and the Founders names list closes with it. Your release order does not reach DarrenDaily and Compound Effect readers until November 4, the rest of the database until the 9th, and cold until the 11th. As dated, three of your six tiers cannot become Founders at all, and the two largest never get a chance at the name in the book. Tiers 2 and 3 get two days and one day.</p>
+    <p>Which means the single most re-engaging asset in the campaign, a printed page with their name on it, is offered only to the people who were already in the building.</p>
+    <div class="opts">
+      <div class="opt rec">
+        <h4>Move print to Friday Nov 20</h4>
+        <span class="tag">Recommended</span>
+        <p>Every tier gets a real window and the waterfall becomes the status story: earlier audiences get more days and a better position on the page. Tier 1 gets 27 days, DarrenDaily and TCE readers get 16, cold gets 9. This is open item 2 in the event context file, already flagged there for the same reason.</p>
+      </div>
+      <div class="opt">
+        <h4>Hold Nov 1, make Founder inner-circle only</h4>
+        <span class="tag">Cleanest story, smallest circle</span>
+        <p>The Founders Circle becomes truly scarce: BMC45, alumni, HPF, Hardy Club. Later tiers are sold the seat and the book, never Founder status, and the copy never mentions a page they cannot be on. Honest and tight, but it spends the book news on audiences with nothing to enroll in.</p>
+      </div>
+      <div class="opt">
+        <h4>Start the waterfall earlier</h4>
+        <span class="tag">Breaks the BMC45 anchor</span>
+        <p>Run tiers 1 through 3 the week before BMC45 so print can stay November 1. This costs the in-room reveal, which is the warmest moment Darren will have all year, and it is the weakest of the three.</p>
+      </div>
+    </div>
+    <div class="scen">
+      <table>
+        <thead><tr><th>Founders window by tier</th><th>Print Nov 1</th><th>Print Nov 20</th></tr></thead>
+        <tbody>
+          <tr><td class="k">1 &middot; BMC45 attendees</td><td class="ok">7 days</td><td class="ok">27 days</td></tr>
+          <tr><td class="k">2 &middot; HPF and BMC alumni</td><td class="bad">2 days</td><td class="ok">22 days</td></tr>
+          <tr><td class="k">3 &middot; Hardy Club</td><td class="bad">1 day</td><td class="ok">21 days</td></tr>
+          <tr><td class="k">4 &middot; DarrenDaily and TCE readers</td><td class="bad">none</td><td class="ok">16 days</td></tr>
+          <tr><td class="k">5 &middot; Ecosphere and rest of database</td><td class="bad">none</td><td class="ok">11 days</td></tr>
+          <tr><td class="k">6 &middot; Cold</td><td class="bad">none</td><td class="ok">9 days</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">05</span><h2 class="display">What each tier hears</h2></div>
+  <p class="sec-intro">The angle per audience, not the copy. Every one of these opens on the reader or on the book as news, never on the event, the price or a diagnosis of their business.</p>
+  <div class="angles">
+    <div class="angle">
+      <div class="who">1 &middot; BMC45 attendees</div>
+      <div class="when">In room Oct 21 &middot; email Sat Oct 24</div>
+      <p class="line">You have the machine. Here is the manual, and your name goes in it.</p>
+      <p>They are three days off the highest-emotion experience Darren runs. The reveal happens from the stage at the close, the email lands Saturday while the workbook is still on the kitchen table. This is the only tier where the offer can ride in the first contact, because they have already had three days of news.</p>
+    </div>
+    <div class="angle">
+      <div class="who">2 &middot; HPF and BMC alumni</div>
+      <div class="when">Thu Oct 29</div>
+      <p class="line">The language you already speak, now in print and permanent.</p>
+      <p>They know the vocabulary and they know how Darren sells. Lead with the book existing and what is new in it: the five multipliers, Month Thirty-One, the delay. Founder status is the way back into the studio, and the referral link is how they earn one of the forty.</p>
+    </div>
+    <div class="angle">
+      <div class="who">3 &middot; Hardy Club members</div>
+      <div class="when">Fri Oct 30</div>
+      <p class="line">You are already inside. This is what was being built in here.</p>
+      <p>Insider framing, not offer framing. They should feel the membership working: they heard it before the database did, and they see the jacket before it is public. Founder status is the natural next step, not a pitch.</p>
+    </div>
+    <div class="angle g">
+      <div class="who">4 &middot; DarrenDaily and Compound Effect readers</div>
+      <div class="when">Wed Nov 4</div>
+      <p class="line">Fifteen years of asking him the same question. Here is the answer.</p>
+      <p>The biggest emotional payoff in the campaign and the tier most likely to be wasted. These are people who re-read the first book every summer and hand it to new hires in their first thirty days. First contact is pure news: the cover, the story of why it took this long, and the free tool library. The seat comes second, in a later send, and only to the ones who engaged.</p>
+    </div>
+    <div class="angle g">
+      <div class="who">5 &middot; Ecosphere and the rest of the database</div>
+      <div class="when">Mon Nov 9</div>
+      <p class="line">There is a new Compound Effect, and the tools are yours today.</p>
+      <p>Site takeovers across the properties plus a database send. The conversion goal here is the tool library at the book's own download address, which captures the email and positions the book, rather than the seat. Most of this list will never take a seat and all of it can re-engage with a book.</p>
+    </div>
+    <div class="angle">
+      <div class="who">6 &middot; Cold</div>
+      <div class="when">Wed Nov 11 onward</div>
+      <p class="line">Name the symptom. Never the book, never the cause, never a revenue floor.</p>
+      <p>The only tier where the book is not the opener, because a stranger does not care that an author published. The Big Shiny Lie and Month Thirty-One carry it. Traffic goes to the tool library first, seat second. Paid and remarketing live entirely in this tier.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">06</span><h2 class="display">Assets by phase</h2></div>
+  <p class="sec-intro">Marked items are on the critical path. Everything unmarked can land inside its phase. This does not cover the offer architecture, the guarantee or the VIP stack, all of which are still open and gate the enrollment page.</p>
+  <div class="assets">
+    <div class="ast">
+      <h3>BOA <span>by Oct 6</span></h3>
+      <ul>
+        <li class="key">The 50 to 100 list, pulled and de-duped against BMC45 registrants</li>
+        <li class="key">Jacket, title and subtitle in a form that can be shown</li>
+        <li>Survey, short, reaction and involvement only</li>
+        <li>Darren personal note, plain text</li>
+        <li>Reader-reaction capture form, with usage consent</li>
+      </ul>
+    </div>
+    <div class="ast">
+      <h3>Tease <span>by Oct 9</span></h3>
+      <ul>
+        <li class="key">Teaser landing page and pixel</li>
+        <li class="key">Ecosphere takeover slots identified and scheduled</li>
+        <li>DD banners, simple</li>
+        <li>404 and expired-page treatments</li>
+        <li>Vault login screens</li>
+        <li>Team email signatures</li>
+        <li>Social covers and posts</li>
+      </ul>
+    </div>
+    <div class="ast">
+      <h3>Reveal, tiers 1&ndash;3 <span>by Oct 20</span></h3>
+      <ul>
+        <li class="key">Enrollment page, Founders, with renewal terms in plain sight</li>
+        <li class="key">Name-as-printed capture at checkout, required field</li>
+        <li class="key">Confirmation page, noindex</li>
+        <li class="key">Stage assets for the BMC45 close</li>
+        <li>Darren personal message video</li>
+        <li>Cover reveal asset, stills and motion</li>
+        <li>Email copy, three tier variants</li>
+        <li>SMS copy</li>
+        <li>Referral link delivery and dashboard</li>
+        <li>FAQ, objections, MX training</li>
+        <li>Direct mailer to tier 1 and 2</li>
+      </ul>
+    </div>
+    <div class="ast">
+      <h3>Tiers 4&ndash;5 <span>by Nov 2</span></h3>
+      <ul>
+        <li class="key">Tool library live at the book's download address</li>
+        <li class="key">Announcement-first email, no offer in the first send</li>
+        <li>Enrollment page, open version</li>
+        <li>DD announcement and video bumpers</li>
+        <li>DDOD bumpers</li>
+        <li>Email graphics and DD banners</li>
+        <li>Ecosphere page takeovers, full</li>
+        <li>Website updates across properties</li>
+        <li>Remarketing ads</li>
+      </ul>
+    </div>
+    <div class="ast">
+      <h3>Public and cold <span>by Nov 10</span></h3>
+      <ul>
+        <li class="key">Paid creative, symptom-led, no revenue floor</li>
+        <li>Retargeting and abandon-cart comms</li>
+        <li>In-studio award rules page</li>
+        <li>Press approach, if any</li>
+        <li>Program and DD confirmation pages updated to upsell</li>
+        <li>Book inserts updated</li>
+      </ul>
+    </div>
+    <div class="ast">
+      <h3>Standing <span>through Dec 31</span></h3>
+      <ul>
+        <li class="key">Founder onboarding and the insider drip, Nov to Dec</li>
+        <li class="key">Reading group logistics, out by Jan 8</li>
+        <li>Award standings communication</li>
+        <li>Plan, do, review, adjust on every phase before the next opens</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">07</span><h2 class="display">Open, and who has to answer</h2></div>
+  <div class="flags">
+    <div class="flag"><div class="k">01</div>
+      <h3>Print date. Darren.</h3>
+      <p>Section 04. Nothing downstream can be scheduled until this is settled, because it decides whether three of your six tiers have an offer at all.</p>
+    </div>
+    <div class="flag"><div class="k">02</div>
+      <h3>Does Darren reveal from the stage on Oct 21?</h3>
+      <p>The event context file recommends opening sales at BMC45 as the close-of-event offer. Your order puts the BMC45 email three days post event. I have built both: reveal in the room at the close, email Saturday the 24th as the follow-up. If the stage reveal is out, tier 1 needs a different first contact, because "you were there and we said nothing" is worse than not being first.</p>
+    </div>
+    <div class="flag"><div class="k">03</div>
+      <h3>Tier 1 lands on a Saturday.</h3>
+      <p>Three days post an event closing Wednesday is Saturday October 24. For an audience still holding the workbook that is defensible and possibly better than Monday. If you want the weekday, it moves to Monday October 26 and every downstream date shifts two days.</p>
+    </div>
+    <div class="flag"><div class="k">04</div>
+      <h3>Tier 4 to tier 5 gap.</h3>
+      <p>Your note fixes tier 5 at two days before cold but leaves the gap after DarrenDaily and TCE readers open. Set to five days here, matching the pattern, which puts tier 5 on Nov 9 and cold on Nov 11.</p>
+    </div>
+    <div class="flag"><div class="k">05</div>
+      <h3>Current COLLECTIVE members.</h3>
+      <p>The seat is a COLLECTIVE year, so a current member is being asked to invest $4,995 in something they hold. They sit inside tiers 2 and 3. Until alumni and member pricing is ruled, they should receive the book announcement and be suppressed from the seat offer.</p>
+    </div>
+    <div class="flag"><div class="k">06</div>
+      <h3>BOA reactions are not testimonials.</h3>
+      <p>Early-reader enthusiasm is a product opinion, not a banked result, and it cannot be used where a testimonial goes. Collect it for headline language and for the launch's excitement assets, and keep it away from the enrollment page's proof section, which needs results with magnitudes attached.</p>
+    </div>
+    <div class="flag"><div class="k">07</div>
+      <h3>The in-studio award still needs a legal read.</h3>
+      <p>The thirty-seat pool drawn among people who influenced ten or more seats is a prize conditioned on a paid seat. Until that is cleared, every asset should describe the forty as merit and selection: top ten win outright, Darren selects the rest by fit. Never contest, never sweepstakes, never given away.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built against the September 2026 TCEB context set and the Hardy Club Shock &amp; Awe checklist. Dates computed from BMC45 closing Wednesday October 21, 2026. The twelve-email sequence drafted earlier is a phase asset for tiers 2 and 3 and needs re-cutting to open on the book rather than on the shelf.
+</footer>
+
+</div>
