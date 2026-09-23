@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TCEB · Hero</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="tceb.css?v=1">
+<style>
+/* ======================================================================
+   ONE HERO, BUILT OUT.
+   The difference between a sketch and finished work is not the big idea,
+   it is how many things are decided. Here that means: a camera rather
+   than a stack, a jacket with real thickness rather than a flat image,
+   air with dust in it, a choreographed entrance instead of everything
+   arriving at once, and chrome on all four edges that earns its place.
+
+   DEPTH is the spine of it. Every plane sits at its own translateZ under
+   one perspective, so scale, blur, contrast and parallax all fall out of
+   distance instead of being set by hand. Rotating the rig on pointer
+   move and dollying it on scroll shifts each plane in proportion to how
+   far away it is. That is the cue nothing else substitutes for.
+   ====================================================================== */
+:root{
+  --ink0:#09090c;        /* the ground. never #000, or the jacket vanishes */
+  --ink1:#101014;
+  --w:#fff; --g30:#a8a8b0; --g55:#6f6f78; --g70:#4a4a52;
+  --red:#ff0047;         /* 5.34 on the dark ground */
+  --red-ink:#e1132e;     /* fills that carry white type */
+  --line:rgba(255,255,255,.12);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink0);color:var(--w);font-family:var(--font-body);font-size:16px;line-height:1.6;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.dsp{font-family:var(--font-display);font-weight:400;text-transform:uppercase;letter-spacing:-.01em}
+
+/* ---------------------------------------------------------------- STAGE */
+.stage{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;
+  display:grid;place-items:center;
+  perspective:1200px;perspective-origin:50% 48%}
+
+/* the air. A pool of light the scene sits in, plus a vignette that closes
+   the frame. Without these the far planes read as flat grey rectangles
+   rather than as things a long way off. */
+.air{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(48% 40% at 62% 38%, rgba(255,0,71,.16), transparent 66%),
+    radial-gradient(60% 50% at 30% 72%, rgba(120,60,255,.07), transparent 70%),
+    radial-gradient(70% 60% at 50% 50%, rgba(255,255,255,.05), transparent 72%)}
+.vig{position:absolute;inset:0;z-index:6;pointer-events:none;
+  background:radial-gradient(76% 68% at 50% 46%, transparent 42%, var(--ink0) 96%)}
+.grain{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.30;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
+/* one light crossing the whole scene, slowly */
+.sweep{position:absolute;top:-40%;bottom:-40%;left:-40%;width:52%;z-index:5;pointer-events:none;
+  background:linear-gradient(104deg,transparent,rgba(255,255,255,.10) 44%,rgba(255,0,71,.07) 56%,transparent);
+  filter:blur(40px);transform:skewX(-12deg);animation:sweep 19s linear infinite}
+@keyframes sweep{0%{left:-46%}70%{left:120%}100%{left:120%}}
+
+/* --------------------------------------------------------------- THE RIG */
+.rig{position:relative;z-index:2;transform-style:preserve-3d;display:grid;place-items:center;
+  transition:transform .6s var(--ease);will-change:transform}
+
+/* planes, far to near. blur and opacity TRACK distance, they are not
+   styling choices; that is what keeps the illusion consistent. */
+.pl{grid-area:1/1;white-space:nowrap;pointer-events:none}
+.ghost{font-family:var(--font-display);font-weight:400;text-transform:uppercase;line-height:.78;
+  letter-spacing:-.03em;color:var(--w);font-size:clamp(90px,23vw,360px)}
+/* Opacity is carried on --o, not set directly. The entrance animation
+   below ends at opacity:1 with fill-mode both, so a plain opacity here
+   is silently overwritten and every plane lands at full strength: the
+   distance cue is destroyed by the thing that reveals it. */
+.p1{--o:.055;transform:translate3d(-7vw,-26vh,-900px);filter:blur(12px)}
+.p2{--o:.075;transform:translate3d(6vw,-17vh,-620px);filter:blur(7px)}
+.p3{--o:.10;transform:translate3d(-4vw,-9vh,-380px);filter:blur(3.4px)}
+
+/* a band of small type crossing the middle distance, so the gap between
+   the far word and the jacket is occupied rather than empty */
+.band{--o:.26;transform:translate3d(0,3vh,-240px);filter:blur(.6px);
+  font-size:13px;letter-spacing:.42em;text-transform:uppercase;font-weight:700;color:var(--w)}
+
+/* ------------------------------------------------------------- THE OBJECT */
+/* A jacket with a spine and a page edge. A flat image of a cover reads as
+   a picture of a book; this reads as a book. */
+.objp{grid-area:1/1;transform:translate3d(25vw,-9vh,-90px);transform-style:preserve-3d}
+.book{position:relative;width:clamp(170px,19.5vw,300px);aspect-ratio:1784/2289;
+  transform-style:preserve-3d;animation:bookturn 24s ease-in-out infinite;will-change:transform}
+@keyframes bookturn{
+  0%,100%{transform:rotateY(-22deg) rotateX(4deg) translateY(0)}
+  50%{transform:rotateY(-9deg) rotateX(-2deg) translateY(-18px)}}
+.book .f{position:absolute;inset:0;backface-visibility:hidden}
+.book .front{transform:translateZ(16px);box-shadow:0 0 0 1px rgba(255,255,255,.14)}
+.book .front img{width:100%;height:100%;object-fit:cover;display:block}
+.book .back{transform:translateZ(-16px) rotateY(180deg);background:#09090b}
+.book .spine{left:0;width:32px;height:100%;transform:translateX(-16px) rotateY(-90deg);
+  background:linear-gradient(90deg,#000,#1b1b20 45%,#000)}
+.book .edge{right:0;width:32px;height:100%;transform:translateX(16px) rotateY(90deg);
+  background:repeating-linear-gradient(90deg,#e9e7e2 0 1px,#c6c3bc 1px 2px)}
+/* the specular the jacket picks up as it turns */
+.book .front::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(142deg,rgba(255,255,255,.34),rgba(255,255,255,.04) 26%,transparent 46%)}
+/* it is in a room, so it throws something on the floor */
+.objp::after{content:"";position:absolute;left:-28%;right:-14%;bottom:-16%;height:70px;
+  transform:translateZ(-120px);
+  background:radial-gradient(50% 50% at 52% 50%,rgba(0,0,0,.80),transparent 72%);filter:blur(20px)}
+
+/* --------------------------------------------------------------- THE COPY */
+/* Near the camera plane on purpose. Depth is for the scene; the message
+   pays no part of the cost. */
+.copyp{grid-area:1/1;transform:translate3d(-21vw,9vh,70px);width:min(620px,48vw)}
+.eb{display:flex;align-items:center;gap:13px;font-family:var(--font-display);font-weight:400;
+  font-size:12.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--red)}
+.eb s{width:7px;height:7px;border-radius:50%;background:var(--red);text-decoration:none;
+  animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+.h-sm{font-family:var(--font-display);font-weight:400;text-transform:uppercase;line-height:.96;
+  font-size:clamp(19px,2.7vw,40px);color:var(--g30);margin-top:18px;letter-spacing:.002em}
+.h-lg{font-family:var(--font-display);font-weight:400;text-transform:uppercase;line-height:.84;
+  font-size:clamp(44px,7.6vw,118px);letter-spacing:-.022em;color:var(--w);
+  text-shadow:0 10px 60px rgba(0,0,0,.80)}
+.h-lg em{font-style:normal;color:var(--red)}
+.sub{margin-top:18px;max-width:40ch;font-size:15.5px;font-size:16px;line-height:1.64;color:var(--g30)}
+
+/* ---------------------------------------------------------------- MOTES */
+/* Dust in the light. Eighteen of them at eighteen distances. Nothing
+   reads as air faster than something small drifting through it. */
+.mote{grid-area:1/1;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.85);
+  pointer-events:none}
+@keyframes mote{
+  0%,100%{opacity:.10;transform:var(--t) translate(0,0)}
+  50%{opacity:.62;transform:var(--t) translate(14px,-24px)}}
+
+/* ----------------------------------------------------------------- CHROME */
+.nav{position:absolute;top:0;left:0;right:0;z-index:9;padding:26px 0}
+.w{width:100%;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
+.nav .w{display:flex;align-items:center;gap:28px}
+.logo{font-family:var(--font-name);font-weight:700;text-transform:uppercase;letter-spacing:.16em;
+  font-size:15px;text-decoration:none;white-space:nowrap}
+.navmid{margin:0 auto;font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--g55);
+  font-weight:800;white-space:nowrap}
+.navlinks{display:flex;gap:clamp(16px,2vw,28px)}
+.navlinks a{text-decoration:none;font-size:11px;font-weight:800;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--g30);transition:color .25s}
+.navlinks a:hover{color:var(--w)}
+.navcta{border:1px solid var(--line);border-radius:100px;padding:11px 21px;text-decoration:none;
+  font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;
+  transition:background .3s,color .3s,border-color .3s}
+.navcta:hover{background:var(--w);color:var(--ink0);border-color:var(--w)}
+@media(max-width:940px){.navlinks,.navmid{display:none}}
+
+/* the rails. Agency chrome, but it does real work: it frames the scene
+   and gives the eye an edge to measure the depth against. */
+.rail{position:absolute;top:50%;z-index:9;display:flex;align-items:center;gap:16px;
+  font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;font-weight:800;color:var(--g55);
+  writing-mode:vertical-rl}
+.rail-l{left:clamp(14px,2.2vw,30px);transform:translateY(-50%) rotate(180deg)}
+.rail-r{right:clamp(14px,2.2vw,30px);transform:translateY(-50%)}
+.rail i{display:block;width:1px;height:64px;background:linear-gradient(var(--g70),transparent)}
+.rail-r i{background:linear-gradient(transparent,var(--g70));animation:railpulse 2.8s ease-in-out infinite}
+@keyframes railpulse{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+@media(max-width:860px){.rail{display:none}}
+
+/* the bottom bar. Three facts and the action, on a rule. */
+.bar{position:absolute;left:0;right:0;bottom:0;z-index:9;padding-bottom:clamp(20px,3vw,34px)}
+.bar .w{display:flex;align-items:flex-end;gap:clamp(20px,4vw,60px);flex-wrap:wrap;
+  border-top:1px solid var(--line);padding-top:clamp(16px,2.2vw,24px)}
+.facts{display:flex;gap:clamp(22px,4vw,62px);flex-wrap:wrap}
+.facts div{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--g55);font-weight:800}
+.facts b{display:block;font-family:var(--font-display);font-weight:400;font-size:clamp(17px,1.9vw,26px);
+  letter-spacing:.01em;color:var(--w);margin-top:8px}
+.go{margin-left:auto;display:inline-flex;align-items:center;gap:14px;text-decoration:none;
+  background:var(--red-ink);color:#fff;border-radius:100px;padding:17px 30px;
+  font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;
+  transition:transform .26s var(--ease),box-shadow .34s}
+.go i{font-style:normal;transition:transform .26s var(--ease)}
+.go:hover{transform:translateY(-2px);box-shadow:0 16px 44px rgba(225,19,46,.42)}
+.go:hover i{transform:translateX(6px)}
+
+/* ------------------------------------------------------------- ENTRANCE */
+/* Staggered, and in reading order: the frame arrives, then the room, then
+   the object, then what it says. Everything landing at once is the single
+   clearest tell that a page was assembled rather than designed. */
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes fadeto{from{opacity:0}to{opacity:var(--o)}}
+@keyframes bookin{from{opacity:0;transform:translateY(40px) scale(.94)}to{opacity:1;transform:none}}
+.nav,.rail,.bar{animation:fade 1s var(--ease) both}
+.nav{animation-delay:.10s}
+.rail-l{animation-delay:.24s}
+.rail-r{animation-delay:.30s}
+.bar{animation-delay:1.05s}
+.p1,.p2,.p3,.band{animation:fadeto 1.5s var(--ease) both}
+.p1{animation-delay:.16s}.p2{animation-delay:.26s}.p3{animation-delay:.36s}.band{animation-delay:.46s}
+.objp{animation:bookin 1.25s var(--ease) .52s both}
+.eb{animation:rise .95s var(--ease) .70s both}
+.h-sm{animation:rise .95s var(--ease) .80s both}
+.h-lg{animation:rise 1.05s var(--ease) .88s both}
+.sub{animation:rise .95s var(--ease) 1.00s both}
+
+/* ------------------------------------------------------------ LIGHT MODE */
+/* The jacket is black, so on a pale ground it needs no help separating and
+   the whole lighting model inverts: the air darkens instead of glowing,
+   and the object casts rather than blooms. */
+body.lt{--ink0:#ececed;--ink1:#fff;--w:#0c0c10;--g30:#4d4d55;--g55:#71717a;--g70:#9a9aa3;
+  --red:#d4112b;--red-ink:#d4112b;--line:rgba(0,0,0,.14)}
+body.lt .air{background:
+  radial-gradient(48% 40% at 62% 38%, rgba(212,17,43,.10), transparent 66%),
+  radial-gradient(64% 54% at 34% 74%, rgba(0,0,0,.10), transparent 72%)}
+body.lt .sweep{background:linear-gradient(104deg,transparent,rgba(255,255,255,.40) 46%,transparent);opacity:.55}
+body.lt .book .front::after{background:linear-gradient(142deg,rgba(255,255,255,.16),transparent 32%)}
+body.lt .book .front{box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+body.lt .grain{mix-blend-mode:multiply;opacity:.16}
+body.lt .ghost{color:#0c0c10}
+body.lt .p1{--o:.07}body.lt .p2{--o:.10}body.lt .p3{--o:.14}
+body.lt .book .back{background:#dedee2}
+body.lt .objp::after{background:radial-gradient(50% 50% at 52% 50%,rgba(0,0,0,.46),transparent 72%)}
+body.lt .h-lg{text-shadow:0 10px 50px rgba(255,255,255,.85)}
+body.lt .mote{background:rgba(0,0,0,.55)}
+body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
+
+/* ---------------------------------------------------------------- MOBILE */
+@media(max-width:860px){
+  .stage{perspective:800px}
+  .objp{transform:translate3d(22vw,-26vh,-90px)}
+  .copyp{transform:translate3d(0,17vh,50px);width:88vw}
+  .ghost{font-size:clamp(76px,30vw,200px)}
+  .p1{transform:translate3d(-6vw,-30vh,-760px)}
+  .p2{transform:translate3d(5vw,-22vh,-520px)}
+  .p3{transform:translate3d(-4vw,-14vh,-320px)}
+  .band{display:none}
+  .facts{gap:22px}
+  .go{margin-left:0;width:100%;justify-content:center;margin-top:16px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* theme toggle, for review only */
+.tg{position:fixed;right:14px;bottom:14px;z-index:50;display:flex;gap:6px;background:rgba(128,128,140,.16);
+  border:1px solid var(--line);border-radius:100px;padding:5px;backdrop-filter:blur(14px)}
+.tg button{border:0;background:transparent;color:var(--g30);font:700 10px/1 var(--font-body);
+  letter-spacing:.16em;text-transform:uppercase;padding:8px 13px;border-radius:100px;cursor:pointer}
+.tg button.on{background:var(--w);color:var(--ink0)}
+</style>
+</head>
+<body>
+
+<div class="tg" role="group" aria-label="Theme">
+  <button id="bD" class="on" type="button">Dark</button>
+  <button id="bL" type="button">Light</button>
+</div>
+
+<section class="stage" id="stage">
+  <div class="air" aria-hidden="true"></div>
+  <div class="sweep" aria-hidden="true"></div>
+
+  <div class="rig" id="rig">
+    <span class="pl ghost p1" aria-hidden="true">Compounding</span>
+    <span class="pl ghost p2" aria-hidden="true">Compounding</span>
+    <span class="pl ghost p3" aria-hidden="true">Compounding</span>
+    <span class="pl band" aria-hidden="true">Thirty-five years &middot; Two million readers &middot; One book he has never written before</span>
+
+    <div class="objp">
+      <div class="book">
+        <div class="f back"></div>
+        <div class="f spine"></div>
+        <div class="f edge"></div>
+        <div class="f front"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" width="760" height="975" fetchpriority="high" decoding="async" /></div>
+      </div>
+    </div>
+
+    <div class="copyp">
+      <div class="eb"><s></s>The new book &middot; April 2027</div>
+      <div class="h-sm">Your business is already</div>
+      <h1 class="h-lg dsp"><em>Compounding</em>.</h1>
+      <p class="sub">The only question is which direction. Thirty-five years at the center of what builds a business, written down at last.</p>
+    </div>
+  </div>
+
+  <div class="vig" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="w">
+      <a class="logo" href="#">Darren Hardy</a>
+      <div class="navmid">The Compound Effect in Business</div>
+      <nav class="navlinks">
+        <a href="#">The book</a>
+        <a href="#">The event</a>
+        <a href="#">Darren</a>
+      </nav>
+      <a class="navcta" href="#">Get on the list</a>
+    </div>
+  </header>
+
+  <div class="rail rail-l">Darren Hardy &middot; MMXXVII<i></i></div>
+  <div class="rail rail-r">Scroll<i></i></div>
+
+  <div class="bar">
+    <div class="w">
+      <div class="facts">
+        <div>The book<b>April 2027</b></div>
+        <div>The event<b>Three days</b></div>
+        <div>Who<b>Leaders only</b></div>
+      </div>
+      <a class="go" href="#">Get on the list <i>&rarr;</i></a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var bD=document.getElementById('bD'),bL=document.getElementById('bL');
+  function set(l){document.body.classList.toggle('lt',l);bL.classList.toggle('on',l);bD.classList.toggle('on',!l);}
+  bD.onclick=function(){set(false)};bL.onclick=function(){set(true)};
+
+  var stage=document.getElementById('stage'),rig=document.getElementById('rig');
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // Dust. Placed once, at eighteen depths, so the air between the planes
+  // has something in it. Depth is what sells them: the near ones are
+  // bigger, brighter and drift further.
+  if(!reduce){
+    var frag=document.createDocumentFragment();
+    for(var i=0;i<18;i++){
+      var z=-900+Math.random()*1080;
+      var s=(z+900)/1980;                       // 0 far, 1 near
+      var m=document.createElement('span');
+      m.className='mote';m.setAttribute('aria-hidden','true');
+      var t='translate3d('+((Math.random()*150)-75).toFixed(1)+'vh,'+
+            ((Math.random()*120)-60).toFixed(1)+'vh,'+z.toFixed(0)+'px)';
+      m.style.setProperty('--t',t);
+      m.style.transform=t;
+      m.style.width=m.style.height=(1.5+s*4).toFixed(1)+'px';
+      m.style.filter='blur('+((1-s)*2.6).toFixed(1)+'px)';
+      m.style.animation='mote '+(7+Math.random()*9).toFixed(1)+'s ease-in-out '+
+                        (Math.random()*6).toFixed(1)+'s infinite';
+      frag.appendChild(m);
+    }
+    rig.appendChild(frag);
+  }
+
+  // The camera. Rotating the rig moves every plane by an amount set by its
+  // own translateZ, which is the parallax a stack cannot produce. Scroll
+  // dollies it forward. Both are written into one transform so they never
+  // fight each other, and both are rAF-throttled.
+  var mx=0,my=0,sy=0,queued=false;
+  function apply(){
+    queued=false;
+    rig.style.transform='translateZ('+(sy*160).toFixed(1)+'px) '+
+                        'rotateY('+(mx*7).toFixed(2)+'deg) '+
+                        'rotateX('+(-my*5.5).toFixed(2)+'deg)';
+    stage.style.perspectiveOrigin=(50+mx*16).toFixed(1)+'% '+(48+my*12).toFixed(1)+'%';
+  }
+  function queue(){ if(!queued){queued=true;requestAnimationFrame(apply);} }
+  if(!reduce){
+    stage.addEventListener('pointermove',function(e){
+      var r=stage.getBoundingClientRect();
+      mx=(e.clientX-r.left)/r.width-.5; my=(e.clientY-r.top)/r.height-.5; queue();
+    });
+    stage.addEventListener('pointerleave',function(){ mx=0;my=0;queue(); });
+    addEventListener('scroll',function(){
+      sy=Math.min(1,Math.max(0,scrollY/innerHeight)); queue();
+    },{passive:true});
+  }
+})();
+</script>
+</body>
+</html>
