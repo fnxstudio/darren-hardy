@@ -154,6 +154,10 @@
   .cardsub{font-size:15px;line-height:1.62;color:var(--card-muted);margin-top:13px}
   .cardsub b{color:var(--card-fg);font-weight:700}
   .fields{margin-top:26px}
+  /* Name row: two fields share the top line. Column gap only, since the
+     inputs carry their own bottom margin. Stacks on the narrowest phones. */
+  .row2{display:grid;grid-template-columns:1fr 1fr;column-gap:11px}
+  @media(max-width:400px){.row2{grid-template-columns:1fr}}
   .fields input,.fields select{width:100%;padding:14px 15px;font-family:var(--font-body);font-size:16px;
     color:var(--card-fg);background:var(--card-field);border:1px solid var(--card-line);border-radius:var(--radius);
     box-shadow:var(--card-inset);
@@ -280,7 +284,10 @@
 
         <!-- MOCK. Production swaps in the HubSpot form via embed/v2.js, portal 2518645. -->
         <form class="fields" id="f" novalidate>
-          <input id="fn" type="text" placeholder="First name" autocomplete="given-name" aria-label="First name" required />
+          <div class="row2">
+            <input id="fn" type="text" placeholder="First name" autocomplete="given-name" aria-label="First name" required />
+            <input id="ln" type="text" placeholder="Last name" autocomplete="family-name" aria-label="Last name" required />
+          </div>
           <input id="em" type="email" placeholder="Email address" autocomplete="email" aria-label="Email address" required />
           <select id="rl" aria-label="Your role" required>
             <option value="" disabled selected>Your role</option>
