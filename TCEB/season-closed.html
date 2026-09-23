@@ -133,50 +133,83 @@
     .para{font-size:13.6px;line-height:1.66}
   }
 
-  /* ---------- CARD. Always opposes the page. ----------
-     Dark page gets a white card, light page gets a black one. It runs on its
-     own tokens rather than the page's, so it can never quietly follow the
-     theme and turn invisible the way the band and footer did. */
-  /* Near-white card, white fields. The fields are separated by their border
-     and a faint inset rather than by tone. Accent nudges to #D4112B: the brand
-     red measures 4.36:1 here, just under the 4.5 a 13px eyebrow needs. */
-  .card{--card-bg:#f3f4f5;--card-fg:#000;--card-muted:#4a4d51;--card-faint:#63666a;
-    --card-line:rgba(0,0,0,.16);--card-field:#fff;--card-accent:#d4112b;
-    --card-inset:inset 0 1px 0 rgba(255,255,255,.9),0 1px 2px rgba(0,0,0,.05);
-    position:relative;background:var(--card-bg);
-    border:1px solid var(--card-line);border-top:4px solid var(--card-accent);border-radius:var(--radius);
+  /* ---------- CARD. Liquid glass. ----------
+     Translucent over a dark base so the photograph shows through without the
+     type ever losing its ground. Heavy blur plus saturation is what makes it
+     read as glass rather than as a flat tint; the specular top edge and the
+     darker bottom lip are what give it thickness. */
+  .card{
+    --card-fg:#fff;--card-muted:rgba(255,255,255,.74);--card-faint:rgba(255,255,255,.52);
+    --card-line:rgba(255,255,255,.18);--card-field:rgba(255,255,255,.10);--card-accent:#ff0047;
+    position:relative;border-radius:14px;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05) 38%,rgba(255,255,255,.02)),
+      rgba(16,16,20,.52);
+    -webkit-backdrop-filter:blur(30px) saturate(170%);backdrop-filter:blur(30px) saturate(170%);
+    border:1px solid var(--card-line);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.34),
+      inset 0 -1px 0 rgba(0,0,0,.30),
+      0 2px 10px rgba(0,0,0,.22),
+      0 36px 80px rgba(0,0,0,.52);
     padding:clamp(28px,3vw,42px) clamp(22px,2.6vw,38px) clamp(24px,2.4vw,32px);
-    box-shadow:0 44px 96px rgba(0,0,0,.52)}
-  body.lt .card{--card-bg:#0e0d10;--card-fg:#fff;--card-muted:#b3b3b3;--card-faint:#7d7a82;
-    --card-line:rgba(255,255,255,.14);--card-field:rgba(255,255,255,.06);--card-accent:#ff0047;
-    --card-inset:none;
-    box-shadow:0 40px 90px rgba(0,0,0,.30)}
-  .cardeb{font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--card-accent)}
-  .cardh{font-size:clamp(28px,3vw,42px);margin-top:12px;color:var(--card-fg)}
-  .cardsub{font-size:15px;line-height:1.62;color:var(--card-muted);margin-top:13px}
+    overflow:hidden}
+  /* the accent edge sits on the glass, not behind it */
+  .card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;
+    background:linear-gradient(90deg,var(--card-accent),rgba(255,0,71,.25));z-index:2}
+  /* slow specular drift, the "liquid" part */
+  .card::after{content:"";position:absolute;inset:-40% -10%;pointer-events:none;
+    background:radial-gradient(38% 30% at 30% 20%,rgba(255,255,255,.14),transparent 70%);
+    animation:drift 18s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translate3d(-6%,-4%,0)}to{transform:translate3d(10%,6%,0)}}
+  @media(prefers-reduced-motion:reduce){.card::after{animation:none}}
+
+  body.lt .card{
+    --card-fg:#0e0d10;--card-muted:rgba(0,0,0,.68);--card-faint:rgba(0,0,0,.50);
+    --card-line:rgba(0,0,0,.12);--card-field:rgba(255,255,255,.62);--card-accent:#e1132e;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.80),rgba(255,255,255,.55) 40%,rgba(255,255,255,.44)),
+      rgba(255,255,255,.30);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.90),
+      inset 0 -1px 0 rgba(0,0,0,.07),
+      0 2px 10px rgba(0,0,0,.07),
+      0 32px 70px rgba(0,0,0,.20)}
+  body.lt .card::after{background:radial-gradient(38% 30% at 30% 20%,rgba(255,255,255,.55),transparent 70%)}
+
+  .cardeb{position:relative;z-index:3;font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--card-accent)}
+  .cardh{position:relative;z-index:3;font-size:clamp(28px,3vw,42px);margin-top:12px;color:var(--card-fg)}
+  .cardsub{position:relative;z-index:3;font-size:15px;line-height:1.62;color:var(--card-muted);margin-top:13px}
   .cardsub b{color:var(--card-fg);font-weight:700}
-  .fields{margin-top:26px}
-  /* Name row: two fields share the top line. Column gap only, since the
-     inputs carry their own bottom margin. Stacks on the narrowest phones. */
+  .fields{position:relative;z-index:3;margin-top:26px}
   .row2{display:grid;grid-template-columns:1fr 1fr;column-gap:11px}
   @media(max-width:400px){.row2{grid-template-columns:1fr}}
-  .fields input,.fields select{width:100%;padding:14px 15px;font-family:var(--font-body);font-size:16px;
-    color:var(--card-fg);background:var(--card-field);border:1px solid var(--card-line);border-radius:var(--radius);
-    box-shadow:var(--card-inset);
-    margin-bottom:11px;-webkit-appearance:none;appearance:none}
+  /* Fields are glass too, one step lighter than the panel, with their own
+     specular line. Solid boxes were what made the old form look pasted on. */
+  .fields input,.fields select{width:100%;padding:15px 15px;font-family:var(--font-body);font-size:16px;
+    color:var(--card-fg);background:var(--card-field);border:1px solid var(--card-line);border-radius:10px;
+    margin-bottom:11px;-webkit-appearance:none;appearance:none;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.10);
+    transition:border-color .22s,background .22s,box-shadow .22s}
+  body.lt .fields input,body.lt .fields select{box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -1px 0 rgba(0,0,0,.05)}
   .fields input::placeholder{color:var(--card-faint)}
   .fields select{color:var(--card-faint);padding-right:40px;
-    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236e6e6e' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 14px center;background-size:16px}
   .fields select.filled{color:var(--card-fg)}
-  .fields input:focus,.fields select:focus{outline:none;border-color:var(--card-accent)}
-  .submit{width:100%;margin-top:7px;padding:18px 20px;border:0;border-radius:var(--radius);cursor:pointer;
-    background:#e1132e;color:#fff;font-family:var(--font-body);font-size:12.5px;font-weight:800;
-    letter-spacing:.16em;text-transform:uppercase;transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s}
-  .submit:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(225,19,46,.46)}
-  .fine{margin-top:15px;font-size:12px;line-height:1.55;color:var(--card-faint)}
+  .fields input:focus,.fields select:focus{outline:none;border-color:var(--card-accent);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.24),0 0 0 3px rgba(255,0,71,.18)}
+  body.lt .fields input:focus,body.lt .fields select:focus{box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 0 0 3px rgba(225,19,46,.16)}
+  .submit{position:relative;z-index:3;width:100%;margin-top:7px;padding:18px 20px;border:0;border-radius:10px;cursor:pointer;
+    background:linear-gradient(180deg,#f0233d,#e1132e);color:#fff;font-family:var(--font-body);font-size:12.5px;font-weight:800;
+    letter-spacing:.16em;text-transform:uppercase;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 10px 26px rgba(225,19,46,.34);
+    transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s}
+  .submit:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 18px 42px rgba(225,19,46,.46)}
+  .fine{position:relative;z-index:3;margin-top:15px;font-size:12px;line-height:1.55;color:var(--card-faint)}
   .fine a{color:inherit;text-decoration:underline;text-underline-offset:2px}
-  .done{display:none}
+  .done{display:none;position:relative;z-index:3}
   .card.is-done .fields,.card.is-done .cardsub{display:none}
   .card.is-done .done{display:block}
   .done p{font-size:15.5px;line-height:1.66;color:var(--card-muted)}
