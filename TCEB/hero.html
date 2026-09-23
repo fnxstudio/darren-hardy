@@ -219,6 +219,26 @@ body.lt .base{background:linear-gradient(90deg,transparent,rgba(0,0,0,.24),trans
 
 
 /* the bottom bar. Three facts and the action, on a rule. */
+/* the rails. Agency chrome, but they do real work: they frame the scene
+   and give the eye an edge to measure the depth against.
+   The left one clears the copy, which starts at the container edge (56px
+   at 1440) while the rail sits outside it at 30px.
+   The right one lands ON the jacket, because the jacket bleeds off that
+   edge, so it is pinned high where the cover is black in both themes,
+   and carries a shadow for the frames where it is not. */
+.rail{position:absolute;z-index:9;display:flex;align-items:center;gap:16px;
+  font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;font-weight:800;color:var(--g55);
+  writing-mode:vertical-rl}
+.rail-l{left:clamp(14px,2.2vw,30px);top:50%;transform:translateY(-50%) rotate(180deg)}
+.rail-r{right:clamp(14px,2.2vw,30px);top:32%;transform:translateY(-50%);
+  color:rgba(255,255,255,.52);text-shadow:0 1px 10px rgba(0,0,0,.85)}
+.rail i{display:block;width:1px;height:64px;background:linear-gradient(var(--g70),transparent)}
+.rail-r i{background:linear-gradient(transparent,rgba(255,255,255,.40));
+  animation:railpulse 2.8s ease-in-out infinite}
+@keyframes railpulse{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+@media(max-width:1180px){.rail-r{display:none}}
+@media(max-width:860px){.rail{display:none}}
+
 .bar{position:absolute;left:0;right:0;bottom:0;z-index:9;padding-bottom:clamp(20px,3vw,34px)}
 .bar .w{display:flex;align-items:flex-end;gap:clamp(20px,4vw,60px);flex-wrap:wrap;
   border-top:1px solid var(--line);padding-top:clamp(16px,2.2vw,24px)}
@@ -236,8 +256,10 @@ body.lt .base{background:linear-gradient(90deg,transparent,rgba(0,0,0,.24),trans
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes fadeto{from{opacity:0}to{opacity:var(--o)}}
 @keyframes bookin{from{opacity:0;transform:translateY(40px) scale(.94)}to{opacity:1;transform:none}}
-.nav,.bar{animation:fade 1s var(--ease) both}
+.nav,.rail,.bar{animation:fade 1s var(--ease) both}
 .nav{animation-delay:.10s}
+.rail-l{animation-delay:.24s}
+.rail-r{animation-delay:.30s}
 .bar{animation-delay:1.05s}
 .growth{--o:1;animation:fadeto 1.6s var(--ease) both}
 /* the only type in the middle distance, so it reads as a caption
@@ -275,16 +297,55 @@ body.lt .mote{background:rgba(0,0,0,.55)}
 body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
 
 /* ---------------------------------------------------------------- MOBILE */
+/* Not the desktop composition scaled down. On a phone the jacket cannot
+   bleed off one edge and still be the subject: at 390px a third of the
+   cover is all you get and it cuts mid-title. So the scene stacks -
+   object above, message below - and the columns drop behind the copy at
+   a size where they read as texture rather than as a chart nobody can
+   measure. */
 @media(max-width:860px){
-  .stage{perspective:800px}
-  .objp{transform:translate(-50%,-50%) translate3d(30vw,-20vh,-90px)}
-  .book{height:min(52vh,440px)}
-  .copyp{left:50%;transform:translate(-50%,-50%);margin-top:17vh;width:88vw}
+  .stage{perspective:820px}
+  .nav{padding:18px 0}
+  /* .navmid carries margin:0 auto and is hidden here, so nothing was
+     pushing the CTA to the right and it sat against the logo */
+  .navcta{margin-left:auto}
 
-  .floor{width:420vw}
+  .objp{transform:translate(-50%,-50%) translate3d(9vw,-25vh,-70px)}
+  .book{height:min(40vh,340px)}
+
+  .copyp{left:50%;top:50%;transform:translate(-50%,-50%);margin-top:13vh;
+    width:calc(100vw - 40px);max-width:none}
+  .h-sm{font-size:clamp(16px,4.8vw,26px);margin-top:14px}
+  .h-lg{font-size:clamp(40px,12.6vw,66px)}
+  .sub{font-size:14.5px;line-height:1.58;margin-top:14px;max-width:36ch}
+  .eb{font-size:11px;letter-spacing:.26em}
+
+  /* the columns stay while there is width for them to be read as a
+     curve. Below that they compress into a stub the eye reads as an
+     artifact, and a phone hero does not have room for both the message
+     and a fourteen-column chart. The jacket carries it there. */
+  .growth{transform:translate3d(14vw,28vh,0);scale:.58}
   .band{display:none}
-  .facts{gap:22px}
+
+  .bar{padding-bottom:16px}
+  .bar .w{padding-top:14px}
+  .facts{gap:20px;width:100%}
+  .facts div{font-size:9px;letter-spacing:.16em}
+  .facts b{font-size:16px;margin-top:5px}
+  /* the review toggle would otherwise sit on top of the last fact */
+  .navcta{padding:10px 14px;font-size:9.5px;letter-spacing:.14em}
+  .logo{font-size:13px;letter-spacing:.12em}
+  /* the baseline reads as a stray rule once the columns are this small */
+  .base{display:none}
+  /* the toggle's own rules are declared after this block, so its mobile
+     placement is handled there rather than from here, where it would
+     lose on source order at equal specificity */
 }
+
+@media(max-width:560px){
+  .growth{display:none}
+}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
@@ -295,6 +356,12 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
 .tg button{border:0;background:transparent;color:var(--g30);font:700 10px/1 var(--font-body);
   letter-spacing:.16em;text-transform:uppercase;padding:8px 13px;border-radius:2px;cursor:pointer}
 .tg button.on{background:var(--w);color:var(--ink0)}
+/* Placed AFTER the base rule on purpose: a media query earlier in the
+   sheet loses to it on source order at equal specificity, which is what
+   made two previous attempts to move this silently do nothing. */
+@media(max-width:860px){
+  .tg{right:8px;bottom:auto;top:70px;transform:scale(.8);transform-origin:100% 0}
+}
 </style>
 </head>
 <body>
@@ -351,6 +418,9 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
       <a class="navcta" href="#">Get on the list</a>
     </div>
   </header>
+
+  <div class="rail rail-l">Darren Hardy &middot; MMXXVII<i></i></div>
+  <div class="rail rail-r">Scroll<i></i></div>
 
   <div class="bar">
     <div class="w">
