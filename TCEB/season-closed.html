@@ -106,14 +106,16 @@
      19px. It steps down far less once the headline stops scaling. */
   @media(max-width:620px){
     .h1 .ln,.payoff{white-space:normal}
-    /* Measured: the longest line is 297px in a 350px column at 46px, so 54px
-       is the ceiling before it wraps. Sized to 52 to keep a margin. */
-    .h1{font-size:clamp(46px,13.3vw,52px)}
+    /* One source for the mobile headline size, so the tail line and the
+       payoff stay locked to it. 13.7vw lands 53px at 390, where the longest
+       line measures 344px in a 350px column: the wrap point is 54. */
+    .h1{--h1m:clamp(46px,13.7vw,55px);font-size:var(--h1m)}
     .h1 .sm{font-size:.70em}
     /* Both of these were sitting on their clamp floors once the viewport
        stopped driving the vw term, leaving the payoff at 28px against a 46px
        headline when it is meant to be the loudest line on the page. */
-    .payoff{font-size:clamp(34px,10.4vw,48px)}
+    /* Same size as the FOR YEARS line, derived from the same value. */
+    .payoff{font-size:calc(clamp(46px,13.7vw,55px) * .70)}
     /* Photo shifts right (a lower object-position X shows more of the left of
        the frame), putting the cleaner, lighter wall under the paragraph. */
     .shot{object-position:26% 38%}
