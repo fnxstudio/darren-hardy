@@ -1,0 +1,758 @@
+<title>Founders Launch Sequence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Narrow:wght@500;600&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{
+  --c-paper:#fbfaf8; --c-white:#fff; --c-bone:#f2f1ef; --c-ink:#141414; --c-black:#000;
+  --c-red:#e02826; --c-red-deep:#b01e1c; --c-red-bright:#ff4b3e;
+  --c-gold:#d4a017; --c-gold-deep:#a87f12; --c-gold-ink:#8a6300;
+  --radius:4px; --container:1120px;
+  --font-display:'Bebas Neue','Haettenschweiler','Arial Narrow',sans-serif;
+  --font-name:'Archivo Narrow','Franklin Gothic Medium Cond','Arial Narrow',sans-serif;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+
+  --bg:var(--c-paper); --surface:var(--c-white); --surface-2:var(--c-bone);
+  --fg:var(--c-ink); --fg-soft:#55524f; --fg-mute:#6f6c68; --fg-fine:#7d7a76;
+  --line:rgba(0,0,0,.12); --line-strong:rgba(0,0,0,.22);
+  --accent:var(--c-red); --gold-type:var(--c-gold-ink); --gold-mark:var(--c-gold-deep);
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 12px 32px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:var(--c-black); --surface:#131313; --surface-2:#1b1b1b;
+    --fg:#fff; --fg-soft:#a8a5a2; --fg-mute:#8c8c8c; --fg-fine:#7a7a7a;
+    --line:rgba(255,255,255,.10); --line-strong:rgba(255,255,255,.20);
+    --accent:var(--c-red-bright); --gold-type:var(--c-gold); --gold-mark:var(--c-gold);
+    --shadow:0 2px 4px rgba(0,0,0,.5),0 24px 60px rgba(0,0,0,.55);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:var(--c-black); --surface:#131313; --surface-2:#1b1b1b;
+  --fg:#fff; --fg-soft:#a8a5a2; --fg-mute:#8c8c8c; --fg-fine:#7a7a7a;
+  --line:rgba(255,255,255,.10); --line-strong:rgba(255,255,255,.20);
+  --accent:var(--c-red-bright); --gold-type:var(--c-gold); --gold-mark:var(--c-gold);
+  --shadow:0 2px 4px rgba(0,0,0,.5),0 24px 60px rgba(0,0,0,.55);
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 28px}
+.narrow{max-width:700px}
+
+/* ---- type ---- */
+h1,h2,h3{text-wrap:balance;margin:0}
+.display{font-family:var(--font-display);font-weight:400;letter-spacing:.012em;line-height:.92;text-transform:uppercase}
+h1.display{font-size:clamp(46px,7.4vw,86px)}
+h2.display{font-size:clamp(28px,3.6vw,40px)}
+.eyebrow{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.16em;font-size:12px;color:var(--fg-mute)}
+.eyebrow.red{color:var(--accent)}
+p{margin:0 0 1em}
+a{color:var(--accent)}
+
+/* ---- masthead ---- */
+.masthead{padding:56px 0 34px;border-bottom:2px solid var(--fg)}
+.masthead .lede{font-size:19px;line-height:1.55;color:var(--fg-soft);max-width:60ch;margin-top:18px}
+.meta-row{display:flex;flex-wrap:wrap;gap:28px;margin-top:26px;font-size:13px;color:var(--fg-mute)}
+.meta-row b{display:block;font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:11px;color:var(--fg-fine);margin-bottom:3px}
+
+/* ---- blocks ---- */
+section{padding:52px 0}
+section + section{border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.sec-head .num{font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1}
+.sec-intro{color:var(--fg-soft);max-width:66ch;margin-top:10px}
+
+.assume{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--radius);padding:22px 24px;margin-top:26px}
+.assume h3{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--accent);margin-bottom:12px}
+.assume ul{margin:0;padding-left:18px;color:var(--fg-soft);font-size:15px}
+.assume li{margin-bottom:7px}
+.assume li:last-child{margin-bottom:0}
+
+/* ---- arc table ---- */
+.scroller{overflow-x:auto;margin-top:26px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+thead th{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:11px;color:var(--fg-fine);text-align:left;padding:13px 16px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--fg-soft)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:var(--font-display);font-size:19px;color:var(--fg);width:44px;line-height:1.2}
+td.d{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--fg-mute)}
+td.j{color:var(--fg)}
+tr.ph-a td.n{color:var(--fg-mute)}
+tr.ph-b td.n{color:var(--accent)}
+tr.ph-c td.n{color:var(--gold-type)}
+
+/* ---- phase band ---- */
+.band{background:var(--c-black);color:#fff;border-radius:var(--radius);padding:26px 28px;margin:0 0 30px;display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end}
+.band .t{flex:1 1 300px}
+.band .eyebrow{color:var(--c-gold)}
+.band h2{color:#fff;margin-top:6px}
+.band .j{font-size:14px;color:#b9b6b2;max-width:52ch;margin:0}
+.band .when{font-family:var(--font-name);font-weight:600;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--c-gold);white-space:nowrap}
+
+/* ---- email card ---- */
+.email{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:26px;overflow:hidden}
+.e-head{display:flex;gap:18px;align-items:flex-start;padding:20px 26px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.e-num{font-family:var(--font-display);font-size:34px;line-height:.85;color:var(--accent);min-width:42px}
+.e-head .t{flex:1 1 auto}
+.e-head .job{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.13em;font-size:11.5px;color:var(--fg-fine)}
+.e-head .sub{font-size:19px;font-weight:600;color:var(--fg);margin-top:4px;line-height:1.3}
+.e-head .send{font-size:12.5px;color:var(--fg-mute);white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.e-head .send b{display:block;font-family:var(--font-name);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:10.5px;color:var(--fg-fine)}
+
+.lines{display:grid;grid-template-columns:auto 1fr auto;gap:8px 16px;padding:18px 26px;border-bottom:1px solid var(--line);font-size:14.5px;align-items:baseline}
+.lines dt{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:10.5px;color:var(--fg-fine);white-space:nowrap}
+.lines dd{margin:0;color:var(--fg)}
+.lines .cc{font-size:12px;color:var(--fg-fine);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.body{padding:24px 26px 4px}
+.body p{max-width:62ch;color:var(--fg-soft)}
+.body p.tight{margin-bottom:.55em}
+.body .pull{font-family:var(--font-name);font-weight:600;font-size:17px;line-height:1.4;color:var(--fg);border-left:3px solid var(--accent);padding-left:14px;margin:18px 0 20px;max-width:56ch}
+.body .sign{color:var(--fg);margin-top:18px}
+.body .ps{font-size:15px;color:var(--fg-mute);border-top:1px solid var(--line);padding-top:16px;margin-top:8px;max-width:62ch}
+.cta{display:inline-block;background:var(--accent);color:#fff;font-family:var(--font-name);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:13px;padding:11px 20px;border-radius:var(--radius);margin:6px 0 18px}
+.foot{display:flex;flex-wrap:wrap;gap:8px 28px;padding:16px 26px;border-top:1px solid var(--line);background:var(--surface-2);font-size:13px;color:var(--fg-mute)}
+.foot span b{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:10.5px;color:var(--fg-fine);margin-right:7px}
+
+/* ---- ops lists ---- */
+.ops{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));margin-top:26px}
+.op{border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;background:var(--surface)}
+.op h3{font-family:var(--font-name);font-weight:600;text-transform:uppercase;letter-spacing:.11em;font-size:12px;color:var(--fg);margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.op p{font-size:14.5px;color:var(--fg-soft);margin-bottom:.7em}
+.op p:last-child{margin-bottom:0}
+.op .trig{font-family:var(--font-name);font-weight:600;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:3px}
+
+.flags{margin-top:26px;border-top:1px solid var(--line-strong)}
+.flag{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;padding:18px 0;border-bottom:1px solid var(--line)}
+.flag .k{font-family:var(--font-display);font-size:20px;color:var(--gold-type);line-height:1.1}
+.flag h3{font-size:16px;font-weight:600;color:var(--fg);grid-column:2}
+.flag p{grid-column:2;font-size:14.5px;color:var(--fg-soft);margin:6px 0 0;max-width:72ch}
+
+footer{padding:40px 0 64px;color:var(--fg-fine);font-size:13px;border-top:2px solid var(--fg);margin-top:20px}
+@media (max-width:640px){
+  .e-head{flex-wrap:wrap}
+  .e-head .send{text-align:left;width:100%}
+  .lines{grid-template-columns:1fr}
+  .lines .cc{margin-top:-4px}
+}
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow red">The Compound Effect in Business &middot; Launch Email Sequence</div>
+  <h1 class="display">The Founders<br>Launch Sequence</h1>
+  <p class="lede">Twelve emails to BMC alumni and BMC|COLLECTIVE members, October through December 2026, running to two real deadlines: the manuscript going to the printer, and the in-studio award closing. Written to fill THE FOUNDERS CIRCLE before print and keep selling the seat after it.</p>
+  <div class="meta-row">
+    <span><b>List</b>BMC alumni + COLLECTIVE</span>
+    <span><b>Window</b>Oct 5 &ndash; Dec 15, 2026</span>
+    <span><b>Emails</b>12, in three phases</span>
+    <span><b>Voice</b>Darren, first person, one reader</span>
+    <span><b>Offer</b>$4,995 seat (Darren pays $5,000 of $9,995)</span>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head"><span class="num">01</span><h2 class="display">What this assumes</h2></div>
+  <p class="sec-intro">Five dates in this sequence are still marked OPEN in the context files. The copy below is written live against the assumptions here rather than left as blanks. If any of them move, the emails that carry the date are named beside it.</p>
+  <div class="assume narrow" style="max-width:none">
+    <h3>Stated assumptions</h3>
+    <ul>
+      <li><b>Print date: Sunday, November 1, 2026.</b> The names list closes end of day Saturday, October 31. Carried in emails 2, 4, 5, 6, 7, 8, 9, 10.</li>
+      <li><b>Sales are already open when the sequence starts.</b> Emails 1 to 3 run as anticipation with a tool download as the action, so nothing breaks if the open slips inside that window.</li>
+      <li><b>In-studio award cutoff: December 31, 2026.</b> Far enough ahead of April 25 for travel. Carried in email 12 only.</li>
+      <li><b>Event: April 26 to 28, 2027, Charleston, with the in-studio reception Sunday April 25.</b> Written as "the end of April" everywhere so the exact dates can land later without a rewrite.</li>
+      <li><b>The in-studio award is written merit-and-selection only.</b> Top ten by seats influenced win outright; Darren selects the rest of the forty from everyone at ten or more. The 30-seat random draw is not in any email, because a prize conditioned on a paid seat needs a legal read first and "contest" language is banned.</li>
+      <li><b>Post-print seat holders are not promised the reading group.</b> Email 12 uses January 18 as a date the Founders start, never as something the reader is being sold. See flag 2.</li>
+      <li><b>No guarantee and no alumni pricing appear anywhere</b>, because neither has been ruled. Adding a guarantee later strengthens emails 7 and 9 and needs no restructure.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">02</span><h2 class="display">Sequence arc</h2></div>
+  <p class="sec-intro">The macro arc is PAAES across the twelve: the problem is not knowing, it is installing (1), agitated by a machine that hides its own direction (2), aspiration through the leader as the largest input (3), the solution named and evidenced (4 to 8), the decision forced (9), and the offer rebuilt plainly once Founder status is gone (10 to 12). Each email is its own Three-Beat.</p>
+  <div class="scroller">
+  <table>
+    <thead><tr><th>#</th><th>Send</th><th>The job</th><th>Hook type</th><th>Pressure</th></tr></thead>
+    <tbody>
+      <tr class="ph-a"><td class="n">01</td><td class="d">Mon Oct 5</td><td class="j">Make installing the problem. The purgatory shelf.</td><td>Confession / story</td><td>None</td></tr>
+      <tr class="ph-a"><td class="n">02</td><td class="d">Thu Oct 8</td><td class="j">Raise the stakes. Month Thirty-One and the five multipliers.</td><td>Stakes / math</td><td>Low</td></tr>
+      <tr class="ph-a"><td class="n">03</td><td class="d">Tue Oct 13</td><td class="j">The leader is the largest input. Earn the ask.</td><td>Confession / identity</td><td>Low</td></tr>
+      <tr class="ph-b"><td class="n">04</td><td class="d">Wed Oct 14</td><td class="j">The invitation. The role, the seat, the price, the deadline.</td><td>Participation</td><td>Low-med</td></tr>
+      <tr class="ph-b"><td class="n">05</td><td class="d">Fri Oct 16</td><td class="j">Why Darren pays $5,000. Mission, not promotion.</td><td>Anti-guru / confession</td><td>Medium</td></tr>
+      <tr class="ph-b"><td class="n">06</td><td class="d">Thu Oct 22</td><td class="j">Proof from peers, then the mechanism named.</td><td>Proof / mechanism</td><td>Medium</td></tr>
+      <tr class="ph-b"><td class="n">07</td><td class="d">Tue Oct 27</td><td class="j">Kill the fire-hose objection with the twelve weeks.</td><td>Objection</td><td>Med-high</td></tr>
+      <tr class="ph-b"><td class="n">08</td><td class="d">Thu Oct 29</td><td class="j">Bring your leaders. Multi-seat, and the deadline.</td><td>Identity / deadline</td><td>High</td></tr>
+      <tr class="ph-b"><td class="n">09</td><td class="d">Sat Oct 31</td><td class="j">Final call. Force a clean decision either way.</td><td>Decision fork</td><td>Maximum</td></tr>
+      <tr class="ph-c"><td class="n">10</td><td class="d">Wed Nov 4</td><td class="j">Door shut, plainly. Separate what closed from what didn't.</td><td>Loss / reset</td><td>Low</td></tr>
+      <tr class="ph-c"><td class="n">11</td><td class="d">Wed Nov 18</td><td class="j">The forty in-studio seats and how they are earned.</td><td>Status / earned</td><td>Medium</td></tr>
+      <tr class="ph-c"><td class="n">12</td><td class="d">Tue Dec 15</td><td class="j">Two real dates, then out. Close the year cleanly.</td><td>Calendar / stakes</td><td>High</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <div class="band">
+    <div class="t"><div class="eyebrow">Phase one</div><h2 class="display">The anticipation window</h2><p class="j">No price, no offer, no event name. Three emails that make installing the problem and the leader the variable. The action is a tool download, which also scores the list before the ask.</p></div>
+    <div class="when">Oct 5 &ndash; Oct 13</div>
+  </div>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">01</div>
+      <div class="t"><div class="job">Story &middot; the purgatory shelf</div><div class="sub">The shelf in my office</div></div>
+      <div class="send"><b>Send</b>Mon Oct 5, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>The shelf in my office</dd><dd class="cc">22 ch</dd>
+      <dt>Subject B</dt><dd>What I wrote in every margin</dd><dd class="cc">28 ch</dd>
+      <dt>Preview</dt><dd>Forty books. The same two words in all of them.</dd><dd class="cc">47 ch</dd>
+    </dl>
+    <div class="body">
+      <p>You take notes.</p>
+      <p>I have watched you do it. Whatever year you were with me, whatever your company was doing at the time, you filled a workbook and you flew home with it.</p>
+      <p>So you already know about the shelf.</p>
+      <p>There is one in my office, low, near the floor, where the books go that I loved. Forty or fifty of them. Good books. Proven ideas. Every one underlined, and in the margins, in my own handwriting, the same two words over and over.</p>
+      <p class="tight">Apply this.</p>
+      <p>I never did.</p>
+      <p>Not because the ideas were wrong. Because Monday came, and Monday has its own agenda, and by Thursday the book was decor.</p>
+      <p class="pull">A book full of proven ideas that never get installed isn't a book. It's decor.</p>
+      <p>That sentence cost me years before I was willing to write it down.</p>
+      <p>Here is the part I want you to sit with, because it is not about books. Every idea you have ever carried home from one of my events is in one of two places this morning. It is either running inside your company on an ordinary Tuesday when nothing is on fire and nobody is watching, or it is on your shelf.</p>
+      <p>You know which ones are which. You do not need me to tell you.</p>
+      <p>Over the next few weeks I am going to show you something I have been building, and I am not willing to let it land on that shelf. Keeping that promise is going to require something from you, and we will start with the smallest possible piece of it.</p>
+      <p>There is a one-page audit called the Compounding Audit. Seven surfaces of your business. One arrow each: up, flat, or down. One sentence of evidence beside it. Evidence, not vibes. It takes about twenty minutes, and most leaders who actually run it find the year they have been calling flat is four or five surfaces down, screened by one account that has not left yet.</p>
+      <p>Print it. Run it before Friday.</p>
+      <p><span class="cta">Download the Compounding Audit</span></p>
+      <p class="sign">Darren</p>
+      <p class="ps"><b>P.S.</b> Do not fill it out alone on a Sunday. Put it on a wall with your leadership team and argue about the arrows. The argument is the point.</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Tool download at THECOMPOUNDEFFECT.COM/BUSINESS</span>
+      <span><b>Trigger</b>Sequence start</span>
+      <span><b>Suppress</b>Anyone already holding a Founders seat</span>
+    </div>
+  </article>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">02</div>
+      <div class="t"><div class="job">Stakes &middot; Month Thirty-One</div><div class="sub">Thirty-one months from this morning</div></div>
+      <div class="send"><b>Send</b>Thu Oct 8, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>Thirty-one months from this morning</dd><dd class="cc">35 ch</dd>
+      <dt>Subject B</dt><dd>Flat never announces itself</dd><dd class="cc">27 ch</dd>
+      <dt>Preview</dt><dd>Your company is already most of the way there.</dd><dd class="cc">46 ch</dd>
+    </dl>
+    <div class="body">
+      <p>There is a number in the new book I have not been able to put down, and I want you to have it before anyone else does.</p>
+      <p class="tight">Thirty-one.</p>
+      <p>A penny that doubles every month is worth $5.12 at month ten. It is worth $5,242.88 at month twenty. At month thirty-one it is worth $10,737,418.24.</p>
+      <p>Almost all of it arrives in the final few months. Long after any reasonable person would have quit.</p>
+      <p>You know that law. You have been running it on yourself since the first book. Here is what I did not understand when I wrote that one.</p>
+      <p>In a business, the unit of compounding is not one person's behavior. It is every behavior, running through five multipliers at once: how often it repeats, how many people carry it, how many handoffs spread it, how many customers feel it, and how long it has been running.</p>
+      <p class="pull">The penny doubles. An org chart multiplies.</p>
+      <p>Which means your company is compounding this week, in a direction you did not choose and are probably not watching. Faster than you compound personally. Less forgiving in both directions.</p>
+      <p>And it will not tell you. That is the part that costs leaders everything.</p>
+      <p>Consequences in business run a year or more behind behavior. Bezos said a good quarter was fully baked about three years ago. So a company that is eroding still shows you last year's momentum, and a company that is building shows you nothing at all for months. Both of them look sudden at month thirty-one.</p>
+      <p>Here is the sentence I would put on the inside of your office door.</p>
+      <p class="pull">You're always thirty-one months from becoming unrecognizable. In either direction.</p>
+      <p>Not someday. Starting now. Thirty-one months from this morning is May 2029.</p>
+      <p>I want to be careful here, because you are not a leader in trouble. If you were, you would already be moving. You are something more dangerous. You are a leader whose numbers look fine.</p>
+      <p>If your business is good right now, this is more urgent for you, not less. Decline announces itself eventually. Flat never does.</p>
+      <p>On Wednesday the 14th I am going to ask something of you, and it carries a real deadline, because it involves a printing press.</p>
+      <p>Before then: if you have not run the Compounding Audit, run it. Seven surfaces, one arrow each, one sentence of evidence.</p>
+      <p><span class="cta">Download the Compounding Audit</span></p>
+      <p class="sign">Darren</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Tool download</span>
+      <span><b>Trigger</b>3 days after email 1</span>
+      <span><b>Suppress</b>Seat holders</span>
+    </div>
+  </article>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">03</div>
+      <div class="t"><div class="job">Identity &middot; the mirror with a payroll</div><div class="sub">I kept him twelve months too long</div></div>
+      <div class="send"><b>Send</b>Tue Oct 13, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>I kept him twelve months too long</dd><dd class="cc">33 ch</dd>
+      <dt>Subject B</dt><dd>The legal pad in my drawer</dd><dd class="cc">26 ch</dd>
+      <dt>Preview</dt><dd>It cost me two A-players, and it was not loyalty.</dd><dd class="cc">48 ch</dd>
+    </dl>
+    <div class="body">
+      <p>Everything the leader does twice becomes policy.</p>
+      <p>I want to tell you what that one cost me, because I have never told it from a stage without my chest getting tight.</p>
+      <p>There was a senior leader on my team I should have moved on from. I knew it. I knew it the way you know it: not on a dramatic day, on an ordinary one, in the middle of a meeting, when I heard myself explaining his behavior to somebody else.</p>
+      <p>I did the severance math. I wrote it on a legal pad and I put the legal pad in a drawer.</p>
+      <p>I kept him twelve more months.</p>
+      <p>In those twelve months I lost the confidence of two A-players who had been watching to see what I would do. They never said a word about it. They did not have to. They had their answer.</p>
+      <p>I told myself I was being loyal. I was not being loyal. It was my own cowardice, dressed up as loyalty.</p>
+      <p>And it did not stay in my office. It went out through the building at full strength, because that is what a company does with anything the leader does twice. It photocopies it.</p>
+      <p class="pull">Run a business and you're really running a mirror with a payroll attached to it.</p>
+      <p>That is the hardest idea in the new book and it is the reason the book exists. Not because leaders are the problem. Because the leader is the largest input. Your decisions are the master sheet. Your systems press the copy. Your routines feed the paper. Your people distribute it. Your customers live with whatever got printed.</p>
+      <p>Which is why every strategy you have ever installed performed, or failed, according to something underneath it that nobody ever wrote down.</p>
+      <p>That is the whole book, and I will name it properly tomorrow.</p>
+      <p>Tomorrow I am also going to ask you for something. I would rather you heard the ask from me than found it on a page, and it has a real deadline on it, set by a printing press rather than by me.</p>
+      <p>Read this one twice if you have a legal pad in a drawer.</p>
+      <p class="sign">Darren</p>
+      <p class="ps"><b>P.S.</b> If you know exactly who I am describing in your own building, you have already made the decision. You are only deciding when.</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>None. This email earns the ask and sets tomorrow.</span>
+      <span><b>Trigger</b>5 days after email 2</span>
+      <span><b>Suppress</b>Seat holders</span>
+    </div>
+  </article>
+</section>
+
+<section>
+  <div class="band">
+    <div class="t"><div class="eyebrow">Phase two</div><h2 class="display">The Founders Circle</h2><p class="j">Six emails to the print deadline. The role, the reason for the $5,000, the proof, the one objection that matters to this list, the second ask, and a clean fork. Same single CTA on all six.</p></div>
+    <div class="when">Oct 14 &ndash; Oct 31</div>
+  </div>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">04</div>
+      <div class="t"><div class="job">The invitation</div><div class="sub">There's a page with room on it</div></div>
+      <div class="send"><b>Send</b>Wed Oct 14, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>There's a page with room on it</dd><dd class="cc">30 ch</dd>
+      <dt>Subject B</dt><dd>Your name, before the printer runs</dd><dd class="cc">34 ch</dd>
+      <dt>Preview</dt><dd>It closes October 31 and it never reopens.</dd><dd class="cc">42 ch</dd>
+    </dl>
+    <div class="body">
+      <p>You have installed things I taught you. I know, because you have written to me about them.</p>
+      <p>So today I am going to ask you for something that runs the other direction.</p>
+      <p>There is a page in the back of the new book that does not have names on it yet.</p>
+      <p>The book is called <i>The Compound Effect in Business</i>. It releases next year. Before it releases it gets printed, and before it gets printed there is a list that closes.</p>
+      <p>The leaders on that list are the Founders.</p>
+      <p>Here is what a Founder is, and it is not an early tier. It is a role.</p>
+      <p>A Founder is a leader who put this to work in their own company before the world had it. Your name is printed in the book. You receive a first-run copy months ahead of the release, off the same press. You are on the inside of the launch instead of on the receiving end of it: the cover decisions, the title work, the tools, what my team is doing behind the curtain. And starting January 18, you are on a live session with me every week for twelve weeks, one section of the book at a time, running one tool inside your own company and leaving each week with one install assignment.</p>
+      <p>Twelve weeks. Then three days at the end of April where we finish the install together.</p>
+      <p>That is THE FOUNDERS EVENT, and the seat is the reason I am writing to you today.</p>
+      <p>The seat is a full BMC|COLLECTIVE year. Twelve months of membership, the COLLECTIVE, the AI portal and the playbooks, exactly as they stand. A COLLECTIVE seat is $9,995.</p>
+      <p>For the Founders, I am paying $5,000 of it myself. Your investment is $4,995. Year two renews at $9,995, and I want that in front of you now rather than in a footnote later.</p>
+      <p>I will tell you why I am paying it on Friday. It is not a promotion, and I would ask you not to read it as one.</p>
+      <p>The deadline is the only part of this I cannot move. The names list closes when the manuscript goes to the printer, Saturday, October 31. After that the book exists, and the page is finished.</p>
+      <p><span class="cta">Take your Founder seat</span></p>
+      <p class="sign">Darren</p>
+      <p class="ps"><b>P.S.</b> The book is written to "leader," not "owner," on purpose, so it can be handed to the person running service, or marketing, or the warehouse. Hold that thought. It matters more than it sounds like it does, and I will come back to it before the 31st.</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Founders Event checkout, $4,995</span>
+      <span><b>Trigger</b>1 day after email 3</span>
+      <span><b>Suppress</b>Seat holders. Current COLLECTIVE members pending ruling (see flag 1).</span>
+    </div>
+  </article>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">05</div>
+      <div class="t"><div class="job">Credibility &middot; the $5,000 and the lie</div><div class="sub">Why I'm paying $5,000 of it</div></div>
+      <div class="send"><b>Send</b>Fri Oct 16, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>Why I'm paying $5,000 of it</dd><dd class="cc">27 ch</dd>
+      <dt>Subject B</dt><dd>The $330,000 nobody stole</dd><dd class="cc">25 ch</dd>
+      <dt>Preview</dt><dd>It is not generosity and it is not a promotion.</dd><dd class="cc">46 ch</dd>
+    </dl>
+    <div class="body">
+      <p>I said I would explain the $5,000. Here it is, and it starts with a number I am not proud of.</p>
+      <p>In my twenties I was in real estate and I handed my marketing to an outside agency. Good years. The results still looked wonderful. So I approved the invoices, month after month, for marketing that had stopped performing months before. Seasonal, I said. The market, I said.</p>
+      <p class="tight">$330,000.</p>
+      <p>Nobody stole it. There was no crisis, no bad quarter, no moment where anyone would have said something was wrong. It walked out the door in small pieces while I was looking at a number that was still good.</p>
+      <p>That is what this book is about, and it is why I am not willing to sell it the ordinary way.</p>
+      <p>Here is what I believe. You can decide whether you think I am right.</p>
+      <p>Every leader I know is being sold the same thing right now, louder than at any point in my career: that their company is one big move away. One product. One campaign. One savior hire. One AI miracle. It is the most expensive lie in business, and AI is the most seductive edition of it ever released, engineered so that catching up is never actually possible.</p>
+      <p class="pull">"Behind" isn't where you are. Behind is what they're selling you.</p>
+      <p>Meanwhile the fundamentals that built your company erode a little every day, invisibly, and the invoice arrives a year or two later with everybody's fingerprints on it and nobody's name.</p>
+      <p>When everyone has the same tools, the same talent pool and the same AI, the fundamentals are the last unfair advantage. Not because they are hidden. Because almost nobody will do them consistently.</p>
+      <p>So here is my stake in this.</p>
+      <p>I do not want this book to sell well. I want it installed. In its first year. In as many companies as I can personally reach, starting with the leaders who already know I do not waste their time.</p>
+      <p>A COLLECTIVE seat is $9,995. I am paying $5,000 of every Founders seat myself because I would rather have you on the January sessions with your audit already run than have you tell me in 2029 that you loved the book. Your investment is $4,995, and year two renews at $9,995.</p>
+      <p>That is the entire reason. There is no scarcity story underneath it and no price going up at midnight. The only deadline is the printer, October 31.</p>
+      <p><span class="cta">Take your Founder seat</span></p>
+      <p class="sign">Darren</p>
+      <p class="ps"><b>P.S.</b> If the $330,000 made you think of something in your own company that still looks fine, that is exactly what the Compounding Audit is for. Seven surfaces, one arrow each. Run it this weekend either way.</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Founders Event checkout</span>
+      <span><b>Trigger</b>2 days after email 4</span>
+      <span><b>Suppress</b>Seat holders</span>
+    </div>
+  </article>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">06</div>
+      <div class="t"><div class="job">Proof, then mechanism</div><div class="sub">Same team. Four times the profit.</div></div>
+      <div class="send"><b>Send</b>Thu Oct 22, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>Same team. Four times the profit.</dd><dd class="cc">33 ch</dd>
+      <dt>Subject B</dt><dd>Nine days, and four numbers</dd><dd class="cc">27 ch</dd>
+      <dt>Preview</dt><dd>None of the four came from one big move.</dd><dd class="cc">40 ch</dd>
+    </dl>
+    <div class="body">
+      <p>You have sat in one of my classes. So you know I do not do theory without math.</p>
+      <p>Here is math from people who were sitting where you were sitting.</p>
+      <p>Lori Sunderman-Smith: "Revenue grew by over 30% and profit increased by more than 4 times, all with the same number of employees."</p>
+      <p>Jeff Throckmorton: "Reduced our team by 30%, grown our revenue and our profitability has more than tripled."</p>
+      <p>Rick Episcopo: "Doubled my fees... increased my monthly revenue by 60% in one day."</p>
+      <p>Danny Rollins, who read the first book and kept going: "I have increased my businesses from 3 million to 15 million this year."</p>
+      <p>I am not going to promise you any of those numbers. If anyone does, close the tab.</p>
+      <p>What I will tell you is what the four of them have in common, because it is not their industry and it is not their size.</p>
+      <p>Not one of them got there on a big move.</p>
+      <p>Every one of them stopped upgrading the applications and fixed the system underneath.</p>
+      <p>Because your company has one. Not the values on the wall. The defaults: what happens when nobody decides. What happens when a customer complains, when a deadline slips, when a mistake is found, when you leave the building. You did not write it. It assembled itself out of old decisions, and it is running every strategy, every hire, every tool and every AI initiative you will ever install. Each one performs, or fails, according to it.</p>
+      <p class="pull">Nothing changed about the software. What changed was the system it was running on.</p>
+      <p>The new book exposes that system and then upgrades it in five places, in order. Decisions determine what gets chosen. Systems determine how it repeats. Routines determine when it happens and whether it survives. Environment determines what gets in and what gets tolerated. And the last one sets the ceiling, because a company keeps returning to the leader's set point until the leader resets it.</p>
+      <p>Reading that is worth something. Installing it with me standing there is worth considerably more. That is what THE FOUNDERS EVENT is.</p>
+      <p>Your name is in the book if you take a seat before the manuscript goes to the printer on October 31. The seat is a full BMC|COLLECTIVE year: $9,995 standard, $4,995 for the Founders because I am paying $5,000 of it, renewing at $9,995 in year two.</p>
+      <p>Nine days.</p>
+      <p><span class="cta">Take your Founder seat</span></p>
+      <p class="sign">Darren</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Founders Event checkout</span>
+      <span><b>Trigger</b>Fixed date. Lands after BMC45 closes Oct 21.</span>
+      <span><b>Suppress</b>Seat holders. BMC45 attendees who enrolled at the event.</span>
+    </div>
+  </article>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">07</div>
+      <div class="t"><div class="job">Objection &middot; the fire hose</div><div class="sub">Forty ideas. Three installed.</div></div>
+      <div class="send"><b>Send</b>Tue Oct 27, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>Forty ideas. Three installed.</dd><dd class="cc">29 ch</dd>
+      <dt>Subject B</dt><dd>You know how the flight home goes</dd><dd class="cc">33 ch</dd>
+      <dt>Preview</dt><dd>So we built this one backwards on purpose.</dd><dd class="cc">42 ch</dd>
+    </dl>
+    <div class="body">
+      <p>Let me say the thing you are thinking, because I would rather say it than have you say it to yourself at eleven at night and close the tab.</p>
+      <p>"I have done this. I came home with forty pages of notes and I installed three of them. My team watched me relaunch the same initiative four times and stopped believing me. Why would this one be different?"</p>
+      <p>That is the most honest objection in my business, and it is not a character flaw. It is a design flaw, and it is mine as much as yours.</p>
+      <p>Here is what actually happened on those flights home. You had a high-emotion weekend and no rhythm behind it. There is a law that eats books and events alive, and Jim Rohn named it: the Law of Diminishing Intent. The longer you wait between knowing and acting, the lower the odds, on a sliding curve.</p>
+      <p class="pull">Emotion without action is just entertainment.</p>
+      <p>And there is a second cost nobody prices. Every stop-start cycle carries a Restart Tax: the hours to spin the thing back up, plus the piece of your team's belief that does not come back the fourth time.</p>
+      <p>So we built this one backwards on purpose.</p>
+      <p>Most events hand you the fire hose and wave. The Founders start twelve weeks <i>before</i> the event, not after it.</p>
+      <p>January 18. One live session a week with me. One section of the book. One tool run inside your own company. One install assignment. By the first week of April you have run the audits, your defaults are diagnosed, and you have already chosen your first upgrade. You arrive at the end of April with it running.</p>
+      <p>One upgrade. Not five. Five installs at once are how leaders end up with zero. You hold the one until it is boring, and boring is the point, because boring is what compounds.</p>
+      <p>Then those three days finish the install, and the COLLECTIVE year behind it keeps the rhythm alive, which is the part that was always missing.</p>
+      <p>I am not going to tell you this makes it impossible to put on the shelf. You can still do that. You will just have to work considerably harder at it.</p>
+      <p>The names list closes Saturday, October 31, when the manuscript goes to the printer. $4,995, with my $5,000 against a $9,995 seat, renewing at $9,995 in year two.</p>
+      <p><span class="cta">Take your Founder seat</span></p>
+      <p class="sign">Darren</p>
+      <p class="ps"><b>P.S.</b> If your honest answer is "I will not do the twelve weeks," then do not take the seat. I would rather you told me that now than told yourself something else.</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Founders Event checkout</span>
+      <span><b>Trigger</b>5 days after email 6</span>
+      <span><b>Suppress</b>Seat holders</span>
+    </div>
+  </article>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">08</div>
+      <div class="t"><div class="job">Multi-seat &middot; the book's first ask</div><div class="sub">Don't be the only one who's read it</div></div>
+      <div class="send"><b>Send</b>Thu Oct 29, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>Don't be the only one who's read it</dd><dd class="cc">34 ch</dd>
+      <dt>Subject B</dt><dd>Bring the people who run the rooms</dd><dd class="cc">34 ch</dd>
+      <dt>Preview</dt><dd>The first of the two things I ask in the book.</dd><dd class="cc">45 ch</dd>
+    </dl>
+    <div class="body">
+      <p>There are two things I ask of the reader at the end of the new book. This is the first one, and I am asking it of you two days early.</p>
+      <p class="pull">Don't be the only person in your building who has read this.</p>
+      <p>I mean that operationally, not sentimentally. Here is the mechanism.</p>
+      <p>Everything you install runs through five multipliers: how often it repeats, how many people carry it, how many handoffs spread it, how many customers feel it, how long it runs. A leader who installs an upgrade alone gets one of the five. A leadership team that installs it together gets all five.</p>
+      <p>That is why the book is written to "leader" and not to "owner." I wrote it so it could be handed to the person running service, the one running marketing, the one running the warehouse. They carry more of your defaults than you do, and they are standing in most of the rooms you are not standing in. A company can never scale beyond the quality of the decisions made when the leader is not there.</p>
+      <p>So the second ask in the book is this one: run the tools with your team instead of on them. In a room. Out loud. Arguing about the arrows.</p>
+      <p>You can start that in January and finish it at the end of April. Every leader you bring is another person who speaks the same language when they get home, and there is a second reason that matters which I will explain in a couple of weeks.</p>
+      <p>For now, the deadline. The names list closes Saturday, October 31, when the manuscript goes to the printer. Everyone who takes a seat before then is a Founder: name printed in the book, a first-run copy, the twelve weeks beginning January 18, and the inside of the launch. Seats taken after Saturday are still seats. They are just not Founder seats, and that page does not open again.</p>
+      <p>$4,995 each. I am paying $5,000 of the $9,995. Year two renews at $9,995.</p>
+      <p><span class="cta">Take your seats before Saturday</span></p>
+      <p class="sign">Darren</p>
+      <p class="ps"><b>P.S.</b> If you are bringing more than one leader, reply and tell me who they are and what they run. My team reads every one of these and I see them.</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Founders Event checkout, multi-seat</span>
+      <span><b>Trigger</b>2 days after email 7</span>
+      <span><b>Suppress</b>None. Single-seat holders receive this one deliberately.</span>
+    </div>
+  </article>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">09</div>
+      <div class="t"><div class="job">Final call &middot; the fork</div><div class="sub">Today</div></div>
+      <div class="send"><b>Send</b>Sat Oct 31, 7:00a local &middot; resend 6:00p to non-openers</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>Today</dd><dd class="cc">5 ch</dd>
+      <dt>Subject B</dt><dd>The page closes tonight</dd><dd class="cc">23 ch</dd>
+      <dt>Preview</dt><dd>Books do not reopen. This one will not either.</dd><dd class="cc">45 ch</dd>
+    </dl>
+    <div class="body">
+      <p>Today.</p>
+      <p>Tonight the manuscript goes to the printer and the Founders page is finished. Not closed for a while. Finished. Books do not reopen.</p>
+      <p>You have had four weeks and eight emails from me, so you already know what the seat is: a full BMC|COLLECTIVE year at $4,995, with $5,000 of the $9,995 paid by me, renewing at $9,995 in year two. And you know what the role is: your name in the book, a first-run copy off the press, twelve weeks with me starting January 18, and three days at the end of April finishing the install.</p>
+      <p>Which means this is not an information problem anymore. It is a decision, and you already know which way you are leaning. The only real question left is whether you are going to let a Saturday make it for you.</p>
+      <p class="pull">The most expensive time in a leader's life is the time between when you know and when you act.</p>
+      <p>Decide it either way today. Then close the tab and go have your weekend.</p>
+      <p><span class="cta">Take your Founder seat</span></p>
+      <p class="sign">Darren</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Founders Event checkout</span>
+      <span><b>Trigger</b>Print-date eve. Hard stop at midnight local.</span>
+      <span><b>Suppress</b>Seat holders. Zero-engagement segment (see branching).</span>
+    </div>
+  </article>
+</section>
+
+<section>
+  <div class="band">
+    <div class="t"><div class="eyebrow">Phase three</div><h2 class="display">After the press runs</h2><p class="j">Founder status is gone and the copy says so plainly. Three emails that rebuild the offer around what is still true: the seat, the event, and forty in-studio seats that are not for sale at any number.</p></div>
+    <div class="when">Nov 4 &ndash; Dec 15</div>
+  </div>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">10</div>
+      <div class="t"><div class="job">Honest reset</div><div class="sub">The page is finished</div></div>
+      <div class="send"><b>Send</b>Wed Nov 4, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>The page is finished</dd><dd class="cc">20 ch</dd>
+      <dt>Subject B</dt><dd>What closed, and what didn't</dd><dd class="cc">28 ch</dd>
+      <dt>Preview</dt><dd>Most people assume all of it closed. It did not.</dd><dd class="cc">47 ch</dd>
+    </dl>
+    <div class="body">
+      <p>The manuscript went to the printer on Saturday. The Founders page is set.</p>
+      <p>If your name is on it, you will see it in a few weeks when your copy arrives, and I will be in touch about January.</p>
+      <p>If it is not, I am not going to pretend that is the same thing. It is not. That page does not open again, and softening it would not do you any favors.</p>
+      <p>But I want to be accurate about what actually closed, because most people assume the whole thing closed and it did not.</p>
+      <p>What closed: Founder status. The name in the book, the first-run copy, the inside view of the launch.</p>
+      <p>What did not close: the event, the seat, and the thing I said I would explain in a couple of weeks.</p>
+      <p>THE FOUNDERS EVENT is at the end of April. Three days. I teach the operating system and the five upgrades and we install them in your company while I am standing there. The seat is still a full BMC|COLLECTIVE year, and I am still paying $5,000 of the $9,995, so your investment is still $4,995, renewing at $9,995 in year two. None of that changes because a press ran.</p>
+      <p>Here is what I would rather you did with this email than feel anything about it.</p>
+      <p>Go get the legal pad out of the drawer.</p>
+      <p>In the book there is a leader I call Ray. He is a composite, drawn from thirty-five years of sitting across from leaders like him, and he is not a client. Commercial electrical. Eight million. Revenue up 9 percent, profit down 40, and a folder of exhibits explaining why: the economy.</p>
+      <p>I asked him one question. Who approved your last ten discounts?</p>
+      <p>Thirty days later he came back with two columns. Twenty-three concessions. Nineteen of the reasons were some version of "to close it faster." Not one of them said the economy. $27,600 a month. $331,200 a year, signed away in ballpoint.</p>
+      <p class="pull">Ray's problem was Ray, twenty-three times a month. Which was the best news he had had all year.</p>
+      <p>Because it meant Ray was also the fix.</p>
+      <p>The reason I am telling you that in an email about a deadline you did not make is simple. There is only one kind of deadline that has ever actually cost you anything, and it was never mine.</p>
+      <p><span class="cta">Take your seat for April</span></p>
+      <p class="sign">Darren</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Founders Event checkout, post-print</span>
+      <span><b>Trigger</b>3 days after print</span>
+      <span><b>Suppress</b>All Founders. They move to onboarding instead.</span>
+    </div>
+  </article>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">11</div>
+      <div class="t"><div class="job">Status &middot; the in-studio award</div><div class="sub">Forty seats. None of them for sale.</div></div>
+      <div class="send"><b>Send</b>Wed Nov 18, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>Forty seats. None of them for sale.</dd><dd class="cc">35 ch</dd>
+      <dt>Subject B</dt><dd>You can't take one of these. You earn it.</dd><dd class="cc">41 ch</dd>
+      <dt>Preview</dt><dd>Here is how the Charleston forty get chosen.</dd><dd class="cc">43 ch</dd>
+    </dl>
+    <div class="body">
+      <p>Two weeks ago I said there was something I would explain later. Here it is.</p>
+      <p>Forty leaders will be in the studio with me in Charleston. In person, all three days, including the third afternoon, which does not exist anywhere else. A reception the Sunday before. Private sessions at night. Dinners.</p>
+      <p>Those forty seats are not for sale. Not at any number. They are awarded.</p>
+      <p>Here is how they are earned, and why I built it this way.</p>
+      <p>Every seat holder gets a personal link. Seats that come in through it are seats you influenced. Bring your own leadership team and those count. Send it to the leader across town who has been standing still for five years, and that counts.</p>
+      <p>The ten leaders who influence the most seats are in the studio on merit. Everyone who influences ten or more goes into the group I select the rest of the forty from, by fit, personally, the way I have always chosen an in-studio audience. The top five have dinner with Georgia and me.</p>
+      <p>Now the part that matters more than the mechanics.</p>
+      <p>The forty people I want in that studio are the ones carrying this into their networks. That is not a marketing sentence. It is the second ask in the book: do not be the only person in your building who has read it, and run the tools with your team instead of on them. A leader who brings six of their own leaders to April is doing exactly what the book asks, before the book is even out.</p>
+      <p>I would rather stand three feet from that leader for three days than from anyone who simply wrote the largest check.</p>
+      <p>You have to hold a seat yourself to be eligible. That is the only gate.</p>
+      <p>If you already hold one, your link is in your account and the count is live.</p>
+      <p>If you do not, April is still open. A full BMC|COLLECTIVE year: $4,995, with $5,000 of the $9,995 paid by me, renewing at $9,995 in year two.</p>
+      <p><span class="cta">Take your seat and get your link</span></p>
+      <p class="sign">Darren</p>
+      <p class="ps"><b>P.S.</b> The third afternoon is the one I look forward to most. Forty leaders naming the standards they keep where nobody is looking, out loud, to each other. You cannot broadcast that one, which is why we do not.</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Checkout for non-holders. Link retrieval for holders.</span>
+      <span><b>Trigger</b>14 days after email 10</span>
+      <span><b>Suppress</b>None. Seat holders get a variant whose CTA is the referral link, not checkout.</span>
+    </div>
+  </article>
+
+  <article class="email">
+    <div class="e-head">
+      <div class="e-num">12</div>
+      <div class="t"><div class="job">Year-end close</div><div class="sub">January 18 happens without you</div></div>
+      <div class="send"><b>Send</b>Tue Dec 15, 6:10a local</div>
+    </div>
+    <dl class="lines">
+      <dt>Subject A</dt><dd>January 18 happens without you</dd><dd class="cc">30 ch</dd>
+      <dt>Subject B</dt><dd>Two dates, then I'll leave you alone</dd><dd class="cc">36 ch</dd>
+      <dt>Preview</dt><dd>One of them is a cutoff. One is just a calendar.</dd><dd class="cc">47 ch</dd>
+    </dl>
+    <div class="body">
+      <p>This is the last email I will send you about April until the new year.</p>
+      <p>On January 18, a group of leaders gets on a call with me and starts working through the book one section at a time. Twelve weeks. One tool run inside their own company every week. One install assignment. By the first week of April they will have diagnosed their defaults, chosen their first upgrade, and had it running for two months. Then they spend three days with me at the end of April finishing the install.</p>
+      <p>That happens whether you are on it or not. That is not pressure. It is a calendar.</p>
+      <p>What I want you to weigh is the other calendar. The one you do not get to see.</p>
+      <p>Thirty-one months from January 18 is August 2029. Your company will be somewhere specific on that date, and the direction is being decided right now, this month, in the ordinary weeks when nothing is on fire and nobody is watching. It will not announce itself either way. Decline announces itself eventually. Flat never does.</p>
+      <p>More than thirty-five years and more than eleven thousand CEOs and founders, and the only variable that has ever separated them is what they did on ordinary mornings.</p>
+      <p>Two dates, and then I will leave you alone.</p>
+      <p>December 31 is the cutoff for the in-studio award. Seats influenced after that do not count toward the forty.</p>
+      <p>January 18 is when the Founders start. You will meet them at the end of April with twelve weeks of install work already behind them.</p>
+      <p>The seat is a full BMC|COLLECTIVE year: $4,995, with $5,000 of the $9,995 paid by me, renewing at $9,995 in year two. Three days at the end of April, in Charleston or on the broadcast, and a COLLECTIVE year behind it to keep the rhythm alive.</p>
+      <p class="pull">Put a date on it.</p>
+      <p>Take the seat, or decide cleanly that you are not going to and stop carrying it into 2027. Either one is a decision. Only one of them is free.</p>
+      <p><span class="cta">Take your seat for April</span></p>
+      <p class="sign">I'll see you in thirty-one months.<br>Darren</p>
+    </div>
+    <div class="foot">
+      <span><b>CTA</b>Founders Event checkout</span>
+      <span><b>Trigger</b>Fixed date, ahead of the holiday dead zone</span>
+      <span><b>Suppress</b>Seat holders. Zero-engagement segment.</span>
+    </div>
+  </article>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">03</span><h2 class="display">Behavioral branching</h2></div>
+  <p class="sec-intro">Five branches. Everything except the abandon branch runs off engagement with the main sequence, so it can be built on tags rather than a second workflow.</p>
+  <div class="ops">
+    <div class="op">
+      <h3>Non-openers</h3>
+      <p><span class="trig">Did not open email 4 within 48h</span>Resend email 4 with subject B at 6:00p rather than 6:10a. Once only. If they do not open the resend, they still receive 5 through 9 on schedule.</p>
+      <p><span class="trig">Did not open email 9 by 4:00p Oct 31</span>Resend at 6:00p, subject "Tonight," same body. This is the only same-day resend in the sequence.</p>
+    </div>
+    <div class="op">
+      <h3>High engagement, no seat</h3>
+      <p><span class="trig">Opened 3+ and clicked the seat link, no checkout, by Oct 23</span>Tag CONSIDERING and hand to the A-Team for a personal call before Oct 31. This is the highest-value segment in the launch and email cannot finish it.</p>
+      <p>They stay in the main sequence. Do not suppress: the call and email 7 do different jobs.</p>
+    </div>
+    <div class="op">
+      <h3>Checkout abandon</h3>
+      <p><span class="trig">Reached checkout, did not complete</span>Three-touch branch at 4h, 24h, 48h: observation, then the money objection reframed against the $9,995 and the renewal, then the print date. Pause the main sequence for 24h so the two do not stack.</p>
+      <p>After Oct 31 this branch swaps to the post-print version with Founder benefits removed from the copy.</p>
+    </div>
+    <div class="op">
+      <h3>Zero engagement</h3>
+      <p><span class="trig">No opens across emails 1 to 6</span>Suppress from 7, 8 and 9. Sending the deadline push to a dead segment is how the print-date send lands in spam for everyone else.</p>
+      <p>One re-permission email on Nov 10, then out of the launch and back to the daily cadence only.</p>
+    </div>
+    <div class="op">
+      <h3>Seat taken</h3>
+      <p><span class="trig">Checkout completes</span>Immediate suppression from every remaining sequence email, into onboarding the same hour.</p>
+      <p>The one exception is email 8. Single-seat holders receive it on purpose, because the multi-seat ask is for them more than for anyone.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">04</span><h2 class="display">Hand-off</h2></div>
+  <p class="sec-intro">Three destinations. The first one has an operational dependency that has to be solved before email 4 sends.</p>
+  <div class="ops">
+    <div class="op">
+      <h3>Founders, pre-print</h3>
+      <p>Confirmation with the renewal term in plain sight, not a footnote. Then the name-as-printed capture, then the referral link, then the insider drip through November and December, then reading-group logistics in early January.</p>
+      <p><span class="trig">Dependency</span>Name-as-printed has to be a required field at checkout, not an email afterward. A Founder who enrolls at 11:40p on October 31 cannot be chased for it on November 2. See flag 3.</p>
+    </div>
+    <div class="op">
+      <h3>Seat holders, post-print</h3>
+      <p>Confirmation, renewal term, referral link and the award rules, April logistics. No Founder language anywhere in this track, including the confirmation page.</p>
+      <p>Confirmation pages carry meta robots noindex, as every confirmation page on this family does.</p>
+    </div>
+    <div class="op">
+      <h3>Non-converters</h3>
+      <p>Back to the alumni and daily cadence on January 1 with no further Founders Event sends. One re-entry point: the week the book releases, just after the event, when the proof is public and the next COLLECTIVE enrollment is the honest ask.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">05</span><h2 class="display">What to watch</h2></div>
+  <p class="sec-intro">Per-email open, click and seat conversion are the baseline. These are the five readings that should change a decision rather than just fill a report.</p>
+  <div class="ops">
+    <div class="op">
+      <h3>Email 4 open rate</h3>
+      <p>The invitation is the whole launch. If it opens below the list's normal rate, the anticipation phase did not land and the fix is the subject line on the resend, not the offer.</p>
+    </div>
+    <div class="op">
+      <h3>Click-to-seat rate, emails 4 to 6</h3>
+      <p>High clicks and low seats is a page problem, not a copy problem. Check the checkout before writing another email, because emails 7 to 9 will only send more traffic into the same leak.</p>
+    </div>
+    <div class="op">
+      <h3>The drop-off email</h3>
+      <p>Unsubscribes concentrate on one email in every sequence. If that email is 7 or 8, the pressure curve is too steep for this list and phase three needs softening before it sends.</p>
+    </div>
+    <div class="op">
+      <h3>Multi-seat rate</h3>
+      <p>Seats per enrolling leader, tracked from email 8 onward. This is the number that predicts the in-studio award and the April experience, and it is worth more than total seat count.</p>
+    </div>
+    <div class="op">
+      <h3>The Oct 31 share</h3>
+      <p>What percentage of Founders enroll on the final day. A very high share means the earlier emails informed without moving anyone, and the next launch needs the decision pressure earlier.</p>
+    </div>
+    <div class="op">
+      <h3>Referral link activation</h3>
+      <p>Share of seat holders who use their link at all within 14 days. If it is low after email 11, the award is not understood and needs a walkthrough, not another announcement.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num">06</span><h2 class="display">Flags before this sends</h2></div>
+  <p class="sec-intro">Four things I could not settle from the context files. The first two change copy. The second two change operations.</p>
+  <div class="flags">
+    <div class="flag">
+      <div class="k">01</div>
+      <h3>Current COLLECTIVE members are not handled</h3>
+      <p>The seat is a BMC|COLLECTIVE year. A leader who is already a member is being asked to invest $4,995 in something they hold. Alumni and cross-program pricing is still open, so this sequence is written to past BMC attendees, and current members should be suppressed from emails 4 through 9 until there is a ruling on what their seat is. Once it is ruled, this becomes a four-email variant, not a rewrite.</p>
+    </div>
+    <div class="flag">
+      <div class="k">02</div>
+      <h3>Can a post-print seat holder join the reading group?</h3>
+      <p>The context file lists the twelve weeks under what Founders get, which reads as closed at print. Emails 10 through 12 are written on that assumption, so January 18 appears only as a date other people start. If Darren rules that the group travels with the seat rather than with Founder status, phase three gets materially stronger and emails 10 and 12 should be rewritten to sell it.</p>
+    </div>
+    <div class="flag">
+      <div class="k">03</div>
+      <h3>Name-as-printed has to be captured at checkout</h3>
+      <p>The names list and the enrollment close the same night. There is no window to email people afterward asking how their name should appear in a book. This is a checkout field with its own confirmation, and it blocks email 4.</p>
+    </div>
+    <div class="flag">
+      <div class="k">04</div>
+      <h3>The dates in emails 2, 9 and 12 are load-bearing</h3>
+      <p>"May 2029" in email 2 and "August 2029" in email 12 are both computed thirty-one months out from their own send dates. If any send date moves by more than two weeks, recompute them. If the print date moves, eight emails carry October 31 and all eight need the swap.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>Drafted against the September 2026 TCEB context set: the book file, the Founders Event file and the target audience file. Compliance swept for em dashes, transactional verbs, the banned descriptor for the virtual audience, price-reduction framing, and every price paired with $9,995 and the year-two renewal.</div>
+</footer>
+
+</div>
