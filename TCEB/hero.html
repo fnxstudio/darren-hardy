@@ -50,7 +50,7 @@ a{color:inherit}
     radial-gradient(48% 40% at 62% 38%, rgba(255,0,71,.16), transparent 66%),
     radial-gradient(60% 50% at 30% 72%, rgba(120,60,255,.07), transparent 70%),
     radial-gradient(70% 60% at 50% 50%, rgba(255,255,255,.05), transparent 72%)}
-.vig{position:absolute;inset:0;z-index:6;pointer-events:none;
+.vig{position:absolute;inset:0;z-index:1;pointer-events:none;
   background:radial-gradient(76% 68% at 50% 46%, transparent 42%, var(--ink0) 96%)}
 .grain{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.30;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
@@ -69,7 +69,7 @@ a{color:inherit}
    background happens to be. */
 .rig{position:absolute;inset:0;z-index:2;transform-style:preserve-3d;
   transition:transform .6s var(--ease);will-change:transform}
-.pl,.objp,.copyp,.mote{position:absolute;left:50%;top:50%}
+.pl,.objp,.mote{position:absolute;left:50%;top:50%}
 .ctr{transform:translate(-50%,-50%)}
 
 /* planes, far to near. blur and opacity TRACK distance, they are not
@@ -103,7 +103,7 @@ a{color:inherit}
    ground there is no glow to lean on and no dark to hide in: atmospheric
    perspective is the only depth cue left, and it has to be right. */
 .growth{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;
-  transform:translate3d(3vw,26vh,0)}
+  transform:translate3d(2vw,26vh,0)}
 .bp{position:absolute;left:0;top:0;transform-style:preserve-3d}
 .gb{position:absolute;bottom:0;left:0;width:clamp(13px,1.5vw,25px);height:var(--h);
   transform-origin:50% 100%;border-radius:1px;
@@ -160,7 +160,22 @@ body.lt .base{background:linear-gradient(90deg,transparent,rgba(0,0,0,.24),trans
 /* --------------------------------------------------------------- THE COPY */
 /* Near the camera plane on purpose. Depth is for the scene; the message
    pays no part of the cost. */
-.copyp{transform:translate(-50%,-50%) translate3d(-18.5vw,9vh,70px);width:min(620px,48vw)}
+/* THE COPY IS NOT IN THE RIG.
+   It used to be a plane at translateZ(70px), and translateZ scales an
+   element about the PERSPECTIVE ORIGIN, not about its own centre. A
+   block sitting left of centre therefore drifts further left the closer
+   it comes to the camera: at +70px under a 1200px perspective the left
+   edge landed at 16px instead of the 56px the container asks for, and no
+   amount of tuning `left` fixes that, because the drift scales with the
+   viewport.
+
+   So the rig is the scene and the copy is an overlay above it. Pixel
+   exact against the bottom bar at any width, and it still moves, because
+   the same pointer values drive it from the script. */
+.copyp{position:absolute;z-index:4;top:50%;
+  left:calc(max((100vw - 1440px) / 2, 0px) + clamp(20px,4vw,56px));
+  transform:translateY(-50%);margin-top:9vh;width:min(620px,48vw);
+  will-change:transform}
 .eb{display:flex;align-items:center;gap:13px;font-family:var(--font-display);font-weight:400;
   font-size:12.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--red)}
 .eb s{width:7px;height:7px;border-radius:50%;background:var(--red);text-decoration:none;
@@ -201,17 +216,7 @@ body.lt .base{background:linear-gradient(90deg,transparent,rgba(0,0,0,.24),trans
 .navcta:hover{background:var(--w);color:var(--ink0);border-color:var(--w)}
 @media(max-width:940px){.navlinks,.navmid{display:none}}
 
-/* the rails. Agency chrome, but it does real work: it frames the scene
-   and gives the eye an edge to measure the depth against. */
-.rail{position:absolute;top:50%;z-index:9;display:flex;align-items:center;gap:16px;
-  font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;font-weight:800;color:var(--g55);
-  writing-mode:vertical-rl}
-.rail-l{left:clamp(14px,2.2vw,30px);transform:translateY(-50%) rotate(180deg)}
-.rail-r{right:clamp(14px,2.2vw,30px);transform:translateY(-50%)}
-.rail i{display:block;width:1px;height:64px;background:linear-gradient(var(--g70),transparent)}
-.rail-r i{background:linear-gradient(transparent,var(--g70));animation:railpulse 2.8s ease-in-out infinite}
-@keyframes railpulse{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
-@media(max-width:860px){.rail{display:none}}
+
 
 /* the bottom bar. Three facts and the action, on a rule. */
 .bar{position:absolute;left:0;right:0;bottom:0;z-index:9;padding-bottom:clamp(20px,3vw,34px)}
@@ -231,10 +236,8 @@ body.lt .base{background:linear-gradient(90deg,transparent,rgba(0,0,0,.24),trans
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes fadeto{from{opacity:0}to{opacity:var(--o)}}
 @keyframes bookin{from{opacity:0;transform:translateY(40px) scale(.94)}to{opacity:1;transform:none}}
-.nav,.rail,.bar{animation:fade 1s var(--ease) both}
+.nav,.bar{animation:fade 1s var(--ease) both}
 .nav{animation-delay:.10s}
-.rail-l{animation-delay:.24s}
-.rail-r{animation-delay:.30s}
 .bar{animation-delay:1.05s}
 .growth{--o:1;animation:fadeto 1.6s var(--ease) both}
 /* the only type in the middle distance, so it reads as a caption
@@ -276,7 +279,7 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
   .stage{perspective:800px}
   .objp{transform:translate(-50%,-50%) translate3d(30vw,-20vh,-90px)}
   .book{height:min(52vh,440px)}
-  .copyp{transform:translate(-50%,-50%) translate3d(0,17vh,50px);width:88vw}
+  .copyp{left:50%;transform:translate(-50%,-50%);margin-top:17vh;width:88vw}
 
   .floor{width:420vw}
   .band{display:none}
@@ -324,12 +327,13 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
      </div>
     </div>
 
-    <div class="copyp">
-      <div class="eb"><s></s>The new book &middot; April 2027</div>
-      <div class="h-sm">Your business is already</div>
-      <h1 class="h-lg dsp"><em>Compounding</em>.</h1>
-      <p class="sub">The only question is which direction. Thirty-five years at the center of what builds a business, written down at last.</p>
-    </div>
+  </div>
+
+  <div class="copyp">
+    <div class="eb"><s></s>The new book &middot; April 2027</div>
+    <div class="h-sm">Your business is already</div>
+    <h1 class="h-lg dsp"><em>Compounding</em>.</h1>
+    <p class="sub">The only question is which direction. Thirty-five years at the center of what builds a business, written down at last.</p>
   </div>
 
   <div class="vig" aria-hidden="true"></div>
@@ -348,9 +352,6 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
     </div>
   </header>
 
-  <div class="rail rail-l">Darren Hardy &middot; MMXXVII<i></i></div>
-  <div class="rail rail-r">Scroll<i></i></div>
-
   <div class="bar">
     <div class="w">
       <div class="facts">
@@ -368,7 +369,8 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
   function set(l){document.body.classList.toggle('lt',l);bL.classList.toggle('on',l);bD.classList.toggle('on',!l);}
   bD.onclick=function(){set(false)};bL.onclick=function(){set(true)};
 
-  var stage=document.getElementById('stage'),rig=document.getElementById('rig');
+  var stage=document.getElementById('stage'),rig=document.getElementById('rig'),
+      copy=document.querySelector('.copyp');
   var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
   // Dust. Placed once, at eighteen depths, so the air between the planes
@@ -405,6 +407,9 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
                         'rotateY('+(mx*7).toFixed(2)+'deg) '+
                         'rotateX('+(-my*5.5).toFixed(2)+'deg)';
     stage.style.perspectiveOrigin=(50+mx*16).toFixed(1)+'% '+(48+my*12).toFixed(1)+'%';
+    // the overlay is outside the rig, so it is moved directly rather
+    // than inheriting the camera
+    if(copy) copy.style.translate=(mx*26).toFixed(1)+'px '+(my*15).toFixed(1)+'px';
   }
   function queue(){ if(!queued){queued=true;requestAnimationFrame(apply);} }
   if(!reduce){
