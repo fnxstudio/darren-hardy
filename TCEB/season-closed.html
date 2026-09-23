@@ -550,17 +550,18 @@
     <feImage preserveAspectRatio="none" x="0%" y="0%" width="100%" height="100%" result="vm" href="VMAP"/>
     <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="bl"/>
     <feColorMatrix in="bl" type="saturate" values="1.22" result="src"/>
-    <feDisplacementMap in="src" in2="hm" scale="62" xChannelSelector="R" yChannelSelector="B" result="rx"/>
-    <feDisplacementMap in="rx" in2="vm" scale="62" xChannelSelector="B" yChannelSelector="G" result="rd"/>
-    <feColorMatrix in="rd" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="rc"/>
-    <feDisplacementMap in="src" in2="hm" scale="50" xChannelSelector="R" yChannelSelector="B" result="gx"/>
-    <feDisplacementMap in="gx" in2="vm" scale="50" xChannelSelector="B" yChannelSelector="G" result="gd"/>
-    <feColorMatrix in="gd" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="gc"/>
-    <feDisplacementMap in="src" in2="hm" scale="38" xChannelSelector="R" yChannelSelector="B" result="bx"/>
-    <feDisplacementMap in="bx" in2="vm" scale="38" xChannelSelector="B" yChannelSelector="G" result="bd"/>
-    <feColorMatrix in="bd" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="bc"/>
-    <feBlend in="rc" in2="gc" mode="screen" result="rg"/>
-    <feBlend in="rg" in2="bc" mode="screen"/>
+    <!-- ONE displacement pass, deliberately.
+         The first version ran three, isolated a colour channel from each
+         and screen-blended them, which is how a shader does chromatic
+         dispersion. In a filter graph it is not safe: wherever a pass
+         samples outside the filter region it returns transparent, the
+         surviving channels paint on their own, and the rim tears into
+         hard teal and blue bands. It did not reproduce headless, which
+         makes it worse rather than better.
+         The bend is the part that matters. The dispersion is done in
+         CSS on .fringe instead, where it cannot fall off a region. -->
+    <feDisplacementMap in="src" in2="hm" scale="34" xChannelSelector="R" yChannelSelector="B" result="dx"/>
+    <feDisplacementMap in="dx" in2="vm" scale="34" xChannelSelector="B" yChannelSelector="G"/>
   </filter>
 </svg>
 </body>
