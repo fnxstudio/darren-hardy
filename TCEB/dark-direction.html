@@ -560,6 +560,151 @@
 
   @media(prefers-reduced-motion:reduce){.blind,.obj,.obj::after{animation:none}}
 
+  /* ===================================================================
+     BOLD SET. Everything above this is one layout wearing different
+     backgrounds: nav, eyebrow, caps headline, lede, two buttons. That is
+     a template, not a hero. These five each have their own structure,
+     and the type runs at a scale the earlier ones never reached: 94px
+     inside a column is a headline, 300px bleeding off both edges is a
+     hero. None of them carry a lede. Most do not carry a nav.
+     =================================================================== */
+  .bold{position:relative;min-height:100vh;overflow:hidden;padding:0;
+    display:grid;align-content:center}
+  .bold>.w,.bold .edge>.w,.split>.w,.edge>.w{width:100%}
+  /* these heroes carry no nav, so the label can sit up top */
+  .bold>.tag{top:18px;bottom:auto}
+  .bigtype{font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+    letter-spacing:-.022em;line-height:.80;white-space:nowrap}
+
+  /* ---------- B1 - BLEED. The type is the hero and it does not fit. --- */
+  .bleed{position:relative}
+  .bleedline{display:block;font-size:clamp(64px,19.5vw,290px);color:var(--w);
+    will-change:transform}
+  .bleedline em{font-style:normal;color:var(--red)}
+  .bl1{margin-left:-2vw;animation:slide1 26s ease-in-out infinite alternate}
+  .bl2{margin-left:9vw;animation:slide2 32s ease-in-out infinite alternate}
+  .bl3{margin-left:0;animation:slide3 22s ease-in-out infinite alternate}
+  @keyframes slide1{from{transform:translateX(0)}to{transform:translateX(-3.2vw)}}
+  @keyframes slide2{from{transform:translateX(0)}to{transform:translateX(4.4vw)}}
+  @keyframes slide3{from{transform:translateX(0)}to{transform:translateX(-2.4vw)}}
+  .bleedbook{position:absolute;right:8vw;top:50%;z-index:3;width:clamp(150px,17vw,260px);
+    aspect-ratio:1784/2289;transform:translateY(-46%) rotate(4deg);
+    box-shadow:0 48px 100px rgba(0,0,0,.72),0 0 0 1px rgba(255,255,255,.12);
+    animation:bfloat 12s ease-in-out infinite}
+  body.lt .bleedbook{box-shadow:0 48px 100px rgba(0,0,0,.34),0 0 0 1px rgba(0,0,0,.14)}
+  @keyframes bfloat{0%,100%{transform:translateY(-49%) rotate(4deg)}50%{transform:translateY(-43%) rotate(1deg)}}
+  .bleedbook img{width:100%;height:100%;object-fit:cover;display:block}
+  .boldfoot{position:absolute;left:0;right:0;bottom:clamp(22px,3.4vw,44px);z-index:4}
+  .boldfoot .w{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .boldnote{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;color:var(--g55);max-width:48ch;line-height:1.9}
+  .boldgo{color:var(--w);text-decoration:none;font-family:var(--font-display);font-weight:400;
+    font-size:clamp(20px,2.2vw,34px);text-transform:uppercase;letter-spacing:.02em;
+    border-bottom:2px solid var(--red);padding-bottom:4px;white-space:nowrap;
+    display:inline-flex;align-items:center;gap:14px;transition:gap .26s cubic-bezier(.16,1,.3,1)}
+  .boldgo:hover{gap:24px}
+
+  /* ---------- B2 - SPLIT. Two grounds, one seam, the book on it. ------ */
+  .split{position:relative;min-height:100vh;overflow:hidden;display:grid;align-content:center}
+  .splitbg{position:absolute;inset:0;z-index:0;display:grid;grid-template-columns:47% 53%}
+  .splitbg i{display:block}
+  .splitbg i:first-child{background:#d4112b}
+  .splitbg i:last-child{background:#0b0b0d}
+  /* the seam itself, breathing */
+  .splitbg::after{content:"";position:absolute;left:47%;top:0;bottom:0;width:2px;
+    background:linear-gradient(180deg,transparent,rgba(255,255,255,.75),transparent);
+    animation:seam 7s ease-in-out infinite}
+  @keyframes seam{0%,100%{opacity:.35;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+  /* white clears both grounds: 4.4:1 on the red, 19:1 on the black, so
+     the headline can cross the seam without changing colour */
+  .splitline{display:block;font-size:clamp(40px,8.4vw,124px);color:#fff;position:relative;z-index:2}
+  .splitwrap{position:relative;z-index:2}
+  .spliteb{font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.34em;
+    text-transform:uppercase;color:#fff;opacity:.82;margin-bottom:clamp(18px,2.4vw,30px)}
+  .splitbook{position:absolute;right:5vw;top:50%;z-index:3;width:clamp(160px,18vw,282px);
+    aspect-ratio:1784/2289;transform:translateY(-50%) rotate(-6deg);
+    box-shadow:0 54px 110px rgba(0,0,0,.76),0 0 0 1px rgba(255,255,255,.14);
+    animation:bfloat2 14s ease-in-out infinite}
+  @keyframes bfloat2{0%,100%{transform:translateY(-52%) rotate(-6deg)}50%{transform:translateY(-46%) rotate(-2deg)}}
+  .splitbook img{width:100%;height:100%;object-fit:cover;display:block}
+  .splitgo{display:inline-flex;align-items:center;gap:13px;margin-top:clamp(26px,3.4vw,42px);
+    background:#fff;color:#0b0b0d;text-decoration:none;padding:17px 30px;border-radius:100px;
+    font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;
+    transition:transform .24s cubic-bezier(.16,1,.3,1)}
+  .splitgo:hover{transform:translateY(-2px)}
+  .splitgo i{font-style:normal;transition:transform .24s cubic-bezier(.16,1,.3,1)}
+  .splitgo:hover i{transform:translateX(5px)}
+
+  /* ---------- B3 - THE SCALE STACK. The type IS the curve. ------------ */
+  /* Five rows of one word, each roughly half again the last. The idea is
+     the argument: nothing happens for four rows and then it is the
+     whole screen. Geometry doing the talking instead of a chart. */
+  .scale{position:relative;min-height:100vh;overflow:hidden;display:grid;align-content:center;
+    justify-items:center;gap:clamp(2px,.5vw,8px);padding:clamp(70px,9vw,120px) 0}
+  .scalerow{font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+    white-space:nowrap;line-height:.9;letter-spacing:-.01em;color:var(--w)}
+  .sr1{font-size:clamp(11px,1.5vw,22px);opacity:.30}
+  .sr2{font-size:clamp(16px,2.3vw,34px);opacity:.42}
+  .sr3{font-size:clamp(25px,3.5vw,52px);opacity:.56}
+  .sr4{font-size:clamp(38px,5.4vw,80px);opacity:.74}
+  .sr5{font-size:clamp(58px,8.2vw,122px);opacity:.88}
+  .sr6{font-size:clamp(88px,12.4vw,186px);color:var(--red);opacity:1}
+  .scalefoot{margin-top:clamp(24px,3.4vw,42px);text-align:center}
+
+  /* ---------- B4 - CLIP. The jacket lives inside the letters. --------- */
+  .clip{position:relative;min-height:100vh;overflow:hidden;display:grid;align-content:center;
+    justify-items:center;text-align:center}
+  .clipword{font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+    font-size:clamp(64px,17.5vw,268px);line-height:.82;letter-spacing:-.02em;white-space:nowrap;
+    background-image:linear-gradient(rgba(255,255,255,.54),rgba(255,255,255,.54)),url("tceb-hero.webp");
+    background-size:auto,118% auto;background-position:50% 30%;
+    filter:drop-shadow(0 10px 34px rgba(0,0,0,.85));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:clipdrift 24s ease-in-out infinite alternate}
+  @keyframes clipdrift{from{background-position:50% 50%,34% 24%}to{background-position:50% 50%,66% 52%}}
+  /* the fill is the attendee wall, not the jacket. The jacket is mostly
+     black with white type on it, so clipping it into letters gives noise
+     rather than texture, and a crowd inside the words says something the
+     jacket inside the words does not. */
+  .clipplate{position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(48% 40% at 50% 48%,rgba(255,255,255,.14),transparent 72%)}
+  body.lt .clipplate{background:radial-gradient(48% 40% at 50% 48%,rgba(0,0,0,.10),transparent 72%)}
+  body.lt .clipword{filter:drop-shadow(0 10px 30px rgba(0,0,0,.40))}
+  .clipsub{position:relative;z-index:2;margin-top:clamp(18px,2.6vw,34px);
+    font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;font-weight:800;color:var(--g55)}
+
+  /* ---------- B5 - THE EDGE. The object runs off the page. ------------ */
+  .edge{position:relative;min-height:100vh;overflow:hidden;display:grid;align-content:center}
+  /* not upscaled: the jacket is 975px tall at source, so it is shown
+     near its own size and allowed to leave the frame instead */
+  .edgebook{position:absolute;right:-4vw;top:50%;transform:translateY(-50%) rotate(-3deg);
+    height:min(88vh,860px);aspect-ratio:1784/2289;z-index:1;
+    box-shadow:-40px 60px 130px rgba(0,0,0,.72),0 0 0 1px rgba(255,255,255,.10);
+    animation:edgepush 20s ease-in-out infinite alternate}
+  body.lt .edgebook{box-shadow:-40px 60px 130px rgba(0,0,0,.30),0 0 0 1px rgba(0,0,0,.12)}
+  @keyframes edgepush{from{transform:translateY(-50%) rotate(-3deg)}to{transform:translateY(-54%) rotate(-1deg)}}
+  .edgebook img{width:100%;height:100%;object-fit:cover;display:block}
+  .edgecol{position:relative;z-index:2;max-width:min(640px,54vw)}
+  .edgenum{font-family:var(--font-display);font-weight:400;font-size:clamp(70px,11vw,168px);
+    line-height:.82;color:var(--red);letter-spacing:-.02em}
+  .edgerule{height:2px;background:var(--w);opacity:.18;margin:clamp(18px,2.4vw,32px) 0}
+  .edgeh{font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+    font-size:clamp(30px,4.4vw,66px);line-height:.92;color:var(--w);letter-spacing:.004em}
+  .edgemeta{display:flex;gap:clamp(20px,3vw,44px);margin-top:clamp(22px,3vw,38px);flex-wrap:wrap}
+  .edgemeta div{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;color:var(--g55)}
+  .edgemeta b{display:block;font-family:var(--font-display);font-weight:400;font-size:clamp(18px,2vw,28px);
+    letter-spacing:0;color:var(--w);margin-top:7px}
+
+  @media(max-width:860px){
+    .bleedbook,.splitbook{right:4vw;width:clamp(110px,26vw,170px)}
+    .splitbg{grid-template-columns:58% 42%}
+    .splitbg::after{left:58%}
+    .edgebook{right:-30vw;height:min(62vh,520px)}
+    .edgecol{max-width:100%}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .bl1,.bl2,.bl3,.bleedbook,.splitbook,.splitbg::after,.clipword,.edgebook{animation:none}
+  }
+
   /* ---------- A COMPLETE HERO, not a motion study ---------- */
   /* These five carry a real nav, a real headline, real CTAs and a scroll
      cue, so what is being judged is the section as it would ship rather
@@ -1197,6 +1342,87 @@
     </div>
   </div>
   <div class="hscroll" aria-hidden="true">Scroll<i></i></div>
+</section>
+
+
+<!-- ============ BOLD 1 · BLEED ============ -->
+<section class="hero-s bold">
+  <span class="tag">Bold 1 &middot; bleed</span>
+  <div class="bleed">
+    <span class="bigtype bleedline bl1">Your business</span>
+    <span class="bigtype bleedline bl2">is already</span>
+    <span class="bigtype bleedline bl3"><em>compounding</em>.</span>
+    <div class="bleedbook"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" loading="lazy" decoding="async" /></div>
+  </div>
+  <div class="boldfoot">
+    <div class="w">
+      <p class="boldnote">The only question is which direction.<br>The new book, April 2027.</p>
+      <a class="boldgo" href="#">Get on the list <i>&rarr;</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOLD 2 · SPLIT ============ -->
+<section class="hero-s split">
+  <span class="tag">Bold 2 &middot; the seam</span>
+  <div class="splitbg" aria-hidden="true"><i></i><i></i></div>
+  <div class="w splitwrap">
+    <div class="spliteb">The Compound Effect in Business</div>
+    <span class="bigtype splitline">Multiply</span>
+    <span class="bigtype splitline">your profits.</span>
+    <span class="bigtype splitline">Your people.</span>
+    <span class="bigtype splitline">Your advantage.</span>
+    <a class="splitgo" href="#">Get on the list <i>&rarr;</i></a>
+  </div>
+  <div class="splitbook"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" loading="lazy" decoding="async" /></div>
+</section>
+
+<!-- ============ BOLD 3 · THE SCALE STACK ============ -->
+<section class="hero-s bold">
+  <span class="tag">Bold 3 &middot; the stack</span>
+  <div class="scale">
+    <span class="scalerow sr1">Compounding</span>
+    <span class="scalerow sr2">Compounding</span>
+    <span class="scalerow sr3">Compounding</span>
+    <span class="scalerow sr4">Compounding</span>
+    <span class="scalerow sr5">Compounding</span>
+    <span class="scalerow sr6">Compounding</span>
+    <div class="scalefoot">
+      <a class="boldgo" href="#">Get on the list <i>&rarr;</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOLD 4 · CLIP ============ -->
+<section class="hero-s bold">
+  <span class="tag">Bold 4 &middot; the wall in the letters</span>
+  <div class="clip">
+    <div class="clipplate" aria-hidden="true"></div>
+    <span class="clipword">Compound</span>
+    <span class="clipword">Effect</span>
+    <div class="clipsub">The new book &middot; April 2027</div>
+  </div>
+</section>
+
+<!-- ============ BOLD 5 · THE EDGE ============ -->
+<section class="hero-s bold">
+  <span class="tag">Bold 5 &middot; the edge</span>
+  <div class="edge">
+    <div class="edgebook"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" loading="lazy" decoding="async" /></div>
+    <div class="w"><div class="edgecol">
+      <div class="edgenum">2027</div>
+      <div class="edgerule"></div>
+      <h1 class="edgeh">He has never<br>done this before.</h1>
+      <div class="edgemeta">
+        <div>The book<b>April</b></div>
+        <div>The event<b>Three days</b></div>
+        <div>Who<b>Leaders only</b></div>
+      </div>
+      <div style="margin-top:clamp(26px,3.4vw,42px)">
+        <a class="boldgo" href="#">Get on the list <i>&rarr;</i></a>
+      </div>
+    </div></div>
+  </div>
 </section>
 
 <!-- ================= SAMPLE ROW A · THE CURVE ================= -->
