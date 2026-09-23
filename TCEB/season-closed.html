@@ -66,7 +66,21 @@
      eyebrow sits a fixed distance below the nav and the card carries its own
      offset. */
   .hero{position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:flex-start;padding:148px 0 56px}
-  .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;z-index:0;opacity:.62}
+  /* Parallax on a real page, not a study: layers translate at different
+   rates on pointer and scroll. Deliberately NOT a 3D rig here, because
+   a preserve-3d ancestor breaks backdrop-filter, and the form's glass is
+   worth more than a few extra degrees of depth. */
+.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;z-index:0;opacity:.62;
+  transform:scale(1.07);animation:plate 34s ease-in-out infinite alternate;will-change:transform}
+@keyframes plate{from{transform:scale(1.07) translate3d(0,0,0)}to{transform:scale(1.13) translate3d(-1.4%,1%,0)}}
+.px{will-change:transform}
+/* one light crossing the plate, very slowly */
+.hero::after{content:"";position:absolute;top:-30%;bottom:-30%;left:-40%;width:46%;z-index:1;pointer-events:none;
+  background:linear-gradient(104deg,transparent,rgba(255,255,255,.09) 46%,rgba(255,0,71,.05) 56%,transparent);
+  filter:blur(46px);transform:skewX(-12deg);animation:heroSweep 23s linear infinite}
+@keyframes heroSweep{0%{left:-44%}72%{left:122%}100%{left:122%}}
+body.lt .hero::after{background:linear-gradient(104deg,transparent,rgba(255,255,255,.34) 46%,transparent)}
+@media(prefers-reduced-motion:reduce){.shot,.hero::after{animation:none}}
   .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:
     linear-gradient(104deg,rgba(27,27,31,.95) 0%,rgba(27,27,31,.80) 30%,rgba(27,27,31,.34) 58%,rgba(27,27,31,.60) 100%),
     radial-gradient(52% 46% at 74% 30%,rgba(255,0,71,.20),transparent 70%),
@@ -92,7 +106,6 @@
 
   .kicker{display:flex;align-items:center;gap:14px;font-family:var(--font-display);font-weight:400;
     font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--red)}
-  .kicker::before{content:"";width:30px;height:2px;background:var(--red);flex:none}
   .h1{font-size:clamp(46px,7.4vw,124px);margin-top:clamp(14px,2vw,24px)}
   .h1 .ln{display:block;white-space:nowrap}
   .h1 .sm{font-size:.42em;letter-spacing:.012em}
@@ -296,8 +309,7 @@
     animation:orbit 12s linear infinite}
   @keyframes orbit{to{--ang:360deg}}
 
-  .card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;z-index:7;
-    background:linear-gradient(90deg,var(--card-accent),rgba(255,42,95,.20))}
+  
 
   /* ---------- the same slab, inverted for a light ground ---------- */
   /* A dark slab bends light the other way: the rim deepens instead of
@@ -450,9 +462,9 @@
   <picture>
     <source media="(max-width: 880px)" srcset="tceb-hero-mobile.webp" type="image/webp">
     <source srcset="tceb-hero.webp" type="image/webp">
-    <img class="shot" src="tceb-hero.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
+    <img class="shot px" data-px="-0.9" src="tceb-hero.webp" alt="" width="2157" height="1343" fetchpriority="high" decoding="async" />
   </picture>
-  <div class="year" aria-hidden="true">20<b>27</b></div>
+  <div class="year px" data-px="2.4" aria-hidden="true">20<b>27</b></div>
   <div class="grain"></div>
 
   <div class="wrap">
@@ -536,6 +548,32 @@
     if(!rl.value){rl.focus();return;}
     document.getElementById('card').classList.add('is-done');
   });
+  // Pointer parallax. Each layer carries its own rate in data-px, so the
+  // numeral travels further than the plate behind it and the two separate
+  // as the cursor moves. rAF-throttled, and off entirely for touch, where
+  // there is no hover and the listener would only cost battery.
+  (function(){
+    var ls=[].slice.call(document.querySelectorAll('.px')),
+        hero=document.getElementById('top');
+    if(!ls.length||!hero) return;
+    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+    var x=0,y=0,q=false;
+    function paint(){
+      q=false;
+      ls.forEach(function(el){
+        var r=parseFloat(el.dataset.px)||0;
+        el.style.translate=(x*r*18).toFixed(2)+'px '+(y*r*12).toFixed(2)+'px';
+      });
+    }
+    function queue(){ if(!q){q=true;requestAnimationFrame(paint);} }
+    hero.addEventListener('pointermove',function(e){
+      var b=hero.getBoundingClientRect();
+      x=(e.clientX-b.left)/b.width-.5; y=(e.clientY-b.top)/b.height-.5; queue();
+    });
+    hero.addEventListener('pointerleave',function(){ x=0;y=0;queue(); });
+  })();
+
 </script>
 
 <!-- ===================================================================
