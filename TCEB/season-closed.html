@@ -142,89 +142,220 @@
      heavy saturated blur, a bright edge that runs all the way round rather
      than just across the top, and two highlights drifting at different rates
      so the surface never sits still. */
+  /* ===================================================================
+     LIQUID GLASS, not frosted glass.
+     Frosted glass is one layer: blur plus a milky veil. It hides what is
+     behind it and reads flat. Liquid glass is a LENS. The body is barely
+     blurred, so you can still make out what is behind it, and all the
+     character lives in the rim, where the light bends:
+
+       .card    the slab      light blur, almost no fill
+       .lens    the rim       a DIFFERENT, much harder backdrop filter,
+                              masked to the outer edge only. This is the
+                              refraction, and it is the whole effect.
+       .fringe  dispersion    faint cyan/magenta separation on that rim
+       .spec    the specular  a highlight that travels around the edge
+
+     On dark the slab is a lighter body and the rim brightens what it
+     bends. On light the slab is a darker body and the rim darkens it.
+     Same physics, inverted, which is why one set of tokens cannot serve
+     both and the light block below restates them.
+     =================================================================== */
+  /* ===================================================================
+     LIQUID GLASS.
+     Frosted glass is one layer: blur plus a milky veil. It hides what is
+     behind it and reads flat. Liquid glass is a LENS: the body is barely
+     blurred, and the character is at the rim, where the light bends.
+
+     The bend is real. feDisplacementMap moves the sampled pixels, and
+     Chromium honours an SVG filter inside backdrop-filter, so this is
+     refraction rather than a painted highlight. Three passes at three
+     strengths, one per colour channel, give chromatic dispersion, which
+     is the same trick as one index of refraction per channel.
+
+     STRUCTURE, and why it has to be this one:
+       .card     no backdrop-filter, no isolation, no inset shadows.
+                 Either of the first two would make the card a BACKDROP
+                 ROOT, and a descendant's backdrop-filter can only see
+                 what is painted inside its own root. The refraction
+                 would sample an empty backdrop and paint nothing. The
+                 first attempt did exactly that.
+       .refract  the whole glass body: blur, saturate and the bend.
+       .lens     a harder, second filter masked to a soft rim.
+       .fringe   the dispersion fringe on that rim.
+       .edge     every bevel. These live above .refract, or the crisp
+                 1px lit edge would be blurred by its own glass.
+       .spec     a highlight that travels around the rim.
+     =================================================================== */
   .card{
-    --card-fg:#fff;--card-muted:rgba(255,255,255,.76);--card-faint:rgba(255,255,255,.55);
-    --card-line:rgba(255,255,255,.26);--card-field:rgba(255,255,255,.16);--card-accent:#ff2a5f;
-    position:relative;border-radius:4px;isolation:isolate;
-    background:
-      linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,255,255,.12) 44%,rgba(255,255,255,.07)),
-      rgba(255,255,255,.06);
-    -webkit-backdrop-filter:blur(44px) saturate(200%) brightness(1.08);
-            backdrop-filter:blur(44px) saturate(200%) brightness(1.08);
-    border:1px solid var(--card-line);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.60),
-      inset 0 0 0 1px rgba(255,255,255,.08),
-      inset 0 -1px 0 rgba(0,0,0,.26),
-      0 2px 10px rgba(0,0,0,.20),
-      0 36px 84px rgba(0,0,0,.55);
+    --card-fg:#fff;--card-muted:rgba(255,255,255,.78);--card-faint:rgba(255,255,255,.56);
+    --card-line:rgba(255,255,255,.30);--card-field:rgba(255,255,255,.10);--card-accent:#ff2a5f;
+    --rim:22px;
+    position:relative;border-radius:5px;
+    background:linear-gradient(176deg,rgba(255,255,255,.13),rgba(255,255,255,.04) 46%,rgba(255,255,255,.07));
+    border:none;
+    box-shadow:0 2px 10px rgba(0,0,0,.22),0 40px 90px rgba(0,0,0,.58);
     padding:clamp(28px,3vw,42px) clamp(22px,2.6vw,38px) clamp(24px,2.4vw,32px);
     overflow:hidden}
 
-  body.lt .card{
-    --card-line:rgba(255,255,255,.30);--card-field:rgba(255,255,255,.14);--card-accent:#ff4a6e;
-    background:
-      linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,255,255,.07) 44%,rgba(0,0,0,.04)),
-      rgba(10,10,14,.40);
-    -webkit-backdrop-filter:blur(30px) saturate(190%) contrast(1.05);
-            backdrop-filter:blur(30px) saturate(190%) contrast(1.05);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.55),
-      inset 0 0 0 1px rgba(255,255,255,.10),
-      inset 0 -1px 0 rgba(0,0,0,.45),
-      0 2px 10px rgba(0,0,0,.14),
-      0 34px 76px rgba(0,0,0,.40)}
-  body.lt .card::after{background:
-      radial-gradient(34% 26% at 26% 18%,rgba(255,255,255,.34),transparent 68%),
-      radial-gradient(28% 34% at 78% 76%,rgba(255,255,255,.18),transparent 70%)}
-  body.lt .sheen::before{background:linear-gradient(100deg,transparent,rgba(255,255,255,.26) 46%,rgba(255,255,255,.34) 52%,transparent)}
+  .lensdefs{position:absolute;width:0;height:0;overflow:hidden}
 
-  .card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;z-index:4;
-    background:linear-gradient(90deg,var(--card-accent),rgba(255,42,95,.20))}
-  /* two highlights, different speeds and directions: the surface keeps moving */
-  .card::after{content:"";position:absolute;inset:-60% -30%;pointer-events:none;z-index:1;
+  /* The legibility blur is its own always-on layer rather than part of
+     the refraction. A browser that parses url() in backdrop-filter but
+     renders nothing would otherwise leave the form sitting on a bare
+     photograph, and an @supports query cannot catch that case because
+     the value parses fine. This way the worst outcome is losing the
+     bend, never losing the readability. */
+  .frost{position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+    -webkit-backdrop-filter:blur(5px) saturate(150%);backdrop-filter:blur(5px) saturate(150%)}
+  /* the bend itself */
+  .refract{position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+    -webkit-backdrop-filter:url(#tceb-lens);backdrop-filter:url(#tceb-lens)}
+
+  /* THE RIM. A second, much harder filter, faded inward over --rim by a
+     union of four gradients. A hard content-box mask reads as a picture
+     frame, which is what the earlier version looked like. */
+  .lens{position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;
+    -webkit-backdrop-filter:saturate(165%) brightness(1.26) contrast(1.10);
+            backdrop-filter:saturate(165%) brightness(1.26) contrast(1.10);
+    -webkit-mask:
+      linear-gradient(to right,#000,transparent var(--rim)),
+      linear-gradient(to left,#000,transparent var(--rim)),
+      linear-gradient(to bottom,#000,transparent var(--rim)),
+      linear-gradient(to top,#000,transparent var(--rim));
+    -webkit-mask-composite:source-over;
+    mask:
+      linear-gradient(to right,#000,transparent var(--rim)),
+      linear-gradient(to left,#000,transparent var(--rim)),
+      linear-gradient(to bottom,#000,transparent var(--rim)),
+      linear-gradient(to top,#000,transparent var(--rim));
+    mask-composite:add}
+
+  /* the pool of light inside the slab, drifting */
+  .card::after{content:"";position:absolute;inset:-60% -30%;pointer-events:none;z-index:2;
     background:
-      radial-gradient(34% 26% at 26% 18%,rgba(255,255,255,.22),transparent 68%),
+      radial-gradient(34% 26% at 26% 18%,rgba(255,255,255,.24),transparent 68%),
       radial-gradient(28% 34% at 78% 76%,rgba(255,255,255,.12),transparent 70%);
-    animation:drift 16s ease-in-out infinite alternate}
-  .sheen{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;border-radius:inherit}
-  .sheen::before{content:"";position:absolute;top:-60%;bottom:-60%;width:38%;left:-45%;
-    background:linear-gradient(100deg,transparent,rgba(255,255,255,.16) 46%,rgba(255,255,255,.22) 52%,transparent);
-    filter:blur(6px);transform:rotate(8deg);animation:sweep 9s ease-in-out infinite}
+    animation:drift 18s ease-in-out infinite alternate}
   @keyframes drift{from{transform:translate3d(-7%,-5%,0) scale(1)}to{transform:translate3d(9%,7%,0) scale(1.08)}}
-  @keyframes sweep{0%{left:-45%}55%{left:118%}100%{left:118%}}
-  @media(prefers-reduced-motion:reduce){.card::after,.sheen::before{animation:none}}
 
-  .cardeb{position:relative;z-index:3;font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--card-accent)}
-  .cardh{position:relative;z-index:3;font-size:clamp(28px,3vw,42px);margin-top:12px;color:var(--card-fg)}
-  .cardsub{position:relative;z-index:3;font-size:15px;line-height:1.62;color:var(--card-muted);margin-top:13px}
+  /* dispersion, kept under 10% or it stops reading as glass and starts
+     reading as a mistake */
+  .fringe{position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;--fr:calc(var(--rim) * .7);
+    background:linear-gradient(138deg,
+      rgba(90,200,255,.24),rgba(90,200,255,0) 20%,
+      transparent 70%,rgba(255,90,190,.20));
+    -webkit-mask:
+      linear-gradient(to right,#000,transparent var(--fr)),
+      linear-gradient(to left,#000,transparent var(--fr)),
+      linear-gradient(to bottom,#000,transparent var(--fr)),
+      linear-gradient(to top,#000,transparent var(--fr));
+    -webkit-mask-composite:source-over;
+    mask:
+      linear-gradient(to right,#000,transparent var(--fr)),
+      linear-gradient(to left,#000,transparent var(--fr)),
+      linear-gradient(to bottom,#000,transparent var(--fr)),
+      linear-gradient(to top,#000,transparent var(--fr));
+    mask-composite:add}
+
+  /* the slab's thickness. Above the glass, so the 1px edges stay crisp. */
+  .edge{position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.74),
+      inset 0 -1px 0 rgba(255,255,255,.24),
+      inset 0 0 0 1px rgba(255,255,255,.14),
+      inset 0 26px 46px -30px rgba(255,255,255,.50),
+      inset 0 -30px 50px -34px rgba(0,0,0,.60)}
+
+  /* THE TRAVELLING SPECULAR. It has to move by animating the CONIC
+     ANGLE: rotating the element rotates its mask too, which drags the
+     rim across the face and paints diagonal streaks over the copy.
+     @property is what makes an angle animatable; without it the
+     highlight simply sits still. */
+  @property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+  .spec{position:absolute;inset:0;z-index:5;pointer-events:none;border-radius:inherit;
+    padding:1.5px;box-sizing:border-box;--ang:0deg;
+    background:conic-gradient(from var(--ang),
+      transparent 0deg,rgba(255,255,255,.95) 20deg,rgba(255,255,255,0) 56deg,
+      transparent 160deg,rgba(255,255,255,.55) 188deg,rgba(255,255,255,0) 226deg,transparent 360deg);
+    -webkit-mask:linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);
+            mask:linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    animation:orbit 12s linear infinite}
+  @keyframes orbit{to{--ang:360deg}}
+
+  .card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;z-index:7;
+    background:linear-gradient(90deg,var(--card-accent),rgba(255,42,95,.20))}
+
+  /* ---------- the same slab, inverted for a light ground ---------- */
+  /* A dark slab bends light the other way: the rim deepens instead of
+     brightening, or it stops reading as the same object. */
+  body.lt .card{
+    --card-line:rgba(255,255,255,.34);--card-field:rgba(255,255,255,.12);--card-accent:#ff4a6e;
+    background:linear-gradient(176deg,rgba(255,255,255,.18),rgba(10,10,14,.20) 46%,rgba(10,10,14,.30));
+    box-shadow:0 2px 10px rgba(0,0,0,.16),0 38px 84px rgba(0,0,0,.42)}
+  body.lt .refract{-webkit-backdrop-filter:url(#tceb-lens) brightness(.82) contrast(1.06);
+                           backdrop-filter:url(#tceb-lens) brightness(.82) contrast(1.06)}
+  body.lt .lens{
+    -webkit-backdrop-filter:saturate(150%) brightness(.64) contrast(1.20);
+            backdrop-filter:saturate(150%) brightness(.64) contrast(1.20)}
+  body.lt .edge{box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.64),
+      inset 0 -1px 0 rgba(255,255,255,.18),
+      inset 0 0 0 1px rgba(255,255,255,.16),
+      inset 0 26px 46px -30px rgba(255,255,255,.40),
+      inset 0 -30px 50px -34px rgba(0,0,0,.68)}
+  body.lt .fringe{background:linear-gradient(138deg,
+      rgba(70,180,255,.26),rgba(70,180,255,0) 20%,
+      transparent 70%,rgba(255,80,180,.22))}
+  body.lt .card::after{background:
+      radial-gradient(34% 26% at 26% 18%,rgba(255,255,255,.30),transparent 68%),
+      radial-gradient(28% 34% at 78% 76%,rgba(255,255,255,.14),transparent 70%)}
+
+  @media(prefers-reduced-motion:reduce){.card::after,.spec{animation:none}}
+
+  .cardeb{position:relative;z-index:6;font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--card-accent)}
+  .cardh{position:relative;z-index:6;font-size:clamp(28px,3vw,42px);margin-top:12px;color:var(--card-fg)}
+  .cardsub{position:relative;z-index:6;font-size:15px;line-height:1.62;color:var(--card-muted);margin-top:13px}
   .cardsub b{color:var(--card-fg);font-weight:700}
-  .fields{position:relative;z-index:3;margin-top:26px}
+  .fields{position:relative;z-index:6;margin-top:26px}
   .row2{display:grid;grid-template-columns:1fr 1fr;column-gap:11px}
   @media(max-width:400px){.row2{grid-template-columns:1fr}}
+  /* the fields are the same material at a smaller scale: almost no fill,
+     a bright lit edge, a dark floor, and a thin wall all the way round */
   .fields input,.fields select{width:100%;padding:15px 15px;font-family:var(--font-body);font-size:16px;
-    color:var(--card-fg);background:var(--card-field);border:1px solid var(--card-line);border-radius:3px;
+    color:var(--card-fg);background:var(--card-field);border:none;border-radius:8px;
     margin-bottom:11px;-webkit-appearance:none;appearance:none;
-    -webkit-backdrop-filter:blur(10px) saturate(150%);backdrop-filter:blur(10px) saturate(150%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.30),inset 0 -1px 0 rgba(0,0,0,.16);
-    transition:border-color .22s,background .22s,box-shadow .22s}
+    -webkit-backdrop-filter:blur(3px) saturate(220%) brightness(1.12);
+            backdrop-filter:blur(3px) saturate(220%) brightness(1.12);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.62),
+      inset 0 -1px 0 rgba(255,255,255,.14),
+      inset 0 0 0 1px rgba(255,255,255,.20),
+      inset 0 9px 14px -10px rgba(255,255,255,.44),
+      inset 0 -10px 16px -12px rgba(0,0,0,.52);
+    transition:background .22s,box-shadow .22s}
   .fields input::placeholder{color:var(--card-faint)}
   .fields select{color:var(--card-faint);padding-right:40px;
     background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-opacity='.6' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 14px center;background-size:16px}
   .fields select.filled{color:var(--card-fg)}
-  .fields input:focus,.fields select:focus{outline:none;border-color:var(--card-accent);
-    background:rgba(255,255,255,.22);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 0 0 3px rgba(255,42,95,.20)}
-  .submit{position:relative;z-index:3;width:100%;margin-top:7px;padding:18px 20px;border:0;border-radius:3px;cursor:pointer;
+  .fields input:focus,.fields select:focus{outline:none;
+    background:rgba(255,255,255,.18);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.72),
+      inset 0 0 0 1px var(--card-accent),
+      inset 0 10px 16px -10px rgba(255,255,255,.50),
+      0 0 0 3px rgba(255,42,95,.22)}
+  .submit{position:relative;z-index:6;width:100%;margin-top:7px;padding:18px 20px;border:0;border-radius:8px;cursor:pointer;
     background:linear-gradient(180deg,#f0233d,#d1102a);color:#fff;font-family:var(--font-body);font-size:12.5px;font-weight:800;
     letter-spacing:.16em;text-transform:uppercase;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 10px 28px rgba(225,19,46,.40);
     transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s}
   .submit:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 18px 44px rgba(225,19,46,.52)}
-  .fine{position:relative;z-index:3;margin-top:15px;font-size:12px;line-height:1.55;color:var(--card-faint)}
+  .fine{position:relative;z-index:6;margin-top:15px;font-size:12px;line-height:1.55;color:var(--card-faint)}
   .fine a{color:inherit;text-decoration:underline;text-underline-offset:2px}
-  .done{display:none;position:relative;z-index:3}
+  .done{display:none;position:relative;z-index:6}
   .card.is-done .fields,.card.is-done .cardsub{display:none}
   .card.is-done .done{display:block}
   .done p{font-size:15.5px;line-height:1.66;color:var(--card-muted)}
@@ -328,7 +459,12 @@
       </div>
 
       <div class="card rv" id="card">
-        <span class="sheen" aria-hidden="true"></span>
+        <span class="frost" aria-hidden="true"></span>
+        <span class="refract" aria-hidden="true"></span>
+        <span class="lens" aria-hidden="true"></span>
+        <span class="edge" aria-hidden="true"></span>
+        <span class="fringe" aria-hidden="true"></span>
+        <span class="spec" aria-hidden="true"></span>
         <div class="cardeb">First access &middot; 2027</div>
         <h2 class="cardh dsp" id="list">Know before anyone&nbsp;else</h2>
         <p class="cardsub">When it opens, <b>this list moves first</b>. Everyone else finds out&nbsp;afterward.</p>
@@ -389,5 +525,43 @@
     document.getElementById('card').classList.add('is-done');
   });
 </script>
+
+<!-- ===================================================================
+     THE REFRACTION.
+     CSS can blur a backdrop but it cannot bend one. feDisplacementMap
+     can, and Chromium honours an SVG filter inside backdrop-filter, so
+     this is real UV displacement rather than a painted highlight.
+
+     Two maps, one per axis. Each is a gradient whose ramping channel
+     drives displacement and whose other channels sit at 128, which is
+     the no-op value, so only the outer edge bends and the middle of the
+     card passes through untouched.
+
+     The three passes run at different strengths and each contributes
+     one colour channel, which is chromatic dispersion: the same trick
+     as giving red, green and blue their own index of refraction.
+
+     It rides on its own element. Where it is unsupported the element
+     simply paints nothing and the card keeps every other layer.
+     =================================================================== -->
+<svg class="lensdefs" aria-hidden="true" focusable="false" width="0" height="0">
+  <filter id="tceb-lens" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feImage preserveAspectRatio="none" x="0%" y="0%" width="100%" height="100%" result="hm" href="HMAP"/>
+    <feImage preserveAspectRatio="none" x="0%" y="0%" width="100%" height="100%" result="vm" href="VMAP"/>
+    <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="bl"/>
+    <feColorMatrix in="bl" type="saturate" values="1.22" result="src"/>
+    <feDisplacementMap in="src" in2="hm" scale="62" xChannelSelector="R" yChannelSelector="B" result="rx"/>
+    <feDisplacementMap in="rx" in2="vm" scale="62" xChannelSelector="B" yChannelSelector="G" result="rd"/>
+    <feColorMatrix in="rd" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="rc"/>
+    <feDisplacementMap in="src" in2="hm" scale="50" xChannelSelector="R" yChannelSelector="B" result="gx"/>
+    <feDisplacementMap in="gx" in2="vm" scale="50" xChannelSelector="B" yChannelSelector="G" result="gd"/>
+    <feColorMatrix in="gd" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="gc"/>
+    <feDisplacementMap in="src" in2="hm" scale="38" xChannelSelector="R" yChannelSelector="B" result="bx"/>
+    <feDisplacementMap in="bx" in2="vm" scale="38" xChannelSelector="B" yChannelSelector="G" result="bd"/>
+    <feColorMatrix in="bd" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="bc"/>
+    <feBlend in="rc" in2="gc" mode="screen" result="rg"/>
+    <feBlend in="rg" in2="bc" mode="screen"/>
+  </filter>
+</svg>
 </body>
 </html>
