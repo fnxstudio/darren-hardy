@@ -98,7 +98,10 @@
   .h1 .sm{font-size:.42em;letter-spacing:.012em}
   /* Wide enough that the sentence lands on four lines and 2+ million lives
      is never left alone on a fifth. */
-  .para{font-size:clamp(15px,1.18vw,17px);line-height:1.66;color:var(--g30);max-width:66ch;margin-top:clamp(20px,2.4vw,30px)}
+  /* text-wrap:pretty is what stops "2+ million lives" stranding on its own
+     line: it balances the last lines rather than filling greedily. */
+  .para{font-size:clamp(15px,1.18vw,17px);line-height:1.66;color:var(--g30);max-width:66ch;
+    margin-top:clamp(20px,2.4vw,30px);text-wrap:pretty}
   .lead{font-size:clamp(15px,1.2vw,17.5px);font-weight:600;color:var(--w);margin-top:clamp(24px,3vw,38px)}
   .payoff{font-size:clamp(28px,4.4vw,66px);color:var(--red);margin-top:6px;white-space:nowrap}
   /* The .42em step-down on the third line is right at desktop scale, but the
@@ -123,7 +126,7 @@
        on the longest. Narrowing to 322px tipped it to 6 with a two-word
        orphan, so the measure stays full width and the type drops slightly
        instead, which buys the slack without adding a line. */
-    .para{font-size:15px;line-height:1.62}
+    .para{font-size:15px;line-height:1.62;max-width:33ch}
   }
 
   /* ---------- CARD. Always opposes the page. ----------
@@ -202,8 +205,11 @@
   }
 
   /* ---------- LIGHT VARIANT ---------- */
+  /* Body copy darkens on light: at #4d4d4d over a photograph lifted to .56
+     it was washing out. */
   body.lt{--ink0:#fff;--ink1:#f4f4f5;--red:#e1132e;--red-ink:#e1132e;
-          --w:#000;--g30:#4d4d4d;--g55:#6e6e6e;--line:rgba(0,0,0,.13)}
+          --w:#000;--g30:#242424;--g55:#5a5a5a;--line:rgba(0,0,0,.13)}
+  body.lt .para{color:#242424}
   body.lt .nav{background:rgba(255,255,255,.80);border-bottom-color:rgba(0,0,0,.12)}
   body.lt .nav img{filter:invert(1) brightness(.18)}
   body.lt .navcta{color:#000;border-color:rgba(0,0,0,.32)}
