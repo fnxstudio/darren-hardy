@@ -133,49 +133,60 @@
     .para{font-size:13.6px;line-height:1.66}
   }
 
-  /* ---------- CARD. Liquid glass. ----------
-     Translucent over a dark base so the photograph shows through without the
-     type ever losing its ground. Heavy blur plus saturation is what makes it
-     read as glass rather than as a flat tint; the specular top edge and the
-     darker bottom lip are what give it thickness. */
+  /* ---------- CARD. Liquid glass, opposing the page. ----------
+     Dark page gets a LIGHT frosted panel, light page gets a DARK smoked one.
+     Both keep white type. What sells the liquid is three things layered: a
+     heavy saturated blur, a bright edge that runs all the way round rather
+     than just across the top, and two highlights drifting at different rates
+     so the surface never sits still. */
   .card{
-    --card-fg:#fff;--card-muted:rgba(255,255,255,.74);--card-faint:rgba(255,255,255,.52);
-    --card-line:rgba(255,255,255,.18);--card-field:rgba(255,255,255,.10);--card-accent:#ff0047;
-    position:relative;border-radius:4px;   /* the system radius; the jacket is hard-edged */
+    --card-fg:#fff;--card-muted:rgba(255,255,255,.76);--card-faint:rgba(255,255,255,.55);
+    --card-line:rgba(255,255,255,.26);--card-field:rgba(255,255,255,.16);--card-accent:#ff2a5f;
+    position:relative;border-radius:4px;isolation:isolate;
     background:
-      linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05) 38%,rgba(255,255,255,.02)),
-      rgba(16,16,20,.52);
-    -webkit-backdrop-filter:blur(30px) saturate(170%);backdrop-filter:blur(30px) saturate(170%);
+      linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,255,255,.12) 44%,rgba(255,255,255,.07)),
+      rgba(255,255,255,.06);
+    -webkit-backdrop-filter:blur(44px) saturate(200%) brightness(1.08);
+            backdrop-filter:blur(44px) saturate(200%) brightness(1.08);
     border:1px solid var(--card-line);
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.34),
-      inset 0 -1px 0 rgba(0,0,0,.30),
-      0 2px 10px rgba(0,0,0,.22),
-      0 36px 80px rgba(0,0,0,.52);
+      inset 0 1px 0 rgba(255,255,255,.60),
+      inset 0 0 0 1px rgba(255,255,255,.08),
+      inset 0 -1px 0 rgba(0,0,0,.26),
+      0 2px 10px rgba(0,0,0,.20),
+      0 36px 84px rgba(0,0,0,.55);
     padding:clamp(28px,3vw,42px) clamp(22px,2.6vw,38px) clamp(24px,2.4vw,32px);
     overflow:hidden}
-  /* the accent edge sits on the glass, not behind it */
-  .card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;
-    background:linear-gradient(90deg,var(--card-accent),rgba(255,0,71,.25));z-index:2}
-  /* slow specular drift, the "liquid" part */
-  .card::after{content:"";position:absolute;inset:-40% -10%;pointer-events:none;
-    background:radial-gradient(38% 30% at 30% 20%,rgba(255,255,255,.14),transparent 70%);
-    animation:drift 18s ease-in-out infinite alternate}
-  @keyframes drift{from{transform:translate3d(-6%,-4%,0)}to{transform:translate3d(10%,6%,0)}}
-  @media(prefers-reduced-motion:reduce){.card::after{animation:none}}
 
   body.lt .card{
-    --card-fg:#0e0d10;--card-muted:rgba(0,0,0,.68);--card-faint:rgba(0,0,0,.50);
-    --card-line:rgba(0,0,0,.12);--card-field:rgba(255,255,255,.62);--card-accent:#e1132e;
+    --card-line:rgba(255,255,255,.16);--card-field:rgba(255,255,255,.12);--card-accent:#ff4a6e;
     background:
-      linear-gradient(180deg,rgba(255,255,255,.80),rgba(255,255,255,.55) 40%,rgba(255,255,255,.44)),
-      rgba(255,255,255,.30);
+      linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 42%,rgba(0,0,0,.05)),
+      rgba(16,16,20,.66);
+    -webkit-backdrop-filter:blur(44px) saturate(180%);
+            backdrop-filter:blur(44px) saturate(180%);
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.90),
-      inset 0 -1px 0 rgba(0,0,0,.07),
-      0 2px 10px rgba(0,0,0,.07),
-      0 32px 70px rgba(0,0,0,.20)}
-  body.lt .card::after{background:radial-gradient(38% 30% at 30% 20%,rgba(255,255,255,.55),transparent 70%)}
+      inset 0 1px 0 rgba(255,255,255,.26),
+      inset 0 0 0 1px rgba(255,255,255,.05),
+      inset 0 -1px 0 rgba(0,0,0,.40),
+      0 2px 10px rgba(0,0,0,.10),
+      0 34px 76px rgba(0,0,0,.34)}
+
+  .card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;z-index:4;
+    background:linear-gradient(90deg,var(--card-accent),rgba(255,42,95,.20))}
+  /* two highlights, different speeds and directions: the surface keeps moving */
+  .card::after{content:"";position:absolute;inset:-60% -30%;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(34% 26% at 26% 18%,rgba(255,255,255,.22),transparent 68%),
+      radial-gradient(28% 34% at 78% 76%,rgba(255,255,255,.12),transparent 70%);
+    animation:drift 16s ease-in-out infinite alternate}
+  .sheen{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;border-radius:inherit}
+  .sheen::before{content:"";position:absolute;top:-60%;bottom:-60%;width:38%;left:-45%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.16) 46%,rgba(255,255,255,.22) 52%,transparent);
+    filter:blur(6px);transform:rotate(8deg);animation:sweep 9s ease-in-out infinite}
+  @keyframes drift{from{transform:translate3d(-7%,-5%,0) scale(1)}to{transform:translate3d(9%,7%,0) scale(1.08)}}
+  @keyframes sweep{0%{left:-45%}55%{left:118%}100%{left:118%}}
+  @media(prefers-reduced-motion:reduce){.card::after,.sheen::before{animation:none}}
 
   .cardeb{position:relative;z-index:3;font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--card-accent)}
   .cardh{position:relative;z-index:3;font-size:clamp(28px,3vw,42px);margin-top:12px;color:var(--card-fg)}
@@ -184,29 +195,26 @@
   .fields{position:relative;z-index:3;margin-top:26px}
   .row2{display:grid;grid-template-columns:1fr 1fr;column-gap:11px}
   @media(max-width:400px){.row2{grid-template-columns:1fr}}
-  /* Fields are glass too, one step lighter than the panel, with their own
-     specular line. Solid boxes were what made the old form look pasted on. */
   .fields input,.fields select{width:100%;padding:15px 15px;font-family:var(--font-body);font-size:16px;
     color:var(--card-fg);background:var(--card-field);border:1px solid var(--card-line);border-radius:3px;
     margin-bottom:11px;-webkit-appearance:none;appearance:none;
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.10);
+    -webkit-backdrop-filter:blur(10px) saturate(150%);backdrop-filter:blur(10px) saturate(150%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.30),inset 0 -1px 0 rgba(0,0,0,.16);
     transition:border-color .22s,background .22s,box-shadow .22s}
-  body.lt .fields input,body.lt .fields select{box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -1px 0 rgba(0,0,0,.05)}
   .fields input::placeholder{color:var(--card-faint)}
   .fields select{color:var(--card-faint);padding-right:40px;
-    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-opacity='.6' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 14px center;background-size:16px}
   .fields select.filled{color:var(--card-fg)}
   .fields input:focus,.fields select:focus{outline:none;border-color:var(--card-accent);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.24),0 0 0 3px rgba(255,0,71,.18)}
-  body.lt .fields input:focus,body.lt .fields select:focus{box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 0 0 3px rgba(225,19,46,.16)}
+    background:rgba(255,255,255,.22);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 0 0 3px rgba(255,42,95,.20)}
   .submit{position:relative;z-index:3;width:100%;margin-top:7px;padding:18px 20px;border:0;border-radius:3px;cursor:pointer;
-    background:linear-gradient(180deg,#f0233d,#e1132e);color:#fff;font-family:var(--font-body);font-size:12.5px;font-weight:800;
+    background:linear-gradient(180deg,#f0233d,#d1102a);color:#fff;font-family:var(--font-body);font-size:12.5px;font-weight:800;
     letter-spacing:.16em;text-transform:uppercase;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 10px 26px rgba(225,19,46,.34);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 10px 28px rgba(225,19,46,.40);
     transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s}
-  .submit:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 18px 42px rgba(225,19,46,.46)}
+  .submit:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 18px 44px rgba(225,19,46,.52)}
   .fine{position:relative;z-index:3;margin-top:15px;font-size:12px;line-height:1.55;color:var(--card-faint)}
   .fine a{color:inherit;text-decoration:underline;text-underline-offset:2px}
   .done{display:none;position:relative;z-index:3}
@@ -313,6 +321,7 @@
       </div>
 
       <div class="card rv" id="card">
+        <span class="sheen" aria-hidden="true"></span>
         <div class="cardeb">First access &middot; 2027</div>
         <h2 class="cardh dsp" id="list">Know before anyone&nbsp;else</h2>
         <p class="cardsub">When it opens, <b>this list moves first</b>. Everyone else finds out&nbsp;afterward.</p>
