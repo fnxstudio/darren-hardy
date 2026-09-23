@@ -58,7 +58,9 @@ a{color:inherit}
   padding:0 60px;margin:0 -60px;cursor:pointer}
 .b{position:relative;height:min(86vh,800px);width:auto;aspect-ratio:1784/2289;
   transform-style:preserve-3d;transform-origin:100% 50%;
-  transform:rotateY(-86deg);
+  transform:rotateY(-90deg);   /* exactly edge-on: the cover has zero
+                                  projected width, so it is not there at
+                                  all rather than faded out */
   transition:transform 1.25s var(--ease);will-change:transform}
 .hinge:hover .b,.hinge:focus-visible .b{transform:rotateY(-6deg)}
 .b .f{position:absolute;inset:0;backface-visibility:hidden}
@@ -192,11 +194,11 @@ body.lt .grain{mix-blend-mode:multiply;opacity:.13}
 @media(max-width:860px){.tg{right:8px;bottom:auto;top:70px;transform:scale(.8);transform-origin:100% 0}}
 </style>
 </head>
-<body>
+<body class="lt">
 
 <div class="tg" role="group" aria-label="Theme">
-  <button id="bD" class="on" type="button">Dark</button>
-  <button id="bL" type="button">Light</button>
+  <button id="bD" type="button">Dark</button>
+  <button id="bL" class="on" type="button">Light</button>
 </div>
 
 <section class="stage" id="stage">
