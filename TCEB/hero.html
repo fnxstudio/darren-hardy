@@ -76,31 +76,39 @@ a{color:inherit}
    styling choices; that is what keeps the illusion consistent. */
 .pl{grid-area:1/1;pointer-events:none}
 
-/* THE FAR PLANE is the room, not a word.
-   The first version stacked blurred repetitions of "Compounding" back
-   into the distance. It had depth and no meaning, and decoration nobody
-   can explain reads as a mistake. What belongs behind the object is the
-   place it is for: the attendee wall, thrown far out of focus the way a
-   long lens would throw it. Same depth, and now it says something. */
-.room{--o:.34;transform:translate(-50%,-50%) translate3d(0,-4vh,-900px);width:190vw;height:150vh;
-  filter:blur(16px) grayscale(1) contrast(1.06) brightness(.72)}
-.room img{width:100%;height:100%;object-fit:cover;display:block}
+/* WHAT SIGNIFIES COMPOUNDING.
+   Not a chart, and not the BMC attendee wall: that photograph earns its
+   place on the closed page because it is the link back to BMC, and it
+   means nothing here.
 
-/* COPIES at middle distances. The jacket is the product, so the thing
-   receding into the room is the product, not a caption for it. Each is
-   blurred and dimmed by its own distance, like everything else here. */
-/* the only type in the middle distance, so it reads as a caption */
-.band{--o:.30;transform:translate(-50%,-50%) translate3d(0,26vh,-240px);filter:blur(.5px);
-  white-space:nowrap;font-size:13px;letter-spacing:.42em;text-transform:uppercase;
-  font-weight:700;color:var(--w)}
-
-.mini{aspect-ratio:1784/2289;border-radius:2px;
-  box-shadow:0 30px 60px rgba(0,0,0,.6)}
-.mini img{width:100%;height:100%;object-fit:cover;display:block;border-radius:2px}
-.m1{--o:.28;width:132px;transform:translate(-50%,-50%) translate3d(-40vw,-26vh,-640px) rotate(-7deg);filter:blur(6px)}
-.m2{--o:.34;width:150px;transform:translate(-50%,-50%) translate3d(-8vw,-30vh,-560px) rotate(5deg);filter:blur(5px)}
-.m3{--o:.42;width:126px;transform:translate(-50%,-50%) translate3d(-36vw,26vh,-430px) rotate(4deg);filter:blur(3.4px)}
-.m4{--o:.40;width:112px;transform:translate(-50%,-50%) translate3d(19vw,-20vh,-500px) rotate(-5deg);filter:blur(4.2px)}
+   What this uses instead is the thesis itself. One point of impact, and
+   rings widening from it across a measured floor. A small thing done
+   once, and the consequence still travelling outward long after. The
+   grid is there so the distance is legible rather than merely pretty,
+   and it converges on its own because it is a flat plane laid down in
+   the same perspective as everything else. */
+/* The first attempt laid these on a floor tilted back in perspective.
+   It was accurate and invisible: the jacket owns the right of the frame,
+   the copy owns the left and the bar cuts the bottom, so there was no
+   open ground left for a floor to read against. The rings work in the
+   picture plane instead, centred on the base of the jacket, sweeping out
+   across the one part of the frame that is actually empty. */
+.rip{position:absolute;left:50%;top:50%;width:0;height:0;transform:translate3d(16vw,16vh,-300px)}
+.ripple{position:absolute;left:0;top:0;width:44vw;aspect-ratio:1;border-radius:50%;
+  border:1px solid var(--red);opacity:0;will-change:transform,opacity;
+  animation:ripple 12s cubic-bezier(.24,.58,.3,1) infinite}
+@keyframes ripple{
+  0%{transform:translate(-50%,-50%) scale(.04);opacity:0;border-width:2px}
+  10%{opacity:.62}
+  100%{transform:translate(-50%,-50%) scale(4.6);opacity:0;border-width:.5px}}
+.r2{animation-delay:2.4s}.r3{animation-delay:4.8s}.r4{animation-delay:7.2s}.r5{animation-delay:9.6s}
+/* the point it all comes from */
+.impact{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;
+  transform:translate(-50%,-50%);background:var(--red);
+  box-shadow:0 0 34px 10px rgba(255,0,71,.50);animation:pulse 2.6s ease-in-out infinite}
+body.lt .impact{box-shadow:0 0 34px 10px rgba(212,17,43,.30)}
+body.lt .ripple{opacity:0}
+@media(max-width:860px){.rip{transform:translate3d(6vw,10vh,-300px)}.ripple{width:72vw}}
 
 /* ------------------------------------------------------------- THE OBJECT */
 /* A jacket with a spine and a page edge. A flat image of a cover reads as
@@ -109,20 +117,20 @@ a{color:inherit}
    means the entrance's `transform:none` end state silently wipes the
    positioning once fill-mode holds it, which drops the jacket off the
    bottom of the frame. */
-.objp{transform:translate(-50%,-50%) translate3d(24vw,-2vh,-90px);transform-style:preserve-3d}
+.objp{transform:translate(-50%,-50%) translate3d(34vw,-2vh,-90px);transform-style:preserve-3d}
 .objin{transform-style:preserve-3d}
-.book{position:relative;height:min(76vh,720px);width:auto;aspect-ratio:1784/2289;
+.book{position:relative;height:min(96vh,940px);width:auto;aspect-ratio:1784/2289;
   transform-style:preserve-3d;animation:bookturn 24s ease-in-out infinite;will-change:transform}
 @keyframes bookturn{
   0%,100%{transform:rotateY(-19deg) rotateX(3deg) translateY(0)}
   50%{transform:rotateY(-8deg) rotateX(-1deg) translateY(-22px)}}
 .book .f{position:absolute;inset:0;backface-visibility:hidden}
-.book .front{transform:translateZ(23px);box-shadow:0 0 0 1px rgba(255,255,255,.14)}
+.book .front{transform:translateZ(28px);box-shadow:0 0 0 1px rgba(255,255,255,.14)}
 .book .front img{width:100%;height:100%;object-fit:cover;display:block}
-.book .back{transform:translateZ(-23px) rotateY(180deg);background:#09090b}
-.book .spine{left:0;width:46px;height:100%;transform:translateX(-23px) rotateY(-90deg);
+.book .back{transform:translateZ(-28px) rotateY(180deg);background:#09090b}
+.book .spine{left:0;width:56px;height:100%;transform:translateX(-28px) rotateY(-90deg);
   background:linear-gradient(90deg,#000,#1b1b20 45%,#000)}
-.book .edge{right:0;width:46px;height:100%;transform:translateX(23px) rotateY(90deg);
+.book .edge{right:0;width:56px;height:100%;transform:translateX(28px) rotateY(90deg);
   background:repeating-linear-gradient(90deg,#e9e7e2 0 1px,#c6c3bc 1px 2px)}
 /* the specular the jacket picks up as it turns */
 .book .front::after{content:"";position:absolute;inset:0;pointer-events:none;
@@ -217,9 +225,14 @@ a{color:inherit}
 .rail-l{animation-delay:.24s}
 .rail-r{animation-delay:.30s}
 .bar{animation-delay:1.05s}
-.room,.mini,.band{animation:fadeto 1.5s var(--ease) both}
-.room{animation-delay:.14s}.m1{animation-delay:.26s}.m2{animation-delay:.32s}
-.m3{animation-delay:.38s}.m4{animation-delay:.44s}.band{animation-delay:.52s}
+.rip{--o:1;animation:fadeto 1.6s var(--ease) both}
+/* the only type in the middle distance, so it reads as a caption
+   rather than wallpaper */
+.band{--o:.30;transform:translate(-50%,-50%) translate3d(0,30vh,-240px);filter:blur(.5px);
+  white-space:nowrap;font-size:13px;letter-spacing:.42em;text-transform:uppercase;
+  font-weight:700;color:var(--w);animation:fadeto 1.5s var(--ease) both}
+
+.band{animation-delay:.52s}
 .objin{animation:bookin 1.25s var(--ease) .52s both}
 .eb{animation:rise .95s var(--ease) .70s both}
 .h-sm{animation:rise .95s var(--ease) .80s both}
@@ -240,7 +253,7 @@ body.lt .book .front::after{background:linear-gradient(142deg,rgba(255,255,255,.
 body.lt .book .front{box-shadow:0 0 0 1px rgba(0,0,0,.18)}
 body.lt .grain{mix-blend-mode:multiply;opacity:.16}
 body.lt .room{--o:.20;filter:blur(16px) grayscale(1) contrast(1.02) brightness(1.18)}
-body.lt .mini{box-shadow:0 30px 60px rgba(0,0,0,.28)}
+body.lt 
 body.lt .book .back{background:#dedee2}
 body.lt .objp::after{background:radial-gradient(50% 50% at 52% 50%,rgba(0,0,0,.46),transparent 72%)}
 body.lt .h-lg{text-shadow:0 10px 50px rgba(255,255,255,.85)}
@@ -250,13 +263,11 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
 /* ---------------------------------------------------------------- MOBILE */
 @media(max-width:860px){
   .stage{perspective:800px}
-  .objp{transform:translate(-50%,-50%) translate3d(26vw,-22vh,-90px)}
-  .book{height:min(46vh,380px)}
+  .objp{transform:translate(-50%,-50%) translate3d(30vw,-20vh,-90px)}
+  .book{height:min(52vh,440px)}
   .copyp{transform:translate(-50%,-50%) translate3d(0,17vh,50px);width:88vw}
-  .room{transform:translate(-50%,-50%) translate3d(0,-10vh,-760px)}
-  .m1{transform:translate(-50%,-50%) translate3d(-30vw,-26vh,-640px) rotate(-7deg)}
-  .m2{transform:translate(-50%,-50%) translate3d(28vw,6vh,-560px) rotate(5deg)}
-  .m3,.m4{display:none}
+
+  .floor{width:420vw}
   .band{display:none}
   .facts{gap:22px}
   .go{margin-left:0;width:100%;justify-content:center;margin-top:16px}
@@ -285,11 +296,15 @@ body.lt .navcta:hover{background:#0c0c10;color:#fff;border-color:#0c0c10}
   <div class="sweep" aria-hidden="true"></div>
 
   <div class="rig" id="rig">
-    <div class="pl room" aria-hidden="true"><img src="tceb-hero.webp" alt="" fetchpriority="high" decoding="async" /></div>
-    <div class="pl mini m1" aria-hidden="true"><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /></div>
-    <div class="pl mini m4" hidden aria-hidden="true"><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /></div>
-    <div class="pl mini m2" aria-hidden="true"><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /></div>
-    <div class="pl mini m3" aria-hidden="true"><img src="tceb-cover.webp" alt="" loading="lazy" decoding="async" /></div>
+    <div class="rip" aria-hidden="true">
+      <span class="ripple r1"></span>
+      <span class="ripple r2"></span>
+      <span class="ripple r3"></span>
+      <span class="ripple r4"></span>
+      <span class="ripple r5"></span>
+      <span class="impact"></span>
+    </div>
+
     <span class="pl band" aria-hidden="true">Thirty-five years &middot; Two million readers &middot; One book he has never written before</span>
 
     <div class="objp">
