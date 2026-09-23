@@ -96,7 +96,13 @@
   .para{font-size:clamp(15px,1.18vw,17px);line-height:1.66;color:var(--g30);max-width:66ch;margin-top:clamp(20px,2.4vw,30px)}
   .lead{font-size:clamp(15px,1.2vw,17.5px);font-weight:600;color:var(--w);margin-top:clamp(24px,3vw,38px)}
   .payoff{font-size:clamp(28px,4.4vw,66px);color:var(--red);margin-top:6px;white-space:nowrap}
-  @media(max-width:620px){.h1 .ln,.payoff{white-space:normal}}
+  /* The .42em step-down on the third line is right at desktop scale, but the
+     headline clamps to its 46px minimum on phones, which leaves that line at
+     19px. It steps down far less once the headline stops scaling. */
+  @media(max-width:620px){
+    .h1 .ln,.payoff{white-space:normal}
+    .h1 .sm{font-size:.70em}
+  }
 
   /* ---------- CARD. Always opposes the page. ----------
      Dark page gets a white card, light page gets a black one. It runs on its
