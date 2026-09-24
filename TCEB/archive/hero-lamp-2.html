@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TCEB · Hero · The Lamp</title>
+<title>TCEB · Hero · The Lamp v2</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="tceb.css?v=1">
+<link rel="stylesheet" href="../tceb.css?v=1">
 <style>
 /* ======================================================================
    THE BOOK IS THE LIGHT SOURCE.
@@ -118,6 +118,38 @@ a{color:inherit}
 .sub{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
   color:rgba(255,255,255,.30);text-align:center}
 
+
+/* ------------------------------------------------------------ THE CURVE */
+/* A compound curve drawn across the whole frame: flat along the bottom
+   for most of its length, then climbing hard and terminating exactly on
+   the nav button. That endpoint is the point of it. The line is the
+   argument and the button is where the argument lands.
+
+   The path is built in JS from the real geometry of the word and the
+   button rather than authored in a viewBox, because neither of those
+   sits at a fixed fraction of the viewport: the button is positioned by
+   the container's max-width and padding, and the word by its own type
+   metrics. A hand-drawn path would only be correct at one window size. */
+.curve{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:visible}
+.curve path{fill:none;stroke-linecap:round}
+.curve .glow{stroke:var(--red);stroke-width:14;opacity:.28;filter:blur(13px)}
+.curve .line{stroke:var(--red);stroke-width:2.5}
+.curve .glow,.curve .line{
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  animation:draw 2.6s cubic-bezier(.32,.06,.2,1) .55s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* the head of the line, which arrives at the button and stays there */
+.curve .head{fill:var(--red);opacity:0;animation:arrive .5s var(--ease) 2.9s forwards}
+@keyframes arrive{to{opacity:1}}
+.curve .halo{fill:var(--red);opacity:0;animation:halo 2.4s ease-in-out 3.1s infinite}
+@keyframes halo{0%,100%{opacity:.30;transform:scale(1)}50%{opacity:0;transform:scale(2.6)}}
+body.lt .curve .glow{opacity:.20}
+
+/* the button the line lands on, lit once it arrives */
+.navcta{transition:background .3s,color .3s,border-color .3s,box-shadow .6s}
+.navcta.lit{border-color:rgba(255,0,71,.55);box-shadow:0 0 0 1px rgba(255,0,71,.28),0 0 34px rgba(255,0,71,.30)}
+body.lt .navcta.lit{border-color:rgba(212,17,43,.5);box-shadow:0 0 0 1px rgba(212,17,43,.22),0 0 26px rgba(212,17,43,.20)}
+
 /* ------------------------------------------------------------- CHROME */
 .nav{position:absolute;top:0;left:0;right:0;z-index:9;padding:26px 0}
 .w{width:100%;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
@@ -211,6 +243,13 @@ body.lt .navcta:hover{background:#0b0b0e;color:#fff;border-color:#0b0b0e}
   <div class="lamp" aria-hidden="true"></div>
   <div class="pool" aria-hidden="true"></div>
 
+  <svg class="curve" id="curve" aria-hidden="true">
+    <path class="glow" id="cg"></path>
+    <path class="line" id="cl"></path>
+    <circle class="halo" id="ch" r="7"></circle>
+    <circle class="head" id="cd" r="4.5"></circle>
+  </svg>
+
   <div class="col">
     <div class="eb">The new book &middot; April 2027</div>
     <div class="up">Everything you do</div>
@@ -222,7 +261,7 @@ body.lt .navcta:hover{background:#0b0b0e;color:#fff;border-color:#0b0b0e}
         <div class="f back"></div>
         <div class="f spine"></div>
         <div class="f edge"></div>
-        <div class="f front"><img src="tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" width="760" height="975" fetchpriority="high" decoding="async" /></div>
+        <div class="f front"><img src="../tceb-cover.webp" alt="The Compound Effect in Business, by Darren Hardy" width="760" height="975" fetchpriority="high" decoding="async" /></div>
       </div>
      </div>
     </div>
@@ -272,6 +311,50 @@ body.lt .navcta:hover{background:#0b0b0e;color:#fff;border-color:#0b0b0e}
   });
   stage.addEventListener('pointerleave',function(){ x=0;y=0;queue(); });
 })();
+
+  // THE CURVE.
+  // Built from the live geometry of the word and the button, because
+  // neither sits at a fixed fraction of the viewport: the button is
+  // placed by the container's max-width and padding, the word by its own
+  // type metrics. Anything authored in a viewBox would only line up at
+  // one window size.
+  (function(){
+    var svg=document.getElementById('curve'), gl=document.getElementById('cg'),
+        ln=document.getElementById('cl'), hd=document.getElementById('cd'),
+        ha=document.getElementById('ch'), word=document.querySelector('.dn'),
+        cta=document.querySelector('.navcta'), stage=document.getElementById('stage');
+    if(!svg||!word||!cta) return;
+
+    function build(){
+      var s=stage.getBoundingClientRect(), w=word.getBoundingClientRect(),
+          c=cta.getBoundingClientRect();
+      var W=s.width, H=s.height;
+      var wx=w.left-s.left, wy=w.top-s.top+w.height*0.62, ww=w.width;
+      var ex=c.left-s.left+6, ey=c.top-s.top+c.height/2;   // land ON the button
+      // Four moves: flat along the bottom left, a rise onto the word's
+      // line, a run THROUGH the word, then the climb to the button. The
+      // first version skirted under the word and only clipped its tail,
+      // which reads as a line that happens to be nearby rather than a
+      // line the word is sitting on.
+      var d='M -30 '+(H*0.93)+
+            ' C '+(wx*0.50)+' '+(H*0.935)+
+            ', '+(wx*0.62)+' '+wy+
+            ', '+(wx+ww*0.42)+' '+wy+
+            ' C '+(wx+ww*0.92)+' '+wy+
+            ', '+(ex-W*0.05)+' '+(ey+H*0.46)+
+            ', '+ex+' '+ey;
+      gl.setAttribute('d',d); ln.setAttribute('d',d);
+      hd.setAttribute('cx',ex); hd.setAttribute('cy',ey);
+      ha.setAttribute('cx',ex); ha.setAttribute('cy',ey);
+      ha.style.transformOrigin=ex+'px '+ey+'px';
+      var L=Math.ceil(ln.getTotalLength())+2;
+      svg.style.setProperty('--len',L);
+    }
+    build();
+    addEventListener('resize',build);
+    // the button lights when the line reaches it, not on a guessed delay
+    setTimeout(function(){cta.classList.add('lit');},3050);
+  })();
 </script>
 </body>
 </html>
