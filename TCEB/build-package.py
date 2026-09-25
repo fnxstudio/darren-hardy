@@ -35,10 +35,28 @@ page = re.sub(r'<link rel="stylesheet" href="tceb\.css[^"]*">',
               + css + '\n</style>', page, count=1)
 
 imgs = 0
+import urllib.request
+_remote = {}
+def fetch(url):
+    """Remote images have to come inline too, or the package stops being
+    offline the moment it borrows a logo from a CDN."""
+    if url in _remote: return _remote[url]
+    try:
+        with urllib.request.urlopen(url, timeout=20) as r:
+            data = r.read(); ct = r.headers.get('Content-Type','image/webp').split(';')[0]
+        _remote[url] = 'data:%s;base64,%s' % (ct, base64.b64encode(data).decode())
+    except Exception as e:
+        print('  remote fetch failed:', url[:60], e); _remote[url] = None
+    return _remote[url]
+
 def sub_img(m):
     global imgs
     v = m.group(1)
-    if v.startswith(('data:','http')): return m.group(0)
+    if v.startswith('data:'): return m.group(0)
+    if v.startswith('http'):
+        u = fetch(v)
+        if u: imgs += 1; return 'src="%s"' % u
+        return m.group(0)
     u = datauri(v)
     if not u: return m.group(0)
     imgs += 1
@@ -54,9 +72,9 @@ subprocess.run(['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome','
     '--disable-gpu','--no-pdf-header-footer','--print-to-pdf='+os.path.join(P,'brand-guide.pdf'),
     '--virtual-time-budget=16000','file://'+os.path.join(P,'brand-guide.html')], stderr=subprocess.DEVNULL)
 
-left = re.findall(r'(?:href|src)="(?!#|data:)[^"]+"', re.sub(r'/\*.*?\*/','',page,flags=re.S))
+left = re.findall(r'src="(?!data:)[^"]+"', re.sub(r'/\*.*?\*/','',page,flags=re.S))
 pdf = open(os.path.join(P,'brand-guide.pdf'),'rb').read()
 print('fonts inlined: %d | images inlined: %d' % (n, imgs))
 print('html %d KB | pdf %d KB | %d pages' % (len(page)//1024, len(pdf)//1024,
       len(re.findall(rb'/Type\s*/Page[^s]', pdf))))
-print('external refs left:', left or 'none')
+print('external IMAGE refs left:', left or 'none  (href links are expected)')
