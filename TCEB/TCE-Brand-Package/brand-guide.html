@@ -1261,7 +1261,8 @@ em { font-style: normal; color: var(--accent); }
 
   /* The DH mark, all four variants it actually ships in. */
   .marks{display:grid;grid-template-columns:1fr 1fr;margin-top:26px;border:1px solid var(--g12)}
-  .marks>div{min-width:0;padding:34px 30px;display:flex;flex-direction:column;gap:20px;justify-content:space-between}
+  .marks>div{min-width:0;padding:34px 30px;display:flex;flex-direction:column;gap:20px;
+    justify-content:space-between;container-type:inline-size}
   .marks>div:nth-child(odd){border-right:1px solid var(--g12)}
   .marks>div:nth-child(-n+2){border-bottom:1px solid var(--g12)}
   .mk-dark{background:#0a0a0a}
@@ -1270,9 +1271,10 @@ em { font-style: normal; color: var(--accent); }
   .mk-dark .mk-cap{color:#888}
   .mk-light .mk-cap{color:var(--g55)}
   .mk-lock{display:flex;align-items:center;gap:14px}
-  .mk-lock img{width:48px;height:48px;flex-shrink:0;display:block}
+  .mk-lock img{flex-shrink:0;display:block}
   .mk-lock{min-width:0}
-  .mk-lock .nm{font-family:var(--font-body);font-weight:700;font-size:clamp(12px,3.4vw,17px);
+  .mk-lock img{width:clamp(30px,11cqw,48px);height:auto}
+  .mk-lock .nm{font-family:var(--font-body);font-weight:700;font-size:clamp(8px,3.6cqw,17px);
     letter-spacing:.28em;text-transform:uppercase;white-space:nowrap}
   .mk-dark .nm{color:#fff}
   .mk-light .nm{color:#0a0a0a}
@@ -1456,7 +1458,19 @@ em { font-style: normal; color: var(--accent); }
           book page and never competes with the title lockup.</p>
         <p class="bd" style="margin-top:14px"><b style="color:var(--blk)">Set in Franklin Gothic.</b> His name is the one
           place that face appears. Using it anywhere else spends the only thing that makes the byline distinct.</p>
-        <div class="marks">
+        
+        </div>
+      </div>
+      <div>
+        <div class="hd">2 &middot; The Compound Effect</div>
+        <p class="bd">The franchise lockup: <b style="color:var(--blk)">THE / COMPOUND / EFFECT</b> stacked in the display
+          face, with a red rule beneath. This is the parent form and it is identical on both books.</p>
+        <p class="bd" style="margin-top:14px">It carries the equity of two million copies. It is the constant, and the
+          reason the second book is recognised at all.</p>
+      </div>
+    </div>
+
+    <div class="marks">
           <div class="mk-dark">
             <div class="mk-cap">Monogram &middot; white on dark &middot; primary</div>
             <div class="mk-solo"><img src="data:image/webp;base64,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" alt="Darren Hardy monogram"></div>
@@ -1479,16 +1493,6 @@ em { font-style: normal; color: var(--accent); }
           and is exactly what darrenhardy.com uses: mark at 48px, name in the body face at 17px with 0.28em tracking,
           14px between them. <b style="color:var(--blk)">The reverse is the same artwork with the ink flipped</b>,
           not a second drawing, so the two can never drift apart.</p>
-        </div>
-      </div>
-      <div>
-        <div class="hd">2 &middot; The Compound Effect</div>
-        <p class="bd">The franchise lockup: <b style="color:var(--blk)">THE / COMPOUND / EFFECT</b> stacked in the display
-          face, with a red rule beneath. This is the parent form and it is identical on both books.</p>
-        <p class="bd" style="margin-top:14px">It carries the equity of two million copies. It is the constant, and the
-          reason the second book is recognised at all.</p>
-      </div>
-    </div>
 
     <div class="two" style="margin-top:0;border-top:0">
       <div style="grid-column:1 / -1;border-left:0">
