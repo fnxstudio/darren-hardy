@@ -40,6 +40,8 @@
 
   /* HERO — black, like the cover */
   .hero{background:var(--blk);color:var(--wht);padding:104px 0 88px}
+  .hero .eb{color:var(--red-br)}
+  .hero .eb::before{background:var(--red-br)}
   .hero .mark{font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:14px;letter-spacing:.2em;color:var(--g30);margin-bottom:46px}
   .hero .lede{color:var(--g30);max-width:58ch}
   .hero .ver{margin-top:44px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--g55)}
@@ -113,11 +115,101 @@
   @media(max-width:760px){.two{grid-template-columns:1fr}.two>div+div{border-left:0;border-top:1px solid var(--g12)}}
 
   /* ---- additions for the franchise build ---- */
+
+
+
+  /* The DH mark. A real drawn wordmark, unlike the franchise lockup. */
+  .markrow{display:grid;grid-template-columns:180px 1fr;gap:34px;margin-top:40px;
+    border:1px solid var(--g12);align-items:center}
+  .markrow .box{background:#0e0d10;padding:34px;display:flex;align-items:center;justify-content:center;align-self:stretch}
+  .markrow img{width:96px;height:auto;display:block}
+  .markrow .txt{padding:28px 30px 28px 0}
+  @media(max-width:760px){.markrow{grid-template-columns:1fr;gap:0}.markrow .txt{padding:26px}}
+
+  /* Footers, rendered rather than described. */
+  .foot-demo{margin-top:34px;border:1px solid var(--g12)}
+  .foot-demo+.foot-demo{margin-top:34px}
+  .fd-lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--g55);
+    padding:14px 20px;border-bottom:1px solid var(--g12)}
+  .fd{background:#0e0d10;color:#b3b3b3;padding:26px 30px}
+  .fd a{color:#b3b3b3;text-decoration:none}
+  .fd .mk{width:34px;height:auto;display:block;flex:none}
+  .fd-slim{display:flex;align-items:center;gap:20px;flex-wrap:wrap;font-size:12px;letter-spacing:.06em}
+  .fd-slim .lg{margin-left:auto;display:flex;gap:22px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  .fd-full .ph{border:1px dashed rgba(255,255,255,.34);padding:30px;text-align:center;margin-bottom:34px}
+  .fd-full .ph .t{font-family:var(--font-display);font-weight:400;text-transform:uppercase;
+    font-size:20px;color:#fff;letter-spacing:.02em}
+  .fd-full .ph .d{font-size:11.5px;line-height:1.7;color:#7d7a82;margin-top:9px;max-width:56ch;margin-left:auto;margin-right:auto}
+  .fd-full .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;padding-bottom:30px;
+    border-bottom:1px solid rgba(255,255,255,.12)}
+  .fd-full .cols h5{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#6e6e78;font-weight:700;margin-bottom:13px}
+  .fd-full .cols li{list-style:none;font-size:12.5px;line-height:2}
+  .fd-full .base{display:flex;align-items:center;gap:18px;padding-top:24px;font-size:11px;
+    letter-spacing:.1em;flex-wrap:wrap;color:#6e6e78}
+  .fd-full .base .lg{margin-left:auto;display:flex;gap:20px;text-transform:uppercase}
+  @media(max-width:760px){.fd-full .cols{grid-template-columns:1fr 1fr;gap:22px}}
+  /* Button state matrix. Each button is shown twice: resting, and with
+     the hover state forced on so it survives a screenshot and a PDF.
+     The live ones hover for real. */
+  .states{margin-top:40px;border:1px solid var(--g12)}
+  .st-g{display:grid;grid-template-columns:120px 1fr 1fr}
+  .st-g+.st-g{border-top:1px solid var(--g12)}
+  .st-lbl{padding:26px 20px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    font-weight:700;color:var(--g55);border-right:1px solid var(--g12);display:flex;align-items:center}
+  .st-cell{padding:30px 26px;display:flex;flex-direction:column;gap:13px;align-items:flex-start}
+  .st-cell+.st-cell{border-left:1px solid var(--g12)}
+  .st-cap{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--g55)}
+  .st-dark{background:#0e0d10}
+  .st-dark .st-cap{color:#6e6e78}
+  .st-dark .st-lbl{color:#7d7a82;border-right-color:rgba(255,255,255,.12)}
+  .st-dark .st-cell+.st-cell{border-left-color:rgba(255,255,255,.12)}
+  @media(max-width:760px){.st-g{grid-template-columns:1fr}.st-lbl{border-right:0;border-bottom:1px solid var(--g12);padding:16px 20px}
+    .st-cell+.st-cell{border-left:0;border-top:1px solid var(--g12)}}
+
+  .btn{display:inline-flex;align-items:center;gap:11px;text-decoration:none;padding:15px 26px;
+    border-radius:3px;font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+    border:1px solid transparent;transition:transform .24s cubic-bezier(.16,1,.3,1),box-shadow .3s,background .3s,color .3s,border-color .3s}
+  .btn i{font-style:normal;transition:transform .24s cubic-bezier(.16,1,.3,1)}
+  /* SOLID. The fill never changes. It lifts and the arrow travels. */
+  .btn.solid{background:var(--red);color:#fff;border-color:var(--red)}
+  .btn.solid:hover,.btn.solid.on{transform:translateY(-2px);box-shadow:0 14px 34px rgba(225,19,46,.38)}
+  .btn.solid:hover i,.btn.solid.on i{transform:translateX(5px)}
+  /* GHOST ON LIGHT. Fills with the ink, type flips to the ground. */
+  .btn.ghost{background:transparent;color:#000;border-color:#b3b3b3}
+  .btn.ghost:hover,.btn.ghost.on{background:#000;color:#fff;border-color:#000}
+  /* GHOST ON DARK. Fills with LIGHT, never with anything darker than the
+     ground it sits on. A transparent button that darkens on hover reads
+     as switched off, which is the same failure as a darkening solid. */
+  .st-dark .btn.ghost{color:#fff;border-color:rgba(255,255,255,.34)}
+  .st-dark .btn.ghost:hover,.st-dark .btn.ghost.on{background:#fff;color:#0e0d10;border-color:#fff}
+  /* Download list. The files themselves, not a description of them. */
+  .dl{margin-top:34px;border-top:2px solid var(--blk)}
+  .dl .r{display:grid;grid-template-columns:1fr 132px 92px;gap:16px;padding:13px 0;
+    border-bottom:1px solid var(--g12);align-items:baseline;font-size:13.5px;color:var(--g70)}
+  .dl .r.h{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--g55);font-weight:700}
+  .dl a{color:var(--blk);font-weight:700;text-decoration:none;border-bottom:1px solid var(--g30)}
+  .dl a:hover{border-bottom-color:var(--red);color:var(--red)}
+  .dl .f{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--g55)}
+  .dl .sz{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;text-align:right}
+  .dl .grp{font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:17px;
+    color:var(--blk);padding:22px 0 6px;border-bottom:1px solid var(--g12)}
+  @media(max-width:760px){.dl .r{grid-template-columns:1fr 78px;gap:4px 12px}.dl .f{grid-column:1/-1}}
   .man{margin-top:36px;border-top:2px solid var(--blk);font-size:13.5px}
   .man .r{display:grid;grid-template-columns:270px 1fr;gap:18px;padding:12px 0;border-bottom:1px solid var(--g12);color:var(--g70)}
   .man .r.h{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--g55);font-weight:700}
   .man code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--blk);font-weight:700}
   @media(max-width:760px){.man .r{grid-template-columns:1fr;gap:4px}.man .r.h{display:none}}
+
+  /* Each jacket on the ground it needs. Not decoration: this block is the
+     evidence for the rule stated under it. */
+  .proof{display:grid;grid-template-columns:1fr 1fr;margin-top:44px;border:1px solid var(--g12)}
+  .proof>div{padding:56px 40px 42px;display:flex;flex-direction:column;align-items:center;gap:28px}
+  .proof>div+div{border-left:1px solid var(--g12)}
+  .proof img{width:min(196px,54%);height:auto;display:block}
+  .proof .cap{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;text-align:center;line-height:1.75}
+  .proof .cap b{display:block;font-family:var(--font-display);font-weight:400;font-size:20px;
+    letter-spacing:.02em;line-height:1.02;margin-bottom:11px}
+  @media(max-width:760px){.proof{grid-template-columns:1fr}.proof>div+div{border-left:0;border-top:1px solid var(--g12)}}
   .pair{display:grid;grid-template-columns:1fr 1fr;margin-top:40px;border:1px solid var(--g12)}
   .pair>div{padding:0}
   .pair>div+div{border-left:1px solid var(--g12)}
@@ -154,8 +246,8 @@
 
 <header class="hero">
   <div class="w">
-    <div class="mark">The Compound Effect</div>
-    <h1 class="dsp t1">Brand &amp;<br>Design System</h1>
+    <div class="eb" style="margin-bottom:44px">The Compound Effect</div>
+    <h1 class="dsp t1">Brand <span class="redbr">&amp;</span><br>Design System</h1>
     <p class="lede">One system for the franchise. <b style="color:#fff">The Compound Effect</b> (2010) and
       <b style="color:#fff">The Compound Effect in Business</b> (April 2027) are not two brands. They are one
       brand printed on opposite grounds, and almost everything in this document follows from that.</p>
@@ -198,7 +290,7 @@
     <div class="pair">
       <div>
         <div class="top" style="background:#fff;border-bottom:1px solid var(--g12)">
-          <div class="dsp" style="font-size:34px;line-height:.9;color:#241F21;text-align:center">The<br><span style="color:#E02726">Compound<br>Effect</span></div>
+          <div class="lockup" style="font-size:52px;color:#241F21"><span class="l-the">The</span><span class="l-main" style="color:#E02726">Compound</span><span class="l-eff" style="color:#E02726">Effect</span></div>
         </div>
         <div class="bot">
           <div class="nm">The Compound Effect</div>
@@ -208,13 +300,29 @@
       </div>
       <div>
         <div class="top" style="background:#000;border-bottom:1px solid var(--g12)">
-          <div class="dsp" style="font-size:34px;line-height:.9;color:#fff;text-align:center">The Compound<br>Effect <span style="color:#FF0047">in Business</span></div>
+          <div class="lockup" style="font-size:52px;color:#fff"><span class="l-the">The</span><span class="l-main">Compound</span><span class="l-eff">Effect</span><span class="l-biz" style="color:#FF0047">in Business</span></div>
         </div>
         <div class="bot">
           <div class="nm">In Business</div>
           <div class="hx">ground #000000<br>red #E1132E / #FF0047<br>ink #FFFFFF</div>
           <div class="rule">2027. White on black, with white bands carrying the author. Dark is the ground and the light is the object.</div>
         </div>
+      </div>
+    </div>
+
+
+    <div class="proof">
+      <div style="background:#0e0d10">
+        <img src="img/ce-cover.webp" alt="The Compound Effect on a dark ground"
+             style="box-shadow:0 30px 60px rgba(0,0,0,.65)">
+        <div class="cap" style="color:#b3b3b3"><b style="color:#fff">A white book<br>goes on dark</b>
+          The jacket is the lightest thing in the frame.<br>It separates by value on its own.</div>
+      </div>
+      <div style="background:#fbfaf8">
+        <img src="tceb-cover.webp" alt="The Compound Effect in Business on a light ground"
+             style="box-shadow:0 30px 60px rgba(0,0,0,.30)">
+        <div class="cap" style="color:#6e6e6e"><b style="color:#000">A black book<br>goes on light</b>
+          The jacket is the darkest thing in the frame.<br>Put it on black and it disappears.</div>
       </div>
     </div>
 
@@ -244,6 +352,12 @@
           book page and never competes with the title lockup.</p>
         <p class="bd" style="margin-top:14px"><b style="color:var(--blk)">Set in Franklin Gothic.</b> His name is the one
           place that face appears. Using it anywhere else spends the only thing that makes the byline distinct.</p>
+        <div class="markrow" style="margin-top:22px">
+          <div class="box"><img src="img/dh-mark-white.webp" alt="Darren Hardy mark"></div>
+          <div class="txt"><p class="bd" style="font-size:14px">The monogram. A drawn mark, so it holds at any size,
+            in one colour, and on anything printed. White on dark is the primary. It sits in the footer and in the
+            byline position, never as the page's leading mark.</p></div>
+        </div>
       </div>
       <div>
         <div class="hd">2 &middot; The Compound Effect</div>
@@ -273,9 +387,10 @@
 
     <div class="todo">
       <div class="h">Open &middot; needs DH</div>
-      <p>The lockup is currently type set in the display face rather than a drawn mark. For a four-site property that is
-        worth revisiting: a drawn wordmark survives at small sizes, in one colour, and on merchandise in a way that set
-        type does not. Flagged rather than assumed.</p>
+      <p>The <b style="color:var(--blk)">DH monogram is already a drawn mark</b> and needs nothing. It is the
+        <b style="color:var(--blk)">franchise lockup</b> that is still type set in the display face. For a four-site
+        property that is worth revisiting: a drawn wordmark survives at small sizes, in one colour, and on merchandise
+        in a way that set type does not. Flagged rather than assumed.</p>
     </div>
   </div>
 </section>
@@ -413,27 +528,38 @@
 </section>
 <section class="sec">
   <div class="w">
-    <div class="eb">08 &middot; Licence &amp; hosting</div>
-    <h2 class="dsp t2">Buy the real faces.<br>Self-host both.</h2>
-    <p class="lede">DH confirmed the jacket faces. Both are commercial, and what is running on the web pages today
-      is free approximations of them.</p>
-    <div class="man">
-      <div class="r h"><div>Face</div><div>Position</div></div>
-      <div class="r"><div><code>Bebas Neue Pro</code></div><div>Display. Titles, lockups, headlines, numbers. <b style="color:var(--red)">Licence required.</b> Currently substituted with Bebas Neue (free), which lacks the weights and the lowercase.</div></div>
-      <div class="r"><div><code>Franklin Gothic</code></div><div>The author name only. <b style="color:var(--red)">Licence required.</b> Currently substituted with Archivo Narrow.</div></div>
-      <div class="r"><div><code>Body face</code></div><div>Long-form reading. Not yet confirmed against the jacket, and possibly Franklin, which would make this a two-face system rather than three.</div></div>
+    <div class="eb">08 &middot; Licence &amp; the files</div>
+    <h2 class="dsp t2">Purchased.<br>Self-host them.</h2>
+    <p class="lede">DH confirmed the faces and the licences are bought. Both families are below, as web
+      woff2 and as the original desktop files. Nothing here is a substitute any more.</p>
+    <div class="dl">
+      <div class="r h"><div>Weight</div><div>Download</div><div class="sz">woff2</div></div>
+      <div class="grp">Display &middot; Bebas Neue</div>
+      <div class="r"><div>Regular<div class="f">bebas-neue-regular.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/bebas-neue-regular.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/bebas-neue-regular.ttf" download>original</a></div><div class="sz">26 KB</div></div>
+      <div class="r"><div>Book<div class="f">bebas-neue-book.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/bebas-neue-book.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/bebas-neue-book.ttf" download>original</a></div><div class="sz">29 KB</div></div>
+      <div class="r"><div>Bold<div class="f">bebas-neue-bold.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/bebas-neue-bold.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/bebas-neue-bold.ttf" download>original</a></div><div class="sz">27 KB</div></div>
+      <div class="r"><div>Light<div class="f">bebas-neue-light.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/bebas-neue-light.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/bebas-neue-light.ttf" download>original</a></div><div class="sz">27 KB</div></div>
+      <div class="r"><div>Thin<div class="f">bebas-neue-thin.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/bebas-neue-thin.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/bebas-neue-thin.ttf" download>original</a></div><div class="sz">23 KB</div></div>
+      <div class="grp">The name &middot; Franklin Gothic Condensed</div>
+      <div class="r"><div>Condensed<div class="f">franklin-gothic-condensed.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/franklin-gothic-condensed.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/franklin-gothic-condensed.ttf" download>original</a></div><div class="sz">14 KB</div></div>
+      <div class="r"><div>Std Condensed<div class="f">franklin-gothic-std-condensed.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/franklin-gothic-std-condensed.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/franklin-gothic-std-condensed.otf" download>original</a></div><div class="sz">15 KB</div></div>
+      <div class="r"><div>Std Extra Condensed<div class="f">franklin-gothic-std-extracond.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/franklin-gothic-std-extracond.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/franklin-gothic-std-extracond.otf" download>original</a></div><div class="sz">14 KB</div></div>
+      <div class="grp">Text &middot; Franklin Gothic</div>
+      <div class="r"><div>Book<div class="f">franklin-gothic-book.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/franklin-gothic-book.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/franklin-gothic-book.ttf" download>original</a></div><div class="sz">66 KB</div></div>
+      <div class="r"><div>Book Italic<div class="f">franklin-gothic-book-italic.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/franklin-gothic-book-italic.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/franklin-gothic-book-italic.ttf" download>original</a></div><div class="sz">71 KB</div></div>
+      <div class="r"><div>Medium<div class="f">franklin-gothic-medium.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/franklin-gothic-medium.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/franklin-gothic-medium.ttf" download>original</a></div><div class="sz">62 KB</div></div>
+      <div class="r"><div>Medium Italic<div class="f">franklin-gothic-medium-italic.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/franklin-gothic-medium-italic.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/franklin-gothic-medium-italic.ttf" download>original</a></div><div class="sz">69 KB</div></div>
+      <div class="r"><div>Std Roman<div class="f">franklin-gothic-std-roman.woff2</div></div><div><a href="TCE-Brand-Package/fonts/web/franklin-gothic-std-roman.woff2" download>woff2</a> &nbsp; <a href="TCE-Brand-Package/fonts/original/franklin-gothic-std-roman.otf" download>original</a></div><div class="sz">15 KB</div></div>
     </div>
-    <div class="note"><b>Self-host, never a CDN.</b> Both faces are served as woff2 from the property itself via
-      <code style="font-family:ui-monospace,Menlo,monospace">@font-face</code>. No Google Fonts, no third-party font host.
+    <div class="note"><b>Self-host, never a CDN.</b> Serve the woff2 from the property itself via
+      <code style="font-family:ui-monospace,Menlo,monospace">@font-face</code>. No Google Fonts, no third-party host.
       That keeps the licence auditable, removes a render-blocking third party, and stops the type changing under the
-      brand if a CDN changes what it serves.</div>
-    <div class="todo">
-      <div class="h">Open &middot; blocking</div>
-      <p>Neither licence is purchased. Until they are, every page is running approximations and the web property does not
-        match the printed jacket. This is the one open item that blocks shipping a site rather than just a document.</p>
-    </div>
-  </div>
-</section>
+      brand if a CDN changes what it serves. The originals are for desktop and print, not the web.</div>
+    <div class="note" style="margin-top:20px"><b>What the purchase settles.</b> Franklin Gothic was bought in
+      <b>Book</b> and <b>Medium</b> with italics, which are text weights rather than display ones. That is the answer
+      to the open question about the body face: this is a <b>two-face system</b>, Bebas for display and Franklin for
+      everything else, not a three-face one.</div>
+  </section>
 <section class="sec">
   <div class="w">
     <div class="eb">09 &middot; The scale</div>
@@ -478,7 +604,7 @@
     <div class="band-demo">
       <div class="bd-top"><span>From the author of The Compound Effect</span><span style="color:var(--g55)">2 million + copies sold</span></div>
       <div class="bd-mid">
-        <div class="dsp" style="font-size:clamp(30px,5.6vw,68px);line-height:.94">The Compound<br>Effect <span class="redbr">in Business</span></div>
+        <div class="lockup" style="font-size:clamp(34px,6.4vw,74px);color:#fff"><span class="l-the">The</span><span class="l-main">Compound</span><span class="l-eff">Effect</span><span class="l-biz redbr">in Business</span></div>
         <div style="margin-top:20px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--g30);font-weight:700">Multiply your profits, your people, your advantage</div>
       </div>
       <div class="bd-bot"><span class="who">Darren Hardy</span><span style="color:var(--g55);font-size:12px;letter-spacing:.06em">THECOMPOUNDEFFECT.COM<span class="red">/BUSINESS</span></span></div>
@@ -493,26 +619,47 @@
     <p class="lede">Two tiers, and they never appear at the same weight in the same screen. The ghost invites.
       The solid converts.</p>
 
-    <div class="two" style="margin-top:40px">
-      <div>
-        <div class="hd">Primary &middot; solid</div>
-        <div class="btnrow"><a class="b-solid" href="#">Get on the list <span>&rarr;</span></a></div>
-        <p class="bd" style="margin-top:20px">Red fill, white type, 3px radius. One per view, at the point of
-          conversion. On a dark ground the fill stays red; it does not become white.</p>
+    <div class="states">
+      <div class="st-g">
+        <div class="st-lbl">On light</div>
+        <div class="st-cell">
+          <div class="st-cap">Solid &middot; resting</div>
+          <a class="btn solid" href="#">Get on the list <i>&rarr;</i></a>
+          <div class="st-cap" style="margin-top:6px">Solid &middot; hover</div>
+          <a class="btn solid on" href="#">Get on the list <i>&rarr;</i></a>
+        </div>
+        <div class="st-cell">
+          <div class="st-cap">Ghost &middot; resting</div>
+          <a class="btn ghost" href="#">See the book</a>
+          <div class="st-cap" style="margin-top:6px">Ghost &middot; hover</div>
+          <a class="btn ghost on" href="#">See the book</a>
+        </div>
       </div>
-      <div>
-        <div class="hd">Secondary &middot; ghost</div>
-        <div class="btnrow"><a class="b-ghost" href="#">See the book</a></div>
-        <p class="bd" style="margin-top:20px">Transparent, 1px border, type in the ground's ink. Used in the nav and
-          beside a primary. It may fill on hover; the solid may not.</p>
+      <div class="st-g st-dark">
+        <div class="st-lbl">On dark</div>
+        <div class="st-cell">
+          <div class="st-cap">Solid &middot; resting</div>
+          <a class="btn solid" href="#">Get on the list <i>&rarr;</i></a>
+          <div class="st-cap" style="margin-top:6px">Solid &middot; hover</div>
+          <a class="btn solid on" href="#">Get on the list <i>&rarr;</i></a>
+        </div>
+        <div class="st-cell">
+          <div class="st-cap">Ghost &middot; resting</div>
+          <a class="btn ghost" href="#">See the book</a>
+          <div class="st-cap" style="margin-top:6px">Ghost &middot; hover</div>
+          <a class="btn ghost on" href="#">See the book</a>
+        </div>
       </div>
     </div>
+    <p class="bd" style="margin-top:26px">The right-hand button in each pair has the hover state forced on so it
+      survives a screenshot and a print. The left-hand ones hover for real.</p>
 
     <div class="kill" style="margin-top:40px">
-      <div><span class="no">No</span><b style="color:var(--blk)">A solid button never darkens on hover.</b> Colour is held constant. It grows and the arrow travels.</div>
+      <div><span class="no">No</span><b style="color:var(--blk)">Nothing darkens on hover. Ever.</b> A solid holds its fill and responds by lifting, with the arrow travelling.</div>
+      <div><span class="no">No</span><b style="color:var(--blk)">That includes a transparent button on a dark ground.</b> A ghost on dark fills with LIGHT on hover and flips its type dark. Filling it with anything darker than the ground reads as switched off, which is the same failure as a darkening solid and is easier to miss because the resting state has no fill to compare against.</div>
       <div><span class="no">No</span>Pill shapes. 3px radius everywhere. The jacket has no round corners and neither does this.</div>
       <div><span class="no">No</span>Two solids in one view. If a second action is needed it is a ghost or a link.</div>
-      <div><span class="yes">Yes</span>Ghost may fill on hover, flipping its type to the ground colour.</div>
+      <div><span class="yes">Yes</span>Ghost fills on hover, always toward the lighter side of its ground, type flipping to the ground colour.</div>
       <div><span class="yes">Yes</span>Placement: ghost in the nav, content between, solid at the close.</div>
     </div>
 
@@ -559,27 +706,61 @@
     <h2 class="dsp t2">Two footers.<br>Pick deliberately.</h2>
     <p class="lede">The jacket's device carries straight to the page: a band above, a band below, and the statement
       between them. The nav is the top band. The footer is the bottom one.</p>
-    <div class="two" style="margin-top:40px">
-      <div>
-        <div class="hd">Slim footer</div>
-        <p class="bd">One line: identity, a legal link, nothing else. <b style="color:var(--blk)">Every action page takes
-          this</b> &mdash; sign-up, sale lead-in, confirmation. A page whose job is one decision does not offer twelve
-          other ways to leave.</p>
-      </div>
-      <div>
-        <div class="hd">Full footer</div>
-        <p class="bd">Navigation, secondary links, the DH parent mark. <b style="color:var(--blk)">General brand pages
-          only.</b> If you are unsure which a page is, it is an action page and it takes the slim one.</p>
+
+    <div class="foot-demo">
+      <div class="fd-lbl">Slim &middot; every action page</div>
+      <div class="fd">
+        <div class="fd-slim">
+          <img class="mk" src="img/dh-mark-white.webp" alt="">
+          <span>The Compound Effect in Business</span>
+          <span class="lg"><a href="#">Privacy</a><a href="#">Terms</a></span>
+        </div>
       </div>
     </div>
-    <div class="kill" style="margin-top:34px">
+    <p class="bd" style="margin-top:18px">One line. Identity, a legal link, nothing else. Sign-up, sale lead-in and
+      confirmation pages all take this. A page whose job is one decision does not offer twelve other ways to leave.</p>
+
+    <div class="foot-demo">
+      <div class="fd-lbl">Full &middot; general brand pages only</div>
+      <div class="fd fd-full">
+        <div class="ph">
+          <div class="t">Featured slot</div>
+          <div class="d">Whatever is being promoted right now. The book pre-order, the Founders Event, the next thing
+            after that. <b style="color:#b3b3b3">This slot is expected to change and is built to be swapped</b>, so
+            nothing else in the footer depends on what is in it.</div>
+        </div>
+        <div class="cols">
+          <div>
+            <div class="lockup" style="font-size:30px;color:#fff;text-align:left">
+              <span class="l-the">The</span><span class="l-main">Compound</span><span class="l-eff">Effect</span>
+            </div>
+          </div>
+          <div><h5>The books</h5><ul><li><a href="#">The Compound Effect</a></li><li><a href="#">In Business</a></li><li><a href="#">Audiobook</a></li></ul></div>
+          <div><h5>The event</h5><ul><li><a href="#">Founders Event</a></li><li><a href="#">Who it is for</a></li><li><a href="#">Dates</a></li></ul></div>
+          <div><h5>Darren</h5><ul><li><a href="#">About</a></li><li><a href="#">Speaking</a></li><li><a href="#">Contact</a></li></ul></div>
+        </div>
+        <div class="base">
+          <img class="mk" src="img/dh-mark-white.webp" alt="">
+          <span>&copy; 2027 Darren Hardy LLC</span>
+          <span class="lg"><a href="#">Privacy</a><a href="#">Terms</a></span>
+        </div>
+      </div>
+    </div>
+    <p class="bd" style="margin-top:18px">Navigation, secondary links, and the DH mark. If you are unsure which a page
+      is, it is an action page and it takes the slim one.</p>
+
+    <div class="kill" style="margin-top:40px">
       <div><span class="no">No</span>Full footer on a confirmation page.</div>
       <div><span class="no">No</span>A solid CTA in the nav. The nav invites; it does not convert.</div>
-      <div><span class="yes">Yes</span>Nav carries the franchise lockup at small size, and one ghost action, right-aligned.</div>
-      <div><span class="yes">Yes</span>The footer is where the DH parent mark lives.</div>
+      <div><span class="no">No</span>Anything outside the featured slot written as if it knows what is in the slot.</div>
+      <div><span class="yes">Yes</span>Nav carries the franchise lockup at small size and one ghost action, right-aligned.</div>
+      <div><span class="yes">Yes</span>The DH mark lives in the footer, in both variants.</div>
     </div>
-  </div>
-</section>
+
+    <div class="note"><b>Why the slot is a placeholder here.</b> A brand guide that pins the promo to one campaign is
+      out of date the day the campaign changes. What is specified is the slot: where it sits, how much room it gets,
+      and that it is dark ground with white type. What goes in it is not this document's job.</div>
+  </section>
 
 <section class="sec">
   <div class="w">
