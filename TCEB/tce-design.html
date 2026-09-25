@@ -294,6 +294,20 @@
     font-size:17px;color:#fff;letter-spacing:.02em}
   .dhfoot .slot .d{font-size:11px;line-height:1.65;color:#888;margin-top:7px}
 
+
+  /* The footer specimen is a full-site layout sitting inside this
+     document's column, so the live breakpoints key off the wrong width
+     and the grid overflowed below 980px. Collapse it on the document's
+     own terms, and never let a specimen break the page. */
+  .dhfoot-wrap{overflow-x:auto}
+  @media(max-width:1060px){
+    .dhfoot .footer-grid{grid-template-columns:1fr 1fr;gap:40px}
+    .dhfoot .container{padding-left:28px;padding-right:28px}
+  }
+  @media(max-width:720px){
+    .dhfoot .footer-grid{grid-template-columns:1fr}
+    .dhfoot .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+  }
   /* Footers, rendered rather than described. */
   .foot-demo{margin-top:34px;border:1px solid var(--g12)}
   .foot-demo+.foot-demo{margin-top:34px}
