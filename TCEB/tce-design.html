@@ -352,6 +352,27 @@
   .st-dark .btn.solid:hover,.st-dark .btn.solid.on{box-shadow:0 16px 40px rgba(0,0,0,.65)}
   .st-dark .btn.ghost{color:#fff;border-color:rgba(255,255,255,.34)}
   .st-dark .btn.ghost:hover,.st-dark .btn.ghost.on{background:#fff;color:#0e0d10;border-color:#fff}
+
+  /* The DH mark, all four variants it actually ships in. */
+  .marks{display:grid;grid-template-columns:1fr 1fr;margin-top:26px;border:1px solid var(--g12)}
+  .marks>div{padding:34px 30px;display:flex;flex-direction:column;gap:20px;justify-content:space-between}
+  .marks>div:nth-child(odd){border-right:1px solid var(--g12)}
+  .marks>div:nth-child(-n+2){border-bottom:1px solid var(--g12)}
+  .mk-dark{background:#0a0a0a}
+  .mk-light{background:#fff}
+  .mk-cap{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+  .mk-dark .mk-cap{color:#888}
+  .mk-light .mk-cap{color:var(--g55)}
+  .mk-lock{display:flex;align-items:center;gap:14px}
+  .mk-lock img{width:48px;height:48px;flex-shrink:0;display:block}
+  .mk-lock .nm{font-family:var(--font-body);font-weight:700;font-size:17px;letter-spacing:.28em;
+    text-transform:uppercase;white-space:nowrap}
+  .mk-dark .nm{color:#fff}
+  .mk-light .nm{color:#0a0a0a}
+  .mk-solo img{width:64px;height:64px;display:block}
+  @media(max-width:760px){.marks{grid-template-columns:1fr}
+    .marks>div:nth-child(odd){border-right:0}
+    .marks>div:nth-child(-n+3){border-bottom:1px solid var(--g12)}}
   /* brand-term protection: the title never breaks in running text */
   .tce{white-space:nowrap}
 
@@ -528,11 +549,29 @@
           book page and never competes with the title lockup.</p>
         <p class="bd" style="margin-top:14px"><b style="color:var(--blk)">Set in Franklin Gothic.</b> His name is the one
           place that face appears. Using it anywhere else spends the only thing that makes the byline distinct.</p>
-        <div class="markrow" style="margin-top:22px">
-          <div class="box"><img src="img/dh-mark-white.webp" alt="Darren Hardy mark"></div>
-          <div class="txt"><p class="bd" style="font-size:14px">The monogram. A drawn mark, so it holds at any size,
-            in one colour, and on anything printed. White on dark is the primary. It sits in the footer and in the
-            byline position, never as the page's leading mark.</p></div>
+        <div class="marks">
+          <div class="mk-dark">
+            <div class="mk-cap">Monogram &middot; white on dark &middot; primary</div>
+            <div class="mk-solo"><img src="img/dh-mark-white.webp" alt="Darren Hardy monogram"></div>
+          </div>
+          <div class="mk-light">
+            <div class="mk-cap">Monogram &middot; reverse &middot; dark on light</div>
+            <div class="mk-solo"><img src="img/dh-mark-dark.webp" alt="Darren Hardy monogram, reverse"></div>
+          </div>
+          <div class="mk-dark">
+            <div class="mk-cap">Lockup &middot; white on dark &middot; as used in the footer</div>
+            <div class="mk-lock"><img src="img/dh-mark-white.webp" alt=""><span class="nm">Darren Hardy</span></div>
+          </div>
+          <div class="mk-light">
+            <div class="mk-cap">Lockup &middot; reverse &middot; dark on light</div>
+            <div class="mk-lock"><img src="img/dh-mark-dark.webp" alt=""><span class="nm">Darren Hardy</span></div>
+          </div>
+        </div>
+        <p class="bd" style="margin-top:20px;font-size:14px">A drawn mark, so it holds at any size, in one colour,
+          and on anything printed. The monogram alone is for tight spaces and favicons. The lockup is the footer form
+          and is exactly what darrenhardy.com uses: mark at 48px, name in the body face at 17px with 0.28em tracking,
+          14px between them. <b style="color:var(--blk)">The reverse is the same artwork with the ink flipped</b>,
+          not a second drawing, so the two can never drift apart.</p>
         </div>
       </div>
       <div>
