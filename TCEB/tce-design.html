@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TCEB · Brand &amp; Design System</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="tceb.css?v=1">
+<style>
+  /* ===================================================================
+     Drawn from the jacket, not invented. The jacket is pure black and
+     pure white with red on a single phrase, set in heavy condensed caps,
+     hard edges throughout. No rounded corners, no shadows, no gradients,
+     no warm greys. Everything below follows that.
+     =================================================================== */
+  :root{
+    --blk:#000; --wht:#fff; --red:#e1132e; --red-br:#ff0047; --gold:#f5b301;
+    --g85:#262626; --g70:#4d4d4d; --g55:#6e6e6e; --g30:#b3b3b3; --g12:#e0e0e0; --g06:#f0f0f0;
+    --w:1120px;
+  }
+  html,body{background:var(--wht);color:var(--blk);font-family:var(--font-body);font-size:16px;line-height:1.65}
+  .w{max-width:var(--w);margin:0 auto;padding:0 44px}
+  @media(max-width:760px){.w{padding:0 22px}}
+
+  /* Display = Oswald, heavy and tight. Body = Inter. Nothing else. */
+  .dsp{font-family:var(--font-display);font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:-.005em}
+  .t1{font-size:clamp(46px,7.6vw,104px)}
+  .t2{font-size:clamp(30px,4.4vw,58px)}
+  .t3{font-size:clamp(20px,2.2vw,28px);letter-spacing:.01em}
+  .red{color:var(--red)} .redbr{color:var(--red-br)}
+
+  /* Section eyebrow: red rule, number, name. House pattern. */
+  .eb{display:flex;align-items:center;gap:15px;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+  .eb::before{content:"";width:34px;height:2px;background:var(--red);flex:none}
+  .sec{padding:104px 0;border-top:1px solid var(--g12)}
+  .sec:first-of-type{border-top:0}
+  .lede{font-size:19px;line-height:1.55;color:var(--g70);max-width:62ch;margin-top:20px}
+  .bd{font-size:15.5px;line-height:1.7;color:var(--g70);max-width:66ch}
+  @media(max-width:760px){.sec{padding:64px 0}}
+
+  /* HERO — black, like the cover */
+  .hero{background:var(--blk);color:var(--wht);padding:104px 0 88px}
+  .hero .mark{font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:14px;letter-spacing:.2em;color:var(--g30);margin-bottom:46px}
+  .hero .lede{color:var(--g30);max-width:58ch}
+  .hero .ver{margin-top:44px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--g55)}
+
+  /* Flat specimen blocks. Hard edges only. */
+  .grounds{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:44px;border:1px solid var(--g12)}
+  .gr{padding:52px 34px;min-height:260px;display:flex;flex-direction:column;justify-content:flex-end}
+  .gr .nm{font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:26px;letter-spacing:.01em}
+  .gr .hx{font-family:ui-monospace,Menlo,monospace;font-size:12px;margin-top:8px;opacity:.7}
+  .gr .use{font-size:13.5px;line-height:1.6;margin-top:16px;max-width:30ch}
+  @media(max-width:760px){.grounds{grid-template-columns:1fr}}
+
+  /* Accent row */
+  .acc{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:40px;border:1px solid var(--g12);border-right:0}
+  .acc>div{border-right:1px solid var(--g12);padding:0}
+  .acc .chip{height:96px}
+  .acc .body{padding:20px 22px 26px}
+  .acc .nm{font-size:13px;font-weight:800;letter-spacing:.04em}
+  .acc .hx{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--g55);margin-top:5px}
+  .acc .rule{font-size:13px;line-height:1.55;color:var(--g70);margin-top:12px}
+  .acc .cr{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--blk);margin-top:10px;font-weight:700}
+  @media(max-width:760px){.acc{grid-template-columns:1fr;border-right:1px solid var(--g12)}}
+
+  /* Neutral ramp */
+  .ramp{display:flex;margin-top:40px;border:1px solid var(--g12)}
+  .ramp>div{flex:1;padding:16px 12px 14px;display:flex;flex-direction:column;justify-content:flex-end;min-height:132px}
+  .ramp .hx{font-family:ui-monospace,Menlo,monospace;font-size:10.5px}
+  .ramp .ct{font-size:10px;margin-top:5px;opacity:.75}
+  @media(max-width:760px){.ramp{flex-wrap:wrap}.ramp>div{flex:1 1 33%}}
+
+  /* Type specimen */
+  .spec{margin-top:40px;border:1px solid var(--g12);padding:40px 34px}
+  .spec+.spec{border-top:0}
+  .spec .lbl{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--g55);margin-bottom:22px}
+  .spec .meta{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--g55);margin-top:20px}
+
+  /* The band composition, straight off the jacket */
+  .band-demo{margin-top:40px;border:1px solid var(--g12)}
+  .bd-top,.bd-bot{background:var(--wht);padding:16px 26px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .bd-top{border-bottom:0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+  .bd-mid{background:var(--blk);color:var(--wht);padding:64px 26px 58px;text-align:center}
+  .bd-bot .who{font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:clamp(22px,3.4vw,40px);letter-spacing:.005em}
+
+  /* Callout, house pattern */
+  .note{margin-top:38px;border-left:3px solid var(--red);background:var(--g06);padding:20px 24px;font-size:14.5px;line-height:1.66;color:var(--g70);max-width:74ch}
+  .note b{color:var(--blk)}
+  .no{color:var(--red);font-weight:700}
+  .yes{color:#1c7a3c;font-weight:700}
+  .kill{margin-top:34px;border-top:1px solid var(--g12)}
+  .kill div{display:flex;gap:16px;padding:13px 0;border-bottom:1px solid var(--g12);font-size:14.5px;color:var(--g70)}
+  .kill span{flex:none;width:22px;font-weight:700}
+
+  /* Type scale spec */
+  .scale{margin-top:36px;border-top:2px solid var(--blk)}
+  .scale .r{display:grid;grid-template-columns:84px 118px 118px 74px 1fr;gap:18px;padding:13px 0;border-bottom:1px solid var(--g12);font-size:13.5px;align-items:baseline;color:var(--g70)}
+  .scale .r.h{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--g55);font-weight:700;padding:10px 0}
+  .scale .tok{font-family:ui-monospace,Menlo,monospace;font-weight:700;color:var(--blk);font-size:12.5px}
+  .scale .num{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+  @media(max-width:860px){.scale .r{grid-template-columns:1fr 1fr;gap:6px 14px}.scale .r.h{display:none}}
+
+  /* Live specimens */
+  .sp{border:1px solid var(--g12);border-top:0}
+  .sp:first-of-type{border-top:1px solid var(--g12)}
+  .sp .in{display:grid;grid-template-columns:120px 1fr;gap:26px;padding:26px 30px;align-items:baseline}
+  .sp .tag{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--g55);font-weight:700}
+  @media(max-width:760px){.sp .in{grid-template-columns:1fr;gap:10px}}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:36px;border:1px solid var(--g12)}
+  .two>div{padding:30px 28px}
+  .two>div+div{border-left:1px solid var(--g12)}
+  .two .hd{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  @media(max-width:760px){.two{grid-template-columns:1fr}.two>div+div{border-left:0;border-top:1px solid var(--g12)}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="w">
+    <div class="mark">The Compound Effect in Business</div>
+    <h1 class="dsp t1">Brand &amp;<br><span class="redbr">Design System</span></h1>
+    <p class="lede">Pure black, pure white, one red. Heavy condensed caps set tight, hard edges, and nothing decorative. Every rule here is taken from the jacket.</p>
+    <div class="ver">Version 0.2 &middot; September 2026 &middot; Internal</div>
+  </div>
+</header>
+
+<!-- 01 -->
+<section class="sec">
+  <div class="w">
+    <div class="eb">01 &middot; The grounds</div>
+    <h2 class="dsp t2">Two grounds.<br><span class="red">Nothing between them.</span></h2>
+    <p class="lede">The jacket does not use a tinted paper, a cream, or a warm grey. It is pure white against pure black, and the hardness of that edge is the identity.</p>
+
+    <div class="grounds">
+      <div class="gr" style="background:#fff;color:#000;border-right:1px solid var(--g12)">
+        <div class="nm">White</div>
+        <div class="hx">#FFFFFF</div>
+        <div class="use">Flaps, back panel, the bands that frame the cover. Where the argument is made and the reading happens.</div>
+      </div>
+      <div class="gr" style="background:#000;color:#fff">
+        <div class="nm">Black</div>
+        <div class="hx" style="color:var(--g30)">#000000</div>
+        <div class="use" style="color:var(--g30)">The cover itself. Where the title lives, and the only ground gold is permitted on.</div>
+      </div>
+    </div>
+
+    <div class="note"><b>This corrects the earlier proposal.</b> A warm paper at #fbfaf8 and a mist grey at #dcd9d5 were drafted before the jacket was available. They soften a system that is meant to be hard, and they cost contrast: the red measures <b>4.64:1</b> on warm paper, which fails body text, and <b>4.85:1</b> on pure white, which passes. The jacket is both more elegant and more accessible.</div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="sec">
+  <div class="w">
+    <div class="eb">02 &middot; The accent</div>
+    <h2 class="dsp t2">One red. <span class="red">Once.</span></h2>
+    <p class="lede">On the jacket the red appears on a single phrase per surface. <em>IN BUSINESS</em> on the cover. One sentence on the flap. One word in the URL. That discipline is the reason it lands.</p>
+
+    <div class="acc">
+      <div>
+        <div class="chip" style="background:#e1132e"></div>
+        <div class="body">
+          <div class="nm">Red</div><div class="hx">#E1132E</div>
+          <div class="rule">The accent on white. Headlines, one emphasis, and button fills with white type.</div>
+          <div class="cr">4.85:1 on white &middot; passes</div>
+        </div>
+      </div>
+      <div>
+        <div class="chip" style="background:#ff0047"></div>
+        <div class="body">
+          <div class="nm">Red bright</div><div class="hx">#FF0047</div>
+          <div class="rule">The same role on black. Type only. Never a button fill: white on it is 3.93.</div>
+          <div class="cr">5.34:1 on black &middot; passes</div>
+        </div>
+      </div>
+      <div>
+        <div class="chip" style="background:#d4a017"></div>
+        <div class="body">
+          <div class="nm">Gold</div><div class="hx">#D4A017</div>
+          <div class="rule">Founding tiers only, and only on dark. Gold fills carry black type, never white.</div>
+          <div class="cr">8.84:1 on black &middot; 2.38 on white</div>
+        </div>
+      </div>
+      <div>
+        <div class="chip" style="background:#caa76a"></div>
+        <div class="body">
+          <div class="nm">Gold lux</div><div class="hx">#CAA76A</div>
+          <div class="rule">The softer register, for when the tier should read premium rather than loud.</div>
+          <div class="cr">9.25:1 on black &middot; 2.27 on white</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note"><b>Each red passes on exactly one ground.</b> #E1132E is 4.85:1 on white and 4.33:1 on black. #FF0047 is 5.34:1 on black and 3.93:1 on white. So they are not interchangeable and neither is a "lighter version" of the other: white surfaces take #E1132E, black surfaces take #FF0047, and swapping them fails contrast in both directions.</div>
+
+    <div class="kill">
+      <div><span class="no">No</span>Red on red. Red headline above a red button is two shouts, not one.</div>
+      <div><span class="no">No</span>Gold anywhere a light ground is in play. #D4A017 is 2.38:1 on white.</div>
+      <div><span class="no">No</span>Gold type set beside red type at the same size. They are only 1.65:1 apart in luminance, so they vibrate. Separate them by size, weight or space.</div>
+      <div><span class="no">No</span>A second accent hue. There is not one, and adding one breaks the jacket.</div>
+      <div><span class="yes">Yes</span>Long stretches with no colour at all. That is what makes the red work.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="sec">
+  <div class="w">
+    <div class="eb">03 &middot; The neutrals</div>
+    <h2 class="dsp t2">Greys are <span class="red">type tiers</span>,<br>not grounds.</h2>
+    <p class="lede">White, light grey and silver belong in this system. They earn their place as levels of type and as rules, which is how the jacket uses them. They are not additional backgrounds.</p>
+
+    <div class="ramp">
+      <div style="background:#000;color:#fff"><div class="hx">#000000</div><div class="ct">Display, on white</div></div>
+      <div style="background:#262626;color:#fff"><div class="hx">#262626</div><div class="ct">Body, on white</div></div>
+      <div style="background:#4d4d4d;color:#fff"><div class="hx">#4D4D4D</div><div class="ct">8.45 &middot; secondary</div></div>
+      <div style="background:#6e6e6e;color:#fff"><div class="hx">#6E6E6E</div><div class="ct">5.10 &middot; fine print</div></div>
+      <div style="background:#b3b3b3;color:#000"><div class="hx">#B3B3B3</div><div class="ct">10.02 on black</div></div>
+      <div style="background:#e0e0e0;color:#000"><div class="hx">#E0E0E0</div><div class="ct">Rules and borders</div></div>
+      <div style="background:#f0f0f0;color:#000"><div class="hx">#F0F0F0</div><div class="ct">Callout fields</div></div>
+    </div>
+
+    <div class="note"><b>Where silver is allowed to be a surface.</b> One case only: a flat field behind a callout or a spec table, at #F0F0F0 or lighter. Anything darker becomes a third ground, and a third ground is what made the previous draft read as a hodge-podge.</div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="sec">
+  <div class="w">
+    <div class="eb">04 &middot; The faces</div>
+    <h2 class="dsp t2">Confirmed from<br><span class="red">the jacket.</span></h2>
+    <p class="lede">Two of the three are now settled by DH. The title is <b>Bebas Neue Pro</b>. His name is <b>Franklin Gothic</b>. Nothing here is an approximation of the cover any more.</p>
+
+    <div class="two">
+      <div>
+        <div class="hd red">Display &middot; the title</div>
+        <div class="dsp" style="font-size:52px;line-height:.9">Bebas Neue</div>
+        <p class="bd" style="margin-top:14px;font-size:14.5px">Headlines, eyebrows, moneylines, tier names, any standalone number. Always uppercase, which is free because the face has no lowercase.</p>
+        <p class="bd" style="margin-top:12px;font-size:13px;color:var(--g55)">Jacket sets <b>Bebas Neue Pro</b> (commercial, Fontfabric). Self-hosted here is free <b>Bebas Neue</b>, the single-weight cut of the same family. Oswald remains the fallback.</p>
+      </div>
+      <div>
+        <div class="hd" style="color:var(--g55)">The name &middot; condensed</div>
+        <div style="font-family:var(--font-name);font-weight:700;font-size:48px;letter-spacing:.005em;text-transform:uppercase">Darren Hardy</div>
+        <p class="bd" style="margin-top:14px;font-size:14.5px">His name only, wherever it is set large: the cover band, a page footer, a signature. It is deliberately not the display face, which is what makes the byline read as a separate voice.</p>
+        <p class="bd" style="margin-top:12px;font-size:13px;color:var(--g55)">Jacket sets <b>Franklin Gothic Condensed</b> (commercial, ITC/Monotype). That cut has no OFL equivalent, so <b>Archivo Narrow</b> stands in here, the closest free face in the American-gothic family. The real name is first in the stack, so a licensed machine uses it.</p>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:0;border-top:0">
+      <div style="grid-column:1 / -1">
+        <div class="hd" style="color:var(--g55)">Body</div>
+        <div style="font-size:40px;font-weight:700;letter-spacing:-.02em">Inter</div>
+        <p class="bd" style="margin-top:14px;font-size:14.5px;max-width:70ch">Every paragraph, lede, caption, form field, button and piece of fine print. If a person reads more than one line of it, it is Inter.</p>
+      </div>
+    </div>
+
+    <div class="kill">
+      <div><span class="no">No</span><b style="color:var(--blk)">Never ask Bebas for a bold.</b> The free cut ships one weight, so 500 or 700 makes the browser synthesise a fake bold and smear the letterforms. Weight stays 400 and <b style="color:var(--blk)">emphasis comes from size</b>, which is how the jacket builds its hierarchy anyway.</div>
+      <div><span class="no">No</span>Never set a paragraph in Bebas. It is a display face with no lowercase.</div>
+      <div><span class="no">No</span>Never set a headline in Inter or Franklin. Those read as a web app and a byline respectively.</div>
+      <div><span class="no">No</span>Never italicise. The system has no italic: emphasis is the accent colour, which is why <code style="font-family:ui-monospace,monospace;font-size:13px">em</code> is redefined as red rather than slanted.</div>
+      <div><span class="yes">Yes</span>Franklin is reserved for his name. Using it elsewhere spends the one thing that makes the byline distinct.</div>
+    </div>
+
+    <div class="note"><b>Two licences to price before production.</b> What is self-hosted today is free and safe to ship, but it is not what the jacket is set in. <b>Bebas Neue Pro</b> adds the Book, Bold and Expanded cuts plus lowercase; if the printed title uses any of those, the site and the book will visibly diverge until a webfont licence is bought. <b>Franklin Gothic</b> is the same situation: Libre Franklin is a good revival, but set at cover size next to the real thing the difference shows.</div>
+
+    <div class="note"><b>Still open: the body face on the jacket.</b> DH confirmed the title and the name. The flap and back-panel copy is set in a condensed gothic that is plausibly Franklin, not Inter. If it is, there is a case for moving web body copy to Franklin too and running the whole property on two faces instead of three. Worth confirming before the type system is locked.</div>
+  </div>
+</section>
+
+<!-- 04b -->
+<section class="sec">
+  <div class="w">
+    <div class="eb">05 &middot; The scale</div>
+    <h2 class="dsp t2">Nine steps.<br><span class="red">Use these, not new ones.</span></h2>
+    <p class="lede">Every size below is already built into <code style="font-family:ui-monospace,monospace;font-size:15px">tceb.css</code>. Display sizes are fluid and clamp between a phone minimum and a desktop maximum.</p>
+
+    <div class="scale">
+      <div class="r h"><div>Token</div><div>Face</div><div>Size</div><div>Leading</div><div>Where it goes</div></div>
+      <div class="r"><div class="tok">.d1</div><div>Oswald 500 caps</div><div class="num">42 &rarr; 96</div><div class="num">0.94</div><div>The page headline. One only.</div></div>
+      <div class="r"><div class="tok">.d2</div><div>Oswald 500 caps</div><div class="num">32 &rarr; 60</div><div class="num">0.98</div><div>Section headline.</div></div>
+      <div class="r"><div class="tok">.d3</div><div>Oswald 500 caps</div><div class="num">23 &rarr; 36</div><div class="num">1.04</div><div>Sub-section, moneyline, pull quote.</div></div>
+      <div class="r"><div class="tok">.d4</div><div>Oswald 500 caps</div><div class="num">18 &rarr; 23</div><div class="num">1.16</div><div>Card titles, tier names, labels. Tracking +0.02em.</div></div>
+      <div class="r"><div class="tok">.eyebrow</div><div>Oswald 500 caps</div><div class="num">12</div><div class="num">&mdash;</div><div>Section marker above a headline. Tracking wide.</div></div>
+      <div class="r"><div class="tok">.lede</div><div>Inter 400</div><div class="num">17 &rarr; 20</div><div class="num">1.62</div><div>The paragraph directly under a headline.</div></div>
+      <div class="r"><div class="tok">.body</div><div>Inter 400</div><div class="num">17</div><div class="num">1.72</div><div>Running copy. Max 66 characters per line.</div></div>
+      <div class="r"><div class="tok">.small</div><div>Inter 400</div><div class="num">13.5</div><div class="num">1.60</div><div>Captions, notes, table cells.</div></div>
+      <div class="r"><div class="tok">.fine</div><div>Inter 400</div><div class="num">12</div><div class="num">1.55</div><div>Legal, disclaimers, unsubscribe. Grey, underline links only.</div></div>
+    </div>
+
+    <h3 class="dsp t3" style="margin-top:64px">At size</h3>
+    <div style="margin-top:20px">
+      <div class="sp"><div class="in"><div class="tag">.d1</div><div class="dsp" style="font-size:clamp(40px,5.4vw,72px);line-height:.94">Month thirty-one</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.d2</div><div class="dsp" style="font-size:clamp(30px,3.6vw,50px);line-height:.98">The operating system</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.d3</div><div class="dsp" style="font-size:clamp(22px,2.4vw,32px);line-height:1.04">The penny doubles. An org chart multiplies.</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.d4</div><div class="dsp" style="font-size:21px;line-height:1.16;letter-spacing:.02em">The compounding audit</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.eyebrow</div><div class="dsp" style="font-size:12px;font-weight:500;letter-spacing:.28em;color:var(--g70)">Chapter one</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.lede</div><div style="font-size:19px;line-height:1.62;color:var(--g70);max-width:56ch">You just did not write it. It is running right now, made of defaults: what happens when nobody decides.</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.body</div><div style="font-size:17px;line-height:1.72;color:var(--g70);max-width:62ch">Every strategy, tool, campaign, hire and technology you install sits on top of that system and performs, or fails, according to it.</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.small</div><div style="font-size:13.5px;line-height:1.6;color:var(--g55);max-width:62ch">A dozen leaks of the same size runs $450,000 a year.</div></div></div>
+      <div class="sp"><div class="in"><div class="tag">.fine</div><div style="font-size:12px;line-height:1.55;color:var(--g55);max-width:62ch">Year two renews at $9,995. Cancel any time.</div></div></div>
+    </div>
+
+    <div class="note"><b>The caps ceiling.</b> Display is always uppercase, and uppercase is capped by word count, not by line count: <b>eight words maximum, six preferred.</b> A longer idea splits into a short caps punch plus a sentence-case line beneath it. This is the rule most often broken, because a headline that fits the box can still be four words too long.</div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="sec">
+  <div class="w">
+    <div class="eb">06 &middot; Composition</div>
+    <h2 class="dsp t2">The band.</h2>
+    <p class="lede">The cover's structure is a black field framed by two white bands. That device is the layout system, not just cover art. It gives a page its rhythm without a single extra colour.</p>
+
+    <div class="band-demo">
+      <div class="bd-top"><span>From the author of The Compound Effect</span><span style="color:var(--g55)">2 million + copies sold</span></div>
+      <div class="bd-mid">
+        <div class="dsp" style="font-size:clamp(30px,5.6vw,68px);line-height:.94">The Compound<br>Effect <span class="redbr">in Business</span></div>
+        <div style="margin-top:20px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--g30);font-weight:700">Multiply your profits, your people, your advantage</div>
+      </div>
+      <div class="bd-bot"><span class="who">Darren Hardy</span><span style="color:var(--g55);font-size:12px;letter-spacing:.06em">THECOMPOUNDEFFECT.COM<span class="red">/BUSINESS</span></span></div>
+    </div>
+
+    <div class="note"><b>How it carries to a page.</b> Black section, white band above and below, the band holding one small line of type. On a web page the bands become the nav and the footer, and the black field becomes the statement between them. Same device, same proportions.</div>
+  </div>
+</section>
+
+<footer style="background:#000;color:#6e6e6e;padding:40px 0;font-size:12px;letter-spacing:.06em">
+  <div class="w">The Compound Effect in Business &middot; Internal design system &middot; Not for distribution</div>
+</footer>
+
+</body>
+</html>
