@@ -1311,7 +1311,19 @@ em { font-style: normal; color: var(--accent); }
   /* sized by HEIGHT so the two jackets are identical on screen.
      Sizing by width leaves them different heights the moment the
      two files differ in trim by even a fraction. */
-  .proof img{height:clamp(220px,26vw,300px);width:auto;display:block}
+  .proof img{height:clamp(220px,26vw,300px);width:auto;display:block;
+    transform-origin:50% 90%;
+    transition:transform .55s cubic-bezier(.16,1,.3,1),box-shadow .55s cubic-bezier(.16,1,.3,1);
+    will-change:transform}
+  /* The jacket is an object, so it responds like one: it lifts off the
+     ground it is standing on and turns very slightly toward you. The
+     shadow deepens because the object moved, not because the hover
+     needs decorating, and it stays neutral. Nothing glows. */
+  .proof > div:hover img{transform:translateY(-10px) rotate(-1.4deg) scale(1.045)}
+  .proof > div:hover img[alt*="dark ground"]{box-shadow:0 44px 84px rgba(0,0,0,.78)}
+  .proof > div:hover img[alt*="light ground"]{box-shadow:0 44px 84px rgba(0,0,0,.40)}
+  @media(prefers-reduced-motion:reduce){.proof img{transition:none}
+    .proof > div:hover img{transform:none}}
   .proof .cap{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;text-align:center;line-height:1.75}
   .proof .cap b{display:block;font-family:var(--font-display);font-weight:400;font-size:20px;
     letter-spacing:.02em;line-height:1.02;margin-bottom:11px}
