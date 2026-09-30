@@ -89,6 +89,59 @@
   .love-mock-note.is-on{display:block}
   .nobreak{white-space:nowrap}
 
+  /* ===== MOCK ONLY: four card treatments to choose from. The chosen one
+     becomes the .wz-card.is-form rule; the rest are deleted. ===== */
+  .wz-card.is-form{position:relative;isolation:isolate}
+  .wz-card.is-form > *{position:relative;z-index:1}
+  .wz-card.is-form::before,.wz-card.is-form::after{content:"";position:absolute;pointer-events:none;z-index:0}
+
+  /* A. PEARL: tinted white (never neutral grey) with an iridescent sheen
+     across the top corner and a cyan-to-plum hairline border. */
+  [data-skin="pearl"]{background:linear-gradient(160deg,#ffffff 0%,#f7f6fb 45%,#f1eff8 100%) !important;border:1px solid transparent !important;
+    background-clip:padding-box !important}
+  [data-skin="pearl"]::after{inset:-1px;border-radius:5px;padding:1px;background:linear-gradient(135deg,rgba(120,228,239,.9),rgba(255,255,255,.4) 35%,rgba(156,39,172,.55) 70%,rgba(120,228,239,.6));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  [data-skin="pearl"]::before{inset:0;border-radius:4px;background:radial-gradient(60% 40% at 0% 0%,rgba(120,228,239,.22),transparent 70%),radial-gradient(50% 35% at 100% 0%,rgba(156,39,172,.12),transparent 70%)}
+
+  /* B. MIST: a pale lavender frost, lit from the top, so the card belongs
+     to the purple wash around it instead of sitting on top of it. */
+  [data-skin="mist"]{background:linear-gradient(180deg,#fbf9ff 0%,#f1ecfa 60%,#e9e2f6 100%) !important;border-color:rgba(255,255,255,.8) !important;
+    box-shadow:inset 0 1px 0 #fff,0 0 0 1px rgba(156,39,172,.12),0 30px 90px rgba(156,39,172,.28),0 20px 60px rgba(0,0,0,.4) !important}
+  [data-skin="mist"]::before{inset:0;border-radius:4px;background:radial-gradient(90% 55% at 50% 0%,rgba(255,255,255,.95),transparent 70%)}
+
+  /* C. AURORA: white card with a soft, slowly drifting cyan and plum glow
+     inside it. The only one that moves; it respects reduced motion. */
+  [data-skin="aurora"]{background:#fcfcfe !important;border-color:rgba(255,255,255,.9) !important;overflow:hidden !important}
+  [data-skin="aurora"]::before{inset:-30%;background:radial-gradient(35% 30% at 20% 15%,rgba(120,228,239,.28),transparent 70%),radial-gradient(35% 30% at 85% 30%,rgba(156,39,172,.16),transparent 70%),radial-gradient(40% 30% at 50% 95%,rgba(214,42,143,.10),transparent 70%);
+    filter:blur(10px);animation:loveDrift 18s ease-in-out infinite alternate}
+  @keyframes loveDrift{from{transform:translate(0,0) rotate(0)}to{transform:translate(4%,3%) rotate(8deg)}}
+  @media (prefers-reduced-motion:reduce){[data-skin="aurora"]::before{animation:none}}
+
+  /* D. SMOKED GLASS: mid-tone translucent glass over the wash, white type.
+     Lighter than the page, darker than the others. */
+  [data-skin="smoke"]{background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.07)) !important;border:1px solid rgba(255,255,255,.22) !important;
+    -webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 30px 80px rgba(0,0,0,.45) !important}
+  [data-skin="smoke"] .wz-eyebrow{color:#78e4ef}
+  [data-skin="smoke"] .cf-label{color:#fff}
+  [data-skin="smoke"] .cf-hint{color:#b8b8b8}
+  [data-skin="smoke"] .wz-input{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff}
+  [data-skin="smoke"] .wz-input::placeholder{color:rgba(255,255,255,.45)}
+  [data-skin="smoke"] .wz-input:focus{background:rgba(255,255,255,.12);border-color:#78e4ef;box-shadow:0 0 0 3px rgba(120,228,239,.2)}
+  [data-skin="smoke"] .love-divider{background:rgba(255,255,255,.12)}
+  [data-skin="smoke"] .love-example{border-left-color:#78e4ef;background:rgba(120,228,239,.07)}
+  [data-skin="smoke"] .love-example-k{color:#78e4ef}
+  [data-skin="smoke"] .love-example-q{color:#d8d8dc}
+  [data-skin="smoke"] .love-example-a{color:#fff}
+  [data-skin="smoke"] .love-rate-chip{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#d8d8dc}
+  [data-skin="smoke"] .love-rate-opt input:checked + .love-rate-chip{background:#fff;border-color:#fff;color:#0a0a0a}
+  [data-skin="smoke"] .love-rate-opt.is-off .love-rate-chip{color:#fff}
+  [data-skin="smoke"] .btn-primary.is-plum{background:#fff;border-color:#fff;color:#0a0a0a}
+
+  .love-skins{position:fixed;right:16px;bottom:16px;z-index:100;display:flex;gap:6px;align-items:center;padding:8px 10px;background:#0a0a0a;border:1px dashed #c8254e;border-radius:4px;font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .love-skins button{font:700 11px/1 Inter,Arial,sans-serif;padding:7px 10px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:3px;cursor:pointer;letter-spacing:.08em}
+  .love-skins button.is-on{background:#fff;color:#0a0a0a}
+
   @media (max-width:767px){
     .love-page{padding-top:104px;padding-bottom:80px}
     .container{padding:0 20px}
@@ -120,7 +173,7 @@
       <p class="pi-lead">Share with us what WOWed you at BMC. Your words are the best part of our week.</p>
     </header>
 
-    <form class="wz-card is-form" id="love-form" novalidate style="text-align:left">
+    <form class="wz-card is-form" id="love-form" data-skin="pearl" novalidate style="text-align:left">
       <p class="wz-eyebrow">Your details</p>
       <div class="cf-row">
         <div class="cf-field">
@@ -189,6 +242,11 @@
   </div>
 </main>
 
+<div class="love-skins" aria-label="Mock only: card treatment">
+  <span>Mock</span>
+  <button type="button" data-skin="pearl" class="is-on">A Pearl</button><button type="button" data-skin="mist">B Mist</button><button type="button" data-skin="aurora">C Aurora</button><button type="button" data-skin="smoke">D Smoke</button>
+</div>
+
 <footer class="footer-minimal">
   <div class="container">
     <div class="footer-bottom">
@@ -204,6 +262,15 @@
 <script>
 (function () {
 
+
+
+  /* Mock only: card treatment picker. */
+  document.querySelectorAll('.love-skins button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.getElementById('love-form').setAttribute('data-skin', b.dataset.skin);
+      document.querySelectorAll('.love-skins button').forEach(function (x) { x.classList.toggle('is-on', x === b); });
+    });
+  });
 
   var form = document.getElementById('love-form');
   var note = document.getElementById('love-mock-note');
