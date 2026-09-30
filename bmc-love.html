@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Tell Us What You Loved · Business Master Class</title>
-<meta name="description" content="Tell Darren, Georgia and the A-Team what WOWed you at Business Master Class.">
+<meta name="description" content="Tell Darren, Georgia and the <span class="nobreak">A-Team</span> what WOWed you at Business Master Class.">
 <meta property="og:title" content="Tell Us What You Loved · Business Master Class">
-<meta property="og:description" content="Tell Darren, Georgia and the A-Team what WOWed you at Business Master Class.">
+<meta property="og:description" content="Tell Darren, Georgia and the <span class="nobreak">A-Team</span> what WOWed you at Business Master Class.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -82,6 +82,7 @@
 
   .love-mock-note{display:none;margin-top:18px;padding:14px 16px;border:1px dashed rgba(75,44,106,.5);border-radius:4px;font:400 13px/1.6 Inter,Arial,sans-serif;color:#444}
   .love-mock-note.is-on{display:block}
+  .nobreak{white-space:nowrap}
   /* Mock-only quote picker. Not part of the build. */
   .love-mock-switch{display:flex;align-items:center;gap:6px;margin:0 0 10px;font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c8254e}
   .love-mock-switch button{font:700 11px/1 Inter,Arial,sans-serif;padding:6px 10px;border:1px dashed #c8254e;background:#fff;color:#c8254e;border-radius:3px;cursor:pointer}
@@ -115,7 +116,7 @@
       <img class="love-seal" src="bmc-love-assets/bmc-seal-ghost.webp" width="400" height="404" alt="" aria-hidden="true">
       <div class="eyebrow is-center"><span class="pip"></span><span>Business Master Class</span></div>
       <h1 class="hero-h1 is-confirm is-center">What Did You <em class="key">Love</em>?</h1>
-      <p class="pi-lead">Tell Darren, Georgia and the A-Team what WOWed you. Your words are the best part of their week.</p>
+      <p class="pi-lead">Tell Darren, Georgia and the <span class="nobreak">A-Team</span> what WOWed you. Your words are the best part of their week.</p>
     </header>
 
     <form class="wz-card is-form" id="love-form" novalidate style="text-align:left">
@@ -217,7 +218,9 @@
   ];
   function showQuote(i) {
     document.getElementById('ex-k').textContent = QUOTES[i][0];
-    document.getElementById('ex-q').textContent = '\u201c' + QUOTES[i][1] + '\u201d';
+    var q = document.getElementById('ex-q');
+    q.textContent = '\u201c' + QUOTES[i][1] + '\u201d';
+    q.innerHTML = q.innerHTML.replace(/A-Team/g, '<span class="nobreak">A-Team</span>');
     document.getElementById('ex-a').textContent = QUOTES[i][2];
     document.querySelectorAll('.love-mock-switch button').forEach(function (b) {
       b.classList.toggle('is-on', +b.dataset.q === i);
