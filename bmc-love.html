@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Tell Us What You Loved · Business Master Class</title>
+<meta name="description" content="Put your Business Master Class experience in your own words: what landed, what shifted, and what you are taking home to build.">
+<meta property="og:title" content="Tell Us What You Loved · Business Master Class">
+<meta property="og:description" content="Put your Business Master Class experience in your own words: what landed, what shifted, and what you are taking home to build.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<!-- MOCK: the live BMC|COLLECTIVE Webflow stylesheet, so every existing class
+     below renders exactly as it does on the site. Only the classes in the
+     <style> block are new, and those are what the Webflow build adds. -->
+<link href="https://cdn.prod.website-files.com/6a8f3cd9ae819c28f7dcbd41/css/bmc-collective.webflow.shared.c22c13468.min.css" rel="stylesheet">
+<style>
+  body{display:flex;flex-direction:column;min-height:100vh}
+  .sticky-brand-img{height:22px;width:auto;display:block}
+
+  /* NEW: page shell. Hero and form share one dark section so the page reads
+     as a single calm screen rather than a hero plus a form bolted on. */
+  .love-page{flex:1 0 auto;padding-top:136px;padding-bottom:120px}
+  .love-page .container{z-index:1}
+  .love-head{text-align:center;margin-bottom:56px}
+  .love-head .eyebrow{margin-bottom:28px}
+  .love-head .hero-h1{margin-top:0;margin-bottom:0}
+
+  /* wz-card is the questionnaire's card. It carries min-height and flex for
+     the wizard; the form card does not need either. */
+  .wz-card.is-form{min-height:0;display:block;padding:44px 44px 40px}
+  .love-divider{height:1px;background:rgba(255,255,255,.08);margin:12px 0 32px}
+
+  /* NEW: the example answer. Moved out of the placeholder, where it vanished
+     the moment someone started typing. */
+  .love-example{border-left:2px solid #78e4ef;background:rgba(120,228,239,.05);padding:16px 18px;margin:0 0 14px;border-radius:0 4px 4px 0}
+  .love-example-k{font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#78e4ef;margin:0 0 10px}
+  .love-example-q{font:400 14px/1.65 Inter,Arial,sans-serif;color:#b8b8b8;margin:0}
+  .love-example-a{font:700 11px/1.4 Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin:10px 0 0}
+  .wz-input.is-area{min-height:160px;resize:vertical}
+
+  /* NEW: rating chips. Real radio inputs underneath, so keyboard and screen
+     readers work without any script. */
+  .love-rate{display:grid;grid-template-columns:repeat(11,1fr);gap:6px}
+  .love-rate-opt{position:relative}
+  .love-rate-opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+  .love-rate-chip{display:flex;align-items:center;justify-content:center;height:46px;border:1px solid rgba(255,255,255,.16);border-radius:4px;background:#1a181f;color:#b8b8b8;font:700 14px/1 Inter,Arial,sans-serif;transition:border-color .16s,color .16s,background .16s}
+  .love-rate-opt:hover .love-rate-chip{border-color:rgba(120,228,239,.45);color:#fff}
+  .love-rate-opt input:focus-visible + .love-rate-chip{box-shadow:0 0 0 3px rgba(120,228,239,.18);border-color:#78e4ef}
+  .love-rate-opt input:checked + .love-rate-chip{background:#78e4ef;border-color:#78e4ef;color:#0a0a0a}
+  .love-rate-opt.is-off .love-rate-chip{border-style:dashed}
+  .love-rate-scale{display:flex;justify-content:space-between;margin-top:10px;font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6a6a6a}
+
+  .love-submit{margin-top:36px}
+  .btn-primary.is-block{width:100%;justify-content:center;cursor:pointer}
+  .cf-field.has-error .wz-input{border-color:#f04070}
+  .cf-field.has-error .love-rate-chip{border-color:rgba(240,64,112,.6)}
+  .cf-field.has-error .cf-field-error{display:block}
+
+  .love-mock-note{display:none;margin-top:18px;padding:14px 16px;border:1px dashed rgba(120,228,239,.5);border-radius:4px;font:400 13px/1.6 Inter,Arial,sans-serif;color:#b8b8b8}
+  .love-mock-note.is-on{display:block}
+
+  @media (max-width:767px){
+    .love-page{padding-top:104px;padding-bottom:80px}
+    .container{padding:0 20px}
+    .wz-card.is-form{padding:28px 20px 24px}
+    .cf-row{grid-template-columns:1fr;gap:0}
+    .love-rate{grid-template-columns:repeat(6,1fr)}
+    .love-rate-opt.is-off{grid-column:span 2}
+    .love-rate-scale span:last-child{display:none}
+    .sticky-bar{padding:0 20px}
+    .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<div role="banner" class="sticky-bar is-logo-only">
+  <a aria-label="BMC COLLECTIVE" href="https://www.dhbmc.com/" class="sticky-brand">
+    <img src="https://cdn.prod.website-files.com/6a8f3cd9ae819c28f7dcbd41/6a98f6e50b71a4365a33b344_bmcc-logo-nav.webp" alt="BMC|COLLECTIVE" class="sticky-brand-img">
+  </a>
+</div>
+
+<main class="section-dark is-confirm love-page">
+  <div class="container is-narrow">
+
+    <header class="love-head">
+      <div class="eyebrow is-center"><span class="pip"></span><span>Business Master Class</span></div>
+      <h1 class="hero-h1 is-confirm is-center">What Did You <em class="key">Love</em>?</h1>
+      <p class="pi-lead">You gave this room three days. Before you head home, put it in your own words: what landed, what shifted, and what you are taking back to build.</p>
+    </header>
+
+    <form class="wz-card is-form" id="love-form" novalidate style="text-align:left">
+      <p class="wz-eyebrow">Your details</p>
+      <div class="cf-row">
+        <div class="cf-field">
+          <label for="f-first" class="cf-label">First name</label>
+          <input id="f-first" name="firstname" class="wz-input" type="text" autocomplete="given-name" placeholder="First name" required>
+          <span class="cf-field-error">Please enter your first name.</span>
+        </div>
+        <div class="cf-field">
+          <label for="f-last" class="cf-label">Last name</label>
+          <input id="f-last" name="lastname" class="wz-input" type="text" autocomplete="family-name" placeholder="Last name" required>
+          <span class="cf-field-error">Please enter your last name.</span>
+        </div>
+      </div>
+      <div class="cf-row">
+        <div class="cf-field">
+          <label for="f-email" class="cf-label">Email</label>
+          <input id="f-email" name="email" class="wz-input" type="email" autocomplete="email" placeholder="you@company.com" required>
+          <span class="cf-field-error">Please enter a valid email address.</span>
+        </div>
+        <div class="cf-field">
+          <label for="f-phone" class="cf-label">Mobile phone</label>
+          <input id="f-phone" name="mobilephone" class="wz-input" type="tel" autocomplete="tel" placeholder="(555) 123-4567" required>
+          <span class="cf-field-error">Please enter your mobile number.</span>
+        </div>
+      </div>
+
+      <div class="love-divider"></div>
+      <p class="wz-eyebrow">Your experience</p>
+
+      <div class="cf-field">
+        <label for="f-love" class="cf-label">What did you love most about Business Master Class?</label>
+        <span class="cf-hint">Be specific. The moment, the idea, the number. Specific beats superlative.</span>
+        <div class="love-example">
+          <p class="love-example-k">How one CEO put it</p>
+          <p class="love-example-q">“This was LIFE-CHANGING! I’ve been to hundreds of seminars and workshops, but this exceeded anything I’ve ever experienced. What I learned and the contacts I gained will undoubtedly add $1M+ to my bottom line this year and over $10M in the next two years. Just one idea I got will give me a 10X ROI on the cost of this event within 60 days. In a word: WOW!!”</p>
+          <p class="love-example-a">Paul Niccum, CEO, Paradise Capital</p>
+        </div>
+        <textarea id="f-love" name="most_loved" class="wz-input is-area" placeholder="In your own words…" required></textarea>
+        <span class="cf-field-error">Tell us what you loved. A sentence or two is plenty.</span>
+      </div>
+
+      <fieldset class="cf-field" id="f-rate" style="border:0;padding:0;margin-top:28px">
+        <legend class="cf-label">How would you rate your overall experience?</legend>
+        <div class="love-rate" role="radiogroup">
+          <label class="love-rate-opt"><input type="radio" name="rating" value="1"><span class="love-rate-chip">1</span></label>
+          <label class="love-rate-opt"><input type="radio" name="rating" value="2"><span class="love-rate-chip">2</span></label>
+          <label class="love-rate-opt"><input type="radio" name="rating" value="3"><span class="love-rate-chip">3</span></label>
+          <label class="love-rate-opt"><input type="radio" name="rating" value="4"><span class="love-rate-chip">4</span></label>
+          <label class="love-rate-opt"><input type="radio" name="rating" value="5"><span class="love-rate-chip">5</span></label>
+          <label class="love-rate-opt"><input type="radio" name="rating" value="6"><span class="love-rate-chip">6</span></label>
+          <label class="love-rate-opt"><input type="radio" name="rating" value="7"><span class="love-rate-chip">7</span></label>
+          <label class="love-rate-opt"><input type="radio" name="rating" value="8"><span class="love-rate-chip">8</span></label>
+          <label class="love-rate-opt"><input type="radio" name="rating" value="9"><span class="love-rate-chip">9</span></label>
+          <label class="love-rate-opt"><input type="radio" name="rating" value="10"><span class="love-rate-chip">10</span></label>
+          <label class="love-rate-opt is-off"><input type="radio" name="rating" value="13" aria-label="13, off the chart"><span class="love-rate-chip">13</span></label>
+        </div>
+        <div class="love-rate-scale"><span>Not for me</span><span>Off the chart</span></div>
+        <span class="cf-field-error">Pick a number.</span>
+      </fieldset>
+
+      <div class="love-submit">
+        <button type="submit" class="btn-primary is-large is-block">Share My Experience →</button>
+      </div>
+      <p class="love-mock-note" id="love-mock-note">Mock only. Nothing was sent. In the Webflow build this posts to the same HubSpot form as today (<code>ab4fdda9</code>) and then continues to the BMC45 checkout, exactly as the live page does.</p>
+    </form>
+
+  </div>
+</main>
+
+<footer class="footer-minimal">
+  <div class="container">
+    <div class="footer-bottom">
+      <span class="footer-copy">© Darren Hardy, LLC. All Rights Reserved.</span>
+      <div class="legal-links">
+        <a href="https://dh.darrenhardy.com/terms-of-service/" class="footer-legal-link">Terms &amp; Conditions</a>
+        <a href="https://dh.darrenhardy.com/privacy" class="footer-legal-link">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var form = document.getElementById('love-form');
+  var note = document.getElementById('love-mock-note');
+  function field(id) { return document.getElementById(id).closest('.cf-field'); }
+  function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var first = null;
+    form.querySelectorAll('.has-error').forEach(function (el) { el.classList.remove('has-error'); });
+    function fail(el) { el.classList.add('has-error'); first = first || el; }
+
+    ['f-first', 'f-last', 'f-phone', 'f-love'].forEach(function (id) {
+      if (!document.getElementById(id).value.trim()) fail(field(id));
+    });
+    if (!isEmail(document.getElementById('f-email').value.trim())) fail(field('f-email'));
+    if (!form.querySelector('input[name="rating"]:checked')) fail(document.getElementById('f-rate'));
+
+    if (first) {
+      var focusable = first.querySelector('input,textarea');
+      if (focusable) focusable.focus();
+      return;
+    }
+    note.classList.add('is-on');
+  });
+})();
+</script>
+</body>
+</html>
