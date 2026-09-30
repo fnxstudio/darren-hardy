@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Tell Us What You Loved · Business Master Class</title>
-<meta name="description" content="Put your Business Master Class experience in your own words: what landed, what shifted, and what you are taking home to build.">
+<meta name="description" content="Tell Darren, Georgia and the A-Team what WOWed you at Business Master Class.">
 <meta property="og:title" content="Tell Us What You Loved · Business Master Class">
-<meta property="og:description" content="Put your Business Master Class experience in your own words: what landed, what shifted, and what you are taking home to build.">
+<meta property="og:description" content="Tell Darren, Georgia and the A-Team what WOWed you at Business Master Class.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -27,39 +27,65 @@
   .love-head .eyebrow{margin-bottom:28px}
   .love-head .hero-h1{margin-top:0;margin-bottom:0}
 
-  /* wz-card is the questionnaire's card. It carries min-height and flex for
-     the wizard; the form card does not need either. */
-  .wz-card.is-form{min-height:0;display:block;padding:44px 44px 40px}
-  .love-divider{height:1px;background:rgba(255,255,255,.08);margin:12px 0 32px}
+  /* NEW: the round BMC seal, ghosted behind the headline. White mono art
+     cut from BMC_logo_white (brand package), 960px for a 480px box. */
+  .love-head{position:relative}
+  .love-seal{position:absolute;left:50%;top:-44px;transform:translateX(-50%);width:min(480px,86vw);height:auto;opacity:.07;pointer-events:none;z-index:-1}
+  .love-head > :not(.love-seal){position:relative}
 
-  /* NEW: the example answer. Moved out of the placeholder, where it vanished
-     the moment someone started typing. */
-  .love-example{border-left:2px solid #78e4ef;background:rgba(120,228,239,.05);padding:16px 18px;margin:0 0 14px;border-radius:0 4px 4px 0}
-  .love-example-k{font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#78e4ef;margin:0 0 10px}
-  .love-example-q{font:400 14px/1.65 Inter,Arial,sans-serif;color:#b8b8b8;margin:0}
-  .love-example-a{font:700 11px/1.4 Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin:10px 0 0}
+  /* White form card on the dark page. wz-card is the questionnaire's dark
+     card; is-form turns it white and drops the wizard's min-height/flex. */
+  .wz-card.is-form{min-height:0;display:block;padding:44px 44px 40px;background:#fff;border-color:#fff;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+  .is-form .wz-eyebrow{color:#4b2c6a}
+  .is-form .cf-label{color:#0a0a0a}
+  .is-form .cf-hint{color:#6a6a6a}
+  .is-form .wz-input{background:#f5f5f5;border-color:rgba(10,10,10,.14);color:#0a0a0a}
+  .is-form .wz-input::placeholder{color:#8a8a8a}
+  .is-form .wz-input:focus{background:#fff;border-color:#4b2c6a;box-shadow:0 0 0 3px rgba(75,44,106,.14);outline:0}
+  .is-form .cf-field-error{color:#c8254e}
+  .love-divider{height:1px;background:rgba(10,10,10,.08);margin:12px 0 32px}
+
+  /* NEW: the example answer, moved out of the placeholder, where it vanished
+     the moment someone started typing. Plum, because this sits on white. */
+  .love-example{border-left:2px solid #4b2c6a;background:rgba(75,44,106,.05);padding:16px 18px;margin:0 0 14px;border-radius:0 4px 4px 0}
+  .love-example-k{font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#4b2c6a;margin:0 0 10px}
+  .love-example-q{font:400 14px/1.65 Inter,Arial,sans-serif;color:#444;margin:0}
+  .love-example-a{font:700 11px/1.4 Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#0a0a0a;margin:10px 0 0}
   .wz-input.is-area{min-height:160px;resize:vertical}
 
   /* NEW: rating chips. Real radio inputs underneath, so keyboard and screen
      readers work without any script. */
   .love-rate{display:grid;grid-template-columns:repeat(11,1fr);gap:6px}
   .love-rate-opt{position:relative}
-  .love-rate-opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-  .love-rate-chip{display:flex;align-items:center;justify-content:center;height:46px;border:1px solid rgba(255,255,255,.16);border-radius:4px;background:#1a181f;color:#b8b8b8;font:700 14px/1 Inter,Arial,sans-serif;transition:border-color .16s,color .16s,background .16s}
-  .love-rate-opt:hover .love-rate-chip{border-color:rgba(120,228,239,.45);color:#fff}
-  .love-rate-opt input:focus-visible + .love-rate-chip{box-shadow:0 0 0 3px rgba(120,228,239,.18);border-color:#78e4ef}
-  .love-rate-opt input:checked + .love-rate-chip{background:#78e4ef;border-color:#78e4ef;color:#0a0a0a}
-  .love-rate-opt.is-off .love-rate-chip{border-style:dashed}
-  .love-rate-scale{display:flex;justify-content:space-between;margin-top:10px;font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6a6a6a}
+  .love-rate-opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;z-index:1}
+  .love-rate-chip{display:flex;align-items:center;justify-content:center;height:46px;border:1px solid rgba(10,10,10,.14);border-radius:4px;background:#f5f5f5;color:#444;font:700 14px/1 Inter,Arial,sans-serif;transition:border-color .16s,color .16s,background .16s,box-shadow .16s}
+  .love-rate-opt:hover .love-rate-chip{border-color:#4b2c6a;color:#0a0a0a}
+  .love-rate-opt input:focus-visible + .love-rate-chip{box-shadow:0 0 0 3px rgba(75,44,106,.2);border-color:#4b2c6a}
+  .love-rate-opt input:checked + .love-rate-chip{background:#4b2c6a;border-color:#4b2c6a;color:#fff}
+  /* 13 is the answer we hope for. Teal only reads on dark in this brand, so
+     the chip itself is dark and carries the teal outline. */
+  .love-rate-opt.is-off .love-rate-chip{background:#0a0a0a;border:1.5px solid #78e4ef;color:#78e4ef}
+  .love-rate-opt.is-off:hover .love-rate-chip{box-shadow:0 0 0 3px rgba(120,228,239,.22);color:#78e4ef;border-color:#78e4ef}
+  .love-rate-opt.is-off input:checked + .love-rate-chip{background:#78e4ef;border-color:#78e4ef;color:#0a0a0a;box-shadow:0 0 0 3px rgba(120,228,239,.3)}
+  .love-rate-scale{display:flex;justify-content:space-between;margin-top:10px;font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#8a8a8a}
 
   .love-submit{margin-top:36px}
   .btn-primary.is-block{width:100%;justify-content:center;cursor:pointer}
-  .cf-field.has-error .wz-input{border-color:#f04070}
-  .cf-field.has-error .love-rate-chip{border-color:rgba(240,64,112,.6)}
+  /* Plum fill on white. Never darkens on hover: it grows and the arrow travels. */
+  .btn-primary.is-plum{background:#4b2c6a;border-color:#4b2c6a;color:#fff;transition:transform .2s}
+  .btn-primary.is-plum:hover{background:#4b2c6a;border-color:#4b2c6a;color:#fff;transform:scale(1.015)}
+  .love-arrow{display:inline-block;transition:transform .2s}
+  .btn-primary.is-plum:hover .love-arrow{transform:translateX(6px)}
+  .cf-field.has-error .wz-input{border-color:#c8254e}
+  .cf-field.has-error .love-rate-chip{border-color:rgba(200,37,78,.6)}
   .cf-field.has-error .cf-field-error{display:block}
 
-  .love-mock-note{display:none;margin-top:18px;padding:14px 16px;border:1px dashed rgba(120,228,239,.5);border-radius:4px;font:400 13px/1.6 Inter,Arial,sans-serif;color:#b8b8b8}
+  .love-mock-note{display:none;margin-top:18px;padding:14px 16px;border:1px dashed rgba(75,44,106,.5);border-radius:4px;font:400 13px/1.6 Inter,Arial,sans-serif;color:#444}
   .love-mock-note.is-on{display:block}
+  /* Mock-only quote picker. Not part of the build. */
+  .love-mock-switch{display:flex;align-items:center;gap:6px;margin:0 0 10px;font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c8254e}
+  .love-mock-switch button{font:700 11px/1 Inter,Arial,sans-serif;padding:6px 10px;border:1px dashed #c8254e;background:#fff;color:#c8254e;border-radius:3px;cursor:pointer}
+  .love-mock-switch button.is-on{background:#c8254e;color:#fff}
 
   @media (max-width:767px){
     .love-page{padding-top:104px;padding-bottom:80px}
@@ -68,6 +94,7 @@
     .cf-row{grid-template-columns:1fr;gap:0}
     .love-rate{grid-template-columns:repeat(6,1fr)}
     .love-rate-opt.is-off{grid-column:span 2}
+    .love-seal{top:-28px}
     .love-rate-scale span:last-child{display:none}
     .sticky-bar{padding:0 20px}
     .footer-bottom{flex-direction:column;gap:16px;text-align:center}
@@ -86,9 +113,10 @@
   <div class="container is-narrow">
 
     <header class="love-head">
+      <img class="love-seal" src="bmc-love-assets/bmc-seal-ghost.webp" width="480" height="485" alt="" aria-hidden="true">
       <div class="eyebrow is-center"><span class="pip"></span><span>Business Master Class</span></div>
       <h1 class="hero-h1 is-confirm is-center">What Did You <em class="key">Love</em>?</h1>
-      <p class="pi-lead">You gave this room three days. Before you head home, put it in your own words: what landed, what shifted, and what you are taking back to build.</p>
+      <p class="pi-lead">Tell Darren, Georgia and the A-Team what WOWed you. Your words are the best part of their week.</p>
     </header>
 
     <form class="wz-card is-form" id="love-form" novalidate style="text-align:left">
@@ -123,11 +151,15 @@
 
       <div class="cf-field">
         <label for="f-love" class="cf-label">What did you love most about Business Master Class?</label>
-        <span class="cf-hint">Be specific. The moment, the idea, the number. Specific beats superlative.</span>
+        <span class="cf-hint">The moment, the idea, the result. The more specific, the bigger the WOW.</span>
+        <div class="love-mock-switch" aria-label="Mock only: pick an example quote">
+          <span>Mock: example quote</span>
+          <button type="button" data-q="0" class="is-on">A</button><button type="button" data-q="1">B</button><button type="button" data-q="2">C</button><button type="button" data-q="3">D</button><button type="button" data-q="4">Current</button>
+        </div>
         <div class="love-example">
-          <p class="love-example-k">How one CEO put it</p>
-          <p class="love-example-q">“This was LIFE-CHANGING! I’ve been to hundreds of seminars and workshops, but this exceeded anything I’ve ever experienced. What I learned and the contacts I gained will undoubtedly add $1M+ to my bottom line this year and over $10M in the next two years. Just one idea I got will give me a 10X ROI on the cost of this event within 60 days. In a word: WOW!!”</p>
-          <p class="love-example-a">Paul Niccum, CEO, Paradise Capital</p>
+          <p class="love-example-k" id="ex-k">How one CEO put it</p>
+          <p class="love-example-q" id="ex-q"></p>
+          <p class="love-example-a" id="ex-a"></p>
         </div>
         <textarea id="f-love" name="most_loved" class="wz-input is-area" placeholder="In your own words…" required></textarea>
         <span class="cf-field-error">Tell us what you loved. A sentence or two is plenty.</span>
@@ -153,7 +185,7 @@
       </fieldset>
 
       <div class="love-submit">
-        <button type="submit" class="btn-primary is-large is-block">Share My Experience →</button>
+        <button type="submit" class="btn-primary is-large is-block is-plum">Share My Experience <span class="love-arrow">→</span></button>
       </div>
       <p class="love-mock-note" id="love-mock-note">Mock only. Nothing was sent. In the Webflow build this posts to the same HubSpot form as today (<code>ab4fdda9</code>) and then continues to the BMC45 checkout, exactly as the live page does.</p>
     </form>
@@ -175,6 +207,29 @@
 
 <script>
 (function () {
+
+  /* Mock only: the example-quote options. Punctuation only was touched
+     (em dashes became commas); wording is verbatim from the master. */
+  var QUOTES = [
+    ['How one CEO put it', 'Even after six times through BMC, I keep uncovering game-changing insights. I applied one strategy at lunch on day one and generated $350K in new revenue, and my team is blown away by the impact!', 'Bill Dost, Group CEO, DND Finance'],
+    ['How one owner put it', 'After implementing just a few strategies from last year\u2019s BMC, I increased my revenue by $1M, and with even more tools and insights from this year, I\u2019m excited to make an even bigger impact!', 'Kristine Collins, DVM, Sauk Point Veterinary Clinic'],
+    ['How one president put it', 'Since attending my first BMC, we\u2019ve doubled our revenue from $2.5M to $5M in just two years. Every event reignites my leadership and drives incredible growth for me and my team!', 'Dawn Neighoff, President and Owner, Clean Sweep Enterprises'],
+    ['How one owner put it', 'Wow just an incredible event. I was a little skeptical about the virtual set up but was absolutely blown away. This was my second BMC and got 100x out of it. You and your A-Team set the standard. See you in November', 'Tom Capuano, Franchise Owner, Pillar To Post'],
+    ['How one CEO put it', 'This was LIFE-CHANGING! I\u2019ve been to hundreds of seminars and workshops, but this exceeded anything I\u2019ve ever experienced. What I learned and the contacts I gained will undoubtedly add $1M+ to my bottom line this year and over $10M in the next two years. Just one idea I got will give me a 10X ROI on the cost of this event within 60 days. In a word: WOW!!', 'Paul Niccum, CEO, Paradise Capital']
+  ];
+  function showQuote(i) {
+    document.getElementById('ex-k').textContent = QUOTES[i][0];
+    document.getElementById('ex-q').textContent = '\u201c' + QUOTES[i][1] + '\u201d';
+    document.getElementById('ex-a').textContent = QUOTES[i][2];
+    document.querySelectorAll('.love-mock-switch button').forEach(function (b) {
+      b.classList.toggle('is-on', +b.dataset.q === i);
+    });
+  }
+  document.querySelectorAll('.love-mock-switch button').forEach(function (b) {
+    b.addEventListener('click', function () { showQuote(+b.dataset.q); });
+  });
+  showQuote(0);
+
   var form = document.getElementById('love-form');
   var note = document.getElementById('love-mock-note');
   function field(id) { return document.getElementById(id).closest('.cf-field'); }
