@@ -171,12 +171,12 @@
   @media (max-width: 560px) { .post-hero { padding: 28px 0 80px; } .post-hero .post-logo img { height: 26px; } .post-hero .post-date { font-size: 14px; } }
 
   /* ============ TWO-COLUMN LAYOUT (double) - 2/3 framed content card + 1/3 right column; OVERLAPS the hero ============ */
-  .post-layout { max-width: 1130px; margin: -64px auto 0; padding: 0 24px 100px; position: relative; z-index: 5;
-    display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 34px; align-items: start; }
+  .post-layout { max-width: 1180px; margin: -64px auto 0; padding: 0 24px 100px; position: relative; z-index: 5;
+    display: grid; grid-template-columns: 1fr; gap: 34px; align-items: start; } /* matches .post-hero__inner (1180 + 24px padding) so the white column = the video width exactly */
   .post-main { min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
     box-shadow: 0 40px 90px -46px rgba(20,23,28,0.5); padding: 40px 44px 38px; }
   .post-main > .post-caption { margin-top: 0; }
-  @media (max-width: 980px) { .post-layout { grid-template-columns: 1fr; max-width: 812px; } }
+  @media (max-width: 980px) { .post-layout { grid-template-columns: 1fr; } }
   @media (max-width: 640px) { .post-layout { margin-top: -44px; padding: 0 18px 84px; } .post-main { padding: 26px 22px 30px; } }
 
   /* ---- Main: video ---- */
@@ -228,7 +228,7 @@
     transform: translateY(-100%); transition: transform .3s var(--ease); box-shadow: 0 12px 34px -12px rgba(0,0,0,0.62); }
   .cta-sticky.show { transform: translateY(0); }
   .cta-sticky__link { display: block; position: absolute; inset: 0; }
-  .cta-sticky__link img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .cta-sticky__link img { width: 100%; height: 100%; object-fit: cover; object-position: left center; display: block; }
   .cta-sticky__btn { position: absolute; top: 50%; right: 24px; transform: translateY(-50%); z-index: 2; display: inline-flex; align-items: center; gap: 8px;
     background: var(--cta-btn, #2fd3d8); color: #08272a; text-decoration: none; font-weight: 800; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase;
     padding: 12px 22px; border-radius: var(--radius); box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5); transition: transform .2s var(--ease), filter .2s; }
@@ -285,8 +285,7 @@
   hyvor-talk-comments { display: block; }
 
   /* ============ SIDEBAR (right column, optional; flexible card types) ============ */
-  .post-aside { display: grid; gap: 24px; position: sticky; top: 92px; }
-  @media (max-width: 980px) { .post-aside { position: static; } }
+  .post-aside { display: grid; gap: 24px; }
   .side-card { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--paper);
     box-shadow: 0 14px 36px -26px rgba(20,23,28,0.5); }
   .side-card__hd { display: flex; align-items: center; gap: 12px; padding: 18px 20px 0; }
@@ -553,121 +552,6 @@
       </div>
 
     </div><!-- /.post-main -->
-
-    <!-- ---------- SIDEBAR (right column, 1/3) ----------
-         OPTIONAL as a whole (WEBFLOW: bind .post-aside to "Show Sidebar" switch). A stack of
-         independent, individually-optional card types. Order: Moneyline, Featured CTA, Champion, DDJ.
-         Keep the ones a post needs, hide the rest; the column just reflows. -->
-    <aside class="post-aside">
-
-      <!-- MONEYLINE: the session's key quote (sometimes Darren, sometimes others).
-           WEBFLOW: conditional visibility = "Quote is set".
-             .quote-text -> "Quote"   |   .quote-attr -> "Quote Attribution" (e.g. "Darren Hardy", "Jim Rohn") -->
-      <figure class="quote-block reveal">
-        <span class="qmark" aria-hidden="true">&rdquo;</span>
-        <div class="eyebrow accent"><span class="pip"></span>Today's Moneyline</div>
-        <blockquote class="quote-text">If your work is your "art" then you never have to work again.</blockquote>
-        <figcaption class="quote-attr">Darren Hardy</figcaption>
-      </figure>
-
-      <!-- FEATURED CTA: portrait promo (770 x 1016 = the DarrenDaily CTA slot size). OPTIONAL.
-           Sits directly under the Moneyline. WEBFLOW: bind <a> href -> "Sidebar Feature Link",
-           img src/alt -> "Sidebar Feature Image" (upload at 770 x 1016) / "Sidebar Feature Alt". -->
-      <a class="side-feature reveal" href="https://darrenhardy.com/careers/" target="_blank" rel="noopener">
-        <img src="dd-featured.webp" alt="Featured promotion" width="770" height="1016" loading="lazy">
-      </a>
-
-      <!-- ============================================================
-           ALT featured slot: HubSpot SMART CTA (Option A - list personalization)
-           ============================================================
-           Use this INSTEAD of the CMS <a> above when the promo should personalize by HubSpot
-           LIST / lifecycle stage: a known (cookied) contact sees their variation; anonymous /
-           first-time visitors see the default creative. Managed in HubSpot, NOT the Webflow CMS,
-           so it sits outside the spreadsheet update flow. (Smart *CTAs* work on external Webflow
-           pages; smart *forms* and *modules* are HubSpot-hosted only.)
-
-           SETUP
-             1) Install the HubSpot tracking code ONCE, site-wide
-                (Webflow -> Site Settings -> Custom Code -> Head):
-                  <script id="hs-script-loader" async defer src="//js.hs-scripts.com/2518645.js"></script>
-             2) In HubSpot, build a Smart CTA (portrait creative, 770 x 1016) with smart rules by contact list.
-             3) Delete the CMS <a class="side-feature"> above and paste the CTA embed into a Webflow
-                EMBED element, wrapped in <div class="side-feature"> so it inherits this slot's frame.
-                Portal 2518645 is DarrenDaily's; swap the CTA GUID (bd155898-...) for your Smart CTA's:
-
-      <div class="side-feature reveal">        <span class="hs-cta-wrapper" id="hs-cta-wrapper-ddfeat">
-          <span class="hs-cta-node hs-cta-ddfeat" id="hs-cta-ddfeat">
-            <a href="https://cta-redirect.hubspot.com/cta/redirect/2518645/bd155898-1db0-4283-b7c5-258c5313e579" target="_blank" rel="noopener">
-              <img class="hs-cta-img" src="https://no-cache.hubspot.com/cta/default/2518645/bd155898-1db0-4283-b7c5-258c5313e579.png" alt="Featured promotion">
-            </a>
-          </span>
-          <script charset="utf-8" src="https://js.hscta.net/cta/current.js"></script>
-          <script type="text/javascript">hbspt.cta.load(2518645, 'bd155898-1db0-4283-b7c5-258c5313e579', {"useNewLoader":"static","region":"na1"});</script>
-        </span>
-      </div>
-           ============================================================ -->
-
-      <!-- CHAMPION (referral / ambassador). OPTIONAL.
-           Conversion pattern: mission-first headline, a NAMED next reward + progress bar, a reward
-           ladder, one-tap share, and a Copy-link button (raw URL hidden). PRODUCTION = SparkLoop:
-           feed the live per-subscriber values in -
-             .champ-reward          <- next milestone reward name
-             .champ-bar > span width <- % progress to the next milestone
-             .champ-togo            <- "N more friends" to the next milestone
-             .champ-ladder li       <- milestone thresholds (add .is-current to the active one)
-             [data-champ-link]      <- the subscriber's unique referral URL (stays hidden; Copy shares it)
-           Values below are placeholders. -->
-      <div class="side-champion reveal">
-        <svg class="champ-trophy" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M7 4h10v4a5 5 0 0 1-10 0V4z"/>
-          <path d="M7 5H4v1a3 3 0 0 0 3 3"/>
-          <path d="M17 5h3v1a3 3 0 0 1-3 3"/>
-          <path d="M12 13v3"/>
-          <path d="M8.5 20h7l-.7-4h-5.6z"/>
-        </svg>
-        <div class="eyebrow on-dark champ-eyebrow">Be a Champion</div>
-        <h3>Give a friend the <em>edge</em>.</h3>
-        <p>Share DarrenDaily and earn gifts as you go.</p>
-
-        <div class="champ-track">
-          <div class="champ-next">
-            <img class="champ-gift-img" src="dd-reward-mug.webp?v=2" alt="The DarrenDaily Mug" width="223" height="222" loading="lazy">
-            <div class="champ-next-txt">
-              <span class="champ-label">Your next gift</span>
-              <span class="champ-reward">The DarrenDaily Mug</span>
-            </div>
-          </div>
-          <div class="champ-bar"><span style="width:33%"></span></div>
-          <div class="champ-togo"><b>2 more friends</b> to unlock it</div>
-        </div>
-
-        <ul class="champ-ladder">
-          <li class="is-current">3<span>Mug</span></li>
-          <li>5<span>Journal</span></li>
-          <li>10<span>Tee</span></li>
-          <li>25<span>$25</span></li>
-        </ul>
-
-        <button class="btn ondark champ-primary" type="button" data-share-dd>Share &amp; unlock <span class="arrow">&rarr;</span></button>
-        <button class="champ-copy" type="button" data-champ-copy data-champ-link="https://darrendaily.com/?dd_id=DEMO">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          Copy my link
-        </button>
-      </div>
-
-      <!-- DDJ: The DarrenDaily Journal (store promo). OPTIONAL.
-           WEBFLOW: bind image/heading/body/link, or reference a "Featured Product" collection. -->
-      <div class="side-card reveal">
-        <img class="side-promo__img" src="dd-journal.webp" alt="The DarrenDaily Journal" loading="lazy">
-        <div class="side-promo__bd">
-          <div class="eyebrow accent" style="margin-bottom:12px"><span class="pip"></span>From The Store</div>
-          <h3>The DarrenDaily Journal</h3>
-          <p>Capture the one idea from each morning before it slips away. The companion to your daily practice.</p>
-          <a class="btn small" href="https://store.darrenhardy.com/" target="_blank" rel="noopener">Get The Journal <span class="arrow">&rarr;</span></a>
-        </div>
-      </div>
-
-    </aside>
 
   </div><!-- /.post-layout -->
 
