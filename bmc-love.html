@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Tell Us What You Loved · Business Master Class</title>
-<meta name="description" content="Tell Darren, Georgia and the <span class="nobreak">A-Team</span> what WOWed you at Business Master Class.">
-<meta property="og:title" content="Tell Us What You Loved · Business Master Class">
-<meta property="og:description" content="Tell Darren, Georgia and the <span class="nobreak">A-Team</span> what WOWed you at Business Master Class.">
+<title>Share What You Loved · Business Master Class</title>
+<meta name="description" content="Share what WOWed you at Business Master Class. Your words are the best part of our week.">
+<meta property="og:title" content="Share What You Loved · Business Master Class">
+<meta property="og:description" content="Share what WOWed you at Business Master Class. Your words are the best part of our week.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -36,11 +36,17 @@
 
   /* White form card on the dark page. wz-card is the questionnaire's dark
      card; is-form turns it white and drops the wizard's min-height/flex. */
-  .wz-card.is-form{min-height:0;display:block;padding:44px 44px 40px;background:#fff;border-color:#fff;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+  /* Liquid glass: a translucent pearl-grey panel that lets the purple wash
+     bleed through softly, with a bright top edge like light on glass. */
+  .wz-card.is-form{min-height:0;display:block;padding:44px 44px 40px;
+    background:linear-gradient(165deg,rgba(250,250,252,.9) 0%,rgba(236,236,242,.84) 55%,rgba(226,226,234,.82) 100%);
+    border:1px solid rgba(255,255,255,.55);
+    -webkit-backdrop-filter:blur(28px) saturate(1.5);backdrop-filter:blur(28px) saturate(1.5);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.25),0 30px 80px rgba(0,0,0,.45)}
   .is-form .wz-eyebrow{color:#4b2c6a}
   .is-form .cf-label{color:#0a0a0a}
   .is-form .cf-hint{color:#6a6a6a}
-  .is-form .wz-input{background:#f5f5f5;border-color:rgba(10,10,10,.14);color:#0a0a0a}
+  .is-form .wz-input{background:rgba(255,255,255,.72);border-color:rgba(10,10,10,.1);color:#0a0a0a}
   .is-form .wz-input::placeholder{color:#8a8a8a}
   .is-form .wz-input:focus{background:#fff;border-color:#4b2c6a;box-shadow:0 0 0 3px rgba(75,44,106,.14);outline:0}
   .is-form .cf-field-error{color:#c8254e}
@@ -59,14 +65,13 @@
   .love-rate{display:grid;grid-template-columns:repeat(11,1fr);gap:6px}
   .love-rate-opt{position:relative}
   .love-rate-opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;z-index:1}
-  .love-rate-chip{display:flex;align-items:center;justify-content:center;height:46px;border:1px solid rgba(10,10,10,.14);border-radius:4px;background:#f5f5f5;color:#444;font:700 14px/1 Inter,Arial,sans-serif;transition:border-color .16s,color .16s,background .16s,box-shadow .16s}
+  .love-rate-chip{display:flex;align-items:center;justify-content:center;height:46px;border:1px solid rgba(10,10,10,.14);border-radius:4px;background:rgba(255,255,255,.72);color:#444;font:700 14px/1 Inter,Arial,sans-serif;transition:border-color .16s,color .16s,background .16s,box-shadow .16s}
   .love-rate-opt:hover .love-rate-chip{border-color:#4b2c6a;color:#0a0a0a}
   .love-rate-opt input:focus-visible + .love-rate-chip{box-shadow:0 0 0 3px rgba(75,44,106,.2);border-color:#4b2c6a}
   .love-rate-opt input:checked + .love-rate-chip{background:#4b2c6a;border-color:#4b2c6a;color:#fff}
-  /* 13 is the answer we hope for. Teal only reads on dark in this brand, so
-     the chip itself is dark and carries the teal outline. */
-  .love-rate-opt.is-off .love-rate-chip{background:#0a0a0a;border:1.5px solid #78e4ef;color:#78e4ef}
-  .love-rate-opt.is-off:hover .love-rate-chip{box-shadow:0 0 0 3px rgba(120,228,239,.22);color:#78e4ef;border-color:#78e4ef}
+  /* 13 is the answer we hope for. It gets a teal outline and a soft teal glow. */
+  .love-rate-opt.is-off .love-rate-chip{background:rgba(120,228,239,.16);border:2px solid #78e4ef;color:#0a0a0a;box-shadow:0 0 14px rgba(120,228,239,.45)}
+  .love-rate-opt.is-off:hover .love-rate-chip{box-shadow:0 0 18px rgba(120,228,239,.7);color:#0a0a0a;border-color:#78e4ef}
   .love-rate-opt.is-off input:checked + .love-rate-chip{background:#78e4ef;border-color:#78e4ef;color:#0a0a0a;box-shadow:0 0 0 3px rgba(120,228,239,.3)}
 
   .love-submit{margin-top:36px}
@@ -83,10 +88,6 @@
   .love-mock-note{display:none;margin-top:18px;padding:14px 16px;border:1px dashed rgba(75,44,106,.5);border-radius:4px;font:400 13px/1.6 Inter,Arial,sans-serif;color:#444}
   .love-mock-note.is-on{display:block}
   .nobreak{white-space:nowrap}
-  /* Mock-only quote picker. Not part of the build. */
-  .love-mock-switch{display:flex;align-items:center;gap:6px;margin:0 0 10px;font:700 10px/1 Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c8254e}
-  .love-mock-switch button{font:700 11px/1 Inter,Arial,sans-serif;padding:6px 10px;border:1px dashed #c8254e;background:#fff;color:#c8254e;border-radius:3px;cursor:pointer}
-  .love-mock-switch button.is-on{background:#c8254e;color:#fff}
 
   @media (max-width:767px){
     .love-page{padding-top:104px;padding-bottom:80px}
@@ -114,9 +115,9 @@
 
     <header class="love-head">
       <img class="love-seal" src="bmc-love-assets/bmc-seal-ghost.webp" width="400" height="404" alt="" aria-hidden="true">
-      <div class="eyebrow is-center"><span class="pip"></span><span>Business Master Class</span></div>
+      <div class="eyebrow is-center"><span>Business Master Class</span></div>
       <h1 class="hero-h1 is-confirm is-center">What Did You <em class="key">Love</em>?</h1>
-      <p class="pi-lead">Tell Darren, Georgia and the <span class="nobreak">A-Team</span> what WOWed you. Your words are the best part of their week.</p>
+      <p class="pi-lead">Share with us what WOWed you at BMC. Your words are the best part of our week.</p>
     </header>
 
     <form class="wz-card is-form" id="love-form" novalidate style="text-align:left">
@@ -151,15 +152,11 @@
 
       <div class="cf-field">
         <label for="f-love" class="cf-label">What did you love most about Business Master Class?</label>
-        <span class="cf-hint">The moment, the idea, the result. The more specific, the bigger the WOW.</span>
-        <div class="love-mock-switch" aria-label="Mock only: pick an example quote">
-          <span>Mock: example quote</span>
-          <button type="button" data-q="0" class="is-on">A</button><button type="button" data-q="1">B</button><button type="button" data-q="2">C</button><button type="button" data-q="3">D</button><button type="button" data-q="4">Current</button>
-        </div>
+        <span class="cf-hint">The moment, the idea, the result. The more specific, the bigger the LOVE.</span>
         <div class="love-example">
-          <p class="love-example-k" id="ex-k">How one CEO put it</p>
-          <p class="love-example-q" id="ex-q"></p>
-          <p class="love-example-a" id="ex-a"></p>
+          <p class="love-example-k">How one member shared it</p>
+          <p class="love-example-q">“Since attending my first BMC, we’ve doubled our revenue from $2.5M to $5M in just two years. Every event reignites my leadership and drives incredible growth for me and my team!”</p>
+          <p class="love-example-a">Dawn Neighoff, President and Owner, Clean Sweep Enterprises</p>
         </div>
         <textarea id="f-love" name="most_loved" class="wz-input is-area" placeholder="In your own words…" required></textarea>
         <span class="cf-field-error">Tell us what you loved. A sentence or two is plenty.</span>
@@ -184,7 +181,7 @@
       </fieldset>
 
       <div class="love-submit">
-        <button type="submit" class="btn-primary is-large is-block is-plum">Share My Love <span class="love-arrow">→</span></button>
+        <button type="submit" class="btn-primary is-large is-block is-plum">Share My BMC Love <span class="love-arrow">→</span></button>
       </div>
       <p class="love-mock-note" id="love-mock-note">Mock only. Nothing was sent. In the Webflow build this posts to the same HubSpot form as today (<code>ab4fdda9</code>) and then continues to the BMC45 checkout, exactly as the live page does.</p>
     </form>
@@ -207,29 +204,6 @@
 <script>
 (function () {
 
-  /* Mock only: the example-quote options. Punctuation only was touched
-     (em dashes became commas); wording is verbatim from the master. */
-  var QUOTES = [
-    ['How one CEO put it', 'Even after six times through BMC, I keep uncovering game-changing insights. I applied one strategy at lunch on day one and generated $350K in new revenue, and my team is blown away by the impact!', 'Bill Dost, Group CEO, DND Finance'],
-    ['How one owner put it', 'After implementing just a few strategies from last year\u2019s BMC, I increased my revenue by $1M, and with even more tools and insights from this year, I\u2019m excited to make an even bigger impact!', 'Kristine Collins, DVM, Sauk Point Veterinary Clinic'],
-    ['How one president put it', 'Since attending my first BMC, we\u2019ve doubled our revenue from $2.5M to $5M in just two years. Every event reignites my leadership and drives incredible growth for me and my team!', 'Dawn Neighoff, President and Owner, Clean Sweep Enterprises'],
-    ['How one owner put it', 'Wow just an incredible event. I was a little skeptical about the virtual set up but was absolutely blown away. This was my second BMC and got 100x out of it. You and your A-Team set the standard. See you in November', 'Tom Capuano, Franchise Owner, Pillar To Post'],
-    ['How one CEO put it', 'This was LIFE-CHANGING! I\u2019ve been to hundreds of seminars and workshops, but this exceeded anything I\u2019ve ever experienced. What I learned and the contacts I gained will undoubtedly add $1M+ to my bottom line this year and over $10M in the next two years. Just one idea I got will give me a 10X ROI on the cost of this event within 60 days. In a word: WOW!!', 'Paul Niccum, CEO, Paradise Capital']
-  ];
-  function showQuote(i) {
-    document.getElementById('ex-k').textContent = QUOTES[i][0];
-    var q = document.getElementById('ex-q');
-    q.textContent = '\u201c' + QUOTES[i][1] + '\u201d';
-    q.innerHTML = q.innerHTML.replace(/A-Team/g, '<span class="nobreak">A-Team</span>');
-    document.getElementById('ex-a').textContent = QUOTES[i][2];
-    document.querySelectorAll('.love-mock-switch button').forEach(function (b) {
-      b.classList.toggle('is-on', +b.dataset.q === i);
-    });
-  }
-  document.querySelectorAll('.love-mock-switch button').forEach(function (b) {
-    b.addEventListener('click', function () { showQuote(+b.dataset.q); });
-  });
-  showQuote(0);
 
   var form = document.getElementById('love-form');
   var note = document.getElementById('love-mock-note');
