@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Entrepreneur FastPass · Darren Hardy</title>
+<meta name="description" content="Sales, recruiting, leadership and productivity: the four skills behind every business breakthrough. Darren Hardy's Entrepreneur FastPass is closed for now. Join the early list to hear first when it reopens.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://fnxstudio.github.io/darren-hardy/efastpass/"> <!-- [MIGRATE] → https://efastpass.com/ -->
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Entrepreneur FastPass · Darren Hardy">
+<meta property="og:description" content="The four skills behind every business breakthrough. Closed for now. Join the early list to hear first when it reopens.">
+<meta property="og:image" content="https://fnxstudio.github.io/darren-hardy/efastpass/img/coaster-1920.webp">
+
+<link rel="preload" href="../fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="img/coaster-1920.webp" as="image" media="(min-width: 721px)">
+<link rel="preload" href="img/coaster-960.webp" as="image" media="(max-width: 720px)">
+
+<style>
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(../fonts/inter-latin.woff2) format('woff2');
+  }
+
+  :root {
+    /* eFASTPASS brand: red + navy, carried from efp.darrenhardy.com */
+    --red: #d81e24;          /* solid fills (brand #ee1f25 deepened to pass AA with white text) */
+    --red-brand: #ee1f25;    /* logo red, rules and pips only */
+    --red-on-dark: #ff4d52;  /* accent text on navy-deep */
+    --red-on-light: #c8161c; /* accent text on bone */
+    --navy: #00326d;
+    --navy-deep: #00142d;
+    --navy-ink: #000c1c;
+
+    /* DH.com neutrals */
+    --white: #ffffff;
+    --bone: #f5f4f0;
+    --bone-soft: #ecebe6;
+    --silver: #b9c1cc;
+    --grey: #8a93a0;
+    --grey-soft: #5f6875;
+    --muted: #3d4757;
+    --rule: rgba(255, 255, 255, 0.10);
+    --rule-strong: rgba(255, 255, 255, 0.18);
+    --rule-dark: rgba(0, 20, 45, 0.12);
+    --radius: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+  html, body {
+    background: var(--navy-deep);
+    color: var(--white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body { overflow-x: clip; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) { .container { padding: 0 24px; } }
+
+  /* ============ TYPE PRIMITIVES ============ */
+  .eyebrow {
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--silver);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .eyebrow .pip { display: inline-block; width: 28px; height: 1px; background: var(--red-brand); flex: none; }
+  .light .eyebrow { color: var(--grey-soft); }
+
+  .headline {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+    font-size: clamp(38px, 5.4vw, 80px);
+  }
+  .headline em { font-style: normal; color: var(--red-on-dark); }
+  .light .headline { color: var(--navy); }
+  .light .headline em { color: var(--red-on-light); }
+
+  .body {
+    font-size: clamp(17px, 1.35vw, 20px);
+    line-height: 1.6;
+    color: var(--silver);
+  }
+  .body + .body { margin-top: 1.1em; }
+  .body strong { color: var(--white); font-weight: 600; }
+  .light .body { color: var(--muted); }
+  .light .body strong { color: var(--navy); }
+
+  /* ============ BUTTON ============ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--red);
+    color: var(--white);
+    border: 0;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 20px 32px;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  }
+  .btn .arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+  .btn:hover { transform: scale(1.035); box-shadow: 0 10px 30px rgba(216, 30, 36, 0.35); }
+  .btn:hover .arrow { transform: translateX(6px); }
+  .btn:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+  .btn.full { width: 100%; }
+  .btn.full:hover { transform: scale(1.015); }
+
+  /* ============ NAV ============ */
+  nav.top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 18px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 40px;
+    background: rgba(0, 12, 28, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-meta {
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--silver);
+    text-decoration: none;
+  }
+  .nav-meta.left { justify-self: end; }
+  .nav-meta.right { justify-self: start; display: inline-flex; gap: 10px; transition: color 0.18s; }
+  .nav-meta.right:hover { color: var(--white); }
+  .nav-logo img { height: 34px; width: auto; }
+  @media (max-width: 860px) {
+    nav.top { display: flex; justify-content: space-between; padding: 14px 24px; }
+    .nav-meta.left { display: none; }
+    .nav-logo img { height: 28px; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding: 150px 0 110px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--navy-ink);
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    opacity: 0;
+    animation: fadeIn 1.8s ease 0.2s forwards;
+  }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(0,12,28,0.96) 0%, rgba(0,12,28,0.82) 42%, rgba(0,20,45,0.55) 100%),
+      linear-gradient(0deg, rgba(0,12,28,1) 0%, rgba(0,12,28,0) 30%);
+    pointer-events: none;
+  }
+  .hero .container { position: relative; z-index: 2; width: 100%; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 72px;
+    align-items: center;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--white);
+    padding: 9px 14px;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+  }
+  .status .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red-brand); box-shadow: 0 0 0 4px rgba(238,31,37,0.18); }
+  .hero h1 { margin-bottom: 34px; }
+  .skills-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .skills-line span { display: inline-flex; align-items: center; gap: 10px; }
+  .skills-line span::before { content: ""; width: 6px; height: 6px; background: var(--red-brand); }
+  .hero .body { max-width: 560px; }
+
+  .reveal { opacity: 0; transform: translateY(14px); animation: revealUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .d1 { animation-delay: 0.2s; } .d2 { animation-delay: 0.4s; } .d3 { animation-delay: 0.6s; } .d4 { animation-delay: 0.8s; } .d5 { animation-delay: 1.0s; }
+  @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  /* ============ EARLY-LIST CARD ============ */
+  .notify {
+    background: rgba(0, 20, 45, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--rule-strong);
+    border-top: 3px solid var(--red-brand);
+    border-radius: var(--radius);
+    padding: 40px 36px 34px;
+    scroll-margin-top: 110px;
+  }
+  .notify-title {
+    font-weight: 900;
+    font-size: clamp(24px, 2.1vw, 30px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin: 18px 0 14px;
+  }
+  .notify-lede { font-size: 16px; line-height: 1.55; color: var(--silver); margin-bottom: 26px; }
+  .field { margin-bottom: 12px; position: relative; }
+  .field label {
+    display: block;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 8px;
+  }
+  .field input, .field select {
+    width: 100%;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    padding: 15px 16px;
+    transition: border-color 0.18s, background 0.18s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field select { padding-right: 40px; cursor: pointer; }
+  .field select option { color: #111; }
+  .field .chev { position: absolute; right: 16px; bottom: 16px; color: var(--silver); pointer-events: none; font-size: 12px; }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--red-on-dark); background: rgba(255, 255, 255, 0.08); }
+  .field.invalid input, .field.invalid select { border-color: var(--red-on-dark); }
+  .field .err { display: none; font-size: 12px; color: var(--red-on-dark); margin-top: 6px; }
+  .field.invalid .err { display: block; }
+  .notify .btn { margin-top: 10px; }
+  .micro { font-size: 12px; line-height: 1.55; color: var(--grey); margin-top: 16px; }
+  .micro a { color: inherit; }
+
+  .confirm { text-align: left; }
+  .confirm .check {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 1px solid var(--red-brand);
+    color: var(--red-on-dark);
+    display: grid; place-items: center;
+    margin-bottom: 22px;
+  }
+  .confirm .check svg { width: 24px; height: 24px; }
+  .confirm p { font-size: 16px; line-height: 1.6; color: var(--silver); }
+  .confirm p + p { margin-top: 12px; }
+  .confirm .sign { color: var(--white); font-weight: 600; margin-top: 18px; }
+
+  @media (max-width: 960px) {
+    .hero { padding: 120px 0 80px; min-height: auto; }
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero::after { background: linear-gradient(180deg, rgba(0,12,28,0.80) 0%, rgba(0,12,28,0.92) 55%, rgba(0,12,28,1) 100%); }
+  }
+  @media (max-width: 480px) {
+    .notify { padding: 32px 22px 26px; }
+    .skills-line { gap: 10px 18px; font-size: 11px; letter-spacing: 0.24em; }
+    .status { font-size: 10px; letter-spacing: 0.2em; }
+  }
+
+  /* ============ MEDIA STRIP ============ */
+  .media {
+    background: var(--navy-ink);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 34px 0;
+  }
+  .media .container { display: flex; align-items: center; gap: 48px; }
+  .media-label {
+    flex: none;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--grey);
+    max-width: 150px;
+    line-height: 1.7;
+  }
+  .media-logos { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+  .media-logos img { height: 24px; width: auto; filter: brightness(0) invert(1); opacity: 0.6; }
+  .media-logos img.logo-bw { filter: invert(1); }
+  @media (max-width: 860px) {
+    .media .container { flex-direction: column; gap: 22px; }
+    .media-label { max-width: none; text-align: center; }
+    .media-logos { justify-content: center; gap: 22px 30px; }
+    .media-logos img { height: 18px; }
+  }
+
+  /* ============ SECTIONS ============ */
+  section { position: relative; }
+  .pad { padding: 150px 0; }
+  .light { background: var(--bone); color: var(--navy); }
+  @media (max-width: 720px) { .pad { padding: 80px 0; } }
+
+  /* Story */
+  .story-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 96px; align-items: center; }
+  .story-grid .headline { margin: 26px 0 40px; }
+  .story-img { position: relative; }
+  .story-img img { width: 100%; height: auto; border-radius: var(--radius); }
+  .story-img figcaption {
+    margin-top: 14px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--grey-soft);
+  }
+  .signature { margin-top: 34px; font-weight: 700; font-size: 15px; color: var(--navy); }
+  .signature span { display: block; font-weight: 500; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--grey-soft); margin-top: 6px; }
+  @media (max-width: 960px) {
+    .story-grid { grid-template-columns: 1fr; gap: 56px; }
+    .story-img { order: -1; max-width: 520px; }
+  }
+
+  /* Four disciplines */
+  .disciplines { background: var(--navy-deep); }
+  .disc-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: 80px; align-items: end; margin-bottom: 90px; }
+  .disc-head .headline { margin-top: 26px; }
+  .disc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--rule-strong); }
+  .disc { padding: 40px 32px 8px 0; position: relative; }
+  .disc + .disc { padding-left: 32px; border-left: 1px solid var(--rule); }
+  .disc-num {
+    font-weight: 900;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 77, 82, 0.7);
+    margin-bottom: 26px;
+  }
+  .disc h3 {
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .disc p { font-size: 16px; line-height: 1.6; color: var(--silver); }
+  .disc-close {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .disc-close p { font-size: clamp(20px, 1.9vw, 28px); line-height: 1.35; font-weight: 600; max-width: 760px; }
+  .disc-close p span { color: var(--silver); font-weight: 400; }
+  @media (max-width: 960px) {
+    .disc-head { grid-template-columns: 1fr; gap: 28px; margin-bottom: 56px; }
+    .disc-grid { grid-template-columns: 1fr 1fr; }
+    .disc:nth-child(3) { padding-left: 0; border-left: 0; }
+    .disc:nth-child(n+3) { border-top: 1px solid var(--rule); }
+    .disc { padding-bottom: 36px; }
+    .disc-close { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 560px) {
+    .disc-grid { grid-template-columns: 1fr; }
+    .disc, .disc + .disc { padding: 32px 0 28px; border-left: 0; }
+    .disc + .disc { border-top: 1px solid var(--rule); }
+    .disc-num { font-size: 48px; margin-bottom: 18px; }
+  }
+
+  /* Results */
+  .results-head { max-width: 860px; margin-bottom: 80px; }
+  .results-head .headline { margin: 26px 0 28px; }
+  .feature {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+    padding-bottom: 80px;
+    border-bottom: 1px solid var(--rule-dark);
+    margin-bottom: 72px;
+  }
+  .feature img { width: 240px; height: 300px; object-fit: cover; border-radius: var(--radius); }
+  .feature-punch {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-size: clamp(32px, 4vw, 58px);
+    color: var(--navy);
+  }
+  .feature-punch em { font-style: normal; color: var(--red-on-light); }
+  .feature-rest { font-size: clamp(18px, 1.5vw, 22px); line-height: 1.5; color: var(--muted); margin-top: 22px; max-width: 760px; }
+  .who { margin-top: 26px; }
+  .who-name { font-weight: 700; font-size: 15px; color: var(--navy); }
+  .who-title { font-weight: 600; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red-on-light); margin-top: 6px; }
+
+  .pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-bottom: 72px; }
+  .pair { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 32px; align-items: start; }
+  .pair img { width: 160px; height: 200px; object-fit: cover; border-radius: var(--radius); }
+  .pair-punch { font-weight: 800; font-size: clamp(21px, 1.8vw, 26px); line-height: 1.22; letter-spacing: -0.01em; color: var(--navy); }
+  .pair-rest { font-size: 16px; line-height: 1.6; color: var(--muted); margin-top: 14px; }
+
+  .quotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .q {
+    background: var(--white);
+    border: 1px solid var(--rule-dark);
+    border-top: 2px solid var(--red-brand);
+    border-radius: var(--radius);
+    padding: 34px 30px 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  .q-punch { font-weight: 800; font-size: 21px; line-height: 1.25; letter-spacing: -0.01em; color: var(--navy); }
+  .q-rest { font-size: 15px; line-height: 1.6; color: var(--muted); margin-top: 14px; flex: 1; }
+  .q .who { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--rule-dark); }
+
+  @media (max-width: 960px) {
+    .pairs { grid-template-columns: 1fr; }
+    .quotes { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 767px) {
+    .feature { grid-template-columns: 1fr; gap: 32px; padding-bottom: 56px; margin-bottom: 56px; }
+    .feature img { width: 200px; height: 250px; }
+    .pair { grid-template-columns: 1fr; gap: 22px; }
+    .pair img { width: 160px; height: 200px; }
+    .results-head { margin-bottom: 56px; }
+  }
+
+  /* Endorsements */
+  .endorse { background: var(--navy-ink); }
+  .endorse .eyebrow { justify-content: center; }
+  .endorse-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 64px; }
+  .e { padding: 0 40px; }
+  .e + .e { border-left: 1px solid var(--rule); }
+  .e blockquote { font-size: 18px; line-height: 1.6; color: #e9edf2; }
+  .e blockquote strong { color: var(--white); font-weight: 600; }
+  .e .e-name { margin-top: 26px; font-weight: 700; font-size: 15px; }
+  .e .e-title { margin-top: 6px; font-weight: 600; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red-on-dark); }
+  @media (max-width: 960px) {
+    .endorse-grid { grid-template-columns: 1fr; gap: 0; }
+    .e { padding: 36px 0; }
+    .e + .e { border-left: 0; border-top: 1px solid var(--rule); }
+    .e:first-child { padding-top: 0; }
+  }
+
+  /* Meet Darren */
+  .meet-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: 96px; align-items: center; }
+  .meet-img img { width: 100%; max-width: 440px; height: auto; border-radius: var(--radius); }
+  .meet-grid .headline { margin: 26px 0 36px; }
+  .creds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule-dark); }
+  .cred-num { font-weight: 900; font-size: clamp(30px, 3vw, 42px); letter-spacing: -0.03em; line-height: 1; color: var(--navy); }
+  .cred-label { font-weight: 600; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey-soft); margin-top: 10px; line-height: 1.6; }
+  @media (max-width: 960px) {
+    .meet-grid { grid-template-columns: 1fr; gap: 48px; }
+    .meet-img img { max-width: 360px; }
+  }
+  @media (max-width: 480px) { .creds { grid-template-columns: 1fr 1fr; } }
+
+  /* Final CTA */
+  .final {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 180px 0;
+    background: var(--navy-ink);
+  }
+  .final .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 70%; opacity: 0.32; }
+  .final::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,20,45,0.55) 0%, rgba(0,12,28,0.95) 75%); }
+  .final .container { position: relative; z-index: 2; }
+  .final .eyebrow { justify-content: center; }
+  .final .headline { margin: 26px auto 28px; max-width: 900px; }
+  .final .body { max-width: 620px; margin: 0 auto 44px; }
+  @media (max-width: 720px) { .final { padding: 100px 0; } }
+
+  /* Footer */
+  footer { background: var(--navy-ink); border-top: 1px solid var(--rule); padding: 40px 0; }
+  footer .container { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .foot-brand { display: flex; align-items: center; gap: 18px; }
+  .foot-brand img { height: 26px; width: auto; }
+  .foot-brand span { font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--grey); }
+  .foot-legal { display: flex; gap: 24px; font-size: 12px; color: var(--grey); flex-wrap: wrap; }
+  .foot-legal a { color: inherit; text-decoration: none; }
+  .foot-legal a:hover { color: var(--white); }
+  @media (max-width: 720px) { footer .container { flex-direction: column; align-items: flex-start; } }
+
+  /* Scroll reveal (progressive: visible by default if JS/IO is unavailable) */
+  .js .rv { opacity: 0; transform: translateY(18px); transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+  .js .rv.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal, .hero-bg { animation: none; opacity: 1; transform: none; }
+    .js .rv { opacity: 1; transform: none; transition: none; }
+    .btn, .btn .arrow { transition: none; }
+    .btn:hover, .btn.full:hover, .btn:hover .arrow { transform: none; }
+  }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');</script>
+
+<nav class="top" aria-label="Primary">
+  <span class="nav-meta left">A Darren Hardy Program</span>
+  <a class="nav-logo" href="#top" aria-label="The Entrepreneur FastPass, back to top">
+    <img src="img/efp-logo.webp" alt="The Entrepreneur FastPass" width="440" height="99">
+  </a>
+  <a class="nav-meta right" href="#notify" data-focus-form>Get Early Notice <span aria-hidden="true">→</span></a>
+</nav>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <picture>
+      <source media="(max-width: 720px)" srcset="img/coaster-960.webp">
+      <img class="hero-bg" src="img/coaster-1920.webp" alt="" width="1920" height="1234" fetchpriority="high">
+    </picture>
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="status reveal d1"><span class="dot" aria-hidden="true"></span>Enrollment Currently Closed</div>
+          <h1 class="headline reveal d2">The <em>four</em> skills behind every breakthrough</h1>
+          <div class="skills-line reveal d3" aria-label="Sales, Recruiting, Leadership, Productivity">
+            <span>Sales</span><span>Recruiting</span><span>Leadership</span><span>Productivity</span>
+          </div>
+          <p class="body reveal d4">Every leader who breaks through has mastered all four. Most are strong in two and <strong>quietly capped by the other two.</strong></p>
+          <p class="body reveal d5">The Entrepreneur FastPass is Darren Hardy's program for leaders who refuse to stay capped. The doors are closed for now. When they open again, the early list hears first.</p>
+        </div>
+
+        <div class="notify reveal d4" id="notify">
+          <div id="notifyForm">
+            <div class="eyebrow"><span class="pip"></span>The Early List</div>
+            <h2 class="notify-title">Be first when the doors reopen</h2>
+            <p class="notify-lede">Add your name and you will hear from us before enrollment is announced anywhere else.</p>
+            <form id="efpForm" novalidate>
+              <div class="field">
+                <label for="efpFirst">First name</label>
+                <input type="text" id="efpFirst" name="firstname" autocomplete="given-name" required>
+                <span class="err">Please add your first name.</span>
+              </div>
+              <div class="field">
+                <label for="efpEmail">Email</label>
+                <input type="email" id="efpEmail" name="email" autocomplete="email" required>
+                <span class="err">Please add a valid email address.</span>
+              </div>
+              <div class="field">
+                <label for="efpRole">Your role</label>
+                <select id="efpRole" name="role" required>
+                  <option value="" selected disabled>Select one</option>
+                  <option value="owner_0_500k">Business owner (revenue $0–$500K)</option>
+                  <option value="owner_500k_1m">Business owner (revenue $500K–$1M)</option>
+                  <option value="owner_1m_10m">Business owner (revenue $1M–$10M)</option>
+                  <option value="owner_10m_50m">Business owner (revenue $10M–$50M)</option>
+                  <option value="owner_50m_plus">Business owner (revenue $50M+)</option>
+                  <option value="internal_leader">Leader inside an organization</option>
+                  <option value="aspiring">Building toward my first business</option>
+                </select>
+                <span class="chev" aria-hidden="true">▾</span>
+                <span class="err">Please choose the closest fit.</span>
+              </div>
+              <button type="submit" class="btn full">Notify Me First <span class="arrow" aria-hidden="true">→</span></button>
+              <p class="micro">One early notice when enrollment reopens. We never share your information. <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a></p>
+            </form>
+          </div>
+
+          <div class="confirm" id="notifyConfirm" hidden>
+            <div class="check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>
+            </div>
+            <div class="eyebrow"><span class="pip"></span>You're On The List</div>
+            <h2 class="notify-title" tabindex="-1" id="confirmTitle">Your seat in line is saved</h2>
+            <p>When the doors open again, you will hear before anyone else. Watch your inbox for a note from Darren Hardy.</p>
+            <p>Until then, do the work. The leaders who get the most from this program arrive already moving.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEDIA -->
+  <div class="media">
+    <div class="container">
+      <div class="media-label">Darren Hardy, as featured in</div>
+      <div class="media-logos">
+        <img src="../media-logos/success.webp" alt="SUCCESS" class="logo-bw" loading="lazy">
+        <img src="../media-logos/forbes.svg" alt="Forbes" loading="lazy">
+        <img src="../media-logos/inc.svg" alt="Inc." loading="lazy">
+        <img src="../media-logos/cnbc.svg" alt="CNBC" loading="lazy">
+        <img src="../media-logos/cnn.svg" alt="CNN" loading="lazy">
+        <img src="../media-logos/fox.svg" alt="FOX" loading="lazy">
+        <img src="../media-logos/nyt.svg" alt="The New York Times" loading="lazy">
+      </div>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <section class="light pad">
+    <div class="container story-grid">
+      <div class="rv">
+        <div class="eyebrow"><span class="pip"></span>Why It Exists</div>
+        <h2 class="headline">No shortcuts. There is a <em>FastPass.</em></h2>
+        <p class="body">I started my first business afraid, underprepared and without a mentor. I did most of it wrong, which is how I eventually learned to do it right.</p>
+        <p class="body">Then I spent more than thirty years at the center of the success media industry. As publisher of SUCCESS magazine, I sat across the table from Richard Branson, Howard Schultz, Jeff Bezos, Martha Stewart and hundreds of others, and asked how they actually built what they built.</p>
+        <p class="body">Here is what I found. <strong>The people who win are not smarter, luckier or better funded.</strong> They mastered four skills earlier than everyone else. The FastPass hands you those four skills, so you arrive at the answers without the decade of expensive lessons.</p>
+        <div class="signature">Darren Hardy<span>Creator, The Entrepreneur FastPass</span></div>
+      </div>
+      <figure class="story-img rv">
+        <img src="img/dh-covers.webp" alt="Darren Hardy in front of a wall of SUCCESS magazine covers" width="1000" height="958" loading="lazy">
+        <figcaption>Thirty years of interviews with the people who built the world's great companies.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- FOUR DISCIPLINES -->
+  <section class="disciplines pad">
+    <div class="container">
+      <div class="disc-head rv">
+        <div>
+          <div class="eyebrow"><span class="pip"></span>The Four Disciplines</div>
+          <h2 class="headline">Miss one and you <em>stay stuck</em></h2>
+        </div>
+        <p class="body">A business grows to the level of its weakest discipline. Brilliant at sales with no bench behind you, you become the bottleneck. A great team with no pipeline, you run out of runway. The FastPass builds all four at once.</p>
+      </div>
+      <div class="disc-grid">
+        <div class="disc rv">
+          <div class="disc-num" aria-hidden="true">01</div>
+          <h3>Sales</h3>
+          <p>A pipeline that fills because the right people want what you have, not because you chased them.</p>
+        </div>
+        <div class="disc rv">
+          <div class="disc-num" aria-hidden="true">02</div>
+          <h3>Recruiting</h3>
+          <p>A-players who choose you, stay with you, and raise the standard of everyone around them.</p>
+        </div>
+        <div class="disc rv">
+          <div class="disc-num" aria-hidden="true">03</div>
+          <h3>Leadership</h3>
+          <p>A team that performs at its best when you are not in the room, because they believe in where you are going.</p>
+        </div>
+        <div class="disc rv">
+          <div class="disc-num" aria-hidden="true">04</div>
+          <h3>Productivity</h3>
+          <p>More impact in fewer hours, with your attention spent only on the few things that move the business.</p>
+        </div>
+      </div>
+      <div class="disc-close rv">
+        <p>Master all four and the business finally works for you. <span>Not the other way around.</span></p>
+        <a class="btn" href="#notify" data-focus-form>Get Early Notice <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="light pad">
+    <div class="container">
+      <div class="results-head rv">
+        <div class="eyebrow"><span class="pip"></span>From Inside The Program</div>
+        <h2 class="headline">What one idea <em>can be worth</em></h2>
+        <p class="body">More than 6,800 leaders have been through the FastPass. Here is what a few of them did with it.</p>
+      </div>
+
+      <div class="feature rv">
+        <img src="img/keith-nichols.webp" alt="Keith Nichols" width="296" height="370" loading="lazy">
+        <div>
+          <p class="feature-punch">One idea produced a <em>$650,000</em> sale</p>
+          <p class="feature-rest">"...which helped us log over $1 million in sales our first full year."</p>
+          <div class="who">
+            <div class="who-name">Keith Nichols</div>
+            <div class="who-title">President, Precision Piping Products</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pairs">
+        <div class="pair rv">
+          <img src="img/dan-mumm.webp" alt="Dan Mumm" width="360" height="450" loading="lazy">
+          <div>
+            <p class="pair-punch">"My takeaway from module 11 was worth $6,700."</p>
+            <p class="pair-rest">"This afternoon I decided to spend an hour calling prospects who I hadn't talked to in over 4 months... I also set an appointment with one to sign a pretty large deal."</p>
+            <div class="who">
+              <div class="who-name">Dan Mumm</div>
+              <div class="who-title">Realtor, Huntington &amp; Ellis</div>
+            </div>
+          </div>
+        </div>
+        <div class="pair rv">
+          <img src="img/justin-kua.webp" alt="Justin J. Kua" width="360" height="450" loading="lazy">
+          <div>
+            <p class="pair-punch">"Already recouped the investment many times over."</p>
+            <p class="pair-rest">"Module 5 on hiring is a game-changer!"</p>
+            <div class="who">
+              <div class="who-name">Justin J. Kua</div>
+              <div class="who-title">PSR Brokerage</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quotes">
+        <div class="q rv">
+          <p class="q-punch">"...has allowed me to double the goal."</p>
+          <p class="q-rest">"My goal was to add a certain amount of business to my book of business and using the simple focus and understanding about helping the customer, client, prospect has allowed me to double the goal."</p>
+          <div class="who">
+            <div class="who-name">Sheila Wall</div>
+            <div class="who-title">Insurance &amp; Network Marketing</div>
+          </div>
+        </div>
+        <div class="q rv">
+          <p class="q-punch">"Consistently rated in the Top 5% nationwide."</p>
+          <p class="q-rest">"By just focusing on these 3 vital functions I have consistently rated in the Top 5% nationwide... I am spending less hours being in this Top 5% than the others and getting better results."</p>
+          <div class="who">
+            <div class="who-name">Bruce Corkhill</div>
+            <div class="who-title">Independent Business Owner</div>
+          </div>
+        </div>
+        <div class="q rv">
+          <p class="q-punch">"We have gone from 22 to 31 units."</p>
+          <p class="q-rest">"So far this year we have gone from 22 to 31 units... We have paid off 2 loans this year." Her verdict on the program: "Increased sales, lower overhead, increased productivity from our team members, less stress running a business."</p>
+          <div class="who">
+            <div class="who-name">Flor Mazeda</div>
+            <div class="who-title">Founder, Mazeda Property Investments</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENDORSEMENTS -->
+  <section class="endorse pad">
+    <div class="container">
+      <div class="eyebrow rv"><span class="pip"></span>From Those Who Built It<span class="pip"></span></div>
+      <div class="endorse-grid">
+        <div class="e rv">
+          <blockquote>"Darren Hardy has studied the greats of our time. He's interviewed them, learned from them, and distilled it all... <strong>How else are you going to get access to the wisdom of some of the greatest business minds in history?</strong>"</blockquote>
+          <div class="e-name">Dave Liniger</div>
+          <div class="e-title">Founder, RE/MAX</div>
+        </div>
+        <div class="e rv">
+          <blockquote>"Pick an achiever, and Darren Hardy has probably interviewed them and parsed their approach to business. <strong>It's like having private access to some of the greatest entrepreneurial minds of our time.</strong>"</blockquote>
+          <div class="e-name">John C. Maxwell</div>
+          <div class="e-title">Author, The 21 Irrefutable Laws of Leadership</div>
+        </div>
+        <div class="e rv">
+          <blockquote>"<strong>Darren Hardy hits all the essentials to be a successful entrepreneur that nobody teaches in school:</strong> courage, passion, purpose, persistence, bold-thinking and so much more."</blockquote>
+          <div class="e-name">Peter H. Diamandis</div>
+          <div class="e-title">Founder, XPRIZE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEET DARREN -->
+  <section class="light pad">
+    <div class="container meet-grid">
+      <div class="meet-img rv">
+        <img src="img/dh-book.webp" alt="Darren Hardy holding The Entrepreneur Roller Coaster" width="760" height="1055" loading="lazy">
+      </div>
+      <div class="rv">
+        <div class="eyebrow"><span class="pip"></span>Your Mentor</div>
+        <h2 class="headline">Darren <em>Hardy</em></h2>
+        <p class="body">Founding publisher of SUCCESS magazine, <strong>New York Times bestselling author</strong> of The Compound Effect and The Entrepreneur Roller Coaster, and advisor to CEOs and business leaders around the world.</p>
+        <p class="body">For more than three decades he has had a front-row seat to how great companies are built. The FastPass is that access, distilled into the four skills that decide whether a business stalls or scales.</p>
+        <div class="creds">
+          <div><div class="cred-num">35</div><div class="cred-label">Years advising business leaders</div></div>
+          <div><div class="cred-num">11K+</div><div class="cred-label">CEOs and founders mentored</div></div>
+          <div><div class="cred-num">1M+</div><div class="cred-label">Copies of The Compound Effect</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final">
+    <img class="bg" src="img/coaster-960.webp" alt="" width="960" height="617" loading="lazy">
+    <div class="container rv">
+      <div class="eyebrow"><span class="pip"></span>The Early List<span class="pip"></span></div>
+      <h2 class="headline">Be <em>first</em> in line</h2>
+      <p class="body">The Entrepreneur FastPass is closed to new members for now. When the doors open again, the early list hears first.</p>
+      <a class="btn" href="#notify" data-focus-form>Notify Me First <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-brand">
+      <img src="img/efp-logo.webp" alt="The Entrepreneur FastPass" width="440" height="99" loading="lazy">
+      <span>A Darren Hardy Program</span>
+    </div>
+    <div class="foot-legal">
+      <span>© Darren Hardy, LLC. All Rights Reserved.</span>
+      <a href="https://dh.darrenhardy.com/terms-of-service/">Terms &amp; Conditions</a>
+      <a href="https://dh.darrenhardy.com/privacy">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* ── Scroll reveal ── */
+  var els = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+    /* Safety net: never leave content hidden if the observer does not fire */
+    setTimeout(function () { els.forEach(function (el) { el.classList.add('in'); }); }, 2500);
+  } else {
+    els.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ── CTAs scroll to the form and focus the first field ── */
+  document.querySelectorAll('[data-focus-form]').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      var card = document.getElementById('notify');
+      card.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+      var first = document.getElementById('efpFirst');
+      if (first && !document.getElementById('notifyForm').hidden) setTimeout(function () { first.focus({ preventScroll: true }); }, 450);
+    });
+  });
+
+  /* ── Early-list form ──
+     HUBSPOT: portal 2518645. Paste the eFASTPASS early-list form GUID below at launch.
+     Until it is set, submit shows the confirmation only (staging). */
+  var HS_PORTAL = '2518645';
+  var HS_FORM = '';
+
+  var form = document.getElementById('efpForm');
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function check(input, ok) {
+    input.closest('.field').classList.toggle('invalid', !ok);
+    input.setAttribute('aria-invalid', ok ? 'false' : 'true');
+    return ok;
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var first = form.firstname, email = form.email, role = form.role;
+    var ok = [
+      check(first, first.value.trim().length > 0),
+      check(email, emailRe.test(email.value.trim())),
+      check(role, role.value !== '')
+    ];
+    if (ok.indexOf(false) !== -1) {
+      form.querySelector('.invalid input, .invalid select').focus();
+      return;
+    }
+
+    var btn = form.querySelector('button');
+    btn.disabled = true;
+
+    function done() {
+      document.getElementById('notifyForm').hidden = true;
+      var c = document.getElementById('notifyConfirm');
+      c.hidden = false;
+      document.getElementById('confirmTitle').focus();
+    }
+
+    if (!HS_FORM) { done(); return; }
+
+    fetch('https://api.hsforms.com/submissions/v3/integration/submit/' + HS_PORTAL + '/' + HS_FORM, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fields: [
+          { name: 'firstname', value: first.value.trim() },
+          { name: 'email', value: email.value.trim() },
+          { name: 'role', value: role.value }
+        ],
+        context: { pageUri: location.href, pageName: document.title }
+      })
+    }).then(done, done);
+  });
+
+  ['firstname', 'email', 'role'].forEach(function (n) {
+    form[n].addEventListener('input', function () {
+      if (this.closest('.field').classList.contains('invalid')) check(this, n === 'email' ? emailRe.test(this.value.trim()) : this.value.trim() !== '');
+    });
+  });
+})();
+</script>
+</body>
+</html>
