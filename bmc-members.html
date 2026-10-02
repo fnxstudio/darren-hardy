@@ -1,0 +1,652 @@
+<!DOCTYPE html><!-- This site was created in Webflow. https://webflow.com --><!-- Last Published: Fri Oct 02 2026 17:30:34 GMT+0000 (Coordinated Universal Time) --><html data-wf-domain="bmc-collective.webflow.io" data-wf-page="6abdaeec27ed07760f1072db" data-wf-site="6a8f3cd9ae819c28f7dcbd41" lang="en"><head>
+<!-- Exported 2026-10-02 from the BMC|COLLECTIVE Webflow page /members (removed from Webflow). Static copy: no Webflow runtime, no tracking, no consent banner. --><meta charset="utf-8"/><title>They Had A Reason To Wait · Business Master Class</title><meta content="Rising costs. Cheaper competitors. A soft market. A full calendar. A scary hire. Five business leaders had every reason to wait, and decided anyway." name="description"/><meta content="They Had A Reason To Wait · Business Master Class" property="og:title"/><meta content="Rising costs. Cheaper competitors. A soft market. A full calendar. A scary hire. Five business leaders had every reason to wait, and decided anyway." property="og:description"/><meta content="https://fnxstudio.github.io/darren-hardy/bmc-members/bmc-og-cover.jpg" property="og:image"/><meta content="They Had A Reason To Wait · Business Master Class" name="twitter:title"/><meta content="Rising costs. Cheaper competitors. A soft market. A full calendar. A scary hire. Five business leaders had every reason to wait, and decided anyway." name="twitter:description"/><meta property="og:type" content="website"/><meta content="summary_large_image" name="twitter:card"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="Webflow" name="generator"/><link href="bmc-members/site.css" rel="stylesheet" type="text/css"/><script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script><link href="bmc-members/bmccfavicondark32.png" rel="icon" type="image/png"  media="(prefers-color-scheme: light)"/><link href="bmc-members/bmccfaviconwhite32.png" rel="icon" type="image/png"  media="(prefers-color-scheme: dark)"/><link href="bmc-members/bmccfavicondark32.png" rel="icon" type="image/png" /><link href="bmc-members/bmcc-icon-512.png" rel="apple-touch-icon" /><link href="bmc-members/bmcc-icon-512.png" rel="icon" type="image/png" /><link href="bmc-members/bmcc-icon-512.png" rel="icon" type="image/png" /><!-- Case-insensitive URL rescue - runs before anything paints. -->
+
+
+<!-- CONSENT DEFAULTS v4, ported from Profits 2026-09-29. Must run BEFORE Cookiebot and GTM.
+     1) RETURNING VISITOR: their saved Cookiebot choice (the CookieConsent
+        cookie) is read and applied as the DEFAULT, in every region, so a
+        "Do not sell" or Deny holds from the first millisecond of every later
+        page view.
+     2) No saved choice: everyone denied (EU/UK/BR need opt-in); US granted from
+        arrival (opt-out law; the US group 201e33fd shows "Do not sell or share").
+     A browser sending Global Privacy Control always gets ads denied (CA requires it).
+
+     WHY STEP 1 EXISTS - measured on this site 2026-09-29, before the port:
+     load -> click "Do Not Sell" -> RELOAD, and the LinkedIn Insight Tag fired
+     again on the fresh page view (insight.min.js, insight.beta.min.js,
+     collect?pid=266308, wa/?medium=fetch) with the saved cookie already reading
+     statistics:false, and the reload carrying gcs=G111 (granted). After the port
+     the same test gives ZERO LinkedIn hits and G100 only.
+     NOTE: this was first reported as "LinkedIn Website Actions records the click
+     on the opt-out button itself, nothing fires after that". Half right - there
+     IS a click-time burst - but the hits above landed on the RELOAD, not the
+     click, so switching off Website Actions in Campaign Manager would have
+     masked one vendor while Meta, Google Ads and anything else keyed to
+     ad_storage kept re-firing for opted-out returning visitors.
+
+     Auto-blocking is OFF on the Cookiebot tag: GTM tags are gated by these
+     consent states instead (Meta/LinkedIn/ViewContent require ad_storage;
+     Google tags use Consent Mode). -->
+
+
+<!-- Cookiebot. GEO v5d 2026-09-30. APPROVED by Darren/Darami 2026-09-30:
+     banner only where required (California + the Allow/Deny regions below);
+     every other US state and country gets the small icon only (see the
+     BANNER GATE block right after this tag - that is what hides the banner).
+     Must be IDENTICAL on darrenhardy.com, hardybmc.com, darrendaily.com and
+     profits.darrenhardy.com - do not edit one site on its own.
+
+     MAIN (data-cbid) = DH - Main / Opt-in (EU/UK/BR/CA), aa91d095: explicit
+       consent, [Allow] [Deny], for every country NOT in the region list below
+       = all of Europe, Cyprus, Brazil, Canada (whole country, Quebec Law 25),
+       plus Turkey, South Korea, China, South Africa, India and Japan (added
+       v5d 2026-09-30: consent-based privacy laws). Its Territory in the
+       dashboard must include every one of those, or they get no banner.
+     ROUTED = DH - Opt-out (US + ROW, banner CA only), 201e33fd: implied
+       consent, [OK] [Do Not Sell or Share], for the US plus every other country
+       (the codes below). Only California is SHOWN this banner (banner gate).
+     To move a country to the Allow/Deny banner: REMOVE its code from the list
+     below AND tick it in the Main group's Territory. Both, or it will not apply.
+     No data-blockingmode: consent is enforced by the defaults above and the
+     bridge below. data-consentmode="disabled": Cookiebot must not send its
+     own Consent Mode signals - the bridge below is the only source. -->
+
+
+<!-- BANNER GATE v5d 2026-09-30. APPROVED plan: banner only in California and
+     the Allow/Deny regions; everyone else gets the icon only.
+     Why this is code and not Cookiebot's Territory setting: Territory is NOT
+     applied to the routed opt-out group (measured 2026-09-30 - Dallas, TX still
+     got the full banner over an hour after BOTH groups' Territories were set to
+     California only). So the site decides who sees a banner:
+       SHOW - California (Cookiebot region US-06), and every Allow/Deny visitor
+              (dialog.consentLevel 'strict'): Europe, UK, Brazil, Canada,
+              Turkey, South Korea, China, South Africa, India, Japan.
+       HIDE - everyone else on the opt-out banner (the other US states and the
+              rest of the world). Tracking runs from arrival (the bridge grants
+              it; GPC still turns ads off). They opt out with the footer
+              "Do Not Sell or Share" link, or the cookie icon this block adds
+              bottom-left, which reopens the opt-out banner.
+     The banner is held invisible until this decides, so hidden visitors never
+     see it flash. FAIL-SAFE: if Cookiebot has told us nothing after 4s, the
+     banner is released and shows as normal.
+     To give another US state the banner, add its Cookiebot region code to
+     SHOW_REGIONS (e.g. 'US-48' is Texas). Nothing else needs changing. -->
+<style>
+html:not(.dh-cb-show) #CybotCookiebotDialog { visibility: hidden !important; }
+#dh-cb-icon { position: fixed; left: 10px; bottom: 10px; z-index: 2147483630; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: #141414; color: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.25); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+#dh-cb-icon svg { width: 26px; height: 26px; display: block; }
+#dh-cb-icon:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media print { #dh-cb-icon { display: none; } }
+</style>
+
+
+
+<!-- CONSENT BRIDGE: Cookiebot -> Google Consent Mode, GTM and HubSpot.
+     Visitor has chosen: apply their choice exactly (ads always off with GPC).
+     No choice yet, opt-out banner: grant from arrival (ads off if GPC).
+     No choice yet, Allow/Deny banner: do NOTHING - the denied defaults
+     already cover it. This bridge never sends a "denied" update for someone who
+     has not chosen, because Cookiebot briefly reports GDPR for everyone before
+     it resolves the visitor's location (seen 2026-09-29: it switched a
+     California visitor off). It runs on Cookiebot's dialog events, which fire
+     only after the location is known, plus a 2.5s safety check.
+     HubSpot is loaded here (still hardcoded, not GTM) so it can wait for
+     consent in the EU; the element with id hs-script-loader below keeps the
+     GTM HubSpot tag from loading a second copy. v3, 2026-09-29.
+     GEO v5b: "opt-in" is read from the banner Cookiebot actually served
+     (dialog.consentLevel 'strict' = Allow/Deny). Unknown = treated as opt-in,
+     so a load failure can only under-track, never track without consent.
+     v5c (2026-09-30): GPC also wins over a saved or automatic "accept" -
+     icon-only visitors get Cookiebot's automatic implied consent, and without
+     this a GPC browser would still have been sent to Meta/LinkedIn. -->
+
+
+<!-- HubSpot placeholder, portal 2518645. The real script is loaded by the
+     consent bridge above. This element exists only so the GTM HubSpot tag
+     (which checks for id="hs-script-loader") never loads a second copy.
+     It also warms up the connection. Do not delete. -->
+
+
+
+
+<!-- End Google Tag Manager -->
+
+<!-- Webflow derives the 48px icon from the Light tile with no prefers-color-scheme query, so
+     its dark ink vanishes on dark chrome. Head code runs after Webflow's tags, so this wins. -->
+<link rel="icon" type="image/png"  media="(prefers-color-scheme: dark)" href="bmc-members/bmccfaviconwhite48.png">
+
+<!-- FONTS: nothing to do here any more. 2026-09-19 this block held a
+     preload + media=print stylesheet pointing at fonts.googleapis.com/css2,
+     written to work around Webflow's render-blocking webfont.js. That workaround
+     CANNOT work - it never removes the script, it only adds requests - and it was
+     measured and reverted on darrenhardy.com the same day. Inter is now served as
+     Webflow CUSTOM FONTS (6 static weights, woff2, font-display swap) from
+     cdn.prod.website-files.com, so these tags were downloading the family a SECOND
+     time from Google for no benefit. Do not reintroduce them.
+     Full rationale: rules/webflow-fonts-render-blocking.md -->
+
+<style>:root{--black:#0a0a0a;--ink:#141414;--ink-soft:#1c1c1c;--white:#ffffff;--bone:#f5f5f5;--bone-soft:#ececec;--silver:#b8b8b8;--grey:#888888;--grey-soft:#6a6a6a;--muted:#444444;--surface-card:#0e0c12;--text-on-dark:#f1f1f4;--bmc-cyan-rgb:120, 228, 239;--bmc-cyan:rgb(var(--bmc-cyan-rgb));--bmc-cyan-soft:rgba(var(--bmc-cyan-rgb), 0.85);--rule-cyan:rgba(var(--bmc-cyan-rgb), 0.32);--bmc-plum-rgb:75, 44, 106;--bmc-plum:rgb(var(--bmc-plum-rgb));--gold:#f5b301;--bmc-purple-rgb:156, 39, 172;--bmc-purple:rgb(var(--bmc-purple-rgb));--bmc-magenta-rgb:214, 42, 143;--bmc-magenta:rgb(var(--bmc-magenta-rgb));--rule:rgba(255, 255, 255, 0.08);--rule-strong:rgba(255, 255, 255, 0.15);--rule-dark:rgba(10, 10, 10, 0.1);--rule-dark-strong:rgba(10, 10, 10, 0.18);--radius:4px;--section-pad-mobile:72px}*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;background:var(--black);color:var(--white);font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}body{background:var(--black);color:var(--white);font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}section{position:relative;scroll-margin-top:120px}@keyframes cta-shimmer{0% { left: -80%; opacity: 1; } 38% { left: 110%; opacity: 1; } 39% { left: 110%; opacity: 0; } 99% { left: -80%; opacity: 0; } 100% { left: -80%; opacity: 1; }}@keyframes revealUp{to { opacity: 1; transform: translateY(0); }}@keyframes fadeIn{to { opacity: 1; }}@keyframes scrollBob{0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); }}@keyframes flagScroll{0% { transform: translateX(0); } 100% { transform: translateX(-50%); }}@keyframes vslBtnPulse{0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); }}@keyframes vslPulse{0% { box-shadow: 0 0 0 0 rgba(var(--bmc-cyan-rgb), 0.6); } 70% { box-shadow: 0 0 0 38px rgba(var(--bmc-cyan-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--bmc-cyan-rgb), 0); }}@keyframes vslPulseSm{0% { box-shadow: 0 0 0 0 rgba(var(--bmc-cyan-rgb), 0.6); } 70% { box-shadow: 0 0 0 18px rgba(var(--bmc-cyan-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--bmc-cyan-rgb), 0); }}@keyframes plusPulse{0% { box-shadow: 0 0 0 6px var(--ink), 0 8px 24px rgba(var(--bmc-cyan-rgb), 0.30); } 50% { box-shadow: 0 0 0 6px var(--ink), 0 8px 36px rgba(var(--bmc-cyan-rgb), 0.60); } 100% { box-shadow: 0 0 0 6px var(--ink), 0 8px 24px rgba(var(--bmc-cyan-rgb), 0.30); }}@keyframes tPlayPulse{0% { box-shadow: 0 0 0 0 rgba(var(--bmc-cyan-rgb), 0.5); } 70% { box-shadow: 0 0 0 15px rgba(var(--bmc-cyan-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--bmc-cyan-rgb), 0); }}@keyframes tmMarq{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-50% - 5px),0,0)}}.tm-marq:hover .tm-marq-track{animation-play-state:paused}@media (prefers-reduced-motion: reduce){.tm-marq-track{animation:none}}
+
+/* MOTION — keyed to data-attributes, never classes, so a Webflow class name
+   can never collide with a motion hook (see the base+combo model). */
+[data-reveal]{opacity:0;transform:translateY(28px);transition:opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1)}
+[data-reveal-dir="left"]{transform:translateY(28px) translateX(-36px)}
+[data-reveal-dir="right"]{transform:translateY(28px) translateX(36px)}
+[data-reveal-dir="scale"]{transform:translateY(20px) scale(0.97)}
+[data-reveal].visible{opacity:1;transform:translateY(0) translateX(0) scale(1)}
+[data-stagger-item]{opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)}
+[data-stagger].visible [data-stagger-item]{opacity:1;transform:translateY(0)}
+[data-stagger-i="1"]{transition-delay:0ms}[data-stagger-i="2"]{transition-delay:60ms}[data-stagger-i="3"]{transition-delay:120ms}[data-stagger-i="4"]{transition-delay:180ms}[data-stagger-i="5"]{transition-delay:240ms}[data-stagger-i="6"]{transition-delay:300ms}[data-stagger-i="7"]{transition-delay:360ms}[data-stagger-i="8"]{transition-delay:420ms}[data-stagger-i="9"]{transition-delay:480ms}[data-stagger-i="10"]{transition-delay:540ms}[data-stagger-i="11"]{transition-delay:600ms}[data-stagger-i="12"]{transition-delay:660ms}
+
+/* FULL-BLEED VIDEO BAND — the reel fills its frame edge to edge, never
+   letterboxes. Container-query units size the iframe to the LARGER of the
+   frame's own width and the width that fills its height at 16:9, then centre it
+   and let the frame clip. A no-op while the source really is 16:9; crops
+   cleanly when it is not, so a re-cut reel can never bring black bars back. */
+.testimonial-loop-frame{container-type:size}
+.testimonial-loop-frame > .video-embed{top:50%;left:50%;right:auto;bottom:auto;width:max(100cqw, 177.7778cqh);height:max(100cqh, 56.25cqw);transform:translate(-50%, -50%)}
+
+/* DESCENDANT + STATE RULES — cannot be expressed as Webflow classes */
+.vsl-frame:hover .vsl-play{box-shadow:0 10px 32px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(120, 228, 239, 0.5)}.vsl-frame.is-playing .vsl-play{opacity:0}.vsl-frame.is-playing .vsl-pause{opacity:1}.vsl-frame.has-played .vsl-vol{opacity:1;pointer-events:auto}.vsl-frame.is-muted .t-vol-on{display:none}.vsl-frame.is-muted .t-vol-off{display:block}.compare-grid.visible .compare-plus{animation:plusPulse 2.4s ease-in-out 0.6s 2}.unfair-list.visible .unfair-list-li{opacity:1;transform:translateY(0)}.t-video-grid.visible .t-video{opacity:1;transform:translateY(0)}.t-video:hover .t-video-thumb::after{background:rgba(0, 0, 0, 0.15)}.t-video:hover .t-video-thumb{transform:scale(1.01)}.t-video:hover .t-play{transform:scale(1.08)}.t-video-thumb.is-playing .t-play{opacity:0}.t-video-thumb.is-playing .t-pause{opacity:1}.t-video-thumb.has-played .t-video-poster{opacity:0;pointer-events:none}.t-video-thumb.is-muted .t-vol-on{display:none}.t-video-thumb.is-muted .t-vol-off{display:block}.t-video-thumb.has-played .t-video-vol{opacity:1;pointer-events:auto}.t-quote-grid-wall > .t-quote:last-child:nth-child(3n + 1){grid-column:2}.faq-q[aria-expanded="true"]{color:#4b2c6a}.faq-q[aria-expanded="true"] .chev{color:#4b2c6a;transform:rotate(180deg)}.cta-glow:hover::after,.btn-primary.is-large:hover::after{opacity:0}
+
+/* Neutralise Webflow's own normalize, which otherwise beats the source reset */
+body{font-size:16px;line-height:normal}h1,h2,h3,h4,h5,h6,p,ul,ol,li,dl,dd,blockquote,figure,fieldset,legend,pre{margin:0;padding:0}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;line-height:inherit}ul,ol{list-style:none}img{max-width:100%;display:block;vertical-align:baseline}button,input,select,textarea{font:inherit;color:inherit;margin:0}a{color:inherit}
+
+/* ENTRANCE — must live in custom code, not in a Webflow class, because the
+   style panel cannot express @keyframes or an animation property at all; the
+   native alternative is Interactions, which has no API and would be hand-built
+   on ten pages. It also has to be in the HEAD, not the footer: footer code lands
+   after first paint, and while this lived there the whole hero painted at full
+   opacity and snapped to zero ~220ms later. SITE-WIDE on purpose - hero-h1 alone
+   is used on 10 of 19 pages, so none of this is home-only (checked 2026-09-29).
+   Ladder compressed ~3x on 2026-09-04: Lighthouse cannot count text as painted
+   while it is opacity:0, so the old 1.0s/1.6s/2.0s holds were charged straight
+   to FCP and LCP - they are why a 122x24 sticky logo, not the hero, was being
+   picked as the LCP element. Same order, same rhythm, ~3x faster.
+   hero-content-eyebrow has zero uses site-wide; left in pending a check of the
+   two draft pages. */
+.hero-h1{opacity:0;transform:translateY(14px);animation:revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;animation-delay:0.30s}.hero-sub{opacity:0;transform:translateY(14px);animation:revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;animation-delay:0.50s}.hero-cta{opacity:0;transform:translateY(14px);animation:revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;animation-delay:0.70s}.hero-content-eyebrow{opacity:0;transform:translateY(10px);animation:revealUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;animation-delay:0.15s}.secondary-link{opacity:0;transform:translateY(14px);animation:revealUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;animation-delay:0.90s}.scroll-cue{opacity:0;animation:fadeIn 1.0s ease forwards;animation-delay:1.20s}</style>
+
+<!-- COOKIEBOT DIALOG LAYOUT. Shared block, 2026-09-29. Identical on
+     darrenhardy.com, hardybmc.com, profits.darrenhardy.com and darrendaily.com
+     - keep it that way so a diff between the sites means something.
+
+     *** DO NOT RECORD PIXEL HEIGHTS IN THIS COMMENT. ***
+     The bar's height is whichever of its desktop columns is tallest, and the
+     text column is set by the banner copy - which lives in the Cookiebot
+     dashboard, not here, and is edited by whoever owns the copy. Every height
+     ever written into this comment went stale within the day. Measure when you
+     need a number; do not write it down. The RATIOS below are what matter.
+
+     *** NOTHING ELSE MAY STYLE THIS DIALOG. ***
+     Profits carried a second Cookiebot block in its FOOTER code until
+     2026-09-29. Footer CSS loads last, so it beat this block at every width
+     where this block did not out-specify it, and its width:auto left the two
+     consent buttons unequal from 601px to 1279px - a CPRA symmetry problem, not
+     just a cosmetic one. If banner CSS is ever needed again, it goes HERE, on
+     every site, never in a footer or a page.
+
+     *** THE LOGO ROW IS OFF (2026-09-29). ***
+     Both marks - the DH monogram and Cookiebot's own - are hidden by the single
+     rule below. Neither is required by law: no privacy statute asks for a logo
+     on a consent notice. Two things to know before reversing it:
+       - The MONOGRAM is ours, uploaded in the Cookiebot dashboard. The tidier
+         way to drop it permanently is to delete it there, which also stops the
+         image being fetched; this CSS only hides it.
+       - The "by Cookiebot" mark is THEIR branding. Cookiebot document how to
+         remove it, but unbranding is a paid-tier entitlement - confirm the plan
+         covers it.
+     The old logo-stack rules (three overrides against Cookiebot's
+     space-between column, its flex:1 on PoweredbyLink, and PoweredbyCybot's own
+     margin-top:30px) are deleted rather than left inert. If the row ever comes
+     back, all three are needed again - a single margin or gap will not do it,
+     because gap ADDS to that 30px margin.
+
+     BELOW 1280px: anchor the dialog to the bottom. Cookiebot only bottom-anchors
+     the "bottom" template above 1280px - its own rule sits inside
+     @media (min-width:1280px), so phones, tablets and any laptop window under
+     1280 get a card floating over the middle of the page. Also: buttons side by
+     side under 600px, tighter type and padding, the rule between body text and
+     footer removed, OK on the RIGHT via row-reverse.
+
+     *** DESKTOP: BUTTONS SIDE BY SIDE IN A 620px COLUMN, VERTICALLY CENTRED. ***
+     The dialog above 1280px is one flex ROW:
+         [ TabContent: title + copy + Show details ]  [ Footer: buttons ]
+     TabContent is flex:1 1 0 and Footer was a fixed 330px, so the copy was
+     sitting in ~1040px for one sentence while the two stacked buttons made the
+     Footer the TALLEST column and set the bar height. Giving the Footer a fixed
+     620px takes that width off the copy (which had it spare) and lets the
+     buttons sit on ONE row, which is what actually shortens the bar.
+     align-self:center on the Footer then centres them: without it they ride
+     high, measured 14px above and 52px below. It does not change the bar height.
+
+     620 IS A NARROW WINDOW - measured 2026-09-29, do not nudge it blind:
+        600px -> the statutory opt-out label wraps to two lines
+        620px -> correct at 1280/1366/1440/1512/1600/1920/2560
+        640px+ -> at 1280 the COPY drops to a third line and the bar grows again
+     Re-measure this window whenever the banner copy or a button label changes;
+     both edges of it are set by text that lives in the Cookiebot dashboard.
+
+     THE FLEX DIRECTION LIVES ON THE WRAPPER, NOT ON BodyButtons. Setting
+     flex-direction on #CybotCookiebotDialogBodyButtons does nothing - the
+     buttons are children of #CybotCookiebotDialogBodyButtonsWrapper inside it.
+     row-reverse there puts OK on the RIGHT, matching mobile; source order is OK
+     first. Equal widths come from flex:1 1 0 on both buttons - CPRA requires the
+     opt-out path to be no harder than the consent path, and symmetry in choice
+     is named explicitly in the regulations. Keep them identical.
+
+     *** THE "SHOW DETAILS" GAP. ***
+     Cookiebot leaves a large gap between the paragraph and the link. It is not a
+     margin and not free flex slack: forcing the body to flex-start changed the
+     computed value and moved nothing, so a negative margin-top is the lever.
+     MEASURE THE GAP FROM THE TEXT, NOT THE BOXES. The paragraph's box carries
+     trailing line-box space, so its box gap reads about 10px smaller than what
+     the eye sees - chasing the box number is why this looked loose after it had
+     supposedly been fixed. Use Range.getClientRects() on both elements and
+     compare the LOWEST bottom of one to the HIGHEST top of the other; taking
+     the last rect instead of the lowest is itself a source of wrong readings.
+     DESKTOP is deliberately set to MATCH the title-to-paragraph gap, so the
+     block reads as evenly spaced: both are 8px, produced by margin-top:-23px.
+     If the type sizes change, re-measure the title-to-paragraph gap first and
+     then tune this margin to equal it - the target is the ratio, not -23.
+     MOBILE is deliberately tighter (~2px), asked for separately, and is at its
+     floor: one step further (padding 0, margin -14px) put the link 1px INTO the
+     last line of text. -->
+<style>
+/* LOGO ROW OFF - both marks. See the note above before reinstating. */
+#CybotCookiebotDialogHeader { display: none !important; }
+
+@media screen and (max-width: 1279px) {
+  #CybotCookiebotDialog[data-template="bottom"] {
+    top: 100% !important;
+    transform: translate(-50%, -100%) !important;
+    max-height: 70vh !important;
+  }
+  /* third value is the gap under the paragraph - at its floor, see the note */
+  #CybotCookiebotDialog .CybotCookiebotScrollArea { padding: 1em 1em 0.1em !important; }
+  #CybotCookiebotDialogBodyContentTitle { margin-bottom: 0.25em !important; }
+
+  /* the rule between body text and footer comes off */
+  #CybotCookiebotDialog .CybotCookiebotScrollContainer {
+    border-bottom: none !important;
+  }
+
+  /* The gap BELOW "Show details" is set by the FOOTER's scroll area, not by
+     this element's own margin, which is why both rules are needed.
+     padding-bottom is the breathing room UNDER the buttons - Cookiebot leaves
+     only 4px, which reads as the buttons sitting on the bottom edge. */
+  #CybotCookiebotDialogBodyEdgeMoreDetails { margin: -12px 30px 4px 0 !important; }
+  #CybotCookiebotDialogFooter .CybotCookiebotScrollArea {
+    padding-top: 0.75em !important;
+    padding-bottom: 0.75em !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #CybotCookiebotDialogBodyButtons {
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+  /* row-reverse puts OK on the right; source order is OK first */
+  #CybotCookiebotDialogFooter #CybotCookiebotDialogBodyButtonsWrapper {
+    flex-direction: row-reverse !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+  /* equal width - CPRA symmetry, see the note above before changing this */
+  #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton,
+  #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton:not(:first-of-type) {
+    flex: 1 1 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  #CybotCookiebotDialogBodyContentTitle {
+    font-size: 15px !important;
+    line-height: 1.3 !important;
+  }
+  #CybotCookiebotDialogBodyContentText,
+  #CybotCookiebotDialogBodyContentText p {
+    font-size: 12.5px !important;
+    line-height: 1.45 !important;
+  }
+  #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton {
+    font-size: 13px !important;
+    padding: 0.55em 0.45em !important;
+    line-height: 1.15 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
+
+/* "Show details" at every width - stays semibold on purpose */
+#CybotCookiebotDialogBodyEdgeMoreDetailsLink {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* BUTTON LABELS NOT BOLD, every width. Cookiebot ships them at 600.
+   Both selectors are listed because Cookiebot carries a higher-specificity
+   rule for the second button. See the note above. */
+#CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton,
+#CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton:not(:first-of-type) {
+  font-weight: 400 !important;
+}
+
+/* DESKTOP BAR. See the notes above before changing any of this. */
+@media screen and (min-width: 1280px) {
+  #CybotCookiebotDialog.CybotEdge { padding: 14px 24px !important; }
+
+  #CybotCookiebotDialogBodyContentTitle {
+    font-size: 15px !important;
+    margin-bottom: 4px !important;
+  }
+  #CybotCookiebotDialogBodyContentText,
+  #CybotCookiebotDialogBodyContentText p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+  #CybotCookiebotDialog .CybotCookiebotScrollContainer {
+    padding-bottom: 0 !important;
+  }
+  /* tuned to equal the title-to-paragraph gap (8px). See the note above. */
+  #CybotCookiebotDialogBodyEdgeMoreDetails {
+    margin-top: -23px !important;
+  }
+
+  /* BUTTONS SIDE BY SIDE IN A 620px COLUMN, VERTICALLY CENTRED - see the note
+     above. 620 is a measured window: 600 wraps the opt-out label, 640+ wraps the
+     copy at 1280. align-self:center stops them riding high in the bar. */
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter {
+    width: 620px !important;
+    flex: 0 0 620px !important;
+    align-self: center !important;
+  }
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter .CybotCookiebotScrollArea {
+    width: 100% !important;
+  }
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogBodyButtons {
+    max-width: none !important;
+    width: 100% !important;
+  }
+  /* the flex direction MUST go on the wrapper, not on BodyButtons */
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter #CybotCookiebotDialogBodyButtonsWrapper {
+    flex-direction: row-reverse !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton,
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton:not(:first-of-type) {
+    width: auto !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    height: 44px !important;
+    padding: 8px 14px !important;
+    line-height: 1.2 !important;
+    font-size: 13px !important;
+  }
+}
+</style><meta name="robots" content="noindex, nofollow">
+<style>
+/* /members (member stories). Funnel page: noindex, out of the sitemap, like
+   /team and /vip-bma. Everything visual is on Webflow classes; only what a
+   class cannot express lives here.
+
+   HERO GLOW, copied from /team. The shared .section-dark.in-wash wash is
+   anchored in percentages, so in a hero this tall it lands low and reads as
+   almost nothing behind the headline. Pseudo-element, so it cannot be a class. */
+.tm-hero.section-dark.in-wash::before{background-image:radial-gradient(760px 520px at 50% 250px,#9c27ac52,#0000 65%),radial-gradient(920px 620px at 50% 94%,#d62a8f29,#0000 75%)}
+
+/* HERO RHYTHM. This hero keeps an eyebrow (unlike the post-checkout funnel
+   heroes), so the headline takes a top gap instead of opening flush. */
+.tm-hero .hero-h1{margin-top:24px;margin-bottom:30px;margin-left:auto;margin-right:auto}
+.tm-hero .pi-lead{max-width:700px;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0}
+.tm-hero .final-cta-row{margin-top:44px}
+.tm-hero .event-line{margin-top:28px}
+
+/* NAV CTA HAND-OFF (Site Nav — Ghost CTA). The nav's ghost Reserve button
+   stays hidden while the hero's own button is on screen, and fades in once
+   that button scrolls up under the bar; the footer script toggles .is-shown.
+   Hidden here, in page head (pre-paint), not on the class: the Designer canvas
+   should still show the button so it can be edited. visibility:hidden also
+   takes it out of the tab order while it is invisible. Transitions are
+   longhand on purpose (the shorthand loses the 0s visibility delay). */
+.sticky-cta[data-nav-cta]{opacity:0;visibility:hidden;transform:translateY(-6px);transition-property:opacity,transform,visibility,background-color,color,border-color;transition-duration:.28s,.28s,0s,.2s,.2s,.2s;transition-timing-function:ease;transition-delay:0s,0s,.28s,0s,0s,0s}
+.sticky-cta[data-nav-cta].is-shown{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+
+@media (max-width:767px){
+  .tm-hero.section-dark.in-wash::before{background-image:radial-gradient(520px 380px at 50% 190px,#9c27ac52,#0000 65%),radial-gradient(640px 460px at 50% 95%,#d62a8f29,#0000 75%)}
+  .tm-hero .hero-h1{margin-bottom:22px}
+  .tm-hero .final-cta-row{margin-top:32px}
+}
+@media (prefers-reduced-motion: reduce){
+  .sticky-cta[data-nav-cta]{transition:none;transform:none}
+}
+</style></head><body><div role="banner" class="sticky-bar is-cta"><a aria-label="BMC COLLECTIVE" href="/" class="sticky-brand w-inline-block"><img src="bmc-members/bmcc-logo-nav.webp" alt="BMC|COLLECTIVE" class="sticky-brand-img"/></a><a data-nav-cta="" href="https://secure.darrenhardy.com/checkout/bmc-collective" class="sticky-cta"><span class="cta-desk in-sticky">Reserve Your Seat →</span> <span class="cta-mobile in-sticky">Reserve →</span></a></div><section id="top" class="section-dark in-wash tm-hero"><div class="container in-wash"><div data-reveal="" class="eyebrow is-center"><span class="pip"></span>Before You Decide</div><h1 data-reveal="" class="hero-h1 is-center">You Have A Reason. <em class="key">So Did They</em>.</h1><p data-reveal="" class="pi-lead">Customers that cost more to win. Competitors who always charge less. A market that slowed to a crawl. A calendar with no space left in it. A hire that felt too big to make. Five business leaders had every reason to wait. Here is what happened when they decided anyway.</p><div data-reveal="" class="final-cta-row"><a href="https://secure.darrenhardy.com/checkout/bmc-collective" class="btn-primary is-large">Reserve Your Seat →</a></div><div data-reveal="" class="event-line is-final">Next Business Master Class <span class="event-line-sep">|</span> <span class="event-line-date">Oct 19–21, 2026</span></div></div></section><section id="taylor" class="meet is-story"><div class="container"><div class="meet-grid"><div data-reveal="" data-reveal-dir="left" class="meet-portrait"><img src="bmc-members/members-taylor-portrait.avif" loading="lazy" alt="Taylor Richardson, Founder and CEO of Thrive Insurance" class="meet-portrait-img"/><div class="meet-caption">Taylor Richardson · 8X Alum</div></div><div data-reveal="" data-reveal-dir="right"><div class="eyebrow is-dark"><span class="pip is-dark"></span>The Turning Point · 01</div><h2 class="section-headline in-story">“Customers Cost Too Much To Win Now.”</h2><div class="meet-body"><p class="meet-body-p is-first">Insurance is about as price-shopped as a business gets. Every Thrive Insurance client is one quote away from a cheaper competitor.</p><p class="meet-body-p">The usual answer is to spend more on ads, promise more, or shave the price. Taylor took what Business Master Class teaches about winning customers and keeping them, and put it to work.</p><p class="meet-body-p">More customers came in the front door. The clients already inside liked Thrive more than ever.</p></div><div class="story-stats"><div class="story-stat"><div class="story-stat-num">250%+</div><div class="story-stat-label">Revenue growth</div></div><div class="story-stat"><div class="story-stat-num">2.5X</div><div class="story-stat-label">NPS score</div></div><div class="story-stat"><div class="story-stat-num">1 → 7</div><div class="story-stat-label">Offices</div></div></div><p class="story-quote">“Since [Business Master Class], our annual revenue and our profit margin doubled. We went from one office to seven.”</p><div class="story-byline">Taylor Richardson · Founder &amp; CEO, Thrive Insurance</div></div></div></div></section><section id="lisa" class="meet is-story-alt"><div class="container"><div class="meet-grid is-flip"><div data-reveal="" data-reveal-dir="right" class="meet-portrait is-right"><img src="bmc-members/members-lisa-portrait-v2.avif" loading="lazy" alt="Lisa Good, Vice President of GSG Computers" class="meet-portrait-img"/><div class="meet-caption">Lisa Good · Alum</div></div><div data-reveal="" data-reveal-dir="left"><div class="eyebrow is-dark"><span class="pip is-dark"></span>The Turning Point · 02</div><h2 class="section-headline in-story">“If We Raise Prices, We’ll Lose Clients.”</h2><div class="meet-body"><p class="meet-body-p is-first">Lisa is Vice President of GSG Computers, an IT support company, in a market where someone will always quote the same work for less. Raising rates felt like handing clients to the competition.</p><p class="meet-body-p">Then came one Business Master Class strategy on pricing. GSG went to its existing clients and said it plainly: the service is exceptional, and to keep it that way, the rates are going up.</p><p class="meet-body-p">One client left, and nobody missed that one. Every other client stayed, without a single complaint. Two said it was about time. Then two new clients signed at the higher rates, choosing GSG over cheaper competitors.</p></div><div class="story-stats"><div class="story-stat"><div class="story-stat-num">30%</div><div class="story-stat-label">Rate increase</div></div><div class="story-stat"><div class="story-stat-num">$234K</div><div class="story-stat-label">Added per year</div></div><div class="story-stat"><div class="story-stat-num">2</div><div class="story-stat-label">New clients at the higher rate</div></div></div><p class="story-quote">“One strategy immediately added $234,000 in annual income.”</p><div class="story-byline">Lisa Good · Vice President, GSG Computers</div></div></div></div></section><section id="derrick" class="meet is-story"><div class="container"><div class="meet-grid"><div data-reveal="" data-reveal-dir="left" class="meet-portrait"><img src="bmc-members/members-derrick-portrait.avif" loading="lazy" alt="Derrick Westbrook, CEO of Su Casa Design" class="meet-portrait-img"/><div class="meet-caption">Derrick Westbrook · 6X Alum</div></div><div data-reveal="" data-reveal-dir="right"><div class="eyebrow is-dark"><span class="pip is-dark"></span>The Turning Point · 03</div><h2 class="section-headline in-story">“The Market Is Soft. I’ll Wait.”</h2><div class="meet-body"><p class="meet-body-p is-first">Derrick’s company had just launched a new design department. Then interest rates moved. Developers slowed their projects down. Some paused them completely.</p><p class="meet-body-p">The pipeline dried up and the new department started burning cash. The obvious moves were to cut it, or to sit tight until the market came back.</p><p class="meet-body-p">Derrick did neither. One principle from Business Master Class: nobody knows you and loves you more than the clients you already have. So Derrick offered design packages to existing clients on the other side of the business. Most of them said yes.</p></div><div class="story-stats"><div class="story-stat"><div class="story-stat-num">8X</div><div class="story-stat-label">Profit</div></div><div class="story-stat"><div class="story-stat-num">6 Mo</div><div class="story-stat-label">From burning cash</div></div><div class="story-stat"><div class="story-stat-num">1</div><div class="story-stat-label">Strategy</div></div></div><p class="story-quote">“Within a 6 month period we jumped 8x in profit.”</p><div class="story-byline">Derrick Westbrook · CEO, Su Casa Design</div></div></div></div></section><section id="zach" class="meet is-story-alt"><div class="container"><div class="meet-grid is-flip"><div data-reveal="" data-reveal-dir="right" class="meet-portrait is-right"><img src="bmc-members/members-zach-portrait.avif" loading="lazy" alt="Zach Holmes, CEO of Right Coast Medical" class="meet-portrait-img"/><div class="meet-caption">Zach Holmes · 11X Alum</div></div><div data-reveal="" data-reveal-dir="left"><div class="eyebrow is-dark"><span class="pip is-dark"></span>The Turning Point · 04</div><h2 class="section-headline in-story">“I Can’t Step Away From My Team.”</h2><div class="meet-body"><p class="meet-body-p is-first">Zach is CEO of Right Coast Medical. Before the first Business Master Class, the hard part was never the cost or the content. It was justifying three days away from the team.</p><p class="meet-body-p">Zach went anyway, and came out with the opposite conclusion: the company could not afford for its CEO to miss it.</p><p class="meet-body-p">Since that first Business Master Class, Right Coast Medical has doubled, or come close, every single year. Now the team comes too. Eighteen of them at the last one, including the top salespeople, so the people closest to the customer hear it firsthand.</p></div><div class="story-stats"><div class="story-stat"><div class="story-stat-num">2X</div><div class="story-stat-label">Year over year</div></div><div class="story-stat"><div class="story-stat-num">18</div><div class="story-stat-label">Team members brought</div></div><div class="story-stat"><div class="story-stat-num">11X</div><div class="story-stat-label">Alum</div></div></div><p class="story-quote">“The fact of the matter is, I couldn’t afford to not take the time away from my team to participate in this event.”</p><div class="story-byline">Zach Holmes · CEO, Right Coast Medical</div></div></div></div></section><section id="kristi" class="meet is-story"><div class="container"><div class="meet-grid"><div data-reveal="" data-reveal-dir="left" class="meet-portrait"><img src="bmc-members/members-kristi-portrait.avif" loading="lazy" alt="Dr. Kristi Lopez, founder of Aloha Gastroenterology" class="meet-portrait-img"/><div class="meet-caption">Kristi Lopez · 8X Alum</div></div><div data-reveal="" data-reveal-dir="right"><div class="eyebrow is-dark"><span class="pip is-dark"></span>The Turning Point · 05</div><h2 class="section-headline in-story">“I Was Scared To Make That Hire.”</h2><div class="meet-body"><p class="meet-body-p is-first">Dr. Kristi Lopez left a comfortable job at Hawaii’s best hospital to start a solo GI practice. Medicine was never the hard part. Running a business was.</p><p class="meet-body-p">At Business Master Class, Kristi wrote down the people it was time to free up for something better, and acted on every name. Then came the high-income hire the practice had been putting off.</p><p class="meet-body-p">Three people became fifteen. Revenue grew by more than 250%. Today it is the largest GI private practice in the state.</p></div><div class="story-stats"><div class="story-stat"><div class="story-stat-num">3 → 15</div><div class="story-stat-label">Team</div></div><div class="story-stat"><div class="story-stat-num">250%+</div><div class="story-stat-label">Revenue growth</div></div><div class="story-stat"><div class="story-stat-num">8X</div><div class="story-stat-label">Alum</div></div></div><p class="story-quote">“I was scared to hire that high income person. I did this year.”</p><div class="story-byline">Dr. Kristi Lopez · Founder, Aloha Gastroenterology</div></div></div></div></section><section id="reserve" class="final in-wash"><div class="container in-wash"><div data-reveal="" class="eyebrow is-center"><span class="pip"></span>Your Turn</div><h2 data-reveal="" class="final-headline">Decide Like <em class="key">They Did</em>.</h2><div data-stagger="" class="final-body"><p data-stagger-i="1" data-stagger-item="">Taylor’s market got more expensive.</p><p data-stagger-i="2" data-stagger-item="" class="final-body-p-p">Lisa’s competitors always charged less.</p><p data-stagger-i="3" data-stagger-item="" class="final-body-p-p">Derrick’s market slowed down.</p><p data-stagger-i="4" data-stagger-item="" class="final-body-p-p">Zach couldn’t see how to step away from the team.</p><p data-stagger-i="5" data-stagger-item="" class="final-body-p-p">Kristi was scared to make the hire.</p><p data-stagger-i="6" data-stagger-item="" class="final-body-p-p">Each one had a good reason to wait. <strong>None of them did.</strong></p><p data-stagger-i="7" data-stagger-item="" class="final-body-p-p">Your reason is real too. The only question is what it costs you to keep it.</p></div><div data-reveal="" class="final-cta-row is-final"><a href="https://secure.darrenhardy.com/checkout/bmc-collective" class="btn-primary is-large">Reserve Your Seat →</a></div><div data-reveal="" class="event-line is-final">Next Business Master Class <span class="event-line-sep">|</span> <span class="event-line-date">Oct 19–21, 2026</span></div><div data-reveal="" class="final-secondary is-final">Questions before reserving? Speak with member services.<div class="final-secondary-links"><a href="https://direct.lc.chat/8364331/24" rel="noopener" class="final-secondary-a">Live Online Chat →</a><span class="final-secondary-sep">|</span><a href="https://meetings.hubspot.com/mx-team/experience" rel="noopener" class="final-secondary-a">Schedule a 15-Minute Call →</a></div></div></div></section><footer class="footer-minimal"><div class="container"><div class="footer-bottom"><span class="footer-copy">© Darren Hardy, LLC. All Rights Reserved.</span><div class="legal-links"><a href="https://dh.darrenhardy.com/terms-of-service/" class="footer-legal-link">Terms &amp; Conditions</a><a href="https://dh.darrenhardy.com/privacy" class="footer-legal-link">Privacy Policy</a></div></div></div></footer><script>
+/* BMCC behaviour layer — ported from bmc.js on hardybmc.com.
+   Motion hooks are data-attributes, not classes: Webflow will not let one name
+   be both a global class and a combo class, so .reveal/.stagger cannot be mixed
+   with a semantic class. */
+(function(){
+  var sel='[data-reveal],[data-stagger]';
+  var all=function(){document.querySelectorAll(sel).forEach(function(el){el.classList.add('visible');});};
+  if((window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)||!('IntersectionObserver' in window)){all();return;}
+  var mk=function(threshold){
+    return new IntersectionObserver(function(entries,obs){
+      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+    },{threshold:threshold,rootMargin:'0px 0px -8% 0px'});
+  };
+  var revealIO=mk(0.15), staggerIO=mk(0);
+  document.querySelectorAll('[data-reveal]').forEach(function(el){revealIO.observe(el);});
+  document.querySelectorAll('[data-stagger]').forEach(function(el){staggerIO.observe(el);});
+})();
+
+/* Animated stat counters */
+(function(){
+  var els=document.querySelectorAll('.stat-number[data-count]');
+  if(!els.length)return;
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var put=function(el,v){(el.querySelector('.stat-value')||el).textContent=v;};
+  if(reduced||!('IntersectionObserver' in window)){
+    els.forEach(function(el){put(el,parseFloat(el.dataset.count).toFixed(parseInt(el.dataset.decimals)||0));});
+    return;
+  }
+  var ease=function(t){return 1-Math.pow(1-t,3);};
+  function animate(el){
+    var end=parseFloat(el.dataset.count),dec=parseInt(el.dataset.decimals)||0,dur=1100,t0=performance.now();
+    (function tick(now){
+      var p=Math.min((now-t0)/dur,1);
+      put(el,(ease(p)*end).toFixed(dec));
+      if(p<1)requestAnimationFrame(tick);
+    })(t0);
+  }
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){animate(e.target);obs.unobserve(e.target);}});
+  },{threshold:0.4});
+  els.forEach(function(el){obs.observe(el);});
+})();
+
+/* Every control on this page is a Webflow Button, which renders as <a href="#">.
+   The href is kept so the control stays keyboard-focusable, so EVERY handler
+   below must preventDefault or the click jumps the page to the top. */
+
+/* FAQ accordion — one open at a time */
+(function(){
+  var buttons=document.querySelectorAll('.faq-q');
+  buttons.forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.preventDefault();
+      var isOpen=btn.getAttribute('aria-expanded')==='true';
+      var panel=btn.nextElementSibling;
+      buttons.forEach(function(other){
+        if(other!==btn){
+          other.setAttribute('aria-expanded','false');
+          var p=other.nextElementSibling; if(p)p.style.maxHeight=null;
+        }
+      });
+      if(isOpen){btn.setAttribute('aria-expanded','false');if(panel)panel.style.maxHeight=null;}
+      else{btn.setAttribute('aria-expanded','true');if(panel)panel.style.maxHeight=panel.scrollHeight+'px';}
+    });
+  });
+})();
+
+/* Vimeo players — custom play/pause + mute, no Vimeo chrome.
+   State classes on the target: .is-playing, .has-played, .is-muted.
+   player.js (~190KB) stays off the critical path and loads on first real
+   user action, so the first play still happens inside the gesture and the
+   browser allows audible playback.
+
+   The six iframes ship with data-src and NO src, so a visitor who never
+   scrolls — and every Lighthouse/PSI run, which never scrolls — pays nothing
+   for them. Measured 2026-09-04: the VSL iframe alone pulled 367KB of Vimeo
+   player JS/CSS, 34% of total page weight, because Chrome widens its
+   lazy-load threshold on a throttled connection far enough to reach it at
+   2724px down. hydrateAll() runs on the same first-scroll / pointer-intent
+   triggers that already fetch player.js, so a real visitor is hydrated long
+   before they can click. loading="lazy" stays on every iframe, so assigning
+   src does NOT fetch the far-offscreen ones until they near the viewport —
+   the testimonial grid keeps exactly the deferral it has today.
+
+   Trade-off accepted: with JS off the players do not render at all. The
+   play/pause/mute overlay was already JS-only, so nothing that worked
+   without JS stops working. */
+(function(){
+  var wire=function(iframe,toggle,vol,target){
+    if(!iframe||!toggle)return;
+    var el=target||toggle;
+    var player=new window.Vimeo.Player(iframe);
+    var syncMuted=function(){return player.getMuted().then(function(m){el.classList.toggle('is-muted',m);}).catch(function(){});};
+    toggle.addEventListener('click',function(e){
+      e.preventDefault();
+      if(el.classList.contains('is-playing')){player.pause();return;}
+      player.setMuted(false).catch(function(){});
+      player.setVolume(1).catch(function(){});
+      player.play().then(syncMuted).catch(function(){
+        player.setMuted(true).then(function(){return player.play();}).then(syncMuted).catch(function(){});
+      });
+    });
+    player.on('play',function(){el.classList.add('is-playing');el.classList.add('has-played');syncMuted();});
+    player.on('pause',function(){el.classList.remove('is-playing');});
+    player.on('ended',function(){el.classList.remove('is-playing');});
+    player.on('volumechange',syncMuted);
+    if(vol){
+      vol.addEventListener('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var mute=!el.classList.contains('is-muted');
+        el.classList.toggle('is-muted',mute);
+        var apply=mute?player.setMuted(true):player.setMuted(false).then(function(){return player.setVolume(1);});
+        apply.then(syncMuted).catch(syncMuted);
+      });
+    }
+  };
+  var collect=function(){
+    var out=[];
+    var vsl=document.getElementById('vsl-player');
+    if(vsl){
+      var frame=vsl.closest('.vsl-frame');
+      out.push({iframe:vsl,toggle:frame&&frame.querySelector('.vsl-toggle'),vol:frame&&frame.querySelector('.vsl-vol'),target:frame});
+    }
+    document.querySelectorAll('.t-video-thumb iframe').forEach(function(iframe){
+      var thumb=iframe.closest('.t-video-thumb');
+      out.push({iframe:iframe,toggle:thumb&&thumb.querySelector('.t-video-toggle'),vol:thumb&&thumb.querySelector('.t-video-vol'),target:thumb});
+    });
+    return out;
+  };
+  var hydrated=false;
+  var hydrateAll=function(){
+    if(hydrated)return;
+    hydrated=true;
+    document.querySelectorAll('iframe[data-src]').forEach(function(f){
+      f.src=f.getAttribute('data-src');
+      f.removeAttribute('data-src');
+    });
+  };
+  var wired=false,loading=false,pendingToggle=null;
+  var wireAll=function(){
+    if(wired||!window.Vimeo||!window.Vimeo.Player)return;
+    wired=true;
+    collect().forEach(function(t){wire(t.iframe,t.toggle,t.vol,t.target);});
+    if(pendingToggle)pendingToggle.click();
+  };
+  var loadVimeo=function(){
+    hydrateAll();
+    if(window.Vimeo&&window.Vimeo.Player){wireAll();return;}
+    if(loading)return;
+    loading=true;
+    var s=document.createElement('script');
+    s.src='https://player.vimeo.com/api/player.js';
+    s.onload=wireAll;
+    document.head.appendChild(s);
+  };
+  /* Capture phase: this runs BEFORE the player is wired, so it must cancel the
+     anchor default itself. */
+  var onFirstClick=function(e){
+    var toggle=e.target.closest('.t-video-toggle, .t-video-vol, .vsl-toggle, .vsl-vol');
+    if(!toggle)return;
+    e.preventDefault();
+    document.removeEventListener('click',onFirstClick,true);
+    pendingToggle=toggle;
+    loadVimeo();
+  };
+  document.addEventListener('click',onFirstClick,true);
+  window.addEventListener('scroll',loadVimeo,{once:true,passive:true});
+  var onIntent=function(e){
+    if(!e.target.closest('.t-video-thumb, .vsl-frame'))return;
+    document.removeEventListener('pointerover',onIntent,true);
+    document.removeEventListener('pointerdown',onIntent,true);
+    loadVimeo();
+  };
+  document.addEventListener('pointerover',onIntent,true);
+  document.addEventListener('pointerdown',onIntent,true);
+})();
+</script>
+
+
+
+
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- FOOTER "YOUR PRIVACY CHOICES" LINK, v3 2026-09-30. Replaces v2 ("Do Not
+     Sell or Share My Personal Information", one-click opt-out). Same block on
+     all four sites - darrenhardy.com, hardybmc.com, darrendaily.com and
+     profits.darrenhardy.com. Change it on all four or none.
+
+     WHY THE WORDING: CCPA regs 11 CCR 7013(c) require the opt-out link in the
+     header or footer. 11 CCR 7015 allows the shorter "Alternative Opt-out
+     Link" instead, but only with the exact text "Your Privacy Choices" (or
+     "Your California Privacy Choices") AND the state's opt-out icon beside it.
+     The icon is the official CA file (oag.ca.gov ccpa-icons.zip), drawn by the
+     .is-choices ::before style on each site's legal-link class. Do not reword
+     the link or drop the icon: either change makes it non-compliant.
+
+     WHY IT OPENS A PANEL: the alternative link must lead to a place that
+     explains the choice and lets the visitor make it, so a click now opens
+     Cookiebot's own consent dialog (Cookiebot.renew) instead of opting out
+     silently. If the visitor turns Marketing OFF there, this tells Meta to
+     stop and reloads the page so ad scripts already in memory are gone; a
+     confirmation shows after the reload. Old #do-not-sell links still work. -->
+<script>
+/* NAV CTA HAND-OFF: show the nav's ghost Reserve button once the hero's
+   Reserve button has scrolled up under the 56px bar. A plain scroll listener,
+   not IntersectionObserver or requestAnimationFrame: both are silent in some
+   embedded webviews, and this button is load-bearing. */
+(function(){
+  var cta=document.querySelector('.sticky-cta[data-nav-cta]');
+  if(!cta)return;
+  var hero=document.querySelector('.tm-hero .btn-primary');
+  var bar=document.querySelector('.sticky-bar');
+  function check(){
+    var barH=bar?bar.getBoundingClientRect().height:56;
+    var show=!hero||hero.getBoundingClientRect().bottom<barH;
+    cta.classList.toggle('is-shown',show);
+  }
+  window.addEventListener('scroll',check,{passive:true});
+  window.addEventListener('resize',check);
+  check();
+})();
+</script></body></html>
