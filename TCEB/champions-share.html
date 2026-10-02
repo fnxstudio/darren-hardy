@@ -547,6 +547,37 @@
   }
   .h-touch { display: none; }
   @media (hover: none) { .h-hover { display: none; } .h-touch { display: inline; } }
+  /* =================== HERO VIDEO PANEL + LIGHTBOX =================== */
+  .fl.vid { left: 0; top: 9%; width: 230px; padding: 8px; cursor: pointer; display: block; font: inherit; text-align: left; color: #fff; }
+  .fl.vid .v-thumb { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #000 url(tceb-hero-mobile.webp) center / cover no-repeat; }
+  .fl.vid .v-thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.55), rgba(0,0,0,0) 60%); }
+  .fl.vid .v-play { position: absolute; z-index: 2; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: linear-gradient(140deg, #f3cf63, #d4a017); box-shadow: 0 10px 26px rgba(0,0,0,0.5), 0 0 0 6px rgba(212,160,23,0.25); display: flex; align-items: center; justify-content: center; transition: transform .25s ease; }
+  .fl.vid .v-play::before { content: ""; margin-left: 4px; border-left: 15px solid var(--c-ink); border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+  .fl.vid:hover .v-play { transform: scale(1.12); }
+  .fl.vid .v-rec { position: absolute; z-index: 2; left: 10px; top: 8px; font: 700 10px/1 var(--font-body); letter-spacing: .1em; color: #fff; display: flex; align-items: center; gap: 6px; }
+  .fl.vid .v-rec i { width: 7px; height: 7px; border-radius: 50%; background: var(--c-red); box-shadow: 0 0 8px var(--c-red); animation: blink 1.6s ease-in-out infinite; }
+  @keyframes blink { 50% { opacity: .3; } }
+  .fl.vid .v-cap { display: flex; justify-content: space-between; align-items: center; padding: 9px 4px 2px; font-size: 12px; }
+  .fl.vid .v-cap b { font-weight: 700; }
+  .fl.vid .v-cap span { color: rgba(255,255,255,0.6); }
+  [data-theme="light"] .fl.vid { color: var(--c-ink); }
+  [data-theme="light"] .fl.vid .v-cap span { color: var(--fg-mute); }
+  .fl.msg { top: 44%; }
+  @media (max-width: 1100px) { .fl.vid { width: 190px; } }
+  @media (max-width: 900px) { .fl.vid { left: 4%; top: auto; bottom: 120px; width: 150px; } .fl.vid .v-cap span { display: none; } .fl.vid .v-play { width: 40px; height: 40px; margin: -20px 0 0 -20px; } }
+
+  .vlb { margin: auto; padding: 0; border: 0; background: transparent; width: min(1100px, calc(100vw - 32px)); overflow: visible; }
+  .vlb::backdrop { background: rgba(0,0,0,0.86); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .vlb[open] { animation: smIn .35s cubic-bezier(.2,.8,.2,1); }
+  .vlb-frame { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 14px; overflow: hidden; box-shadow: 0 60px 140px rgba(0,0,0,0.7), 0 0 0 1px rgba(212,160,23,0.3); }
+  .vlb-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .vlb-soon { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; color: #fff; background: #000 url(tceb-hero.webp) center / cover no-repeat; }
+  .vlb-soon::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.6); }
+  .vlb-soon > * { position: relative; }
+  .vlb-soon b { font-family: var(--bold); font-weight: 700; font-size: clamp(34px, 5vw, 60px); line-height: .9; text-transform: uppercase; }
+  .vlb-soon span { font-size: 14px; color: rgba(255,255,255,0.7); }
+  .vlb-x { position: absolute; top: -52px; right: 0; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); color: #fff; font-size: 22px; cursor: pointer; }
+  .vlb-cap { margin-top: 14px; display: flex; justify-content: space-between; color: rgba(255,255,255,0.7); font-size: 13px; }
 </style>
 </head>
 <body>
@@ -574,22 +605,26 @@
 <header class="hero grain">
   <div class="hero-aura" aria-hidden="true"></div>
   <div class="hero-photo" role="img" aria-label="Darren Hardy"></div>
-  <div class="floaters" aria-hidden="true">
-    <div class="fl msg">
+  <div class="floaters">
+    <button type="button" class="fl vid" id="vid-open" aria-label="Play a message from Darren">
+      <span class="v-thumb"><span class="v-rec"><i></i>MESSAGE</span><span class="v-play"></span></span>
+      <span class="v-cap"><b>A message from Darren</b><span>1 min</span></span>
+    </button>
+    <div class="fl msg" aria-hidden="true">
       <div class="fl-h"><span class="fl-av">ME</span><b>You</b> to Mark · Text</div>
       Thought of you the minute I saw this. Fifteen minutes on Sunday and the whole week is decided.
       <div class="fl-chip"><i></i>The Sunday Planning System</div>
     </div>
-    <div class="fl note">
+    <div class="fl note" aria-hidden="true">
       <span class="dot"><img src="img/dh-mark-white.webp" alt=""></span>
       <div><b>Mark R. just took a seat</b> because of you.<small>Just now · 1 seat closer to the studio</small></div>
     </div>
-    <div class="fl mail">
+    <div class="fl mail" aria-hidden="true">
       <div class="fl-row"><span>To</span>sarah@ · priya@ · tom@</div>
       <div class="fl-row"><span>Subject</span>The book I always tell people about</div>
       <div class="fl-send">Send &rarr;</div>
     </div>
-    <div class="fl q">
+    <div class="fl q" aria-hidden="true">
       <div class="fl-k">TEAM RECOGNITION · MARIA</div>
       <div class="fl-qq">You gave up a weekend so twelve people could stop fighting the schedule.</div>
     </div>
@@ -851,6 +886,13 @@
   <button type="button" data-open="chapter"><b>03</b>The Book</button>
 </nav>
 
+<!-- ============ VIDEO LIGHTBOX ============ -->
+<dialog class="vlb" id="vlb" aria-label="A message from Darren">
+  <button type="button" class="vlb-x" id="vlb-x" aria-label="Close video">&times;</button>
+  <div class="vlb-frame" id="vlb-frame"></div>
+  <div class="vlb-cap"><span>A message from Darren Hardy</span><span>Esc to close</span></div>
+</dialog>
+
 <!-- ============ SEND MODAL ============ -->
 <dialog class="sm" id="sm" aria-labelledby="sm-h">
   <div class="sm-grid">
@@ -962,6 +1004,28 @@
   });
 
 
+
+
+  /* ---------- HERO VIDEO LIGHTBOX ----------
+     Paste any Vimeo or YouTube URL. Nothing loads until it is clicked. */
+  var VIDEO_URL = '';
+  function embedFor(u){
+    var m;
+    if ((m = u.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([a-z0-9]+))?/i))) return 'https://player.vimeo.com/video/' + m[1] + (m[2] ? '?h=' + m[2] + '&' : '?') + 'autoplay=1&title=0&byline=0&portrait=0&dnt=1';
+    if ((m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/i))) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0&modestbranding=1';
+    return '';
+  }
+  var vlb = document.getElementById('vlb'), vframe = document.getElementById('vlb-frame');
+  document.getElementById('vid-open').addEventListener('click', function(){
+    var src = VIDEO_URL ? embedFor(VIDEO_URL) : '';
+    vframe.innerHTML = src ? '<iframe src="' + src + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="A message from Darren"></iframe>'
+                           : '<div class="vlb-soon"><b>A message from Darren</b><span>[video coming]</span></div>';
+    if (vlb.showModal) vlb.showModal(); else if (src) window.open(VIDEO_URL, '_blank', 'noopener');
+  });
+  function closeV(){ vlb.close(); }
+  document.getElementById('vlb-x').addEventListener('click', closeV);
+  vlb.addEventListener('click', function(e){ if (e.target === vlb) closeV(); });
+  vlb.addEventListener('close', function(){ vframe.innerHTML = ''; });
 
   /* ---------- MOBILE GIFT BAR ---------- */
   var mbar = document.getElementById('mbar'), heroEl = document.querySelector('.hero'), footEl = document.querySelector('.dh-footer-slim');
