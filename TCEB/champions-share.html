@@ -314,6 +314,37 @@
     .rail:hover .rcard:hover ~ .rcard { transform: none; }
   }
   @media (max-width: 640px) { .rcard { width: 260px; min-height: 340px; margin-left: 14px; } .rcard:first-child { margin-left: 0; } }
+  /* =================== FLOATING "THOUGHTS" (superhuman style) =================== */
+  .floaters { position: absolute; z-index: 3; top: 0; right: 0; bottom: 0; width: 56%; pointer-events: none; }
+  .fl { position: absolute; pointer-events: auto; border-radius: 16px; padding: 14px 16px; color: #fff;
+    background: linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
+    border: 1px solid rgba(255,255,255,0.20); box-shadow: 0 30px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4);
+    font-size: 13px; line-height: 1.45; animation: bob 7s ease-in-out infinite; }
+  .fl:nth-child(2) { animation-delay: -2s; animation-duration: 8s; }
+  .fl:nth-child(3) { animation-delay: -4s; animation-duration: 9s; }
+  .fl:nth-child(4) { animation-delay: -1s; animation-duration: 7.5s; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .fl-h { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .04em; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+  .fl-h b { color: #fff; font-weight: 600; }
+  .fl-av { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--c-ink); background: linear-gradient(140deg, #f3cf63, #d4a017); }
+  .fl-chip { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 7px 10px; border-radius: 10px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.12); font-size: 12px; }
+  .fl-chip i { width: 18px; height: 22px; border-radius: 2px; background: #fff; box-shadow: inset 0 3px 0 var(--c-red); }
+  .fl.msg { left: -2%; top: 30%; width: 250px; }
+  .fl.note { right: 4%; top: 16%; width: 230px; display: flex; gap: 12px; align-items: center; }
+  .fl.note .dot { flex: none; width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(140deg, #f3cf63, #a87f12); display: flex; align-items: center; justify-content: center; }
+  .fl.note .dot img { width: 20px; }
+  .fl.note small { display: block; font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+  .fl.mail { left: 6%; bottom: 13%; width: 270px; }
+  .fl-row { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.12); font-size: 12px; }
+  .fl-row span { color: rgba(255,255,255,0.55); width: 52px; flex: none; }
+  .fl-send { margin-top: 10px; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 8px; background: var(--c-red); font-family: var(--bold); font-weight: 500; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; }
+  .fl.q { right: 5%; bottom: 20%; width: 210px; background: linear-gradient(160deg, rgba(251,250,248,0.92), rgba(242,241,239,0.82)); color: var(--c-ink); border-color: rgba(255,255,255,0.6); }
+  .fl.q .fl-k { font-family: var(--bold); font-weight: 500; font-size: 11px; letter-spacing: .24em; color: var(--c-gold-ink); }
+  .fl.q .fl-qq { margin-top: 6px; font-family: var(--bold); font-weight: 700; font-size: 22px; line-height: .98; text-transform: uppercase; }
+  @media (max-width: 1100px) { .fl.q, .fl.mail { display: none; } }
+  @media (max-width: 900px) { .floaters { top: 0; bottom: auto; height: 440px; width: 100%; } .fl.msg { left: 4%; top: auto; bottom: 30px; width: 220px; } .fl.note { right: 4%; top: 100px; width: 200px; } }
+  @media (prefers-reduced-motion: reduce) { .fl { animation: none; } }
 </style>
 </head>
 <body>
@@ -337,6 +368,26 @@
 <header class="hero grain">
   <div class="hero-aura" aria-hidden="true"></div>
   <div class="hero-photo" role="img" aria-label="Darren Hardy"></div>
+  <div class="floaters" aria-hidden="true">
+    <div class="fl msg">
+      <div class="fl-h"><span class="fl-av">ME</span><b>You</b> to Mark · Text</div>
+      Thought of you the minute I saw this. Fifteen minutes on Sunday and the whole week is decided.
+      <div class="fl-chip"><i></i>The Sunday Planning System</div>
+    </div>
+    <div class="fl note">
+      <span class="dot"><img src="img/dh-mark-white.webp" alt=""></span>
+      <div><b>Mark R. just took a seat</b> because of you.<small>Just now · 1 seat closer to the studio</small></div>
+    </div>
+    <div class="fl mail">
+      <div class="fl-row"><span>To</span>sarah@ · priya@ · tom@</div>
+      <div class="fl-row"><span>Subject</span>The book I always tell people about</div>
+      <div class="fl-send">Send &rarr;</div>
+    </div>
+    <div class="fl q">
+      <div class="fl-k">THE LONG TABLE · Q07</div>
+      <div class="fl-qq">What did you stop doing this year that changed everything?</div>
+    </div>
+  </div>
   <div class="container">
     <div class="hero-copy">
       <div class="hero-badge"><img src="img/dh-mark-white.webp" alt="">Champion Resources</div>
