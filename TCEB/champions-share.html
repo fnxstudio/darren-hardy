@@ -211,6 +211,109 @@
   .proof-tag { display: inline-block; margin-top: 16px; padding: 7px 12px 6px; border-radius: var(--radius); background: var(--c-ink); color: #fff; font-family: var(--bold); font-weight: 500; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; }
   .gift.black .proof-tag { background: var(--c-gold); color: var(--c-ink); }
   @media (max-width: 720px) { .proof { grid-template-columns: 1fr; margin-top: 72px; } .proof-mark { font-size: 120px; height: 60px; } }
+  /* =================== DEPTH LAYER =================== */
+  /* Film grain on dark grounds */
+  .grain::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .09; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .hero.grain::after, .close.grain::after { z-index: 1; }
+
+  /* Metallic gold type */
+  .metal { background: linear-gradient(100deg, #a87f12 0%, #f6d77a 28%, #d4a017 46%, #fff1bf 58%, #c8960f 72%, #8a6300 100%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent !important; animation: sheen 7s ease-in-out infinite; }
+  @keyframes sheen { 0%,100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+
+  /* Hero light */
+  .hero-aura { position: absolute; z-index: 1; left: -10%; top: 10%; width: 70%; height: 90%; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(212,160,23,0.20), rgba(212,160,23,0.05) 55%, transparent 72%); filter: blur(30px); animation: drift 14s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(8%, -6%) scale(1.12); } }
+  .hero-photo { will-change: transform; }
+  .hero h1 { text-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+
+  /* Gold buttons: metal + sheen sweep */
+  .cta-gold { background: linear-gradient(100deg, #b98a10, #f3cf63 45%, #d4a017 70%, #a87f12); position: relative; overflow: hidden; }
+  .cta-red { position: relative; overflow: hidden; background: linear-gradient(180deg, #ef3a37, #d6211f); }
+  .cta::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent); transform: skewX(-20deg); transition: left .7s ease; }
+  .cta:hover::after { left: 130%; }
+
+  /* Marquee */
+  .marq { position: relative; overflow: hidden; background: var(--c-black); border-top: 1px solid rgba(255,255,255,0.06); padding: 30px 0; }
+  .marq-track { display: flex; width: max-content; animation: marq 40s linear infinite; }
+  .marq-set { display: flex; flex: none; }
+  .marq-item { flex: none; font-family: var(--bold); font-weight: 700; font-size: clamp(54px, 7vw, 96px); line-height: 1; text-transform: uppercase; padding: 0 34px; color: transparent; -webkit-text-stroke: 1.2px rgba(212,160,23,0.55); white-space: nowrap; }
+  .marq-item.fill { color: #fff; -webkit-text-stroke: 0; }
+  .marq-dot { flex: none; align-self: center; width: 14px; height: 14px; border-radius: 50%; background: var(--c-red); box-shadow: 0 0 24px rgba(224,40,38,0.8); }
+  @keyframes marq { to { transform: translateX(-50%); } }
+
+  /* Stacked sections: each gift pins, the next slides over it */
+  .stack { position: relative; background: var(--c-black); }
+  .stack > .gift { position: sticky; border-radius: 34px 34px 0 0; box-shadow: 0 -40px 80px rgba(0,0,0,0.45); }
+  .stack > .gift:first-child { border-radius: 0; box-shadow: none; }
+  .gift + .gift { border-top: 0; }
+
+  /* 3D stages */
+  .tilt { transform-style: preserve-3d; transition: transform .25s ease-out; will-change: transform; }
+  .gift-art { perspective: 1400px; }
+  .slab { transform: translateZ(-40px); }
+  .sheet { transform: rotate(-4deg) translateZ(60px); }
+  .card.c1 { transform: rotate(-15deg) translateZ(-30px); }
+  .card.c2 { transform: rotate(-6deg) translateZ(10px); }
+  .card.c3 { transform: rotate(5deg) translateZ(70px); }
+  .stage, .book-stage { transform-style: preserve-3d; }
+  .gift.black .stage::before { content: ""; position: absolute; inset: -10%; border-radius: 50%; background: radial-gradient(closest-side, rgba(212,160,23,0.22), transparent 70%); filter: blur(20px); transform: translateZ(-80px); }
+  .gift.paper .gift-art::before, .gift.bone .gift-art::before { content: ""; position: absolute; }
+
+  /* Reveal on scroll (content stays visible if JS or observers never fire) */
+  .rv { transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .js .rv:not(.in) { opacity: 0; transform: translateY(38px); }
+
+  /* Depth for the credential numbers */
+  .band { position: relative; }
+  .band-num { background: linear-gradient(180deg, #fff1bf, #d4a017 55%, #8a6300); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* Testimonial gets a lit plate */
+  .proof { border-top: 0; padding: 56px 56px 52px; border-radius: 20px; background: linear-gradient(160deg, rgba(255,255,255,0.9), rgba(255,255,255,0.55)); box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 40px 90px rgba(0,0,0,0.12); }
+  .gift.black .proof { background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02)); box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, 0 40px 90px rgba(0,0,0,0.5); border: 1px solid rgba(212,160,23,0.22); }
+  @media (max-width: 720px) { .proof { padding: 36px 26px; } .stack > .gift { border-radius: 22px 22px 0 0; } }
+  @media (prefers-reduced-motion: reduce) { .metal, .hero-aura, .marq-track { animation: none; } .js .rv:not(.in) { opacity: 1; transform: none; } }
+  /* =================== OVERLAPPING CARD RAIL (css-tricks style) =================== */
+  .rail-sec { position: relative; background: var(--c-black); padding: 70px 0 90px; overflow: hidden; }
+  .rail { display: flex; align-items: stretch; padding: 30px 0 10px; }
+  .rcard { position: relative; flex: none; width: 300px; min-height: 380px; margin-left: -150px; border-radius: 18px; padding: 30px 28px 26px; text-decoration: none; color: #fff;
+    background: linear-gradient(165deg, #222 0%, #121212 60%, #0c0c0c 100%); border: 1px solid rgba(255,255,255,0.09);
+    box-shadow: -26px 0 50px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.07);
+    display: flex; flex-direction: column; justify-content: space-between; transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease; }
+  .rcard:first-child { margin-left: 0; }
+  .rail:hover .rcard:hover ~ .rcard, .rail .rcard:focus-visible ~ .rcard { transform: translateX(150px); }
+  .rcard:hover, .rcard:focus-visible { transform: translateY(-18px) rotate(-2deg); box-shadow: -26px 30px 70px rgba(0,0,0,0.85), 0 0 0 1px rgba(212,160,23,0.45); }
+  .rcard.lead { width: 320px; background: #0b0b0b; border: 0; }
+  .rcard.lead::before { content: ""; position: absolute; inset: 0; border-radius: 18px; padding: 2px; background: linear-gradient(150deg, var(--c-red), #f3cf63 60%, var(--c-gold)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  .rc-num { font-family: var(--bold); font-weight: 700; font-size: 96px; line-height: .8; color: transparent; -webkit-text-stroke: 1.2px rgba(212,160,23,0.6); }
+  .rc-t { font-family: var(--bold); font-weight: 700; font-size: 38px; line-height: .92; text-transform: uppercase; margin-top: 18px; }
+  .rc-d { margin-top: 12px; font-size: 14.5px; line-height: 1.5; color: rgba(255,255,255,0.66); }
+  .rc-tags { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 20px; font-family: var(--bold); font-weight: 500; font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--c-red-bright); }
+  .rc-go { margin-top: 22px; display: flex; align-items: center; justify-content: space-between; font-family: var(--bold); font-weight: 500; font-size: 14px; letter-spacing: .2em; text-transform: uppercase; color: var(--c-gold); }
+  .rc-go img { width: 26px; height: 26px; opacity: .85; }
+  .rcard.lead .rc-t { font-size: 46px; }
+  .rcard.lead .rc-d { color: rgba(255,255,255,0.75); }
+  .rcard.red { background: linear-gradient(165deg, #f0403c, #c81d1b 70%, #a5110f); }
+  .rcard.red .rc-num { -webkit-text-stroke-color: rgba(255,255,255,0.6); }
+  .rcard.red .rc-d { color: rgba(255,255,255,0.85); }
+  .rcard.red .rc-tags { color: #fff; }
+  .rcard.gold { background: linear-gradient(165deg, #f3cf63, #d4a017 60%, #a87f12); color: var(--c-ink); }
+  .rcard.gold .rc-num { -webkit-text-stroke-color: rgba(20,20,20,0.5); }
+  .rcard.gold .rc-d { color: rgba(20,20,20,0.75); }
+  .rcard.gold .rc-tags, .rcard.gold .rc-go { color: var(--c-ink); }
+  .rcard.paper { background: linear-gradient(165deg, #ffffff, #f2f1ef); color: var(--c-ink); }
+  .rcard.paper .rc-num { -webkit-text-stroke-color: rgba(224,40,38,0.6); }
+  .rcard.paper .rc-d { color: var(--fg-soft); }
+  .rcard.paper .rc-tags { color: var(--c-red); }
+  .rcard.paper .rc-go { color: var(--c-red); }
+  .rail-hint { margin-top: 26px; font-family: var(--bold); font-weight: 500; font-size: 13px; letter-spacing: .24em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  @media (max-width: 1100px) {
+    .rail { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 24px; -webkit-overflow-scrolling: touch; }
+    .rcard { margin-left: -60px; scroll-snap-align: start; }
+    .rail:hover .rcard:hover ~ .rcard { transform: none; }
+  }
+  @media (max-width: 640px) { .rcard { width: 260px; min-height: 340px; margin-left: 14px; } .rcard:first-child { margin-left: 0; } }
 </style>
 </head>
 <body>
@@ -231,13 +334,14 @@
 </nav>
 
 <!-- ============ HERO ============ -->
-<header class="hero">
+<header class="hero grain">
+  <div class="hero-aura" aria-hidden="true"></div>
   <div class="hero-photo" role="img" aria-label="Darren Hardy"></div>
   <div class="container">
     <div class="hero-copy">
       <div class="hero-badge"><img src="img/dh-mark-white.webp" alt="">Champion Resources</div>
-      <h1 class="H">Hand Them <em>Their Best</em> Year</h1>
-      <p class="hero-lede">You know the leaders worth knowing. The builder in your forum. The friend who calls you first. The one you want beside you in April. <b>Give them something Darren built, with your name on it.</b> One click. Their move.</p>
+      <h1 class="H rv">Hand Them <em class="metal">Their Best</em> Year</h1>
+      <p class="rv hero-lede">You know the leaders worth knowing. The builder in your forum. The friend who calls you first. The one you want beside you in April. <b>Give them something Darren built, with your name on it.</b> One click. Their move.</p>
       <div class="hero-cta">
         <a class="cta cta-gold" href="#sunday">Choose Your Gift <span class="arw">&rarr;</span></a>
         <span class="hero-note">Three gifts. One click each.</span>
@@ -255,18 +359,73 @@
   </div>
 </section>
 
+<!-- ============ CARD RAIL ============ -->
+<section class="rail-sec grain" aria-label="The gifts">
+  <div class="container">
+    <div class="rail">
+      <a class="rcard lead" href="#sunday">
+        <div>
+          <div class="rc-t">Champion Resources</div>
+          <div class="rc-d">Three gifts from Darren, built to be passed from one leader to another. Your name on every one.</div>
+        </div>
+        <div class="rc-go">Start Here <img src="img/dh-mark-white.webp" alt=""></div>
+      </a>
+      <a class="rcard paper" href="#sunday">
+        <div>
+          <div class="rc-num">01</div>
+          <div class="rc-t">The Sunday Planning System</div>
+          <div class="rc-d">Fifteen minutes on Sunday. The whole week, decided.</div>
+          <div class="rc-tags"><span>Planning</span><span>One Page</span></div>
+        </div>
+        <div class="rc-go">Send It &rarr;</div>
+      </a>
+      <a class="rcard gold" href="#table">
+        <div>
+          <div class="rc-num">02</div>
+          <div class="rc-t">The Long Table</div>
+          <div class="rc-d">Twenty questions. The best conversation of their year.</div>
+          <div class="rc-tags"><span>Forums</span><span>Dinners</span></div>
+        </div>
+        <div class="rc-go">Send It &rarr;</div>
+      </a>
+      <a class="rcard red" href="#tce">
+        <div>
+          <div class="rc-num">03</div>
+          <div class="rc-t">The Compound Effect</div>
+          <div class="rc-d">The hardcover, or Chapter One on us.</div>
+          <div class="rc-tags"><span>1M+ Copies</span><span>Ebook + Audio</span></div>
+        </div>
+        <div class="rc-go">Send It &rarr;</div>
+      </a>
+      <a class="rcard" href="#idea">
+        <div>
+          <div class="rc-num">04</div>
+          <div class="rc-t">Your Idea Here</div>
+          <div class="rc-d">Tell us what you'd love to hand a fellow leader next.</div>
+          <div class="rc-tags"><span>Champions Only</span></div>
+        </div>
+        <div class="rc-go">Tell Us &rarr;</div>
+      </a>
+    </div>
+    <div class="rail-hint">Hover a gift to pull it from the stack</div>
+  </div>
+</section>
+
+<div class="marq" aria-hidden="true"><div class="marq-track"><div class="marq-set"><span class="marq-item">The Sunday Planning System</span><span class="marq-dot"></span><span class="marq-item fill">The Long Table</span><span class="marq-dot"></span><span class="marq-item">The Compound Effect</span><span class="marq-dot"></span><span class="marq-item fill">Your Name On It</span><span class="marq-dot"></span></div><div class="marq-set"><span class="marq-item">The Sunday Planning System</span><span class="marq-dot"></span><span class="marq-item fill">The Long Table</span><span class="marq-dot"></span><span class="marq-item">The Compound Effect</span><span class="marq-dot"></span><span class="marq-item fill">Your Name On It</span><span class="marq-dot"></span></div></div></div>
+
+<div class="stack">
 <!-- ============ 01 SUNDAY ============ -->
 <section class="gift paper" id="sunday">
   <div class="ghost-num" aria-hidden="true">01</div>
   <div class="container gift-grid">
     <div class="gift-copy">
-      <h2 class="H">The Sunday Planning System</h2>
-      <p class="gift-hook">Fifteen minutes on Sunday. The whole week, decided.</p>
-      <div class="gift-body">
+      <h2 class="H rv">The Sunday Planning System</h2>
+      <p class="rv gift-hook">Fifteen minutes on Sunday. The whole week, decided.</p>
+      <div class="rv gift-body">
         <p class="punch">Monday doesn't get a vote. Sunday does.</p>
         <p>This is the fifteen-minute ritual Darren has run for years. Three priorities chosen. The calendar defended. The distractions named and refused before they show up. The leaders who run it walk into Monday already ahead of everyone else in the building.</p>
       </div>
-      <div class="why">
+      <div class="rv why">
         <div class="why-k">Why Give It</div>
         <p>Hand it to the busiest leader you know. <b>They'll thank you by Wednesday</b>, and they'll think of you every Sunday after.</p>
       </div>
@@ -276,7 +435,7 @@
       </div>
     </div>
     <div class="gift-art" aria-hidden="true">
-      <div class="stage">
+      <div class="stage tilt">
         <div class="slab"></div>
         <div class="sheet">
           <div class="sh-top"><span class="sh-day">SUNDAY</span><span class="sh-time">15 MIN</span></div>
@@ -294,7 +453,7 @@
     </div>
   </div>
   <div class="container">
-    <figure class="proof">
+    <figure class="rv proof">
       <div class="proof-mark" aria-hidden="true">&ldquo;</div>
       <div>
         <blockquote class="proof-q"><mark>Total gross revenue of my business quadrupled.</mark></blockquote>
@@ -306,17 +465,17 @@
 </section>
 
 <!-- ============ 02 THE LONG TABLE ============ -->
-<section class="gift black flip" id="table">
+<section class="gift black flip grain" id="table">
   <div class="ghost-num" aria-hidden="true">02</div>
   <div class="container gift-grid">
     <div class="gift-copy">
-      <h2 class="H">The Long Table</h2>
-      <p class="gift-hook">Twenty questions. The best conversation of their year.</p>
-      <div class="gift-body">
+      <h2 class="H rv">The Long Table</h2>
+      <p class="rv gift-hook">Twenty questions. The best conversation of their year.</p>
+      <div class="rv gift-body">
         <p class="punch">The most valuable hour in business is never on the calendar.</p>
         <p>It's the dinner where one leader asks another the right question, and nobody touches their phone again. Darren has sat at the head of those tables for three decades. These are the twenty questions he brings to them.</p>
       </div>
-      <div class="why">
+      <div class="rv why">
         <div class="why-k">Why Give It</div>
         <p>It's built to travel. Hand it to your forum, your mastermind, the friend you want across the table. <b>Every time they use it, the conversation starts with you.</b></p>
       </div>
@@ -326,7 +485,7 @@
       </div>
     </div>
     <div class="gift-art" aria-hidden="true">
-      <div class="stage">
+      <div class="stage tilt">
         <div class="glow"></div>
         <div class="card c1"><div class="card-mono"><img src="img/dh-mark-dark.webp" alt=""></div></div>
         <div class="card c2"><div class="card-mono"><img src="img/dh-mark-white.webp" alt=""></div></div>
@@ -339,7 +498,7 @@
     </div>
   </div>
   <div class="container">
-    <figure class="proof">
+    <figure class="rv proof">
       <div class="proof-mark" aria-hidden="true">&ldquo;</div>
       <div>
         <blockquote class="proof-q">I didn&rsquo;t know what to expect and admittedly a little skeptical as a first-timer, but <mark>I trusted the person who referred me and I&rsquo;m so glad I did.</mark></blockquote>
@@ -355,13 +514,13 @@
   <div class="ghost-num" aria-hidden="true">03</div>
   <div class="container gift-grid">
     <div class="gift-copy">
-      <h2 class="H">The Compound Effect</h2>
-      <p class="gift-hook">More than a million copies. One of them should be theirs.</p>
-      <div class="gift-body">
+      <h2 class="H rv">The Compound Effect</h2>
+      <p class="rv gift-hook">More than a million copies. One of them should be theirs.</p>
+      <div class="rv gift-body">
         <p class="punch">The book people read twice and give away three times.</p>
         <p>Small, daily disciplines that build an extraordinary life, from the man about to do the same for their business. The 10th Anniversary Edition. Give them the book that started it all, months before the next one arrives.</p>
       </div>
-      <div class="choices">
+      <div class="rv choices">
         <a class="choice ink" href="https://store.darrenhardy.com/collections/frontpage/products/the-compound-effect" target="_blank" rel="noopener">
           <div>
             <div class="choice-k">The Grand Gesture</div>
@@ -381,13 +540,13 @@
       </div>
     </div>
     <div class="gift-art" aria-hidden="true">
-      <div class="book-stage">
+      <div class="book-stage tilt">
         <img class="book" src="img/tce-cover.webp" alt="" width="1264" height="1622" loading="lazy">
       </div>
     </div>
   </div>
   <div class="container">
-    <figure class="proof">
+    <figure class="rv proof">
       <div class="proof-mark" aria-hidden="true">&ldquo;</div>
       <div>
         <blockquote class="proof-q">I&rsquo;m a mortgage broker from Louisville, KY. I use this book to make connections with realtors in my area. <mark>I set up a coffee meeting and give them The Compound Effect as a gift.</mark> Weeks later I set up another meeting. We discuss the book and how it will help both of us grow our businesses together.</blockquote>
@@ -398,10 +557,12 @@
   </div>
 </section>
 
+</div>
+
 <!-- ============ CLOSE ============ -->
-<section class="close">
+<section class="close grain" id="idea">
   <div class="container">
-    <h2 class="H">What Should We <em>Build Next?</em></h2>
+    <h2 class="H rv">What Should We <em class="metal">Build Next?</em></h2>
     <p class="close-lede">You know your people better than anyone. If there's a gift you'd be proud to put in a fellow leader's hands, tell us what it is. Champions write the next page of this one.</p>
     <div class="close-cta"><a class="cta cta-gold" href="mailto:HelpMe@DarrenHardy.com?subject=Champion%20gift%20idea">Send Us Your Idea <span class="arw">&rarr;</span></a></div>
     <p class="close-mail">Or write to <a href="mailto:HelpMe@DarrenHardy.com?subject=Champion%20gift%20idea">HelpMe@DarrenHardy.com</a></p>
@@ -452,6 +613,43 @@
     if (!m) return;
     el.setAttribute('href', 'mailto:?subject=' + encodeURIComponent(m.subject) + '&body=' + encodeURIComponent(m.body));
   });
+  /* ---------- DEPTH: stack pinning, tilt, parallax, reveal, count-up ---------- */
+  document.documentElement.classList.add('js');
+  var vh = function(){ return window.innerHeight; };
+  var gifts = [].slice.call(document.querySelectorAll('.stack > .gift'));
+  function pin(){ gifts.forEach(function(g){ g.style.top = Math.min(0, vh() - g.offsetHeight) + 'px'; }); }
+  pin(); window.addEventListener('resize', pin);
+
+  var fine = window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (fine) {
+    document.querySelectorAll('.tilt').forEach(function(t){
+      var host = t.closest('.gift-art') || t;
+      host.addEventListener('pointermove', function(e){
+        var r = host.getBoundingClientRect(), x = (e.clientX - r.left)/r.width - .5, y = (e.clientY - r.top)/r.height - .5;
+        t.style.transform = 'rotateY(' + (x*16) + 'deg) rotateX(' + (-y*12) + 'deg)';
+      });
+      host.addEventListener('pointerleave', function(){ t.style.transform = ''; });
+    });
+    var photo = document.querySelector('.hero-photo');
+    window.addEventListener('scroll', function(){ var y = window.scrollY; if (y < vh()*1.2) photo.style.transform = 'translateY(' + (y*0.18) + 'px) scale(' + (1 + y*0.00008) + ')'; }, { passive: true });
+  }
+
+  var rv = [].slice.call(document.querySelectorAll('.rv'));
+  function showAll(){ rv.forEach(function(el){ el.classList.add('in'); }); }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+    rv.forEach(function(el){ io.observe(el); });
+    setTimeout(function(){ if (!document.querySelector('.rv.in')) showAll(); }, 1800);
+  } else { showAll(); }
+
+  function count(el){ var raw = el.textContent, n = parseFloat(raw.replace(/[^0-9.]/g,'')), suf = raw.replace(/[0-9.,]/g,''), dec = /M/.test(raw) ? 0 : 0, t0 = null;
+    function step(ts){ if (!t0) t0 = ts; var k = Math.min(1, (ts - t0)/1600), v = n * (1 - Math.pow(1-k, 3)); el.textContent = Math.round(v).toLocaleString() + suf; if (k < 1) requestAnimationFrame(step); }
+    requestAnimationFrame(step); }
+  var nums = document.querySelectorAll('.band-num');
+  if ('IntersectionObserver' in window) {
+    var io2 = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { count(e.target); io2.unobserve(e.target); } }); });
+    nums.forEach(function(n){ io2.observe(n); });
+  }
 })();
 </script>
 
