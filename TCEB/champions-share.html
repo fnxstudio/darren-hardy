@@ -10,7 +10,7 @@
 <link rel="preload" href="../fonts/bebas-neue-bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="img/dh-author.webp" as="image">
 <link rel="stylesheet" href="tceb.css">
-<script>try{var t=localStorage.getItem("champ-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+<script>(function(){var t="dark";try{t=localStorage.getItem("champ-theme")||"dark";}catch(e){}document.documentElement.setAttribute("data-theme",t);})();</script>
 <style>
   /* Champions share page. Black + gold is the Founders zone (Champions live there).
      Paper + red is the book zone. Tokens come from tceb.css. */
@@ -406,7 +406,7 @@
   .tt { display: inline-flex; align-items: center; gap: 0; padding: 4px; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); cursor: pointer; }
   .tt span { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 32px; border-radius: 999px; color: rgba(255,255,255,0.65); transition: background .25s, color .25s; }
   .tt svg { width: 17px; height: 17px; }
-  :root:not([data-theme="dark"]) .tt .t-light, :root[data-theme="dark"] .tt .t-dark { background: var(--c-gold); color: var(--c-ink); }
+  :root[data-theme="light"] .tt .t-light, :root[data-theme="dark"] .tt .t-dark { background: var(--c-gold); color: var(--c-ink); }
 
   /* Dark mode: every paper/bone section goes black + gold */
   [data-theme="dark"] .gift.paper, [data-theme="dark"] .gift.bone { background: #0b0b0b; color: #fff; }
@@ -445,6 +445,68 @@
   .app-acts span { padding: 7px 12px; border-radius: 999px; font-family: var(--bold); font-weight: 500; font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; background: var(--c-ink); color: #fff; }
   .app-acts span + span { background: transparent; color: var(--c-ink); border: 1px solid rgba(20,20,20,0.25); }
   .proof-stat { font-family: var(--bold) !important; font-weight: 700; font-size: 120px !important; line-height: .8 !important; letter-spacing: -.01em; }
+  /* =================== FULL LIGHT MODE (paper + red) =================== */
+  [data-theme="light"] body { background: var(--c-paper); }
+  [data-theme="light"] .hero { background: var(--c-paper); color: var(--c-ink); }
+  [data-theme="light"] .hero h1 { color: var(--c-ink); text-shadow: none; }
+  [data-theme="light"] .hero-lede { color: var(--fg-soft); }
+  [data-theme="light"] .hero-lede b { color: var(--c-ink); }
+  [data-theme="light"] .hero-note { color: var(--fg-mute); }
+  [data-theme="light"] .hero-photo::after { background: linear-gradient(90deg, var(--c-paper) 0%, rgba(251,250,248,0.88) 16%, rgba(251,250,248,0.12) 52%, rgba(251,250,248,0) 78%), linear-gradient(0deg, var(--c-paper) 0%, rgba(251,250,248,0) 28%); }
+  [data-theme="light"] .hero-aura { background: radial-gradient(closest-side, rgba(224,40,38,0.10), rgba(224,40,38,0.03) 55%, transparent 72%); }
+  [data-theme="light"] .hero-badge { border-color: var(--c-red); color: var(--c-red); }
+  [data-theme="light"] .hero-badge img, [data-theme="light"] .nav-mark img { filter: invert(1); }
+  [data-theme="light"] .metal { background: linear-gradient(100deg, #b01e1c 0%, #ff5a4d 30%, #e02826 50%, #ff7a6e 62%, #b01e1c 100%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; }
+  [data-theme="light"] .grain::after { opacity: .05; mix-blend-mode: multiply; }
+  [data-theme="light"] .fl { background: linear-gradient(160deg, rgba(255,255,255,0.88), rgba(255,255,255,0.66)); color: var(--c-ink); border-color: rgba(0,0,0,0.08); box-shadow: 0 30px 60px rgba(0,0,0,0.22), inset 0 1px 0 #fff; }
+  [data-theme="light"] .fl-h { color: var(--fg-mute); }
+  [data-theme="light"] .fl-h b { color: var(--c-ink); }
+  [data-theme="light"] .fl.note small { color: var(--fg-mute); }
+  [data-theme="light"] .fl-chip { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.08); }
+  [data-theme="light"] .fl-row { border-bottom-color: rgba(0,0,0,0.08); }
+  [data-theme="light"] .fl-row span { color: var(--fg-mute); }
+  [data-theme="light"] .tt { background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.12); }
+  [data-theme="light"] .tt span { color: var(--fg-mute); }
+  [data-theme="light"] .tt .t-light { background: var(--c-red); color: #fff; }
+  [data-theme="light"] .band { background: var(--c-bone); color: var(--c-ink); border-color: rgba(0,0,0,0.08); }
+  [data-theme="light"] .band-item { border-color: rgba(0,0,0,0.1); }
+  [data-theme="light"] .band-num { background: linear-gradient(180deg, #ff5a4d, #e02826 55%, #8f1513); -webkit-background-clip: text; background-clip: text; }
+  [data-theme="light"] .band-lab { color: var(--fg-mute); }
+  [data-theme="light"] .rail-sec { background: var(--c-bone); }
+  [data-theme="light"] .rail-hint { color: var(--fg-mute); }
+  [data-theme="light"] .rcard { box-shadow: -22px 0 40px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.07); }
+  [data-theme="light"] .marq { background: var(--c-paper); border-color: rgba(0,0,0,0.06); }
+  [data-theme="light"] .marq-item { -webkit-text-stroke-color: rgba(224,40,38,0.55); }
+  [data-theme="light"] .marq-item.fill { color: var(--c-ink); }
+  [data-theme="light"] .stack { background: var(--c-paper); }
+  [data-theme="light"] .stack > .gift { box-shadow: 0 -30px 60px rgba(0,0,0,0.10); }
+  [data-theme="light"] .gift.black { background: var(--c-paper); color: var(--c-ink); }
+  [data-theme="light"] .gift.black h2, [data-theme="light"] .gift.black .gift-body p.punch, [data-theme="light"] .gift.black .proof-q, [data-theme="light"] .gift.black .proof-name { color: var(--c-ink); }
+  [data-theme="light"] .gift.black .gift-body p { color: var(--fg-soft); }
+  [data-theme="light"] .gift.black .gift-hook, [data-theme="light"] .gift.black .proof-q mark, [data-theme="light"] .gift.black .proof-mark { color: var(--c-red); }
+  [data-theme="light"] .gift.black .ghost-num { color: rgba(20,20,20,0.045); }
+  [data-theme="light"] .gift.black .why { background: var(--c-ink); border: 0; }
+  [data-theme="light"] .gift.black .why-k { color: var(--c-red-bright); }
+  [data-theme="light"] .gift.black .gift-cta .note, [data-theme="light"] .gift.black .proof-role { color: var(--fg-mute); }
+  [data-theme="light"] .gift.black .proof { background: linear-gradient(160deg, rgba(255,255,255,0.9), rgba(255,255,255,0.55)); border: 0; box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 40px 90px rgba(0,0,0,0.12); }
+  [data-theme="light"] .gift.black .proof-tag { background: var(--c-ink); color: #fff; }
+  [data-theme="light"] .gift.black .stage::before { background: radial-gradient(closest-side, rgba(224,40,38,0.12), transparent 70%); }
+  [data-theme="light"] .cta-gold { background: linear-gradient(180deg, #ef3a37, #d6211f); color: #fff; box-shadow: 0 6px 0 #9d1513, 0 18px 40px rgba(224,40,38,0.32), inset 0 1px 0 rgba(255,255,255,0.35); }
+  [data-theme="light"] .cta-gold:hover { box-shadow: 0 9px 0 #9d1513, 0 26px 54px rgba(224,40,38,0.44), inset 0 1px 0 rgba(255,255,255,0.35); }
+  [data-theme="light"] .close { background: var(--c-paper); color: var(--c-ink); }
+  [data-theme="light"] .close::before { background: radial-gradient(700px 380px at 50% 0%, rgba(224,40,38,0.08), transparent 70%); }
+  [data-theme="light"] .close h2 { color: var(--c-ink); }
+  [data-theme="light"] .close-lede { color: var(--fg-soft); }
+  [data-theme="light"] .close-mail { color: var(--fg-mute); }
+  [data-theme="light"] .close-mail a { color: var(--fg-soft); }
+  .hero, .band, .rail-sec, .marq, .close, .fl { transition: background-color .45s ease, color .45s ease; }
+  /* Testimonial portraits: real photo, rectangular, beside the quote */
+  .proof { grid-template-columns: 170px 1fr; align-items: center; }
+  .proof-pic { display: block; width: 170px; height: 212px; object-fit: cover; border-radius: var(--radius); box-shadow: 0 20px 44px rgba(0,0,0,0.22); }
+  .gift.black .proof-pic { box-shadow: 0 20px 44px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,160,23,0.35); }
+  .proof-stat { font-family: var(--bold); font-weight: 700; font-size: 84px; line-height: .8; margin-bottom: 14px; background: linear-gradient(180deg, #fff1bf, #d4a017 55%, #8a6300); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  [data-theme="light"] .gift.black .proof-stat { background: linear-gradient(180deg, #ff5a4d, #e02826 55%, #8f1513); -webkit-background-clip: text; background-clip: text; }
+  @media (max-width: 720px) { .proof { grid-template-columns: 1fr; } .proof-pic { width: 140px; height: 175px; } }
 </style>
 </head>
 <body>
@@ -609,7 +671,7 @@
   </div>
   <div class="container">
     <figure class="rv proof">
-      <div class="proof-mark" aria-hidden="true">&ldquo;</div>
+      <img class="proof-pic" src="img/champions/george.webp" alt="George Browne" width="300" height="375" loading="lazy">
       <div>
         <blockquote class="proof-q"><mark>Total gross revenue of my business quadrupled.</mark></blockquote>
         <figcaption class="proof-by"><span class="proof-name">George Browne</span><span class="proof-role">Physician &amp; Owner, Bless You Allergy &amp; Asthma · 7X Alum</span></figcaption>
@@ -659,8 +721,9 @@
   </div>
   <div class="container">
     <figure class="rv proof">
-      <div class="proof-mark proof-stat" aria-hidden="true">2X</div>
+      <img class="proof-pic" src="img/champions/anekia.webp" alt="Anekia Boatwright-McGhee" width="300" height="375" loading="lazy">
       <div>
+        <div class="proof-stat">2X</div>
         <blockquote class="proof-q"><mark>Employee retention &amp; engagement doubled.</mark></blockquote>
         <figcaption class="proof-by"><span class="proof-name">Anekia Boatwright-McGhee</span><span class="proof-role">Founder, Dance Studio Owners of Color · 2X Alum</span></figcaption>
         <span class="proof-tag">Business Master Class alum</span>
@@ -707,11 +770,11 @@
   </div>
   <div class="container">
     <figure class="rv proof">
-      <div class="proof-mark" aria-hidden="true">&ldquo;</div>
+      <img class="proof-pic" src="img/champions/emily.webp" alt="Emily Weber" width="300" height="375" loading="lazy">
       <div>
-        <blockquote class="proof-q">I&rsquo;m a mortgage broker from Louisville, KY. I use this book to make connections with realtors in my area. <mark>I set up a coffee meeting and give them The Compound Effect as a gift.</mark> Weeks later I set up another meeting. We discuss the book and how it will help both of us grow our businesses together.</blockquote>
-        <figcaption class="proof-by"><span class="proof-name">Michael Frank</span><span class="proof-role">Mortgage Broker · Louisville, KY</span></figcaption>
-        <span class="proof-tag">Gives the book to every new partner</span>
+        <blockquote class="proof-q">Darren is the author of <mark>my most suggested read, The Compound Effect.</mark></blockquote>
+        <figcaption class="proof-by"><span class="proof-name">Emily Weber</span><span class="proof-role">Reader &amp; educator</span></figcaption>
+        <span class="proof-tag">Recommends it more than any other book</span>
       </div>
     </figure>
   </div>
