@@ -1,6 +1,6 @@
 # The Compound Effect — Brand & Design System
 
-**v1.0 · September 2026**
+**v1.1 · October 2026**
 Governs thecompoundeffect.com and every Compound Effect web property.
 
 This covers the franchise, not one book. *The Compound Effect* (2010) and
