@@ -10,6 +10,7 @@
 <link rel="preload" href="../fonts/bebas-neue-bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="img/dh-author.webp" as="image">
 <link rel="stylesheet" href="tceb.css">
+<script>try{var t=localStorage.getItem("champ-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <style>
   /* Champions share page. Black + gold is the Founders zone (Champions live there).
      Paper + red is the book zone. Tokens come from tceb.css. */
@@ -357,6 +358,75 @@
   .cta-red:active { box-shadow: 0 1px 0 #9d1513, 0 8px 18px rgba(224,40,38,0.3); }
   .cta:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
   .choice:active { transform: translateY(2px); }
+  /* =================== SEND MODAL (info + form) =================== */
+  .sm { width: min(920px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 0; border: 0; border-radius: 22px; background: #0d0d0d; color: #fff; box-shadow: 0 60px 140px rgba(0,0,0,0.6); overflow: hidden; }
+  .sm::backdrop { background: rgba(0,0,0,0.62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .sm[open] { animation: smIn .35s cubic-bezier(.2,.8,.2,1); }
+  @keyframes smIn { from { opacity: 0; transform: translateY(26px) scale(.98); } }
+  .sm-grid { display: grid; grid-template-columns: .85fr 1.15fr; max-height: calc(100vh - 48px); }
+  .sm-info { position: relative; padding: 40px 36px; background: radial-gradient(500px 400px at 20% 0%, rgba(212,160,23,0.18), transparent 70%), #141414; border-right: 1px solid rgba(255,255,255,0.08); overflow: auto; }
+  .sm-num { font-family: var(--bold); font-weight: 700; font-size: 84px; line-height: .8; color: transparent; -webkit-text-stroke: 1.2px rgba(212,160,23,0.6); }
+  .sm-title { margin-top: 16px; font-family: var(--bold); font-weight: 700; font-size: 44px; line-height: .92; text-transform: uppercase; }
+  .sm-hook { margin-top: 12px; font-family: var(--bold); font-weight: 500; font-size: 19px; line-height: 1.15; text-transform: uppercase; color: var(--c-gold); letter-spacing: .02em; }
+  .sm-label { margin-top: 28px; font-family: var(--bold); font-weight: 700; font-size: 16px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,0.9); }
+  .sm-list { list-style: none; margin-top: 12px; display: grid; gap: 10px; }
+  .sm-list li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 14.5px; line-height: 1.5; color: rgba(255,255,255,0.78); }
+  .sm-list li::before { content: ""; width: 18px; height: 18px; margin-top: 2px; border-radius: 50%; background: radial-gradient(circle at 50% 50%, var(--c-gold) 0 4px, rgba(212,160,23,0.18) 5px); }
+  .sm-form { position: relative; padding: 40px 36px 34px; overflow: auto; }
+  .sm-x { position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; }
+  .sm-x:hover { background: rgba(255,255,255,0.14); }
+  .sm-h { font-family: var(--bold); font-weight: 700; font-size: 34px; line-height: .95; text-transform: uppercase; padding-right: 44px; }
+  .sm-sub { margin-top: 8px; font-size: 14.5px; color: rgba(255,255,255,0.62); }
+  .sm-fields { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .sm-f { display: flex; flex-direction: column; gap: 7px; }
+  .sm-f.full { grid-column: 1 / -1; }
+  .sm-f label { font-family: var(--bold); font-weight: 500; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+  .sm-f input, .sm-f textarea { width: 100%; font: inherit; font-size: 15px; color: #fff; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16); border-radius: 10px; padding: 13px 14px; transition: border-color .2s, background .2s, box-shadow .2s; }
+  .sm-f textarea { min-height: 150px; resize: vertical; line-height: 1.55; }
+  .sm-f input:focus, .sm-f textarea:focus { outline: none; border-color: var(--c-gold); background: rgba(255,255,255,0.09); box-shadow: 0 0 0 4px rgba(212,160,23,0.18); }
+  .sm-f input::placeholder { color: rgba(255,255,255,0.35); }
+  .sm-err { min-height: 18px; margin-top: 10px; font-size: 13px; color: #ff8a80; }
+  .sm-acts { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .sm-acts .cta { padding: 18px 28px; font-size: 15px; }
+  .sm-copy { background: transparent; border: 1px solid rgba(255,255,255,0.25); color: #fff; border-radius: var(--radius); padding: 16px 22px; font-family: var(--bold); font-weight: 500; font-size: 14px; letter-spacing: .18em; text-transform: uppercase; cursor: pointer; transition: border-color .2s, color .2s; }
+  .sm-copy:hover { border-color: var(--c-gold); color: var(--c-gold); }
+  .sm-fine { margin-top: 16px; font-size: 12px; color: rgba(255,255,255,0.42); }
+  @media (max-width: 820px) {
+    .sm { width: 100vw; max-width: 100vw; max-height: 92vh; margin: auto 0 0; border-radius: 22px 22px 0 0; }
+    .sm[open] { animation-name: smUp; }
+    @keyframes smUp { from { transform: translateY(40px); opacity: 0; } }
+    .sm-grid { grid-template-columns: 1fr; max-height: 92vh; overflow: auto; }
+    .sm-info { border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 30px 22px; overflow: visible; }
+    .sm-form { padding: 28px 22px 30px; overflow: visible; }
+    .sm-fields { grid-template-columns: 1fr; }
+    .sm-num { font-size: 60px; } .sm-title { font-size: 36px; }
+  }
+  /* =================== THEME TOGGLE =================== */
+  .nav-inner { justify-content: space-between; }
+  .tt { display: inline-flex; align-items: center; gap: 0; padding: 4px; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); cursor: pointer; }
+  .tt span { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 32px; border-radius: 999px; color: rgba(255,255,255,0.65); transition: background .25s, color .25s; }
+  .tt svg { width: 17px; height: 17px; }
+  :root:not([data-theme="dark"]) .tt .t-light, :root[data-theme="dark"] .tt .t-dark { background: var(--c-gold); color: var(--c-ink); }
+
+  /* Dark mode: every paper/bone section goes black + gold */
+  [data-theme="dark"] .gift.paper, [data-theme="dark"] .gift.bone { background: #0b0b0b; color: #fff; }
+  [data-theme="dark"] .gift.bone { background: #111; }
+  [data-theme="dark"] .gift h2, [data-theme="dark"] .gift-body p.punch, [data-theme="dark"] .proof-q, [data-theme="dark"] .proof-name { color: #fff; }
+  [data-theme="dark"] .gift-body p { color: rgba(255,255,255,0.72); }
+  [data-theme="dark"] .gift .gift-hook, [data-theme="dark"] .proof-q mark, [data-theme="dark"] .proof-mark { color: var(--c-gold); }
+  [data-theme="dark"] .gift.paper .ghost-num, [data-theme="dark"] .gift.bone .ghost-num { color: rgba(212,160,23,0.07); }
+  [data-theme="dark"] .why { background: rgba(255,255,255,0.05); border: 1px solid rgba(212,160,23,0.28); }
+  [data-theme="dark"] .why-k { color: var(--c-gold); }
+  [data-theme="dark"] .gift-cta .note, [data-theme="dark"] .proof-role { color: rgba(255,255,255,0.55); }
+  [data-theme="dark"] .proof { background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02)); box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, 0 40px 90px rgba(0,0,0,0.5); border: 1px solid rgba(212,160,23,0.22); }
+  [data-theme="dark"] .proof-tag { background: var(--c-gold); color: var(--c-ink); }
+  [data-theme="dark"] .slab { background: #1b1b1b; }
+  [data-theme="dark"] .choice.ink { background: #1b1b1b; border: 1px solid rgba(255,255,255,0.1); }
+  [data-theme="dark"] .book-stage::before { background: radial-gradient(closest-side, rgba(212,160,23,0.25), transparent); }
+  [data-theme="dark"] .rcard.paper { background: linear-gradient(165deg, #2a2a2a, #161616); color: #fff; }
+  [data-theme="dark"] .rcard.paper .rc-d { color: rgba(255,255,255,0.66); }
+  html { color-scheme: light; } [data-theme="dark"] { color-scheme: dark; }
+  .gift, .gift h2, .gift-body p, .why, .proof { transition: background-color .4s ease, color .4s ease; }
 </style>
 </head>
 <body>
@@ -373,6 +443,10 @@
 <nav class="nav" aria-label="Darren Hardy">
   <div class="container nav-inner">
     <a class="nav-mark" href="https://darrenhardy.com/" aria-label="Darren Hardy"><img src="img/dh-mark-white.webp" alt="Darren Hardy" width="46" height="46"></a>
+    <button class="tt" id="tt" type="button" aria-label="Switch light or dark mode">
+      <span class="t-light" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg></span>
+      <span class="t-dark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/></svg></span>
+    </button>
   </div>
 </nav>
 
@@ -644,6 +718,36 @@
   </div>
 </footer>
 
+<!-- ============ SEND MODAL ============ -->
+<dialog class="sm" id="sm" aria-labelledby="sm-h">
+  <div class="sm-grid">
+    <div class="sm-info">
+      <div class="sm-num" id="sm-num">01</div>
+      <div class="sm-title" id="sm-title"></div>
+      <div class="sm-hook" id="sm-hook"></div>
+      <div class="sm-label">What they'll get</div>
+      <ul class="sm-list" id="sm-list"></ul>
+    </div>
+    <form class="sm-form" id="sm-form" novalidate>
+      <button type="button" class="sm-x" id="sm-x" aria-label="Close">&times;</button>
+      <h2 class="sm-h" id="sm-h">Who's it for?</h2>
+      <p class="sm-sub">Add their details. Your note is written for you, and you can make it yours.</p>
+      <div class="sm-fields">
+        <div class="sm-f"><label for="sm-to-name">Their first name</label><input id="sm-to-name" autocomplete="off" placeholder="Mark"></div>
+        <div class="sm-f"><label for="sm-to-email">Their email</label><input id="sm-to-email" type="email" autocomplete="off" placeholder="mark@company.com"></div>
+        <div class="sm-f full"><label for="sm-from">Your first name</label><input id="sm-from" autocomplete="given-name" placeholder="Your name"></div>
+        <div class="sm-f full"><label for="sm-note">Your note</label><textarea id="sm-note"></textarea></div>
+      </div>
+      <div class="sm-err" id="sm-err" role="alert"></div>
+      <div class="sm-acts">
+        <button type="submit" class="cta cta-gold">Open in My Email <span class="arw">&rarr;</span></button>
+        <button type="button" class="sm-copy" id="sm-copy">Copy Message</button>
+      </div>
+      <p class="sm-fine">It opens in your own email, from you. Nothing is sent until you press send.</p>
+    </form>
+  </div>
+</dialog>
+
 <script>
 (function () {
   /* ------------------------------------------------------------------
@@ -676,6 +780,64 @@
     if (!m) return;
     el.setAttribute('href', 'mailto:?subject=' + encodeURIComponent(m.subject) + '&body=' + encodeURIComponent(m.body));
   });
+
+  /* ---------- SEND MODAL ---------- */
+  var INFO = {
+    sunday:  { num: '01', title: 'The Sunday Planning System', hook: 'Fifteen minutes on Sunday. The whole week, decided.',
+               list: ['The one-page Sunday plan Darren runs every week', 'A short walkthrough so they can start this Sunday', 'Prints or fills in on screen [confirm]'] },
+    table:   { num: '02', title: 'The Long Table', hook: 'Twenty questions. The best conversation of their year.',
+               list: ['Twenty questions Darren brings to a table of leaders', 'Made for forums, masterminds and leadership dinners', 'Printable deck [confirm format]'] },
+    chapter: { num: '03', title: 'The Compound Effect', hook: 'Chapter One, ebook and audio, on us.',
+               list: ['Chapter One of The Compound Effect, 10th Anniversary Edition', 'Ebook and audio, so they can read or listen tonight', 'From the book behind more than a million copies'] }
+  };
+  var dlg = document.getElementById('sm'), cur = null;
+  var f = { toName: document.getElementById('sm-to-name'), toEmail: document.getElementById('sm-to-email'), from: document.getElementById('sm-from'), note: document.getElementById('sm-note'), err: document.getElementById('sm-err') };
+  try { f.from.value = localStorage.getItem('champ-name') || ''; } catch (e) {}
+  function noteFor(key){
+    var m = EMAILS[key], n = f.toName.value.trim(), me = f.from.value.trim();
+    return (n ? n + ',\n\n' : '') + m.body.replace(/\n+$/,'') + (me ? '\n\n' + me : '') + '\n';
+  }
+  var touched = false;
+  f.note.addEventListener('input', function(){ touched = true; });
+  [f.toName, f.from].forEach(function(el){ el.addEventListener('input', function(){ if (!touched && cur) f.note.value = noteFor(cur); }); });
+  function openFor(key){
+    if (!dlg.showModal) return false;
+    cur = key; touched = false; var i = INFO[key];
+    document.getElementById('sm-num').textContent = i.num;
+    document.getElementById('sm-title').textContent = i.title;
+    document.getElementById('sm-hook').textContent = i.hook;
+    document.getElementById('sm-list').innerHTML = i.list.map(function(t){ return '<li>' + t + '</li>'; }).join('');
+    f.err.textContent = ''; f.note.value = noteFor(key);
+    dlg.showModal(); setTimeout(function(){ f.toName.focus(); }, 60);
+    return true;
+  }
+  document.querySelectorAll('[data-share]').forEach(function(el){
+    el.addEventListener('click', function(e){ if (openFor(el.getAttribute('data-share'))) e.preventDefault(); });
+  });
+  document.getElementById('sm-x').addEventListener('click', function(){ dlg.close(); });
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+  document.getElementById('sm-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var to = f.toEmail.value.trim();
+    if (to && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) { f.err.textContent = 'That email address doesn’t look quite right.'; f.toEmail.focus(); return; }
+    try { localStorage.setItem('champ-name', f.from.value.trim()); } catch (e2) {}
+    window.location.href = 'mailto:' + encodeURIComponent(to) + '?subject=' + encodeURIComponent(EMAILS[cur].subject) + '&body=' + encodeURIComponent(f.note.value);
+  });
+  document.getElementById('sm-copy').addEventListener('click', function(){
+    var b = this, txt = 'Subject: ' + EMAILS[cur].subject + '\n\n' + f.note.value;
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(function(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy Message'; }, 1600); }, function(){ f.note.select(); });
+  });
+
+
+  /* ---------- THEME TOGGLE ---------- */
+  var root = document.documentElement;
+  document.getElementById('tt').addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('champ-theme', next); } catch (e) {}
+    setTimeout(pin, 450);
+  });
+
   /* ---------- DEPTH: stack pinning, tilt, parallax, reveal, count-up ---------- */
   document.documentElement.classList.add('js');
   var vh = function(){ return window.innerHeight; };
