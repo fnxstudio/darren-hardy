@@ -22,7 +22,7 @@
   --rule: #e0e0e0; --field: #f0f0f0;
   --red: #e1132e; --red-bright: #ff0047; --red-deep: #b30f25;
   --gold: #d4a017; --gold-lux: #caa76a; --gold-ink: #8a6300;
-  --radius: 4px;
+  --radius: 2px;
   --display: 'Bebas Neue', 'Oswald', 'Arial Narrow', sans-serif;
   --body: 'Inter', -apple-system, 'Segoe UI', sans-serif;
   --mono: ui-monospace, 'SF Mono', Menlo, monospace;
@@ -110,8 +110,8 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
 .btn:hover .arw { transform: translateX(6px); }
 .btn.ghost-k:hover { background: var(--black); color: #fff; }
 .btn.ghost-w:hover { background: #fff; color: var(--black); border-color: #fff; }
-.btn.red { background: var(--red); color: #fff; box-shadow: 0 10px 22px rgba(0,0,0,.16); }
-.btn.gold { background: var(--gold); color: var(--black); box-shadow: 0 10px 22px rgba(0,0,0,.5); }
+.btn.red { background: var(--red); color: #fff; }
+.btn.gold { background: var(--gold); color: var(--black); }
 .btn.ghost-k { background: transparent; color: var(--black); border-color: var(--black); }
 .btn.ghost-w { background: transparent; color: #fff; border-color: rgba(255,255,255,.75); }
 .btn.hov { transform: scale(1.04) translateY(-3px); }
@@ -128,17 +128,18 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
 /* recurring marks */
 .marks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; align-items: end; }
 .marks > div { text-align: center; }
-.marks .m { height: 92px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius); }
+.marks .m { height: 80px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius); }
 .redstop { font-family: var(--display); font-weight: 700; font-size: 40px; letter-spacing: .02em; color: var(--black); }
 .redstop i { font-style: normal; color: var(--red); }
 .plays { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
 .plays .m { height: 92px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius); }
 .play { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 .play::before { content: ""; margin-left: 4px; border-left: 13px solid #000; border-top: 8px solid transparent; border-bottom: 8px solid transparent; }
-.play.pg { background: linear-gradient(140deg, #f3cf63, #d4a017); box-shadow: 0 0 0 7px rgba(212,160,23,.32), 0 0 26px 6px rgba(212,160,23,.45); }
-.play.pr { background: var(--red); box-shadow: 0 0 0 7px rgba(225,19,46,.16), 0 8px 18px rgba(0,0,0,.14); }
+.play.pg { background: linear-gradient(140deg, #f3cf63, #d4a017); box-shadow: 0 0 0 7px rgba(212,160,23,.32); }
+.plays .m.gl { background: radial-gradient(closest-side, rgba(232,180,40,.55) 0%, rgba(212,160,23,.22) 45%, rgba(0,0,0,0) 100%) center / 150px 150px no-repeat, #000; }
+.play.pr { background: var(--red); box-shadow: 0 0 0 7px rgba(225,19,46,.16); }
 .play.pr::before { border-left-color: #fff; }
-.play.pw { background: #fff; box-shadow: 0 0 0 7px rgba(255,255,255,.35), 0 8px 22px rgba(0,0,0,.4); }
+.play.pw { background: #fff; box-shadow: 0 0 0 7px rgba(255,255,255,.35); }
 .play.pk { background: #000; box-shadow: 0 0 0 7px rgba(0,0,0,.12); }
 .play.pk::before { border-left-color: #fff; }
 .miniband { width: 82px; height: 74px; display: grid; grid-template-rows: 9px 1fr 13px; border-radius: 2px; overflow: hidden; box-shadow: 0 0 0 1px var(--rule); }
@@ -150,11 +151,18 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
 .statband { background: var(--black); border-radius: var(--radius); display: grid; grid-template-columns: repeat(3, 1fr); padding: 18px 10px; text-align: center; }
 .statband .n { font-family: var(--display); font-weight: 700; font-size: 34px; line-height: .9; color: var(--gold); }
 .statband .l { margin-top: 6px; font-weight: 600; font-size: 7px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.6); }
-.glow { height: 104px; border-radius: var(--radius); position: relative; overflow: hidden; background: #000; }
+.glow { height: 74px; border-radius: var(--radius); position: relative; overflow: hidden; background: #000; }
 .glow::before { content: ""; position: absolute; left: 50%; bottom: -90px; width: 360px; height: 180px; margin-left: -180px; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(255,214,120,.95) 0%, rgba(232,180,40,.75) 30%, rgba(212,160,23,.35) 62%, rgba(212,160,23,0) 100%); }
 .glow::after { content: ""; position: absolute; left: 50%; bottom: -150px; width: 620px; height: 260px; margin-left: -310px; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(212,160,23,.38), rgba(212,160,23,0)); }
+
+/* glow variants */
+.glows { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.gl2 { height: 58px; border-radius: var(--radius); }
+.gl2.silver { background: radial-gradient(60% 120% at 50% 120%, rgba(255,255,255,.55) 0%, rgba(200,200,200,.22) 45%, rgba(0,0,0,0) 80%), #000; }
+.gl2.pool { background: radial-gradient(46% 34% at 50% 78%, rgba(0,0,0,.30) 0%, rgba(0,0,0,.10) 55%, rgba(0,0,0,0) 100%), #fff; border: 1px solid var(--rule); }
+.glows .cap { margin-top: 5px; }
 
 /* rating lockup */
 .rate { display: flex; align-items: center; gap: 16px; padding: 12px 16px; border: 1px solid var(--rule); border-radius: var(--radius); background: #fff; }
@@ -170,8 +178,10 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
 
 /* ---------- back cover ---------- */
 .back { padding: 0; display: flex; flex-direction: column; }
-.back .stage { flex: 1; display: flex; align-items: center; justify-content: center; background: radial-gradient(70% 60% at 50% 46%, #ffffff 0%, #f6f6f6 70%, #eeeeee 100%); }
-.back .stage img { height: 5.6in; box-shadow: 0 2px 2px rgba(0,0,0,.25), 18px 28px 46px rgba(0,0,0,.30), 4px 6px 12px rgba(0,0,0,.18); }
+.back .stage { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding-top: .62in; background: radial-gradient(70% 60% at 50% 46%, #ffffff 0%, #f6f6f6 70%, #eeeeee 100%); }
+.back .stage .bk { position: relative; display: block; }
+.back .stage img { position: relative; z-index: 1; display: block; height: 5.8in; }
+.back .stage .bk::after { content: ""; position: absolute; z-index: 0; left: 6%; right: -6%; bottom: -26px; height: 60px; background: radial-gradient(closest-side, rgba(0,0,0,.38), rgba(0,0,0,0)); }
 .back .close { background: #000; color: #fff; padding: .5in .78in .55in; }
 .back .close img.mk2 { width: 40px; display: block; }
 .back .close p { margin-top: 16px; max-width: 34em; font-size: 12px; line-height: 1.62; color: rgba(255,255,255,.72); }
@@ -354,28 +364,28 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
 <section class="page">
   <div class="mk"><span class="n">05</span>Buttons &amp; Marks</div>
   <h1>Buttons &amp; UI Marks</h1>
-  <p class="lede">Two CTA styles. Uppercase Inter 700, 4 px radius, one primary action per view. On white the solid is <b>red</b>; on black the solid is <b>gold</b> with black type.</p>
+  <p class="lede">Two CTA styles. Uppercase Inter 700, 2 px radius (near square, like the jacket), one primary action per view. On white the solid is <b>red</b>; on black the solid is <b>gold</b> with black type.</p>
 
   <div style="display:flex; gap:22px; margin-top:20px; align-items:flex-start">
     <div><span class="btn red">Get on the list <span class="arw">→</span></span><p class="xs" style="margin-top:12px; max-width:15em">Solid · red fill, white type. A soft neutral shadow, no darker edge.</p></div>
     <div><span class="btn ghost-k">See the book <span class="arw">→</span></span><p class="xs" style="margin-top:12px; max-width:15em">Ghost · ink outline and type. Fills ink on hover, type flips white.</p></div>
   </div>
 
-  <div class="lab red" style="margin-top:22px">Recurring marks</div>
+  <div class="lab red" style="margin-top:16px">Recurring marks</div>
   <p class="sm" style="margin-top:4px">The small repeated elements that carry the brand. There is no icon library; these are the signatures.</p>
   <div class="marks">
     <div><div class="m"><img src="assets/seal-2-million.png" style="width:84px" alt=""></div><div class="cap">Copy seal · jacket grey</div></div>
     <div><div class="m"><span class="redstop">Ownership<i>.</i></span></div><div class="cap">The red period</div></div>
     <div><div class="m"><span class="miniband"><i></i><b><img src="assets/tceb-lockup-white.png" alt=""></b><u><img src="assets/dh-name-black.png" alt=""></u></span></div><div class="cap">The band</div></div>
   </div>
-  <div class="lab red" style="margin-top:16px">Play buttons</div>
+  <div class="lab red" style="margin-top:10px">Play buttons</div>
   <div class="plays">
-    <div><div class="m" style="background:#000"><span class="play pg"></span></div><div class="cap">Gold · on black</div></div>
+    <div><div class="m gl"><span class="play pg"></span></div><div class="cap">Gold · on black</div></div>
     <div><div class="m" style="background:#fff; border:1px solid var(--rule)"><span class="play pr"></span></div><div class="cap">Red · on white</div></div>
     <div><div class="m" style="background:url(assets/dh-author.webp) 50% 22% / cover"><span class="play pw"></span></div><div class="cap">White · on photo or video</div></div>
     <div><div class="m" style="background:#f0f0f0"><span class="play pk"></span></div><div class="cap">Ink · on light fields</div></div>
   </div>
-  <p class="xs" style="margin-top:8px">Every play button is a disc with a soft halo ring in its own colour that grows on hover. Pick the colour by ground, as with the CTAs. Video never loads with the page: the play opens a lightbox, the player is created on click and removed on close (youtube-nocookie, Vimeo dnt=1).</p>
+  <p class="xs" style="margin-top:8px">Every play button is a disc with a halo ring in its own colour that grows on hover. Gold on black may add a warm glow behind it. Pick the colour by ground, as with the CTAs. Video never loads with the page: the play opens a lightbox, the player is created on click and removed on close (youtube-nocookie, Vimeo dnt=1).</p>
 
   <div class="lab red" style="margin-top:16px">Button states · black ground</div>
   <div style="background:#000; border-radius:var(--radius); padding:20px 18px 12px; margin-top:8px">
@@ -407,11 +417,11 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
   <h1>Components &amp; Treatments</h1>
   <p class="lede">The repeatable building blocks, as built on the launch pages and in the trailer.</p>
 
-  <div class="lab red" style="margin-top:14px">The jacket · R4, full spread</div>
-  <img src="assets/tceb-jacket-spread.jpg" style="display:block; width:100%; margin-top:8px; border-radius:2px; box-shadow:0 1px 2px rgba(0,0,0,.2), 0 10px 24px rgba(0,0,0,.18)" alt="The Compound Effect in Business, full jacket">
-  <p class="xs" style="margin-top:7px">Back flap, back panel, spine, front, front flap. The source of every mark, colour and face in this guide. File: <code>TCEB-Cover-R4-Jacket.pdf</code>, page 1 (the red version).</p>
+  <div class="lab red" style="margin-top:10px">The jacket · R4, full spread</div>
+  <img src="assets/tceb-jacket-spread.jpg" style="display:block; width:100%; margin-top:8px; border:1px solid var(--rule)" alt="The Compound Effect in Business, full jacket">
+  <p class="xs" style="margin-top:6px">Back flap, back, spine, front, front flap: the source of every mark, colour and face here. <code>TCEB-Cover-R4-Jacket.pdf</code>, page 1.</p>
 
-  <div class="grid2" style="margin-top:14px; align-items:start">
+  <div class="grid2" style="margin-top:10px; align-items:start">
     <div>
       <div class="lab red">Rating lockup · Amazon</div>
       <div class="rate" style="margin-top:8px">
@@ -431,17 +441,21 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
         <div><div class="n">11,000+</div><div class="l">CEOs and<br>founders mentored</div></div>
         <div><div class="n">2M+</div><div class="l">Copies of The<br>Compound Effect</div></div>
       </div>
-      <p class="xs" style="margin-top:7px">Credentials stay open-ended (the book has to read true in 2036). Numbers count up once on entry.</p>
+      <p class="xs" style="margin-top:6px">Open-ended credentials only. Numbers count up once on entry.</p>
       <div class="lab red" style="margin-top:12px">The glow · background only</div>
       <div class="glow" style="margin-top:8px"></div>
-      <p class="xs" style="margin-top:7px">A warm gold pool rising from below, on black only. In the trailer it is the audience: it starts on "you" and grows as they speak.</p>
+      <div class="glows">
+        <div><div class="gl2 silver"></div><div class="cap">Silver light · on black</div></div>
+        <div><div class="gl2 pool"></div><div class="cap">Shadow pool · on white</div></div>
+      </div>
+      <p class="xs" style="margin-top:7px">Gold from below is the signature (in the trailer, the audience). Silver is the neutral light on black. On white, a glow becomes a shadow pool. Never red: blurred red reads pink.</p>
     </div>
   </div>
 
   <div class="grid2" style="margin-top:12px; align-items:start">
     <div>
       <div class="lab">Elevation</div>
-      <p class="sm" style="margin-top:4px">Borders over shadows on cards. Real shadows only under objects (the book, a solid button's lift). 4 px radius; circles only for play buttons and the seal.</p>
+      <p class="sm" style="margin-top:4px">Borders over shadows on cards. Real shadows only under objects (the book, a solid button's lift). 2 px radius, near square like the jacket; circles only for play buttons and the seal.</p>
     </div>
     <div>
       <div class="lab">Motion &amp; the book</div>
@@ -469,7 +483,7 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
   <span class="k">--font-display</span>:<span class="v">'Bebas Neue Pro','Bebas Neue','Oswald',sans-serif</span>;
   <span class="k">--font-name</span>:<span class="v">'ITC Franklin Gothic Std','Archivo Narrow',sans-serif</span>;
   <span class="k">--font-body</span>:<span class="v">'Inter',-apple-system,'Segoe UI',sans-serif</span>;
-  <span class="k">--radius</span>:<span class="v">4px</span>;  <span class="k">--container</span>:<span class="v">1080px</span>;  <span class="k">--gutter</span>:<span class="v">32px</span>;
+  <span class="k">--radius</span>:<span class="v">2px</span>;  <span class="k">--container</span>:<span class="v">1080px</span>;  <span class="k">--gutter</span>:<span class="v">32px</span>;
 }</div>
 
   <div class="grid2" style="margin-top:16px; align-items:start">
@@ -597,7 +611,7 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
 
 <!-- ===================== 11 BACK COVER ===================== -->
 <section class="page back">
-  <div class="stage"><img src="assets/tceb-front.jpg" alt="The Compound Effect in Business"></div>
+  <div class="stage"><span class="bk"><img src="assets/tceb-front.jpg" alt="The Compound Effect in Business"></span></div>
   <div class="close">
     <img class="mk2" src="assets/dh-mark-white.webp" alt="Darren Hardy">
     <p>Every asset that carries this title should feel as <b>deliberate, hard-edged and certain</b> as the jacket it comes from. When in doubt: a white ground, the black book, one red.</p>
