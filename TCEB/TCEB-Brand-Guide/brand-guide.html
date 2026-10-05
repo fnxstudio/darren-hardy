@@ -104,7 +104,12 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
 
 /* ---------- buttons ---------- */
 .btn { display: inline-flex; align-items: center; gap: 12px; font-family: var(--body); font-weight: 700; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; padding: 15px 26px; border-radius: var(--radius); border: 1.5px solid transparent; white-space: nowrap; position: relative; }
-.btn .arw { display: inline-block; }
+.btn .arw { display: inline-block; transition: transform .22s cubic-bezier(.2,.8,.2,1); }
+.btn { transition: transform .22s cubic-bezier(.2,.8,.2,1), background .22s, color .22s; cursor: pointer; }
+.btn:hover { transform: scale(1.04) translateY(-3px); }
+.btn:hover .arw { transform: translateX(6px); }
+.btn.ghost-k:hover { background: var(--black); color: #fff; }
+.btn.ghost-w:hover { background: #fff; color: var(--black); border-color: #fff; }
 .btn.red { background: var(--red); color: #fff; box-shadow: 0 10px 22px rgba(0,0,0,.16); }
 .btn.gold { background: var(--gold); color: var(--black); box-shadow: 0 10px 22px rgba(0,0,0,.5); }
 .btn.ghost-k { background: transparent; color: var(--black); border-color: var(--black); }
@@ -376,20 +381,20 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
   <div style="background:#000; border-radius:var(--radius); padding:20px 18px 12px; margin-top:8px">
     <div class="states">
       <div><span class="btn gold">Watch the trailer <span class="arw">→</span></span><div class="sl">Default</div></div><div class="to">→</div>
-      <div><span class="btn gold hov">Watch the trailer <span class="arw">→</span></span><div class="sl">Hover · grows, lifts</div></div>
+      <div><span class="btn gold hov">Watch the trailer <span class="arw">→</span></span><div class="sl">Hover · grows, arrow travels</div></div>
       <div class="gap"></div>
-      <div><span class="btn ghost-w">The schedule</span><div class="sl">Default</div></div><div class="to">→</div>
-      <div><span class="btn ghost-w hov">The schedule</span><div class="sl">Hover · fills white</div></div>
+      <div><span class="btn ghost-w">The schedule <span class="arw">→</span></span><div class="sl">Default</div></div><div class="to">→</div>
+      <div><span class="btn ghost-w hov">The schedule <span class="arw">→</span></span><div class="sl">Hover · fills white, arrow travels</div></div>
     </div>
   </div>
   <div class="lab red" style="margin-top:14px">Button states · white ground</div>
   <div style="background:#fff; border:1px solid var(--rule); border-radius:var(--radius); padding:20px 18px 12px; margin-top:8px">
     <div class="states">
       <div><span class="btn red">Get on the list <span class="arw">→</span></span><div class="sl">Default</div></div><div class="to">→</div>
-      <div><span class="btn red hov">Get on the list <span class="arw">→</span></span><div class="sl">Hover · grows, lifts</div></div>
+      <div><span class="btn red hov">Get on the list <span class="arw">→</span></span><div class="sl">Hover · grows, arrow travels</div></div>
       <div class="gap"></div>
-      <div><span class="btn ghost-k">See the book</span><div class="sl">Default</div></div><div class="to">→</div>
-      <div><span class="btn ghost-k hov">See the book</span><div class="sl">Hover · fills ink</div></div>
+      <div><span class="btn ghost-k">See the book <span class="arw">→</span></span><div class="sl">Default</div></div><div class="to">→</div>
+      <div><span class="btn ghost-k hov">See the book <span class="arw">→</span></span><div class="sl">Hover · fills ink, arrow travels</div></div>
     </div>
   </div>
   <p class="xs" style="margin-top:8px"><b style="color:#000">Nothing darkens on hover.</b> A solid holds its fill: it grows about 4%, lifts 3 px and the arrow travels. A ghost fills with its own type colour and flips the type to the ground.</p>
@@ -582,7 +587,7 @@ a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-un
 <span class="k">.btn-solid .arw</span>, <span class="k">.btn-ghost .arw</span> { <span class="k">transition</span>:<span class="v">transform .22s</span>; }
 <span class="k">.btn-solid:hover .arw</span>, <span class="k">.btn-ghost:hover .arw</span> { <span class="k">transform</span>:<span class="v">translateX(6px)</span>; }</div>
 
-  <p class="sm" style="margin-top:14px">A page can host both: a ghost in the nav (a low-pressure invite) and a solid at the close (the actual decision). Never two solids in one view, never a coloured glow under a button (a blurred red shadow reads pink), never a pill shape, and never a label in Bebas at button size.</p>
+  <p class="sm" style="margin-top:14px">A page can host both: a ghost in the nav (a low-pressure invite) and a solid at the close (the actual decision). Every button carries the → arrow, which travels 6 px on hover. Never two solids in one view, never a coloured glow under a button (a blurred red shadow reads pink), never a pill shape, and never a label in Bebas at button size.</p>
   <div class="box" style="margin-top:14px">
     <div class="lab">Note on the live stylesheet</div>
     <p class="sm" style="margin-top:5px"><code>tceb.css</code> still darkens <code>.btn-red</code> on hover (to <code>--c-red-deep</code>). That predates the rule above and should be brought into line on the next pass of the stylesheet.</p>
