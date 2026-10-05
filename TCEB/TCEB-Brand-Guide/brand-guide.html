@@ -49,6 +49,7 @@ h1 em, h2 em { font-style: normal; color: var(--red); }
 p.sm { font-size: 10.4px; line-height: 1.6; color: var(--grey); }
 p.xs { font-size: 9.2px; line-height: 1.55; color: var(--mute); }
 code, .code { font-family: var(--mono); }
+a.lnk { color: var(--red); font-weight: 650; text-decoration: underline; text-underline-offset: 2px; }
 .foot { position: absolute; left: .78in; right: .78in; bottom: .42in; display: flex; justify-content: space-between; padding-top: 9px; border-top: 1px solid var(--rule); font-weight: 600; font-size: 7.6px; letter-spacing: .18em; text-transform: uppercase; color: #a3a3a3; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -104,8 +105,8 @@ code, .code { font-family: var(--mono); }
 /* ---------- buttons ---------- */
 .btn { display: inline-flex; align-items: center; gap: 12px; font-family: var(--body); font-weight: 700; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; padding: 15px 26px; border-radius: var(--radius); border: 1.5px solid transparent; white-space: nowrap; position: relative; }
 .btn .arw { display: inline-block; }
-.btn.red { background: var(--red); color: #fff; box-shadow: 0 5px 0 var(--red-deep), inset 0 1px 0 rgba(255,255,255,.25), 0 12px 22px rgba(0,0,0,.14); }
-.btn.gold { background: var(--gold); color: var(--black); box-shadow: 0 5px 0 #9c7610, inset 0 1px 0 rgba(255,255,255,.35), 0 12px 22px rgba(0,0,0,.45); }
+.btn.red { background: var(--red); color: #fff; box-shadow: 0 10px 22px rgba(0,0,0,.16); }
+.btn.gold { background: var(--gold); color: var(--black); box-shadow: 0 10px 22px rgba(0,0,0,.5); }
 .btn.ghost-k { background: transparent; color: var(--black); border-color: var(--black); }
 .btn.ghost-w { background: transparent; color: #fff; border-color: rgba(255,255,255,.75); }
 .btn.hov { transform: scale(1.04) translateY(-3px); }
@@ -115,47 +116,52 @@ code, .code { font-family: var(--mono); }
 .states { display: grid; grid-template-columns: auto 18px auto 1fr auto 18px auto; align-items: center; gap: 8px; }
 .states .gap { width: 6px; }
 .states .btn { font-size: 8.4px; padding: 11px 15px; gap: 8px; letter-spacing: .08em; }
-.states .btn.red, .states .btn.gold { box-shadow: 0 4px 0 var(--red-deep), inset 0 1px 0 rgba(255,255,255,.25); }
-.states .btn.gold { box-shadow: 0 4px 0 #9c7610, inset 0 1px 0 rgba(255,255,255,.35); }
+
 .states .to { color: #8a8a8a; font-size: 13px; text-align: center; }
 .states .sl { margin-top: 9px; font-weight: 600; font-size: 7.4px; letter-spacing: .16em; text-transform: uppercase; color: #8a8a8a; }
 
 /* recurring marks */
-.marks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 12px; align-items: end; }
+.marks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; align-items: end; }
 .marks > div { text-align: center; }
 .marks .m { height: 92px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius); }
 .redstop { font-family: var(--display); font-weight: 700; font-size: 40px; letter-spacing: .02em; color: var(--black); }
 .redstop i { font-style: normal; color: var(--red); }
-.badge { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px 6px; border: 1.3px solid var(--gold); border-radius: var(--radius); font-weight: 700; font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
-.badge img { width: 15px; height: 15px; }
-.play { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(140deg, #f3cf63, #d4a017); box-shadow: 0 0 0 6px rgba(212,160,23,.25), 0 8px 20px rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; }
-.play::before { content: ""; margin-left: 4px; border-left: 13px solid var(--black); border-top: 8px solid transparent; border-bottom: 8px solid transparent; }
+.plays { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+.plays .m { height: 92px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius); }
+.play { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.play::before { content: ""; margin-left: 4px; border-left: 13px solid #000; border-top: 8px solid transparent; border-bottom: 8px solid transparent; }
+.play.pg { background: linear-gradient(140deg, #f3cf63, #d4a017); box-shadow: 0 0 0 7px rgba(212,160,23,.32), 0 0 26px 6px rgba(212,160,23,.45); }
+.play.pr { background: var(--red); box-shadow: 0 0 0 7px rgba(225,19,46,.16), 0 8px 18px rgba(0,0,0,.14); }
+.play.pr::before { border-left-color: #fff; }
+.play.pw { background: #fff; box-shadow: 0 0 0 7px rgba(255,255,255,.35), 0 8px 22px rgba(0,0,0,.4); }
+.play.pk { background: #000; box-shadow: 0 0 0 7px rgba(0,0,0,.12); }
+.play.pk::before { border-left-color: #fff; }
 .miniband { width: 82px; height: 74px; display: grid; grid-template-rows: 9px 1fr 13px; border-radius: 2px; overflow: hidden; box-shadow: 0 0 0 1px var(--rule); }
 .miniband i { background: #fff; } .miniband b { background: var(--black); display: flex; align-items: center; justify-content: center; }
 .miniband b img { width: 40px; }
 .miniband u { background: #fff; display: flex; align-items: center; justify-content: center; } .miniband u img { width: 48px; }
 
 /* ---------- components ---------- */
-.proof { display: grid; grid-template-columns: 112px 1fr; gap: 18px; align-items: center; padding: 18px; background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); }
-.proof img { width: 112px; height: 140px; object-fit: cover; border-radius: 2px; display: block; }
-.proof q { display: block; font-size: 15px; line-height: 1.34; font-weight: 650; letter-spacing: -.01em; color: var(--black); quotes: none; }
-.proof q mark { background: none; color: var(--red); }
-.proof .nm { margin-top: 12px; font-family: var(--display); font-weight: 700; font-size: 16px; letter-spacing: .04em; color: var(--black); }
-.proof .rl { margin-top: 3px; font-weight: 600; font-size: 7.6px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
 .statband { background: var(--black); border-radius: var(--radius); display: grid; grid-template-columns: repeat(3, 1fr); padding: 18px 10px; text-align: center; }
 .statband .n { font-family: var(--display); font-weight: 700; font-size: 34px; line-height: .9; color: var(--gold); }
 .statband .l { margin-top: 6px; font-weight: 600; font-size: 7px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.6); }
-.glow { height: 104px; border-radius: var(--radius); background:
-  radial-gradient(42% 120% at 50% 118%, rgba(212,160,23,.55) 0%, rgba(212,160,23,.16) 38%, rgba(0,0,0,0) 72%),
-  radial-gradient(30% 60% at 50% 100%, rgba(255,214,120,.35), rgba(0,0,0,0) 70%), #000; }
-.bookwhite { height: 236px; background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); display: flex; align-items: center; gap: 22px; padding: 0 22px; }
-.bookwhite img { height: 196px; box-shadow: 0 1px 1px rgba(0,0,0,.25), 10px 16px 26px rgba(0,0,0,.28), 2px 3px 6px rgba(0,0,0,.2); }
-.jband { height: 236px; display: grid; grid-template-rows: 26px 1fr 40px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--rule); }
-.jband .t { background: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 7.4px; letter-spacing: .16em; text-transform: uppercase; color: var(--black); }
-.jband .m { background: #000; display: flex; align-items: center; justify-content: center; }
-.jband .m img { width: 128px; }
-.jband .b { background: #fff; display: flex; align-items: center; justify-content: center; }
-.jband .b img { width: 120px; }
+.glow { height: 104px; border-radius: var(--radius); position: relative; overflow: hidden; background: #000; }
+.glow::before { content: ""; position: absolute; left: 50%; bottom: -90px; width: 360px; height: 180px; margin-left: -180px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255,214,120,.95) 0%, rgba(232,180,40,.75) 30%, rgba(212,160,23,.35) 62%, rgba(212,160,23,0) 100%); }
+.glow::after { content: ""; position: absolute; left: 50%; bottom: -150px; width: 620px; height: 260px; margin-left: -310px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(212,160,23,.38), rgba(212,160,23,0)); }
+
+/* rating lockup */
+.rate { display: flex; align-items: center; gap: 16px; padding: 12px 16px; border: 1px solid var(--rule); border-radius: var(--radius); background: #fff; }
+.rate .rn { font-family: var(--display); font-weight: 700; font-size: 46px; line-height: .85; color: #000; padding-right: 16px; border-right: 1px solid var(--rule); }
+.rate .rn span { font-size: 22px; color: #a3a3a3; margin-left: 2px; }
+.rate .stars { font-size: 17px; letter-spacing: 2px; color: #a87f12; line-height: 1; }
+.rate .rl { margin-top: 5px; font-weight: 700; font-size: 7.6px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); line-height: 1.5; }
+.rate.dk { background: #000; border-color: #000; }
+.rate.dk .rn { color: #fff; border-right-color: rgba(255,255,255,.18); }
+.rate.dk .rn span { color: rgba(255,255,255,.4); }
+.rate.dk .stars { color: var(--gold); }
+.rate.dk .rl { color: rgba(255,255,255,.6); }
 
 /* ---------- back cover ---------- */
 .back { padding: 0; display: flex; flex-direction: column; }
@@ -242,8 +248,8 @@ code, .code { font-family: var(--mono); }
     <img src="assets/dh-author.webp" style="width:150px; height:188px; object-fit:cover; object-position:50% 20%; border-radius:2px; display:block" alt="Darren Hardy">
     <div>
       <div class="lab">Author image</div>
-      <p class="sm" style="margin-top:6px">The jacket's back-flap photograph is <b>the approved image of Darren for TCEB</b>. It is also in Air. A rectangle only: never a circle, a cut-out or a new background. He sits on his own charcoal wall. On a black hero, fade the photo into black from the copy side (as on the Champions page) so he and the headline share one field.</p>
-      <p class="xs" style="margin-top:6px"><code>dh-author.webp</code> · 1100 × 1375 · place no wider than 550 px on screen.</p>
+      <p class="sm" style="margin-top:6px">The jacket's back-flap photograph is <b>the approved image of Darren for TCEB</b>. It is also in Air. A rectangle only: never a circle, a cut-out or a new background. He sits on his own charcoal wall. On a black hero, fade the photo into black from the copy side (as on the launch pages) so he and the headline share one field.</p>
+      <p class="xs" style="margin-top:6px">Air · DH GO-TO PICS · <code>dh_studio_royal_1</code> · 1856 × 2304<br><a class="lnk" href="https://air-original.imgix.net/70ed420d-9059-4e1f-820c-44ce7926b256.png">Full-resolution file</a> · <a class="lnk" href="https://app.air.inc/a/bW2OGDMOW">Open the board in Air</a></p>
     </div>
   </div>
 
@@ -273,7 +279,7 @@ code, .code { font-family: var(--mono); }
     </div>
     <div class="panel k" style="height:118px; flex-direction:column; align-items:flex-start; justify-content:center; padding:0 20px">
       <div style="font-family:var(--display); font-weight:700; font-size:30px; letter-spacing:.02em; color:#fff">GOLD ON <span style="color:var(--gold)">BLACK</span></div>
-      <p class="xs" style="margin-top:6px; color:rgba(255,255,255,.62)">The Founders Event. Black owns the event, the founding tiers, the countdown and the Champions. Nothing else.</p>
+      <p class="xs" style="margin-top:6px; color:rgba(255,255,255,.62)">The dark register. On black, gold is the accent: the solid button, big numbers, stars, the glow. #D4A017 never crosses onto white.</p>
     </div>
   </div>
   <p class="sm" style="margin-top:10px"><b>The rule that governs every page:</b> the jacket is black, so a book page cannot be. Put the black book on white and it lands; put it on black and it disappears. That is also why the trailer ends on white.</p>
@@ -283,8 +289,8 @@ code, .code { font-family: var(--mono); }
     <div><i style="background:#e1132e"></i><b>Red</b><span>#E1132E<br>on white</span></div>
     <div><i style="background:#ff0047"></i><b>Red bright*</b><span>#FF0047<br>type on black</span></div>
     <div><i style="background:#d21c2e"></i><b>Print red</b><span>C12 M100<br>Y92 K3</span></div>
-    <div><i style="background:#d4a017"></i><b>Gold†</b><span>#D4A017<br>Founders, dark</span></div>
-    <div><i style="background:#caa76a"></i><b>Gold lux†</b><span>#CAA76A<br>premium tier</span></div>
+    <div><i style="background:#d4a017"></i><b>Gold†</b><span>#D4A017<br>black only</span></div>
+    <div><i style="background:#caa76a"></i><b>Gold lux†</b><span>#CAA76A<br>softer register</span></div>
     <div><i style="background:#fff; border-bottom:1px solid var(--rule)"></i><b>White</b><span>#FFFFFF<br>ground</span></div>
   </div>
   <p class="xs" style="margin-top:7px">*Red bright is type only, never a button fill (white on it is 3.93:1). †Gold lives on black only: 2.38:1 on white fails at every size. Print red is the jacket's process build; the screen reds are matched for contrast, not converted from it.</p>
@@ -343,10 +349,10 @@ code, .code { font-family: var(--mono); }
 <section class="page">
   <div class="mk"><span class="n">05</span>Buttons &amp; Marks</div>
   <h1>Buttons &amp; UI Marks</h1>
-  <p class="lede">Two CTA styles. Uppercase Inter 700, 4 px radius, one primary action per view. On white the solid is <b>red</b>; on black, in the Founders zone, the solid is <b>gold</b> with black type.</p>
+  <p class="lede">Two CTA styles. Uppercase Inter 700, 4 px radius, one primary action per view. On white the solid is <b>red</b>; on black the solid is <b>gold</b> with black type.</p>
 
   <div style="display:flex; gap:22px; margin-top:20px; align-items:flex-start">
-    <div><span class="btn red">Get on the list <span class="arw">→</span></span><p class="xs" style="margin-top:12px; max-width:15em">Solid · red fill, white type, a 5 px physical bottom edge in a deeper red.</p></div>
+    <div><span class="btn red">Get on the list <span class="arw">→</span></span><p class="xs" style="margin-top:12px; max-width:15em">Solid · red fill, white type. A soft neutral shadow, no darker edge.</p></div>
     <div><span class="btn ghost-k">See the book <span class="arw">→</span></span><p class="xs" style="margin-top:12px; max-width:15em">Ghost · ink outline and type. Fills ink on hover, type flips white.</p></div>
   </div>
 
@@ -355,17 +361,22 @@ code, .code { font-family: var(--mono); }
   <div class="marks">
     <div><div class="m"><img src="assets/seal-2-million.png" style="width:84px" alt=""></div><div class="cap">Copy seal · jacket grey</div></div>
     <div><div class="m"><span class="redstop">Ownership<i>.</i></span></div><div class="cap">The red period</div></div>
-    <div><div class="m" style="background:#000"><span class="badge"><img src="assets/dh-mark-white.webp" alt="">Champion</span></div><div class="cap">Founders badge · gold</div></div>
-    <div><div class="m" style="background:#000"><span class="play"></span></div><div class="cap">Play · Founders zone</div></div>
     <div><div class="m"><span class="miniband"><i></i><b><img src="assets/tceb-lockup-white.png" alt=""></b><u><img src="assets/dh-name-black.png" alt=""></u></span></div><div class="cap">The band</div></div>
   </div>
-  <p class="xs" style="margin-top:8px">Gold UI (badge, play) lives only on black. On white, the same marks take ink with one red accent. Video never loads with the page: the play opens a lightbox, the player is created on click and removed on close (youtube-nocookie, Vimeo dnt=1).</p>
+  <div class="lab red" style="margin-top:16px">Play buttons</div>
+  <div class="plays">
+    <div><div class="m" style="background:#000"><span class="play pg"></span></div><div class="cap">Gold · on black</div></div>
+    <div><div class="m" style="background:#fff; border:1px solid var(--rule)"><span class="play pr"></span></div><div class="cap">Red · on white</div></div>
+    <div><div class="m" style="background:url(assets/dh-author.webp) 50% 22% / cover"><span class="play pw"></span></div><div class="cap">White · on photo or video</div></div>
+    <div><div class="m" style="background:#f0f0f0"><span class="play pk"></span></div><div class="cap">Ink · on light fields</div></div>
+  </div>
+  <p class="xs" style="margin-top:8px">Every play button is a disc with a soft halo ring in its own colour that grows on hover. Pick the colour by ground, as with the CTAs. Video never loads with the page: the play opens a lightbox, the player is created on click and removed on close (youtube-nocookie, Vimeo dnt=1).</p>
 
   <div class="lab red" style="margin-top:16px">Button states · black ground</div>
   <div style="background:#000; border-radius:var(--radius); padding:20px 18px 12px; margin-top:8px">
     <div class="states">
-      <div><span class="btn gold">Claim your seat <span class="arw">→</span></span><div class="sl">Default</div></div><div class="to">→</div>
-      <div><span class="btn gold hov">Claim your seat <span class="arw">→</span></span><div class="sl">Hover · grows, lifts</div></div>
+      <div><span class="btn gold">Watch the trailer <span class="arw">→</span></span><div class="sl">Default</div></div><div class="to">→</div>
+      <div><span class="btn gold hov">Watch the trailer <span class="arw">→</span></span><div class="sl">Hover · grows, lifts</div></div>
       <div class="gap"></div>
       <div><span class="btn ghost-w">The schedule</span><div class="sl">Default</div></div><div class="to">→</div>
       <div><span class="btn ghost-w hov">The schedule</span><div class="sl">Hover · fills white</div></div>
@@ -389,52 +400,48 @@ code, .code { font-family: var(--mono); }
 <section class="page">
   <div class="mk"><span class="n">06</span>Components</div>
   <h1>Components &amp; Treatments</h1>
-  <p class="lede">The repeatable building blocks, as built on the Champions page and in the launch trailer.</p>
+  <p class="lede">The repeatable building blocks, as built on the launch pages and in the trailer.</p>
 
-  <div class="grid2" style="margin-top:16px; align-items:start">
+  <div class="lab red" style="margin-top:14px">The jacket · R4, full spread</div>
+  <img src="assets/tceb-jacket-spread.jpg" style="display:block; width:100%; margin-top:8px; border-radius:2px; box-shadow:0 1px 2px rgba(0,0,0,.2), 0 10px 24px rgba(0,0,0,.18)" alt="The Compound Effect in Business, full jacket">
+  <p class="xs" style="margin-top:7px">Back flap, back panel, spine, front, front flap. The source of every mark, colour and face in this guide. File: <code>TCEB-Cover-R4-Jacket.pdf</code>, page 1 (the red version).</p>
+
+  <div class="grid2" style="margin-top:14px; align-items:start">
     <div>
-      <div class="lab red">Testimonial card · split, real photo</div>
-      <figure class="proof" style="margin-top:8px">
-        <img src="assets/george.webp" alt="George Browne">
-        <div><q><mark>Total gross revenue of my business quadrupled.</mark></q><div class="nm">George Browne</div><div class="rl">Physician &amp; Owner · 7X Alum</div></div>
-      </figure>
-      <p class="xs" style="margin-top:7px">A banked result with a magnitude, never a projection. Rectangular portrait beside the quote, on its real background, body facing the copy.</p>
+      <div class="lab red">Rating lockup · Amazon</div>
+      <div class="rate" style="margin-top:8px">
+        <div class="rn">4.7<span>/5</span></div>
+        <div class="rs"><div class="stars">★★★★★</div><div class="rl">21,518 Amazon ratings<br>The Compound Effect</div></div>
+      </div>
+      <div class="rate dk" style="margin-top:8px">
+        <div class="rn">4.7<span>/5</span></div>
+        <div class="rs"><div class="stars">★★★★★</div><div class="rl">21,518 Amazon ratings<br>The Compound Effect</div></div>
+      </div>
+      <p class="xs" style="margin-top:7px">Always name the source and the book: these are the 2010 book's ratings and never attach to TCEB's own claims. Read 4 Oct 2026; re-check before each use. Stars: ink-gold <code>#A87F12</code> on white, gold on black.</p>
     </div>
     <div>
-      <div class="lab red">Credential band · Founders zone</div>
+      <div class="lab red">Credential band · gold on black</div>
       <div class="statband" style="margin-top:8px">
         <div><div class="n">35+</div><div class="l">Years studying<br>achievement</div></div>
         <div><div class="n">11,000+</div><div class="l">CEOs and<br>founders mentored</div></div>
         <div><div class="n">2M+</div><div class="l">Copies of The<br>Compound Effect</div></div>
       </div>
-      <p class="xs" style="margin-top:7px">Credentials stay open-ended (the book has to read true in 2036). BMC's own stats never attach to the book's claims. Numbers count up once on entry.</p>
-      <div class="lab red" style="margin-top:12px">Gold glow · background only</div>
+      <p class="xs" style="margin-top:7px">Credentials stay open-ended (the book has to read true in 2036). Numbers count up once on entry.</p>
+      <div class="lab red" style="margin-top:12px">The glow · background only</div>
       <div class="glow" style="margin-top:8px"></div>
-      <p class="xs" style="margin-top:7px">A low gold pool rising from below, on black only. In the trailer it is the audience: it starts on "you" and grows as they speak.</p>
+      <p class="xs" style="margin-top:7px">A warm gold pool rising from below, on black only. In the trailer it is the audience: it starts on "you" and grows as they speak.</p>
     </div>
   </div>
 
-  <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:18px; margin-top:14px">
+  <div class="grid2" style="margin-top:12px; align-items:start">
     <div>
-      <div class="lab red">The book · black on white</div>
-      <div class="bookwhite" style="margin-top:8px">
-        <img src="assets/tceb-front.jpg" alt="The Compound Effect in Business jacket">
-        <p class="xs" style="max-width:14em">The black book lands on white, separated by a real contact shadow. It is a hardback in its jacket, never a flat mock. The cover <b style="color:#000">always faces the copy</b>, in every frame of any animation.</p>
-      </div>
+      <div class="lab">Elevation</div>
+      <p class="sm" style="margin-top:4px">Borders over shadows on cards. Real shadows only under objects (the book, a solid button's lift). 4 px radius; circles only for play buttons and the seal.</p>
     </div>
     <div>
-      <div class="lab red">The band · composition</div>
-      <div class="jband" style="margin-top:8px">
-        <div class="t">From the author of The Compound Effect</div>
-        <div class="m"><img src="assets/tceb-lockup-white.png" alt=""></div>
-        <div class="b"><img src="assets/dh-name-black.png" alt=""></div>
-      </div>
+      <div class="lab">Motion &amp; the book</div>
+      <p class="sm" style="margin-top:4px">Arrivals rise 38 px over 0.9 s. Black to white is the signature transition, and the pace compounds toward the reveal. The book is a real hardback that <b>always faces the copy</b>.</p>
     </div>
-  </div>
-
-  <div class="grid2" style="margin-top:14px">
-    <div><div class="lab">Elevation</div><p class="sm" style="margin-top:5px">Borders over shadows on cards. Real shadows only under objects (the book, a button's bottom edge). 4 px radius everywhere; circles only for the play button and the seal. No rounded full-width sections.</p></div>
-    <div><div class="lab">Motion</div><p class="sm" style="margin-top:5px">Arrivals rise 38 px over 0.9 s on <code>cubic-bezier(.2,.7,.2,1)</code>. Black to white is the signature transition. The pace compounds: cuts get faster toward the reveal. Honors <code>prefers-reduced-motion</code>.</p></div>
   </div>
   <div class="foot"><span>The Compound Effect in Business · Brand &amp; Design System</span><span>Components</span></div>
 </section>
@@ -451,7 +458,7 @@ code, .code { font-family: var(--mono); }
   <span class="k">--c-white</span>:<span class="v">#ffffff</span>;  <span class="k">--c-black</span>:<span class="v">#000000</span>;  <span class="k">--c-ink</span>:<span class="v">#141414</span>;  <span class="k">--c-surface-d</span>:<span class="v">#131313</span>;
   <span class="c">/* zone 1, the book: red. one per view */</span>
   <span class="k">--c-red</span>:<span class="v">#e1132e</span>;  <span class="k">--c-red-bright</span>:<span class="v">#ff0047</span>;  <span class="c">/* bright = type on black only */</span>
-  <span class="c">/* zone 2, the Founders Event: gold. black grounds only */</span>
+  <span class="c">/* the dark register: gold. black grounds only */</span>
   <span class="k">--c-gold</span>:<span class="v">#d4a017</span>;  <span class="k">--c-gold-lux</span>:<span class="v">#caa76a</span>;  <span class="k">--c-gold-ink</span>:<span class="v">#8a6300</span>; <span class="c">/* only gold allowed on white */</span>
   <span class="c">/* type. Pro + ITC once licensed; stand-ins stay as fallbacks */</span>
   <span class="k">--font-display</span>:<span class="v">'Bebas Neue Pro','Bebas Neue','Oswald',sans-serif</span>;
@@ -476,12 +483,12 @@ code, .code { font-family: var(--mono); }
   </div>
 
   <div class="box flag" style="margin-top:16px">
-    <div class="lab red">Any page or section for the Founders Event</div>
+    <div class="lab red">Any black section</div>
     <p class="sm" style="margin-top:5px">Black ground, gold accent. Add the dark class to the section, never only a dark background (that gives dark-on-dark type).</p>
-<div class="codeblk light" style="margin-top:9px"><span class="k">.ground-black</span>, <span class="k">.on-dark</span> {   <span class="c">/* the Founders zone */</span>
+<div class="codeblk light" style="margin-top:9px"><span class="k">.ground-black</span>, <span class="k">.on-dark</span> {   <span class="c">/* black ground, gold accent */</span>
   <span class="k">--bg</span>:<span class="v">var(--c-black)</span>; <span class="k">--fg</span>:<span class="v">var(--c-white)</span>; <span class="k">--accent</span>:<span class="v">var(--c-red-bright)</span>; <span class="k">--gold-type</span>:<span class="v">var(--c-gold)</span>;
 }
-<span class="k">em</span> { <span class="k">font-style</span>:<span class="v">normal</span>; <span class="k">color</span>:<span class="v">var(--accent)</span>; }   <span class="c">/* gold em inside the event zone */</span></div>
+<span class="k">em</span> { <span class="k">font-style</span>:<span class="v">normal</span>; <span class="k">color</span>:<span class="v">var(--accent)</span>; }   <span class="c">/* gold em on black */</span></div>
   </div>
   <div class="foot"><span>The Compound Effect in Business · Brand &amp; Design System</span><span>Web implementation</span></div>
 </section>
@@ -498,7 +505,7 @@ code, .code { font-family: var(--mono); }
   </div>
   <div style="margin-top:12px">
     <div class="lab">Rule 2 · One colour shift per headline</div>
-    <p class="sm" style="margin-top:4px">Emphasis renders red on white, red bright on black, and gold inside the Founders zone. One per headline, one per view where possible. The jacket spends its red on a single phrase per surface; that discipline is why it lands.</p>
+    <p class="sm" style="margin-top:4px">Emphasis renders red on white, red bright on black, and gold where the section is black. One per headline, one per view where possible. The jacket spends its red on a single phrase per surface; that discipline is why it lands.</p>
   </div>
   <div style="margin-top:12px; display:grid; grid-template-columns:1fr 250px; gap:20px; align-items:center">
     <div>
@@ -525,13 +532,13 @@ code, .code { font-family: var(--mono); }
       <li>Customers invest. Transaction verbs never appear.</li>
       <li>"Leader," not "owner." Never open on the reader's problem.</li>
       <li>ALL CAPS: eight words maximum.</li>
-      <li>The Founders Event and The Founders Circle are proper nouns.</li>
-      <li>The event is virtual: never "the room." "In the studio" is reserved for the 40.</li>
+      <li>Credentials stay open-ended: "more than 35 years," never an exact count.</li>
+      <li>Never promise a number, a growth rate or a timeline.</li>
     </ul>
   </div>
 
   <div class="lab" style="margin-top:8px">Brand term protection · .nobreak</div>
-  <p class="xs" style="margin-top:3px">Multi-word marks never break across lines: The Compound Effect, IN BUSINESS, The Founders Event, BMC|COLLECTIVE.</p>
+  <p class="xs" style="margin-top:3px">Multi-word marks never break across lines: The Compound Effect, IN BUSINESS, Darren Hardy, BMC|COLLECTIVE.</p>
 <div class="codeblk" style="margin-top:7px"><span class="k">em</span> { <span class="k">font-style</span>:<span class="v">normal</span>; <span class="k">color</span>:<span class="v">var(--accent)</span>; }      <span class="c">/* colour only, never slant */</span>
 <span class="k">.answer</span> { <span class="k">font-weight</span>:<span class="v">700</span>; } <span class="k">.setup</span> { <span class="k">font-weight</span>:<span class="v">300</span>; }
 <span class="k">.stop</span> { <span class="k">color</span>:<span class="v">var(--accent)</span>; }                  <span class="c">/* &lt;span class="stop"&gt;.&lt;/span&gt; */</span>
@@ -548,7 +555,7 @@ code, .code { font-family: var(--mono); }
   <div class="grid2" style="margin-top:18px; align-items:start">
     <div>
       <div class="lab">.btn-solid · demands action</div>
-      <p class="sm" style="margin-top:5px">Filled: red with white type on white grounds, gold with black type on black. A physical bottom edge in a deeper shade of its own fill. The <b>primary or closing</b> CTA, one per view: the final commit point of a page.</p>
+      <p class="sm" style="margin-top:5px">Filled: red with white type on white grounds, gold with black type on black. One flat fill, lifted by a soft neutral shadow. The <b>primary or closing</b> CTA, one per view: the final commit point of a page.</p>
     </div>
     <div>
       <div class="lab">.btn-ghost · invites without pressure</div>
@@ -565,8 +572,8 @@ code, .code { font-family: var(--mono); }
   <span class="k">transition</span>:<span class="v">transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s</span>;
 }
 <span class="c">/* Only the paint differs. The fill never changes on hover. */</span>
-<span class="k">.btn-solid</span> { <span class="k">background</span>:<span class="v">var(--c-red)</span>; <span class="k">color</span>:<span class="v">#fff</span>; <span class="k">box-shadow</span>:<span class="v">0 6px 0 #b30f25, inset 0 1px 0 rgba(255,255,255,.25)</span>; }
-<span class="k">.on-dark .btn-solid</span> { <span class="k">background</span>:<span class="v">var(--c-gold)</span>; <span class="k">color</span>:<span class="v">#000</span>; <span class="k">box-shadow</span>:<span class="v">0 6px 0 #9c7610</span>; }
+<span class="k">.btn-solid</span> { <span class="k">background</span>:<span class="v">var(--c-red)</span>; <span class="k">color</span>:<span class="v">#fff</span>; <span class="k">box-shadow</span>:<span class="v">0 10px 22px rgba(0,0,0,.16)</span>; }
+<span class="k">.on-dark .btn-solid</span> { <span class="k">background</span>:<span class="v">var(--c-gold)</span>; <span class="k">color</span>:<span class="v">#000</span>; <span class="k">box-shadow</span>:<span class="v">0 10px 22px rgba(0,0,0,.5)</span>; }
 <span class="k">.btn-solid:hover</span>  { <span class="k">transform</span>:<span class="v">translateY(-3px) scale(1.04)</span>; }
 <span class="k">.btn-solid:active</span> { <span class="k">transform</span>:<span class="v">translateY(5px)</span>; <span class="k">transition-duration</span>:<span class="v">60ms</span>; }
 <span class="k">.btn-ghost</span>        { <span class="k">background</span>:<span class="v">transparent</span>; <span class="k">color</span>:<span class="v">var(--fg)</span>; <span class="k">border-color</span>:<span class="v">var(--fg)</span>; }
