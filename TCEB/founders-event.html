@@ -169,6 +169,16 @@
   .sig span { font-size: 14px; color: var(--muted); line-height: 1.45; padding-bottom: 14px; }
   .sig strong { display: block; color: #000; font-size: 16px; }
 
+
+  .legacy { display: flex; align-items: center; gap: 40px; margin-top: 96px; padding-top: 36px; border-top: 1px solid var(--line); }
+  .legacy .seals { display: flex; gap: 14px; flex: none; }
+  .legacy .seals img { height: 58px; width: auto; filter: grayscale(1); opacity: .75; }
+  .lg-items { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 0; font-size: 15px; color: var(--muted); }
+  .lg-items span { display: inline-flex; align-items: baseline; gap: 8px; padding: 0 22px; border-left: 1px solid var(--line); }
+  .lg-items span:first-child { border-left: 0; padding-left: 0; }
+  .lg-items b { font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1; color: #000; letter-spacing: .01em; }
+  .lg-items .stars { font-style: normal; color: #a87f12; letter-spacing: 1px; font-size: 14px; }
+
   /* ── For business ── */
   .forbiz { border-top: 1px solid var(--line); }
   .forbiz .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 64px; border: 1px solid var(--line); }
@@ -201,6 +211,10 @@
   .vip-add p { max-width: 560px; }
   .vip-tag { position: absolute; top: 40px; right: 32px; font: 700 11px/1 var(--font-body); letter-spacing: .16em; padding: 8px 10px; border: 1px solid var(--c-gold); color: var(--c-gold); border-radius: var(--radius); }
 
+  .upgrades { list-style: none; margin: 96px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .upgrades li { padding: 34px 24px 30px; font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1; letter-spacing: .03em; text-transform: uppercase; color: #fff; text-align: center; }
+  .upgrades li + li { border-left: 1px solid var(--line); }
+  .upgrades .n { display: block; font-family: var(--font-body); font-weight: 600; font-size: 12px; letter-spacing: .2em; color: var(--c-gold); margin-bottom: 14px; }
   .marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 28px 0; margin-top: 96px; }
   .marquee .track { display: flex; width: max-content; animation: slide 46s linear infinite; }
   .marquee .set { display: flex; flex-shrink: 0; }
@@ -208,7 +222,7 @@
   .marquee span:nth-child(odd) { color: #fff; }
   .marquee span:nth-child(even) { color: transparent; -webkit-text-stroke: 1.2px #5a5a5a; }
   @keyframes slide { to { transform: translateX(-50%); } }
-  .marquee-cap { margin-top: 22px; font-size: 14px; color: #8c8c8c; }
+  .marquee-cap { margin-top: 26px; text-align: center; font-size: 14px; color: #8c8c8c; }
 
 
   /* ── AI portal ── */
@@ -341,10 +355,17 @@
     .finally .grid { grid-template-columns: 1fr; gap: 64px; }
     .letter .grid { grid-template-columns: 1fr; gap: 48px; }
     .letter .portrait { position: static; max-width: 300px; order: -1; }
+    .legacy { flex-direction: column; align-items: flex-start; gap: 22px; margin-top: 64px; }
+    .lg-items { flex-direction: column; align-items: flex-start; }
+    .lg-items span { border-left: 0; padding: 0; }
     .book { justify-self: center; }
     .day-grid { grid-template-columns: 1fr; }
     .tiers { grid-template-columns: 1fr; }
     .vip-add { grid-template-columns: 1fr; gap: 8px; }
+    .upgrades { grid-template-columns: 1fr; }
+    .upgrades li { text-align: left; padding: 20px 0; display: flex; align-items: baseline; gap: 16px; font-size: 28px; }
+    .upgrades li + li { border-left: 0; border-top: 1px solid var(--line); }
+    .upgrades .n { margin: 0; width: 28px; }
     .stories { grid-template-columns: 1fr; }
     .story.feature { grid-template-columns: 260px 1fr; }
     .faq .grid { grid-template-columns: 1fr; gap: 40px; }
@@ -469,6 +490,19 @@
       <img src="img/founders/dh-letter.webp" alt="Darren Hardy" width="720" height="900" loading="lazy">
     </figure>
   </div>
+  <div class="wrap">
+    <div class="legacy rise" aria-label="The Compound Effect: more than 2 million copies, 4.7 stars from 21,518 Amazon ratings, by a New York Times and Wall Street Journal bestselling author">
+      <div class="seals">
+        <img src="img/seal-nyt.webp" alt="" width="220" height="220" loading="lazy">
+        <img src="img/seal-wsj.webp" alt="" width="243" height="220" loading="lazy">
+      </div>
+      <div class="lg-items" aria-hidden="true">
+        <span><b>2M+</b>copies of The Compound Effect</span>
+        <span><b>4.7</b><i class="stars">★★★★★</i>from 21,518 Amazon ratings</span>
+        <span>New York Times and Wall Street Journal bestselling author</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ═══ FOR BUSINESS ═══ -->
@@ -527,11 +561,14 @@
       </div>
     </article>
   </div>
-  <div class="marquee" aria-label="The five upgrades: Decisions, Systems, Routines, Environment, Be The Exception">
-    <div class="track" aria-hidden="true">
-      <div class="set"><span>Decisions</span><span>Systems</span><span>Routines</span><span>Environment</span><span>Be The Exception</span><span>Decisions</span><span>Systems</span><span>Routines</span><span>Environment</span><span>Be The Exception</span></div>
-      <div class="set"><span>Decisions</span><span>Systems</span><span>Routines</span><span>Environment</span><span>Be The Exception</span><span>Decisions</span><span>Systems</span><span>Routines</span><span>Environment</span><span>Be The Exception</span></div>
-    </div>
+  <div class="wrap">
+    <ol class="upgrades rise" aria-label="The five upgrades">
+      <li><span class="n">I</span>Decisions</li>
+      <li><span class="n">II</span>Systems</li>
+      <li><span class="n">III</span>Routines</li>
+      <li><span class="n">IV</span>Environment</li>
+      <li><span class="n">V</span>Be The Exception</li>
+    </ol>
   </div>
   <div class="wrap"><p class="marquee-cap">The five upgrades. Two days to install them. Every day after, they compound.</p></div>
 </section>
