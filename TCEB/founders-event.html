@@ -10,7 +10,6 @@
 <link rel="icon" href="img/icons/dh-favicon-light-32.png" media="(prefers-color-scheme: dark)">
 <link rel="preload" href="../fonts/bebas-neue-bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="img/founders/hero-dh.webp" as="image">
 <style>
   @font-face { font-family: "Bebas Neue"; src: url("../fonts/bebas-neue-bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
   @font-face { font-family: "Bebas Neue"; src: url("../fonts/bebas-neue-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
@@ -106,6 +105,28 @@
   .hero .fine strong { color: #fff; font-weight: 600; }
   .book-route { margin-top: 44px; font-size: 13px; color: #8c8c8c; }
   .book-route a { color: inherit; text-underline-offset: 3px; }
+
+
+  /* ── Hero: FINALLY. over a field of live screens ── */
+  .hero { min-height: 100svh; display: flex; align-items: center; text-align: center; padding: 150px 0 110px; overflow: hidden; }
+  .field { position: absolute; left: -6%; top: -4%; width: 112%; height: 112%; z-index: 0; transform: perspective(1100px) rotateX(20deg); transform-origin: 50% 100%; }
+  .vignette { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(ellipse 60% 55% at 50% 46%, rgba(0,0,0,.78) 0%, rgba(0,0,0,.55) 45%, rgba(0,0,0,.2) 70%, rgba(0,0,0,.7) 100%), linear-gradient(180deg, #000 0%, transparent 18%, transparent 70%, #000 100%); }
+  .hero-aura { left: 50%; top: 42%; bottom: auto; transform: translate(-50%,-50%); width: 1100px; height: 700px; animation: none; z-index: 1;
+    background: radial-gradient(closest-side, rgba(212,160,23,.20), rgba(120,80,0,.06) 60%, transparent 80%); }
+  .hero-inner { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; }
+  .finally-h { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; margin: 0; line-height: .8; letter-spacing: .01em; font-size: clamp(72px, 21vw, 330px); }
+  .finally-h .ch { display: inline-block; color: transparent; -webkit-background-clip: text; background-clip: text;
+    background-image: linear-gradient(100deg, #7a5d10 0%, #d4a017 28%, #f6dc8c 46%, #d4a017 62%, #6b5310 100%); background-size: 320% 100%; background-position: 100% 0;
+    animation: chIn 1.2s var(--ease) calc(var(--i) * 90ms + 150ms) both, chSheen 9s ease-in-out calc(var(--i) * 120ms + 2.2s) infinite; }
+  @keyframes chIn { from { opacity: 0; transform: translateY(.16em); filter: blur(14px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes chSheen { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+  .event-name { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; color: #fff; letter-spacing: .14em; font-size: clamp(30px, 3.4vw, 46px); line-height: 1; margin: 30px 0 22px; animation: fadeUp 1s var(--ease) 1s both; }
+  .hero .live-line { justify-content: center; margin: 0 0 26px; animation: fadeUp 1s var(--ease) 1.2s both; }
+  .hero .sub { margin: 0 auto 36px; animation: fadeUp 1s var(--ease) 1.35s both; }
+  .hero-actions { justify-content: center; animation: fadeUp 1s var(--ease) 1.5s both; }
+  .hero .fine { margin: 22px 0 0; animation: fadeUp 1s var(--ease) 1.6s both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 
   /* ── The question: word-by-word on scroll ── */
   .question { height: 260vh; padding: 0; }
@@ -320,7 +341,8 @@
     .band { padding: 72px 0; }
     .topbar .dhname { width: 120px; }
     .topbar .btn { display: none; }
-    .hero { padding: 120px 0 64px; }
+    .hero { padding: 120px 0 72px; }
+    .event-name { letter-spacing: .1em; }
     .hero-bg img { height: 58%; right: -18%; top: 40px; opacity: .85; }
     .hero-bg::after { background: linear-gradient(180deg, rgba(0,0,0,.4) 0%, transparent 20%, rgba(0,0,0,.6) 45%, #000 68%); }
     .live-line { font-size: 11px; gap: 8px 14px; }
@@ -356,6 +378,7 @@
     .actionbar { display: flex; }
   }
   @media (prefers-reduced-motion: reduce) {
+    .finally-h .ch { opacity: 1 !important; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .js .rise, .js .q-text .w { opacity: 1 !important; transform: none !important; filter: none !important; }
     .question { height: auto; }
@@ -368,26 +391,28 @@
 <div class="topbar on-dark" id="topbar">
   <div class="wrap">
     <img class="dhname" src="TCEB-Brand-Guide/assets/dh-name-white.png" alt="Darren Hardy" width="1400" height="155">
-    <a class="btn btn-ghost" href="#seat">Reserve your seat <span class="arw" aria-hidden="true">→</span></a>
+    <a class="btn btn-ghost" href="#seat">Reserve your place <span class="arw" aria-hidden="true">→</span></a>
   </div>
 </div>
 
-<!-- ═══ HERO: the event, not the book ═══ -->
-<header class="hero on-dark grain">
-  <div class="hero-bg" aria-hidden="true"><img id="heroImg" src="img/founders/hero-dh.webp" alt="" width="1100" height="1375"></div>
-  <div class="aura" aria-hidden="true"></div>
-  <div class="wrap">
+<!-- ═══ HERO: FINALLY. ═══ -->
+<header class="hero on-dark grain" id="hero">
+  <canvas class="field" id="field" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="aura hero-aura" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <h1 class="finally-h" aria-label="Finally."><span aria-hidden="true"><span class="ch" style="--i:0">F</span><span class="ch" style="--i:1">I</span><span class="ch" style="--i:2">N</span><span class="ch" style="--i:3">A</span><span class="ch" style="--i:4">L</span><span class="ch" style="--i:5">L</span><span class="ch" style="--i:6">Y</span><span class="ch" style="--i:7">.</span></span></h1>
+    <p class="event-name">The Founders Event</p>
     <div class="live-line">
       <span class="live-dot"><i></i>Live</span><span class="sep"></span>
       <span>April 26–27, 2027</span><span class="sep"></span>
       <span>Two days with Darren Hardy</span>
     </div>
-    <h1><span class="setup">The</span>Founders<br>Event<span class="stop">.</span></h1>
-    <p class="sub">The live event for <strong class="nobreak">The Compound Effect in Business</strong>. Two days with Darren, putting it to work inside your company, <strong>before the book reaches a single shelf.</strong></p>
+    <p class="sub"><strong class="nobreak">The Compound Effect in Business</strong>, installed live. Two days with Darren, inside your company, <strong>before the book reaches a single shelf.</strong></p>
     <div class="hero-actions">
-      <a class="btn btn-solid" href="#seat">Reserve your seat <span class="arw" aria-hidden="true">→</span></a>
-      <p class="fine" style="margin:0"><strong>Rearden Press is covering $5,000 of every seat.</strong><br>For the launch only.</p>
+      <a class="btn btn-solid" href="#seat">Reserve your place <span class="arw" aria-hidden="true">→</span></a>
     </div>
+    <p class="fine"><strong>Rearden Press is covering $5,000 for every Founder.</strong> For the launch only.</p>
   </div>
 </header>
 
@@ -416,9 +441,8 @@
         <p>Then you walked into your company on Monday morning and wondered why the same law didn't seem to run there.</p>
         <p>It does. It always has. Your company has been compounding the whole time, in a direction nobody was watching.</p>
       </div>
-      <p class="big-finally rise">Finally<span class="stop">.</span></p>
       <div class="lede rise">
-        <p>Darren wrote the business book. <strong>And before it reaches the world, he is going to install it, live, with the leaders who refuse to wait for it.</strong></p>
+        <p>Now Darren has written the business book. <strong>And before it reaches the world, he is going to install it, live, with the leaders who refuse to wait for it.</strong></p>
       </div>
     </div>
     <div class="rise">
@@ -434,7 +458,7 @@
     <h2 class="rise">This one is for <em>business</em><span style="color:#000">.</span></h2>
     <div class="grid rise">
       <div class="col yes">
-        <h3>Your seat, if you</h3>
+        <h3>Your place, if you</h3>
         <ul>
           <li>Lead a company, and it runs through you</li>
           <li>Built something real and can feel the next level from here</li>
@@ -498,7 +522,7 @@
   <div class="wrap grid">
     <div class="rise">
       <h2><span class="setup">The install doesn't</span><span class="answer">end on <em>Day 2</em>.</span></h2>
-      <p class="lede">Every Founder seat comes with 12 months inside Darren's AI portal. It turns what you learn in April into the work your team does in May.</p>
+      <p class="lede">Every Founder gets 12 months inside Darren's AI portal. It turns what you learn in April into the work your team does in May.</p>
       <ul class="tools">
         <li><strong>AI execution systems</strong>Built on Darren's formulas for marketing, sales and hiring. Strategy to finished work in minutes.</li>
         <li><strong>HARDYbot</strong>An advisor trained on Darren, on call around the clock, so you never make a costly call alone.</li>
@@ -523,10 +547,10 @@
     <div class="inner rise">
       <h2><span class="setup">In the studio.</span><span class="answer"><em>By invitation.</em></span></h2>
       <p class="lede">Forty leaders will spend the Founders Event in Darren's Charleston studio, in person, with him, including the private Day 3.</p>
-      <p class="lede">Those seats are not for sale. There is no button for them on this page, or anywhere else.</p>
+      <p class="lede">Those places are not for sale. There is no button for them on this page, or anywhere else.</p>
       <p class="lede">They are reserved for Darren's champions: the leaders who carry this book into their companies and their networks. If you are invited, you will hear from us directly.</p>
-      <div class="forty"><span>Forty seats in the studio. Invitation only.</span></div>
-      <div class="seal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Every Founder seat is eligible to be invited.</div>
+      <div class="forty"><span>Forty places in the studio. Invitation only.</span></div>
+      <div class="seal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Every Founder is eligible to be invited.</div>
     </div>
   </div>
 </section>
@@ -534,7 +558,8 @@
 <!-- ═══ PROOF ═══ -->
 <section class="proof band" id="proof">
   <div class="wrap">
-    <h2 class="rise"><span class="setup">The leaders who</span><span class="answer">already did <em>the work</em></span></h2>
+    <h2 class="rise"><span class="setup">The event is new.</span><span class="answer">The mentor <em>is not</em>.</span></h2>
+    <p class="lede rise" style="margin:-36px 0 64px">For more than 35 years, leaders have built their companies with Darren as their guide. Here is what a few of them did with it.</p>
     <div class="creds rise">
       <div class="cred"><b data-count="35" data-suffix="+">35+</b><span>Years studying achievement</span></div>
       <div class="cred"><b data-count="11000" data-suffix="+">11,000+</b><span>CEOs and founders mentored</span></div>
@@ -542,18 +567,18 @@
     </div>
     <div class="stories" id="stories">
       <article class="story feature rise">
-        <div class="shot"><img src="img/founders/taylor-richardson.webp" alt="Taylor Richardson" width="480" height="600" loading="lazy"></div>
+        <div class="shot"><img src="img/founders/kristi-lopez.webp" alt="Dr. Kristi Lopez" width="480" height="600" loading="lazy"></div>
         <div class="txt">
-          <div class="result">One office to <em>seven</em></div>
-          <blockquote>"Our annual revenue and our profit margin doubled. We went from one office to seven."</blockquote>
-          <cite><strong>Taylor Richardson</strong>Founder &amp; CEO, Thrive Insurance</cite>
+          <div class="result">3 people to 15. <em>Revenue up 250%.</em></div>
+          <blockquote>"I knew how to practice medicine, but not how to run a business. Since applying Darren's frameworks, we've grown from three people to fifteen and increased revenue by more than 250%."</blockquote>
+          <cite><strong>Dr. Kristi Lopez</strong>Founder, Aloha Gastroenterology</cite>
         </div>
       </article>
       <article class="story flip rise">
         <div class="shot"><img src="img/founders/lisa-good.webp" alt="Lisa Good" width="480" height="600" loading="lazy"></div>
         <div class="txt">
           <div class="result"><em>$234K</em> a year. One strategy.</div>
-          <blockquote>"One strategy immediately added $234,000 in annual income."</blockquote>
+          <blockquote>"One strategy [from Darren] immediately added $234,000 in annual income."</blockquote>
           <cite><strong>Lisa Good</strong>Vice President, GSG Computers</cite>
         </div>
       </article>
@@ -561,23 +586,23 @@
         <div class="shot"><img src="img/founders/derrick-westbrook.webp" alt="Derrick Westbrook" width="480" height="600" loading="lazy"></div>
         <div class="txt">
           <div class="result">Burning cash to <em>8X profit</em></div>
-          <blockquote>"Within a six month period we went from burning cash to 8x in profit."</blockquote>
+          <blockquote>"Darren taught us no one knows and loves you better than the existing clients you have. Within a six month period we went from burning cash to positive. We jumped 8x in profit."</blockquote>
           <cite><strong>Derrick Westbrook</strong>CEO, Su Casa Design</cite>
         </div>
       </article>
       <article class="story rise">
-        <div class="shot"><img src="img/founders/kristi-lopez.webp" alt="Dr. Kristi Lopez" width="480" height="600" loading="lazy"></div>
+        <div class="shot"><img src="img/founders/taylor-richardson.webp" alt="Taylor Richardson" width="480" height="600" loading="lazy"></div>
         <div class="txt">
-          <div class="result">Solo practice to <em>largest in the state</em></div>
-          <blockquote>"I left my comfortable W2 job to start my solo private practice. Eight years later, I've built the largest GI private practice in the state. I had to make it work, for my family."</blockquote>
-          <cite><strong>Dr. Kristi Lopez</strong>Founder, Aloha Gastroenterology</cite>
+          <div class="result">One office to <em>seven</em></div>
+          <blockquote>"Since [working with Darren], our annual revenue and our profit margin doubled. We went from one office to seven."</blockquote>
+          <cite><strong>Taylor Richardson</strong>Founder &amp; CEO, Thrive Insurance</cite>
         </div>
       </article>
       <article class="story rise">
         <div class="shot"><img src="img/founders/george-browne.webp" alt="Dr. George Browne" width="480" height="600" loading="lazy"></div>
         <div class="txt">
           <div class="result">Revenue <em>quadrupled</em></div>
-          <blockquote>"Total gross revenue of my business quadrupled."</blockquote>
+          <blockquote>"[Since working with Darren,] total gross revenue of my business quadrupled."</blockquote>
           <cite><strong>Dr. George Browne</strong>Physician &amp; Owner, Bless You Allergy &amp; Asthma</cite>
         </div>
       </article>
@@ -588,14 +613,14 @@
 <!-- ═══ YOUR SEAT ═══ -->
 <section class="seat band on-dark grain" id="seat">
   <div class="wrap">
-    <h2 class="rise">Your <em>seat</em>.</h2>
-    <p class="lede rise">Rearden Press, the book's publisher, wants this operating system working inside as many companies as possible in its first year. So for the Founders Event, and only the Founders Event, <strong>they are covering $5,000 of every seat.</strong></p>
+    <h2 class="rise">Your <em>place</em>.</h2>
+    <p class="lede rise">Rearden Press, the book's publisher, wants this operating system working inside as many companies as possible in its first year. So for the Founders Event, and only the Founders Event, <strong>they are covering $5,000 for every Founder.</strong></p>
     <div class="tiers rise">
       <article class="tier main">
-        <h3>Founder Seat</h3>
+        <h3>Founder</h3>
         <p class="for">Days 1 and 2, live with Darren.</p>
         <div class="ledger">
-          <div class="strike"><span>The seat</span><b>$9,995</b></div>
+          <div class="strike"><span>Founders Event admission</span><b>$9,995</b></div>
           <div class="rp"><span>Covered by Rearden Press</span><b>−$5,000</b></div>
           <div><span>Your investment</span><b>$4,995</b></div>
         </div>
@@ -609,11 +634,11 @@
           <li>Eligible for an invitation to the studio</li>
           <li>The Day 1 guarantee</li>
         </ul>
-        <a class="btn btn-solid" href="#" data-checkout="founder">Reserve your seat <span class="arw" aria-hidden="true">→</span></a>
+        <a class="btn btn-solid" href="#" data-checkout="founder">Reserve your place <span class="arw" aria-hidden="true">→</span></a>
       </article>
       <article class="tier vip">
         <h3>VIP</h3>
-        <p class="for">Added to your Founder Seat. Includes Day 3, Wednesday, April 28.</p>
+        <p class="for">Added to your Founder admission. Includes Day 3, Wednesday, April 28.</p>
         <div class="price"><span class="amt">$115</span><span class="terms">today, then<br>12 monthly payments of $115</span></div>
         <p class="pif">Or <b>$1,500</b> paid in full.</p>
         <ul>
@@ -661,7 +686,7 @@
       </details>
       <details>
         <summary>Should I bring my leadership team?</summary>
-        <p>Yes. The book says it plainly: don't be the only person in your building who knows this. Leaders who install it together move faster. Every leader takes their own seat.</p>
+        <p>Yes. The book says it plainly: don't be the only person in your building who knows this. Leaders who install it together move faster. Each leader registers on their own.</p>
       </details>
       <details>
         <summary>What exactly is the guarantee?</summary>
@@ -677,7 +702,7 @@
   <div class="wrap">
     <h2 class="rise"><span class="setup">Put a</span><span class="answer">date on it<em>.</em></span></h2>
     <p class="lede rise">Your business is already compounding. Every day, in one direction or the other. The only question is which.<br><br><strong>April 26 is where you choose.</strong></p>
-    <div class="rise"><a class="btn btn-solid" href="#seat">Reserve your seat <span class="arw" aria-hidden="true">→</span></a></div>
+    <div class="rise"><a class="btn btn-solid" href="#seat">Reserve your place <span class="arw" aria-hidden="true">→</span></a></div>
     <div class="sign rise">
       <span>I'll see you in April.</span>
       <img src="TCEB-Brand-Guide/assets/dh-name-white.png" alt="Darren Hardy" width="1400" height="155" loading="lazy">
@@ -694,7 +719,7 @@
 
 <div class="actionbar" id="actionbar">
   <div class="t"><b>$385 today</b>Rearden Press covers $5,000</div>
-  <a class="btn btn-solid" href="#seat">Reserve your seat <span class="arw" aria-hidden="true">→</span></a>
+  <a class="btn btn-solid" href="#seat">Reserve your place <span class="arw" aria-hidden="true">→</span></a>
 </div>
 
 <script>
@@ -715,7 +740,6 @@
   var counters = [].slice.call(document.querySelectorAll('[data-count]'));
   var topbar = document.getElementById('topbar');
   var bar = document.getElementById('actionbar');
-  var heroImg = document.getElementById('heroImg');
   var seat = document.getElementById('seat');
 
   function countUp(el) {
@@ -746,11 +770,44 @@
     topbar.classList.toggle('solid', y > 40);
     var sr = seat.getBoundingClientRect();
     bar.classList.toggle('show', y > vh * .8 && !(sr.top < vh && sr.bottom > 0));
-    if (!reduce && y < vh * 1.2) heroImg.style.transform = 'translateY(' + (y * .18) + 'px)';
   }
   window.addEventListener('scroll', tick, { passive: true });
   window.addEventListener('resize', tick);
   tick();
+
+
+  // Hero field: a wall of live screens, seen from the dark
+  (function () {
+    var c = document.getElementById('field'); if (!c || !c.getContext) return;
+    var x = c.getContext('2d'), hero = document.getElementById('hero');
+    var dpr = Math.min(window.devicePixelRatio || 1, 2), W, H, cells = [], cw = 26, ch = 16, gap = 7, last = 0;
+    function build() {
+      W = c.clientWidth; H = c.clientHeight; c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cells = [];
+      for (var yy = 0; yy < H; yy += ch + gap) for (var xx = 0; xx < W; xx += cw + gap) {
+        var b = Math.random() * .09 + .025;
+        cells.push({ x: xx, y: yy, b: b, t: b, g: Math.random() < .16 });
+      }
+      draw(true);
+    }
+    function draw(all) {
+      x.clearRect(0, 0, W, H);
+      for (var i = 0; i < cells.length; i++) {
+        var k = cells[i];
+        if (!all) { if (Math.random() < .012) k.t = Math.random() < .06 ? .34 + Math.random() * .2 : Math.random() * .09 + .025; k.b += (k.t - k.b) * .08; }
+        x.fillStyle = k.g ? 'rgba(212,160,23,' + (k.b * 1.25).toFixed(3) + ')' : 'rgba(225,225,225,' + k.b.toFixed(3) + ')';
+        x.fillRect(k.x, k.y, cw, ch);
+      }
+    }
+    function loop(t) {
+      requestAnimationFrame(loop);
+      if (t - last < 40) return; last = t;
+      if (hero.getBoundingClientRect().bottom < 0) return;
+      draw(false);
+    }
+    build(); window.addEventListener('resize', build);
+    if (!reduce) requestAnimationFrame(loop);
+  })();
 
   // Checkout is not wired yet (Spiffy goes here)
   document.querySelectorAll('[data-checkout]').forEach(function (a) {
