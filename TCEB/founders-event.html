@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Founders Event | Live with Darren Hardy | April 26–28, 2027</title>
+<meta name="description" content="The Founders Event: three days live with Darren Hardy, installing The Compound Effect in Business inside your company. April 26–28, 2027.">
+<link rel="icon" href="img/icons/dh-favicon-dark-32.png" media="(prefers-color-scheme: light)">
+<link rel="icon" href="img/icons/dh-favicon-light-32.png" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="../fonts/bebas-neue-bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="img/founders/hero-live.webp" as="image">
+<style>
+  @font-face { font-family: "Bebas Neue"; src: url("../fonts/bebas-neue-bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+  @font-face { font-family: "Bebas Neue"; src: url("../fonts/bebas-neue-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+  @font-face { font-family: "Inter"; src: url("../fonts/inter-latin.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+  /* Tokens from the TCEB Brand & Design System v1.0. One accent: red. */
+  :root {
+    --c-white: #ffffff; --c-black: #000000; --c-ink: #262626; --c-grey: #6e6e6e; --c-silver: #b3b3b3; --c-field: #f0f0f0;
+    --c-red: #e1132e; --c-red-bright: #ff0047;
+    --font-display: "Bebas Neue Pro", "Bebas Neue", "Oswald", sans-serif;
+    --font-body: "Inter", -apple-system, "Segoe UI", sans-serif;
+    --radius: 2px; --container: 1080px; --gutter: 32px;
+    --bg: var(--c-white); --fg: #000; --body: var(--c-ink); --muted: var(--c-grey); --line: #e4e4e4; --accent: var(--c-red);
+    --ease: cubic-bezier(.2,.8,.2,1);
+  }
+  .on-dark { --bg: var(--c-black); --fg: var(--c-white); --body: var(--c-silver); --muted: #8c8c8c; --line: #262626; --accent: var(--c-red-bright); }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--c-white); color: var(--c-ink); font: 400 18px/1.68 var(--font-body); -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; }
+  section, header, footer { position: relative; background: var(--bg); color: var(--body); }
+  .wrap { width: 100%; max-width: calc(var(--container) + var(--gutter) * 2); margin: 0 auto; padding: 0 var(--gutter); }
+  .band { padding: 140px 0; }
+
+  /* Type */
+  .display, h2 { font-family: var(--font-display); text-transform: uppercase; color: var(--fg); letter-spacing: .02em; margin: 0; }
+  h2 { font-weight: 700; font-size: clamp(42px, 6vw, 72px); line-height: .96; }
+  .setup { font-weight: 300; display: block; }
+  .answer { font-weight: 700; display: block; }
+  em { font-style: normal; color: var(--accent); }
+  .stop { color: var(--accent); }
+  .nobreak { white-space: nowrap; }
+  .lede { font-size: clamp(19px, 1.6vw, 21px); line-height: 1.62; color: var(--body); max-width: 640px; }
+  p { margin: 0 0 1.1em; }
+  p strong { color: var(--fg); font-weight: 700; }
+  .label { font: 700 12px/1.3 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+  /* Buttons: grow and lift, arrow travels, fill never changes */
+  .btn { display: inline-flex; align-items: center; gap: 14px; padding: 20px 36px; border-radius: var(--radius); border: 1.5px solid transparent;
+    font: 700 13px/1 var(--font-body); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; cursor: pointer;
+    transition: transform .22s var(--ease), box-shadow .22s, background-color .22s, color .22s; position: relative; overflow: hidden; }
+  .btn .arw { transition: transform .22s var(--ease); }
+  .btn:hover .arw { transform: translateX(6px); }
+  .btn-solid { background: var(--c-red); color: #fff; box-shadow: 0 10px 22px rgba(0,0,0,.16); }
+  .on-dark .btn-solid { box-shadow: 0 10px 22px rgba(0,0,0,.5); }
+  .btn-solid:hover { transform: translateY(-3px) scale(1.04); }
+  .btn-solid:active { transform: translateY(1px) scale(1); transition-duration: 60ms; }
+  .btn-solid::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.28) 50%, transparent 65%); transform: translateX(-120%); transition: transform .7s var(--ease); }
+  .btn-solid:hover::after { transform: translateX(120%); }
+  .btn-ghost { background: transparent; color: var(--fg); border-color: var(--fg); }
+  .btn-ghost:hover { background: var(--fg); color: var(--bg); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+  /* Film grain on black */
+  .grain::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .09; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .grain > * { position: relative; z-index: 2; }
+
+  /* Reveal on scroll (fallback: everything visible without JS or with reduced motion) */
+  .js .rise { opacity: 0; transform: translateY(38px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .js .rise.in { opacity: 1; transform: none; }
+
+  /* ── Top bar ── */
+  .topbar { position: fixed; inset: 0 0 auto; z-index: 50; padding: 18px 0; transition: background-color .3s, padding .3s; }
+  .topbar.solid { background: rgba(0,0,0,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 12px 0; }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .topbar .dhname { width: 150px; }
+  .topbar .btn { padding: 13px 22px; font-size: 12px; }
+
+  /* ── Hero ── */
+  .hero { min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; padding: 160px 0 96px; }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .hero-bg img { width: 100%; height: 115%; object-fit: cover; object-position: 50% 20%; opacity: .62; will-change: transform; }
+  .hero-bg::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.15) 35%, rgba(0,0,0,.82) 72%, #000 100%); }
+  .aura { position: absolute; z-index: 1; left: -10%; bottom: -30%; width: 80vw; height: 80vw; max-width: 1100px; max-height: 1100px; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(225,19,46,.22), rgba(120,0,20,.08) 55%, transparent 75%); animation: drift 18s ease-in-out infinite alternate; }
+  @keyframes drift { to { transform: translate(8%, -6%) scale(1.08); } }
+  .hero .wrap { z-index: 3; }
+  .live-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; font: 700 13px/1.3 var(--font-body); letter-spacing: .16em; text-transform: uppercase; color: #fff; margin-bottom: 26px; }
+  .live-dot { display: inline-flex; align-items: center; gap: 10px; color: var(--c-red-bright); }
+  .live-dot i { width: 9px; height: 9px; border-radius: 50%; background: var(--c-red-bright); box-shadow: 0 0 0 0 rgba(255,0,71,.6); animation: pulse 1.8s infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 12px rgba(255,0,71,0); } 100% { box-shadow: 0 0 0 0 rgba(255,0,71,0); } }
+  .live-line .sep { width: 4px; height: 4px; background: #666; border-radius: 50%; }
+  .hero h1 { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; color: #fff; margin: 0; line-height: .86; letter-spacing: .01em; font-size: clamp(76px, 13.5vw, 196px); }
+  .hero h1 .setup { font-size: .42em; letter-spacing: .04em; line-height: 1; margin-bottom: .08em; color: var(--c-silver); }
+  .hero .sub { max-width: 620px; margin: 30px 0 38px; font-size: clamp(19px, 1.7vw, 22px); line-height: 1.55; color: #d6d6d6; }
+  .hero .sub strong { color: #fff; }
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; }
+  .hero .fine { font-size: 14px; color: #a3a3a3; line-height: 1.5; }
+  .hero .fine strong { color: #fff; font-weight: 600; }
+  .book-route { margin-top: 44px; font-size: 13px; color: #8c8c8c; }
+  .book-route a { color: inherit; text-underline-offset: 3px; }
+
+  /* ── The question: word-by-word on scroll ── */
+  .question { height: 260vh; padding: 0; }
+  .question .pin { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; }
+  .question .glow { position: absolute; left: 50%; top: 55%; width: 900px; height: 600px; transform: translate(-50%,-50%); pointer-events: none;
+    background: radial-gradient(closest-side, rgba(225,19,46,.18), transparent 70%); opacity: var(--glow, 0); transition: opacity .4s; }
+  .q-text { font-family: var(--font-display); text-transform: uppercase; color: #fff; font-size: clamp(54px, 9vw, 128px); line-height: .94; letter-spacing: .01em; margin: 0; }
+  .q-text .w { display: inline-block; transition: opacity .5s var(--ease), transform .5s var(--ease), filter .5s; }
+  .js .q-text .w { opacity: .08; transform: translateY(.12em); filter: blur(4px); }
+  .js .q-text .w.on { opacity: 1; transform: none; filter: none; }
+  .q-text .l1 { font-weight: 300; display: block; }
+  .q-text .l2 { font-weight: 300; display: block; color: var(--c-silver); }
+  .q-text .l3 { font-weight: 700; display: block; }
+  .q-text .l3 .w { color: var(--c-red-bright); }
+  .q-foot { margin-top: 40px; max-width: 520px; font-size: 18px; color: var(--c-silver); }
+
+  /* ── Finally ── */
+  .finally .grid { display: grid; grid-template-columns: minmax(0, 1.25fr) 360px; gap: 96px; align-items: center; }
+  .finally h2 { margin-bottom: 44px; }
+  .finally h2 .setup { color: #000; font-size: .74em; }
+  .finally .lede p:last-child { margin-bottom: 0; }
+  .finally .big-finally { font-family: var(--font-display); font-weight: 700; font-size: clamp(110px, 15vw, 210px); line-height: .82; color: #000; margin: 56px 0 26px; letter-spacing: -.005em; text-transform: uppercase; }
+  .book { position: relative; perspective: 1400px; }
+  .book .cover { width: 360px; transform: rotateY(14deg) rotateX(2deg); transform-origin: left center; box-shadow: 30px 40px 60px -20px rgba(0,0,0,.45), 2px 0 0 #1a1a1a inset; transition: transform .6s var(--ease); border-radius: 1px; }
+  .book:hover .cover { transform: rotateY(6deg); }
+  .book::after { content: ""; position: absolute; left: 6%; right: -6%; bottom: -34px; height: 40px; background: radial-gradient(closest-side, rgba(0,0,0,.28), transparent); filter: blur(6px); z-index: -1; }
+  .book-cap { margin-top: 44px; font-size: 15px; color: var(--muted); text-align: center; line-height: 1.5; }
+  .book-cap strong { color: #000; display: block; font-size: 17px; }
+
+  /* ── For business ── */
+  .forbiz { border-top: 1px solid var(--line); }
+  .forbiz .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 64px; border: 1px solid var(--line); }
+  .forbiz .col { padding: 48px; }
+  .forbiz .col + .col { border-left: 1px solid var(--line); }
+  .forbiz .col h3 { font: 700 13px/1.3 var(--font-body); letter-spacing: .14em; text-transform: uppercase; margin: 0 0 22px; color: #000; }
+  .forbiz .yes h3::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--c-red); margin-right: 12px; vertical-align: 1px; }
+  .forbiz ul { list-style: none; padding: 0; margin: 0; }
+  .forbiz li { padding: 14px 0; border-top: 1px solid var(--line); font-size: 17px; line-height: 1.5; }
+  .forbiz li:first-child { border-top: 0; padding-top: 0; }
+  .forbiz .no { color: var(--muted); }
+  .forbiz .no p { font-size: 17px; line-height: 1.6; }
+  .forbiz .no a { color: #000; font-weight: 600; text-underline-offset: 3px; }
+
+  /* ── Three days ── */
+  .days h2 { margin-bottom: 26px; }
+  .days .lede { margin-bottom: 72px; }
+  .day-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .day { background: #050505; padding: 44px 36px 48px; position: relative; overflow: hidden; transition: background-color .4s; }
+  .day:hover { background: #0d0d0d; }
+  .day .when { font: 700 12px/1.3 var(--font-body); letter-spacing: .16em; text-transform: uppercase; color: #8c8c8c; }
+  .day .num { font-family: var(--font-display); font-weight: 700; font-size: 120px; line-height: .8; color: #fff; margin: 26px 0 18px; }
+  .day h3 { font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: 1; letter-spacing: .03em; color: #fff; margin: 0 0 16px; text-transform: uppercase; }
+  .day p { font-size: 16px; line-height: 1.6; color: var(--c-silver); margin: 0; }
+  .day.vip { background: linear-gradient(160deg, #1a0006 0%, #050505 60%); }
+  .day.vip .num { -webkit-text-stroke: 1.5px #fff; color: transparent; }
+  .vip-tag { position: absolute; top: 40px; right: 32px; font: 700 11px/1 var(--font-body); letter-spacing: .16em; padding: 8px 10px; border: 1px solid var(--c-red-bright); color: var(--c-red-bright); border-radius: var(--radius); }
+
+  .marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 28px 0; margin-top: 96px; }
+  .marquee .track { display: flex; width: max-content; animation: slide 46s linear infinite; }
+  .marquee .set { display: flex; flex-shrink: 0; }
+  .marquee span { font-family: var(--font-display); font-weight: 700; font-size: clamp(44px, 6vw, 76px); line-height: 1; text-transform: uppercase; padding: 0 .45em; white-space: nowrap; letter-spacing: .02em; }
+  .marquee span:nth-child(odd) { color: #fff; }
+  .marquee span:nth-child(even) { color: transparent; -webkit-text-stroke: 1.2px #5a5a5a; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  .marquee-cap { margin-top: 22px; font-size: 14px; color: #8c8c8c; }
+
+  /* ── In the studio ── */
+  .studio { overflow: hidden; padding: 0; }
+  .studio .photo { position: absolute; inset: 0; z-index: 0; }
+  .studio .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 18% 30%; opacity: .55; }
+  .studio .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.92) 38%, rgba(0,0,0,.35) 75%, rgba(0,0,0,.6) 100%); }
+  .studio .wrap { padding-top: 160px; padding-bottom: 160px; z-index: 3; }
+  .studio .inner { max-width: 560px; }
+  .studio h2 { margin-bottom: 36px; }
+  .studio .forty { display: flex; align-items: baseline; gap: 22px; margin: 44px 0 0; padding-top: 34px; border-top: 1px solid #2e2e2e; }
+  .studio .forty b { font-family: var(--font-display); font-weight: 700; font-size: 96px; line-height: .8; color: #fff; }
+  .studio .forty span { font-size: 15px; line-height: 1.5; color: #a3a3a3; }
+  .studio .seal { display: inline-flex; align-items: center; gap: 12px; margin-top: 30px; padding: 14px 18px; border: 1px solid #333; border-radius: var(--radius); font: 600 13px/1.3 var(--font-body); color: #d6d6d6; }
+  .studio .seal svg { flex: none; }
+
+  /* ── Proof ── */
+  .proof h2 { margin-bottom: 64px; }
+  .creds { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 88px; }
+  .cred { padding: 36px 0; text-align: center; }
+  .cred + .cred { border-left: 1px solid var(--line); }
+  .cred b { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(56px, 7vw, 84px); line-height: .9; color: #000; }
+  .cred span { display: block; margin-top: 12px; font: 700 11px/1.4 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .stories { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .story { display: grid; grid-template-columns: 180px 1fr; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: #fff; transition: transform .35s var(--ease), box-shadow .35s; }
+  .story:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -24px rgba(0,0,0,.28); }
+  .story.flip { grid-template-columns: 1fr 180px; }
+  .story.flip .shot { order: 2; }
+  .story .shot img { width: 100%; height: 100%; object-fit: cover; }
+  .story .txt { padding: 30px 30px 28px; display: flex; flex-direction: column; }
+  .story .result { font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: .95; color: #000; text-transform: uppercase; margin-bottom: 14px; }
+  .story .result em { color: var(--c-red); }
+  .story blockquote { margin: 0 0 18px; font-size: 16px; line-height: 1.6; color: var(--c-ink); }
+  .story cite { margin-top: auto; font-style: normal; font-size: 14px; line-height: 1.4; color: var(--muted); }
+  .story cite strong { display: block; color: #000; font-size: 15px; }
+  .story.feature { grid-column: 1 / -1; grid-template-columns: 340px 1fr; }
+  .stories .story:last-child:nth-child(even) { grid-column: 1 / -1; grid-template-columns: 180px 1fr; max-width: calc(50% - 14px); justify-self: center; width: 100%; }
+  .story.feature .txt { padding: 48px 56px; justify-content: center; }
+  .story.feature .result { font-size: clamp(44px, 5vw, 64px); }
+  .story.feature blockquote { font-size: 20px; line-height: 1.55; }
+
+  /* ── Seat ── */
+  .seat h2 { margin-bottom: 30px; }
+  .seat .lede { margin-bottom: 72px; }
+  .tiers { display: grid; grid-template-columns: 1.15fr .85fr; gap: 28px; align-items: stretch; }
+  .tier { border: 1px solid #2a2a2a; border-radius: var(--radius); padding: 48px 44px; background: #070707; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+  .tier.main { border-color: #3a3a3a; background: linear-gradient(170deg, #121212 0%, #050505 70%); }
+  .tier.main::before { content: ""; position: absolute; inset: -1px; border-radius: var(--radius); padding: 1px; pointer-events: none;
+    background: linear-gradient(140deg, rgba(255,0,71,.9), rgba(255,255,255,.15) 40%, transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  .tier h3 { font-family: var(--font-display); font-weight: 700; font-size: 40px; line-height: 1; letter-spacing: .03em; color: #fff; margin: 0 0 8px; text-transform: uppercase; }
+  .tier .for { font-size: 15px; color: #8c8c8c; margin-bottom: 30px; }
+  .ledger { border-top: 1px solid #262626; margin-bottom: 30px; }
+  .ledger div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid #262626; font-size: 15px; color: var(--c-silver); }
+  .ledger div b { color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .ledger .strike b { color: #8c8c8c; text-decoration: line-through; text-decoration-color: #8c8c8c; font-weight: 500; }
+  .ledger .rp b { color: var(--c-red-bright); }
+  .price { display: flex; align-items: flex-end; gap: 16px; margin-bottom: 6px; }
+  .price .amt { font-family: var(--font-display); font-weight: 700; font-size: 104px; line-height: .8; letter-spacing: .01em;
+    background: linear-gradient(100deg, #9a9a9a 0%, #fff 30%, #cfcfcf 45%, #fff 60%, #8f8f8f 100%); background-size: 250% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent; animation: sheen 7s ease-in-out infinite; }
+  .tier.vip .price .amt { font-size: 80px; }
+  @keyframes sheen { 0%,100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+  .price .terms { font-size: 15px; line-height: 1.4; color: var(--c-silver); padding-bottom: 6px; }
+  .pif { font-size: 15px; color: #8c8c8c; margin-bottom: 30px; }
+  .pif b { color: #fff; font-weight: 600; }
+  .tier ul { list-style: none; margin: 0 0 40px; padding: 0; }
+  .tier li { position: relative; padding: 10px 0 10px 30px; font-size: 16px; line-height: 1.5; color: #e6e6e6; }
+  .tier li::before { content: ""; position: absolute; left: 0; top: 19px; width: 14px; height: 1.5px; background: var(--c-red-bright); }
+  .tier .btn { margin-top: auto; align-self: flex-start; }
+  .seat .why { margin-top: 56px; max-width: 760px; font-size: 15px; line-height: 1.65; color: #8c8c8c; }
+
+  /* ── Guarantee ── */
+  .guarantee .box { display: grid; grid-template-columns: 220px 1fr; gap: 64px; align-items: center; border: 1px solid var(--line); padding: 64px; border-radius: var(--radius); }
+  .guarantee .mark { width: 200px; height: 200px; border-radius: 50%; border: 1.5px solid #000; display: grid; place-items: center; text-align: center; position: relative; }
+  .guarantee .mark::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; border: 1px solid var(--line); }
+  .guarantee .mark b { font-family: var(--font-display); font-weight: 700; font-size: 96px; line-height: .8; color: #000; display: block; }
+  .guarantee .mark span { display: block; max-width: 128px; margin: 6px auto 0; font: 700 10px/1.4 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--c-red); }
+  .guarantee h2 { margin-bottom: 22px; }
+  .guarantee p { font-size: 18px; max-width: 560px; }
+
+  /* ── FAQ ── */
+  .faq { border-top: 1px solid var(--line); padding-top: 120px; }
+  .faq .grid { display: grid; grid-template-columns: 320px 1fr; gap: 80px; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq details:first-of-type { border-top: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; padding: 26px 48px 26px 0; position: relative; font-weight: 600; font-size: 19px; color: #000; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: ""; position: absolute; right: 6px; top: 50%; width: 14px; height: 14px; margin-top: -7px;
+    background: linear-gradient(#000,#000) center/14px 1.5px no-repeat, linear-gradient(#000,#000) center/1.5px 14px no-repeat; transition: transform .3s var(--ease); }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { padding: 0 48px 18px 0; font-size: 17px; color: var(--c-ink); }
+
+  /* ── Close ── */
+  .close { text-align: center; overflow: hidden; padding: 180px 0 160px; }
+  .close .aura { left: 50%; top: 50%; bottom: auto; transform: translate(-50%,-50%); animation: none; width: 1000px; height: 700px; }
+  .close h2 { font-size: clamp(64px, 11vw, 150px); margin-bottom: 40px; }
+  .close .lede { margin: 0 auto 48px; text-align: center; }
+  .close .sign { margin: 72px auto 0; display: flex; flex-direction: column; align-items: center; gap: 14px; color: #8c8c8c; font-size: 15px; }
+  .close .sign img { width: 220px; opacity: .92; }
+
+  footer { padding: 56px 0 120px; border-top: 1px solid #1a1a1a; }
+  footer .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; font-size: 13px; color: #6e6e6e; }
+  footer img { width: 44px; }
+
+  /* ── Mobile action bar ── */
+  .actionbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: none; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: rgba(0,0,0,.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid #222; transform: translateY(110%); transition: transform .35s var(--ease); }
+  .actionbar.show { transform: none; }
+  .actionbar .t { font-size: 13px; line-height: 1.35; color: #b3b3b3; }
+  .actionbar .t b { color: #fff; display: block; font-size: 15px; }
+  .actionbar .btn { padding: 15px 18px; font-size: 12px; white-space: nowrap; }
+
+  @media (max-width: 960px) {
+    .finally .grid { grid-template-columns: 1fr; gap: 64px; }
+    .book { justify-self: center; }
+    .day-grid { grid-template-columns: 1fr; }
+    .tiers { grid-template-columns: 1fr; }
+    .stories { grid-template-columns: 1fr; }
+    .story.feature { grid-template-columns: 260px 1fr; }
+    .faq .grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 720px) {
+    :root { --gutter: 20px; }
+    body { font-size: 17px; }
+    .band { padding: 72px 0; }
+    .topbar .dhname { width: 120px; }
+    .topbar .btn { display: none; }
+    .hero { padding: 120px 0 64px; }
+    .hero-bg img { object-position: 42% 20%; }
+    .live-line { font-size: 11px; gap: 8px 14px; }
+    .hero-actions .btn { width: 100%; justify-content: center; }
+    .question { height: 220vh; }
+    .book .cover { width: 260px; }
+    .forbiz .grid { grid-template-columns: 1fr; }
+    .forbiz .col { padding: 32px 24px; }
+    .forbiz .col + .col { border-left: 0; border-top: 1px solid var(--line); }
+    .day { padding: 36px 26px 40px; }
+    .day .num { font-size: 96px; }
+    .studio .wrap { padding-top: 96px; padding-bottom: 96px; }
+    .studio .photo img { object-position: 70% 30%; opacity: .35; }
+    .studio .photo::after { background: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.9) 60%, #000 100%); }
+    .creds { grid-template-columns: 1fr; }
+    .cred + .cred { border-left: 0; border-top: 1px solid var(--line); }
+    .story, .story.flip, .story.feature { grid-template-columns: 120px 1fr; }
+    .story.flip { grid-template-columns: 1fr 120px; }
+    .story .txt, .story.feature .txt { padding: 22px 20px; }
+    .story .result { font-size: 28px; }
+    .story.feature .result { font-size: 36px; }
+    .story.feature blockquote, .story blockquote { font-size: 15px; }
+    .tier { padding: 36px 24px; }
+    .price .amt { font-size: 88px; }
+    .tier .btn { align-self: stretch; justify-content: center; }
+    .guarantee .box { grid-template-columns: 1fr; gap: 36px; padding: 36px 24px; justify-items: start; }
+    .guarantee .mark { width: 170px; height: 170px; }
+    .guarantee .mark b { font-size: 72px; }
+    .faq { padding-top: 72px; }
+    .close { padding: 112px 0 112px; }
+    .actionbar { display: flex; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .js .rise, .js .q-text .w { opacity: 1 !important; transform: none !important; filter: none !important; }
+    .question { height: auto; }
+    .question .pin { position: relative; height: auto; padding: 140px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar on-dark" id="topbar">
+  <div class="wrap">
+    <img class="dhname" src="TCEB-Brand-Guide/assets/dh-name-white.png" alt="Darren Hardy" width="1400" height="155">
+    <a class="btn btn-ghost" href="#seat">Claim your seat <span class="arw" aria-hidden="true">→</span></a>
+  </div>
+</div>
+
+<!-- ═══ HERO: the event, not the book ═══ -->
+<header class="hero on-dark grain">
+  <div class="hero-bg" aria-hidden="true"><img id="heroImg" src="img/founders/hero-live.webp" alt="" width="2157" height="1343"></div>
+  <div class="aura" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="live-line">
+      <span class="live-dot"><i></i>Live</span><span class="sep"></span>
+      <span>April 26–28, 2027</span><span class="sep"></span>
+      <span>Three days with Darren Hardy</span>
+    </div>
+    <h1><span class="setup">The</span>Founders<br>Event<span class="stop">.</span></h1>
+    <p class="sub">The live event for <strong class="nobreak">The Compound Effect in Business</strong>. Three days with Darren, putting it to work inside your company, <strong>before the book reaches a single shelf.</strong></p>
+    <div class="hero-actions">
+      <a class="btn btn-solid" href="#seat">Claim your seat <span class="arw" aria-hidden="true">→</span></a>
+      <p class="fine" style="margin:0"><strong>Rearden Press is covering $5,000 of every seat.</strong><br>For the launch only.</p>
+    </div>
+    <p class="book-route">Looking for the book itself? <a href="pre-order.html">The book has its own page.</a></p>
+  </div>
+</header>
+
+<!-- ═══ THE QUESTION: Ferrari-style word reveal ═══ -->
+<section class="question on-dark grain" id="question">
+  <div class="pin">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="q-text" aria-label="Your business is already compounding. The only question is: in which direction?">
+        <span class="l1" aria-hidden="true">Your business is already compounding.</span>
+        <span class="l2" aria-hidden="true">The only question is:</span>
+        <span class="l3" aria-hidden="true">In which direction?</span>
+      </p>
+      <p class="q-foot rise">Every decision, every default, every person you hired and every one you kept. All of it, compounding. Right now.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINALLY ═══ -->
+<section class="finally band">
+  <div class="wrap grid">
+    <div>
+      <h2 class="rise"><span class="setup">For years, you've asked him</span><span class="answer">What about <em>my business?</em></span></h2>
+      <div class="lede rise">
+        <p>You read <span class="nobreak">The Compound Effect</span>. Maybe once. Maybe every summer. You put it to work on your health, your money, your marriage, and it worked.</p>
+        <p>Then you walked into your company on Monday morning and wondered why the same law didn't seem to run there.</p>
+        <p>It does. It always has. Your company has been compounding the whole time, in a direction nobody was watching.</p>
+      </div>
+      <p class="big-finally rise">Finally<span class="stop">.</span></p>
+      <div class="lede rise">
+        <p>Darren wrote the business book. <strong>And before it reaches the world, he is going to install it, live, with the leaders who refuse to wait for it.</strong></p>
+      </div>
+    </div>
+    <div class="rise">
+      <div class="book"><img class="cover" src="img/founders/tceb-cover.webp" alt="The Compound Effect in Business by Darren Hardy" width="720" height="924" loading="lazy"></div>
+      <p class="book-cap"><strong>The book is the syllabus.</strong>The Founders Event is the install.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOR BUSINESS ═══ -->
+<section class="forbiz band">
+  <div class="wrap">
+    <h2 class="rise">This one is for <em>business</em><span style="color:#000">.</span></h2>
+    <div class="grid rise">
+      <div class="col yes">
+        <h3>Your seat, if you</h3>
+        <ul>
+          <li>Lead a company, and it runs through you</li>
+          <li>Built something real and can feel the next level from here</li>
+          <li>Are building one now and want it right from day one</li>
+          <li>Carry the revenue or the culture inside someone else's company</li>
+          <li>Have read every book and want the install, not another idea</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <h3>Not this one, if you</h3>
+        <p>Came to Darren for your health, your habits or your life. That is a real reason, and <a href="https://www.thecompoundeffect.com">the original book</a> is still the best place to start.</p>
+        <p style="margin:0">The Founders Event is something else. It is for the leader whose company wins or loses on what happens next.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THREE DAYS, LIVE ═══ -->
+<section class="days band on-dark grain">
+  <div class="wrap">
+    <h2 class="rise">Three days<span style="color:var(--c-silver);font-weight:300">.</span> <em>Live.</em></h2>
+    <p class="lede rise">Not a course you'll get to someday. Darren, in real time, with the leaders who decided not to wait for the book.</p>
+    <div class="day-grid rise">
+      <article class="day">
+        <div class="when">Monday · April 26</div>
+        <div class="num">01</div>
+        <h3>The Operating System</h3>
+        <p>See the system already running your company, and which direction it is compounding. Then the first two upgrades: Decisions and Systems.</p>
+      </article>
+      <article class="day">
+        <div class="when">Tuesday · April 27</div>
+        <div class="num">02</div>
+        <h3>The Upgrades</h3>
+        <p>Routines, Environment and Be The Exception. You leave with your first upgrade chosen and a date thirty-one months out with your company's name on it.</p>
+      </article>
+      <article class="day vip">
+        <span class="vip-tag">VIP</span>
+        <div class="when">Wednesday · April 28</div>
+        <div class="num">03</div>
+        <h3>The Private Session</h3>
+        <p>An exclusive half day, for VIP and in-studio leaders only. Smaller, closer, and built around your business.</p>
+      </article>
+    </div>
+  </div>
+  <div class="marquee" aria-label="The five upgrades: Decisions, Systems, Routines, Environment, Be The Exception">
+    <div class="track" aria-hidden="true">
+      <div class="set"><span>Decisions</span><span>Systems</span><span>Routines</span><span>Environment</span><span>Be The Exception</span><span>Decisions</span><span>Systems</span><span>Routines</span><span>Environment</span><span>Be The Exception</span></div>
+      <div class="set"><span>Decisions</span><span>Systems</span><span>Routines</span><span>Environment</span><span>Be The Exception</span><span>Decisions</span><span>Systems</span><span>Routines</span><span>Environment</span><span>Be The Exception</span></div>
+    </div>
+  </div>
+  <div class="wrap"><p class="marquee-cap">The five upgrades. Two days to install them. Thirty-one months to watch them compound.</p></div>
+</section>
+
+<!-- ═══ IN THE STUDIO ═══ -->
+<section class="studio on-dark grain">
+  <div class="photo" aria-hidden="true"><img src="img/founders/studio-dh.webp" alt="" width="2000" height="861" loading="lazy"></div>
+  <div class="wrap">
+    <div class="inner rise">
+      <h2><span class="setup">In the studio.</span><span class="answer"><em>By invitation.</em></span></h2>
+      <p class="lede">Forty leaders will spend all three days in Darren's Charleston studio, in person, with him.</p>
+      <p class="lede">Those seats are not for sale. There is no button for them on this page, or anywhere else.</p>
+      <p class="lede">They are reserved for Darren's champions: the leaders who carry this book into their companies and their networks. If you are invited, you will hear from us directly.</p>
+      <div class="forty"><b>40</b><span>Seats in the studio.<br>All three days. Invitation only.</span></div>
+      <div class="seal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Every Founder seat is eligible to be invited.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROOF ═══ -->
+<section class="proof band" id="proof">
+  <div class="wrap">
+    <h2 class="rise"><span class="setup">The leaders who</span><span class="answer">already did <em>the work</em></span></h2>
+    <div class="creds rise">
+      <div class="cred"><b data-count="35" data-suffix="+">35+</b><span>Years studying achievement</span></div>
+      <div class="cred"><b data-count="11000" data-suffix="+">11,000+</b><span>CEOs and founders mentored</span></div>
+      <div class="cred"><b data-count="2" data-suffix="M+">2M+</b><span>Copies of The Compound Effect</span></div>
+    </div>
+    <div class="stories" id="stories">
+      <article class="story feature rise">
+        <div class="shot"><img src="img/founders/taylor-richardson.webp" alt="Taylor Richardson" width="480" height="600" loading="lazy"></div>
+        <div class="txt">
+          <div class="result">One office to <em>seven</em></div>
+          <blockquote>"Our annual revenue and our profit margin doubled. We went from one office to seven."</blockquote>
+          <cite><strong>Taylor Richardson</strong>Founder &amp; CEO, Thrive Insurance</cite>
+        </div>
+      </article>
+      <article class="story flip rise">
+        <div class="shot"><img src="img/founders/lisa-good.webp" alt="Lisa Good" width="480" height="600" loading="lazy"></div>
+        <div class="txt">
+          <div class="result"><em>$234K</em> a year. One strategy.</div>
+          <blockquote>"One strategy immediately added $234,000 in annual income."</blockquote>
+          <cite><strong>Lisa Good</strong>Vice President, GSG Computers</cite>
+        </div>
+      </article>
+      <article class="story rise">
+        <div class="shot"><img src="img/founders/derrick-westbrook.webp" alt="Derrick Westbrook" width="480" height="600" loading="lazy"></div>
+        <div class="txt">
+          <div class="result">Burning cash to <em>8X profit</em></div>
+          <blockquote>"Within a six month period we went from burning cash to 8x in profit."</blockquote>
+          <cite><strong>Derrick Westbrook</strong>CEO, Su Casa Design</cite>
+        </div>
+      </article>
+      <article class="story rise">
+        <div class="shot"><img src="img/founders/kristi-lopez.webp" alt="Dr. Kristi Lopez" width="480" height="600" loading="lazy"></div>
+        <div class="txt">
+          <div class="result">Solo practice to <em>largest in the state</em></div>
+          <blockquote>"I left my comfortable W2 job to start my solo private practice. Eight years later, I've built the largest GI private practice in the state. I had to make it work, for my family."</blockquote>
+          <cite><strong>Dr. Kristi Lopez</strong>Founder, Aloha Gastroenterology</cite>
+        </div>
+      </article>
+      <article class="story rise">
+        <div class="shot"><img src="img/founders/george-browne.webp" alt="Dr. George Browne" width="480" height="600" loading="lazy"></div>
+        <div class="txt">
+          <div class="result">Revenue <em>quadrupled</em></div>
+          <blockquote>"Total gross revenue of my business quadrupled."</blockquote>
+          <cite><strong>Dr. George Browne</strong>Physician &amp; Owner, Bless You Allergy &amp; Asthma</cite>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ YOUR SEAT ═══ -->
+<section class="seat band on-dark grain" id="seat">
+  <div class="wrap">
+    <h2 class="rise">Your <em>seat</em>.</h2>
+    <p class="lede rise">Rearden Press, the book's publisher, wants this operating system working inside as many companies as possible in its first year. So for the Founders Event, and only the Founders Event, <strong>they are covering $5,000 of every seat.</strong></p>
+    <div class="tiers rise">
+      <article class="tier main">
+        <h3>Founder Seat</h3>
+        <p class="for">Days 1 and 2, live with Darren.</p>
+        <div class="ledger">
+          <div class="strike"><span>The seat</span><b>$9,995</b></div>
+          <div class="rp"><span>Covered by Rearden Press</span><b>−$5,000</b></div>
+          <div><span>Your investment</span><b>$4,995</b></div>
+        </div>
+        <div class="price"><span class="amt">$385</span><span class="terms">today, then<br>12 monthly payments of $385</span></div>
+        <p class="pif">Or <b>$4,995</b> paid in full.</p>
+        <ul>
+          <li>Both days, live with Darren</li>
+          <li>The operating system and all five upgrades, installed in your company</li>
+          <li>Your first upgrade chosen and your thirty-one months set</li>
+          <li>Eligible for an invitation to the studio</li>
+          <li>The Day 1 guarantee</li>
+        </ul>
+        <a class="btn btn-solid" href="#" data-checkout="founder">Claim your seat <span class="arw" aria-hidden="true">→</span></a>
+      </article>
+      <article class="tier vip">
+        <h3>VIP</h3>
+        <p class="for">Added to your Founder Seat.</p>
+        <div class="price"><span class="amt">$115</span><span class="terms">today, then<br>12 monthly payments of $115</span></div>
+        <p class="pif">Or <b>$1,500</b> paid in full.</p>
+        <ul>
+          <li>A private VIP room for the whole event</li>
+          <li>A private Q&amp;A with Darren on Day 1</li>
+          <li>The exclusive Day 3 half day</li>
+        </ul>
+        <a class="btn btn-ghost" href="#" data-checkout="vip">Add VIP <span class="arw" aria-hidden="true">→</span></a>
+      </article>
+    </div>
+    <p class="why rise">Rearden Press's $5,000 is part of the book's launch. When the Founders Event is over, so is the contribution.</p>
+  </div>
+</section>
+
+<!-- ═══ GUARANTEE ═══ -->
+<section class="guarantee band">
+  <div class="wrap">
+    <div class="box rise">
+      <div class="mark"><div><b>3X</b><span>Or every dollar back</span></div></div>
+      <div>
+        <h2><span class="setup">Come to</span><span class="answer"><em>Day 1</em>.</span></h2>
+        <p>Show up and do the work. If by the end of Day 1 you can't see at least three times your investment in what you've learned, tell us before the day is over and we will refund every dollar.</p>
+        <p style="margin:0"><strong>Darren carries the risk. You keep the decision.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="faq band" style="padding-top:120px">
+  <div class="wrap grid">
+    <h2 class="rise"><span class="setup">Before you</span><span class="answer">decide</span></h2>
+    <div class="rise">
+      <details>
+        <summary>Is this really live?</summary>
+        <p>Yes. All three days happen in real time, with Darren teaching, answering and working through your business as it happens. You join live from wherever you lead. The Charleston studio is by invitation only.</p>
+      </details>
+      <details>
+        <summary>Do I need to have read the new book?</summary>
+        <p>No. The book releases after the event. Founders get its operating system before anyone else does, from the man who wrote it.</p>
+      </details>
+      <details>
+        <summary>I'm early, or I don't own the company. Is it still for me?</summary>
+        <p>If you are building a business, or you carry the revenue or the culture inside one, yes. This is about who you are and what you're responsible for, not the size of the company.</p>
+      </details>
+      <details>
+        <summary>Should I bring my leadership team?</summary>
+        <p>Yes. The book says it plainly: don't be the only person in your building who knows this. Leaders who install it together move faster. Every leader takes their own seat.</p>
+      </details>
+      <details>
+        <summary>What exactly is the guarantee?</summary>
+        <p>Attend Day 1. If by the end of the day you can't see at least a 3X return on your investment, let us know before the day ends and you will receive a full refund.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CLOSE ═══ -->
+<section class="close on-dark grain">
+  <div class="aura" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2 class="rise"><span class="setup">Put a</span><span class="answer">date on it<em>.</em></span></h2>
+    <p class="lede rise">You are always thirty-one months from becoming unrecognizable. In either direction. Your company has already started.<br><br><strong>April 26 is where you choose which one.</strong></p>
+    <div class="rise"><a class="btn btn-solid" href="#seat">Claim your seat <span class="arw" aria-hidden="true">→</span></a></div>
+    <div class="sign rise">
+      <span>I'll see you in April.</span>
+      <img src="TCEB-Brand-Guide/assets/dh-name-white.png" alt="Darren Hardy" width="1400" height="155" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<footer class="on-dark">
+  <div class="wrap">
+    <img src="img/dh-mark-white.webp" alt="Darren Hardy" width="200" height="200" loading="lazy">
+    <span>© 2026 Darren Hardy, LLC · The Founders Event · April 26–28, 2027</span>
+  </div>
+</footer>
+
+<div class="actionbar" id="actionbar">
+  <div class="t"><b>$385 today</b>Rearden Press covers $5,000</div>
+  <a class="btn btn-solid" href="#seat">Claim your seat <span class="arw" aria-hidden="true">→</span></a>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  root.classList.add('js');
+
+  // Split the question into words
+  var q = document.querySelector('.q-text');
+  q.querySelectorAll('span').forEach(function (line) {
+    line.innerHTML = line.textContent.trim().split(/\s+/).map(function (w) { return '<span class="w">' + w + '</span>'; }).join(' ');
+  });
+  var words = q.querySelectorAll('.w');
+  var section = document.getElementById('question');
+  var glow = section.querySelector('.glow');
+  var rises = [].slice.call(document.querySelectorAll('.rise'));
+  var counters = [].slice.call(document.querySelectorAll('[data-count]'));
+  var topbar = document.getElementById('topbar');
+  var bar = document.getElementById('actionbar');
+  var heroImg = document.getElementById('heroImg');
+  var seat = document.getElementById('seat');
+
+  function countUp(el) {
+    var end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = null;
+    if (reduce) { el.textContent = end.toLocaleString() + suf; return; }
+    function step(t) { if (!t0) t0 = t; var p = Math.min((t - t0) / 1400, 1), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(end * e).toLocaleString() + suf; if (p < 1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+
+  // One scroll handler: no IntersectionObserver, so it works everywhere
+  function tick() {
+    var vh = window.innerHeight, y = window.scrollY;
+    // word reveal
+    var r = section.getBoundingClientRect();
+    var p = Math.min(Math.max(-r.top / (r.height - vh), 0), 1);
+    var n = reduce ? words.length : Math.floor(p * 1.25 * (words.length + 1));
+    words.forEach(function (w, i) { w.classList.toggle('on', i < n); });
+    glow.style.setProperty('--glow', n >= words.length ? 1 : 0);
+    // rises and counters
+    for (var i = rises.length - 1; i >= 0; i--) {
+      if (rises[i].getBoundingClientRect().top < vh * .88) { rises[i].classList.add('in'); rises.splice(i, 1); }
+    }
+    for (var j = counters.length - 1; j >= 0; j--) {
+      if (counters[j].getBoundingClientRect().top < vh * .9) { countUp(counters[j]); counters.splice(j, 1); }
+    }
+    // chrome
+    topbar.classList.toggle('solid', y > 40);
+    var sr = seat.getBoundingClientRect();
+    bar.classList.toggle('show', y > vh * .8 && !(sr.top < vh && sr.bottom > 0));
+    if (!reduce && y < vh * 1.2) heroImg.style.transform = 'translateY(' + (y * .18) + 'px)';
+  }
+  window.addEventListener('scroll', tick, { passive: true });
+  window.addEventListener('resize', tick);
+  tick();
+
+  // Checkout is not wired yet (Spiffy goes here)
+  document.querySelectorAll('[data-checkout]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); });
+  });
+})();
+</script>
+</body>
+</html>
