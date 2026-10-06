@@ -115,7 +115,7 @@
   .hero-aura { left: 50%; top: 42%; bottom: auto; transform: translate(-50%,-50%); width: 1100px; height: 700px; animation: none; z-index: 1;
     background: radial-gradient(closest-side, rgba(212,160,23,.20), rgba(120,80,0,.06) 60%, transparent 80%); }
   .hero-inner { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; }
-  .finally-h { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; margin: 0; line-height: .8; letter-spacing: .01em; font-size: clamp(72px, 21vw, 330px); }
+  .finally-h { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; margin: 0; line-height: .8; letter-spacing: .01em; font-size: clamp(92px, 24vw, 330px); }
   .finally-h .ch { display: inline-block; color: transparent; -webkit-background-clip: text; background-clip: text;
     background-image: linear-gradient(100deg, #7a5d10 0%, #d4a017 28%, #f6dc8c 46%, #d4a017 62%, #6b5310 100%); background-size: 320% 100%; background-position: 100% 0;
     animation: chIn 1.2s var(--ease) calc(var(--i) * 90ms + 150ms) both, chSheen 9s ease-in-out calc(var(--i) * 120ms + 2.2s) infinite; }
@@ -155,6 +155,19 @@
   .book::after { content: ""; position: absolute; left: 6%; right: -6%; bottom: -34px; height: 40px; background: radial-gradient(closest-side, rgba(0,0,0,.28), transparent); filter: blur(6px); z-index: -1; }
   .book-cap { margin-top: 44px; font-size: 15px; color: var(--muted); text-align: center; line-height: 1.5; }
   .book-cap strong { color: #000; display: block; font-size: 17px; }
+
+
+  /* ── The letter ── */
+  .letter .grid { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 96px; align-items: start; }
+  .letter .portrait { margin: 0; position: sticky; top: 110px; }
+  .letter .portrait img { width: 100%; border-radius: var(--radius); box-shadow: 0 40px 60px -30px rgba(0,0,0,.35); }
+  .letter h2 { margin-bottom: 40px; }
+  .letter h2 .setup { color: #000; font-size: .74em; }
+  .letter .note { max-width: 660px; }
+  .sig { display: flex; align-items: flex-end; gap: 22px; margin-top: 24px; }
+  .sig img { width: 150px; }
+  .sig span { font-size: 14px; color: var(--muted); line-height: 1.45; padding-bottom: 14px; }
+  .sig strong { display: block; color: #000; font-size: 16px; }
 
   /* ── For business ── */
   .forbiz { border-top: 1px solid var(--line); }
@@ -326,6 +339,8 @@
 
   @media (max-width: 960px) {
     .finally .grid { grid-template-columns: 1fr; gap: 64px; }
+    .letter .grid { grid-template-columns: 1fr; gap: 48px; }
+    .letter .portrait { position: static; max-width: 300px; }
     .book { justify-self: center; }
     .day-grid { grid-template-columns: 1fr; }
     .tiers { grid-template-columns: 1fr; }
@@ -391,7 +406,7 @@
 <div class="topbar on-dark" id="topbar">
   <div class="wrap">
     <img class="dhname" src="TCEB-Brand-Guide/assets/dh-name-white.png" alt="Darren Hardy" width="1400" height="155">
-    <a class="btn btn-ghost" href="#seat">Reserve your place <span class="arw" aria-hidden="true">→</span></a>
+    <a class="btn btn-ghost" href="#seat">Reserve your ticket <span class="arw" aria-hidden="true">→</span></a>
   </div>
 </div>
 
@@ -408,11 +423,11 @@
       <span>April 26–27, 2027</span><span class="sep"></span>
       <span>Two days with Darren Hardy</span>
     </div>
-    <p class="sub"><strong class="nobreak">The Compound Effect in Business</strong>, installed live. Two days with Darren, inside your company, <strong>before the book reaches a single shelf.</strong></p>
+    <p class="sub"><strong class="nobreak">The Compound Effect in Business</strong>, put to work live. <strong>Two days with Darren, inside your company.</strong></p>
     <div class="hero-actions">
-      <a class="btn btn-solid" href="#seat">Reserve your place <span class="arw" aria-hidden="true">→</span></a>
+      <a class="btn btn-solid" href="#seat">Reserve your ticket <span class="arw" aria-hidden="true">→</span></a>
     </div>
-    <p class="fine"><strong>Rearden Press is covering $5,000 for every Founder.</strong> For the launch only.</p>
+    <p class="fine"><strong>Rearden Press is covering $5,000 of every ticket.</strong> For the launch only.</p>
   </div>
 </header>
 
@@ -431,23 +446,27 @@
   </div>
 </section>
 
-<!-- ═══ FINALLY ═══ -->
-<section class="finally band">
+<!-- ═══ THE LETTER, FROM DARREN ═══ -->
+<section class="letter band">
   <div class="wrap grid">
-    <div>
-      <h2 class="rise"><span class="setup">For years, you've asked him</span><span class="answer">What about <em>my business?</em></span></h2>
+    <figure class="portrait rise">
+      <img src="img/founders/dh-letter.webp" alt="Darren Hardy" width="720" height="900" loading="lazy">
+    </figure>
+    <div class="note">
+      <h2 class="rise"><span class="setup">For years, you've asked me</span><span class="answer">What about <em>my business?</em></span></h2>
       <div class="lede rise">
         <p>You read <span class="nobreak">The Compound Effect</span>. Maybe once. Maybe every summer. You put it to work on your health, your money, your marriage, and it worked.</p>
-        <p>Then you walked into your company on Monday morning and wondered why the same law didn't seem to run there.</p>
-        <p>It does. It always has. Your company has been compounding the whole time, in a direction nobody was watching.</p>
+        <p>Then you'd find me, at an event, in an email, in a message, and ask me the same question: <strong>"Darren, what about my business?"</strong></p>
+        <p>I've heard it thousands of times. I've spent years writing the answer. It's finally done.</p>
+        <p>Here is what more than 35 years of building companies, and sitting with the leaders who run them, has taught me: your business follows the same law you do. It is compounding right now, in one direction or the other. Most leaders just aren't watching which one.</p>
+        <p><span class="nobreak">The Compound Effect in Business</span> is my answer. And I don't want you to just read it. I want to put it to work with you, live, for two days, inside your company.</p>
+        <p>I'm calling it the Founders Event, because the leaders who join me in April will be the first to build with it.</p>
+        <p><strong>I hope you'll be one of them.</strong></p>
       </div>
-      <div class="lede rise">
-        <p>Now Darren has written the business book. <strong>And before it reaches the world, he is going to install it, live, with the leaders who refuse to wait for it.</strong></p>
+      <div class="sig rise">
+        <img src="img/founders/dh-signature.webp" alt="Darren Hardy signature" width="184" height="126" loading="lazy">
+        <span><strong>Darren Hardy</strong>Author, The Compound Effect</span>
       </div>
-    </div>
-    <div class="rise">
-      <div class="book"><img class="cover" src="img/founders/tceb-cover.webp" alt="The Compound Effect in Business by Darren Hardy" width="720" height="924" loading="lazy"></div>
-      <p class="book-cap"><strong>The book is the syllabus.</strong>The Founders Event is the install.</p>
     </div>
   </div>
 </section>
@@ -458,7 +477,7 @@
     <h2 class="rise">This one is for <em>business</em><span style="color:#000">.</span></h2>
     <div class="grid rise">
       <div class="col yes">
-        <h3>Your place, if you</h3>
+        <h3>Your ticket, if you</h3>
         <ul>
           <li>Lead a company, and it runs through you</li>
           <li>Built something real and can feel the next level from here</li>
@@ -522,7 +541,7 @@
   <div class="wrap grid">
     <div class="rise">
       <h2><span class="setup">The install doesn't</span><span class="answer">end on <em>Day 2</em>.</span></h2>
-      <p class="lede">Every Founder gets 12 months inside Darren's AI portal. It turns what you learn in April into the work your team does in May.</p>
+      <p class="lede">Every Founder Ticket includes 12 months inside Darren's AI portal. It turns what you learn in April into the work your team does in May.</p>
       <ul class="tools">
         <li><strong>AI execution systems</strong>Built on Darren's formulas for marketing, sales and hiring. Strategy to finished work in minutes.</li>
         <li><strong>HARDYbot</strong>An advisor trained on Darren, on call around the clock, so you never make a costly call alone.</li>
@@ -547,10 +566,10 @@
     <div class="inner rise">
       <h2><span class="setup">In the studio.</span><span class="answer"><em>By invitation.</em></span></h2>
       <p class="lede">Forty leaders will spend the Founders Event in Darren's Charleston studio, in person, with him, including the private Day 3.</p>
-      <p class="lede">Those places are not for sale. There is no button for them on this page, or anywhere else.</p>
+      <p class="lede">Those tickets are not for sale. There is no button for them on this page, or anywhere else.</p>
       <p class="lede">They are reserved for Darren's champions: the leaders who carry this book into their companies and their networks. If you are invited, you will hear from us directly.</p>
-      <div class="forty"><span>Forty places in the studio. Invitation only.</span></div>
-      <div class="seal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Every Founder is eligible to be invited.</div>
+      <div class="forty"><span>Forty tickets to the studio. Invitation only.</span></div>
+      <div class="seal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Every Founder Ticket holder is eligible to be invited.</div>
     </div>
   </div>
 </section>
@@ -613,14 +632,14 @@
 <!-- ═══ YOUR SEAT ═══ -->
 <section class="seat band on-dark grain" id="seat">
   <div class="wrap">
-    <h2 class="rise">Your <em>place</em>.</h2>
-    <p class="lede rise">Rearden Press, the book's publisher, wants this operating system working inside as many companies as possible in its first year. So for the Founders Event, and only the Founders Event, <strong>they are covering $5,000 for every Founder.</strong></p>
+    <h2 class="rise">Your <em>ticket</em>.</h2>
+    <p class="lede rise">Rearden Press, the book's publisher, wants this operating system working inside as many companies as possible in its first year. So for the Founders Event, and only the Founders Event, <strong>they are covering $5,000 of every ticket.</strong></p>
     <div class="tiers rise">
       <article class="tier main">
-        <h3>Founder</h3>
+        <h3>Founder Ticket</h3>
         <p class="for">Days 1 and 2, live with Darren.</p>
         <div class="ledger">
-          <div class="strike"><span>Founders Event admission</span><b>$9,995</b></div>
+          <div class="strike"><span>Founders Event ticket</span><b>$9,995</b></div>
           <div class="rp"><span>Covered by Rearden Press</span><b>−$5,000</b></div>
           <div><span>Your investment</span><b>$4,995</b></div>
         </div>
@@ -634,11 +653,11 @@
           <li>Eligible for an invitation to the studio</li>
           <li>The Day 1 guarantee</li>
         </ul>
-        <a class="btn btn-solid" href="#" data-checkout="founder">Reserve your place <span class="arw" aria-hidden="true">→</span></a>
+        <a class="btn btn-solid" href="#" data-checkout="founder">Reserve your ticket <span class="arw" aria-hidden="true">→</span></a>
       </article>
       <article class="tier vip">
         <h3>VIP</h3>
-        <p class="for">Added to your Founder admission. Includes Day 3, Wednesday, April 28.</p>
+        <p class="for">Added to your Founder Ticket. Includes Day 3, Wednesday, April 28.</p>
         <div class="price"><span class="amt">$115</span><span class="terms">today, then<br>12 monthly payments of $115</span></div>
         <p class="pif">Or <b>$1,500</b> paid in full.</p>
         <ul>
@@ -686,7 +705,7 @@
       </details>
       <details>
         <summary>Should I bring my leadership team?</summary>
-        <p>Yes. The book says it plainly: don't be the only person in your building who knows this. Leaders who install it together move faster. Each leader registers on their own.</p>
+        <p>Yes. The book says it plainly: don't be the only person in your building who knows this. Leaders who install it together move faster. Every leader needs their own ticket.</p>
       </details>
       <details>
         <summary>What exactly is the guarantee?</summary>
@@ -702,7 +721,7 @@
   <div class="wrap">
     <h2 class="rise"><span class="setup">Put a</span><span class="answer">date on it<em>.</em></span></h2>
     <p class="lede rise">Your business is already compounding. Every day, in one direction or the other. The only question is which.<br><br><strong>April 26 is where you choose.</strong></p>
-    <div class="rise"><a class="btn btn-solid" href="#seat">Reserve your place <span class="arw" aria-hidden="true">→</span></a></div>
+    <div class="rise"><a class="btn btn-solid" href="#seat">Reserve your ticket <span class="arw" aria-hidden="true">→</span></a></div>
     <div class="sign rise">
       <span>I'll see you in April.</span>
       <img src="TCEB-Brand-Guide/assets/dh-name-white.png" alt="Darren Hardy" width="1400" height="155" loading="lazy">
@@ -719,7 +738,7 @@
 
 <div class="actionbar" id="actionbar">
   <div class="t"><b>$385 today</b>Rearden Press covers $5,000</div>
-  <a class="btn btn-solid" href="#seat">Reserve your place <span class="arw" aria-hidden="true">→</span></a>
+  <a class="btn btn-solid" href="#seat">Reserve your ticket <span class="arw" aria-hidden="true">→</span></a>
 </div>
 
 <script>
