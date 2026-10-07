@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Pre-Print Private Invitation · The Compound Effect in Business</title>
+<style>
+@font-face{font-family:Inter;src:url("https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/fonts/6aaf55be1c2f880d17fcd6d7-Inter-Variable.woff2") format("woff2");font-weight:400 900;font-display:swap}
+:root{--ink:#0a0a0a;--paper:#fff;--wash:#f5f4f2;--red:#e1132e;--txt:#3a3a3a;--dim:#6b6b6b;--line:#e3e1dd}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+a{color:inherit}
+
+/* nav: DH monogram only, same as the TCE Global Site Nav (Light hero variant) */
+.nav{padding:28px 0 0}
+.nav img{width:40px;height:40px;display:block}
+
+/* invitation */
+.invite{padding:48px 0 72px}
+.invite-grid{display:grid;grid-template-columns:300px 1fr;gap:64px;align-items:center}
+.cover{width:100%;height:auto;display:block;border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.18),0 24px 48px -16px rgba(0,0,0,.35)}
+.label{margin:0 0 18px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.h1{margin:0 0 26px;font-size:clamp(30px,3.6vw,44px);line-height:1.12;font-weight:800;letter-spacing:-.02em}
+.perks{margin:0 0 34px;padding:0;list-style:none;border-top:1px solid var(--line)}
+.perks li{padding:14px 0;border-bottom:1px solid var(--line);font-size:18px;line-height:1.5;color:var(--txt)}
+.perks b{color:var(--ink);font-weight:700}
+
+.btn{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:2px;background:var(--ink);color:#fff;font-size:16px;font-weight:700;text-decoration:none;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.btn .arr{display:inline-block;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.btn:hover{transform:scale(1.035)}
+.btn:hover .arr{transform:translateX(5px)}
+.btn:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+
+/* tiers */
+.tiers{background:var(--wash);padding:72px 0}
+.h2{margin:0 0 8px;font-size:clamp(24px,2.6vw,32px);line-height:1.15;font-weight:800;letter-spacing:-.015em}
+.sub{margin:0 0 36px;font-size:16px;color:var(--dim)}
+.tier-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.tier{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:2px;padding:28px 26px 26px;transition:border-color .2s,box-shadow .2s}
+.tier.is-selected{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.tier-qty{margin:0 0 4px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.tier-price{margin:0 0 4px;font-size:32px;font-weight:800;letter-spacing:-.02em}
+.tier-price small{font-size:16px;font-weight:600;color:var(--dim)}
+.tier-was{margin:0 0 22px;font-size:14px;color:var(--dim)}
+.tier-was s{color:var(--dim)}
+.tier-list{margin:0 0 24px;padding:0;list-style:none;flex:1}
+.tier-list li{position:relative;padding:0 0 12px 22px;font-size:15px;line-height:1.5;color:var(--txt)}
+.tier-list li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;background:var(--red);border-radius:1px}
+.tier-list b{color:var(--ink)}
+.limit{color:var(--red);font-weight:600}
+.collector{margin:6px 0 4px;padding:16px;background:var(--wash);border-radius:2px}
+.collector-img{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;margin:0 0 12px;border:1px dashed #b9b5ae;border-radius:2px;font-size:12px;line-height:1.4;text-align:center;color:var(--dim);padding:12px}
+.collector p{margin:0 0 6px;font-size:14px;line-height:1.5;color:var(--txt)}
+.collector p:last-child{margin:0}
+.collector b{color:var(--ink)}
+.tier-btn{width:100%;justify-content:center;text-align:center}
+.tier.is-selected .tier-btn{background:var(--red)}
+.tier-note{margin:10px 0 0;font-size:13px;line-height:1.45;text-align:center;color:var(--dim)}
+
+/* order */
+.order{padding:72px 0 88px}
+.order-inner{max-width:760px;margin:0 auto}
+.picked{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0 0 20px;padding:16px 20px;border:1px solid var(--line);border-left:3px solid var(--red);border-radius:2px;font-size:16px;color:var(--txt)}
+.picked b{color:var(--ink)}
+.picked[hidden]{display:none}
+.checkout{position:relative;min-height:560px}
+.loading{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;padding:4px 0;pointer-events:none;transition:opacity .3s}
+.loading span{display:block;height:52px;border-radius:2px;background:linear-gradient(90deg,#f1efec 0%,#f8f7f5 50%,#f1efec 100%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}
+.loading span:first-child{height:120px}
+@keyframes shimmer{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.loading span{animation:none}}
+.checkout.is-ready .loading{opacity:0}
+.fallback{display:none;margin:0;padding:24px;border:1px solid var(--line);border-radius:2px;font-size:16px;line-height:1.55;color:var(--txt)}
+.checkout.is-failed .fallback{display:block}
+.checkout.is-failed .loading{display:none}
+.fallback a{font-weight:700;color:var(--ink)}
+
+/* slim footer */
+.foot{border-top:1px solid var(--line);padding:28px 0;font-size:13px;color:var(--dim)}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+.foot a{text-decoration:none}
+.foot a:hover{text-decoration:underline}
+
+@media (max-width:991px){
+  .tier-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+  .invite-grid{grid-template-columns:220px 1fr;gap:40px}
+}
+@media (max-width:767px){
+  .wrap{padding:0 20px}
+  .invite{padding:28px 0 56px}
+  .invite-grid{grid-template-columns:1fr;gap:28px}
+  .cover{width:180px}
+  .perks li{font-size:16px}
+  .tiers,.order{padding:56px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="nav"><div class="wrap"><img src="dh-mark-dark.webp" alt="Darren Hardy" width="40" height="40"></div></header>
+
+<main>
+  <section class="invite">
+    <div class="wrap invite-grid">
+      <img class="cover" src="tceb-front-640.webp" width="640" height="863" alt="The Compound Effect in Business by Darren Hardy, hardcover" fetchpriority="high">
+      <div>
+        <p class="label">Pre-print private invitation</p>
+        <h1 class="h1">Receive a first-run hardcover copy months before public release.</h1>
+        <ul class="perks">
+          <li>Pre-order 10 or more and get <b>your name printed in the book!</b></li>
+          <li>Pre-order 100 or more and get <b>your headshot (&amp; name) printed in the book!</b></li>
+        </ul>
+        <a class="btn" href="#bundles">Pre-order your book <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="tiers" id="bundles">
+    <div class="wrap">
+      <h2 class="h2">Choose your bundle.</h2>
+      <p class="sub">Every bundle ships first-run hardcovers months before the public launch.</p>
+
+      <div class="tier-grid">
+        <article class="tier" data-tier="3">
+          <p class="tier-qty">3 Books</p>
+          <p class="tier-price">$24.95 <small>/ea</small></p>
+          <p class="tier-was"><s>$29.95</s> · $74.85 total</p>
+          <ul class="tier-list">
+            <li><b>Pre-release hardcovers</b> delivered months before the public launch.</li>
+          </ul>
+          <a class="btn tier-btn" href="#order" data-tier="3">Reserve my 3 hardcovers <span class="arr" aria-hidden="true">→</span></a>
+          <p class="tier-note">Shipped before public launch</p>
+        </article>
+
+        <article class="tier" data-tier="10">
+          <p class="tier-qty">10 Books</p>
+          <p class="tier-price">$19.95 <small>/ea</small></p>
+          <p class="tier-was"><s>$29.95</s> · $199.50 total</p>
+          <ul class="tier-list">
+            <li><b>Pre-release hardcovers</b> delivered months before the public launch.</li>
+            <li><b>Your name</b> printed in the book.</li>
+          </ul>
+          <a class="btn tier-btn" href="#order" data-tier="10">Get my name in the book <span class="arr" aria-hidden="true">→</span></a>
+          <p class="tier-note">Includes 10 hardcovers</p>
+        </article>
+
+        <article class="tier" data-tier="100">
+          <p class="tier-qty">100 Books</p>
+          <p class="tier-price">$9.95 <small>/ea</small></p>
+          <p class="tier-was"><s>$29.95</s> · $995 total</p>
+          <ul class="tier-list">
+            <li><b>Pre-release hardcovers</b> delivered months before the public launch.</li>
+            <li><b>Your name</b> printed in the book.</li>
+            <li><b>Your headshot</b> printed in the book. <span class="limit">Limited to 100.</span></li>
+          </ul>
+          <div class="collector">
+            <div class="collector-img">Photo needed: The Compound Effect leatherbound collector's edition</div>
+            <p><b>PLUS, receive a rare limited-edition leatherbound collector's edition of the first book:</b> <i>The Compound Effect: Jumpstart Your Income, Your Life, Your Success.</i></p>
+            <p>Personally signed and numbered by Darren. Only 500 ever produced.</p>
+          </div>
+          <div style="height:22px"></div>
+          <a class="btn tier-btn" href="#order" data-tier="100">Get my name + headshot in the book <span class="arr" aria-hidden="true">→</span></a>
+          <p class="tier-note">Includes 100 hardcovers + <i>The Compound Effect</i> leatherbound collector's edition</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="order" id="order">
+    <div class="wrap order-inner">
+      <h2 class="h2">Your pre-order.</h2>
+      <p class="sub" id="orderSub">Choose your bundle below, then add your details.</p>
+      <p class="picked" id="picked" hidden></p>
+
+      <div class="checkout" id="checkout">
+        <div class="loading" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+        <!-- The checkout URL lives HERE and only here. The script reads it at parse time,
+             before Spiffy rewrites it with tracking params. -->
+        <spiffy-element type="checkout" url="https://secure.darrenhardy.com/checkout/the-compound-effect-pre-print"></spiffy-element>
+        <p class="fallback">The secure form is taking longer than usual to load. <a id="fallbackLink" href="https://secure.darrenhardy.com/checkout/the-compound-effect-pre-print" target="_blank" rel="noopener">Continue to secure checkout →</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>© 2026 Darren Hardy, LLC. All rights reserved.</span>
+    <span><a href="https://darrenhardy.com/privacy-policy/">Privacy</a> · <a href="https://darrenhardy.com/terms-of-use/">Terms</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Tier pre-select by URL. Spiffy's option field is tceb_hardcover (values 3 / 10 / 100), but on
+  // 2026-10-07 the param did NOT pre-select the live checkout. Leave PRESELECT false until the
+  // Spiffy admin fix is confirmed; then the cards also reload the form with their tier picked.
+  var TIER_PARAM = 'tceb_hardcover';
+  var PRESELECT = false;
+  var BAIL_MS = 8000;
+
+  var TIERS = {
+    '3':   { name: '3 hardcovers',   total: '$74.85', extra: 'Shipped before public launch' },
+    '10':  { name: '10 hardcovers',  total: '$199.50', extra: 'Your name printed in the book' },
+    '100': { name: '100 hardcovers', total: '$995', extra: 'Your name + headshot in the book, plus the leatherbound collector\'s edition' }
+  };
+
+  var box = document.getElementById('checkout');
+  var el = box.querySelector('spiffy-element');
+  var BASE = el.getAttribute('url'); // read before Spiffy appends its tracking params
+  var picked = document.getElementById('picked');
+  var sub = document.getElementById('orderSub');
+  var bail;
+
+  function armBail() {
+    clearTimeout(bail);
+    box.classList.remove('is-ready', 'is-failed');
+    bail = setTimeout(function () { if (!box.classList.contains('is-ready')) box.classList.add('is-failed'); }, BAIL_MS);
+  }
+  function ready() { clearTimeout(bail); box.classList.remove('is-failed'); box.classList.add('is-ready'); }
+
+  function mount(tier) {
+    var url = BASE + (tier ? (BASE.indexOf('?') < 0 ? '?' : '&') + TIER_PARAM + '=' + tier : '');
+    var fresh = document.createElement('spiffy-element');
+    fresh.setAttribute('type', 'checkout');
+    fresh.setAttribute('url', url);
+    el.parentNode.replaceChild(fresh, el);
+    el = fresh;
+    armBail();
+  }
+
+  function select(tier) {
+    var t = TIERS[tier];
+    document.querySelectorAll('.tier').forEach(function (c) {
+      c.classList.toggle('is-selected', c.getAttribute('data-tier') === tier);
+    });
+    picked.innerHTML = '<b>' + t.name + '</b><span>' + t.total + '</span><span>' + t.extra + '</span>';
+    picked.hidden = false;
+    sub.textContent = PRESELECT ? 'Add your details below.' : 'Choose ' + tier + ' Books in the form below, then add your details.';
+    if (PRESELECT) mount(tier);
+  }
+
+  document.querySelectorAll('.tier-btn').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      select(a.getAttribute('data-tier'));
+      document.getElementById('order').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    });
+  });
+
+  armBail();
+  window.ppCheckoutReady = ready; // called by the SpiffyJS form:ready hook below
+})();
+</script>
+
+<!-- SpiffyJS, exactly as supplied, with the embed config added -->
+<script>
+"use strict";!function(i,t){var f=t.spiffy=t.spiffy||[];if(!f.init){
+if(f.invoked)return void(t.console&&console.error&&console.warn("Spiffy Elements included twice."))
+;f.invoked=!0,f.methods=["identify","config","debug","off","on"],f.factory=function(i){
+return function(){var t=Array.prototype.slice.call(arguments);return t.unshift(i),f.push(t),f}},
+f.methods.forEach(function(i){spiffy[i]=f.factory(i)}),f.load=function(t,f){if(!spiffy.ACCOUNT){
+spiffy.ACCOUNT=t,spiffy.DOMAIN=f;var e=i.createElement("script");e.type="text/javascript",
+e.async=!0,e.crossorigin="anonymous",e.src="https://js.static.spiffy.co/spiffy.js?a="+t
+;var n=i.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)}}}}(document,window),
+spiffy.SNIPPET_VERSION="1.1.0";
+spiffy.config({
+    hideSidebar: true,
+    hideHeader: true,
+    hideFooter: true,
+    popupEnabled: false
+})
+spiffy.on('form:ready', function () { if (window.ppCheckoutReady) window.ppCheckoutReady(); });
+spiffy.load("darrenhardy", "secure.darrenhardy.com");
+</script>
+</body>
+</html>
