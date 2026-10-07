@@ -98,12 +98,12 @@ rows = [
  ("E","EL","WAVE 1 · ELITES (not at BMC45)","c22",["sms","vm"],["sms","vm"],"Elite","#fff8e1","#c9a227"),
  ("A","AL","WAVE 2 · BMC ALUMNI (excl. BMC45 attendees)","c23",["sms"],["sms"],"Alumni","#e8f1fc","#1f5fa8"),
  ("M","MB","WAVE 3 · MEMBERS: RIV · HJ · IPL · JST · eFP + HARDY CLUB","c26",["sms","hc"],["sms","hc"],"Member","#e6f4f1","#00796b"),
- ("D","DB","WAVE 4 · FULL DATABASE + DARRENDAILY SUBSCRIBERS","c27",["dd","ddod","social"],["sms","ddod","social"],"Public","#fdeeee","#b00020"),
+ ("D","DB","WAVE 4 · FULL DATABASE + DARRENDAILY SUBSCRIBERS","c27",["social","dd","ddod"],["sms","ddod","social"],"Public","#fdeeee","#b00020"),
 ]
 
 W, H = 62, 79
 L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = opening day · red envelope = closedown" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
-cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[]}
+cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[], "cc":[]}
 
 IMGS = []
 def node(nid, kind, label, badge=None, w=None, h=None):
@@ -128,7 +128,11 @@ for cid, _, _ in cols:
         L.append(f'        {tid}["<b>Daylight saving ends</b><br/>2am · clocks fall back 1 hr"]'); cls["dst"].append(tid)
     else:
         L.append(f'        {tid}[" "]'); cls["sp"].append(tid)
-    L.append(f"        {tprev} ~~~ {tid}"); tprev = tid
+    L.append(f"        {tprev} ~~~ {tid}")
+    if cid == "c01":
+        L.append('        CC["<b>CART CLOSES</b><br/>11:59pm PT · Sun Nov 1"]'); cls["cc"].append("CC")
+        L.append(f"        {tprev} ~~~ CC")
+    tprev = tid
 prev = "H_c21"; cls["hdr"].append("H_c21")
 for cid, dow, d in cols[1:]:
     nid = "H_"+cid
@@ -171,6 +175,7 @@ L.append("    end")
 L.append("    HL ~~~ B_c21")
 L.append("")
 
+MAIN_FIRST = True
 GRID = []
 for rid, pfx, title, opencol, openx, closex, callout, fill, stroke in rows:
     mark()
@@ -180,7 +185,7 @@ for rid, pfx, title, opencol, openx, closex, callout, fill, stroke in rows:
     L.append('        direction LR')
     L.append(f'        {rid}L["<b>{BIG[rid]}</b><br/><small><small>{sub}</small></small>"]')
     links = []
-    prev = rid+"L"; n = 0; started = False; xi = 0; lane = {}; closing = []
+    prev = rid+"L"; n = 0; started = False; xi = 0; lane = {}; closing = []; tail = None
     for cid,_,_ in cols:
         nid = f"{rid}_{cid}"
         gid = f"{rid}{cid[1:]}"
@@ -188,6 +193,9 @@ for rid, pfx, title, opencol, openx, closex, callout, fill, stroke in rows:
         L.append(f'        subgraph {gid} [" "]')
         if cid == opencol: started = True
         extras = []
+        newtail = None
+        snap = dict(lane)
+        mark_main = len(L)
         if not started:
             L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
         elif cid in REST:
@@ -206,16 +214,26 @@ for rid, pfx, title, opencol, openx, closex, callout, fill, stroke in rows:
         if rid == "M" and cid == "c01":
             extras = extras + [("hc", None, "Hardy Club post<br/><b>SUNDAY SERMON</b>")]
         if rid == "D" and started and cid not in ("c01", opencol):
-            extras = extras + ([] if cid in ("c24", "c25", "c31") else [("dd", None, "")]) + [("social", None, "")]  # DarrenDaily Mon-Fri only
-        links.append(f"    {prev} {'-->' if started and cid != opencol and not prev.endswith('L') else '~~~'} {nid}")
+            extras = extras + [("social", None, "")] + ([] if cid in ("c24", "c25", "c31") else [("dd", None, "")])  # DarrenDaily Mon-Fri only
+        main_lines = L[mark_main:]; del L[mark_main:]
+        main_link = f"    {prev} {'-->' if started and cid != opencol and not prev.endswith('L') else '~~~'} {nid}"
+        if not MAIN_FIRST: links.append(main_link)
         for kind, badge, lab in extras:
             xi += 1; xid = f"{rid}x{xi}"
             node(xid, kind, lab or NAME[kind], badge)
             if cid == "c01": closing.append(xid)
             key = kind + ("2" if lab else "")
-            links.append(f"    {lane.get(key, prev)} ~~~ {xid}")
+            if kind == "email": src = prev
+            elif "SERMON" in lab: src = snap.get("hc", prev)
+            else: src = snap.get(key) or tail or prev
+            links.append(f"    {src} ~~~ {xid}")
             lane[key] = xid
+            if kind != "email": newtail = xid
+        if MAIN_FIRST: links.append(main_link)
+        # emails are defined after the other channels so Mermaid stacks them on top
+        L.extend(main_lines)
         L.append("        end")
+        tail = newtail
         prev = nid
     pid = rid+"P"
     node(pid, "salespagelive" if PAGE_URL[rid] else "salespage", f"<b>Pre-print page</b><br/>/preorder<br/>+ {callout} callout", w=172, h=218)
@@ -261,6 +279,7 @@ for h in cls["hdr"]:
 for h in cls["hrest"]:
     L.append(f"    style {h} font-size:36px")
 cls["sp"] = []   # spacers are already invisible via the transparent theme vars
+L.append("    style CC fill:#b00020,stroke:#7a0016,stroke-width:3px,color:#fff,font-size:30px")
 for r, c in COLOR.items():
     L.append(f"    style {r}L fill:none,stroke:none,color:{c},font-size:44px,font-weight:900")
 L.append(f"    class {','.join(GRID)} gridc")
