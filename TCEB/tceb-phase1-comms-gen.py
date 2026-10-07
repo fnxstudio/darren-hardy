@@ -119,6 +119,16 @@ L.append('        direction LR')
 L.append('        HL[" "]'); cls["sp"].append("HL")
 L.append('        H_c21["<small>WED</small><br/><b>OCT 21</b>"]')
 L.append("        HL ~~~ H_c21")
+# a top row of spacers over the dates; Oct 31 holds the pumpkin, Nov 1 the DST note
+tprev = "HL"
+for cid, _, _ in cols:
+    tid = "T" + cid[1:]
+    if cid == "c31": node(tid, "pumpkin", " ", w=190, h=175)
+    elif cid == "c01":
+        L.append(f'        {tid}["<b>Daylight saving ends</b><br/>2am · clocks fall back 1 hr"]'); cls["dst"].append(tid)
+    else:
+        L.append(f'        {tid}[" "]'); cls["sp"].append(tid)
+    L.append(f"        {tprev} ~~~ {tid}"); tprev = tid
 prev = "H_c21"; cls["hdr"].append("H_c21")
 for cid, dow, d in cols[1:]:
     nid = "H_"+cid
@@ -145,10 +155,6 @@ for cid,_,_ in cols:
         node(nid, "stage", "<b>On stage</b><br/>Gold/Silver/Elite<br/>name in book")
     elif cid == "c22":
         node(nid, "email", "<b>Love-form closedown</b><br/>own schedule")
-    elif cid == "c31":
-        node(nid, "pumpkin", " ", w=230, h=212)   # Halloween
-    elif cid == "c01":
-        L.append(f'        {nid}["<b>Daylight saving ends</b><br/>2am · clocks fall back 1 hr"]'); cls["dst"].append(nid)
     else:
         L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
     if prev: L.append(f"        {prev} {'-->' if cid=='c22' else '~~~'} {nid}")
@@ -251,17 +257,18 @@ if not INLINE: L.append("    style KEY fill:#fafafa,stroke:#999,stroke-dasharray
 pre = L[:SECT[0]]; secs = [L[SECT[i]:SECT[i+1]] for i in range(len(SECT)-1)]; tail = L[SECT[-1]:]
 L[:] = pre + [x for sec in reversed(secs) for x in sec] + tail
 for h in cls["hdr"]:
-    L.append(f"    style {h} color:#111,font-size:36px,font-weight:800")
+    L.append(f"    style {h} font-size:36px")   # mermaid.ai ignores font-size in classDef
 for h in cls["hrest"]:
-    L.append(f"    style {h} color:#b5b0a5,font-size:36px")
+    L.append(f"    style {h} font-size:36px")
+cls["sp"] = []   # spacers are already invisible via the transparent theme vars
 for r, c in COLOR.items():
     L.append(f"    style {r}L fill:none,stroke:none,color:{c},font-size:44px,font-weight:900")
 L.append(f"    class {','.join(GRID)} gridc")
 for k,v in cls.items():
     if v: L.append(f"    class {','.join(v)} {k}")
 L += [
- "    classDef hdr fill:none,stroke:none,color:#1a1a1a,font-size:22px",
- "    classDef hrest fill:none,stroke:none,color:#aaa,font-size:22px",
+ "    classDef hdr fill:none,stroke:none,color:#111,font-size:36px,font-weight:800",
+ "    classDef hrest fill:none,stroke:none,color:#b5b0a5,font-size:36px",
  "    classDef rest fill:#eee,color:#888,stroke:#ccc,stroke-dasharray:4 3",
  "    classDef sp fill:none,stroke:none,color:transparent",
  "    classDef gridc fill:none,stroke:none",
