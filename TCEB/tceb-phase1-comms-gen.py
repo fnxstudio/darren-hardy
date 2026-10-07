@@ -38,9 +38,10 @@ ART = {
  # pages (exact art from the existing chart)
  "salespage": "<path d='M4 4h96l16 16v136H4z' fill='#fff' stroke='#222' stroke-width='3'/><path d='M100 4v16h16' fill='#ddd' stroke='#222' stroke-width='3'/><rect x='14' y='16' width='70' height='6' rx='2' fill='#222'/><rect x='14' y='28' width='56' height='5' rx='2' fill='#222'/><rect x='28' y='138' width='64' height='12' rx='3' fill='#222'/>" + CART + "<path d='M14 42h92M14 49h88M14 56h90M14 63h70M14 77h92M14 84h86M14 91h90M14 98h92M14 105h64M14 119h90M14 126h84M14 133h58' stroke='#bbb' stroke-width='4' stroke-linecap='round'/>",
  "salespagelive": None,
- "loveform": "<path d='M4 4h96l16 16v136H4z' fill='#fff' stroke='#1f5fa8' stroke-width='3'/><path d='M100 4v16h16' fill='#e3eefb' stroke='#1f5fa8' stroke-width='3'/><rect x='14' y='16' width='70' height='6' rx='2' fill='#1f5fa8'/><rect x='14' y='30' width='60' height='5' rx='2' fill='#1f5fa8'/><rect x='14' y='44' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='50' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='14' y='64' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='70' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='14' y='84' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='90' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='14' y='104' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='110' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='20' y='132' width='80' height='16' rx='3' fill='#1f5fa8'/>" + LIVE,
+ "loveform": "<path d='M4 4h96l16 16v136H4z' fill='#fff' stroke='#1f5fa8' stroke-width='3'/><path d='M100 4v16h16' fill='#e3eefb' stroke='#1f5fa8' stroke-width='3'/><rect x='14' y='16' width='70' height='6' rx='2' fill='#1f5fa8'/><rect x='14' y='30' width='60' height='5' rx='2' fill='#1f5fa8'/><rect x='14' y='44' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='50' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='14' y='64' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='70' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='14' y='84' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='90' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='20' y='132' width='80' height='16' rx='3' fill='#1f5fa8'/>" + LIVE,
 }
 ART["salespagelive"] = ART["salespage"] + LIVE
+ART["spiffylive"] = ART["loveform"].replace("#1f5fa8", "#222").replace("#e3eefb", "#ddd").replace(LIVE, "") + CART + LIVE
 NAME = {"email":"Email","video":"DH video","sms":"SMS","vm":"DropCowboy","dd":"DarrenDaily","ddod":"DDOD",
         "social":"Social","hc":"Hardy Club post","stage":"On stage"}
 
@@ -85,6 +86,7 @@ DFULL = {c[0]: f"{c[1]} {DSHORT[c[0]]}" for c in cols}
 BIG = {"B": "BMC45<br/>ATTENDEES", "E": "WAVE&nbsp;1<br/>ELITES", "A": "WAVE&nbsp;2<br/>BMC&nbsp;ALUMNI",
        "M": "WAVE&nbsp;3<br/>MEMBERS", "D": "WAVE&nbsp;4<br/>FULL<br/>DATABASE"}
 COLOR = {"B": "#7b2d8e"}
+SPIFFY_URL = "https://secure.darrenhardy.com/checkout/bmc45-love-form"
 PAGE_URL = {"B": "https://www.hardybmc.com/love",
             "E": None, "A": None, "M": None, "D": None}   # pre-print /preorder: fill in when live
 rows = [
@@ -145,6 +147,10 @@ for cid,_,_ in cols:
 node("BP", "loveform", "<b>BMC45 Love Form</b><br/>hardybmc.com/love", w=172, h=218)
 L.append(f"        {prev} ~~~~~ BP")
 L.append("        B_c22 ~~~ BP")
+node("BS", "spiffylive", "<b>Spiffy checkout</b><br/>BMC45 Love Form cart", w=172, h=218)
+L.append(f"        {prev} ~~~~~ BS")
+L.append("        B_c22 ~~~ BS")
+L.append(f'    click BS href "{SPIFFY_URL}" _blank')
 if PAGE_URL["B"]: L.append(f'    click BP href "{PAGE_URL["B"]}" _blank')
 L.append("    end")
 L.append("    HL ~~~ B_c21")
@@ -229,7 +235,7 @@ else:
 L.append("    style HDR fill:#f3f1ec,stroke:#d9d4c7,stroke-width:1px")
 L.append("    style T_B fill:#f5eef8,stroke:#7b2d8e,stroke-width:2px,color:#7b2d8e")
 if not INLINE: L.append("    style KEY fill:#fafafa,stroke:#999,stroke-dasharray:4 3")
-cls["imgn"] = IMGS
+# (no per-image class needed: the frontmatter theme vars already make node frames transparent)
 # Mermaid stacks LR subgraphs bottom-up, so emit tracks in reverse to read top-down
 pre = L[:SECT[0]]; secs = [L[SECT[i]:SECT[i+1]] for i in range(len(SECT)-1)]; tail = L[SECT[-1]:]
 L[:] = pre + [x for sec in reversed(secs) for x in sec] + tail
