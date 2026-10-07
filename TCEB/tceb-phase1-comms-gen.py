@@ -78,7 +78,7 @@ CLOSE = pill("CLOSE", "#b00020")
 cols = [("c21","Wed","Oct 21"),("c22","Thu","Oct 22"),("c23","Fri","Oct 23"),("c24","Sat","Oct 24"),
         ("c25","Sun","Oct 25"),("c26","Mon","Oct 26"),("c27","Tue","Oct 27"),("c28","Wed","Oct 28"),
         ("c29","Thu","Oct 29"),("c30","Fri","Oct 30"),("c31","Sat","Oct 31"),("c01","Sun","Nov 1")]
-REST = {"c25"}
+REST = {"c24"}
 DSHORT = {c[0]: c[2].replace("Oct ", "10/").replace("Nov ", "11/") for c in cols}
 DFULL = {c[0]: f"{c[1]} {DSHORT[c[0]]}" for c in cols}
 
