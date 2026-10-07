@@ -130,9 +130,9 @@ links_out = []
 
 mark()
 # BMC45 track
-L.append('    subgraph T_B ["kept off pre-print · love-form track only"]')
+L.append('    subgraph T_B [" "]')
 L.append('        direction LR')
-L.append(f'        BL["<b>{BIG["B"]}</b>"]')
+L.append(f'        BL["<b>{BIG["B"]}</b><br/><small><small>kept off pre-print<br/>love-form track only</small></small>"]')
 prev = "BL"
 for cid,_,_ in cols:
     nid = "B_"+cid
@@ -160,10 +160,10 @@ GRID = []
 for rid, pfx, title, opencol, openx, closex, callout, fill, stroke in rows:
     mark()
     COLOR[rid] = stroke
-    sub = {"E": "not at BMC45", "A": "excl. BMC45 attendees", "M": "RIV · HJ · IPL · JST · eFP + Hardy Club", "D": "+ DarrenDaily subscribers"}[rid]
-    L.append(f'    subgraph T_{rid} ["{sub}"]')
+    sub = {"E": "not at BMC45", "A": "excl. BMC45<br/>attendees", "M": "RIV · HJ · IPL<br/>JST · eFP<br/>+ Hardy Club", "D": "+ DarrenDaily<br/>subscribers"}[rid]
+    L.append(f'    subgraph T_{rid} [" "]')
     L.append('        direction LR')
-    L.append(f'        {rid}L["<b>{BIG[rid]}</b>"]')
+    L.append(f'        {rid}L["<b>{BIG[rid]}</b><br/><small><small>{sub}</small></small>"]')
     links = []
     prev = rid+"L"; n = 0; started = False; xi = 0; lane = {}; closing = []
     for cid,_,_ in cols:
