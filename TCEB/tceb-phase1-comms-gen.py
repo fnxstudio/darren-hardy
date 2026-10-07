@@ -101,7 +101,7 @@ rows = [
  ("D","DB","WAVE 4 · FULL DATABASE + DARRENDAILY SUBSCRIBERS","c27",["social","dd","ddod"],["sms","ddod","social"],"Public","#fdeeee","#b00020"),
 ]
 
-W, H = 62, 79
+W, H = 96, 122
 L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = opening day · red envelope = closedown" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
 cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[], "cc":[]}
 
@@ -163,10 +163,10 @@ for cid,_,_ in cols:
         L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
     if prev: L.append(f"        {prev} {'-->' if cid=='c22' else '~~~'} {nid}")
     prev = nid
-node("BP", "loveform", "<b>BMC45 Love Form</b><br/>hardybmc.com/love", w=172, h=218)
+node("BP", "loveform", "<b>BMC45 Love Form</b><br/>hardybmc.com/love", w=212, h=269)
 L.append(f"        {prev} ~~~~~ BP")
 L.append("        B_c22 ~~~ BP")
-node("BS", "spiffylive", "<b>Spiffy checkout</b><br/>BMC45 Love Form cart", w=172, h=218)
+node("BS", "spiffylive", "<b>Spiffy checkout</b><br/>BMC45 Love Form cart", w=212, h=269)
 L.append(f"        {prev} ~~~~~ BS")
 L.append("        B_c22 ~~~ BS")
 L.append(f'    click BS href "{SPIFFY_URL}" _blank')
@@ -201,16 +201,16 @@ for rid, pfx, title, opencol, openx, closex, callout, fill, stroke in rows:
         elif cid in REST:
             L.append(f'        {nid}["{"no email" if rid == "D" else "no send"}"]'); cls["rest"].append(nid)
         elif cid == opencol:
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b><br/>open", OPEN); extras = [(k, None, "") for k in openx]
+            n += 1; node(nid, "email", f"{pfx}-{n}<br/>open", OPEN); extras = [(k, None, "") for k in openx]
         elif cid == "c30":
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b><br/>48 hrs left", CLOSE)
+            n += 1; node(nid, "email", f"{pfx}-{n}<br/>48 hrs left", CLOSE)
         elif cid == "c31":
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b><br/>24 hrs left", CLOSE)
+            n += 1; node(nid, "email", f"{pfx}-{n}<br/>24 hrs left", CLOSE)
         elif cid == "c01":
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b><br/>AM last day", CLOSE)
-            n += 1; extras = [("email", CLOSE, f"<b>{pfx}-{n}</b><br/>PM final hours")] + [(k, None, "") for k in closex]
+            n += 1; node(nid, "email", f"{pfx}-{n}<br/>AM last day", CLOSE)
+            n += 1; extras = [("email", CLOSE, f"{pfx}-{n}<br/>PM final hours")] + [(k, None, "") for k in closex]
         else:
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b>")
+            n += 1; node(nid, "email", f"{pfx}-{n}")
         if rid == "M" and cid == "c01":
             extras = extras + [("hc", None, "Hardy Club post<br/><b>SUNDAY SERMON</b>")]
         if rid == "D" and started and cid not in ("c01", opencol):
@@ -236,7 +236,7 @@ for rid, pfx, title, opencol, openx, closex, callout, fill, stroke in rows:
         tail = newtail
         prev = nid
     pid = rid+"P"
-    node(pid, "salespagelive" if PAGE_URL[rid] else "salespage", f"<b>Pre-print page</b><br/>/preorder<br/>+ {callout} callout", w=172, h=218)
+    node(pid, "salespagelive" if PAGE_URL[rid] else "salespage", f"<b>Pre-print page</b><br/>/preorder<br/>+ {callout} callout", w=212, h=269)
     if PAGE_URL[rid]: links.append(f'    click {pid} href "{PAGE_URL[rid]}" _blank')
     # one visible arrow; invisible ties from every closing-day item centre the page on the track
     links.append(f"    {prev} ~~~~~ {pid}")
