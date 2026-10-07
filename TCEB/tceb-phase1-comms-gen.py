@@ -32,7 +32,7 @@ ART = {
  # social post: avatar, image, heart
  "social": "<rect x='10' y='4' width='122' height='150' rx='8' fill='#fff' stroke='#222' stroke-width='3'/><circle cx='28' cy='22' r='9' fill='#1f5fa8'/><path d='M44 18h50M44 26h30' stroke='#bbb' stroke-width='4' stroke-linecap='round'/><rect x='18' y='38' width='106' height='78' rx='3' fill='#e3eefb'/><path d='M18 116l34-38 24 26 16-14 32 26z' fill='#1f5fa8' opacity='.55'/><path d='M30 132c-6-6-14 2-6 9l6 6 6-6c8-7 0-15-6-9z' fill='#e01e5a'/><path d='M50 138h40' stroke='#bbb' stroke-width='4' stroke-linecap='round'/>",
  # Hardy Club community post: HC badge + thread
- "hc": "<rect x='4' y='4' width='134' height='150' rx='6' fill='#fff' stroke='#222' stroke-width='3'/><rect x='4' y='4' width='134' height='26' rx='6' fill='#8b1a1a'/><text x='71' y='22' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='13' font-weight='700' fill='#fff'>HARDY CLUB</text><circle cx='22' cy='48' r='9' fill='#8b1a1a'/><path d='M38 44h80M38 52h56' stroke='#bbb' stroke-width='4' stroke-linecap='round'/><rect x='16' y='66' width='110' height='40' rx='3' fill='#f4f4f4'/><path d='M24 78h90M24 88h70' stroke='#ccc' stroke-width='4' stroke-linecap='round'/><path d='M16 122h60M16 134h44' stroke='#bbb' stroke-width='4' stroke-linecap='round'/>",
+ "hc": "<rect x='4' y='4' width='134' height='150' rx='6' fill='#fff' stroke='#222'/><rect x='4' y='4' width='134' height='30' rx='6' fill='#8b1a1a'/><text x='71' y='25' text-anchor='middle' font-family='Arial' font-size='15' font-weight='700' fill='#fff'>HARDY CLUB</text><rect x='16' y='48' width='110' height='56' rx='3' fill='#f4f4f4'/><path d='M16 122h90M16 136h60' stroke='#bbb' stroke-width='5'/>",
  # on stage: mic on stand + spotlight
  "stage": "<path d='M40 4h62l30 150H10z' fill='#fff4d6' stroke='none'/><rect x='56' y='22' width='30' height='52' rx='15' fill='#222'/><path d='M46 60c0 22 50 22 50 0' fill='none' stroke='#222' stroke-width='5' stroke-linecap='round'/><path d='M71 82v46M50 130h42' stroke='#222' stroke-width='6' stroke-linecap='round'/><rect x='4' y='138' width='134' height='16' fill='#222'/>",
  # pages (exact art from the existing chart)
@@ -102,7 +102,7 @@ rows = [
 ]
 
 W, H = 62, 79
-L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms by audience" + (" · KEY · gold envelope = opening day · red envelope = closedown · page with cart = pre-print page" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
+L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = opening day · red envelope = closedown" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
 cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[]}
 
 IMGS = []
@@ -187,16 +187,18 @@ for rid, pfx, title, opencol, openx, closex, callout, fill, stroke in rows:
         elif cid in REST:
             L.append(f'        {nid}["{"no email" if rid == "D" else "no send"}"]'); cls["rest"].append(nid)
         elif cid == opencol:
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b> · {DSHORT[cid]}<br/>open", OPEN); extras = [(k, None, "") for k in openx]
+            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b><br/>open", OPEN); extras = [(k, None, "") for k in openx]
         elif cid == "c30":
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b> · {DSHORT[cid]}<br/>48 hrs left", CLOSE)
+            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b><br/>48 hrs left", CLOSE)
         elif cid == "c31":
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b> · {DSHORT[cid]}<br/>24 hrs left", CLOSE)
+            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b><br/>24 hrs left", CLOSE)
         elif cid == "c01":
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b> · {DSHORT[cid]}<br/>AM last day", CLOSE)
-            n += 1; extras = [("email", CLOSE, f"<b>{pfx}-{n}</b> · {DSHORT[cid]}<br/>PM final hours")] + [(k, None, "") for k in closex]
+            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b><br/>AM last day", CLOSE)
+            n += 1; extras = [("email", CLOSE, f"<b>{pfx}-{n}</b><br/>PM final hours")] + [(k, None, "") for k in closex]
         else:
-            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b> · {DSHORT[cid]}")
+            n += 1; node(nid, "email", f"<b>{pfx}-{n}</b>")
+        if rid == "M" and cid == "c01":
+            extras = extras + [("hc", None, "Hardy Club post<br/><b>SUNDAY SERMON</b>")]
         if rid == "D" and started and cid not in ("c01", opencol):
             extras = extras + ([] if cid in ("c24", "c25", "c31") else [("dd", None, "")]) + [("social", None, "")]  # DarrenDaily Mon-Fri only
         links.append(f"    {prev} {'-->' if started and cid != opencol and not prev.endswith('L') else '~~~'} {nid}")
@@ -249,7 +251,7 @@ if not INLINE: L.append("    style KEY fill:#fafafa,stroke:#999,stroke-dasharray
 pre = L[:SECT[0]]; secs = [L[SECT[i]:SECT[i+1]] for i in range(len(SECT)-1)]; tail = L[SECT[-1]:]
 L[:] = pre + [x for sec in reversed(secs) for x in sec] + tail
 for h in cls["hdr"]:
-    L.append(f"    style {h} color:#1a1a1a,font-size:36px,font-weight:800")
+    L.append(f"    style {h} color:#111,font-size:36px,font-weight:800")
 for h in cls["hrest"]:
     L.append(f"    style {h} color:#b5b0a5,font-size:36px")
 for r, c in COLOR.items():
@@ -262,7 +264,6 @@ L += [
  "    classDef hrest fill:none,stroke:none,color:#aaa,font-size:22px",
  "    classDef rest fill:#eee,color:#888,stroke:#ccc,stroke-dasharray:4 3",
  "    classDef sp fill:none,stroke:none,color:transparent",
- "    classDef cell fill:#ffffffaa,stroke:#bbb,stroke-dasharray:3 3,color:#999",
  "    classDef gridc fill:none,stroke:none",
  "    classDef dst fill:#fff,stroke:#7b2d8e,stroke-dasharray:4 3,color:#333,font-size:22px",
  "    linkStyle default stroke:#888",
