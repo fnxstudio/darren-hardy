@@ -42,6 +42,10 @@ ART = {
 }
 ART["salespagelive"] = ART["salespage"] + LIVE
 ART["spiffylive"] = ART["loveform"].replace("#1f5fa8", "#222").replace("#e3eefb", "#ddd").replace(LIVE, "") + CART + LIVE
+ART["pumpkin"] = ("<path d='M50 22c0-9 5-16 12-19' stroke='#4d6b1f' stroke-width='7' fill='none'/>"
+    "<ellipse cx='28' cy='58' rx='25' ry='32' fill='#d9661a'/><ellipse cx='72' cy='58' rx='25' ry='32' fill='#d9661a'/>"
+    "<ellipse cx='50' cy='58' rx='24' ry='34' fill='#f28a2e'/>"
+    "<path d='M27 50l9-11 9 11zM55 50l9-11 9 11zM44 62l6-7 6 7zM26 70q24 18 48 0l-7 3-5 6-6-5-6 5-6-5-6 5-5-6z' fill='#3b2208'/>")
 NAME = {"email":"Email","video":"DH video","sms":"SMS","vm":"DropCowboy","dd":"DarrenDaily","ddod":"DDOD",
         "social":"Social","hc":"Hardy Club post","stage":"On stage"}
 
@@ -64,7 +68,8 @@ def img(kind, badge=None):
     if kind == "email" and badge:
         c, t = ("#c9a227", "#fff4d6") if badge == OPEN else ("#b00020", "#fdecec")
         art = art.replace("#222", c).replace("#ddd", t).replace("fill='#fff'", f"fill='{t}'", 1)
-    svg = HEAD + art + ("" if INLINE else (badge or "")) + "</svg>"
+    head = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 92'>" if kind == "pumpkin" else HEAD
+    svg = head + art + ("" if INLINE else (badge or "")) + "</svg>"
     open(os.path.join(OUTDIR, name), "w").write(svg.replace("'", '"'))
     if INLINE:
         svg = mini(svg)
@@ -98,7 +103,7 @@ rows = [
 
 W, H = 62, 79
 L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms by audience" + (" · KEY · gold envelope = opening day · red envelope = closedown · page with cart = pre-print page" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
-cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[]}
+cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[]}
 
 IMGS = []
 def node(nid, kind, label, badge=None, w=None, h=None):
@@ -140,6 +145,10 @@ for cid,_,_ in cols:
         node(nid, "stage", "<b>On stage</b><br/>Gold/Silver/Elite<br/>name in book")
     elif cid == "c22":
         node(nid, "email", "<b>Love-form closedown</b><br/>own schedule")
+    elif cid == "c31":
+        node(nid, "pumpkin", " ", w=230, h=212)   # Halloween
+    elif cid == "c01":
+        L.append(f'        {nid}["<b>Daylight saving ends</b><br/>2am · clocks fall back 1 hr"]'); cls["dst"].append(nid)
     else:
         L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
     if prev: L.append(f"        {prev} {'-->' if cid=='c22' else '~~~'} {nid}")
@@ -255,6 +264,7 @@ L += [
  "    classDef sp fill:none,stroke:none,color:transparent",
  "    classDef cell fill:#ffffffaa,stroke:#bbb,stroke-dasharray:3 3,color:#999",
  "    classDef gridc fill:none,stroke:none",
+ "    classDef dst fill:#fff,stroke:#7b2d8e,stroke-dasharray:4 3,color:#333,font-size:22px",
  "    linkStyle default stroke:#888",
 ]
 open(sys.argv[1],"w").write("\n".join(L)+"\n")
