@@ -39,25 +39,25 @@ a{color:inherit}
 .tiers{background:var(--wash);padding:72px 0}
 .h2{margin:0 0 8px;font-size:clamp(24px,2.6vw,32px);line-height:1.15;font-weight:800;letter-spacing:-.015em}
 .sub{margin:0 0 36px;font-size:16px;color:var(--dim)}
-.tier-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
-.tier{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:2px;padding:28px 26px 26px;transition:border-color .2s,box-shadow .2s}
+.tier-grid{display:flex;flex-direction:column;gap:16px}
+.tier{display:grid;grid-template-columns:170px minmax(0,1fr) 316px;gap:32px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:2px;padding:28px 30px;transition:border-color .2s,box-shadow .2s}
 .tier.is-selected{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .tier-qty{margin:0 0 4px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 .tier-price{margin:0 0 4px;font-size:32px;font-weight:800;letter-spacing:-.02em}
 .tier-price small{font-size:16px;font-weight:600;color:var(--dim)}
-.tier-was{margin:0 0 22px;font-size:14px;color:var(--dim)}
-.tier-was s{color:var(--dim)}
-.tier-list{margin:0 0 24px;padding:0;list-style:none;flex:1}
-.tier-list li{position:relative;padding:0 0 12px 22px;font-size:15px;line-height:1.5;color:var(--txt)}
-.tier-list li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;background:var(--red);border-radius:1px}
+.tier-was{margin:0;font-size:14px;color:var(--dim)}
+.tier-list{margin:0;padding:0;list-style:none}
+.tier-list li{position:relative;padding:4px 0 4px 22px;font-size:16px;line-height:1.5;color:var(--txt)}
+.tier-list li::before{content:"";position:absolute;left:2px;top:13px;width:7px;height:7px;background:var(--red);border-radius:1px}
 .tier-list b{color:var(--ink)}
 .limit{color:var(--red);font-weight:600}
-.collector{margin:6px 0 4px;padding:16px;background:var(--wash);border-radius:2px}
-.collector-img{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;margin:0 0 12px;border:1px dashed #b9b5ae;border-radius:2px;font-size:12px;line-height:1.4;text-align:center;color:var(--dim);padding:12px}
+.collector{display:grid;grid-template-columns:132px minmax(0,1fr);gap:16px;align-items:start;margin:14px 0 0;padding:14px;background:var(--wash);border-radius:2px}
+.collector-img{display:flex;align-items:center;justify-content:center;aspect-ratio:3/4;border:1px dashed #b9b5ae;border-radius:2px;font-size:11px;line-height:1.35;text-align:center;color:var(--dim);padding:8px}
 .collector p{margin:0 0 6px;font-size:14px;line-height:1.5;color:var(--txt)}
 .collector p:last-child{margin:0}
 .collector b{color:var(--ink)}
-.tier-btn{width:100%;justify-content:center;text-align:center}
+.tier-cta{display:flex;flex-direction:column}
+.tier-btn{width:100%;justify-content:center;text-align:center;white-space:nowrap;padding:16px 18px;font-size:15px}
 .tier.is-selected .tier-btn{background:var(--red)}
 .tier-note{margin:10px 0 0;font-size:13px;line-height:1.45;text-align:center;color:var(--dim)}
 
@@ -86,7 +86,8 @@ a{color:inherit}
 .foot a:hover{text-decoration:underline}
 
 @media (max-width:991px){
-  .tier-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+  .tier{grid-template-columns:160px minmax(0,1fr);gap:20px 28px}
+  .tier-cta{grid-column:1/-1}
   .invite-grid{grid-template-columns:220px 1fr;gap:40px}
 }
 @media (max-width:767px){
@@ -94,6 +95,9 @@ a{color:inherit}
   .invite{padding:28px 0 56px}
   .invite-grid{grid-template-columns:1fr;gap:28px}
   .cover{width:180px}
+  .tier{grid-template-columns:1fr;padding:24px 20px}
+  .collector{grid-template-columns:96px minmax(0,1fr)}
+  .tier-btn{white-space:normal}
   .perks li{font-size:16px}
   .tiers,.order{padding:56px 0}
 }
@@ -126,45 +130,46 @@ a{color:inherit}
 
       <div class="tier-grid">
         <article class="tier" data-tier="3">
-          <p class="tier-qty">3 Books</p>
+          <div class="tier-head"><p class="tier-qty">3 Books</p>
           <p class="tier-price">$24.95 <small>/ea</small></p>
-          <p class="tier-was"><s>$29.95</s> · $74.85 total</p>
-          <ul class="tier-list">
+          <p class="tier-was"><s>$29.95</s> · $74.85 total</p></div>
+          <div class="tier-body"><ul class="tier-list">
             <li><b>Pre-release hardcovers</b> delivered months before the public launch.</li>
-          </ul>
-          <a class="btn tier-btn" href="#order" data-tier="3">Reserve my 3 hardcovers <span class="arr" aria-hidden="true">→</span></a>
-          <p class="tier-note">Shipped before public launch</p>
+          </ul></div>
+          <div class="tier-cta"><a class="btn tier-btn" href="#order" data-tier="3">Reserve my 3 hardcovers <span class="arr" aria-hidden="true">→</span></a>
+          <p class="tier-note">Shipped before public launch</p></div>
         </article>
 
         <article class="tier" data-tier="10">
-          <p class="tier-qty">10 Books</p>
+          <div class="tier-head"><p class="tier-qty">10 Books</p>
           <p class="tier-price">$19.95 <small>/ea</small></p>
-          <p class="tier-was"><s>$29.95</s> · $199.50 total</p>
-          <ul class="tier-list">
+          <p class="tier-was"><s>$29.95</s> · $199.50 total</p></div>
+          <div class="tier-body"><ul class="tier-list">
             <li><b>Pre-release hardcovers</b> delivered months before the public launch.</li>
             <li><b>Your name</b> printed in the book.</li>
-          </ul>
-          <a class="btn tier-btn" href="#order" data-tier="10">Get my name in the book <span class="arr" aria-hidden="true">→</span></a>
-          <p class="tier-note">Includes 10 hardcovers</p>
+          </ul></div>
+          <div class="tier-cta"><a class="btn tier-btn" href="#order" data-tier="10">Get my name in the book <span class="arr" aria-hidden="true">→</span></a>
+          <p class="tier-note">Includes 10 hardcovers</p></div>
         </article>
 
         <article class="tier" data-tier="100">
-          <p class="tier-qty">100 Books</p>
+          <div class="tier-head"><p class="tier-qty">100 Books</p>
           <p class="tier-price">$9.95 <small>/ea</small></p>
-          <p class="tier-was"><s>$29.95</s> · $995 total</p>
-          <ul class="tier-list">
+          <p class="tier-was"><s>$29.95</s> · $995 total</p></div>
+          <div class="tier-body"><ul class="tier-list">
             <li><b>Pre-release hardcovers</b> delivered months before the public launch.</li>
             <li><b>Your name</b> printed in the book.</li>
             <li><b>Your headshot</b> printed in the book. <span class="limit">Limited to 100.</span></li>
           </ul>
           <div class="collector">
             <div class="collector-img">Photo needed: The Compound Effect leatherbound collector's edition</div>
-            <p><b>PLUS, receive a rare limited-edition leatherbound collector's edition of the first book:</b> <i>The Compound Effect: Jumpstart Your Income, Your Life, Your Success.</i></p>
-            <p>Personally signed and numbered by Darren. Only 500 ever produced.</p>
-          </div>
-          <div style="height:22px"></div>
-          <a class="btn tier-btn" href="#order" data-tier="100">Get my name + headshot in the book <span class="arr" aria-hidden="true">→</span></a>
-          <p class="tier-note">Includes 100 hardcovers + <i>The Compound Effect</i> leatherbound collector's edition</p>
+            <div>
+              <p><b>PLUS, receive a rare limited-edition leatherbound collector's edition of the first book:</b> <i>The Compound Effect: Jumpstart Your Income, Your Life, Your Success.</i></p>
+              <p>Personally signed and numbered by Darren. Only 500 ever produced.</p>
+            </div>
+          </div></div>
+          <div class="tier-cta"><a class="btn tier-btn" href="#order" data-tier="100">Get my name + headshot in the book <span class="arr" aria-hidden="true">→</span></a>
+          <p class="tier-note">Includes 100 hardcovers + <i>The Compound Effect</i> leatherbound collector's edition</p></div>
         </article>
       </div>
     </div>
