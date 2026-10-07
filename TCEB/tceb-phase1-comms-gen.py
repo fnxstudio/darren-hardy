@@ -90,7 +90,7 @@ SPIFFY_URL = "https://secure.darrenhardy.com/checkout/bmc45-love-form"
 PAGE_URL = {"B": "https://www.hardybmc.com/love",
             "E": None, "A": None, "M": None, "D": None}   # pre-print /preorder: fill in when live
 rows = [
- ("E","EL","WAVE 1 · ELITES (not at BMC45)","c22",["video","sms","vm"],["sms","vm"],"Elite","#fff8e1","#c9a227"),
+ ("E","EL","WAVE 1 · ELITES (not at BMC45)","c22",["sms","vm"],["sms","vm"],"Elite","#fff8e1","#c9a227"),
  ("A","AL","WAVE 2 · BMC ALUMNI (excl. BMC45 attendees)","c23",["sms"],["sms"],"Alumni","#e8f1fc","#1f5fa8"),
  ("M","MB","WAVE 3 · MEMBERS: RIV · HJ · IPL · JST · eFP + HARDY CLUB","c26",["sms","hc"],["sms","hc"],"Member","#e6f4f1","#00796b"),
  ("D","DB","WAVE 4 · FULL DATABASE + DARRENDAILY SUBSCRIBERS","c27",["dd","ddod","social"],["sms","ddod","social"],"Public","#fdeeee","#b00020"),
