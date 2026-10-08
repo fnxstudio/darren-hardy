@@ -75,6 +75,15 @@ body, .checkout, .checkout input, .checkout select, .checkout textarea,
   display: none !important;
 }
 
+/* ---- 5b. Hide the whole "Select an option below" box ONCE A BUNDLE IS SELECTED ----
+   With the pre-select fix, the bundle chosen on our page arrives already selected,
+   so the box never shows. Fail-safe: if nothing is selected (pre-select not working,
+   or someone opens the checkout directly), the box stays visible so a bundle can
+   still be chosen and the order can't get stuck. */
+#section-333440:has(.option-button-auto-width--selected) {
+  display: none !important;
+}
+
 /* ---- 6. 3 / 10 / 100 option buttons: red outline, solid red when picked ---- */
 .checkout .option-button-auto-width:not(.option-button-auto-width--pill) {
   opacity: 1 !important;

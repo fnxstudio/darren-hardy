@@ -63,12 +63,23 @@ footer{padding:32px 0 48px;font-size:12px;color:var(--grey)}
       <button type="button" aria-pressed="false" data-view="phone">Phone</button>
     </div>
     <div class="pair" id="pair-desktop">
-      <figure class="shot"><figcaption>Before · as it is today</figcaption><img src="spiffy-preview/desktop-before.webp" width="1520" height="3044" alt="The checkout today: pink total, pale pink option buttons, dark red button, Lato type"></figure>
-      <figure class="shot"><figcaption><b>After</b> · with the CSS</figcaption><img src="spiffy-preview/desktop-after.webp" width="1520" height="2804" alt="The checkout with the brand CSS: grey total, red outline option buttons, red button, Inter type"></figure>
+      <figure class="shot"><figcaption>Before · as it is today</figcaption><img src="spiffy-preview/desktop-before.webp?v=2" width="1520" height="3044" alt="The checkout today: pink total, pale pink option buttons, dark red button, Lato type"></figure>
+      <figure class="shot"><figcaption><b>After</b> · bundle arrives picked</figcaption><img src="spiffy-preview/desktop-after.webp?v=2" width="1520" height="2554" alt="The checkout with the brand CSS: grey total, red outline option buttons, red button, Inter type"></figure>
     </div>
     <div class="pair is-phone" id="pair-phone" hidden>
-      <figure class="shot"><figcaption>Before · as it is today</figcaption><img src="spiffy-preview/phone-before.webp" width="780" height="3872" alt="The checkout today on a phone" loading="lazy"></figure>
-      <figure class="shot"><figcaption><b>After</b> · with the CSS</figcaption><img src="spiffy-preview/phone-after.webp" width="780" height="3492" alt="The checkout with the brand CSS on a phone" loading="lazy"></figure>
+      <figure class="shot"><figcaption>Before · as it is today</figcaption><img src="spiffy-preview/phone-before.webp?v=2" width="780" height="3872" alt="The checkout today on a phone" loading="lazy"></figure>
+      <figure class="shot"><figcaption><b>After</b> · bundle arrives picked</figcaption><img src="spiffy-preview/phone-after.webp?v=2" width="780" height="3138" alt="The checkout with the brand CSS on a phone" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>The fail-safe</h2>
+    <p class="lede" style="margin:0 0 28px">If the pre-select fix isn't working, or someone opens the checkout link directly, no bundle is picked. The box stays visible so they can still choose.</p>
+    <div class="pair">
+      <figure class="shot"><figcaption>Desktop · nothing picked yet</figcaption><img src="spiffy-preview/desktop-failsafe.webp" width="1520" height="2756" alt="Checkout with the CSS and no bundle picked: the bundle box is visible" loading="lazy"></figure>
+      <figure class="shot"><figcaption>Phone · nothing picked yet</figcaption><img src="spiffy-preview/phone-failsafe.webp" width="780" height="3342" alt="Checkout on a phone with no bundle picked: the bundle box is visible" loading="lazy" style="max-width:390px"></figure>
     </div>
   </div>
 </section>
@@ -85,7 +96,7 @@ footer{padding:32px 0 48px;font-size:12px;color:var(--grey)}
         <li><b>Total:</b> neutral grey band with a black price, instead of pink and red.</li>
         <li><b>Prices in the option buttons:</b> grey instead of green.</li>
         <li><b>Complete Purchase:</b> the brand red, uppercase, soft shadow, lifts on hover and never darkens.</li>
-        <li><b>The tier blurb</b> ("Achiever (3 Books)..."): hidden, because our cards already say it.</li>
+        <li><b>The whole "Select an option below" box:</b> hidden once a bundle is picked, because our cards already did the picking. The form starts at Contact Information.</li>
       </ul>
     </div>
     <div>
@@ -104,7 +115,7 @@ footer{padding:32px 0 48px;font-size:12px;color:var(--grey)}
   <div class="wrap">
     <h2>Worth knowing</h2>
     <p class="flag"><b>An exit-discount banner is set up on this checkout.</b> It has an "Apply Discount" button and a countdown timer. It's hidden until Spiffy decides to show it (usually when someone moves to leave the page), so it isn't in the screenshots. For an un-marketing page you may want it turned off in Spiffy. The CSS leaves it alone, because that's a business call, not a styling one.</p>
-    <p class="flag"><b>The 3 / 10 / 100 buttons stay visible on purpose.</b> Until the "pre-select from the link" fix is done in Spiffy, those buttons are how buyers pick their bundle inside the form. Once the fix works, one more line can hide them.</p>
+    <p class="flag"><b>The bundle box hides itself only when a bundle is already picked.</b> Once the "pre-select from the link" fix is done, the bundle chosen on our page arrives picked, so the box never shows. If the fix isn't working yet, nothing is picked, so the box stays visible and buyers can still choose. The checkout can't get stuck either way. (One side effect in that case: after a buyer picks inside the form, the box tucks away.)</p>
     <p class="flag"><b>This CSS only affects this one checkout.</b> It's added inside this checkout's own Design tab, so no other Spiffy checkout changes.</p>
   </div>
 </section>
@@ -196,6 +207,15 @@ body, .checkout, .checkout input, .checkout select, .checkout textarea,
 
 /* ---- 5. The tier blurb repeats the cards on our page: hide it ---- */
 #block-370970 {
+  display: none !important;
+}
+
+/* ---- 5b. Hide the whole &quot;Select an option below&quot; box ONCE A BUNDLE IS SELECTED ----
+   With the pre-select fix, the bundle chosen on our page arrives already selected,
+   so the box never shows. Fail-safe: if nothing is selected (pre-select not working,
+   or someone opens the checkout directly), the box stays visible so a bundle can
+   still be chosen and the order can&#x27;t get stuck. */
+#section-333440:has(.option-button-auto-width--selected) {
   display: none !important;
 }
 
