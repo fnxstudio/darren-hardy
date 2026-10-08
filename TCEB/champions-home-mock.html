@@ -293,6 +293,20 @@
   .stop.now span { color: var(--gold-ink); font-weight: 800; }
   .stop .pl { display: block; margin: 12px auto 0; max-width: 150px; padding: 10px 10px; font-style: normal; font-size: 13px; line-height: 1.35; color: #000; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
   .stop.now .pl { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+  a.stop { color: inherit; } a.stop.now .pl { transition: transform .25s var(--ease); } a.stop.now:hover .pl { transform: translateY(-3px); }
+  .stop .pl small { display: block; margin-top: 6px; font: 800 10.5px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--grey); }
+  .stop .pl small.go { color: var(--gold-ink); }
+  .stop.locked b { color: #b5b5b5; letter-spacing: .2em; }
+  .stop.locked .pl { background: repeating-linear-gradient(135deg, #fafafa 0 8px, #f2f2f2 8px 16px); }
+  .stop.locked .blur { display: block; filter: blur(5px); user-select: none; color: #555; }
+  .now-card { margin-top: 44px; display: grid; grid-template-columns: auto 1fr auto auto; gap: 28px; align-items: center; padding: 24px 28px; background: #fff; border: 2px solid var(--gold); border-radius: 14px; box-shadow: 0 18px 40px rgba(0,0,0,.08); transition: transform .25s var(--ease); }
+  .now-card:hover { transform: translateY(-3px); }
+  .nc-live { display: inline-flex; align-items: center; gap: 8px; font: 800 11px var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--red); white-space: nowrap; }
+  .nc-live i { width: 8px; height: 8px; border-radius: 50%; background: var(--red); animation: pulse 1.8s ease-in-out infinite; }
+  .nc-copy b { font: 600 34px/1 var(--display); text-transform: uppercase; color: #000; }
+  .nc-copy p { margin-top: 6px; font-size: 15px; color: var(--grey); max-width: 40em; }
+  .nc-end { text-align: right; white-space: nowrap; } .nc-end b { display: block; font: 600 26px/1 var(--display); color: #000; text-transform: uppercase; margin-top: 4px; }
+  @media (max-width: 900px) { .now-card { grid-template-columns: 1fr; gap: 14px; } .nc-end { text-align: left; } .now-card .btn { justify-self: start; } }
   @media (max-width: 860px) {
     .track { grid-template-columns: 1fr; gap: 18px; }
     .track::before { left: 12px; right: auto; top: 0; bottom: 0; width: 3px; height: auto; background: #cfcfcf; }
@@ -479,13 +493,19 @@
     <p class="lede">The count runs all season, and each stretch brings a new reason for a leader to say yes. Wherever you start, there is a play to run this week.</p>
     <div class="track">
       <div class="stop done"><i></i><b>Pre-print</b><span>Oct 22 to Nov 1</span><em class="pl">Name a leader and their name goes in the book</em></div>
-      <div class="stop now"><i></i><b>Hardy Harvest</b><span>Now · ends Nov 12</span><em class="pl">Two seats, and Darren sends you both a turkey</em></div>
-      <div class="stop"><i></i><b>The Challenge</b><span>Dec 8 to 13</span><em class="pl">Send them three days with Darren first</em></div>
-      <div class="stop"><i></i><b>Year-end</b><span>Dec 14 to 31</span><em class="pl">Put your leadership team in your 2027 plan</em></div>
-      <div class="stop"><i></i><b>Q1 stretch</b><span>Jan to Mar</span><em class="pl">Share Darren's podcast interviews <span class="ph">[confirm]</span></em></div>
+      <a class="stop now" href="#harvest"><i></i><b>Hardy Harvest</b><span>Live now · ends Nov 12</span><em class="pl">Two seats, and Darren sends you both a turkey<small class="go">See the details &rarr;</small></em></a>
+      <div class="stop locked"><i></i><b>? ? ?</b><span>Dec 8 to 13</span><em class="pl"><span class="blur">A new play for this stretch</span><small>Unlocks Dec 8</small></em></div>
+      <div class="stop locked"><i></i><b>? ? ?</b><span>Dec 14 to 31</span><em class="pl"><span class="blur">A new play for this stretch</span><small>Unlocks Dec 14</small></em></div>
+      <div class="stop locked"><i></i><b>? ? ?</b><span>Jan to Mar</span><em class="pl"><span class="blur">A new play for this stretch</span><small>Unlocks in January</small></em></div>
       <div class="stop"><i></i><b>Final count</b><span><span class="ph">Mar 31</span></span><em class="pl">The last impacts land, and the board locks</em></div>
       <div class="stop"><i></i><b>In Studio</b><span>April 2027</span><em class="pl">Three days live with Darren</em></div>
     </div>
+    <a class="now-card" id="harvest" href="#">
+      <span class="nc-live"><i></i>Live now</span>
+      <div class="nc-copy"><b>Hardy Harvest</b><p>Invest in two seats this week, and Darren sends a turkey to both of you for Thanksgiving, with a card from him. Name your second leader by Nov 16. Both count as impacts.</p></div>
+      <div class="nc-end"><span class="lab">Ends</span><b>Thurs., Nov 12th</b></div>
+      <span class="btn btn-solid">Get the details <span class="arw">&rarr;</span></span>
+    </a>
   </div>
 </section>
 
