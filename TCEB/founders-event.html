@@ -994,67 +994,39 @@
   tick();
 
 
-  // Hero field: a wall of live screens that light up by compounding.
-  // One screen, then 2, 4, 8... each lit screen lights a neighbour every beat, until the wall is full; then it rests and starts again.
+  // Hero field: a wall of live screens, seen from the dark
   (function () {
     var c = document.getElementById('field'); if (!c || !c.getContext) return;
     var x = c.getContext('2d'), hero = document.getElementById('hero');
-    var dpr = Math.min(window.devicePixelRatio || 1, 2), W, H, cols, rows, cells = [], lit = [], cw = 26, ch = 16, gap = 7;
-    var last = 0, nextBeat = 0, BEAT = 520, phase = 'grow', phaseAt = 0;
-    var OFF = .028, ON_MIN = .16, ON_RANGE = .2;
-    function idx(cx, cy) { return cy * cols + cx; }
+    var dpr = Math.min(window.devicePixelRatio || 1, 2), W, H, cells = [], cw = 26, ch = 16, gap = 7, last = 0;
     function build() {
       W = c.clientWidth; H = c.clientHeight; c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cols = Math.ceil(W / (cw + gap)); rows = Math.ceil(H / (ch + gap)); cells = [];
-      for (var cy = 0; cy < rows; cy++) for (var cx = 0; cx < cols; cx++)
-        cells.push({ cx: cx, cy: cy, b: OFF, t: OFF, on: false, g: Math.random() < .16 });
-      if (reduce) { cells.forEach(function (k) { k.on = true; k.b = k.t = ON_MIN + Math.random() * ON_RANGE; }); draw(); return; }
-      seed();
-    }
-    function light(k) { k.on = true; k.t = ON_MIN + Math.random() * ON_RANGE; lit.push(k); }
-    function seed() {
-      lit = []; cells.forEach(function (k) { k.on = false; k.t = OFF; });
-      // start in the visible band of the tilted wall, just off centre
-      var sx = Math.floor(cols * (.35 + Math.random() * .3)), sy = Math.floor(rows * (.6 + Math.random() * .2));
-      light(cells[idx(sx, sy)]); phase = 'grow';
-    }
-    function beat() {
-      if (phase !== 'grow') return;
-      var born = [], n = lit.length;
-      for (var i = 0; i < n; i++) {
-        var k = lit[i], opts = [];
-        [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]].forEach(function (d) {
-          var nx = k.cx + d[0], ny = k.cy + d[1];
-          if (nx >= 0 && ny >= 0 && nx < cols && ny < rows) { var m = cells[idx(nx, ny)]; if (!m.on) opts.push(m); }
-        });
-        if (!opts.length) { var tries = 6; while (tries--) { var r = cells[(Math.random() * cells.length) | 0]; if (!r.on) { opts.push(r); break; } } }
-        if (opts.length) { var pick = opts[(Math.random() * opts.length) | 0]; if (!pick.on) { pick.on = true; pick.t = ON_MIN + Math.random() * ON_RANGE; born.push(pick); } }
+      cells = [];
+      for (var yy = 0; yy < H; yy += ch + gap) for (var xx = 0; xx < W; xx += cw + gap) {
+        var b = Math.random() * .09 + .025;
+        cells.push({ x: xx, y: yy, b: b, t: b, g: Math.random() < .16 });
       }
-      lit = lit.concat(born);
-      if (lit.length >= cells.length * .97) { phase = 'hold'; phaseAt = performance.now(); }
+      draw(true);
     }
-    function draw() {
-      var lt = document.documentElement.getAttribute('data-theme') === 'light';
+    function draw(all) {
+      var light = document.documentElement.getAttribute('data-theme') === 'light';
       x.clearRect(0, 0, W, H);
       for (var i = 0; i < cells.length; i++) {
         var k = cells[i];
-        k.b += (k.t - k.b) * .12;
-        x.fillStyle = lt ? (k.g ? 'rgba(225,19,46,' + (k.b * .9).toFixed(3) + ')' : 'rgba(0,0,0,' + (k.b * .7).toFixed(3) + ')')
-                         : (k.g ? 'rgba(212,160,23,' + (k.b * 1.25).toFixed(3) + ')' : 'rgba(225,225,225,' + k.b.toFixed(3) + ')');
-        x.fillRect(k.cx * (cw + gap), k.cy * (ch + gap), cw, ch);
+        if (!all) { if (Math.random() < .012) k.t = Math.random() < .06 ? .34 + Math.random() * .2 : Math.random() * .09 + .025; k.b += (k.t - k.b) * .08; }
+        x.fillStyle = light ? (k.g ? 'rgba(225,19,46,' + (k.b * .9).toFixed(3) + ')' : 'rgba(0,0,0,' + (k.b * .7).toFixed(3) + ')')
+                            : (k.g ? 'rgba(212,160,23,' + (k.b * 1.25).toFixed(3) + ')' : 'rgba(225,225,225,' + k.b.toFixed(3) + ')');
+        x.fillRect(k.x, k.y, cw, ch);
       }
     }
     function loop(t) {
       requestAnimationFrame(loop);
       if (t - last < 40) return; last = t;
       if (hero.getBoundingClientRect().bottom < 0) return;
-      if (phase === 'grow' && t >= nextBeat) { beat(); nextBeat = t + BEAT; }
-      if (phase === 'hold' && t - phaseAt > 3500) { phase = 'fade'; phaseAt = t; cells.forEach(function (k) { k.t = OFF; }); }
-      if (phase === 'fade' && t - phaseAt > 1800) { seed(); nextBeat = t + BEAT; }
-      draw();
+      draw(false);
     }
-    build(); window.addEventListener('resize', build); window.__fieldRedraw = draw;
-    if (!reduce) { nextBeat = performance.now() + 900; requestAnimationFrame(loop); }
+    build(); window.addEventListener('resize', build); window.__fieldRedraw = function () { draw(true); };
+    if (!reduce) requestAnimationFrame(loop);
   })();
 
 
