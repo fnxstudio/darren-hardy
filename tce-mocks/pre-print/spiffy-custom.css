@@ -1,136 +1,48 @@
-/* ==========================================================================
-   TCEB pre-print checkout: Spiffy Custom CSS
-   Paste into: Spiffy > Checkouts > the-compound-effect-pre-print > Design > Custom CSS
-   Affects THIS checkout only. Shows on the live (published) checkout, not in the editor preview.
-   Matches the TCEB Brand & Design System (7 Oct 2026): white ground, Inter, red #E1132E,
-   2px corners, borders not shadows, nothing darkens on hover.
-   ========================================================================== */
+/* TCEB pre-print checkout. Spiffy > this checkout > Design > Custom CSS. Affects this checkout only. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-/* ---- 1. Spiffy's own theme colours, re-pointed to the brand ----
-   Spiffy writes these onto the form from the Design tab. Overriding them here
-   recolours every place Spiffy uses them (option buttons, total, links, loader, button). */
-:root,
+/* Spiffy's theme colours, re-pointed to the brand */
 .checkout {
   --brand-main: #e1132e !important;
   --brand-light: #f0f0f0 !important;
-  --brand-dark: #000000 !important;
   --ch-btn-color: #e1132e !important;
-  --ch-btn-text-color: #ffffff !important;
-  --ch-btn-hover-color: #e1132e !important;      /* nothing darkens on hover */
+  --ch-btn-hover-color: #e1132e !important;
   --option-btn: #e1132e !important;
-  --option-btn-bg-color: #ffffff !important;
+  --option-btn-bg-color: #fff !important;
   --option-btn-border-color: #e1132e !important;
-  --order-total: #000000 !important;
+  --order-total: #000 !important;
   --order-total-bg: #f0f0f0 !important;
   --general-price: #6e6e6e !important;
   --general-price-bg: transparent !important;
-  --link: #000000 !important;
-  --link-hover: #000000 !important;
-  --loader: #e1132e !important;
-  --form-focus: #000000 !important;
+  --link: #000 !important;
+  --link-hover: #000 !important;
+  --form-focus: #000 !important;
   --form-control-radius: 2px !important;
   --form-control-border: #e2e2e2 !important;
-  --form-control-border-hover: #b3b3b3 !important;
-  --form-control-text: #000000 !important;
-  --form-label-color: #262626 !important;
-  --font-family-sans-serif: 'Inter', -apple-system, 'Segoe UI', sans-serif !important;
 }
 
-/* ---- 2. Ground + type ---- */
-body {
-  background: #ffffff !important;
-}
-body, .checkout, .checkout input, .checkout select, .checkout textarea,
-.checkout button, .checkout label, .checkout h1, .checkout h2, .checkout h3,
-.checkout h4, .checkout h5, .checkout h6, .checkout p, .checkout .btn {
-  font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif !important;
+body { background: #fff !important; }
+body, .checkout input, .checkout select, .checkout button, .checkout label, .checkout h5, .checkout h6 {
+  font-family: 'Inter', sans-serif !important;
 }
 
-/* ---- 3. Section cards: hairline border, 2px corners, no shadow ---- */
-.checkout .card,
-.checkout .section__inner,
-.checkout .payment-gateway {
-  border-radius: 2px !important;
-  box-shadow: none !important;
-}
-.checkout .section__inner.card-body,
-.checkout .payment-gateway,
-.checkout .order-summary .card-body {
-  border: 1px solid #e2e2e2 !important;
-}
+/* Boxes: hairline border, 2px corners, no shadow */
+.checkout .card, .checkout .section__inner, .checkout .payment-gateway { border-radius: 2px !important; box-shadow: none !important; }
+.checkout .section__inner.card-body, .checkout .payment-gateway, .checkout .order-summary .card-body { border: 1px solid #e2e2e2 !important; }
+.checkout h6, .checkout .option-button-auto-width h5 { font-size: 12px !important; font-weight: 700 !important; letter-spacing: .08em !important; text-transform: uppercase !important; color: inherit; }
 
-/* ---- 4. Section titles (Contact Information, Billing Info, payment rows) ---- */
-.checkout h6 {
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  letter-spacing: .08em !important;
-  text-transform: uppercase !important;
-  color: #000000 !important;
-}
+/* Hide the tier blurb; hide the whole bundle box once a bundle is selected (stays visible if nothing is) */
+#block-370970, #section-333440:has(.option-button-auto-width--selected) { display: none !important; }
 
-/* ---- 5. The tier blurb repeats the cards on our page: hide it ---- */
-#block-370970 {
-  display: none !important;
-}
-
-/* ---- 5b. Hide the whole "Select an option below" box ONCE A BUNDLE IS SELECTED ----
-   With the pre-select fix, the bundle chosen on our page arrives already selected,
-   so the box never shows. Fail-safe: if nothing is selected (pre-select not working,
-   or someone opens the checkout directly), the box stays visible so a bundle can
-   still be chosen and the order can't get stuck. */
-#section-333440:has(.option-button-auto-width--selected) {
-  display: none !important;
-}
-
-/* ---- 6. 3 / 10 / 100 option buttons: red outline, solid red when picked ---- */
-.checkout .option-button-auto-width:not(.option-button-auto-width--pill) {
-  opacity: 1 !important;
-  border-width: 1.5px !important;
-  border-radius: 2px !important;
-  transition: background-color .2s, color .2s !important;
-}
-.checkout .option-button-auto-width h5 {
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  letter-spacing: .08em !important;
-  text-transform: uppercase !important;
-}
+/* Bundle buttons: red outline, solid red when picked */
+.checkout .option-button-auto-width:not(.option-button-auto-width--pill) { opacity: 1 !important; border-width: 1.5px !important; border-radius: 2px !important; box-shadow: none !important; }
 .checkout .option-button-auto-width.option-button-auto-width--selected:not(.option-button-auto-width--pill),
-.checkout .option-button-auto-width:not(.option-button-auto-width--pill):hover {
-  background-color: #e1132e !important;
-  color: #ffffff !important;
-  opacity: 1 !important;
-}
-.checkout .option-button-auto-width.option-button-auto-width--selected *,
-.checkout .option-button-auto-width:hover * {
-  color: #ffffff !important;
-}
-.checkout .option-button-auto-width:focus-within {
-  box-shadow: none !important;
-}
+.checkout .option-button-auto-width:not(.option-button-auto-width--pill):hover { background-color: #e1132e !important; color: #fff !important; }
+.checkout .option-button-auto-width--selected *, .checkout .option-button-auto-width:hover * { color: #fff !important; }
 
-/* ---- 7. Payment rows: the selected one gets an ink edge, not a red box ---- */
-.checkout .payment-type--selected {
-  border-color: #000000 !important;
-}
-.checkout .payment-type--selected h6 {
-  color: #000000 !important;
-}
+.checkout .payment-type--selected { border-color: #000 !important; }
+.checkout h6 { color: #000 !important; }
 
-/* ---- 8. Complete Purchase: the brand's solid red button ---- */
-.checkout button[id^="checkoutButton"] {
-  border: 0 !important;
-  border-radius: 2px !important;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, .16) !important;
-  font-size: 14px !important;
-  font-weight: 700 !important;
-  letter-spacing: .08em !important;
-  text-transform: uppercase !important;
-  padding: 18px 24px !important;
-  transition: transform .22s cubic-bezier(.2, .8, .2, 1) !important;
-}
-.checkout button[id^="checkoutButton"]:hover {
-  transform: translateY(-3px) scale(1.02);
-}
+/* Complete Purchase */
+.checkout button[id^="checkoutButton"] { border: 0 !important; border-radius: 2px !important; box-shadow: 0 10px 22px rgba(0,0,0,.16) !important; font-size: 14px !important; font-weight: 700 !important; letter-spacing: .08em !important; text-transform: uppercase !important; padding: 18px 24px !important; transition: transform .22s !important; }
+.checkout button[id^="checkoutButton"]:hover { transform: translateY(-3px) scale(1.02); }
