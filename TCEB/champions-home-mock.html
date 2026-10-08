@@ -187,7 +187,8 @@
   .play h3 { margin-top: 16px; font: 600 30px/1 var(--display); text-transform: uppercase; color: #000; }
   .play p { margin-top: 10px; font-size: 15px; color: var(--grey); flex: 1; }
   .play .by { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--grey); }
-  .play .by img { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; }
+  .play .by img { width: 72px; height: 72px; border-radius: 8px; object-fit: cover; flex: none; }
+  .play .by b { font-size: 15px; }
   .play .by b { display: block; color: #000; font-size: 14px; }
   .play.feature { grid-column: span 2; background: #000; border-color: #000; display: grid; grid-template-columns: 220px 1fr; gap: 30px; align-items: center; }
   .play.feature .fpic img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
@@ -225,6 +226,36 @@
   .lv-cta { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
   @media (max-width: 600px) { .lv-top, .lv-body { padding-left: 22px; padding-right: 22px; } .lv-grid { grid-template-columns: repeat(3, 1fr); } }
 
+  /* IN THE STUDIO: the prize, the one black stage on the page */
+  .prize { position: relative; background: #000; color: #cfcfcf; overflow: hidden; padding: 140px 0 120px; }
+  .prize-photo { position: absolute; top: 0; right: 0; bottom: 0; width: 56%; background: url(img/dh-author-wide.webp) 50% 18% / cover no-repeat; }
+  .prize-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.6) 26%, rgba(0,0,0,0) 60%), linear-gradient(0deg, #000 0%, rgba(0,0,0,0) 40%); }
+  .prize-in { position: relative; z-index: 2; }
+  .prize-k { font: 800 12px var(--body); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+  .prize .D { margin-top: 18px; color: #fff; font-size: clamp(60px, 8vw, 120px); max-width: 640px; }
+  .prize .D em { color: var(--gold); }
+  .prize .lede { color: #d6d6d6; max-width: 31em; }
+  .perks { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #2a2a2a; border: 1px solid #2a2a2a; border-radius: 12px; overflow: hidden; }
+  .perks > div { background: rgba(10,10,10,.92); padding: 26px 22px; }
+  .pk-n { display: block; font: 600 44px/.9 var(--display); color: var(--gold); }
+  .perks b { display: block; margin-top: 12px; font: 600 26px/1 var(--display); text-transform: uppercase; color: #fff; }
+  .perks p { margin-top: 8px; font-size: 14.5px; color: #a9a9a9; }
+  .prize-foot { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 16px; }
+  .prize-foot > div { border: 1px solid #2a2a2a; border-radius: 12px; padding: 22px 24px; display: flex; align-items: center; gap: 16px; }
+  .prize-foot .num { font-size: 64px; color: var(--gold); }
+  .prize-foot .lab { color: #bdbdbd; }
+  .pf-table { flex-direction: column; align-items: flex-start !important; gap: 6px !important; border-color: rgba(225,19,46,.6) !important; background: linear-gradient(160deg, rgba(225,19,46,.18), rgba(225,19,46,0)); }
+  .pf-table b { font: 600 32px/1 var(--display); text-transform: uppercase; color: #fff; }
+  .pf-table p { font-size: 14px; color: #c9c9c9; }
+  @media (max-width: 960px) {
+    .prize { padding: 0 0 80px; }
+    .prize-photo { position: relative; width: 100%; height: 380px; }
+    .prize-photo::after { background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0) 50%); }
+    .prize-in { margin-top: -60px; }
+    .perks { grid-template-columns: 1fr 1fr; } .prize-foot { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) { .perks { grid-template-columns: 1fr; } }
+
   /* LIVE WITH DARREN (light split) */
   .live-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; }
   .live-pic { position: relative; aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; background: url(img/dh-author-wide.webp) 50% 20% / cover no-repeat; }
@@ -256,11 +287,13 @@
   .stop b { display: block; margin-top: 14px; font: 600 22px/1 var(--display); text-transform: uppercase; color: #000; }
   .stop span { display: block; margin-top: 4px; font-size: 12.5px; color: var(--grey); }
   .stop.now span { color: var(--gold-ink); font-weight: 800; }
+  .stop .pl { display: block; margin: 12px auto 0; max-width: 150px; padding: 10px 10px; font-style: normal; font-size: 13px; line-height: 1.35; color: #000; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+  .stop.now .pl { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
   @media (max-width: 860px) {
     .track { grid-template-columns: 1fr; gap: 18px; }
     .track::before { left: 12px; right: auto; top: 0; bottom: 0; width: 3px; height: auto; background: #cfcfcf; }
     .stop { display: grid; grid-template-columns: 26px 1fr; gap: 0 16px; text-align: left; }
-    .stop i { margin: 0; grid-row: span 2; } .stop b { margin-top: 3px; }
+    .stop i { margin: 0; grid-row: span 3; } .stop b { margin-top: 3px; } .stop .pl { margin: 8px 0 0; max-width: none; }
   }
 
   /* CIRCLE */
@@ -275,9 +308,12 @@
   .row-h .chip { width: 26px; height: 26px; margin: 0; }
   .row-h h3 { font: 600 32px/1 var(--display); text-transform: uppercase; color: #000; }
   .row-h .lab { margin-left: auto; }
-  .wall.sm { grid-template-columns: repeat(6, 1fr); gap: 16px; }
+  .wall.sm { grid-template-columns: repeat(5, 1fr); gap: 16px; }
   .wall.sm .wf .pic { padding: 4px; }
   .wall.sm .wf b { font-size: 16px; }
+  .wf .wn { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .wf .ct { flex: none; display: inline-flex; align-items: center; font: 600 20px/1 var(--display); color: var(--gold-ink); }
+  .wf .ct .chip { margin-right: 5px; }
   @media (max-width: 860px) { .wall { grid-template-columns: repeat(3, 1fr); gap: 12px; } .wall.sm { grid-template-columns: repeat(4, 1fr); } .wf span { display: none; } .row-h .lab { display: none; } }
 
   /* FRIDAY */
@@ -286,7 +322,7 @@
   .fri .pic img { width: 100%; aspect-ratio: 1; object-fit: cover; }
   .fri .play { position: absolute; right: 16px; bottom: 16px; width: 62px; height: 62px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; transition: transform .22s var(--ease); }
   .fri .pic:hover .play { transform: scale(1.08); }
-  .fri .play::before { content: ""; margin-left: 5px; border-left: 18px solid #000; border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
+  .fri .play::before { content: ""; display: block; width: 0; height: 0; margin-left: 6px; border-left: 18px solid #000; border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
   .fri blockquote { margin-top: 14px; font: 600 clamp(34px, 4vw, 54px)/.98 var(--display); text-transform: uppercase; color: #000; }
   .fri .who { margin-top: 22px; font-size: 15.5px; color: var(--grey); }
   .fri .who b { display: block; color: #000; font-size: 17px; }
@@ -326,7 +362,6 @@
 </head>
 <body>
 
-<div class="rv-bar">MOCK v3 · SAMPLE DATA <button id="notesBtn" type="button">Show notes</button></div>
 
 <header class="nav">
   <div class="wrap">
@@ -343,7 +378,7 @@
     <div class="hero-grid">
       <div>
         <h1 class="D"><span class="s">Your</span><span class="a">Impact</span><span class="a"><em>Compounded</em></span></h1>
-        <p class="lede">Every leader you bring to the Founders Event doubles your impact. <b>Ten impacts make you a Studio Contender. The top 25 spend three days In the Studio, live with Darren, in Charleston.</b></p>
+        <p class="lede">Every leader you bring to the Founders Event doubles your impact. <b>Ten impacts make you a Studio Contender. The top 25 spend three days In the Studio, live with Darren.</b></p>
         <div class="ctas">
           <a class="btn btn-solid" href="#close">Double my impact <span class="arw">→</span></a>
           <a class="btn btn-ghost" href="#win">How to win <span class="arw">↓</span></a>
@@ -357,7 +392,6 @@
       <div><div class="num">31</div><div class="lab">At Platinum</div></div>
       <div><div class="num" id="daysA">175</div><div class="lab">Days to the final count</div></div>
     </div>
-    <div class="rn"><b>Hero.</b> Bright, white, people first: today's top three as gold, silver and copper cards, with live moments floating around them (the floating cards from the share page). No money anywhere. One leader who joins you = one impact on the board.</div>
   </div>
 </section>
 
@@ -375,7 +409,6 @@
       <a class="btn btn-ghost" href="#">Full standings <span class="arw">→</span></a>
       <a class="btn btn-ghost" href="#">This week's biggest movers <span class="arw">→</span></a>
     </div>
-    <div class="rn"><b>Board.</b> Top 3 on gold, silver and copper; 4 to 10 as tiles; the Studio Line; the gold "You" tile when a Champion arrives on their own link. Every name carries what they built.</div>
   </div>
 </section>
 
@@ -386,7 +419,6 @@
     <p class="lede">Bring a leader to April and your impact doubles. Climb the coins, cross the Studio Line, and finish the season live with Darren.</p>
     <div class="rail" id="rail"></div>
     <p class="rail-hint lab">Click any card for tips and who&rsquo;s there now</p>
-    <div class="rn"><b>How to win.</b> The share page's card stack, one card per rung, each showing who's standing on it right now. Status and the path in one move: you see exactly where you are and who's ahead.</div>
   </div>
 </section>
 
@@ -402,7 +434,7 @@
           <div class="kick">THE #1 MOVE ON THE BOARD</div>
           <h3 style="margin-top:10px">Start inside your own org chart.</h3>
           <p>Your number two, your ops lead, your managers. They should hear it from Darren, not secondhand from you. The fastest path to Platinum runs straight through your own leadership team.</p>
-          <div class="by"><img src="img/champions-home/taylor.webp" alt=""><div><b>Taylor Richardson · #1</b>Brought a leadership team of 6</div></div>
+          <div class="by" style="padding-top:14px"><div><b>Taylor Richardson · #1</b>Brought a leadership team of 6</div></div>
         </div>
       </div>
       <div class="play"><div class="pn">02</div><h3>Make it personal.</h3><p>A one-line text beats a forwarded link every time. "You're the one I thought of first." Then send your link.</p><div class="by"><img src="img/champions-home/jeannie.webp" alt=""><div><b>Jeannie Henderson · #2</b>The GM, ops lead and 3 managers</div></div></div>
@@ -411,43 +443,44 @@
       <div class="play"><div class="pn">05</div><h3>Bring the people who make you run.</h3><p>A key vendor, client or partner. A spouse or business partner. The relationship is already there. The invitation is the easy part.</p><div class="by"><img src="img/champions-home/rebecca.webp" alt=""><div><b>Rebecca Jones · #8</b>Partner and 4 managers</div></div></div>
       <div class="play"><div class="pn">06</div><h3>Read the board on Fridays.</h3><p>Know who's one spot ahead of you, and what they did to get there. Champion Friday shows you exactly.</p><div class="by"><img src="img/champions-home/kristi.webp" alt=""><div><b>Kristi Lopez · #11</b>Up 6 spots this week</div></div></div>
     </div>
-    <div class="rn"><b>Playbook.</b> The top impact makers' moves, each credited to the Champion who used it. At launch these come from the real top Champions, in their words, with consent; the credits here are sample.</div>
   </div>
 </section>
 
-<!-- LIVE WITH DARREN -->
-<section class="band" style="padding-top:0">
-  <div class="wrap">
-    <div class="live-grid">
-      <div>
-        <h2 class="D"><span class="s">Three days.</span><span class="a">In the Studio.</span><span class="a"><em>Live with Darren.</em></span></h2>
-        <p class="lede">Charleston, April 2027. The Sunday reception, nightly private Q&amp;As, curated dinners, and every minute in the studio with Darren.</p>
-      </div>
-      <div class="live-pic"><div class="count"><span class="num" id="daysB">175</span><span class="lab">days until<br>the final count</span></div></div>
+<!-- IN THE STUDIO: the prize -->
+<section class="prize" id="studio">
+  <div class="prize-photo" aria-hidden="true"></div>
+  <div class="wrap prize-in">
+    <div class="prize-k">What every impact is building toward</div>
+    <h2 class="D"><span class="s">Three days.</span><span class="a">In the Studio.</span><span class="a"><em>Live with Darren.</em></span></h2>
+    <p class="lede">Not a seat in an audience. A seat in the studio itself, across the table from Darren, for all three days of the Founders Event. Twenty-five leaders. Earned, never sold.</p>
+    <div class="perks">
+      <div><span class="pk-n">01</span><b>The Sunday reception</b><p>The night before it starts, with Darren and the other leaders who earned it.</p></div>
+      <div><span class="pk-n">02</span><b>Three days in the studio</b><p>Every session live, in the room where it is filmed, a few feet from Darren.</p></div>
+      <div><span class="pk-n">03</span><b>Private Q&amp;A every night</b><p>Your questions, your company, answered by Darren himself.</p></div>
+      <div><span class="pk-n">04</span><b>Curated dinners</b><p>Around the table with the top impact makers of the season.</p></div>
     </div>
-    <div class="tiers">
-      <div class="tier red"><div class="lab">Top 5</div><h3>Darren's Table</h3><p>A private dinner with Darren and Georgia in Charleston.</p></div>
-      <div class="tier blk"><div class="lab">Top 25 with 10+</div><h3>In the Studio</h3><p>All three days live with Darren.</p></div>
-      <div class="tier"><div class="lab">Top <span class="ph">100</span></div><h3>VIP</h3><p>The VIP upgrade, earned. Day 3 morning, April 28, alongside the studio audience.</p></div>
+    <div class="prize-foot">
+      <div class="pf-count"><span class="num" id="daysB">175</span><span class="lab">days until<br>the final count</span></div>
+      <div class="pf-seats"><span class="num">25</span><span class="lab">seats.<br>Top 25 with 10+ impacts.</span></div>
+      <div class="pf-table"><span class="lab" style="color:#ff5468">Top 5 only</span><b>Darren&rsquo;s Table</b><p>A private dinner with Darren and Georgia.</p></div>
     </div>
-    <div class="seats" id="seats"></div>
-    <div class="seat-key"><span><b>25 seats</b> In the Studio, earned by rank</span><span><b>Up to 17 more</b> open only if Champions earn them</span></div>
+    <div class="ctas"><a class="btn btn-solid" href="#win">How to earn your seat <span class="arw">&rarr;</span></a></div>
   </div>
 </section>
 
 <!-- SEASON -->
 <section class="season band">
   <div class="wrap">
-    <h2 class="D"><span class="s">The season</span><span class="a">Every impact <em>counts the same.</em></span></h2>
-    <p class="lede">Started in October or starting today, the board counts every leader who joins you before the final count.</p>
+    <h2 class="D"><span class="s">The season</span><span class="a">Every stretch hands you <em>a new play.</em></span></h2>
+    <p class="lede">The count runs all season, and each stretch brings a new reason for a leader to say yes. Wherever you start, there is a play to run this week.</p>
     <div class="track">
-      <div class="stop done"><i></i><b>Pre-print</b><span>Oct 22 to Nov 1</span></div>
-      <div class="stop now"><i></i><b>Hardy Harvest</b><span>Now · ends Nov 12</span></div>
-      <div class="stop"><i></i><b>The Challenge</b><span>Dec 8 to 13</span></div>
-      <div class="stop"><i></i><b>Year-end</b><span>Dec 14 to 31</span></div>
-      <div class="stop"><i></i><b>Q1 stretch</b><span>Jan to Mar</span></div>
-      <div class="stop"><i></i><b>Final count</b><span><span class="ph">Mar 31</span></span></div>
-      <div class="stop"><i></i><b>Charleston</b><span>April 2027</span></div>
+      <div class="stop done"><i></i><b>Pre-print</b><span>Oct 22 to Nov 1</span><em class="pl">Name a leader and their name goes in the book</em></div>
+      <div class="stop now"><i></i><b>Hardy Harvest</b><span>Now · ends Nov 12</span><em class="pl">Two seats, and Darren sends you both a turkey</em></div>
+      <div class="stop"><i></i><b>The Challenge</b><span>Dec 8 to 13</span><em class="pl">Send them three days with Darren first</em></div>
+      <div class="stop"><i></i><b>Year-end</b><span>Dec 14 to 31</span><em class="pl">Put your leadership team in your 2027 plan</em></div>
+      <div class="stop"><i></i><b>Q1 stretch</b><span>Jan to Mar</span><em class="pl">Share Darren's podcast interviews <span class="ph">[confirm]</span></em></div>
+      <div class="stop"><i></i><b>Final count</b><span><span class="ph">Mar 31</span></span><em class="pl">The last impacts land, and the board locks</em></div>
+      <div class="stop"><i></i><b>In Studio</b><span>April 2027</span><em class="pl">Three days live with Darren</em></div>
     </div>
   </div>
 </section>
@@ -511,7 +544,7 @@
 
 <footer>
   <div class="wrap">
-    <p>Every In the Studio seat, VIP upgrade and place at Darren's Table is earned by rank and Darren's selection. Nothing is left to chance. No commissions, no price changes. <span class="ph">Legal read before launch.</span></p>
+    <p>Every In the Studio seat and place at Darren's Table is earned by rank and Darren's selection. Nothing is left to chance. No commissions, no price changes. <span class="ph">Legal read before launch.</span></p>
     <img src="img/dh-mark-white.webp" alt="Darren Hardy">
   </div>
 </footer>
@@ -561,7 +594,7 @@
     ['silver','3','Silver','3 impacts','The Silver coin and <span class="ph">[reward]</span>.',['thomas','angelina','lisag'],'41 here now'],
     ['gold','5','Gold','5 impacts','The Gold coin and <span class="ph">[reward]</span>.',['suzanne','zach','antonia'],'56 here now'],
     ['plat','10','Platinum','10+ impacts',"The Platinum coin. You're a Studio Contender.",['kristi','danm','derrick'],'31 here now'],
-    ['studio','25','In the Studio','Top 25 with 10+','Three days live with Darren in Charleston. Earned at the final count.',['?','?','?'],'25 seats'],
+    ['studio','25','In the Studio','Top 25 with 10+','Three days live with Darren. Earned at the final count.',['?','?','?'],'25 seats'],
     ['table','5',"Darren's Table",'Top 5','A private dinner with Darren and Georgia. Earned at the final count.',['?','?','?'],'5 places']
   ];
   document.getElementById('rail').innerHTML = W.map(function (c) {
@@ -576,11 +609,11 @@
     lead:   { tips: ['<b>Get your link.</b> It is yours alone, and every leader who joins through it is credited to you.', '<b>Write down three names.</b> Your number two, the leader in your forum, the one you call when something breaks.', '<b>Send one text today.</b> Your kit has it written. Add one line in your own words.'],
               who: 'Champions on the board', people: TOP, more: '214 Champions and counting' },
     copper: { tips: ['<b>Start with the leader closest to you.</b> Your number two is the easiest first yes on the board.', '<b>Investing for your own team?</b> Name each seat on the form and the credit lands within the hour.', '<b>Your first impact is the hardest one.</b> Your Copper coin and a note from Darren follow it.'],
-              who: 'At Copper now', people: ['dant','mike','david','louis','gerald','emily'], more: '+ 80 more Champions at Copper' },
+              who: 'At Copper now', people: ['louis','mike','david','dant'], more: '+ 80 more Champions at Copper' },
     silver: { tips: ['<b>Bring them as a team.</b> Two leaders from the same company is two impacts in one conversation.', '<b>Use the Challenge.</b> Leaders who spend three days with Darren in December say yes to April.', '<b>Follow up personally.</b> A two-line text a week later doubles your yeses.'],
-              who: 'At Silver now', people: ['thomas','angelina','lisag','emily','dant','mike'], more: '+ 35 more Champions at Silver' },
+              who: 'At Silver now', people: ['thomas','angelina','lisag'], more: '+ 35 more Champions at Silver' },
     gold:   { tips: ['<b>Think past your company.</b> A key vendor, a client, a partner. The relationship is already there.', '<b>A spouse or business partner counts.</b> Same language at home and at work.', '<b>Watch the moments.</b> Hardy Harvest: two seats, and Darren sends you both a turkey.'],
-              who: 'At Gold now', people: ['suzanne','zach','antonia','thomas','angelina','louis'], more: '+ 50 more Champions at Gold' },
+              who: 'At Gold now', people: ['suzanne','zach','antonia'], more: '+ 50 more Champions at Gold' },
     plat:   { tips: ['<b>Your org chart is the fastest path.</b> Every Platinum Champion on the board brought their own leaders.', '<b>Ask to speak.</b> Your association, your mastermind, your forum. One room, several leaders.', '<b>Ten makes you a Studio Contender.</b> From there, rank decides who goes In the Studio.'],
               who: 'At Platinum now', people: TOP, more: '+ 19 more Champions at Platinum' },
     studio: { tips: ['<b>Reach Platinum first.</b> Only Champions with 10 or more impacts are in the running.', '<b>Then climb.</b> The top 25 at the final count earn three days In the Studio with Darren.', '<b>Ties go to whoever got there first.</b> Seats 26 to 42 open only if Champions earn them.'],
@@ -611,21 +644,17 @@
   dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('.lv-cta a')) closeLv(); });
   dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeLv(); });
 
-  var s = ''; for (var i = 0; i < 42; i++) s += '<span class="seat' + (i < 25 ? '' : ' o') + '"></span>';
-  document.getElementById('seats').innerHTML = s;
 
   document.getElementById('wallPlat').innerHTML = B.map(function (r, i) { return '<div class="wf"><div class="pic">' + img(r[0], r[1]) + '<span class="badge">#' + (i + 1) + '</span></div><b>' + r[1] + '</b><span>' + r[2] + '</span></div>'; }).join('');
-  var nw = [['suzanne','Suzanne Grady','gold'],['zach','Zach Holmes','gold'],['antonia','Antonia Roybal-Mack','gold'],['thomas','Thomas Petersen','silver'],['angelina','Angelina Feichko','silver'],['lisag','Lisa Good','silver'],
-            ['emily','Emily Weber','silver'],['louis','Louis Richard','copper'],['david','David Koepsell','copper'],['mike','Mike Keesee','copper'],['dant','Dan Tripp','copper'],['gerald','Gerald Leonard','copper']];
-  document.getElementById('wallNew').innerHTML = nw.map(function (p) { return '<div class="wf ' + p[2] + '"><div class="pic">' + img(p[0], p[1]) + '</div><b>' + p[1] + '</b></div>'; }).join('');
+  var nw = [['suzanne','Suzanne Grady','gold',7],['zach','Zach Holmes','gold',6],['antonia','Antonia Roybal-Mack','gold',5],['thomas','Thomas Petersen','silver',4],['angelina','Angelina Feichko','silver',3],
+            ['lisag','Lisa Good','silver',3],['louis','Louis Richard','copper',2],['mike','Mike Keesee','copper',2],['david','David Koepsell','copper',1],['dant','Dan Tripp','copper',1]];
+  document.getElementById('wallNew').innerHTML = nw.map(function (p) { return '<div class="wf ' + p[2] + '"><div class="pic">' + img(p[0], p[1]) + '</div><b class="wn">' + p[1] + '<span class="ct"><i class="chip c-' + p[2] + '"></i>' + p[3] + '</span></b></div>'; }).join('');
 
   document.getElementById('stack').innerHTML = ['maria','emeka','jeannie','taylor','spencer','lisac','zach','rebecca','derrick','kristi'].map(function (k) { return img(k); }).join('');
 
   var days = Math.ceil((new Date('2027-03-31T23:59:00-07:00') - new Date()) / 864e5);
   if (days > 0) { document.getElementById('daysA').textContent = days; document.getElementById('daysB').textContent = days; }
 
-  var nb = document.getElementById('notesBtn');
-  nb.addEventListener('click', function () { var on = document.body.classList.toggle('notes'); nb.textContent = on ? 'Hide notes' : 'Show notes'; });
 })();
 </script>
 </body>
