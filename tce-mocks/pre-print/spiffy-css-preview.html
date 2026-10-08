@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Spiffy Form Styling · TCEB Pre-Print</title>
+<link rel="stylesheet" href="https://use.typekit.net/zze6zxt.css">
+<style>
+@font-face{font-family:Inter;src:url("https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/fonts/6aaf55be1c2f880d17fcd6d7-Inter-Variable.woff2") format("woff2");font-weight:400 900;font-display:swap}
+:root{--red:#e1132e;--ink:#262626;--grey:#6e6e6e;--line:#e2e2e2;--field:#f0f0f0}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#000;font-family:Inter,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1144px;margin:0 auto;padding:0 32px}
+header{padding:56px 0 32px;border-bottom:1px solid var(--line)}
+.label{margin:0 0 12px;font:700 12px/1.3 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+h1{margin:0 0 16px;font-family:'bebas-neue-pro-semiexpanded','Bebas Neue',sans-serif;font-weight:600;font-size:clamp(40px,5vw,64px);line-height:.95;letter-spacing:.02em;text-transform:uppercase}
+h1 .setup{font-weight:200}
+h2{margin:0 0 14px;font-family:'bebas-neue-pro-semiexpanded','Bebas Neue',sans-serif;font-weight:600;font-size:34px;line-height:1;letter-spacing:.03em;text-transform:uppercase}
+p.lede{margin:0;max-width:720px;font-size:17px;line-height:1.62;color:var(--ink)}
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+.toggle{display:inline-flex;border:1.5px solid var(--red);border-radius:2px;margin:0 0 28px}
+.toggle button{appearance:none;border:0;background:#fff;color:var(--red);font:700 12px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:12px 18px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--red);color:#fff}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.pair.is-phone{grid-template-columns:repeat(2,minmax(0,390px));justify-content:center}
+.shot figcaption{margin:0 0 10px;font:700 12px/1.3 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+.shot figcaption b{color:var(--red)}
+.shot{margin:0}
+.shot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:2px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+ul.list{margin:0;padding:0;list-style:none}
+ul.list li{position:relative;padding:0 0 12px 20px;font-size:15px;line-height:1.55;color:var(--ink)}
+ul.list li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;background:#000}
+.flag{padding:18px 20px;background:var(--field);border-radius:2px;font-size:15px;line-height:1.55;color:var(--ink);margin:0 0 14px}
+.flag b{color:#000}
+ol.steps{margin:0 0 24px;padding-left:20px;font-size:15px;line-height:1.7;color:var(--ink)}
+.codebar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:0 0 10px}
+.copy{appearance:none;border:0;background:var(--red);color:#fff;font:700 12px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:14px 20px;border-radius:2px;cursor:pointer;box-shadow:0 10px 22px rgba(0,0,0,.16);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.copy:hover{transform:translateY(-3px) scale(1.04)}
+pre{margin:0;max-height:520px;overflow:auto;padding:22px;background:#0b0b0b;color:#e8e8e8;border-radius:2px;font:13px/1.6 SFMono-Regular,Menlo,Consolas,monospace;white-space:pre}
+footer{padding:32px 0 48px;font-size:12px;color:var(--grey)}
+@media (max-width:767px){
+  .wrap{padding:0 20px}
+  .pair,.cols{grid-template-columns:1fr}
+  .pair.is-phone{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <p class="label">TCEB pre-print · Spiffy checkout</p>
+    <h1><span class="setup">Form styling</span><br>before &amp; after</h1>
+    <p class="lede">These are screenshots of the <b>real, live</b> pre-print checkout. The "after" shots are the same page with the CSS below applied in a browser. Nothing has been changed in Spiffy yet. Once the team pastes the CSS in, the form on our page will look like the "after" shots.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="toggle" role="group" aria-label="Screen size">
+      <button type="button" aria-pressed="true" data-view="desktop">Desktop</button>
+      <button type="button" aria-pressed="false" data-view="phone">Phone</button>
+    </div>
+    <div class="pair" id="pair-desktop">
+      <figure class="shot"><figcaption>Before · as it is today</figcaption><img src="spiffy-preview/desktop-before.webp" width="1520" height="3044" alt="The checkout today: pink total, pale pink option buttons, dark red button, Lato type"></figure>
+      <figure class="shot"><figcaption><b>After</b> · with the CSS</figcaption><img src="spiffy-preview/desktop-after.webp" width="1520" height="2804" alt="The checkout with the brand CSS: grey total, red outline option buttons, red button, Inter type"></figure>
+    </div>
+    <div class="pair is-phone" id="pair-phone" hidden>
+      <figure class="shot"><figcaption>Before · as it is today</figcaption><img src="spiffy-preview/phone-before.webp" width="780" height="3872" alt="The checkout today on a phone" loading="lazy"></figure>
+      <figure class="shot"><figcaption><b>After</b> · with the CSS</figcaption><img src="spiffy-preview/phone-after.webp" width="780" height="3492" alt="The checkout with the brand CSS on a phone" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap cols">
+    <div>
+      <h2>What changes</h2>
+      <ul class="list">
+        <li><b>Type:</b> Inter everywhere, replacing Spiffy's Lato. Section titles in small uppercase, like the page.</li>
+        <li><b>Ground:</b> pure white instead of the grey-blue page tint. No creams, no tints.</li>
+        <li><b>Boxes and fields:</b> hairline grey borders, 2px corners, no drop shadows.</li>
+        <li><b>3 / 10 / 100 buttons:</b> red outline with red type; the picked one goes solid red.</li>
+        <li><b>Total:</b> neutral grey band with a black price, instead of pink and red.</li>
+        <li><b>Prices in the option buttons:</b> grey instead of green.</li>
+        <li><b>Complete Purchase:</b> the brand red, uppercase, soft shadow, lifts on hover and never darkens.</li>
+        <li><b>The tier blurb</b> ("Achiever (3 Books)..."): hidden, because our cards already say it.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>What CSS can't touch</h2>
+      <ul class="list">
+        <li>The <b>credit card box</b> itself. It comes from Stripe and only takes Stripe's own limited styling.</li>
+        <li>The <b>PayPal</b> button and logos.</li>
+        <li>Which <b>fields</b> appear and in what order. That's set in Spiffy's editor.</li>
+        <li>The <b>wording</b> on labels like "Select an option below". Also set in Spiffy's editor.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Worth knowing</h2>
+    <p class="flag"><b>An exit-discount banner is set up on this checkout.</b> It has an "Apply Discount" button and a countdown timer. It's hidden until Spiffy decides to show it (usually when someone moves to leave the page), so it isn't in the screenshots. For an un-marketing page you may want it turned off in Spiffy. The CSS leaves it alone, because that's a business call, not a styling one.</p>
+    <p class="flag"><b>The 3 / 10 / 100 buttons stay visible on purpose.</b> Until the "pre-select from the link" fix is done in Spiffy, those buttons are how buyers pick their bundle inside the form. Once the fix works, one more line can hide them.</p>
+    <p class="flag"><b>This CSS only affects this one checkout.</b> It's added inside this checkout's own Design tab, so no other Spiffy checkout changes.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>For the team: install</h2>
+    <ol class="steps">
+      <li>In Spiffy, open <b>Checkouts › the-compound-effect-pre-print</b>.</li>
+      <li>Go to the <b>Design</b> tab and find <b>Custom CSS</b>.</li>
+      <li>Paste the CSS below, then <b>Publish</b>.</li>
+      <li>Check it on the <b>live</b> checkout. Spiffy says custom CSS doesn't show in the editor preview.</li>
+    </ol>
+    <div class="codebar">
+      <p class="label" style="margin:0">spiffy-custom.css</p>
+      <button class="copy" type="button" id="copy">Copy the CSS</button>
+    </div>
+    <pre id="css">/* ==========================================================================
+   TCEB pre-print checkout: Spiffy Custom CSS
+   Paste into: Spiffy &gt; Checkouts &gt; the-compound-effect-pre-print &gt; Design &gt; Custom CSS
+   Affects THIS checkout only. Shows on the live (published) checkout, not in the editor preview.
+   Matches the TCEB Brand &amp; Design System (7 Oct 2026): white ground, Inter, red #E1132E,
+   2px corners, borders not shadows, nothing darkens on hover.
+   ========================================================================== */
+
+@import url(&#x27;https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap&#x27;);
+
+/* ---- 1. Spiffy&#x27;s own theme colours, re-pointed to the brand ----
+   Spiffy writes these onto the form from the Design tab. Overriding them here
+   recolours every place Spiffy uses them (option buttons, total, links, loader, button). */
+:root,
+.checkout {
+  --brand-main: #e1132e !important;
+  --brand-light: #f0f0f0 !important;
+  --brand-dark: #000000 !important;
+  --ch-btn-color: #e1132e !important;
+  --ch-btn-text-color: #ffffff !important;
+  --ch-btn-hover-color: #e1132e !important;      /* nothing darkens on hover */
+  --option-btn: #e1132e !important;
+  --option-btn-bg-color: #ffffff !important;
+  --option-btn-border-color: #e1132e !important;
+  --order-total: #000000 !important;
+  --order-total-bg: #f0f0f0 !important;
+  --general-price: #6e6e6e !important;
+  --general-price-bg: transparent !important;
+  --link: #000000 !important;
+  --link-hover: #000000 !important;
+  --loader: #e1132e !important;
+  --form-focus: #000000 !important;
+  --form-control-radius: 2px !important;
+  --form-control-border: #e2e2e2 !important;
+  --form-control-border-hover: #b3b3b3 !important;
+  --form-control-text: #000000 !important;
+  --form-label-color: #262626 !important;
+  --font-family-sans-serif: &#x27;Inter&#x27;, -apple-system, &#x27;Segoe UI&#x27;, sans-serif !important;
+}
+
+/* ---- 2. Ground + type ---- */
+body {
+  background: #ffffff !important;
+}
+body, .checkout, .checkout input, .checkout select, .checkout textarea,
+.checkout button, .checkout label, .checkout h1, .checkout h2, .checkout h3,
+.checkout h4, .checkout h5, .checkout h6, .checkout p, .checkout .btn {
+  font-family: &#x27;Inter&#x27;, -apple-system, &#x27;Segoe UI&#x27;, sans-serif !important;
+}
+
+/* ---- 3. Section cards: hairline border, 2px corners, no shadow ---- */
+.checkout .card,
+.checkout .section__inner,
+.checkout .payment-gateway {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+.checkout .section__inner.card-body,
+.checkout .payment-gateway,
+.checkout .order-summary .card-body {
+  border: 1px solid #e2e2e2 !important;
+}
+
+/* ---- 4. Section titles (Contact Information, Billing Info, payment rows) ---- */
+.checkout h6 {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+  color: #000000 !important;
+}
+
+/* ---- 5. The tier blurb repeats the cards on our page: hide it ---- */
+#block-370970 {
+  display: none !important;
+}
+
+/* ---- 6. 3 / 10 / 100 option buttons: red outline, solid red when picked ---- */
+.checkout .option-button-auto-width:not(.option-button-auto-width--pill) {
+  opacity: 1 !important;
+  border-width: 1.5px !important;
+  border-radius: 2px !important;
+  transition: background-color .2s, color .2s !important;
+}
+.checkout .option-button-auto-width h5 {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+.checkout .option-button-auto-width.option-button-auto-width--selected:not(.option-button-auto-width--pill),
+.checkout .option-button-auto-width:not(.option-button-auto-width--pill):hover {
+  background-color: #e1132e !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+.checkout .option-button-auto-width.option-button-auto-width--selected *,
+.checkout .option-button-auto-width:hover * {
+  color: #ffffff !important;
+}
+.checkout .option-button-auto-width:focus-within {
+  box-shadow: none !important;
+}
+
+/* ---- 7. Payment rows: the selected one gets an ink edge, not a red box ---- */
+.checkout .payment-type--selected {
+  border-color: #000000 !important;
+}
+.checkout .payment-type--selected h6 {
+  color: #000000 !important;
+}
+
+/* ---- 8. Complete Purchase: the brand&#x27;s solid red button ---- */
+.checkout button[id^=&quot;checkoutButton&quot;] {
+  border: 0 !important;
+  border-radius: 2px !important;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, .16) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+  padding: 18px 24px !important;
+  transition: transform .22s cubic-bezier(.2, .8, .2, 1) !important;
+}
+.checkout button[id^=&quot;checkoutButton&quot;]:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+</pre>
+  </div>
+</section>
+
+<footer><div class="wrap">Preview only · noindex · screenshots taken 7 Oct 2026 from secure.darrenhardy.com/checkout/the-compound-effect-pre-print</div></footer>
+
+<script>
+document.querySelectorAll('.toggle button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var v = b.getAttribute('data-view');
+    document.querySelectorAll('.toggle button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    document.getElementById('pair-desktop').hidden = v !== 'desktop';
+    document.getElementById('pair-phone').hidden = v !== 'phone';
+  });
+});
+document.getElementById('copy').addEventListener('click', function () {
+  var btn = this, text = document.getElementById('css').textContent;
+  function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy the CSS'; }, 1800); }
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
+});
+</script>
+</body>
+</html>
