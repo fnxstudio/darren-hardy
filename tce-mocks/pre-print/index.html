@@ -92,7 +92,7 @@ a{color:inherit}
 .picked b{color:var(--c-black)}
 .picked[hidden]{display:none}
 .checkout{position:relative;min-height:560px}
-.loading{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;pointer-events:none;transition:opacity .3s}
+.loading{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;gap:14px;padding-bottom:40px;background:var(--c-white);pointer-events:none;transition:opacity .3s}
 .loading span{display:block;height:52px;border-radius:var(--radius);background:linear-gradient(90deg,#f0f0f0 0%,#f8f8f8 50%,#f0f0f0 100%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}
 .loading span:first-child{height:120px}
 @keyframes shimmer{to{background-position:-200% 0}}
@@ -136,7 +136,7 @@ a{color:inherit}
       <div class="book"><img src="tceb-book-3d-680.webp" width="680" height="1071" alt="The Compound Effect in Business by Darren Hardy, hardcover" fetchpriority="high"></div>
       <div>
         <h1 class="display"><span class="setup">Pre-print</span><span class="answer">private invitation</span></h1>
-        <p class="lede">Receive a first-run hardcover copy months before public release.</p>
+        <p class="lede">Receive a first-run hardcover copy<br> months before public release.</p>
         <ul class="perks">
           <li>Pre-order 10 or more and get <b>your name printed in the book!</b></li>
           <li>Pre-order 100 or more and get <b>your headshot (&amp; name) printed in the book!</b></li>
@@ -255,7 +255,7 @@ a{color:inherit}
     box.classList.remove('is-ready', 'is-failed');
     bail = setTimeout(function () { if (!box.classList.contains('is-ready')) box.classList.add('is-failed'); }, BAIL_MS);
   }
-  function ready() { clearTimeout(bail); box.classList.remove('is-failed'); box.classList.add('is-ready'); }
+  function ready() { clearTimeout(bail); box.classList.remove('is-failed'); setTimeout(function () { box.classList.add('is-ready'); }, 1500); }
 
   function mount(tier) {
     var url = BASE + (tier ? (BASE.indexOf('?') < 0 ? '?' : '&') + TIER_PARAM + '=' + tier : '');
