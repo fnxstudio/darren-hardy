@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Pre-Print Private Invitation · The Compound Effect in Business</title>
+<script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://use.typekit.net" crossorigin>
 <link rel="stylesheet" href="https://use.typekit.net/zze6zxt.css">
 <style>
@@ -83,8 +84,9 @@ a{color:inherit}
 .tier-cta .btn{width:100%;padding:18px 18px}
 .tier-note{margin:12px 0 0;font-size:12px;line-height:1.55;text-align:center;color:var(--c-grey)}
 
-/* order */
+/* order: closed until a bundle is picked (JS only; without JS it stays open with the fallback link) */
 .order{padding:120px 0;border-top:1px solid var(--c-line)}
+.js .order:not(.is-open){display:none}
 .order-inner{max-width:760px;margin:0 auto}
 .picked{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin:0 0 24px;padding:16px 20px;background:var(--c-field);border-radius:var(--radius);font-size:15px;color:var(--c-ink)}
 .picked b{color:var(--c-black)}
@@ -205,14 +207,13 @@ a{color:inherit}
   <section class="order" id="order">
     <div class="wrap order-inner">
       <h2 class="section-h">Your pre-order</h2>
-      <p class="sub" id="orderSub">Choose your bundle below, then add your details.</p>
+      <p class="sub" id="orderSub">Add your details below.</p>
       <p class="picked" id="picked" hidden></p>
 
-      <div class="checkout" id="checkout">
+      <!-- The checkout URL lives HERE (data-url) and only here. The cart itself is created on
+           the first bundle click, so the form never shows before a bundle is chosen. -->
+      <div class="checkout" id="checkout" data-url="https://secure.darrenhardy.com/checkout/the-compound-effect-pre-print">
         <div class="loading" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-        <!-- The checkout URL lives HERE and only here. The script reads it at parse time,
-             before Spiffy rewrites it with tracking params. -->
-        <spiffy-element type="checkout" url="https://secure.darrenhardy.com/checkout/the-compound-effect-pre-print"></spiffy-element>
         <p class="fallback">The secure form is taking longer than usual to load. <a id="fallbackLink" href="https://secure.darrenhardy.com/checkout/the-compound-effect-pre-print" target="_blank" rel="noopener">Continue to secure checkout →</a></p>
       </div>
     </div>
@@ -242,8 +243,9 @@ a{color:inherit}
   };
 
   var box = document.getElementById('checkout');
-  var el = box.querySelector('spiffy-element');
-  var BASE = el.getAttribute('url'); // read before Spiffy appends its tracking params
+  var order = document.getElementById('order');
+  var el = null; // the spiffy-element, created on the first bundle click
+  var BASE = box.getAttribute('data-url');
   var picked = document.getElementById('picked');
   var sub = document.getElementById('orderSub');
   var bail;
@@ -260,7 +262,8 @@ a{color:inherit}
     var fresh = document.createElement('spiffy-element');
     fresh.setAttribute('type', 'checkout');
     fresh.setAttribute('url', url);
-    el.parentNode.replaceChild(fresh, el);
+    if (el) el.parentNode.replaceChild(fresh, el);
+    else box.insertBefore(fresh, box.querySelector('.fallback'));
     el = fresh;
     armBail();
   }
@@ -273,18 +276,19 @@ a{color:inherit}
     picked.innerHTML = '<b>' + t.name + '</b><span>' + t.total + '</span><span>' + t.extra + '</span>';
     picked.hidden = false;
     sub.textContent = PRESELECT ? 'Add your details below.' : 'Choose ' + tier + ' Books in the form below, then add your details.';
-    if (PRESELECT) mount(tier);
+    order.classList.add('is-open');
+    if (!el) mount(PRESELECT ? tier : null);
+    else if (PRESELECT) mount(tier);
   }
 
   document.querySelectorAll('.tier-cta .btn').forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
       select(a.getAttribute('data-tier'));
-      document.getElementById('order').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      order.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     });
   });
 
-  armBail();
   window.ppCheckoutReady = ready; // called by the SpiffyJS form:ready hook below
 })();
 </script>
