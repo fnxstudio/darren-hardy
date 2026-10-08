@@ -78,7 +78,7 @@
   .nav .live i { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: pulse 1.8s ease-in-out infinite; }
   @keyframes pulse { 50% { transform: scale(.5); opacity: .4; } }
   .nav .btn { margin-left: auto; padding: 13px 18px; font-size: 11.5px; }
-  @media (max-width: 560px) { .nav .live { display: none; } .nav .t { font-size: 19px; } }
+  @media (max-width: 560px) { .nav .live { display: none; } .nav .t { font-size: 18px; white-space: nowrap; } .nav .btn { padding: 11px 13px; font-size: 10.5px; white-space: nowrap; } .nav .wrap { gap: 12px; } }
 
   /* ---------- HERO ---------- */
   .hero { padding: 96px 0 110px; overflow: hidden; background: radial-gradient(760px 560px at 74% 46%, rgba(212,160,23,.2), transparent 70%), #000; }
@@ -104,7 +104,7 @@
   .stats > div { padding: 22px 16px 0 0; }
   .stats .num { font-size: clamp(38px, 4.2vw, 56px); color: var(--gold); }
   .stats .lab { margin-top: 8px; }
-  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } .stage { order: -1; } .stats { grid-template-columns: 1fr 1fr; row-gap: 10px; } }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 56px; } .coin3d { width: min(240px, 64vw); } .stats { grid-template-columns: 1fr 1fr; row-gap: 10px; } }
 
   /* ---------- BOARD ---------- */
   .board { background: radial-gradient(900px 520px at 50% 18%, rgba(212,160,23,.14), transparent 70%), #000; border-top: 1px solid #1a1a1a; }
@@ -125,7 +125,7 @@
   .pd .sc { margin-top: 16px; display: inline-flex; align-items: baseline; gap: 10px; }
   .pd .sc .num { font-size: 58px; color: var(--gold); }
   .pd .sc .lab { color: #fff; text-align: left; }
-  .tiles { margin: 56px auto 0; max-width: 980px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 26px; }
+  .tiles { margin: 56px auto 0; max-width: 980px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, auto); grid-auto-flow: column; gap: 12px 26px; }
   .tile { display: grid; grid-template-columns: 46px 52px 1fr auto; gap: 14px; align-items: center; padding: 10px 14px; border: 1px solid #222; border-radius: var(--r); background: linear-gradient(90deg, #0d0d0d, #050505); transition: transform .25s var(--ease), border-color .25s; }
   .tile:hover { transform: translateX(4px); border-color: rgba(212,160,23,.5); }
   .tile .rk { font: 600 34px/1 var(--display); color: #fff; text-align: center; }
@@ -152,7 +152,7 @@
   @media (max-width: 760px) {
     .podium { gap: 10px; } .pd .nm { font-size: 20px; } .pd .bh { display: none; } .pd .rk { font-size: 40px; left: 8px; } .pd.p1 .rk { font-size: 52px; }
     .pd .sc .num { font-size: 36px; } .pd .sc .lab { display: none; }
-    .tiles { grid-template-columns: 1fr; }
+    .tiles { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; }
     .studio-line { flex-direction: column; align-items: flex-start; gap: 6px; }
   }
 
@@ -489,8 +489,8 @@
   // Podium: 2, 1, 3
   document.getElementById('podium').innerHTML = [[1,'p2'],[0,'p1'],[2,'p3']].map(function (a) { var r = B[a[0]];
     return '<div class="pd ' + a[1] + '"><div class="pic">' + img(r[0], r[1]) + '<span class="rk">' + (a[0] + 1) + '</span></div><div class="nm">' + r[1] + '</div><div class="bh">' + r[2] + '</div><div class="sc"><span class="num">' + r[3] + '</span><span class="lab">Doublings</span></div></div>'; }).join('');
-  // Tiles 4 to 10, Hardy Bowl order (4|8, 5|9 ...)
-  var order = [3,7,4,8,5,9,6];
+  // Tiles 4 to 10: two columns on desktop (4-7 | 8-10), one column on phones
+  var order = [3,4,5,6,7,8,9];
   document.getElementById('tiles').innerHTML = order.map(function (i) { var r = B[i];
     return '<div class="tile"><span class="rk">' + (i + 1) + '</span>' + img(r[0], r[1]) + '<span class="nm">' + r[1] + (r[4] ? '<span class="mv">▲' + r[4] + '</span>' : '') + '<small><i class="chip c-' + coin(r[3]) + '"></i>' + r[2] + '</small></span><span class="sc"><span class="num">' + r[3] + '</span><small>DOUBLINGS</small></span></div>'; }).join('');
 
