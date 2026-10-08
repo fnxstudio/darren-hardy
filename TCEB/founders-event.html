@@ -135,9 +135,9 @@
   .hero .fine { margin: 22px 0 0; animation: fadeUp 1s var(--ease) 1.6s both; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 
-  /* ── The question: word-by-word on scroll ── */
-  .question { height: 260vh; padding: 0; }
-  .question .pin { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; }
+  /* ── The question: plays once when it comes into view ── */
+  .question { padding: 0; overflow: hidden; }
+  .question .pin { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 120px 0; }
   .question .glow { position: absolute; left: 50%; top: 55%; width: 900px; height: 600px; transform: translate(-50%,-50%); pointer-events: none;
     background: radial-gradient(closest-side, rgba(212,160,23,.16), transparent 70%); opacity: var(--glow, 0); transition: opacity .4s; }
   .q-text { font-family: var(--font-display); text-transform: uppercase; color: #fff; font-size: clamp(54px, 9vw, 128px); line-height: .94; letter-spacing: .01em; margin: 0; }
@@ -149,6 +149,8 @@
   .q-text .l3 { font-weight: 700; display: block; }
   .q-text .l3 .w { color: var(--c-gold); }
   .q-foot { margin-top: 40px; max-width: 520px; font-size: 18px; color: var(--c-silver); }
+  .js .q-foot { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .js .q-foot.in { opacity: 1; transform: none; }
 
   /* ── Finally ── */
   .finally .grid { display: grid; grid-template-columns: minmax(0, 1.25fr) 360px; gap: 96px; align-items: center; }
@@ -329,6 +331,9 @@
   .tier .btn { margin-top: auto; align-self: flex-start; }
   .seat .why { margin-top: 56px; max-width: 760px; font-size: 15px; line-height: 1.65; color: #8c8c8c; }
 
+  /* Gradient-clipped numerals: give the glyphs room so nothing is cut off */
+  .price .amt, .big40, .finally-h .ch { line-height: 1; padding: .1em .02em .06em; }
+  .price { align-items: center; }
   /* ── Guarantee ── */
   .guarantee .box { display: grid; grid-template-columns: 220px 1fr; gap: 64px; align-items: center; border: 1px solid var(--line); padding: 64px; border-radius: var(--radius); }
   .guarantee .mark { width: 200px; height: 200px; border-radius: 50%; border: 1.5px solid #000; display: grid; place-items: center; text-align: center; position: relative; }
@@ -439,6 +444,22 @@
   html[data-theme="light"] .tier.main::before { background: linear-gradient(140deg, rgba(225,19,46,.85), rgba(0,0,0,.06) 40%, transparent 70%); }
   html[data-theme="light"] .aura, html[data-theme="light"] .hero-aura, html[data-theme="light"] .studio-aura { background: radial-gradient(closest-side, rgba(0,0,0,.05), transparent 80%); }
 
+  /* Light version keeps two moments dark: the question and the studio (red-bright type on black) */
+  html[data-theme="light"] .keep-dark { --bg: #000; --fg: #fff; --body: var(--c-silver); --muted: #8c8c8c; --line: #262626; --accent: #ff0047; border-top: 0; }
+  html[data-theme="light"] section.keep-dark { border-top: 0; }
+  html[data-theme="light"] .keep-dark.grain::after { opacity: .09; mix-blend-mode: overlay; }
+  html[data-theme="light"] .keep-dark .q-text { color: #fff; }
+  html[data-theme="light"] .keep-dark .q-text .l2 { color: var(--c-silver); }
+  html[data-theme="light"] .keep-dark .q-text .l3 .w { color: #ff0047; }
+  html[data-theme="light"] .keep-dark .q-foot { color: var(--c-silver); }
+  html[data-theme="light"] .keep-dark .glow { background: radial-gradient(closest-side, rgba(225,19,46,.16), transparent 70%); }
+  html[data-theme="light"] .keep-dark .studio-aura { background: radial-gradient(closest-side, rgba(225,19,46,.18), rgba(120,0,20,.05) 60%, transparent 78%); }
+  html[data-theme="light"] .keep-dark .big40 { color: #fff; opacity: .92; }
+  html[data-theme="light"] .keep-dark .forty { border-top-color: #2e2e2e; }
+  html[data-theme="light"] .keep-dark .forty span { color: #a3a3a3; }
+  html[data-theme="light"] .keep-dark .seal { border-color: #333; color: #d6d6d6; }
+  @media (max-width: 720px) { html[data-theme="light"] .keep-dark .big40 { opacity: .22; } }
+
   /* Review toggle: not part of the design */
   .theme-toggle { position: fixed; left: 16px; bottom: 16px; z-index: 80; display: inline-flex; padding: 4px; gap: 2px; border-radius: 999px; border: 1px solid rgba(128,128,128,.4);
     background: rgba(20,20,20,.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font: 600 11px/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
@@ -493,7 +514,7 @@
     .hero-bg::after { background: linear-gradient(180deg, rgba(0,0,0,.4) 0%, transparent 20%, rgba(0,0,0,.6) 45%, #000 68%); }
     .live-line { font-size: 11px; gap: 8px 14px; }
     .hero-actions .btn { width: 100%; justify-content: center; }
-    .question { height: 220vh; }
+    .question .pin { min-height: 0; padding: 96px 0; }
     .book .cover { width: 260px; }
     .forbiz .grid { grid-template-columns: 1fr; }
     .forbiz .col { padding: 32px 24px; }
@@ -527,8 +548,7 @@
     .finally-h .ch { opacity: 1 !important; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .js .rise, .js .q-text .w { opacity: 1 !important; transform: none !important; filter: none !important; }
-    .question { height: auto; }
-    .question .pin { position: relative; height: auto; padding: 140px 0; }
+    .js .q-foot { opacity: 1 !important; transform: none !important; }
   }
 </style>
 </head>
@@ -564,7 +584,7 @@
 </header>
 
 <!-- ═══ THE QUESTION: Ferrari-style word reveal ═══ -->
-<section class="question on-dark grain" id="question">
+<section class="question on-dark keep-dark grain" id="question">
   <div class="pin">
     <div class="glow" aria-hidden="true"></div>
     <div class="wrap">
@@ -573,7 +593,7 @@
         <span class="l2" aria-hidden="true">The only question is:</span>
         <span class="l3" aria-hidden="true">In which direction?</span>
       </p>
-      <p class="q-foot rise">Every decision, every default, every person you hired and every one you kept. All of it, compounding. Right now.</p>
+      <p class="q-foot" id="qFoot">Every decision, every default, every person you hired and every one you kept. All of it, compounding. Right now.</p>
     </div>
   </div>
 </section>
@@ -730,7 +750,7 @@
 </section>
 
 <!-- ═══ IN THE STUDIO ═══ -->
-<section class="studio on-dark grain">
+<section class="studio on-dark keep-dark grain">
   <div class="aura studio-aura" aria-hidden="true"></div>
   <div class="big40" aria-hidden="true">40</div>
   <div class="wrap">
@@ -929,6 +949,14 @@
   });
   var words = q.querySelectorAll('.w');
   var section = document.getElementById('question');
+  var qFoot = document.getElementById('qFoot'), qPlayed = false;
+  // The question plays once, on its own clock, when it reaches the reader: headline word by word, then the line under it
+  function playQuestion() {
+    qPlayed = true;
+    var step = reduce ? 0 : 140;
+    words.forEach(function (w, i) { setTimeout(function () { w.classList.add('on'); }, i * step); });
+    setTimeout(function () { glow.style.setProperty('--glow', 1); qFoot.classList.add('in'); }, reduce ? 0 : words.length * step + 450);
+  }
   var glow = section.querySelector('.glow');
   var rises = [].slice.call(document.querySelectorAll('.rise'));
   var counters = [].slice.call(document.querySelectorAll('[data-count]'));
@@ -948,11 +976,7 @@
   function tick() {
     var vh = window.innerHeight, y = window.scrollY;
     // word reveal
-    var r = section.getBoundingClientRect();
-    var p = Math.min(Math.max(-r.top / (r.height - vh), 0), 1);
-    var n = reduce ? words.length : Math.floor(p * 1.25 * (words.length + 1));
-    words.forEach(function (w, i) { w.classList.toggle('on', i < n); });
-    glow.style.setProperty('--glow', n >= words.length ? 1 : 0);
+    if (!qPlayed && section.getBoundingClientRect().top < vh * .6) playQuestion();
     // rises and counters
     for (var i = rises.length - 1; i >= 0; i--) {
       if (rises[i].getBoundingClientRect().top < vh * .88) { rises[i].classList.add('in'); rises.splice(i, 1); }
@@ -970,39 +994,67 @@
   tick();
 
 
-  // Hero field: a wall of live screens, seen from the dark
+  // Hero field: a wall of live screens that light up by compounding.
+  // One screen, then 2, 4, 8... each lit screen lights a neighbour every beat, until the wall is full; then it rests and starts again.
   (function () {
     var c = document.getElementById('field'); if (!c || !c.getContext) return;
     var x = c.getContext('2d'), hero = document.getElementById('hero');
-    var dpr = Math.min(window.devicePixelRatio || 1, 2), W, H, cells = [], cw = 26, ch = 16, gap = 7, last = 0;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2), W, H, cols, rows, cells = [], lit = [], cw = 26, ch = 16, gap = 7;
+    var last = 0, nextBeat = 0, BEAT = 520, phase = 'grow', phaseAt = 0;
+    var OFF = .028, ON_MIN = .16, ON_RANGE = .2;
+    function idx(cx, cy) { return cy * cols + cx; }
     function build() {
       W = c.clientWidth; H = c.clientHeight; c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cells = [];
-      for (var yy = 0; yy < H; yy += ch + gap) for (var xx = 0; xx < W; xx += cw + gap) {
-        var b = Math.random() * .09 + .025;
-        cells.push({ x: xx, y: yy, b: b, t: b, g: Math.random() < .16 });
-      }
-      draw(true);
+      cols = Math.ceil(W / (cw + gap)); rows = Math.ceil(H / (ch + gap)); cells = [];
+      for (var cy = 0; cy < rows; cy++) for (var cx = 0; cx < cols; cx++)
+        cells.push({ cx: cx, cy: cy, b: OFF, t: OFF, on: false, g: Math.random() < .16 });
+      if (reduce) { cells.forEach(function (k) { k.on = true; k.b = k.t = ON_MIN + Math.random() * ON_RANGE; }); draw(); return; }
+      seed();
     }
-    function draw(all) {
-      var light = document.documentElement.getAttribute('data-theme') === 'light';
+    function light(k) { k.on = true; k.t = ON_MIN + Math.random() * ON_RANGE; lit.push(k); }
+    function seed() {
+      lit = []; cells.forEach(function (k) { k.on = false; k.t = OFF; });
+      // start in the visible band of the tilted wall, just off centre
+      var sx = Math.floor(cols * (.35 + Math.random() * .3)), sy = Math.floor(rows * (.6 + Math.random() * .2));
+      light(cells[idx(sx, sy)]); phase = 'grow';
+    }
+    function beat() {
+      if (phase !== 'grow') return;
+      var born = [], n = lit.length;
+      for (var i = 0; i < n; i++) {
+        var k = lit[i], opts = [];
+        [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]].forEach(function (d) {
+          var nx = k.cx + d[0], ny = k.cy + d[1];
+          if (nx >= 0 && ny >= 0 && nx < cols && ny < rows) { var m = cells[idx(nx, ny)]; if (!m.on) opts.push(m); }
+        });
+        if (!opts.length) { var tries = 6; while (tries--) { var r = cells[(Math.random() * cells.length) | 0]; if (!r.on) { opts.push(r); break; } } }
+        if (opts.length) { var pick = opts[(Math.random() * opts.length) | 0]; if (!pick.on) { pick.on = true; pick.t = ON_MIN + Math.random() * ON_RANGE; born.push(pick); } }
+      }
+      lit = lit.concat(born);
+      if (lit.length >= cells.length * .97) { phase = 'hold'; phaseAt = performance.now(); }
+    }
+    function draw() {
+      var lt = document.documentElement.getAttribute('data-theme') === 'light';
       x.clearRect(0, 0, W, H);
       for (var i = 0; i < cells.length; i++) {
         var k = cells[i];
-        if (!all) { if (Math.random() < .012) k.t = Math.random() < .06 ? .34 + Math.random() * .2 : Math.random() * .09 + .025; k.b += (k.t - k.b) * .08; }
-        x.fillStyle = light ? (k.g ? 'rgba(225,19,46,' + (k.b * .9).toFixed(3) + ')' : 'rgba(0,0,0,' + (k.b * .7).toFixed(3) + ')')
-                            : (k.g ? 'rgba(212,160,23,' + (k.b * 1.25).toFixed(3) + ')' : 'rgba(225,225,225,' + k.b.toFixed(3) + ')');
-        x.fillRect(k.x, k.y, cw, ch);
+        k.b += (k.t - k.b) * .12;
+        x.fillStyle = lt ? (k.g ? 'rgba(225,19,46,' + (k.b * .9).toFixed(3) + ')' : 'rgba(0,0,0,' + (k.b * .7).toFixed(3) + ')')
+                         : (k.g ? 'rgba(212,160,23,' + (k.b * 1.25).toFixed(3) + ')' : 'rgba(225,225,225,' + k.b.toFixed(3) + ')');
+        x.fillRect(k.cx * (cw + gap), k.cy * (ch + gap), cw, ch);
       }
     }
     function loop(t) {
       requestAnimationFrame(loop);
       if (t - last < 40) return; last = t;
       if (hero.getBoundingClientRect().bottom < 0) return;
-      draw(false);
+      if (phase === 'grow' && t >= nextBeat) { beat(); nextBeat = t + BEAT; }
+      if (phase === 'hold' && t - phaseAt > 3500) { phase = 'fade'; phaseAt = t; cells.forEach(function (k) { k.t = OFF; }); }
+      if (phase === 'fade' && t - phaseAt > 1800) { seed(); nextBeat = t + BEAT; }
+      draw();
     }
-    build(); window.addEventListener('resize', build); window.__fieldRedraw = function () { draw(true); };
-    if (!reduce) requestAnimationFrame(loop);
+    build(); window.addEventListener('resize', build); window.__fieldRedraw = draw;
+    if (!reduce) { nextBeat = performance.now() + 900; requestAnimationFrame(loop); }
   })();
 
 
