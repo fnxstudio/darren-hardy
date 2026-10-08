@@ -163,10 +163,12 @@
   .wcard h3 { margin-top: 16px; font: 600 34px/.95 var(--display); text-transform: uppercase; color: #000; }
   .wcard .req { margin-top: 8px; font: 800 12px var(--body); letter-spacing: .1em; text-transform: uppercase; color: rgba(0,0,0,.6); }
   .wcard p { margin-top: 12px; font-size: 14px; line-height: 1.45; color: rgba(0,0,0,.72); }
-  .here { margin-top: 20px; display: flex; align-items: center; gap: 10px; }
+  .here { margin-top: 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
   .faces { display: flex; }
   .faces img { width: 34px; height: 34px; border-radius: 6px; object-fit: cover; margin-left: -8px; box-shadow: 0 0 0 2px rgba(255,255,255,.9); }
-  .faces img:first-child { margin-left: 0; }
+  .faces img:first-child, .faces .q:first-child { margin-left: 0; }
+  .faces .q { width: 34px; height: 34px; border-radius: 6px; margin-left: -8px; display: grid; place-items: center; font: 600 20px/1 var(--display); background: rgba(255,255,255,.16); color: rgba(255,255,255,.85); box-shadow: 0 0 0 2px rgba(255,255,255,.9); }
+  .wcard.studio .faces .q { background: #1c1c1c; color: var(--gold); box-shadow: 0 0 0 2px #000, inset 0 0 0 1px rgba(212,160,23,.5); }
   .here span { font: 800 11px var(--body); letter-spacing: .08em; text-transform: uppercase; color: rgba(0,0,0,.7); }
   .wcard.lead { background: #fff; border: 2px solid #000; box-shadow: -18px 0 36px rgba(0,0,0,.08); }
   .wcard.lead h3 { font-size: 40px; }
@@ -455,7 +457,7 @@
   ];
   function img(k, alt) { return '<img src="' + P + k + '.webp" alt="' + (alt || '') + '" width="360" height="360">'; }
   function coin(n) { return n >= 10 ? 'plat' : n >= 5 ? 'gold' : n >= 3 ? 'silver' : 'copper'; }
-  function faces(list) { return '<span class="faces">' + list.map(function (k) { return img(k); }).join('') + '</span>'; }
+  function faces(list) { return '<span class="faces">' + list.map(function (k) { return k === '?' ? '<span class="q">?</span>' : img(k); }).join('') + '</span>'; }
 
   // Hero deck + live moments
   var deck = [['k2',1],['k1',0],['k3',2]].map(function (a) { var r = B[a[1]];
@@ -474,12 +476,12 @@
   // How to win: card stack
   var W = [
     ['lead','','Start here','Your link','Send it to the leader you want next to you in April. Every one who joins doubles your impact.',null,''],
-    ['copper','1','Copper','1 impact','Your numbered Copper coin and a handwritten note from Darren naming your leader.',['dant','mike','david','louis'],'86 here now'],
+    ['copper','1','Copper','1 impact','Your numbered Copper coin and a handwritten note from Darren naming your leader.',['dant','mike','david'],'86 here now'],
     ['silver','3','Silver','3 impacts','The Silver coin and <span class="ph">[reward]</span>.',['thomas','angelina','lisag'],'41 here now'],
-    ['gold','5','Gold','5 impacts','The Gold coin and <span class="ph">[reward]</span>.',['george','suzanne','zach','antonia'],'56 here now'],
-    ['plat','10','Platinum','10+ impacts',"The Platinum coin. You're a Studio Contender.",['kristi','danm','derrick','gerald'],'31 here now'],
-    ['studio','25','In the Studio','Top 25 with 10+','Three days live with Darren in Charleston.',['emeka','maria','spencer','rebecca'],'25 seats'],
-    ['table','5',"Darren's Table",'Top 5','A private dinner with Darren and Georgia.',['taylor','jeannie','michael','lisac'],'5 places']
+    ['gold','5','Gold','5 impacts','The Gold coin and <span class="ph">[reward]</span>.',['george','suzanne','zach'],'56 here now'],
+    ['plat','10','Platinum','10+ impacts',"The Platinum coin. You're a Studio Contender.",['kristi','danm','derrick'],'31 here now'],
+    ['studio','25','In the Studio','Top 25 with 10+','Three days live with Darren in Charleston.',['?','?','?'],'25 seats · earned at the freeze'],
+    ['table','5',"Darren's Table",'Top 5','A private dinner with Darren and Georgia.',['?','?','?'],'5 places · earned at the freeze']
   ];
   document.getElementById('rail').innerHTML = W.map(function (c) {
     return '<a class="wcard ' + c[0] + '" href="#board"><div>' + (c[1] ? '<div class="n">' + c[1] + '</div>' : '') + '<h3>' + c[2] + '</h3><div class="req">' + c[3] + '</div><p>' + c[4] + '</p></div>' +
