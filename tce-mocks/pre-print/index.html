@@ -96,9 +96,10 @@ a{color:inherit}
 @media (max-width:359px){.tier-note-l2{white-space:normal}}
 
 /* order: closed until a bundle is picked (JS only; without JS it stays open with the fallback link) */
-.order{padding:120px 0;border-top:1px solid var(--c-line)}
+.order{padding:80px 0 120px;border-top:1px solid var(--c-line)}
 .js .order:not(.is-open){display:none}
 .order-inner{max-width:760px;margin:0 auto}
+.order .section-h{margin-bottom:20px}
 .picked{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin:0 0 24px;padding:16px 20px;background:var(--c-field);border-radius:var(--radius);font-size:15px;color:var(--c-ink)}
 .picked b{color:var(--c-black)}
 .picked[hidden]{display:none}
@@ -143,6 +144,7 @@ a{color:inherit}
   .lede{margin-bottom:8px}
   .invite-copy .btn{grid-column:1/-1;justify-self:start}
   .bundles,.order{padding:72px 0}
+  .order{padding-top:48px}
   .lede{font-size:18px}
   .btn{padding:18px 24px}
 }
@@ -229,7 +231,6 @@ a{color:inherit}
   <section class="order" id="order">
     <div class="wrap order-inner">
       <h2 class="section-h">Your pre-order</h2>
-      <p class="sub" id="orderSub">Add your details below.</p>
       <p class="picked" id="picked" hidden></p>
 
       <!-- The checkout URL lives HERE (data-url) and only here. The cart itself is created on
@@ -269,7 +270,6 @@ a{color:inherit}
   var el = null; // the spiffy-element, created on the first bundle click
   var BASE = box.getAttribute('data-url');
   var picked = document.getElementById('picked');
-  var sub = document.getElementById('orderSub');
   var bail;
 
   function armBail() {
@@ -297,7 +297,6 @@ a{color:inherit}
     });
     picked.innerHTML = '<b>' + t.name + '</b><span>' + t.total + '</span><span>' + t.extra + '</span>';
     picked.hidden = false;
-    sub.textContent = 'Add your details below.';
     order.classList.add('is-open');
     if (!el) mount(PRESELECT ? tier : null);
     else if (PRESELECT) mount(tier);
