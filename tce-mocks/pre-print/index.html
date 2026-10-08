@@ -5,101 +5,126 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Pre-Print Private Invitation · The Compound Effect in Business</title>
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/zze6zxt.css">
 <style>
 @font-face{font-family:Inter;src:url("https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/fonts/6aaf55be1c2f880d17fcd6d7-Inter-Variable.woff2") format("woff2");font-weight:400 900;font-display:swap}
-:root{--ink:#0a0a0a;--paper:#fff;--wash:#f5f4f2;--red:#e1132e;--txt:#3a3a3a;--dim:#6b6b6b;--line:#e3e1dd}
+
+/* TCEB Brand & Design System v1.0 tokens (Oct 2026) */
+:root{
+  --c-white:#fff;--c-black:#000;--c-ink:#262626;--c-grey:#6e6e6e;--c-silver:#b3b3b3;--c-field:#f0f0f0;--c-line:#e2e2e2;
+  --c-red:#e1132e;--c-red-edge:#b30f25;
+  --font-display:'bebas-neue-pro-semiexpanded','Bebas Neue Pro','Bebas Neue',sans-serif;
+  --font-body:'Inter',-apple-system,'Segoe UI',sans-serif;
+  --radius:4px;--container:1080px;--gutter:32px
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+body{margin:0;background:var(--c-white);color:var(--c-black);font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+em,i{font-style:normal}
 a{color:inherit}
+.wrap{max-width:calc(var(--container) + var(--gutter)*2);margin:0 auto;padding:0 var(--gutter)}
+.nobreak{white-space:nowrap}
 
-/* nav: DH monogram only, same as the TCE Global Site Nav (Light hero variant) */
+/* type */
+.display{margin:0 0 28px;font-family:var(--font-display);font-size:clamp(46px,6.4vw,92px);line-height:.94;letter-spacing:.02em;text-transform:uppercase}
+.display .setup{display:block;font-weight:200}
+.display .answer{display:block;font-weight:600}
+.section-h{margin:0 0 10px;font-family:var(--font-display);font-weight:600;font-size:clamp(34px,4vw,54px);line-height:.98;letter-spacing:.02em;text-transform:uppercase}
+.lede{margin:0 0 26px;max-width:540px;font-size:20px;line-height:1.62;color:var(--c-ink)}
+.sub{margin:0 0 44px;font-size:17px;line-height:1.62;color:var(--c-grey)}
+
+/* buttons (guide 09: solid demands action, ghost invites; nothing darkens on hover) */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:14px;padding:20px 36px;border-radius:var(--radius);border:1.5px solid transparent;font:700 13px/1.3 var(--font-body);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s,background-color .22s,color .22s}
+.btn .arw{display:inline-block;transition:transform .22s}
+.btn:hover .arw{transform:translateX(6px)}
+.btn:focus-visible{outline:3px solid var(--c-red);outline-offset:3px}
+.btn-solid{background:var(--c-red);color:#fff;box-shadow:0 6px 0 var(--c-red-edge),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-solid:hover{transform:translateY(-3px) scale(1.04)}
+.btn-solid:active{transform:translateY(5px);transition-duration:60ms;box-shadow:0 1px 0 var(--c-red-edge)}
+.btn-ghost{background:transparent;color:var(--c-black);border-color:var(--c-black)}
+.btn-ghost:hover,.tier.is-selected .btn-ghost{background:var(--c-black);color:#fff}
+
+/* nav: DH monogram only, as the TCE Global Site Nav (Light hero variant) */
 .nav{padding:28px 0 0}
 .nav img{width:40px;height:40px;display:block}
 
 /* invitation */
-.invite{padding:48px 0 72px}
-.invite-grid{display:grid;grid-template-columns:300px 1fr;gap:64px;align-items:center}
-.cover{width:100%;height:auto;display:block;border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.18),0 24px 48px -16px rgba(0,0,0,.35)}
-.label{margin:0 0 18px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
-.h1{margin:0 0 26px;font-size:clamp(30px,3.6vw,44px);line-height:1.12;font-weight:800;letter-spacing:-.02em}
-.perks{margin:0 0 34px;padding:0;list-style:none;border-top:1px solid var(--line)}
-.perks li{padding:14px 0;border-bottom:1px solid var(--line);font-size:18px;line-height:1.5;color:var(--txt)}
-.perks b{color:var(--ink);font-weight:700}
+.invite{padding:40px 0 120px}
+.invite-grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:56px;align-items:center}
+.book{position:relative;max-width:340px;margin:0 auto}
+.book img{display:block;width:100%;height:auto;position:relative;z-index:1}
+/* real contact shadow under the object (guide 06: shadows only under objects) */
+.book::after{content:"";position:absolute;left:8%;right:2%;bottom:-14px;height:34px;background:radial-gradient(50% 50% at 50% 50%,rgba(0,0,0,.32),rgba(0,0,0,0) 70%);filter:blur(4px)}
+.perks{margin:0 0 40px;padding:0;list-style:none;border-top:1px solid var(--c-line);max-width:560px}
+.perks li{padding:16px 0;border-bottom:1px solid var(--c-line);font-size:18px;line-height:1.5;color:var(--c-ink)}
+.perks b{color:var(--c-black);font-weight:700}
 
-.btn{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:2px;background:var(--ink);color:#fff;font-size:16px;font-weight:700;text-decoration:none;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
-.btn .arr{display:inline-block;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
-.btn:hover{transform:scale(1.035)}
-.btn:hover .arr{transform:translateX(5px)}
-.btn:focus-visible{outline:3px solid var(--red);outline-offset:3px}
-
-/* tiers */
-.tiers{background:var(--wash);padding:72px 0}
-.h2{margin:0 0 8px;font-size:clamp(24px,2.6vw,32px);line-height:1.15;font-weight:800;letter-spacing:-.015em}
-.sub{margin:0 0 36px;font-size:16px;color:var(--dim)}
-.tier-grid{display:flex;flex-direction:column;gap:16px}
-.tier{display:grid;grid-template-columns:170px minmax(0,1fr) 316px;gap:32px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:2px;padding:28px 30px;transition:border-color .2s,box-shadow .2s}
-.tier.is-selected{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
-.tier-qty{margin:0 0 4px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
-.tier-price{margin:0 0 4px;font-size:32px;font-weight:800;letter-spacing:-.02em}
-.tier-price small{font-size:16px;font-weight:600;color:var(--dim)}
-.tier-was{margin:0;font-size:14px;color:var(--dim)}
-.tier-list{margin:0;padding:0;list-style:none}
-.tier-list li{position:relative;padding:4px 0 4px 22px;font-size:16px;line-height:1.5;color:var(--txt)}
-.tier-list li::before{content:"";position:absolute;left:2px;top:13px;width:7px;height:7px;background:var(--red);border-radius:1px}
-.tier-list b{color:var(--ink)}
-.limit{color:var(--red);font-weight:600}
-.collector{display:grid;grid-template-columns:132px minmax(0,1fr);gap:16px;align-items:start;margin:14px 0 0;padding:14px;background:var(--wash);border-radius:2px}
-.collector-img{display:flex;align-items:center;justify-content:center;aspect-ratio:3/4;border:1px dashed #b9b5ae;border-radius:2px;font-size:11px;line-height:1.35;text-align:center;color:var(--dim);padding:8px}
-.collector p{margin:0 0 6px;font-size:14px;line-height:1.5;color:var(--txt)}
+/* bundles */
+.bundles{padding:120px 0;border-top:1px solid var(--c-line)}
+.tier-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.tier{display:flex;flex-direction:column;border:1px solid var(--c-line);border-radius:var(--radius);padding:32px 28px 28px;background:var(--c-white);transition:border-color .2s,box-shadow .2s}
+.tier.is-top{border-color:var(--c-black)}
+.tier.is-selected{border-color:var(--c-black);box-shadow:inset 0 0 0 1px var(--c-black)}
+.tier-name{margin:0 0 18px;font-family:var(--font-display);font-weight:600;font-size:34px;line-height:1;letter-spacing:.03em;text-transform:uppercase}
+.tier-price{display:flex;align-items:baseline;gap:8px;margin:0 0 6px}
+.tier-price .now{font-family:var(--font-display);font-weight:600;font-size:56px;line-height:.9;letter-spacing:.01em}
+.tier-price .per{font:700 12px/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--c-grey)}
+.tier-was{margin:0 0 24px;padding:0 0 24px;border-bottom:1px solid var(--c-line);font-size:14px;color:var(--c-grey)}
+.tier-was s{text-decoration-thickness:1px}
+.tier-list{margin:0 0 24px;padding:0;list-style:none}
+.tier-list li{position:relative;padding:0 0 12px 20px;font-size:15px;line-height:1.55;color:var(--c-ink)}
+.tier-list li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;background:var(--c-black)}
+.tier-list b{color:var(--c-black)}
+.limit{color:var(--c-red);font-weight:700}
+.collector{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;align-items:start;margin:0 0 24px;padding:16px;background:var(--c-field);border-radius:var(--radius)}
+.collector-img{display:flex;align-items:center;justify-content:center;aspect-ratio:3/4;border:1px dashed var(--c-silver);border-radius:var(--radius);font-size:10px;line-height:1.3;text-align:center;color:var(--c-grey);padding:6px}
+.collector p{margin:0 0 6px;font-size:13px;line-height:1.5;color:var(--c-ink)}
 .collector p:last-child{margin:0}
-.collector b{color:var(--ink)}
-.tier-cta{display:flex;flex-direction:column}
-.tier-btn{width:100%;justify-content:center;text-align:center;white-space:nowrap;padding:16px 18px;font-size:15px}
-.tier.is-selected .tier-btn{background:var(--red)}
-.tier-note{margin:10px 0 0;font-size:13px;line-height:1.45;text-align:center;color:var(--dim)}
+.collector b{color:var(--c-black)}
+.tier-cta{margin-top:auto}
+.tier-cta .btn{width:100%;padding:18px 18px}
+.tier-note{margin:12px 0 0;font-size:12px;line-height:1.55;text-align:center;color:var(--c-grey)}
 
 /* order */
-.order{padding:72px 0 88px}
+.order{padding:120px 0;border-top:1px solid var(--c-line)}
 .order-inner{max-width:760px;margin:0 auto}
-.picked{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0 0 20px;padding:16px 20px;border:1px solid var(--line);border-left:3px solid var(--red);border-radius:2px;font-size:16px;color:var(--txt)}
-.picked b{color:var(--ink)}
+.picked{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin:0 0 24px;padding:16px 20px;background:var(--c-field);border-radius:var(--radius);font-size:15px;color:var(--c-ink)}
+.picked b{color:var(--c-black)}
 .picked[hidden]{display:none}
 .checkout{position:relative;min-height:560px}
-.loading{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;padding:4px 0;pointer-events:none;transition:opacity .3s}
-.loading span{display:block;height:52px;border-radius:2px;background:linear-gradient(90deg,#f1efec 0%,#f8f7f5 50%,#f1efec 100%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}
+.loading{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;pointer-events:none;transition:opacity .3s}
+.loading span{display:block;height:52px;border-radius:var(--radius);background:linear-gradient(90deg,#f0f0f0 0%,#f8f8f8 50%,#f0f0f0 100%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}
 .loading span:first-child{height:120px}
 @keyframes shimmer{to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){.loading span{animation:none}}
 .checkout.is-ready .loading{opacity:0}
-.fallback{display:none;margin:0;padding:24px;border:1px solid var(--line);border-radius:2px;font-size:16px;line-height:1.55;color:var(--txt)}
+.fallback{display:none;margin:0;padding:24px;border:1px solid var(--c-line);border-radius:var(--radius);font-size:16px;line-height:1.55;color:var(--c-ink)}
 .checkout.is-failed .fallback{display:block}
 .checkout.is-failed .loading{display:none}
-.fallback a{font-weight:700;color:var(--ink)}
+.fallback a{font-weight:700;color:var(--c-black)}
 
-/* slim footer */
-.foot{border-top:1px solid var(--line);padding:28px 0;font-size:13px;color:var(--dim)}
-.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+/* slim footer: black band, DH mark closes the page */
+.foot{background:var(--c-black);color:var(--c-silver);padding:40px 0}
+.foot .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:18px 32px;justify-content:space-between}
+.foot img{width:40px;height:40px;display:block}
+.foot p{margin:0;font:400 12px/1.55 var(--font-body)}
 .foot a{text-decoration:none}
-.foot a:hover{text-decoration:underline}
+.foot a:hover{color:#fff}
 
 @media (max-width:991px){
-  .tier{grid-template-columns:160px minmax(0,1fr);gap:20px 28px}
-  .tier-cta{grid-column:1/-1}
-  .invite-grid{grid-template-columns:220px 1fr;gap:40px}
+  .tier-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}
 }
 @media (max-width:767px){
-  .wrap{padding:0 20px}
-  .invite{padding:28px 0 56px}
-  .invite-grid{grid-template-columns:1fr;gap:28px}
-  .cover{width:180px}
-  .tier{grid-template-columns:1fr;padding:24px 20px}
-  .collector{grid-template-columns:96px minmax(0,1fr)}
-  .tier-btn{white-space:normal}
+  :root{--gutter:20px}
+  .invite{padding:24px 0 72px}
+  .invite-grid{grid-template-columns:1fr;gap:32px}
+  .book{max-width:210px}
+  .bundles,.order{padding:72px 0}
+  .lede{font-size:18px}
   .perks li{font-size:16px}
-  .tiers,.order{padding:56px 0}
+  .btn{padding:18px 24px}
 }
 </style>
 </head>
@@ -110,66 +135,72 @@ a{color:inherit}
 <main>
   <section class="invite">
     <div class="wrap invite-grid">
-      <img class="cover" src="tceb-front-640.webp" width="640" height="863" alt="The Compound Effect in Business by Darren Hardy, hardcover" fetchpriority="high">
+      <div class="book"><img src="tceb-book-3d-680.webp" width="680" height="1071" alt="The Compound Effect in Business by Darren Hardy, hardcover" fetchpriority="high"></div>
       <div>
-        <p class="label">Pre-print private invitation</p>
-        <h1 class="h1">Receive a first-run hardcover copy months before public release.</h1>
+        <h1 class="display"><span class="setup">Pre-print</span><span class="answer">private invitation</span></h1>
+        <p class="lede">Receive a first-run hardcover copy months before public release.</p>
         <ul class="perks">
           <li>Pre-order 10 or more and get <b>your name printed in the book!</b></li>
           <li>Pre-order 100 or more and get <b>your headshot (&amp; name) printed in the book!</b></li>
         </ul>
-        <a class="btn" href="#bundles">Pre-order your book <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-solid" href="#bundles">Pre-order your book <span class="arw" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
 
-  <section class="tiers" id="bundles">
+  <section class="bundles" id="bundles">
     <div class="wrap">
-      <h2 class="h2">Choose your bundle.</h2>
+      <h2 class="section-h">Choose your bundle</h2>
       <p class="sub">Every bundle ships first-run hardcovers months before the public launch.</p>
 
       <div class="tier-grid">
         <article class="tier" data-tier="3">
-          <div class="tier-head"><p class="tier-qty">3 Books</p>
-          <p class="tier-price">$24.95 <small>/ea</small></p>
-          <p class="tier-was"><s>$29.95</s> · $74.85 total</p></div>
-          <div class="tier-body"><ul class="tier-list">
+          <h3 class="tier-name">3 Books</h3>
+          <p class="tier-price"><span class="now">$24.95</span><span class="per">each</span></p>
+          <p class="tier-was"><s>$29.95</s> · $74.85 total</p>
+          <ul class="tier-list">
             <li><b>Pre-release hardcovers</b> delivered months before the public launch.</li>
-          </ul></div>
-          <div class="tier-cta"><a class="btn tier-btn" href="#order" data-tier="3">Reserve my 3 hardcovers <span class="arr" aria-hidden="true">→</span></a>
-          <p class="tier-note">Shipped before public launch</p></div>
+          </ul>
+          <div class="tier-cta">
+            <a class="btn btn-ghost" href="#order" data-tier="3">Reserve my 3 hardcovers <span class="arw" aria-hidden="true">→</span></a>
+            <p class="tier-note">Shipped before public launch</p>
+          </div>
         </article>
 
         <article class="tier" data-tier="10">
-          <div class="tier-head"><p class="tier-qty">10 Books</p>
-          <p class="tier-price">$19.95 <small>/ea</small></p>
-          <p class="tier-was"><s>$29.95</s> · $199.50 total</p></div>
-          <div class="tier-body"><ul class="tier-list">
+          <h3 class="tier-name">10 Books</h3>
+          <p class="tier-price"><span class="now">$19.95</span><span class="per">each</span></p>
+          <p class="tier-was"><s>$29.95</s> · $199.50 total</p>
+          <ul class="tier-list">
             <li><b>Pre-release hardcovers</b> delivered months before the public launch.</li>
             <li><b>Your name</b> printed in the book.</li>
-          </ul></div>
-          <div class="tier-cta"><a class="btn tier-btn" href="#order" data-tier="10">Get my name in the book <span class="arr" aria-hidden="true">→</span></a>
-          <p class="tier-note">Includes 10 hardcovers</p></div>
+          </ul>
+          <div class="tier-cta">
+            <a class="btn btn-ghost" href="#order" data-tier="10">Get my name in the book <span class="arw" aria-hidden="true">→</span></a>
+            <p class="tier-note">Includes 10 hardcovers</p>
+          </div>
         </article>
 
-        <article class="tier" data-tier="100">
-          <div class="tier-head"><p class="tier-qty">100 Books</p>
-          <p class="tier-price">$9.95 <small>/ea</small></p>
-          <p class="tier-was"><s>$29.95</s> · $995 total</p></div>
-          <div class="tier-body"><ul class="tier-list">
+        <article class="tier is-top" data-tier="100">
+          <h3 class="tier-name">100 Books</h3>
+          <p class="tier-price"><span class="now">$9.95</span><span class="per">each</span></p>
+          <p class="tier-was"><s>$29.95</s> · $995 total</p>
+          <ul class="tier-list">
             <li><b>Pre-release hardcovers</b> delivered months before the public launch.</li>
             <li><b>Your name</b> printed in the book.</li>
             <li><b>Your headshot</b> printed in the book. <span class="limit">Limited to 100.</span></li>
           </ul>
           <div class="collector">
-            <div class="collector-img">Photo needed: The Compound Effect leatherbound collector's edition</div>
+            <div class="collector-img">Photo needed: leatherbound collector's edition</div>
             <div>
-              <p><b>PLUS, receive a rare limited-edition leatherbound collector's edition of the first book:</b> <i>The Compound Effect: Jumpstart Your Income, Your Life, Your Success.</i></p>
+              <p><b>PLUS, receive a rare limited-edition leatherbound collector's edition of the first book:</b> The Compound Effect: Jumpstart Your Income, Your Life, Your Success.</p>
               <p>Personally signed and numbered by Darren. Only 500 ever produced.</p>
             </div>
-          </div></div>
-          <div class="tier-cta"><a class="btn tier-btn" href="#order" data-tier="100">Get my name + headshot in the book <span class="arr" aria-hidden="true">→</span></a>
-          <p class="tier-note">Includes 100 hardcovers + <i>The Compound Effect</i> leatherbound collector's edition</p></div>
+          </div>
+          <div class="tier-cta">
+            <a class="btn btn-ghost" href="#order" data-tier="100">Get my name + headshot in the book <span class="arw" aria-hidden="true">→</span></a>
+            <p class="tier-note">Includes 100 hardcovers + <span class="nobreak">The Compound Effect</span> leatherbound collector's edition</p>
+          </div>
         </article>
       </div>
     </div>
@@ -177,7 +208,7 @@ a{color:inherit}
 
   <section class="order" id="order">
     <div class="wrap order-inner">
-      <h2 class="h2">Your pre-order.</h2>
+      <h2 class="section-h">Your pre-order</h2>
       <p class="sub" id="orderSub">Choose your bundle below, then add your details.</p>
       <p class="picked" id="picked" hidden></p>
 
@@ -194,24 +225,24 @@ a{color:inherit}
 
 <footer class="foot">
   <div class="wrap">
-    <span>© 2026 Darren Hardy, LLC. All rights reserved.</span>
-    <span><a href="https://darrenhardy.com/privacy-policy/">Privacy</a> · <a href="https://darrenhardy.com/terms-of-use/">Terms</a></span>
+    <img src="dh-mark-white.webp" alt="Darren Hardy" width="40" height="40">
+    <p>© 2026 Darren Hardy, LLC · <a href="https://darrenhardy.com/privacy-policy/">Privacy</a> · <a href="https://darrenhardy.com/terms-of-use/">Terms</a></p>
   </div>
 </footer>
 
 <script>
 (function () {
   // Tier pre-select by URL. Spiffy's option field is tceb_hardcover (values 3 / 10 / 100), but on
-  // 2026-10-07 the param did NOT pre-select the live checkout. Leave PRESELECT false until the
-  // Spiffy admin fix is confirmed; then the cards also reload the form with their tier picked.
+  // 2026-10-07 the param did NOT pre-select the checkout, embedded or not. Leave PRESELECT false until
+  // the Spiffy admin fix is confirmed; then the cards also reload the form with their tier picked.
   var TIER_PARAM = 'tceb_hardcover';
   var PRESELECT = false;
   var BAIL_MS = 8000;
 
   var TIERS = {
-    '3':   { name: '3 hardcovers',   total: '$74.85', extra: 'Shipped before public launch' },
+    '3':   { name: '3 hardcovers',   total: '$74.85',  extra: 'Shipped before public launch' },
     '10':  { name: '10 hardcovers',  total: '$199.50', extra: 'Your name printed in the book' },
-    '100': { name: '100 hardcovers', total: '$995', extra: 'Your name + headshot in the book, plus the leatherbound collector\'s edition' }
+    '100': { name: '100 hardcovers', total: '$995',    extra: 'Your name + headshot in the book, plus the leatherbound collector\'s edition' }
   };
 
   var box = document.getElementById('checkout');
@@ -249,7 +280,7 @@ a{color:inherit}
     if (PRESELECT) mount(tier);
   }
 
-  document.querySelectorAll('.tier-btn').forEach(function (a) {
+  document.querySelectorAll('.tier-cta .btn').forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
       select(a.getAttribute('data-tier'));
