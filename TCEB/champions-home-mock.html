@@ -360,10 +360,16 @@
   .tool .go { margin-top: 18px; font: 700 12px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--gold-ink); display: inline-flex; gap: 10px; }
   .tool .go span { transition: transform .22s var(--ease); }
   .tool:hover .go span { transform: translateX(5px); }
-  .faq { margin-top: 72px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; border-top: 2px solid #000; }
-  .faq div { padding: 18px 0; border-bottom: 1px solid var(--line); font-weight: 600; color: #000; display: flex; justify-content: space-between; gap: 16px; cursor: pointer; }
-  .faq div::after { content: "+"; color: var(--gold-ink); font-size: 20px; line-height: 1; }
-  @media (max-width: 900px) { .tools { grid-template-columns: 1fr 1fr; } .faq { grid-template-columns: 1fr; } }
+  .faq-wrap { margin-top: 96px; padding-top: 48px; border-top: 2px solid #000; }
+  .faq-h { font: 600 40px/1 var(--display); text-transform: uppercase; color: #000; }
+  .faq { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; align-items: start; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; padding: 22px 0; font-weight: 700; font-size: 16.5px; color: #000; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--gold); color: var(--gold-ink); display: grid; place-items: center; font-size: 18px; font-weight: 500; transition: transform .25s var(--ease); }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { padding: 0 44px 22px 0; font-size: 15.5px; color: var(--grey); }
+  @media (max-width: 900px) { .tools { grid-template-columns: 1fr 1fr; } .faq { grid-template-columns: 1fr; } .faq-wrap { margin-top: 64px; padding-top: 36px; } }
   @media (max-width: 520px) { .tools { grid-template-columns: 1fr; } }
 
   /* CLOSE + FOOTER */
@@ -549,10 +555,16 @@
       <a class="tool" href="#"><h3>An email</h3><p>A short personal note, already in your voice.</p><span class="go">Copy email <span>→</span></span></a>
       <a class="tool" href="#"><h3>Name a leader</h3><p>Investing for your own team? Name each seat here.</p><span class="go">Name them <span>→</span></span></a>
     </div>
-    <div class="faq">
-      <div>What counts as an impact?</div><div>Started late. Can I still make the studio?</div>
-      <div>How do I see where I stand?</div><div>A leader says they joined. Where's my credit?</div>
-      <div>Does my own ticket count?</div><div>How is In the Studio awarded?</div>
+    <div class="faq-wrap">
+      <h3 class="faq-h">Questions</h3>
+      <div class="faq">
+      <details><summary>What counts as an impact?</summary><p>Every leader who takes a seat at the Founders Event because of you. They join through your link, they name you at checkout, or you invest in a seat for one of your own leaders and name them. Each one is one impact.</p></details>
+      <details><summary>Started late. Can I still make the studio?</summary><p>Yes. Every impact counts the same until the final count, and each stretch of the season opens a new play. Plenty of the board is still to be decided.</p></details>
+      <details><summary>How do I see where I stand?</summary><p>Your Champion Board shows your rank, your impacts and how far you are from your next coin. It updates the moment a leader's seat is confirmed.</p></details>
+      <details><summary>A leader says they joined. Where's my credit?</summary><p>Credit lands within the hour of their seat being confirmed, and you get a text when it does. If it hasn't shown up, reply to any Champion email with their name and we'll sort it out.</p></details>
+      <details><summary>Does my own ticket count?</summary><p>Your own seat is your way in. Impacts are the leaders you bring with you. <span class="ph">[confirm the rule]</span></p></details>
+      <details><summary>How is In the Studio awarded?</summary><p>By rank at the final count: the top 25 Champions with 10 or more impacts. Every seat is earned by rank and Darren's selection. Nothing is left to chance.</p></details>
+      </div>
     </div>
   </div>
 </section>
