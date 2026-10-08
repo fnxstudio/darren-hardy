@@ -251,11 +251,11 @@ a{color:inherit}
 
 <script>
 (function () {
-  // Tier pre-select by URL. Spiffy's option field is tceb_hardcover (values 3 / 10 / 100), but on
-  // 2026-10-07 the param did NOT pre-select the checkout, embedded or not. Leave PRESELECT false until
-  // the Spiffy admin fix is confirmed; then the cards also reload the form with their tier picked.
+  // Tier pre-select by URL. Spiffy's option field is tceb_hardcover (values 3 / 10 / 100). ON ahead of the
+  // Spiffy admin fix (user, 2026-10-07): if the fix works the form opens with the bundle picked and the
+  // Spiffy custom CSS hides the bundle box; if not, nothing is picked and the box stays visible (fail-safe).
   var TIER_PARAM = 'tceb_hardcover';
-  var PRESELECT = false;
+  var PRESELECT = true;
   var BAIL_MS = 8000;
 
   var TIERS = {
