@@ -122,8 +122,15 @@ a{color:inherit}
 @media (max-width:767px){
   :root{--gutter:20px}
   .invite{padding:24px 0 72px}
-  .invite-grid{grid-template-columns:1fr;gap:32px}
-  .book{max-width:210px}
+  /* phone: book left, headline right; the rest runs full width underneath */
+  .invite-grid{grid-template-columns:118px minmax(0,1fr);gap:24px 20px;align-items:center}
+  .invite-copy{display:contents}
+  .book{grid-column:1;grid-row:1;max-width:none;margin:0}
+  .display{grid-column:2;grid-row:1;margin:0;font-size:clamp(32px,10vw,44px)}
+  .lede,.perks{grid-column:1/-1;margin-top:0}
+  .perks{margin-bottom:8px}
+  .lede{margin-bottom:8px}
+  .invite-copy .btn{grid-column:1/-1;justify-self:start}
   .bundles,.order{padding:72px 0}
   .lede{font-size:18px}
   .btn{padding:18px 24px}
@@ -138,7 +145,7 @@ a{color:inherit}
   <section class="invite">
     <div class="wrap invite-grid">
       <div class="book"><img src="tceb-book-3d-680.webp" width="680" height="1071" alt="The Compound Effect in Business by Darren Hardy, hardcover" fetchpriority="high"></div>
-      <div>
+      <div class="invite-copy">
         <h1 class="display"><span class="setup">Pre-print</span><span class="answer">private invitation</span></h1>
         <p class="lede">Receive a first-run hardcover edition<br> months before the public release.</p>
         <ul class="perks">
