@@ -64,7 +64,7 @@ a{color:inherit}
 .tier-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.3fr);gap:20px;align-items:stretch}
 .tier{display:flex;flex-direction:column;border:1px solid var(--c-line);border-radius:var(--radius);padding:32px 22px 26px;background:var(--c-white);transition:border-color .2s,box-shadow .2s}
 .tier.is-top{border-color:var(--c-black)}
-.tier.is-selected{border-color:var(--c-black);box-shadow:inset 0 0 0 1px var(--c-black)}
+.tier.is-selected{border-color:var(--c-red);box-shadow:inset 0 0 0 1px var(--c-red)}
 .tier-name{margin:0 0 18px;font-family:var(--font-display);font-weight:600;font-size:34px;line-height:1;letter-spacing:.03em;text-transform:uppercase}
 .tier-price{display:flex;align-items:baseline;gap:8px;margin:0 0 6px}
 .tier-price .now{font-family:var(--font-display);font-weight:600;font-size:56px;line-height:.9;letter-spacing:.01em}
@@ -288,6 +288,7 @@ a{color:inherit}
   document.querySelectorAll('.tier-cta .btn').forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
+      if (e.detail) a.blur(); // mouse/touch click: no lingering focus ring (keyboard focus keeps it)
       select(a.getAttribute('data-tier'));
       order.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     });
