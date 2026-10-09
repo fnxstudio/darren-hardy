@@ -82,6 +82,30 @@
   .nav .btn { margin-left: auto; padding: 13px 18px; font-size: 11.5px; white-space: nowrap; }
   @media (max-width: 560px) { .nav .live { display: none; } .nav .t { font-size: 18px; } .nav .btn { padding: 11px 13px; font-size: 10.5px; } .nav .wrap { gap: 12px; } }
 
+  /* LINK HUB */
+  #link { scroll-margin-top: 90px; }
+  .hub { margin-top: 44px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 24px; align-items: start; }
+  .hub-opts { display: grid; gap: 12px; }
+  .opt { text-align: left; font: inherit; cursor: pointer; padding: 22px 22px 20px; background: #fff; border: 1.5px solid var(--line); border-radius: 12px; transition: border-color .2s, box-shadow .2s, transform .2s var(--ease); }
+  .opt:hover { transform: translateY(-2px); border-color: #bdbdbd; }
+  .opt.on { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+  .opt .lab { color: var(--gold-ink); }
+  .opt b { display: block; margin-top: 6px; font: 600 30px/1 var(--display); text-transform: uppercase; color: #000; }
+  .opt .od { display: block; margin-top: 8px; font-size: 14.5px; color: var(--grey); }
+  .hub-out { padding: 28px; background: var(--field); border-radius: 14px; }
+  .hub-k { color: #000; }
+  .copyrow { margin-top: 10px; display: flex; gap: 10px; }
+  .copyrow input { flex: 1; min-width: 0; font: 600 15px var(--body); padding: 16px 14px; border: 1.5px solid #d6d6d6; border-radius: var(--r); background: #fff; color: #000; }
+  .copyrow .btn { padding: 16px 20px; white-space: nowrap; }
+  #refMsg { margin-top: 10px; width: 100%; font: 400 15px/1.55 var(--body); padding: 14px; border: 1.5px solid #d6d6d6; border-radius: var(--r); background: #fff; color: #000; resize: vertical; }
+  .hub-acts { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .hub-acts .btn { padding: 14px 18px; font-size: 12px; }
+  .hub-preview { margin-left: auto; font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--gold-ink); }
+  .copybtn.done { background: #000 !important; color: #fff !important; border-color: #000 !important; }
+  .hub-id { margin-top: 14px; font-size: 12.5px; color: var(--grey); }
+  .hub-id code { font: 600 12.5px ui-monospace, Menlo, monospace; color: #000; }
+  @media (max-width: 900px) { .hub { grid-template-columns: 1fr; } .hub-out { padding: 20px; } .copyrow { flex-direction: column; } .hub-preview { margin-left: 0; } }
+
   /* HARDY HARVEST: on-page block + pop-up */
   .harvest { margin-top: 44px; padding: 32px; background: #fff; border: 2px solid var(--gold); border-radius: 16px; box-shadow: 0 18px 40px rgba(0,0,0,.08); scroll-margin-top: 110px; }
   .hv-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; flex-wrap: wrap; }
@@ -460,7 +484,7 @@
     <img src="img/dh-mark-white.webp" alt="Darren Hardy">
     <span class="t">THE FOUNDERS BOARD</span>
     <a class="live" href="#harvest"><i></i>LIVE NOW: HARDY HARVEST<b class="sep"></b><span class="end">Ends Thurs., Nov 12th</span><span class="arw">&rarr;</span></a>
-    <a class="btn btn-solid" href="#close">Get my link <span class="arw">→</span></a>
+    <a class="btn btn-solid" href="#link">Get my link <span class="arw">→</span></a>
   </div>
 </header>
 
@@ -472,7 +496,7 @@
         <h1 class="D"><span class="s">Your</span><span class="a">Impact.</span><span class="a"><em>Compounds.</em></span></h1>
         <p class="lede">Every leader you bring to the Founders Event doubles your impact. <b>Ten impacts make you a Studio Contender. The top 25 spend three days In the Studio, live with Darren.</b></p>
         <div class="ctas">
-          <a class="btn btn-solid" href="#close">Double my impact <span class="arw">→</span></a>
+          <a class="btn btn-solid" href="#link">Get my link <span class="arw">→</span></a>
           <a class="btn btn-ghost" href="#win">How to win <span class="arw">↓</span></a>
         </div>
       </div>
@@ -494,7 +518,7 @@
         <div class="st-row"><span>The Studio Line: <b>#25</b></span><span><b>2 spots</b> away</span></div>
         <div class="st-bar line"><i style="width:92%"></i></div>
       </div>
-      <a class="btn btn-solid" href="#close">Double it again <span class="arw">&rarr;</span></a>
+      <a class="btn btn-solid" href="#link">Double it again <span class="arw">&rarr;</span></a>
     </div>
   </div>
 </section>
@@ -604,7 +628,7 @@
         <li><b>Seat two must be named</b> by Mon., Nov 16th.</li>
         <li><b>Orders go out Nov 17th</b> to land before Thanksgiving, Nov 26th.</li>
       </ul>
-      <div class="ctas"><a class="btn btn-solid" href="#">Add my second seat <span class="arw">&rarr;</span></a></div>
+      <div class="ctas"><a class="btn btn-solid" href="https://fnxstudio.github.io/darren-hardy/TCEB/founders-event.html#harvest" data-ref target="_blank" rel="noopener">Add my second seat <span class="arw">&rarr;</span></a></div>
     </div>
   </div>
 </section>
@@ -634,15 +658,30 @@
   </div>
 </section>
 
-<!-- TOOLS + FAQ -->
-<section class="band" style="padding-top:0">
+<!-- YOUR NEXT IMPACT: the link hub + FAQ -->
+<section class="band hub-band" id="link" style="padding-top:0">
   <div class="wrap">
-    <h2 class="D"><span class="s">Your next impact</span><span class="a">Ready <em>to send.</em></span></h2>
-    <div class="tools">
-      <a class="tool" href="#"><h3>Your link</h3><p>Every leader who joins through it is credited to you.</p><span class="go">Copy link <span>→</span></span></a>
-      <a class="tool" href="#"><h3>A text</h3><p>Written for your number two, or the leader in your forum.</p><span class="go">Copy text <span>→</span></span></a>
-      <a class="tool" href="#"><h3>An email</h3><p>A short personal note, already in your voice.</p><span class="go">Copy email <span>→</span></span></a>
-      <a class="tool" href="#"><h3>Name a leader</h3><p>Investing for your own team? Name each seat here.</p><span class="go">Name them <span>→</span></span></a>
+    <h2 class="D"><span class="s">Your next impact</span><span class="a">Pick it. <em>Send it.</em></span></h2>
+    <p class="lede">Choose what to share. Your personal link is built in, so every leader who uses it is credited to you.</p>
+    <div class="hub">
+      <div class="hub-opts" role="tablist" aria-label="What to share">
+        <button class="opt on" type="button" data-opt="event"><span class="lab">Invite</span><b>The Founders Event</b><span class="od">Bring a leader to April. This is the one that counts as an impact.</span></button>
+        <button class="opt" type="button" data-opt="audio"><span class="lab">Gift</span><b>The Compound Effect</b><span class="od">The audiobook and ebook, on you. An easy first yes.</span></button>
+        <button class="opt" type="button" data-opt="leader"><span class="lab">Invest</span><b>Name a leader</b><span class="od">Investing in seats for your own team? Name each one here.</span></button>
+      </div>
+      <div class="hub-out">
+        <div class="lab hub-k">Your link</div>
+        <div class="copyrow"><input id="refLink" type="text" readonly aria-label="Your personal link"><button class="btn btn-solid copybtn" type="button" data-copy="refLink">Copy link</button></div>
+        <div class="lab hub-k" style="margin-top:22px">Ready-to-send message</div>
+        <textarea id="refMsg" rows="6" aria-label="Message to send"></textarea>
+        <div class="hub-acts">
+          <button class="btn btn-ghost copybtn" type="button" data-copy="refMsg">Copy message</button>
+          <a class="btn btn-ghost" id="refMail" href="#">Open in email <span class="arw">&rarr;</span></a>
+          <a class="btn btn-ghost" id="refSms" href="#">Text it <span class="arw">&rarr;</span></a>
+          <a class="hub-preview" id="refOpen" href="#" target="_blank" rel="noopener">Preview the page &rarr;</a>
+        </div>
+        <p class="hub-id" id="refNote"></p>
+      </div>
     </div>
     <div class="faq-wrap">
       <h3 class="faq-h">Questions</h3>
@@ -665,7 +704,7 @@
     <h2 class="D"><span class="s">Double your impact.</span><span class="a"><em>Then double it again.</em></span></h2>
     <p class="lede">Your link is ready. Send it to the leader you want next to you in April.</p>
     <div class="ctas">
-      <a class="btn btn-solid" href="#">Get my link <span class="arw">→</span></a>
+      <a class="btn btn-solid" href="#link">Get my link <span class="arw">→</span></a>
       <a class="btn btn-ghost" href="#">My Champion Board <span class="arw">→</span></a>
     </div>
     <div class="tagl">#COMPOUNDYOURIMPACT</div>
@@ -705,7 +744,7 @@
   <div class="lv-body">
     <h4>How to get here</h4><ol class="lv-tips" id="lvTips"></ol>
     <div class="lv-who"><h4 id="lvWhoH"></h4><div class="lv-grid" id="lvGrid"></div><p class="lv-more" id="lvMore"></p></div>
-    <div class="lv-cta"><a class="btn btn-solid" href="#close">Get my link <span class="arw">&rarr;</span></a><a class="btn btn-ghost" href="#tips">The playbook <span class="arw">&rarr;</span></a></div>
+    <div class="lv-cta"><a class="btn btn-solid" href="#link">Get my link <span class="arw">&rarr;</span></a><a class="btn btn-ghost" href="#tips">The playbook <span class="arw">&rarr;</span></a></div>
   </div>
 </dialog>
 
@@ -789,7 +828,7 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () { dlg.classList.add('open'); }); });
   }
   function closeLv() { dlg.classList.remove('open'); setTimeout(function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); }, 280); }
-  document.getElementById('rail').addEventListener('click', function (e) { var card = e.target.closest('.wcard'); if (!card) return; e.preventDefault(); openLv(card); });
+  document.getElementById('rail').addEventListener('click', function (e) { var card = e.target.closest('.wcard'); if (!card) return; e.preventDefault(); if (card.getAttribute('data-lv') === 'lead') { document.getElementById('link').scrollIntoView({ behavior: 'smooth' }); return; } openLv(card); });
   document.getElementById('lvX').addEventListener('click', closeLv);
   dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('.lv-cta a')) closeLv(); });
   dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeLv(); });
@@ -824,6 +863,46 @@
   document.getElementById('hpopGo').addEventListener('click', hpClose);
   hp.addEventListener('click', function (e) { if (e.target === hp) hpClose(); });
   hp.addEventListener('cancel', function (e) { e.preventDefault(); hpClose(); });
+
+  // LINK HUB. The Champion's referral ID arrives in the URL from their HubSpot email.
+  // TODO: confirm the real HubSpot param name with the team; these are the names it accepts for now.
+  var REF_IN = ['id', 'ID', 'ref', 'rid', 'cid'], REF_OUT = 'ref';
+  var qs = new URLSearchParams(location.search), refId = null;
+  REF_IN.forEach(function (k) { if (!refId && qs.get(k)) refId = qs.get(k).trim(); });
+  var demo = !refId; if (demo) refId = 'DEMO123';
+  function withRef(u) { try { var x = new URL(u, location.href); x.searchParams.set(REF_OUT, refId); return x.toString(); } catch (e) { return u; } }
+  var OPTS = {
+    event:  { url: 'https://fnxstudio.github.io/darren-hardy/TCEB/founders-event.html', subject: 'I want you next to me in April',
+              msg: function (l) { return "You're the first leader I thought of. Darren Hardy is holding his Founders Event in April, live, and I'd like you there with me.\n\nHere's your invitation: " + l + "\n\nTell me when you're in."; } },
+    audio:  { url: 'https://the-compound-effect-dh.webflow.io/free-audiobook', subject: 'A gift: The Compound Effect',
+              msg: function (l) { return "This is the book I tell everyone about. The Compound Effect by Darren Hardy, the audiobook and ebook, on me.\n\nGrab it here: " + l + "\n\nListen to the first chapter tonight."; } },
+    leader: { url: 'https://fnxstudio.github.io/darren-hardy/TCEB/founders-event.html#name-a-leader', subject: 'Your seat at the Founders Event',
+              msg: function (l) { return "I've saved you a seat at Darren Hardy's Founders Event in April. Here's where to confirm your details: " + l + "\n\nSee you there."; } }
+  };
+  var linkEl = document.getElementById('refLink'), msgEl = document.getElementById('refMsg');
+  function pick(key) {
+    var o = OPTS[key], l = withRef(o.url), m = o.msg(l);
+    document.querySelectorAll('.opt').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-opt') === key); });
+    linkEl.value = l; msgEl.value = m;
+    document.getElementById('refOpen').href = l;
+    document.getElementById('refMail').href = 'mailto:?subject=' + encodeURIComponent(o.subject) + '&body=' + encodeURIComponent(m);
+    document.getElementById('refSms').href = 'sms:?&body=' + encodeURIComponent(m);
+  }
+  document.querySelectorAll('.opt').forEach(function (b) { b.addEventListener('click', function () { pick(b.getAttribute('data-opt')); }); });
+  document.querySelectorAll('.copybtn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = document.getElementById(b.getAttribute('data-copy')), label = b.textContent;
+      function done() { b.classList.add('done'); b.textContent = 'Copied'; setTimeout(function () { b.classList.remove('done'); b.textContent = label; }, 1600); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(el.value).then(done, function () { el.select(); document.execCommand('copy'); done(); });
+      else { el.select(); document.execCommand('copy'); done(); }
+    });
+  });
+  document.getElementById('refNote').innerHTML = demo
+    ? 'Preview mode: showing a sample ID (<code>DEMO123</code>). Open this page from your Champion email and your own link loads here.'
+    : 'Your referral ID: <code>' + refId.replace(/[<>&"]/g, '') + '</code>. Every link above carries it.';
+  pick('event');
+  // Any outbound link marked data-ref carries the ID too.
+  document.querySelectorAll('a[data-ref]').forEach(function (a) { a.href = withRef(a.getAttribute('href')); });
 
   var days = Math.ceil((new Date('2027-03-31T23:59:00-07:00') - new Date()) / 864e5);
   if (days > 0) { document.getElementById('daysB').textContent = days; }
