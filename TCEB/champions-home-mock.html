@@ -74,7 +74,8 @@
   .rv-bar button { font: inherit; background: #000; color: #fff4c2; border: 0; padding: 6px 9px; border-radius: 2px; cursor: pointer; }
 
   /* NAV */
-  .nav { position: sticky; top: 0; z-index: 60; background: rgba(255,255,255,.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  .topbar { position: sticky; top: 0; z-index: 60; }
+  .nav { position: relative; background: rgba(255,255,255,.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
   .nav .wrap { height: 70px; display: flex; align-items: center; gap: 16px; }
   .nav img { width: 36px; height: 36px; filter: invert(1); }
   .nav .t { font: 600 22px var(--display); letter-spacing: .04em; color: #000; white-space: nowrap; }
@@ -684,19 +685,37 @@
   .hp-cd .col { align-self: center; margin-top: -22px; font: 600 40px/1 var(--display); font-style: normal; color: var(--red); }
   .hp-cdk2 { margin-top: 10px !important; font-size: 13.5px !important; color: var(--red) !important; font-weight: 700 !important; }
   @media (max-width: 820px) { .hp-cd { gap: 6px; } .hp-cd .u b { font-size: 32px !important; padding: 8px 0 6px; border-radius: 8px; } .hp-cd .col { font-size: 26px; margin-top: -18px; } .hp-cd .u span { font-size: 9px !important; margin-top: 4px; } .hp-cdwrap { margin-top: 10px; } }
+  /* Harvest countdown, centred in the nav */
+  .nav .wrap { position: relative; }
+  .navclock { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 14px; padding: 8px 8px 8px 16px; background: #111; color: #fff; border-radius: 999px; font: 700 11.5px var(--body); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+  .navclock .nc-l { display: inline-flex; align-items: center; gap: 8px; color: #bdbdbd; }
+  .navclock .nc-l i { width: 7px; height: 7px; border-radius: 50%; background: var(--red); animation: pulse 1s ease-in-out infinite; }
+  .navclock .nc-l b { color: var(--gold); }
+  .navclock .nc-t { font: 600 22px/1 var(--display); letter-spacing: .04em; color: #fff; font-variant-numeric: tabular-nums; }
+  .navclock .nc-go { padding: 7px 12px; background: var(--gold); color: #000; border-radius: 999px; }
+  .navclock .nc-go .arw { display: inline-block; transition: transform .22s var(--ease); } .navclock:hover .nc-go .arw { transform: translateX(3px); }
+  @media (max-width: 1100px) { .navclock .nc-go { display: none; } }
+  @media (max-width: 820px) {
+    .nav .wrap { height: auto; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; row-gap: 8px; }
+    .navclock { position: static; transform: none; order: 3; width: 100%; justify-content: center; gap: 10px; padding: 7px 10px; font-size: 10.5px; }
+    .navclock .nc-t { font-size: 18px; }
+  }
+  #harvest, #link, #board, #stand { scroll-margin-top: 120px !important; }
 </style>
 </head>
 <body>
 
 
+<div class="topbar">
 <header class="nav">
   <div class="wrap">
     <img src="img/dh-mark-white.webp" alt="Darren Hardy">
     <span class="t">THE CHAMPIONS BOARD</span>
-    <a class="live" href="#harvest"><i></i>LIVE NOW: HARDY HARVEST<b class="sep"></b><span class="end">Ends Thurs., Nov 12th</span><span class="arw">&rarr;</span></a>
+    <a class="navclock" href="#link" data-enroll><span class="nc-l"><i></i><b>Hardy Harvest</b> closes in</span><span class="nc-t" data-hhms>33:58:00</span><span class="nc-go">Add a seat <span class="arw">&rarr;</span></span></a>
     <a class="btn btn-solid" href="#link">Get my link <span class="arw">→</span></a>
   </div>
 </header>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1132,6 +1151,7 @@
     var left = Math.max(0, hvEnd - (simStart.getTime() + (Date.now() - realStart)));
     var h = Math.floor(left / 36e5), m = Math.floor(left % 36e5 / 6e4), sec = Math.floor(left % 6e4 / 1e3);
     document.querySelectorAll('[data-h-mini]').forEach(function (e) { e.textContent = h; });
+    document.querySelectorAll('[data-hhms]').forEach(function (e) { e.textContent = h + ':' + String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0'); });
     document.querySelectorAll('[data-cd]').forEach(function (c) {
       c.querySelector('[data-h]').textContent = String(h).padStart(2, '0');
       c.querySelector('[data-m]').textContent = String(m).padStart(2, '0');
