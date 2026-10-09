@@ -1,5 +1,22 @@
 # Champions home: Webflow port notes
 
+**Where it goes:**
+
+- **Now:** `thecompoundeffect.com/champion-demo`. It is noindex and kept out of the sitemap. It uses the mock's sample people and data, plus the Hardy Harvest demo.
+- **Later:** once the real data and promos replace the demo pieces, the page moves to `/champion`.
+
+**Fonts:**
+
+- The live TCE site loads neither font at site level. `/pre-print` adds the Adobe kit with a `<link>` in its own page head, and Inter is not loaded anywhere, so visitors without Inter installed see Arial.
+- **Fix once in site-wide head code:**
+  - `<link rel="stylesheet" href="https://use.typekit.net/zze6zxt.css">`
+  - a Google Fonts `<link>` for Inter 400–900
+- Both are served from Adobe's and Google's own servers, so they cost no Webflow bandwidth.
+- Do not upload the font files to Webflow.
+- After the site-wide fix, remove the per-page kit link from `/pre-print`.
+
+**Page wrapper:** everything sits inside `<div class="champ-page">`. The reset only applies inside it, so the site's own nav and footer are untouched.
+
 Three files make the page:
 
 - `champions-home-mock.html` is markup only.

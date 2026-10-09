@@ -22,8 +22,8 @@
    PART B (loaded first) — tokens, fonts and the element reset
    ============================================================================= */
 
-@font-face { font-family: "Bebas Neue"; src: url("../fonts/bebas-neue-bold.woff2") format("woff2"); font-weight: 600 700; font-display: swap; }
-@font-face { font-family: "Bebas Neue"; src: url("../fonts/bebas-neue-light.woff2") format("woff2"); font-weight: 200 300; font-display: swap; }
+/* Fonts: Bebas Neue Pro comes from the Adobe kit (zze6zxt), Inter from Google Fonts on Webflow.
+   This self-hosted Inter is for the GitHub mock only; do not port it (it would bill Webflow bandwidth). */
 @font-face { font-family: "Inter"; src: url("../fonts/inter-latin.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 
 :root {
@@ -38,12 +38,18 @@
   --g-plat: linear-gradient(150deg, #ffffff, #eef2f6 40%, #c3ccd6 75%, #eef2f6);
   --g-red: linear-gradient(160deg, #ff3b50, var(--red) 55%, #a90e22);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* The reset is scoped to the page wrapper (.champ-page) so it never touches the site's own nav/footer.
+   :where() keeps the wrapper at zero specificity, so every champ-* class still wins; the element list
+   inside :is() gives exactly element-level weight, which (loaded after webflow.css) beats Webflow's own
+   h1/p/ul/label/blockquote defaults. */
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-body { background: #fff; color: var(--ink); font: 400 17px/1.62 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-img { display: block; max-width: 100%; height: auto; }
-a { color: inherit; text-decoration: none; }
-[hidden] { display: none !important; }
+body { margin: 0; overflow-x: hidden; }
+.champ-page { background: #fff; color: var(--ink); font: 400 17px/1.62 var(--body); -webkit-font-smoothing: antialiased; }
+.champ-page, :where(.champ-page) :is(div, span, section, header, footer, nav, h1, h2, h3, h4, h5, h6, p, blockquote, figure, figcaption, ul, ol, li, a, b, strong, em, i, small, code, img, svg, form, label, input, select, option, textarea, button, dialog, details, summary) { box-sizing: border-box; margin: 0; padding: 0; }
+:where(.champ-page) blockquote { border: 0; }
+:where(.champ-page) img { display: block; max-width: 100%; height: auto; }
+:where(.champ-page) a { color: inherit; text-decoration: none; }
+:where(.champ-page) [hidden] { display: none !important; }
 
 @keyframes champ-pulse { 50% { transform: scale(.5); opacity: .4; } }
 @keyframes champ-float { 50% { transform: translateY(-8px); } }
