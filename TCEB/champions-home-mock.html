@@ -82,6 +82,25 @@
   .nav .btn { margin-left: auto; padding: 13px 18px; font-size: 11.5px; white-space: nowrap; }
   @media (max-width: 560px) { .nav .live { display: none; } .nav .t { font-size: 18px; } .nav .btn { padding: 11px 13px; font-size: 10.5px; } .nav .wrap { gap: 12px; } }
 
+  /* FULL STANDINGS */
+  .full { margin: 28px auto 0; max-width: 960px; background: #fff; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+  .full[hidden] { display: none; }
+  .full.open { animation: fulldrop .45s var(--ease); }
+  @keyframes fulldrop { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+  .full-h, .full-list li { display: grid; grid-template-columns: 64px 1fr 150px 90px; gap: 12px; align-items: center; padding: 12px 20px; }
+  .full-h { background: #000; color: #fff; font: 800 11px var(--body); letter-spacing: .1em; text-transform: uppercase; }
+  .full-h span:last-child, .full-list .fi { text-align: right; }
+  .full-list { list-style: none; max-height: 640px; overflow-y: auto; }
+  .full-list li { border-bottom: 1px solid var(--line); font-size: 15px; }
+  .full-list li:nth-child(even) { background: #fafafa; }
+  .full-list .fr { font: 600 26px/1 var(--display); color: #000; }
+  .full-list .fn { font-weight: 700; color: #000; }
+  .full-list .fc { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--grey); }
+  .full-list .fi { font: 600 28px/1 var(--display); color: #000; }
+  .full-list li.sl { display: block; padding: 10px 20px; background: #000; color: var(--gold); font: 800 11px var(--body); letter-spacing: .14em; text-transform: uppercase; text-align: center; }
+  .full-list li.top .fr { color: var(--gold-ink); }
+  @media (max-width: 600px) { .full-h, .full-list li { grid-template-columns: 44px 1fr 56px; padding: 10px 14px; } .full-h span:nth-child(3), .full-list .fc { display: none; } }
+
   /* LINK HUB */
   #link { scroll-margin-top: 90px; }
   .hub { margin-top: 44px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 24px; align-items: start; }
@@ -546,9 +565,13 @@
     <div class="podium" id="podium"></div>
     <div class="tiles" id="tiles"></div>
     <div class="studio-line"><span class="D">The Studio Line</span><p><b>The top 25 with 10 or more impacts</b> earn three days In the Studio. Today, #25 sits at 10.</p></div>
+    <div class="full" id="full" hidden>
+      <div class="full-h"><span>#</span><span>Champion</span><span>Coin</span><span>Impacts</span></div>
+      <ol class="full-list" id="fullList"></ol>
+    </div>
     <div class="board-cta">
-      <a class="btn btn-ghost" href="#">Full standings <span class="arw">→</span></a>
-      <a class="btn btn-ghost" href="#">This week's biggest movers <span class="arw">→</span></a>
+      <button class="btn btn-ghost" type="button" id="fullBtn" aria-expanded="false" aria-controls="full">Full standings <span class="arw">&darr;</span></button>
+      <a class="btn btn-solid" href="#link">Climb the board <span class="arw">→</span></a>
     </div>
   </div>
 </section>
@@ -793,6 +816,23 @@
     return '<div class="pd ' + a[1] + '">' + img(r[0], r[1]) + '<span class="rk">' + (a[0] + 1) + '</span><div class="nm">' + r[1] + '</div><div class="bh">' + r[2] + '</div><div class="sc">' + r[3] + '<small>IMPACTS</small></div></div>'; }).join('');
   document.getElementById('tiles').innerHTML = [3,4,5,6,7,8,9,10].map(function (i) { var r = B[i];
     return '<div class="tile"><span class="rk">' + (i + 1) + '</span>' + img(r[0], r[1]) + '<span class="nm">' + r[1] + (r[4] ? '<span class="mv">▲' + r[4] + '</span>' : '') + '<small><i class="chip c-' + coin(r[3]) + '"></i>' + r[2] + '</small></span><span class="sc">' + r[3] + '<small>IMPACTS</small></span></div>'; }).join('');
+
+  // Full standings: everyone on the board, ranked. Rows past #12 are placeholder names.
+  var MORE = [['Rachel Monroe',10],['Marcus Bell',10],['Dana Whitfield',10],['Chris Alvarez',10],['Priya Nair',10],['Tom Kessler',10],['Hannah Brooks',10],['Victor Lane',10],['Jenna Ortiz',10],['Brian Cho',10],['Alicia Grant',10],['Owen Pierce',10],['Sofia Reyes',10],
+              ['Grant Hollis',9],['Megan Shaw',9],['Luis Duarte',8],['Kara Lindqvist',8],['Nate Fowler',7],['Tasha Greene',7],['Ben Okafor',6],['Laura Kim',6],['Eric Vaughn',5],['Mia Castillo',5],['Paul Jensen',4],['Renee Watts',4],['Sam Delgado',3],['Ivy Thornton',3],['Josh Mercer',2],['Claire Dunn',1],['Andre Pollard',1]];
+  var ALL = B.map(function (r) { return [r[1], r[3]]; }).concat(MORE);
+  var coinName = { plat: 'Platinum', gold: 'Gold', silver: 'Silver', copper: 'Copper' };
+  document.getElementById('fullList').innerHTML = ALL.map(function (r, i) {
+    var c = coin(r[1]);
+    return '<li class="' + (i < 5 ? 'top' : '') + '"><span class="fr">' + (i + 1) + '</span><span class="fn">' + r[0] + '</span><span class="fc"><i class="chip c-' + c + '"></i>' + coinName[c] + '</span><span class="fi">' + r[1] + '</span></li>' + (i === 24 ? '<li class="sl">The Studio Line</li>' : '');
+  }).join('');
+  var fullBtn = document.getElementById('fullBtn'), full = document.getElementById('full');
+  fullBtn.addEventListener('click', function () {
+    var open = full.hasAttribute('hidden');
+    if (open) { full.removeAttribute('hidden'); full.classList.add('open'); } else { full.setAttribute('hidden', ''); full.classList.remove('open'); }
+    fullBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    fullBtn.innerHTML = open ? 'Hide full standings <span class="arw">&uarr;</span>' : 'Full standings <span class="arw">&darr;</span>';
+  });
 
   // How to win: card stack
   var W = [
