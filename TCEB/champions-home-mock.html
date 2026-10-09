@@ -131,6 +131,12 @@
   .opt { text-align: left; font: inherit; cursor: pointer; padding: 22px 22px 20px; background: #fff; border: 1.5px solid var(--line); border-radius: var(--r); transition: border-color .2s, box-shadow .2s, transform .2s var(--ease); }
   .opt:hover { transform: translateY(-2px); border-color: #bdbdbd; }
   .opt.on { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+  .opt { display: grid; grid-template-columns: 1fr 104px; gap: 16px; align-items: center; }
+  .opt .ot { display: block; }
+  .opt .ov { display: grid; place-items: center; width: 104px; height: 120px; overflow: hidden; }
+  .opt .ov img { width: 100%; height: 100%; object-fit: contain; }
+  .opt .ph-img { background: repeating-linear-gradient(135deg, #f4f4f4 0 8px, #ececec 8px 16px); border: 1px dashed #c9c9c9; font: 700 10px/1.4 var(--body); letter-spacing: .08em; text-transform: uppercase; color: #9a9a9a; text-align: center; }
+  .opt .ed { display: block; margin-top: 4px; font: 800 11.5px var(--body); letter-spacing: .08em; text-transform: uppercase; color: #000; }
   .opt .lab { color: var(--gold-ink); }
   .opt b { display: block; margin-top: 6px; font: 600 30px/1 var(--display); text-transform: uppercase; color: #000; }
   .opt .od { display: block; margin-top: 8px; font-size: 14.5px; color: var(--grey); }
@@ -747,9 +753,9 @@
     <p class="lede">Choose what to share. Your personal link is built in, so every leader who uses it is credited to you.</p>
     <div class="hub">
       <div class="hub-opts" role="tablist" aria-label="What to share">
-        <button class="opt on" type="button" data-opt="audio"><span class="lab">Gift</span><b>The Compound Effect</b><span class="od">The audiobook and ebook, on you. The easiest yes you can offer.</span></button>
-        <button class="opt" type="button" data-opt="event"><span class="lab">Invite</span><b>The Founders Event</b><span class="od">Bring a leader to April. This is the one that counts as an impact.</span></button>
-        <button class="opt" type="button" data-opt="leader"><span class="lab">Enroll</span><b>Enroll a leader</b><span class="od">Investing in a seat for one of your leaders? Enroll them here and the impact is yours.</span></button>
+        <button class="opt on" type="button" data-opt="audio"><span class="ot"><span class="lab">Gift</span><b>The Compound Effect</b><span class="ed">10th Anniversary Edition</span><span class="od">The audiobook and ebook, on you. The easiest yes you can offer.</span></span><span class="ov"><img src="img/hub/tce-audiobook-phone-240.webp" alt="The Compound Effect 10th Anniversary Edition audiobook on an iPhone" width="240" height="306"></span></button>
+        <button class="opt" type="button" data-opt="event"><span class="ot"><span class="lab">Invite</span><b>The Founders Event</b><span class="od">Bring a leader to April. This is the one that counts as an impact.</span></span><span class="ov ph-img">Placeholder<br>Founders Event</span></button>
+        <button class="opt" type="button" data-opt="leader"><span class="ot"><span class="lab">Enroll</span><b>Enroll a leader</b><span class="od">Investing in a seat for one of your leaders? Enroll them here and the impact is yours.</span></span><span class="ov ph-img">Placeholder<br>Enroll</span></button>
       </div>
       <div class="hub-out">
         <div id="sharePane">
@@ -1015,8 +1021,8 @@
   var OPTS = {
     event:  { url: 'https://fnxstudio.github.io/darren-hardy/TCEB/founders-event.html', subject: 'I want you next to me in April',
               msg: function (l) { return "You're the first leader I thought of. Darren Hardy is holding his Founders Event in April, live, and I'd like you there with me.\n\nHere's your invitation: " + l + "\n\nTell me when you're in."; } },
-    audio:  { url: 'https://the-compound-effect-dh.webflow.io/free-audiobook', subject: 'A gift: The Compound Effect',
-              msg: function (l) { return "This is the book I tell everyone about. The Compound Effect by Darren Hardy, the audiobook and ebook, on me.\n\nGrab it here: " + l + "\n\nListen to the first chapter tonight."; } },
+    audio:  { url: 'https://the-compound-effect-dh.webflow.io/free-audiobook', subject: 'A gift: The Compound Effect, 10th Anniversary Edition',
+              msg: function (l) { return "This is the book I tell everyone about. The Compound Effect by Darren Hardy, the 10th Anniversary Edition, audiobook and ebook, on me.\n\nGrab it here: " + l + "\n\nListen to the first chapter tonight."; } },
     leader: { url: 'https://fnxstudio.github.io/darren-hardy/TCEB/founders-event.html#enroll', subject: 'You are enrolled: the Founders Event',
               msg: function (l) { return "I've enrolled you in Darren Hardy's Founders Event in April. Here's where to complete your enrollment: " + l + "\n\nSee you there."; } }
   };
