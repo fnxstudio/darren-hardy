@@ -83,6 +83,28 @@
   @media (max-width: 560px) { .nav .live { display: none; } .nav .t { font-size: 18px; } .nav .btn { padding: 11px 13px; font-size: 10.5px; } .nav .wrap { gap: 12px; } }
 
   #board { scroll-margin-top: 70px; }
+  /* ENROLL A LEADER */
+  .enroll[hidden], #sharePane[hidden] { display: none; }
+  .en-h { margin-top: 6px; font: 600 34px/1 var(--display); text-transform: uppercase; color: #000; }
+  .en-grid { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .en-grid label { display: flex; flex-direction: column; gap: 6px; font: 700 11.5px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--grey); }
+  .en-grid input, .en-grid select { font: 500 15px var(--body); text-transform: none; letter-spacing: 0; padding: 13px 12px; border: 1.5px solid #d6d6d6; border-radius: var(--r); background: #fff; color: #000; }
+  .en-grid input:focus, .en-grid select:focus { outline: none; border-color: var(--gold); }
+  .en-pay { margin-top: 10px; display: grid; gap: 10px; }
+  .pay { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; background: #fff; border: 1.5px solid #d6d6d6; border-radius: var(--r); cursor: pointer; }
+  .pay.on { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+  .pay input { margin-top: 3px; accent-color: #000; }
+  .pay b { display: block; font-size: 15px; color: #000; }
+  .pay small { display: block; margin-top: 3px; font-size: 13px; color: var(--grey); }
+  .pay strong { color: #000; }
+  .en-acts { margin-top: 18px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .en-acts .btn { padding: 16px 22px; }
+  .en-note { font-size: 13px; color: var(--grey); }
+  .en-err { margin-top: 10px; font-size: 13.5px; font-weight: 600; color: var(--red); }
+  .en-done { margin-top: 14px; padding: 14px 16px; background: #000; color: #fff; border-left: 4px solid var(--gold); font-size: 15px; }
+  .en-done b { color: var(--gold); }
+  @media (max-width: 600px) { .en-grid { grid-template-columns: 1fr; } }
+
   /* FULL STANDINGS */
   .full { margin: 28px auto 0; max-width: 960px; background: #fff; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
   .full[hidden] { display: none; }
@@ -730,6 +752,7 @@
         <button class="opt" type="button" data-opt="leader"><span class="lab">Enroll</span><b>Enroll a leader</b><span class="od">Investing in a seat for one of your leaders? Enroll them here and the impact is yours.</span></button>
       </div>
       <div class="hub-out">
+        <div id="sharePane">
         <div class="lab hub-k">Your link</div>
         <div class="copyrow"><input id="refLink" type="text" readonly aria-label="Your personal link"><button class="btn btn-solid copybtn" type="button" data-copy="refLink">Copy link</button></div>
         <div class="lab hub-k" style="margin-top:22px">Ready-to-send message</div>
@@ -741,6 +764,25 @@
           <a class="hub-preview" id="refOpen" href="#" target="_blank" rel="noopener">Preview the page &rarr;</a>
         </div>
         <p class="hub-id" id="refNote"></p>
+        </div>
+        <form class="enroll" id="enrollPane" hidden novalidate>
+          <div class="lab hub-k">Enroll a leader</div>
+          <h3 class="en-h">Their seat. Your impact.</h3>
+          <div class="en-grid">
+            <label>Their full name<input name="name" type="text" required autocomplete="off" placeholder="First and last name"></label>
+            <label>Their email<input name="email" type="email" required autocomplete="off" placeholder="name@company.com"></label>
+            <label>Their mobile<input name="phone" type="tel" autocomplete="off" placeholder="(555) 555-5555"></label>
+            <label>Who they are to you<select name="rel"><option>My number two</option><option>On my leadership team</option><option>A peer in my forum</option><option>My spouse or business partner</option><option>A key vendor, client or partner</option><option>Someone else</option></select></label>
+          </div>
+          <div class="lab hub-k" style="margin-top:20px">How you're covering their seat</div>
+          <div class="en-pay">
+            <label class="pay on"><input type="radio" name="pay" value="credit" checked><span><b>Use a seat credit</b><small>You have <strong>2</strong> credits available</small></span></label>
+            <label class="pay"><input type="radio" name="pay" value="invest"><span><b>Invest in a new seat</b><small>$4,995 &middot; standard $9,995, with $5,000 covered by Rearden Press &middot; year two renews at $9,995 <span class="ph">[confirm]</span></small></span></label>
+          </div>
+          <div class="en-acts"><button class="btn btn-solid" type="submit" id="enrollGo">Enroll them with my credit <span class="arw">&rarr;</span></button><span class="en-note">The impact lands on your board within the hour.</span></div>
+          <p class="en-err" id="enrollErr" hidden>Add their full name and email to continue.</p>
+          <div class="en-done" id="enrollDone" hidden><b>Done.</b> <span id="enrollWho"></span> is enrolled, and the impact is yours. We'll send them their welcome from Darren.</div>
+        </form>
       </div>
     </div>
   </div>
@@ -982,12 +1024,32 @@
   function pick(key) {
     var o = OPTS[key], l = withRef(o.url), m = o.msg(l);
     document.querySelectorAll('.opt').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-opt') === key); });
+    var enrolling = key === 'leader';
+    document.getElementById('sharePane').hidden = enrolling;
+    document.getElementById('enrollPane').hidden = !enrolling;
     linkEl.value = l; msgEl.value = m;
     document.getElementById('refOpen').href = l;
     document.getElementById('refMail').href = 'mailto:?subject=' + encodeURIComponent(o.subject) + '&body=' + encodeURIComponent(m);
     document.getElementById('refSms').href = 'sms:?&body=' + encodeURIComponent(m);
   }
   document.querySelectorAll('.opt').forEach(function (b) { b.addEventListener('click', function () { pick(b.getAttribute('data-opt')); }); });
+  // Enroll a leader: the Champion covers the seat with a credit or a new investment. Mock only; this becomes the real checkout/HubSpot form.
+  var ef = document.getElementById('enrollPane'), eGo = document.getElementById('enrollGo');
+  ef.querySelectorAll('input[name=pay]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      ef.querySelectorAll('.pay').forEach(function (l) { l.classList.toggle('on', l.querySelector('input').checked); });
+      eGo.innerHTML = (r.value === 'credit' && r.checked ? 'Enroll them with my credit' : 'Continue to secure checkout') + ' <span class="arw">&rarr;</span>';
+    });
+  });
+  ef.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var n = ef.elements['name'].value.trim(), em = ef.elements['email'].value.trim(), ok = n.split(/\s+/).length > 1 && /\S+@\S+\.\S+/.test(em);
+    document.getElementById('enrollErr').hidden = ok;
+    if (!ok) return;
+    if (ef.elements['pay'].value === 'invest') { window.open(withRef('https://fnxstudio.github.io/darren-hardy/TCEB/founders-event.html#enroll'), '_blank', 'noopener'); return; }
+    document.getElementById('enrollWho').textContent = n;
+    document.getElementById('enrollDone').hidden = false;
+  });
   document.querySelectorAll('.copybtn').forEach(function (b) {
     b.addEventListener('click', function () {
       var el = document.getElementById(b.getAttribute('data-copy')), label = b.textContent;
