@@ -645,9 +645,6 @@
     .hp-cd b { font-size: 34px; } .hp-cd span { margin-top: 2px; font-size: 9.5px; }
     .hp-kit { margin-top: 10px; grid-template-columns: repeat(3, 1fr); gap: 6px; }
     .hp-kit li { display: block; border-radius: 8px; }
-    .hp-kit li:first-child img { display: none; }
-    .hp-kit li:first-child { display: flex; align-items: center; background: #000; }
-    .hp-kit li:first-child .lab { color: var(--gold); } .hp-kit li:first-child b { color: #fff; }
     .hp-kit img { height: 56px; }
     .hp-kit div { padding: 6px 7px 7px; } .hp-kit .lab { font-size: 8.5px; } .hpop .hp-kit b { font-size: 13px; line-height: 1.05; }
     .hp-fine { margin-top: 10px; font-size: 12.5px; line-height: 1.45; }
@@ -720,13 +717,11 @@
   @media (min-width: 821px) {
     .hp-side { justify-content: flex-start; padding: clamp(24px, 3.4vh, 40px) clamp(24px, 2.6vw, 40px) 0; background: #141414; }
     .hp-side::before { display: none; }
-    .hp-hero-m { display: block; position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 74%; object-fit: contain; object-position: 50% 100%; }
+    .hp-hero-m { display: block; order: 3; flex: 1 1 0; min-height: 0; width: calc(100% + 2 * clamp(24px, 2.6vw, 40px)); max-width: none; height: auto; margin: 2vh calc(-1 * clamp(24px, 2.6vw, 40px)) 0; object-fit: contain; object-position: 50% 100%; }
+    .hp-flash { order: 1; } .hp-plus { order: 2; }
     .hp-plus { position: relative; z-index: 2; margin-top: 2.4vh; flex-direction: row; align-items: center; gap: 16px; }
     .hp-plus .pl { font-size: clamp(72px, 11vh, 120px); }
     .hp-plus .pw { margin: 0; font-size: clamp(24px, 3.6vh, 36px); max-width: 9em; }
-    .hp-kit li:first-child img { display: none; }
-    .hp-kit li:first-child { display: flex; flex-direction: column; justify-content: flex-end; background: #000; border-color: #000; }
-    .hp-kit li:first-child .lab { color: var(--gold); } .hp-kit li:first-child b { color: #fff; }
   }
   /* Hero deck on smaller screens: the desktop layout, scaled to fit (never rearranged) */
   @media (max-width: 960px) {
@@ -769,6 +764,7 @@
   .hub-stack { margin: 64px 0 0; }
   @media (max-width: 440px) { .nav .t { font-size: 15.5px !important; letter-spacing: .02em; text-overflow: clip; } .nav .btn { padding: 11px 11px !important; font-size: 10px !important; } .nav .wrap > img { width: 30px; height: 30px; } }
   .hp-plus .pw { max-width: none !important; } .hp-plus .pw1, .hp-plus .pw2 { display: block; white-space: nowrap; }
+  .hpop .hp-kit li:first-child img { object-fit: cover; object-position: 50% 45%; background: none; }
 </style>
 </head>
 <body>
@@ -1001,16 +997,15 @@
           </div>
           <div class="lab hub-k" style="margin-top:20px">How you're covering their seat</div>
           <div class="en-pay">
-            <label class="pay on"><input type="radio" name="pay" value="credit" checked><span><b>Use a seat credit</b><small>You have <strong>2</strong> credits available</small></span></label>
-            <label class="pay"><input type="radio" name="pay" value="invest"><span><b>Invest in a new seat</b><small>$4,995 &middot; standard $9,995, with $5,000 covered by Rearden Press &middot; year two renews at $9,995 <span class="ph">[confirm]</span></small></span></label>
+            <label class="pay on"><input type="radio" name="pay" value="credit" checked><span><b>Use a seat credit</b><small>This seat uses <strong>5,000</strong> credits &middot; you have <strong>13,500</strong> available</small></span></label>
+            <label class="pay"><input type="radio" name="pay" value="invest"><span><b>Invest in a new seat</b><small>$4,995 &middot; standard $9,995, with $5,000 covered by Rearden Press</small></span></label>
           </div>
-          <div class="en-acts"><button class="btn btn-solid" type="submit" id="enrollGo">Enroll them with my credit <span class="arw">&rarr;</span></button><span class="en-note">The impact lands on your board within the hour.</span></div>
+          <div class="en-acts"><button class="btn btn-solid" type="submit" id="enrollGo">Enroll them with my credit <span class="arw">&rarr;</span></button><span class="en-note">They show on your board the second you hit enroll.</span></div>
           <p class="en-err" id="enrollErr" hidden>Add their full name and email to continue.</p>
-          <div class="en-done" id="enrollDone" hidden><b>Done.</b> <span id="enrollWho"></span> is enrolled, and the impact is yours. We'll send them their welcome from Darren.</div>
+          <div class="en-done" id="enrollDone" hidden><b>+1 on the board.</b> <span id="enrollWho"></span> is on your board now as pending, and it locks in the moment their seat is confirmed. We'll send them their welcome from Darren.</div>
         </form>
       </div>
     </div>
-    <div class="stack hub-stack" id="stack"></div>
   </div>
 </section>
 
@@ -1037,7 +1032,7 @@
       <details><summary>What counts as an impact?</summary><p>Every leader who takes a seat at the Founders Event because of you. They join through your link, they name you at checkout, or you invest in a seat for one of your own leaders and name them. Each one is one impact.</p></details>
       <details><summary>Started late. Can I still make the studio?</summary><p>Yes. Every impact counts the same until the final count, and each stretch of the season opens a new play. Plenty of the board is still to be decided.</p></details>
       <details><summary>How do I see where I stand?</summary><p>Your Champion Board shows your rank, your impacts and how far you are from your next coin. It updates the moment a leader's seat is confirmed.</p></details>
-      <details><summary>A leader says they joined. Where's my credit?</summary><p>Credit lands within the hour of their seat being confirmed, and you get a text when it does. If it hasn't shown up, reply to any Champion email with their name and we'll sort it out.</p></details>
+      <details><summary>A leader says they joined. Where's my credit?</summary><p>They show on your board as pending right away, and the impact locks in once their seat is confirmed. If it hasn't shown up, reply to any Champion email with their name and we'll sort it out.</p></details>
       <details><summary>Does my own ticket count?</summary><p>Your own seat is your way in. Impacts are the leaders you bring with you. <span class="ph">[confirm the rule]</span></p></details>
       <details><summary>How is In the Studio awarded?</summary><p>By rank at the final count: the top 25 Champions with 10 or more impacts. Every seat is earned by rank and Darren's selection. Nothing is left to chance.</p></details>
       </div>
@@ -1066,7 +1061,7 @@
       <p class="hp-lede">Add one more Founders Event seat this week. One more leader, <b>one more impact on the board</b>, one step closer to In the Studio. And Darren sends <b>you</b> the Harvest kit.</p>
       <div class="hp-cdwrap"><div class="hp-cdk">The Harvest closes in</div><div class="hp-cd" data-cd><div class="u"><b data-h>00</b><span>Hours</span></div><i class="col">:</i><div class="u"><b data-m>00</b><span>Minutes</span></div><i class="col">:</i><div class="u"><b data-s>00</b><span>Seconds</span></div></div><div class="hp-cdk2">When it hits zero, the kit is gone.</div></div>
       <ul class="hp-kit">
-        <li><img src="img/harvest/dh-apron.webp" alt="" width="428" height="490"><div><span class="lab">To you</span><b>The Be The Exception apron</b></div></li>
+        <li><img src="img/harvest/apron-zoom.webp" alt="" width="358" height="275"><div><span class="lab">To you</span><b>The Be The Exception apron</b></div></li>
         <li><img src="img/harvest/cutco.webp" alt="" width="565" height="420"><div><span class="lab">To you</span><b>Cutco carving set</b></div></li>
         <li><img src="img/harvest/turkey.webp" alt="" width="550" height="479"><div><span class="lab">To your new leader</span><b>Thanksgiving turkey</b></div></li>
       </ul>
@@ -1201,7 +1196,7 @@
   var LV = {
     lead:   { tips: ['<b>Get your link.</b> It is yours alone, and every leader who joins through it is credited to you.', '<b>Write down three names.</b> Your number two, the leader in your forum, the one you call when something breaks.', '<b>Send one text today.</b> Your kit has it written. Add one line in your own words.'],
               who: 'Champions on the board', people: TOP, more: '214 Champions and counting' },
-    copper: { tips: ['<b>Start with the leader closest to you.</b> Your number two is the easiest first yes on the board.', '<b>Investing for your own team?</b> Enroll each leader and the credit lands within the hour.', '<b>Your first impact is the hardest one.</b> Your Copper coin and a note from Darren follow it.'],
+    copper: { tips: ['<b>Start with the leader closest to you.</b> Your number two is the easiest first yes on the board.', '<b>Investing for your own team?</b> Enroll each leader and every one shows on your board.', '<b>Your first impact is the hardest one.</b> Your Copper coin and a note from Darren follow it.'],
               who: 'At Copper now', people: ['louis','mike','david','dant'], more: '+ 80 more Champions at Copper' },
     silver: { tips: ['<b>Bring them as a team.</b> Two leaders from the same company is two impacts in one conversation.', '<b>Use the Challenge.</b> Leaders who spend three days with Darren in December say yes to April.', '<b>Follow up personally.</b> A two-line text a week later turns maybes into yeses.'],
               who: 'At Silver now', people: ['thomas','angelina','lisag'], more: '+ 35 more Champions at Silver' },
@@ -1243,7 +1238,6 @@
             ['lisag','Lisa Good','silver',3],['louis','Louis Richard','copper',2],['mike','Mike Keesee','copper',2],['david','David Koepsell','copper',1],['dant','Dan Tripp','copper',1]];
   document.getElementById('wallNew').innerHTML = nw.map(function (p) { return '<div class="wf ' + p[2] + '"><div class="pic">' + img(p[0], p[1]) + '</div><b class="wn">' + p[1] + '<span class="ct"><i class="chip c-' + p[2] + '"></i>' + p[3] + '</span></b></div>'; }).join('');
 
-  document.getElementById('stack').innerHTML = ['maria','emeka','jeannie','taylor','spencer','lisac','zach','rebecca','derrick','kristi'].map(function (k) { return img(k); }).join('');
 
   // Hardy Harvest: this mock pretends today is Wed., Nov 11th, mid-promo. Ends Thurs., Nov 12th, 11:59 pm ET.
   var hvEnd = new Date('2026-11-13T04:59:00Z'), simStart = new Date('2026-11-11T19:00:00Z'), realStart = Date.now();
