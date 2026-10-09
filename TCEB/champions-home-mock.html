@@ -856,8 +856,10 @@
   var hp = document.getElementById('hpop');
   function hpOpen() { if (hp.showModal) hp.showModal(); else hp.setAttribute('open', ''); requestAnimationFrame(function () { requestAnimationFrame(function () { hp.classList.add('open'); }); }); }
   function hpClose() { hp.classList.remove('open'); setTimeout(function () { if (hp.close) hp.close(); else hp.removeAttribute('open'); }, 320); }
-  var seen = false; try { seen = sessionStorage.getItem('hv-pop') === '1'; } catch (e) {}
-  if (!seen) setTimeout(function () { hpOpen(); try { sessionStorage.setItem('hv-pop', '1'); } catch (e) {} }, 4000);
+  // TESTING: show the pop-up on every page load. For launch, set HP_ONCE = true to show it once per visit.
+  var HP_ONCE = false, seen = false;
+  if (HP_ONCE) { try { seen = sessionStorage.getItem('hv-pop') === '1'; } catch (e) {} }
+  if (!seen) setTimeout(function () { hpOpen(); if (HP_ONCE) { try { sessionStorage.setItem('hv-pop', '1'); } catch (e) {} } }, 4000);
   document.getElementById('hpopX').addEventListener('click', hpClose);
   document.getElementById('hpopLater').addEventListener('click', hpClose);
   document.getElementById('hpopGo').addEventListener('click', hpClose);
