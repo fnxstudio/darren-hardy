@@ -748,6 +748,8 @@
     .rail-steps .wcard { width: 226px !important; min-height: 410px !important; margin-left: -94px !important; }
     .rail-steps .wcard:first-child { margin-left: 0 !important; }
     .rail-steps .wcard:hover { transform: none; }
+    .rail-steps { padding-top: 26px !important; }
+    .rail-steps .wcard.lift { z-index: 5; transform: translateY(-20px) rotate(-2deg); box-shadow: -20px 30px 60px rgba(0,0,0,.25); }
   }
   /* Phone fixes: hero deck column can shrink; nav is two tidy rows */
   .hero-grid > * { min-width: 0; }
@@ -765,6 +767,7 @@
   @media (max-width: 440px) { .nav .t { font-size: 15.5px !important; letter-spacing: .02em; text-overflow: clip; } .nav .btn { padding: 11px 11px !important; font-size: 10px !important; } .nav .wrap > img { width: 30px; height: 30px; } }
   .hp-plus .pw { max-width: none !important; } .hp-plus .pw1, .hp-plus .pw2 { display: block; white-space: nowrap; }
   .hpop .hp-kit li:first-child img { object-fit: cover; object-position: 50% 45%; background: none; }
+  .hint-m { display: none; } @media (max-width: 1100px) { .hint-d { display: none; } .hint-m { display: inline; } }
 </style>
 </head>
 <body>
@@ -845,7 +848,7 @@
     <h2 class="D"><span class="s">How to win</span><span class="a">Every leader <em>compounds.</em></span></h2>
     <p class="lede">Bring a leader to April and your impact compounds. Climb the coins, cross the Studio Line, and finish the season live with Darren.</p>
     <div class="rail" id="rail"></div>
-    <p class="rail-hint lab">Click any card for tips and who&rsquo;s there now</p>
+    <p class="rail-hint lab"><span class="hint-d">Click</span><span class="hint-m">Tap</span> any card for tips and who&rsquo;s there now</p>
   </div>
 </section>
 
@@ -1227,7 +1230,12 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () { dlg.classList.add('open'); }); });
   }
   function closeLv() { dlg.classList.remove('open'); setTimeout(function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); }, 280); }
-  document.getElementById('rail').addEventListener('click', function (e) { var card = e.target.closest('.wcard, .pcard2'); if (!card) return; e.preventDefault(); if (card.getAttribute('data-lv') === 'lead') { document.getElementById('link').scrollIntoView({ behavior: 'smooth' }); return; } openLv(card); });
+  // Phones have no hover: the stack lifts one card at a time on its own; a tap pulls that card out, a second tap opens it
+  var wc = [].slice.call(document.querySelectorAll('#railSteps .wcard')), li = 0, auto = null;
+  function lift(c) { wc.forEach(function (x) { x.classList.toggle('lift', x === c); }); }
+  if (innerWidth <= 1100) auto = setInterval(function () { li = (li + 1) % wc.length; lift(wc[li]); }, 1700);
+  document.getElementById('rail').addEventListener('click', function (e) { var card = e.target.closest('.wcard, .pcard2'); if (!card) return; e.preventDefault();
+    if (innerWidth <= 1100 && card.classList.contains('wcard')) { clearInterval(auto); if (!card.dataset.tapped) { lift(card); wc.forEach(function (x) { delete x.dataset.tapped; }); card.dataset.tapped = 1; return; } } if (card.getAttribute('data-lv') === 'lead') { document.getElementById('link').scrollIntoView({ behavior: 'smooth' }); return; } openLv(card); });
   document.getElementById('lvX').addEventListener('click', closeLv);
   dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('.lv-cta a')) closeLv(); });
   dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeLv(); });
