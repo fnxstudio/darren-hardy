@@ -150,8 +150,15 @@
   .hp-k { color: var(--gold-ink); }
   .hpop h3.D { margin-top: 10px; font-size: clamp(46px, 5vw, 72px); }
   .hp-lede { margin-top: 10px; font-size: 17px; color: var(--grey); } .hp-lede b { color: #000; }
-  .hp-cd { margin-top: 18px; padding: 14px 18px; background: #000; border-radius: var(--r); flex-wrap: wrap; }
-  .hp-cd b { color: var(--gold); } .hp-cd span { color: #9a9a9a; } .hp-cd em { font-style: normal; margin-left: auto; font: 700 12px var(--body); letter-spacing: .08em; text-transform: uppercase; color: #fff; align-self: center; }
+  .hp-urgent { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--red); color: #fff; font: 800 12px var(--body); letter-spacing: .1em; text-transform: uppercase; border-radius: var(--r); }
+  .hp-urgent i { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: pulse 1s ease-in-out infinite; }
+  .hp-cdwrap { margin-top: 18px; padding: 16px 20px 14px; background: var(--red); color: #fff; border-radius: var(--r); }
+  .hp-cdk { font: 800 12px var(--body); letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.85); }
+  .hp-cd { margin-top: 4px; flex-wrap: wrap; }
+  .hp-cd b { color: #fff; font-size: 64px; } .hp-cd span { color: rgba(255,255,255,.75); }
+  .hp-cd b[data-s] { display: inline-block; min-width: 1.1em; animation: tickpop 1s ease-in-out infinite; }
+  @keyframes tickpop { 0% { transform: scale(1.08); } 30%, 100% { transform: scale(1); } }
+  .hp-cdk2 { margin-top: 6px; font-size: 14px; font-weight: 600; color: #fff; }
   .hp-kit { margin-top: 18px; list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .hp-kit li { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
   .hp-kit img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
@@ -480,7 +487,7 @@
   footer img { width: 40px; height: 40px; }
   footer p { max-width: 62em; }
   @media (max-width: 560px) { .stack img { width: 52px; height: 52px; } .stack img:nth-child(n+7) { display: none; } }
-  @media (prefers-reduced-motion: reduce) { .ping, .nav .live i { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .ping, .nav .live i, .hp-urgent i, .hp-cd b[data-s] { animation: none; } }
 </style>
 </head>
 <body>
@@ -734,17 +741,17 @@
       <div class="hp-side-kit"><span>+</span> The Harvest kit</div>
     </div>
     <div class="hp-body">
-      <div class="lab hp-k">Nov 10&ndash;12 &middot; 72 hours only</div>
+      <div class="hp-urgent"><i></i>Ends tomorrow at midnight ET &middot; Thurs., Nov 12th</div>
       <h3 class="D" id="hpopTitle"><span class="a">The Hardy Harvest<em class="dot">.</em></span></h3>
       <p class="hp-lede">Add one more Founders Event seat this week. One more leader, <b>one more impact on the board</b>, one step closer to In the Studio. And Darren sends <b>you</b> the Harvest kit.</p>
-      <div class="cd hp-cd" data-cd><b data-h>00</b><span>hrs</span><b data-m>00</b><span>min</span><b data-s>00</b><span>sec</span><em>left to get the kit</em></div>
+      <div class="hp-cdwrap"><div class="hp-cdk">The Harvest closes in</div><div class="cd hp-cd" data-cd><b data-h>00</b><span>hrs</span><b data-m>00</b><span>min</span><b data-s>00</b><span>sec</span></div><div class="hp-cdk2">When it hits zero, the kit is gone.</div></div>
       <ul class="hp-kit">
         <li><img src="img/harvest/dh-apron.webp" alt="" width="428" height="490"><div><span class="lab">To you</span><b>The Be The Exception apron</b></div></li>
         <li><img src="img/harvest/cutco.webp" alt="" width="565" height="420"><div><span class="lab">To you</span><b>Cutco carving set</b></div></li>
         <li><img src="img/harvest/turkey.webp" alt="" width="550" height="479"><div><span class="lab">To your new leader</span><b>Thanksgiving turkey</b></div></li>
       </ul>
       <p class="hp-fine">One seat or ten already, add one more this week and the kit is yours. Name the leader you add by Mon., Nov 16th. Orders go out Nov 17th to land before Thanksgiving.</p>
-      <div class="ctas"><a class="btn btn-solid" href="#harvest" id="hpopGo">Add a seat <span class="arw">&rarr;</span></a><button class="hp-later" type="button" id="hpopLater">Maybe later</button></div>
+      <div class="ctas"><a class="btn btn-solid" href="#harvest" id="hpopGo">Add a seat before it closes <span class="arw">&rarr;</span></a><button class="hp-later" type="button" id="hpopLater">Maybe later</button></div>
     </div>
   </div>
 </dialog>
