@@ -755,7 +755,7 @@
         <li><b>Name the leader you add</b> by Mon., Nov 16th so their turkey ships on time.</li>
         <li><b>Orders go out Nov 17th</b> to land before Thanksgiving, Nov 26th.</li>
       </ul>
-      <div class="ctas hv-cta"><a class="btn btn-solid" href="https://fnxstudio.github.io/darren-hardy/TCEB/founders-event.html#harvest" data-ref target="_blank" rel="noopener">Add a seat <span class="arw">&rarr;</span></a><div class="hv-deadline"><span class="hd-k"><i></i>Deadline</span><b>Thurs., Nov 12th at midnight ET</b><span class="hd-left"><b data-h-mini></b> hrs left</span></div></div>
+      <div class="ctas hv-cta"><a class="btn btn-solid" href="#link" data-enroll>Add a seat <span class="arw">&rarr;</span></a><div class="hv-deadline"><span class="hd-k"><i></i>Deadline</span><b>Thurs., Nov 12th at midnight ET</b><span class="hd-left"><b data-h-mini></b> hrs left</span></div></div>
     </div>
   </div>
 </section>
@@ -897,7 +897,7 @@
         <li><img src="img/harvest/turkey.webp" alt="" width="550" height="479"><div><span class="lab">To your new leader</span><b>Thanksgiving turkey</b></div></li>
       </ul>
       <p class="hp-fine">One seat or ten already, add one more this week and the kit is yours. Name the leader you add by Mon., Nov 16th. Orders go out Nov 17th to land before Thanksgiving.</p>
-      <div class="ctas"><a class="btn btn-solid" href="#harvest" id="hpopGo">Add a seat before it closes <span class="arw">&rarr;</span></a><button class="hp-later" type="button" id="hpopLater">Maybe later</button></div>
+      <div class="ctas"><a class="btn btn-solid" href="#link" id="hpopGo" data-enroll>Add a seat before it closes <span class="arw">&rarr;</span></a><button class="hp-later" type="button" id="hpopLater">Maybe later</button></div>
     </div>
   </div>
 </dialog>
@@ -1096,6 +1096,15 @@
     document.getElementById('refSms').href = 'sms:?&body=' + encodeURIComponent(m);
   }
   document.querySelectorAll('.opt').forEach(function (b) { b.addEventListener('click', function () { pick(b.getAttribute('data-opt')); }); });
+  // "Add a seat" buttons open the Enroll tab with a new seat pre-selected.
+  document.querySelectorAll('[data-enroll]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      pick('leader');
+      var inv = document.querySelector('#enrollPane input[value=invest]'); inv.checked = true; inv.dispatchEvent(new Event('change'));
+      setTimeout(function () { document.getElementById('link').scrollIntoView({ behavior: 'smooth' }); }, 340);
+    });
+  });
   // Enroll a leader: the Champion covers the seat with a credit or a new investment. Mock only; this becomes the real checkout/HubSpot form.
   var ef = document.getElementById('enrollPane'), eGo = document.getElementById('enrollGo');
   ef.querySelectorAll('input[name=pay]').forEach(function (r) {
