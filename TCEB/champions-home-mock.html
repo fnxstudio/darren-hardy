@@ -295,7 +295,7 @@
   .ping small { display: block; color: var(--grey); font-size: 12px; }
   .ping .up { color: var(--gold-ink); font-weight: 800; }
   .ping.a { left: -4%; top: 0; }
-  .ping.b { right: -50px; top: 140px; max-width: 196px; animation-delay: -2s; }
+  .ping.b { right: -56px; top: 140px; white-space: nowrap; max-width: 230px; animation-delay: -2s; }
   .ping.c { left: 2%; bottom: -6px; animation-delay: -4s; }
   @keyframes float { 50% { transform: translateY(-8px); } }
   .stats { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid #000; }
@@ -697,7 +697,7 @@
     .navclock { position: static; transform: none; order: 3; width: 100%; justify-content: center; gap: 10px; padding: 7px 10px; font-size: 10.5px; }
     .navclock .nc-t { font-size: 18px; }
   }
-  #harvest, #link, #board, #stand { scroll-margin-top: 120px !important; }
+  #harvest, #link, #board, #stand, .hub-out { scroll-margin-top: 120px !important; }
   /* Link hub: right panel matches the options column, message box fills it */
   .hub { align-items: stretch !important; }
   .hub-out { display: flex; flex-direction: column; }
@@ -731,7 +731,7 @@
     .pcard.k1 { left: 28% !important; top: 30px !important; } .pcard.k2 { left: 0 !important; top: 120px !important; } .pcard.k3 { right: 0 !important; top: 190px !important; }
     .ping { max-width: 290px !important; font-size: 13.5px !important; display: flex !important; }
     .ping.a { left: -4% !important; right: auto !important; top: 0 !important; }
-    .ping.b { right: -50px !important; top: 140px !important; bottom: auto !important; max-width: 196px !important; }
+    .ping.b { right: -56px !important; top: 140px !important; bottom: auto !important; max-width: 230px !important; }
     .ping.c { left: -1% !important; bottom: 44px !important; max-width: 270px !important; }
   }
   /* Phone takeover: button right under the countdown, kit below it */
@@ -786,8 +786,23 @@
   @media (max-width: 560px) { .sg-row { flex-direction: column; } .sg-row .btn { justify-content: center; } }
   /* The apron name always sits on one line */
   .hpop .hp-kit li:first-child b, .kit figure:first-child figcaption b { white-space: nowrap; }
-  .hpop .hp-kit, .kit { grid-template-columns: minmax(max-content, 1fr) 1fr 1fr !important; }
+  .hpop .hp-kit { grid-template-columns: minmax(max-content, 1fr) 1fr 1fr !important; }
+  @media (min-width: 861px) { .kit { grid-template-columns: minmax(max-content, 1fr) 1fr 1fr; } }
   .hp-kit li:first-child img, .kit figure:first-child img { width: 0 !important; min-width: 100%; }
+  /* Reward cards: placeholder image on the right (corner tile on desktop, tall panel when the cards go wide) */
+  .p-ph { position: absolute; top: 16px; right: 16px; width: 76px; height: 76px; display: grid; place-items: center; border-radius: 8px; border: 1px dashed rgba(255,255,255,.45); background: repeating-linear-gradient(135deg, rgba(255,255,255,.08) 0 8px, rgba(255,255,255,.14) 8px 16px); font: 700 9px/1.4 var(--body); letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.7); text-align: center; }
+  .pcard2.studio .p-ph { border-color: rgba(212,160,23,.6); color: var(--gold); }
+  @media (max-width: 1100px) { .pcard2 { padding-right: calc(36% + 34px); } .p-ph { top: 16px; bottom: 16px; width: 36%; height: auto; font-size: 10.5px; } }
+  /* Podium ranks as medals: metal coin, ribbon tails, a slow shine on #1 */
+  .pd .rk { --m: var(--g-gold); --rb: var(--red); top: 18px !important; left: 18px !important; width: 68px; height: 68px; padding: 0 !important; display: grid; place-items: center; border-radius: 50% !important; background: var(--m) !important; color: rgba(0,0,0,.78) !important; font: 600 40px/1 var(--display) !important; text-shadow: 0 1px 0 rgba(255,255,255,.55); box-shadow: inset 0 0 0 3px rgba(255,255,255,.55), inset 0 0 0 7px rgba(0,0,0,.10), inset 0 -6px 12px rgba(0,0,0,.18), 0 10px 22px rgba(0,0,0,.35); overflow: visible; z-index: 2; }
+  .pd .rk::before { content: "#"; position: absolute; top: 15px; left: 13px; font-size: .38em; opacity: .7; }
+  .pd .rk::after { content: ""; position: absolute; z-index: -1; left: 50%; bottom: -20px; width: 40px; height: 34px; transform: translateX(-50%); background: var(--rb); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%); }
+  .pd.p1 .rk { width: 84px; height: 84px; font-size: 52px !important; }
+  .pd.p1 .rk::before { top: 19px; left: 16px; }
+  .pd.p2 .rk { --m: var(--g-silver); --rb: #1c1c1c; } .pd.p3 .rk { --m: var(--g-copper); --rb: #1c1c1c; }
+  .pd.p1 .rk { background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.75) 50%, transparent 62%) -120px 0 / 240px 100% no-repeat, var(--g-gold) !important; animation: medalShine 4.5s ease-in-out infinite; }
+  @keyframes medalShine { 0%, 60% { background-position: -120px 0, 0 0; } 100% { background-position: 120px 0, 0 0; } }
+  @media (max-width: 640px) { .pd .rk { top: 10px !important; left: 10px !important; width: 38px; height: 38px; font-size: 22px !important; box-shadow: inset 0 0 0 2px rgba(255,255,255,.55), 0 6px 12px rgba(0,0,0,.3); } .pd.p1 .rk { width: 46px; height: 46px; font-size: 28px !important; } .pd .rk::before { display: none; } .pd .rk::after { width: 22px; height: 18px; bottom: -11px; } }
 </style>
 </head>
 <body>
@@ -1149,7 +1164,7 @@
   var deck = [['k2',1],['k1',0],['k3',2]].map(function (a) { var r = B[a[1]];
     return '<div class="pcard ' + a[0] + '">' + img(r[0], r[1]) + '<span class="ribbon">#' + (a[1] + 1) + '</span><div class="nm">' + r[1] + '</div><div class="meta"><span>Impacts</span><b>' + r[3] + '</b></div></div>'; }).join('');
   deck += '<div class="ping a"><img src="' + P + 'kristi.webp" alt=""><div><b>Kristi Lopez just went Platinum</b><small><span class="up">▲ 6 spots</span> · 4 min ago</small></div></div>';
-  deck += '<div class="ping b"><img src="' + P + 'spencer.webp" alt=""><div><b>Spencer Ford moved to #7</b><small>Brought a forum peer · 1 hr ago</small></div></div>';
+  deck += '<div class="ping b"><img src="' + P + 'spencer.webp" alt=""><div><b>Spencer Ford</b><small>Moved to #7 · 1 hr ago</small></div></div>';
   deck += '<div class="ping c"><img src="' + P + 'lisag.webp" alt=""><div><b>3 leaders joined Lisa Good today</b><small>+3 impacts · now Silver</small></div></div>';
   document.getElementById('deck').innerHTML = deck;
   fitDeck();
@@ -1192,7 +1207,7 @@
       (c[5] ? '<div class="here">' + faces(c[5]) + '<span>' + c[6] + '</span></div>' : '<span class="btn btn-solid" style="align-self:flex-start;padding:14px 18px;font-size:11.5px">Get my link <span class="arw">→</span></span>') + '</a>';
   }
   function prize(c, icon) {
-    return '<a class="pcard2 ' + c[0] + '" href="#win" data-lv="' + c[0] + '"><span class="ptag">' + icon + ' Reward</span><h3>' + c[2] + '</h3><div class="req">' + c[3] + ' at the final count</div><p>' + c[4].replace(' Earned at the final count.', '') + '</p><span class="pnum">' + c[6] + '</span></a>';
+    return '<a class="pcard2 ' + c[0] + '" href="#win" data-lv="' + c[0] + '"><span class="ptag">' + icon + ' Reward</span><h3>' + c[2] + '</h3><div class="req">' + c[3] + ' at the final count</div><p>' + c[4].replace(' Earned at the final count.', '') + '</p><span class="pnum">' + c[6] + '</span><span class="p-ph">Placeholder<br>image</span></a>';
   }
   document.getElementById('rail').innerHTML =
     '<div class="rgroup"><div class="rlab">The climb</div><div class="steps-fit" id="stepsFit"><div class="rail-steps" id="railSteps">' + W.slice(0, 5).map(card).join('') + '</div></div></div>' +
@@ -1295,7 +1310,7 @@
   // TESTING: show the pop-up on every page load. For launch, set HP_ONCE = true to show it once per visit.
   var HP_ONCE = false, seen = false;
   if (HP_ONCE) { try { seen = sessionStorage.getItem('hv-pop') === '1'; } catch (e) {} }
-  if (!seen) setTimeout(function () { hpOpen(); if (HP_ONCE) { try { sessionStorage.setItem('hv-pop', '1'); } catch (e) {} } }, 4000);
+  if (!seen) setTimeout(function () { hpOpen(); if (HP_ONCE) { try { sessionStorage.setItem('hv-pop', '1'); } catch (e) {} } }, 3000);
   document.getElementById('hpopX').addEventListener('click', hpClose);
   document.getElementById('hpopLater').addEventListener('click', hpClose);
   document.getElementById('hpopGo').addEventListener('click', hpClose);
@@ -1338,7 +1353,9 @@
     document.getElementById('refMail').href = 'mailto:?subject=' + encodeURIComponent(o.subject) + '&body=' + encodeURIComponent(m);
     document.getElementById('refSms').href = 'sms:?&body=' + encodeURIComponent(m);
   }
-  document.querySelectorAll('.opt').forEach(function (b) { b.addEventListener('click', function () { pick(b.getAttribute('data-opt')); }); });
+  document.querySelectorAll('.opt').forEach(function (b) { b.addEventListener('click', function () { pick(b.getAttribute('data-opt'));
+    // Phones: the options stack above the link, so jump down to it
+    if (innerWidth <= 900) setTimeout(function () { document.querySelector('.hub-out').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60); }); });
   // "Add a seat" buttons open the Enroll tab with a new seat pre-selected.
   document.querySelectorAll('[data-enroll]').forEach(function (a) {
     a.addEventListener('click', function (e) {
