@@ -746,6 +746,14 @@
     .hpop .ctas { order: 5; margin: 14px 0 0 !important; padding: 0 !important; border: 0 !important; background: none !important; }
     .hp-kit { order: 6; margin-top: 16px; } .hp-fine { order: 7; }
   }
+  /* The climb on small screens: desktop stack, scaled */
+  @media (max-width: 1100px) {
+    .steps-fit { width: 100%; overflow: hidden; }
+    .rail-steps { overflow: visible !important; scroll-snap-type: none !important; width: 768px; padding: 12px 0 8px 4px !important; transform-origin: top left; }
+    .rail-steps .wcard { width: 226px !important; min-height: 410px !important; margin-left: -94px !important; }
+    .rail-steps .wcard:first-child { margin-left: 0 !important; }
+    .rail-steps .wcard:hover { transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -1145,7 +1153,7 @@
     return '<a class="pcard2 ' + c[0] + '" href="#win" data-lv="' + c[0] + '"><span class="ptag">' + icon + ' Reward</span><h3>' + c[2] + '</h3><div class="req">' + c[3] + ' at the final count</div><p>' + c[4].replace(' Earned at the final count.', '') + '</p><span class="pnum">' + c[6] + '</span></a>';
   }
   document.getElementById('rail').innerHTML =
-    '<div class="rgroup"><div class="rlab">The climb</div><div class="rail-steps">' + W.slice(0, 5).map(card).join('') + '</div></div>' +
+    '<div class="rgroup"><div class="rlab">The climb</div><div class="steps-fit" id="stepsFit"><div class="rail-steps" id="railSteps">' + W.slice(0, 5).map(card).join('') + '</div></div></div>' +
     '<div class="rail-arrow" aria-hidden="true">&rarr;</div>' +
     '<div class="rgroup prize-group"><div class="rlab">The reward</div><div class="rail-prize">' + prize(W[5], '&#9733;') + prize(W[6], '&#9733;') + '</div></div>';
 
@@ -1158,6 +1166,17 @@
     }
     w.innerHTML = h;
   })();
+
+  // The climb: on small screens scale the whole five-card stack to fit one row (no side scroll)
+  function fitSteps() {
+    var fit = document.getElementById('stepsFit'), st = document.getElementById('railSteps');
+    if (!fit) return;
+    if (innerWidth > 1100) { st.style.transform = ''; fit.style.height = ''; return; }
+    var sc = Math.min(1, fit.clientWidth / 768);
+    st.style.transform = 'scale(' + sc.toFixed(4) + ')';
+    fit.style.height = Math.round((st.offsetHeight) * sc) + 'px';
+  }
+  fitSteps(); addEventListener('resize', fitSteps);
 
   // Level pop-up: more info, tips, and who's there now
   var NM = {}; B.forEach(function (r) { NM[r[0]] = r[1]; });
