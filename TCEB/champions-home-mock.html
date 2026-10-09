@@ -778,8 +778,8 @@
   <div class="wrap">
     <img src="img/dh-mark-white.webp" alt="Darren Hardy">
     <span class="t">THE CHAMPIONS BOARD</span>
-    <a class="navclock" href="#link" data-enroll><span class="nc-l"><i></i><b>Hardy Harvest</b> closes in</span><span class="nc-t" data-hhms>33:58:00</span><span class="nc-go">Add a seat <span class="arw">&rarr;</span></span></a>
-    <a class="btn btn-solid" href="#link">Get my link <span class="arw">→</span></a>
+    <a class="navclock" href="#harvest" data-promo><span class="nc-l"><i></i><b>Hardy Harvest</b> closes in</span><span class="nc-t" data-hhms>33:58:00</span></a>
+    <a class="btn btn-solid" id="navCta" href="#link">Get my link <span class="arw">→</span></a>
   </div>
 </header>
 </div>
@@ -1098,6 +1098,15 @@
   function img(k, alt) { return '<img src="' + P + k + '.webp" alt="' + (alt || '') + '" width="360" height="360">'; }
   function coin(n) { return n >= 10 ? 'plat' : n >= 5 ? 'gold' : n >= 3 ? 'silver' : 'copper'; }
   function faces(list) { return '<span class="faces">' + list.map(function (k) { return k === '?' ? '<span class="q">?</span>' : img(k); }).join('') + '</span>'; }
+
+  // Nav during a promo: ONE button. It becomes the promo action and the clock is info only.
+  // Between promos set PROMO_LIVE = false: the clock hides and the button is Get my link.
+  var PROMO_LIVE = true;
+  (function () {
+    var cta = document.getElementById('navCta');
+    if (PROMO_LIVE) { cta.innerHTML = 'Add a seat <span class="arw">&rarr;</span>'; cta.setAttribute('data-enroll', ''); }
+    else { document.querySelectorAll('[data-promo]').forEach(function (e) { e.style.display = 'none'; }); }
+  })();
 
   // Hero deck: on small screens scale the desktop composition to fit
   function fitDeck() {
