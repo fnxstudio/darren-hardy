@@ -185,14 +185,16 @@
   .hd-left { font-size: 13.5px; font-weight: 600; color: var(--red); }
   @media (max-width: 860px) { .harvest { padding: 22px; } .kit, .hv-fine { grid-template-columns: 1fr; } .hv-clock { text-align: left; } }
 
-  dialog.hpop { margin: auto; border: 0; padding: 0; width: min(1000px, calc(100vw - 32px)); max-height: calc(100vh - 40px); overflow: auto; border-radius: var(--r); background: #fff; box-shadow: 0 50px 120px rgba(0,0,0,.45); opacity: 0; transform: translateY(40px) scale(.94); transition: transform .55s var(--ease), opacity .35s ease; }
+  dialog.hpop { margin: auto; border: 0; padding: 0; width: min(1480px, calc(100vw - 56px)); height: calc(100vh - 56px); max-height: calc(100vh - 56px); overflow: auto; border-radius: var(--r); background: #fff; box-shadow: 0 50px 120px rgba(0,0,0,.45); opacity: 0; transform: translateY(40px) scale(.94); transition: transform .55s var(--ease), opacity .35s ease; }
   dialog.hpop.open { opacity: 1; transform: none; }
   dialog.hpop::backdrop { background: rgba(0,0,0,.55); }
   .hpop .lv-x { z-index: 3; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.2); }
-  .hp-grid { display: grid; grid-template-columns: 380px 1fr; }
+  .hp-grid { display: grid; grid-template-columns: 40% 1fr; min-height: 100%; }
   .hp-side { position: relative; background: #000; color: #fff; padding: 40px 34px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
   .hp-side::before { content: ""; position: absolute; inset: auto -30% -30% auto; width: 120%; aspect-ratio: 1; background: radial-gradient(circle, rgba(212,160,23,.28), transparent 62%); }
   .hp-side > * { position: relative; }
+  .hp-flash { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--gold); color: #000; font: 600 26px/1 var(--display); letter-spacing: .03em; text-transform: uppercase; border-radius: var(--r); }
+  .hp-flash span { font-size: 22px; }
   .hp-plus { margin-top: 40px; display: flex; flex-direction: column; }
   .hp-plus .pl { font: 600 clamp(150px, 16vw, 220px)/.8 var(--display); color: var(--gold); letter-spacing: -.02em; }
   .hp-plus .pw { margin-top: 10px; font: 600 44px/1 var(--display); text-transform: uppercase; color: #fff; }
@@ -200,9 +202,10 @@
   .hp-side-kit { margin-top: 26px; padding-top: 18px; border-top: 1px solid #2a2a2a; font: 600 26px/1 var(--display); text-transform: uppercase; color: #fff; }
   .hp-side-kit span { color: var(--gold); }
   .hp-live { background: #fff; padding: 8px 12px; border-radius: var(--r); align-self: flex-start; }
-  .hp-body { padding: 40px 40px 34px; }
+  .hp-body { padding: clamp(36px, 4vw, 64px); display: flex; flex-direction: column; justify-content: center; }
+  .hpop .hp-kit { gap: 16px; } .hpop .hp-kit b { font-size: 24px; }
   .hp-k { color: var(--gold-ink); }
-  .hpop h3.D { margin-top: 10px; font-size: clamp(46px, 5vw, 72px); }
+  .hpop h3.D { margin-top: 12px; font-size: clamp(56px, 6.4vw, 104px); }
   .hp-lede { margin-top: 10px; font-size: 17px; color: var(--grey); } .hp-lede b { color: #000; }
   .hp-urgent { display: inline-flex; align-items: center; gap: 10px; color: #000; font: 800 12px var(--body); letter-spacing: .12em; text-transform: uppercase; }
   .hp-urgent i { width: 9px; height: 9px; border-radius: 50%; background: var(--red); animation: pulse 1s ease-in-out infinite; }
@@ -225,7 +228,7 @@
   .hp-fine { margin-top: 14px; font-size: 13.5px; color: var(--grey); }
   .hpop .ctas { margin-top: 22px; align-items: center; }
   .hp-later { background: none; border: 0; font: 600 13px var(--body); color: var(--grey); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-  @media (max-width: 820px) { .hp-grid { grid-template-columns: 1fr; } .hp-side { padding: 26px 22px; } .hp-cd b { font-size: 46px; } .hp-plus { margin-top: 18px; flex-direction: row; align-items: baseline; gap: 14px; } .hp-plus .pl { font-size: 96px; } .hp-plus .pw { font-size: 32px; } .hp-side-t { margin-top: 14px; font-size: 14.5px; } .hp-side-kit { margin-top: 16px; font-size: 20px; } .hp-body { padding: 26px 22px; } .hp-kit { grid-template-columns: 1fr; gap: 8px; } .hp-kit li { display: grid; grid-template-columns: 72px 1fr; align-items: center; } .hp-kit img { height: 72px; } .hp-kit b { font-size: 18px; } }
+  @media (max-width: 820px) { .hp-grid { grid-template-columns: 1fr; } .hp-side { padding: 26px 22px; } .hp-flash { font-size: 20px; } dialog.hpop { height: auto; } .hp-cd b { font-size: 46px; } .hp-plus { margin-top: 18px; flex-direction: row; align-items: baseline; gap: 14px; } .hp-plus .pl { font-size: 96px; } .hp-plus .pw { font-size: 32px; } .hp-side-t { margin-top: 14px; font-size: 14.5px; } .hp-side-kit { margin-top: 16px; font-size: 20px; } .hp-body { padding: 26px 22px; } .hp-kit { grid-template-columns: 1fr; gap: 8px; } .hp-kit li { display: grid; grid-template-columns: 72px 1fr; align-items: center; } .hp-kit img { height: 72px; } .hp-kit b { font-size: 18px; } }
 
   /* WHERE YOU STAND */
   .stand { padding: 0 0 72px; }
@@ -481,6 +484,7 @@
   .stop .pl { display: block; margin: 12px auto 0; max-width: 150px; padding: 10px 10px; font-style: normal; font-size: 13px; line-height: 1.35; color: #000; background: #fff; border: 1px solid var(--line); border-radius: var(--r); }
   .stop.now .pl { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
   a.stop { color: inherit; } a.stop.now .pl { transition: transform .25s var(--ease); } a.stop.now:hover .pl { transform: translateY(-3px); }
+  .stop .pl .fib { display: block; margin-bottom: 4px; font: 800 10px var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--gold-ink); }
   .stop .pl small { display: block; margin-top: 6px; font: 800 10.5px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--grey); }
   .stop .pl small.go { color: var(--gold-ink); }
   .stop.locked b { color: #b5b5b5; letter-spacing: .2em; }
@@ -693,7 +697,7 @@
     <p class="lede">The count runs all season, and each stretch brings a new reason for a leader to say yes. Wherever you start, there is a play to run this week.</p>
     <div class="track">
       <div class="stop done"><i></i><b>Pre-print</b><span>Oct 22 to Nov 1</span><em class="pl">Name a leader and their name goes in the book</em></div>
-      <a class="stop now" href="#harvest"><i></i><b>Hardy Harvest</b><span>Live now · ends Nov 12</span><em class="pl">Add a seat, climb the board, get the Harvest kit<small class="go">See the details &rarr;</small></em></a>
+      <a class="stop now" href="#harvest"><i></i><b>Hardy Harvest</b><span>Live now · ends Nov 12</span><em class="pl"><b class="fib">Flash Impact Booster</b>Add a seat, climb the board, get the Harvest kit<small class="go">See the details &rarr;</small></em></a>
       <div class="stop locked"><i></i><b>? ? ?</b><span>Dec 8 to 13</span><em class="pl"><span class="blur">A new play for this stretch</span><small>Unlocks Dec 8</small></em></div>
       <div class="stop locked"><i></i><b>? ? ?</b><span>Dec 14 to 31</span><em class="pl"><span class="blur">A new play for this stretch</span><small>Unlocks Dec 14</small></em></div>
       <div class="stop locked"><i></i><b>? ? ?</b><span>Jan to Mar</span><em class="pl"><span class="blur">A new play for this stretch</span><small>Unlocks in January</small></em></div>
@@ -703,7 +707,7 @@
     <div class="harvest" id="harvest">
       <div class="hv-top">
         <div>
-          <span class="nc-live"><i></i>Live now &middot; 72 hours only</span>
+          <span class="nc-live"><i></i>Live now &middot; Flash Impact Booster &middot; 72 hours only</span>
           <h3 class="D hv-h"><span class="a">The Hardy Harvest<em class="dot">.</em></span></h3>
           <p class="hv-lede">Add one more seat this week. That&rsquo;s one more leader in April, one more impact on the board, and a step closer to the Studio Line.</p>
         </div>
@@ -839,6 +843,7 @@
   <button class="lv-x" type="button" id="hpopX" aria-label="Close">&times;</button>
   <div class="hp-grid">
     <div class="hp-side">
+      <div class="hp-flash"><span>&#9889;</span> Flash Impact Booster</div>
       <div class="hp-plus"><span class="pl">+1</span><span class="pw">Impact</span></div>
       <p class="hp-side-t">One more seat this week.<br>One more leader in April.<br>One more step up the board.</p>
       <div class="hp-side-kit"><span>+</span> The Harvest kit</div>
