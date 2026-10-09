@@ -242,7 +242,14 @@
 
   /* WHERE YOU STAND */
   .stand { padding: 0 0 72px; }
-  .st-card { display: grid; grid-template-columns: auto auto auto 1fr auto; gap: 28px; align-items: center; padding: 22px 26px; border-radius: 14px; background: linear-gradient(120deg, #fffaf0, #fff 60%); border: 2px solid var(--gold); box-shadow: 0 18px 40px rgba(0,0,0,.08); }
+  .st-card { display: grid; grid-template-columns: auto auto 1fr auto; gap: 36px; align-items: center; padding: 22px 26px; border-radius: 14px; background: linear-gradient(120deg, #fffaf0, #fff 60%); border: 2px solid var(--gold); box-shadow: 0 18px 40px rgba(0,0,0,.08); }
+  .st-hero { display: flex; flex-direction: column; }
+  .st-hero .lab { color: var(--gold-ink); }
+  .st-big { display: flex; align-items: flex-end; gap: 14px; margin-top: 2px; }
+  .st-rk { font: 600 112px/.82 var(--display); color: #000; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .st-mv { display: flex; flex-direction: column; padding-bottom: 6px; font: 600 30px/1 var(--display); color: var(--gold-ink); }
+  .st-mv small { margin-top: 3px; font: 700 10.5px var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--grey); }
+  .st-say { margin-top: 8px; font: 600 22px/1 var(--display); text-transform: uppercase; color: #000; white-space: nowrap; }
   .st-who { display: flex; align-items: center; gap: 14px; }
   .st-ini { width: 56px; height: 56px; flex: none; border-radius: 8px; background: var(--gold); display: grid; place-items: center; font: 600 22px var(--display); color: #000; }
   .st-who .lab { color: var(--gold-ink); }
@@ -252,14 +259,15 @@
   .stand .up { color: var(--gold-ink); font-weight: 800; }
   .st-next { min-width: 260px; }
   .stand .btn { white-space: nowrap; padding: 18px 24px; }
-  .st-rank .lab, .st-imp .lab { white-space: nowrap; }
+  .st-imp .lab { white-space: nowrap; }
+  .st-imp { padding-left: 36px; border-left: 1px solid #e7dcc0; }
   .st-row { white-space: nowrap; display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; color: var(--grey); }
   .st-row b { color: #000; }
   .st-bar { margin: 6px 0 12px; height: 8px; border-radius: var(--r); background: #eee; overflow: hidden; }
   .st-bar:last-child { margin-bottom: 0; }
   .st-bar i { display: block; height: 100%; border-radius: var(--r); background: var(--g-plat); box-shadow: inset 0 0 0 1px #c3ccd6; }
   .st-bar.line i { background: #000; }
-  @media (max-width: 1100px) { .st-card { grid-template-columns: 1fr 1fr; gap: 20px; } .st-who, .st-next { grid-column: 1 / -1; } .stand .btn { grid-column: 1 / -1; justify-self: start; } }
+  @media (max-width: 1100px) { .st-card { grid-template-columns: 1fr 1fr; gap: 20px; } .st-hero, .st-next { grid-column: 1 / -1; } .st-imp { padding-left: 0; border-left: 0; } .st-rk { font-size: 88px; } .stand .btn { grid-column: 1 / -1; justify-self: start; } }
 
   /* HERO */
   .hero { padding: 80px 0 96px; overflow: hidden; }
@@ -624,8 +632,11 @@
 <section class="stand" id="stand">
   <div class="wrap">
     <div class="st-card">
-      <div class="st-who"><span class="st-ini">YOU</span><div><div class="lab">Where you stand</div><b>Your standing</b></div></div>
-      <div class="st-rank"><span class="num">#27</span><span class="lab"><span class="up">&#9650; 2</span> this week</span></div>
+      <div class="st-hero">
+        <div class="lab">Where you stand<span id="stName"></span></div>
+        <div class="st-big"><span class="st-rk">#27</span><span class="st-mv">&#9650; 2<small>this week</small></span></div>
+        <b class="st-say">2 spots from the Studio Line.</b>
+      </div>
       <div class="st-imp"><span class="num">8</span><span class="lab"><i class="chip c-gold"></i>Impacts &middot; Gold</span></div>
       <div class="st-next">
         <div class="st-row"><span>Next coin: <b>Platinum</b></span><span><b>2</b> to go</span></div>
@@ -1061,6 +1072,8 @@
   var qs = new URLSearchParams(location.search), refId = null;
   REF_IN.forEach(function (k) { if (!refId && qs.get(k)) refId = qs.get(k).trim(); });
   var demo = !refId; if (demo) refId = 'DEMO123';
+  var fn = (qs.get('fn') || qs.get('firstname') || qs.get('name') || (demo ? 'Brenda' : '')).trim().split(/\s+/)[0];
+  if (fn) document.getElementById('stName').textContent = ' \u00b7 ' + fn.replace(/[<>&"]/g, '');
   function withRef(u) { try { var x = new URL(u, location.href); x.searchParams.set(REF_OUT, refId); return x.toString(); } catch (e) { return u; } }
   var OPTS = {
     event:  { url: 'https://fnxstudio.github.io/darren-hardy/TCEB/founders-event.html', subject: 'I want you next to me in April',
