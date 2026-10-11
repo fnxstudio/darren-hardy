@@ -250,7 +250,7 @@ section{padding:140px 0}
 .order{display:none;margin-top:72px}
 .order.is-open{display:block}
 .checkout{position:relative;min-height:560px;max-width:760px;margin:0 auto}
-.checkout .loading{position:absolute;inset:0;z-index:2;display:grid;place-items:start center;padding-top:120px;background:var(--paper);font-size:14px;color:var(--muted);transition:opacity .4s}
+.checkout .loading{position:absolute;inset:0;display:grid;place-items:start center;padding-top:120px;font-size:14px;color:var(--muted);pointer-events:none;transition:opacity .4s}
 .checkout.is-ready .loading{opacity:0;pointer-events:none}
 .fallback{display:none;margin:0;padding:24px;border:1px solid var(--line);font-size:16px;line-height:1.55}
 .checkout.is-failed .fallback{display:block}
@@ -736,7 +736,9 @@ section{padding:140px 0}
   // ---------- reserve: the live pre-print checkout, inline on the page (never a click-out, never a popup) ----------
   // The page tells the checkout to pick the 100-book tier. The checkout's own custom code (Spiffy > Settings >
   // custom code, message 'tceb-preprint-tier') clicks its 100 Books button, and its custom CSS then hides the
-  // bundle box, so the form opens at $995 with no other book amounts. The cover stays up until that has happened.
+  // bundle box, so the form opens at $995 with no other book amounts. The message is sent repeatedly from the moment
+  // the frame exists, so the checkout's script picks 100 as soon as its buttons render (no visible switch).
+  // Never cover the frame with an opaque layer: Spiffy then never draws the form (tested 2026-10-10).
   // Spiffy only accepts the message from thecompoundeffect.com and the-compound-effect-dh.webflow.io.
   var CHECKOUT_ORIGIN = 'https://secure.darrenhardy.com', TIER = '100';
   var box = document.getElementById('checkout'), mounted = false, bail, poll;
@@ -750,10 +752,10 @@ section{padding:140px 0}
   function reveal() {
     clearInterval(poll); clearTimeout(bail);
     box.classList.remove('is-failed');
-    sendTier();
-    setTimeout(sendTier, 300);
-    setTimeout(function () { box.classList.add('is-ready'); }, 700);
+    box.classList.add('is-ready');
+    setTimeout(function () { clearInterval(nudge); }, 2000); // a few more sends, then stop
   }
+  var nudge;
   document.getElementById('reserve').addEventListener('click', function (e) {
     e.preventDefault();
     var order = document.getElementById('order');
@@ -764,8 +766,9 @@ section{padding:140px 0}
       el.setAttribute('type', 'checkout');
       el.setAttribute('url', box.getAttribute('data-url'));
       box.insertBefore(el, box.querySelector('.fallback'));
+      nudge = setInterval(sendTier, 100);
       poll = setInterval(function () { if (formShown()) reveal(); }, 50);
-      bail = setTimeout(function () { clearInterval(poll); if (!box.classList.contains('is-ready')) box.classList.add('is-failed'); }, 8000);
+      bail = setTimeout(function () { clearInterval(poll); clearInterval(nudge); if (!box.classList.contains('is-ready')) box.classList.add('is-failed'); }, 8000);
     }
     order.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
   });
