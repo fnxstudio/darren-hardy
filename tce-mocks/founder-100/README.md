@@ -40,6 +40,6 @@ If orders run ahead of the entries in the file, set `positionsTaken` to the numb
 ## Open items
 
 - Spiffy has no field for the name to print or the headshot, so someone has to own collecting them.
-- The checkout opens with `?tceb_hardcover=100`, but preselecting a tier by link is unproven on the live checkout.
+- The form opens on the 100-book tier only. The page sends a message that the checkout's own Spiffy code acts on; Spiffy accepts it only from thecompoundeffect.com and the-compound-effect-dh.webflow.io, so on this GitHub mock all three book amounts still show.
 - Nothing in Spiffy stops a 101st order. The cap needs an inventory limit on that tier.
 - On the real site each profile lives at `/founder-100/first-last` (a Webflow CMS collection). In this mock it is `?founder=first-last`.
