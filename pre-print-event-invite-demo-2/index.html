@@ -103,7 +103,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <a href="#founder" class="dm-take-cta" data-take-cta>Keep my credit. Reserve my seat <span class="fx-arw" aria-hidden="true">&rarr;</span></a>
 <a class="fx-decline" data-final-decline href="../pre-print-confirmation-demo-3/">No thanks, I'll hear about this event later.</a>
 </div></div>
-<nav class="dm-bar" aria-label="Demo funnel steps"><span class="dm-bar-tag">DEMO</span><a href="../pre-print-demo-1/">1 · Pre-print order</a><a href="../pre-print-event-invite-demo-2/?order=48213&tier=10" class="is-here">2 · Event invite</a><a href="../pre-print-confirmation-demo-3/?order=48213&tier=10">3a · Confirmed: book only</a><a href="../pre-print-event-confirmation-demo-3/?order=48213&tier=10">3b · Confirmed: book + event</a></nav>
+<nav class="dm-bar" aria-label="Demo funnel steps"><span class="dm-bar-tag">DEMO</span><a href="../pre-print-demo-1/">1 · Pre-print order</a><a href="../pre-print-event-invite-demo-2/?order=48213&tier=10" class="is-here">2 · Event invite</a><a href="../pre-print-confirmation-demo-3/?order=48213&tier=10">3a · Confirmed: book only</a><a href="../pre-print-event-confirmation-demo-3/?order=48213&tier=10">3b · Confirmed: event</a><a href="../pre-print-event-vip-confirmation-demo-3/?order=48213&tier=10">3c · Confirmed: event + VIP</a></nav>
 <script>
 
 var Q = new URLSearchParams(location.search);
@@ -214,7 +214,7 @@ showOrder();
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeModal(); closeTake(); } });
 
   document.querySelector('[data-fx="submit"]').addEventListener('click', function () {
-    location.href = '../pre-print-event-confirmation-demo-3/?order=' + ORDER + '&tier=' + TIER + '&plan=' + state.plan + '&vip=' + (state.vip ? 1 : 0) + '&seats=' + state.seats;
+    location.href = '../pre-print-' + (state.vip ? 'event-vip' : 'event') + '-confirmation-demo-3/?order=' + ORDER + '&tier=' + TIER + '&plan=' + state.plan + '&vip=' + (state.vip ? 1 : 0) + '&seats=' + state.seats;
   });
   render();
 })();

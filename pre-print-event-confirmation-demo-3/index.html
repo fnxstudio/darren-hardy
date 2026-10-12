@@ -51,11 +51,10 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <p class="ei-sub">On April 26&ndash;27, 2027, you will be one of the leaders who put <b class="pp-book-title">The Compound Effect in Business</b> to work before the rest of the world opens the book.</p>
 <div class="ei-video"><b class="ei-play" aria-hidden="true">&#9654;</b><b class="ei-video-cap">A welcome from Darren</b><b class="dm-video-label">Video 4 &middot; Welcome, Founder (placeholder)</b></div>
 </div></div></section>
-<section class="ei-block"><div class="pp-wrap"><div class="cf-summary"><h3>Your orders</h3><div data-cf="lines"></div></div></div></section>
 <section class="ei-block"><div class="pp-wrap"><h2 class="pp-h2">What happens next</h2><br><ol class="cf-steps" data-cf="steps"></ol></div></section><section class="ei-block"><div class="pp-wrap"><p class="cf-sign">Your journey begins now.</p><img class="cf-sign-name" src="../elite-assets/dh-signature.webp" alt="Darren"></div></section>
 </main>
 <footer class="dh-footer-slim"><div class="dh-container"><div class="dh-footer-slim-bottom"><span class="dh-footer-slim-copy">&copy; Darren Hardy, LLC. All Rights Reserved.</span><div class="dh-footer-legal-links"><a href="https://dh.darrenhardy.com/terms-of-service/" class="dh-footer-legal-link">Terms &amp; Conditions</a><a href="https://dh.darrenhardy.com/privacy" class="dh-footer-legal-link">Privacy Policy</a></div></div></div></footer>
-<nav class="dm-bar" aria-label="Demo funnel steps"><span class="dm-bar-tag">DEMO</span><a href="../pre-print-demo-1/">1 · Pre-print order</a><a href="../pre-print-event-invite-demo-2/?order=48213&tier=10">2 · Event invite</a><a href="../pre-print-confirmation-demo-3/?order=48213&tier=10">3a · Confirmed: book only</a><a href="../pre-print-event-confirmation-demo-3/?order=48213&tier=10" class="is-here">3b · Confirmed: book + event</a></nav>
+<nav class="dm-bar" aria-label="Demo funnel steps"><span class="dm-bar-tag">DEMO</span><a href="../pre-print-demo-1/">1 · Pre-print order</a><a href="../pre-print-event-invite-demo-2/?order=48213&tier=10">2 · Event invite</a><a href="../pre-print-confirmation-demo-3/?order=48213&tier=10">3a · Confirmed: book only</a><a href="../pre-print-event-confirmation-demo-3/?order=48213&tier=10" class="is-here">3b · Confirmed: event</a><a href="../pre-print-event-vip-confirmation-demo-3/?order=48213&tier=10">3c · Confirmed: event + VIP</a></nav>
 <script>
 
 var Q = new URLSearchParams(location.search);
@@ -81,18 +80,11 @@ function showOrder() {
 showOrder();
 (function () {
   var t = TIERS[param('tier', '10')] || TIERS['10'];
-  var plan = param('plan', 'monthly'), vip = param('vip', '0') === '1', seats = Math.min(10, parseInt(param('seats', '0'), 10) || 0);
-  var full = 4995 + (vip ? 1495 : 0) + seats * 3000 - 200, mo = Math.ceil(full * 385 / 4995 * 100) / 100;
-  var L = '<div class="cf-line"><span>' + t.name + '<small>Pre-print, first-run hardcovers</small></span><b>' + t.total + '</b></div>';
-  L += '<div class="cf-line"><span>Founders Event seat<small>April 26&ndash;27, 2027 &middot; Live with Darren &middot; Join from anywhere</small></span><b>$4,995</b></div>';
-  if (vip) L += '<div class="cf-line"><span>VIP<small>Day 3, April 28, 2027</small></span><b>$1,495</b></div>';
-  if (seats) L += '<div class="cf-line"><span>Extra team seats &times; ' + seats + '</span><b>' + money(seats * 3000) + '</b></div>';
-  L += '<div class="cf-line is-credit"><span>Your $200 book credit</span><b>&minus;$200</b></div>';
-  L += '<div class="cf-line"><span><b>' + (plan === 'full' ? 'Paid in full' : 'Paid today') + '</b>' + (plan === 'full' ? '' : '<small>Then ' + money(mo) + ' monthly for a year</small>') + '</span><b>' + (plan === 'full' ? money(full) : money(mo)) + '</b></div>';
-  document.querySelector('[data-cf="lines"]').innerHTML = L;
+  var vip = false, seats = parseInt(param('seats', '0'), 10) > 0;
   var s = '<li class="cf-step"><b>Your BMC|COLLECTIVE year starts today</b><span>Watch your email for your login. Your seat includes the full year, and it turns on the day you join.</span></li>';
-  if (seats) s += '<li class="cf-step"><b>Add your team</b><span>We will email you a link to register your ' + seats + ' team member' + (seats > 1 ? 's' : '') + '.</span></li>';
-  s += '<li class="cf-step"><b>Save the dates</b><span>April 26&ndash;27, 2027' + (vip ? ', plus your VIP Day 3 on April 28' : '') + '. Live with Darren, from anywhere.</span></li>';
+  if (vip) s += '<li class="cf-step"><b>Your VIP Day</b><span>Day 3, April 28, 2027, with Darren. We will email you everything you need for it. [VIP details to confirm with DH]</span></li>';
+  if (seats) s += '<li class="cf-step"><b>Add your team</b><span>We will email you a link to register your team members.</span></li>';
+  s += '<li class="cf-step"><b>Save the dates</b><span>April 26&ndash;27, 2027' + (vip ? ', plus VIP Day 3 on April 28' : '') + '. Live with Darren, from anywhere.</span></li>';
   if (t.books >= 10) s += '<li class="cf-step"><b>Your name goes in the book</b><span>We will email you to confirm exactly how your name should appear.</span></li>';
   s += '<li class="cf-step"><b>Your hardcovers ship first</b><span>They arrive months before the public release.</span></li>';
   document.querySelector('[data-cf="steps"]').innerHTML = s;
