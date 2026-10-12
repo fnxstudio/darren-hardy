@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" class="js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Pre-Print Private Invitation (Demo 1)</title>
+<!-- DEMO FUNNEL for the team (GitHub Pages). Not the live checkout: the forms are fakes that click through. -->
+<link rel="stylesheet" href="https://use.typekit.net/zze6zxt.css">
+<link rel="stylesheet" href="../pre-print-demo-assets/webflow.css">
+<style>
+@keyframes tce-rise{from{opacity:0;transform:translateY(38px)}}
+@keyframes tce-lift-in{from{transform:translateY(28px)}}
+@keyframes tce-drift{to{transform:translate(120px,80px)}}
+@keyframes tce-drift-alt{to{transform:translate(-90px,-60px)}}
+.tce-aura{animation:tce-drift 18s ease-in-out infinite alternate}
+.tce-aura.is-alt{animation-name:tce-drift-alt;animation-duration:22s}
+.tce-hero .tce-h1{animation:tce-lift-in .9s cubic-bezier(.2,.8,.2,1) .05s backwards}
+.tce-hero .tce-lede,.tce-hero .tce-note{animation:tce-rise .9s cubic-bezier(.2,.8,.2,1) .2s backwards}
+.tce-stage,.tce-hero .tce-video{animation:tce-lift-in .9s cubic-bezier(.2,.8,.2,1) .1s backwards}
+.tce-section .tce-h2,.tce-card{animation:tce-rise .9s cubic-bezier(.2,.8,.2,1) .56s backwards}
+@media (max-width:767px){.tce-aura{animation:none}}
+@media (prefers-reduced-motion:reduce){.tce-aura,.tce-h1,.tce-lede,.tce-note,.tce-stage,.tce-video,.tce-h2,.tce-card{animation:none!important}}
+</style>
+<style>
+/* PRE-PRINT: states and selectors Webflow can't express natively */
+/* This page only: the Global Site Nav stays at the top and scrolls away. No fixed bar, no dark state. */
+html body .dh-nav,html body .dh-nav.is-solid{position:absolute!important;background-color:transparent!important;box-shadow:none!important;padding-top:26px!important;padding-bottom:26px!important}
+html body .dh-nav.is-solid .dh-nav-logo{filter:brightness(0)!important}
+/* Order section: collapsed (not display:none) until a bundle is picked, so the forms preload at full width */
+.js .pp-order:not(.is-open){height:0;overflow:hidden;padding-top:0;padding-bottom:0;border-top-width:0;visibility:hidden}
+.pp-picked[hidden]{display:none}
+.pp-checkout.is-ready .pp-loading{opacity:0}
+.pp-checkout.is-failed .pp-fallback{display:block}
+.pp-checkout.is-failed .pp-loading{display:none}
+.pp-btn:hover .pp-arw{transform:translateX(6px)}
+.pp-btn:focus-visible{outline:3px solid #e1132e;outline-offset:3px}
+.pp-btn.is-solid:active,.pp-btn.is-line:active{transform:translateY(5px);transition-duration:60ms}
+.pp-tier.is-selected .pp-btn.is-line{background-color:#e1132e;color:#fff;box-shadow:0 10px 22px rgba(0,0,0,.16)}
+.pp-skel{background:linear-gradient(90deg,#f0f0f0 0%,#f8f8f8 50%,#f0f0f0 100%);background-size:200% 100%;animation:pp-shimmer 1.4s ease-in-out infinite}
+@keyframes pp-shimmer{to{background-position:-200% 0}}
+@media (min-width:1144px){.pp-btn.is-full{white-space:nowrap}}
+@media (max-width:359px){.pp-note-l2{white-space:normal}}
+@media (prefers-reduced-motion:reduce){.pp-skel{animation:none}}
+</style>
+<link rel="stylesheet" href="../pre-print-demo-assets/demo.css">
+</head>
+<body>
+<main class="pp-main"><section class="pp-invite"><div class="pp-wrap"><div class="pp-invite-grid"><div class="pp-book"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac6f71ddb61be27280238af_tceb-book-3d-680.webp" loading="eager" fetchpriority="high" alt="The Compound Effect in Business by Darren Hardy, hardcover" class="pp-book-img"/></div><div class="pp-invite-copy"><h1 class="pp-display"><b class="pp-setup pp-setup">Pre-print</b><b class="pp-answer pp-answer"><b class="pp-word pp-word">private</b> <b class="pp-word pp-word">invitation</b></b></h1><p class="pp-lede">Receive a first-run hardcover edition<br/>months before the public release.</p><ul role="list" class="pp-perks"><li class="pp-perk">Pre-order 10 and get <b class="pp-strong pp-strong">your name printed in the book!</b></li><li class="pp-perk">Pre-order 100 and get <b class="pp-strong pp-strong">your name printed in the book and become a FOUNDER 100.</b></li></ul><a href="#bundles" class="pp-btn is-solid w-inline-block">Pre-order your book <b aria-hidden="true" class="pp-arw pp-arw">→</b></a></div></div></div></section><section class="pp-bundles"><div id="bundles" class="pp-anchor"></div><div class="pp-wrap"><h2 class="pp-h2">Choose your bundle</h2><p class="pp-sub">Every bundle ships first-run hardcovers months before the public launch.</p><div class="pp-tiers"><article data-tier="3" class="pp-tier"><h3 class="pp-tier-name">3 Books</h3><p class="pp-price"><b class="pp-price-now pp-price-now">$24.95</b><b class="pp-price-per pp-price-per">each</b></p><p class="pp-was"><b class="pp-strike pp-strike">$29.95</b> · $74.85 total</p><ul role="list" class="pp-list"><li class="pp-li"><b class="pp-strong pp-strong">Pre-release hardcovers</b> delivered months before the public launch.</li></ul><div class="pp-cta"><a href="#order" data-tier="3" class="pp-btn is-line is-full w-inline-block">Reserve my 3 hardcovers <b aria-hidden="true" class="pp-arw pp-arw">→</b></a><p class="pp-note">Shipped before public launch</p></div></article><article data-tier="10" class="pp-tier"><h3 class="pp-tier-name">10 Books</h3><p class="pp-price"><b class="pp-price-now pp-price-now">$19.95</b><b class="pp-price-per pp-price-per">each</b></p><p class="pp-was"><b class="pp-strike pp-strike">$29.95</b> · $199.50 total</p><ul role="list" class="pp-list"><li class="pp-li"><b class="pp-strong pp-strong">Pre-release hardcovers</b> delivered months before the public launch.</li><li class="pp-li"><b class="pp-strong pp-strong">Your name</b> printed in the book.</li></ul><div class="pp-cta"><a href="#order" data-tier="10" class="pp-btn is-line is-full w-inline-block">Get my name in the book <b aria-hidden="true" class="pp-arw pp-arw">→</b></a><p class="pp-note">Includes 10 hardcovers</p></div></article><article data-tier="100" class="pp-tier is-top"><h3 class="pp-tier-name">100 Books</h3><p class="pp-price"><b class="pp-price-now pp-price-now">$9.95</b><b class="pp-price-per pp-price-per">each</b></p><p class="pp-was"><b class="pp-strike pp-strike">$29.95</b> · $995 total</p><ul role="list" class="pp-list"><li class="pp-li"><b class="pp-strong pp-strong">Pre-release hardcovers</b> delivered months before the public launch.</li><li class="pp-li"><b class="pp-strong pp-strong">Your name</b> printed in the book.</li><li class="pp-li"><b class="pp-strong pp-strong">Your photo and profile</b> presented on TheCompoundEffect.com as a FOUNDER 100.<br/><b class="pp-limit pp-limit">Limited to 100.</b></li></ul><div class="pp-collector"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac6f71df47cee2f6d068f83_tce-leather-edition-240.webp" loading="lazy" alt="The Compound Effect leatherbound collector&#x27;s edition, signed and numbered" class="pp-collector-img"/><div><p class="pp-collector-p"><b class="pp-strong pp-strong">PLUS, receive a rare limited-edition leatherbound collector&#x27;s edition of the first book:</b> <b class="pp-book-title pp-book-title">The Compound Effect: Jumpstart Your Income, Your Life, Your Success.</b></p><p class="pp-collector-p is-last">Personally signed and numbered by Darren. Only 500 of these ever produced.</p></div></div><div class="pp-cta"><a href="#order" data-tier="100" class="pp-btn is-solid is-full w-inline-block"><b class="pp-btn-label pp-btn-label">I want to be a Founder 100</b><b aria-hidden="true" class="pp-arw pp-arw">→</b></a><p class="pp-note">Includes 100 hardcovers +<br/><b class="pp-note-l2 pp-note-l2"><b class="pp-book-title pp-book-title">The Compound Effect</b> leatherbound collector&#x27;s edition</b></p></div></article></div></div></section><section data-pp="order" class="pp-order"><div id="order" class="pp-anchor"></div><div class="pp-wrap"><div class="pp-order-inner"><h2 class="pp-h2 is-order">Your pre-print order</h2><p data-pp="picked" class="pp-picked">10 hardcovers · $199.50</p><div class="fx" data-fx="book">
+<div class="fx-card">
+  <div class="fx-card-body"><p class="fx-sumtitle">The Compound Effect In Business Book Early-Release</p>
+  <button type="button" class="fx-toggle" aria-expanded="false" aria-controls="fx-book-lines">Show order details </button>
+  <ul class="fx-lines" id="fx-book-lines" data-fx="lines"></ul></div>
+  <div class="fx-total"><span>Total:</span><span class="fx-total-amt" data-fx="total">$199.50</span></div>
+</div>
+
+<div class="fx-card"><div class="fx-card-body"><p class="fx-h">Contact information</p>
+<div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>First Name <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Last Name <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Email Address <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Confirm Email <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Phone Number <i>*</i></label></div>
+</div></div>
+<div class="fx-card"><div class="fx-card-body"><p class="fx-h">Billing info</p>
+<div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Street <i>*</i></label></div>
+<div class="fx-2"><div class="fx-field is-select"><select><option>Select Country</option><option>United States</option><option>Canada</option></select><label>Country <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>State <i>*</i></label></div></div>
+<div class="fx-2"><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>City <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Zip Code <i>*</i></label></div></div>
+<label class="fx-check"><input type="checkbox" checked> Shipping info is the same as billing info</label>
+</div></div>
+<div class="fx-pay" data-fx="pay">
+<div class="fx-pay-row" data-pay="paypal"><b>PayPal</b><span class="fx-paypal">PayPal</span></div>
+<div class="fx-pay-row is-on" data-pay="card"><b>Credit / Debit card</b><span class="fx-cards"><i>VISA</i><i>MC</i><i>AMEX</i><i>DISC</i></span></div>
+<div class="fx-cardline"><input placeholder="Card number" autocomplete="off"><input placeholder="MM / YY" autocomplete="off"><input placeholder="CVC" autocomplete="off"></div>
+</div>
+<p class="fx-secure">&#128274; All payments are secured by 256-bit encryption</p>
+<button type="button" class="fx-submit" data-fx="submit">Complete purchase <span class="fx-arw" aria-hidden="true">&rarr;</span></button>
+<p class="fx-note">Demo form: nothing is required and no card is charged. Click to continue.</p>
+</div></div></div></section></main><footer class="dh-footer-slim"><div class="dh-container"><div class="dh-footer-slim-bottom"><span class="dh-footer-slim-copy">© Darren Hardy, LLC. All Rights Reserved.</span><div class="dh-footer-legal-links"><a href="https://dh.darrenhardy.com/terms-of-service/" class="dh-footer-legal-link">Terms &amp; Conditions</a><a href="https://dh.darrenhardy.com/privacy" class="dh-footer-legal-link">Privacy Policy</a><a href="#privacy-choices" class="dh-footer-legal-link is-choices">Your Privacy Choices</a></div></div></div></footer>
+<nav class="dm-bar" aria-label="Demo funnel steps"><span class="dm-bar-tag">DEMO</span><a href="../pre-print-demo-1/" class="is-here">1 · Pre-print order</a><a href="../pre-print-event-invite-demo-2/?order=48213&tier=10">2 · Event invite</a><a href="../pre-print-confirmation-demo-3/?order=48213&tier=10">3a · Confirmed: book only</a><a href="../pre-print-event-confirmation-demo-3/?order=48213&tier=10">3b · Confirmed: book + event</a></nav>
+<script>
+
+var Q = new URLSearchParams(location.search);
+function param(k, d) { var v = (Q.get(k) || '').replace(/[^A-Za-z0-9-]/g, '').slice(0, 40); return v || d; }
+var TIERS = {
+  '3':   { books: 3,   name: '3 hardcovers',   each: '$24.95', total: '$74.85',  extra: 'Shipped before public launch' },
+  '10':  { books: 10,  name: '10 hardcovers',  each: '$19.95', total: '$199.50', extra: 'Your name printed in the book' },
+  '100': { books: 100, name: '100 hardcovers', each: '$9.95',  total: '$995',    extra: 'Your name printed in the book, your profile on TheCompoundEffect.com, plus the leather-bound collectors edition.' }
+};
+var REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function scrollToEl(el) {
+  var y = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset);
+  if (REDUCE) { window.scrollTo(0, y); return; }
+  var y0 = window.pageYOffset, d = y - y0, t0 = null;
+  function step(ts) { if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / 400); window.scrollTo(0, y0 + d * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); }
+  requestAnimationFrame(step);
+}
+function money(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
+function showOrder() {
+  var el = document.querySelector('[data-ei="order"]'), id = param('order', '');
+  if (el && id) { el.textContent = 'Order #' + id; el.classList.add('is-on'); }
+}
+
+document.querySelectorAll('[data-fx="pay"] .fx-pay-row').forEach(function (r) {
+  r.addEventListener('click', function () {
+    document.querySelectorAll('[data-fx="pay"] .fx-pay-row').forEach(function (x) { x.classList.toggle('is-on', x === r); });
+  });
+});
+document.querySelectorAll('.fx-toggle').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var l = document.getElementById(b.getAttribute('aria-controls')); var open = !l.classList.contains('is-open');
+    l.classList.toggle('is-open', open); b.setAttribute('aria-expanded', open);
+    b.firstChild.textContent = open ? 'Hide order details ' : 'Show order details ';
+  });
+});
+
+(function () {
+  var order = document.querySelector('[data-pp="order"]'), picked = document.querySelector('[data-pp="picked"]');
+  var current = '10';
+  if (picked) picked.hidden = true;
+  function select(tier) {
+    var t = TIERS[tier]; if (!t) return;
+    current = tier;
+    document.querySelectorAll('.pp-tier').forEach(function (c) { c.classList.toggle('is-selected', c.getAttribute('data-tier') === tier); });
+    picked.innerHTML = '<b>' + t.name + '</b><span>' + t.total + '</span><span>' + t.extra + '</span>'; picked.hidden = false;
+    document.querySelector('[data-fx="total"]').textContent = t.total;
+    var lines = '<li><span>' + t.name + ' &times; ' + t.each + '</span><b>' + t.total + '</b></li>';
+    if (tier === '10' || tier === '100') lines += '<li><span>Your name printed in the book</span><b>Included</b></li>';
+    if (tier === '100') lines += '<li><span>FOUNDER 100 profile on TheCompoundEffect.com</span><b>Included</b></li><li><span>Leather-bound collectors edition, signed and numbered</span><b>Included</b></li>';
+    lines += '<li><span>Shipping</span><b>Before public launch</b></li>';
+    document.querySelector('[data-fx="lines"]').innerHTML = lines;
+    order.classList.add('is-open');
+    scrollToEl(order);
+  }
+  document.querySelectorAll('.pp-cta .pp-btn[data-tier]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); if (e.detail) a.blur(); select(a.getAttribute('data-tier')); });
+  });
+  document.querySelectorAll('a[href="#bundles"]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); scrollToEl(document.getElementById('bundles')); });
+  });
+  document.querySelector('[data-fx="submit"]').addEventListener('click', function () {
+    location.href = '../pre-print-event-invite-demo-2/?order=48213&tier=' + current;
+  });
+})();
+
+</script>
+</body>
+</html>

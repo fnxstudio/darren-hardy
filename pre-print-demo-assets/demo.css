@@ -1,0 +1,164 @@
+/* PRE-PRINT DEMO FUNNEL: fake Spiffy forms, add-on cards, video modal, exit takeover, confirmations.
+   Demo only (GitHub Pages). Matches the TCEB brand guide: white + black, red #e1132e, Inter UI,
+   Bebas display, 2px corners, borders not shadows on cards. */
+
+:root { --red: #e1132e; --ink: #000; --text: #262626; --mute: #6e6e6e; --line: #e2e2e2; --field: #f0f0f0; }
+
+/* ---------- Demo flow bar (team only) ---------- */
+.dm-bar { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 900; display: flex; align-items: center; gap: 4px; max-width: calc(100vw - 24px); overflow-x: auto; padding: 6px; border-radius: 999px; background: rgba(0,0,0,.9); box-shadow: 0 10px 30px rgba(0,0,0,.25); font-family: Inter, Arial, sans-serif; scrollbar-width: none; }
+.dm-bar::-webkit-scrollbar { display: none; }
+.dm-bar-tag { padding: 0 10px 0 12px; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .1em; white-space: nowrap; }
+.dm-bar a { padding: 7px 12px; border-radius: 999px; color: rgba(255,255,255,.72); font-size: 12px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.dm-bar a:hover { color: #fff; }
+.dm-bar a.is-here { background: #fff; color: #000; }
+
+/* ---------- Video placeholders ---------- */
+.dm-video-label { display: block; color: rgba(255,255,255,.5); font-family: Inter, Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+/* ---------- Fake Spiffy form (mirrors the live checkout + our Spiffy custom CSS) ---------- */
+.fx { font-family: Inter, Arial, sans-serif; color: var(--text); text-align: left; }
+.fx * { box-sizing: border-box; }
+.fx-card { margin-bottom: 20px; border: 1px solid var(--line); border-radius: 2px; background: #fff; }
+.fx-card-body { padding: 22px; }
+.fx-h { margin: 0 0 14px; color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.fx-sumtitle { margin: 0 0 6px; color: var(--ink); font-size: 20px; font-weight: 700; line-height: 1.3; }
+.fx-toggle { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; color: var(--ink); font: inherit; font-size: 15px; cursor: pointer; }
+.fx-toggle::after { content: ""; border: 5px solid transparent; border-top-color: currentColor; margin-top: 5px; transition: transform .2s; }
+.fx-toggle[aria-expanded="true"]::after { transform: rotate(180deg); margin-top: -5px; }
+.fx-lines { display: none; margin: 14px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.fx-lines.is-open { display: block; }
+.fx-lines li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.fx-lines li b { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.fx-chip { display: inline-flex; align-items: center; gap: 6px; margin: 4px 0 10px; padding: 4px 10px; border-radius: 2px; background: var(--field); color: var(--ink); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+.fx-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 22px; border-top: 1px solid var(--line); font-size: 15px; }
+.fx-total { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px; background: var(--field); color: var(--ink); font-size: 16px; }
+.fx-total-amt { font-size: 34px; font-weight: 700; letter-spacing: -.01em; line-height: 1; text-align: right; }
+.fx-total-sub { display: block; margin-top: 4px; color: var(--mute); font-size: 12px; font-weight: 500; letter-spacing: 0; }
+
+.fx-field { position: relative; margin-bottom: 14px; }
+.fx-field input, .fx-field select { width: 100%; height: 58px; padding: 18px 16px 6px; border: 1px solid var(--line); border-radius: 2px; background: #fff; color: var(--ink); font: inherit; font-size: 16px; outline: none; -webkit-appearance: none; appearance: none; }
+.fx-field input:focus, .fx-field select:focus { border-color: var(--ink); }
+.fx-field label { margin: 0; font-weight: 400; position: absolute; left: 17px; top: 19px; color: var(--mute); font-size: 16px; pointer-events: none; transition: all .15s; }
+.fx-field label i { font-style: normal; color: var(--red); }
+.fx-field input:focus + label, .fx-field input:not(:placeholder-shown) + label, .fx-field.is-select label { top: 8px; font-size: 11px; }
+.fx-field.is-select::after { content: ""; position: absolute; right: 16px; top: 26px; border: 5px solid transparent; border-top-color: var(--mute); pointer-events: none; }
+.fx-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+.fx-check { margin-bottom: 0; font-weight: 400; display: flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 15px; cursor: pointer; }
+.fx-check input { width: 18px; height: 18px; accent-color: var(--red); }
+
+.fx-pay { border: 1px solid var(--line); border-radius: 2px; margin-bottom: 14px; }
+.fx-pay-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 22px; cursor: pointer; }
+.fx-pay-row + .fx-pay-row { border-top: 1px solid var(--line); }
+.fx-pay-row.is-on { outline: 1.5px solid var(--ink); outline-offset: -1.5px; }
+.fx-pay-row b { color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.fx-pay-row span { color: var(--mute); font-size: 13px; }
+.fx-paypal { color: #003087; font-weight: 800; font-style: italic; font-size: 16px; letter-spacing: 0; }
+.fx-cards { display: flex; gap: 6px; align-items: center; }
+.fx-cards i { display: inline-block; padding: 3px 6px; border: 1px solid var(--line); border-radius: 2px; color: var(--ink); font-style: normal; font-size: 10px; font-weight: 800; }
+.fx-cardline { margin: 0 22px 20px; display: grid; grid-template-columns: 1fr 90px 70px; border: 1px solid var(--line); border-radius: 2px; }
+.fx-cardline input { height: 50px; padding: 0 14px; border: 0; font: inherit; font-size: 15px; outline: none; background: transparent; }
+.fx-cardline input + input { border-left: 1px solid var(--line); }
+.fx-secure { margin: 10px 0 22px; color: var(--mute); font-size: 13px; text-align: center; }
+.fx-submit { display: flex; justify-content: center; align-items: center; gap: 12px; width: 100%; padding: 22px 24px; border: 0; border-radius: 2px; background: var(--red); color: #fff; font: inherit; font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 22px rgba(0,0,0,.16); transition: transform .22s cubic-bezier(.2,.8,.2,1); }
+.fx-submit:hover { transform: translateY(-3px) scale(1.02); }
+.fx-submit:hover .fx-arw { transform: translateX(6px); }
+.fx-arw { display: inline-block; transition: transform .22s; }
+.fx-note { margin: 14px 0 0; color: var(--mute); font-size: 12px; text-align: center; }
+
+/* Payment plan options (event form) */
+.fx-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.fx-plan { position: relative; padding: 18px 16px; border: 1px solid var(--line); border-radius: 2px; background: #fff; text-align: center; cursor: pointer; font: inherit; color: var(--text); transition: border-color .2s; }
+.fx-plan b { display: block; color: var(--ink); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.fx-plan span { display: block; color: var(--mute); font-size: 13px; line-height: 1.4; }
+.fx-plan.is-on { border-color: var(--red); outline: 1.5px solid var(--red); outline-offset: -1.5px; }
+.fx-plan.is-on::before { content: "\2713"; position: absolute; top: -9px; right: -9px; width: 22px; height: 22px; border-radius: 50%; background: var(--red); color: #fff; font-size: 12px; font-weight: 700; line-height: 22px; text-align: center; }
+
+/* Add-on cards: VIP + Team (restyled versions of Spiffy's checkbox + select) */
+.fx-addons { margin-bottom: 20px; }
+.fx-addon { display: grid; grid-template-columns: 26px minmax(0,1fr) auto; gap: 4px 14px; align-items: start; margin-bottom: 12px; padding: 20px 22px; border: 1px solid var(--line); border-radius: 2px; background: #fff; transition: border-color .2s; }
+.fx-addon.is-on { border-color: var(--red); outline: 1.5px solid var(--red); outline-offset: -1.5px; }
+.fx-addon-box { width: 22px; height: 22px; margin-top: 2px; border: 1.5px solid #bdbdbd; border-radius: 2px; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 700; padding: 0; }
+.fx-addon.is-on .fx-addon-box { border-color: var(--red); background: var(--red); }
+.fx-addon-title { margin: 0; color: var(--ink); font-size: 16px; font-weight: 700; line-height: 1.35; cursor: pointer; }
+.fx-addon-price { color: var(--ink); font-size: 16px; font-weight: 700; white-space: nowrap; text-align: right; }
+.fx-addon-price small { display: block; color: var(--mute); font-size: 11px; font-weight: 600; letter-spacing: .04em; }
+.fx-addon-body { grid-column: 2 / 4; }
+.fx-addon-sub { margin: 2px 0 10px; color: var(--mute); font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.fx-addon ul { margin: 0 0 12px; padding: 0; list-style: none; }
+.fx-addon li { position: relative; padding: 0 0 6px 18px; color: var(--text); font-size: 14px; line-height: 1.5; }
+.fx-addon li::before { content: ""; position: absolute; left: 2px; top: 8px; width: 6px; height: 6px; background: var(--red); }
+.fx-more { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; color: var(--ink); font: inherit; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.fx-more-play { display: inline-flex; width: 22px; height: 22px; border-radius: 50%; background: var(--red); color: #fff; align-items: center; justify-content: center; font-size: 9px; padding-left: 2px; text-decoration: none; }
+.fx-stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 2px; margin-bottom: 12px; }
+.fx-stepper button { width: 40px; height: 40px; border: 0; background: #fff; color: var(--ink); font-size: 20px; cursor: pointer; }
+.fx-stepper button:disabled { color: #ccc; cursor: default; }
+.fx-stepper output { min-width: 44px; text-align: center; color: var(--ink); font-weight: 700; font-size: 16px; }
+.fx-stepper-label { margin-left: 12px; color: var(--mute); font-size: 13px; }
+
+/* Decline link */
+.fx-decline { display: inline-block; margin-top: 18px; color: var(--mute); font-family: Inter, Arial, sans-serif; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; background: none; border: 0; padding: 0; }
+.fx-decline:hover { color: var(--ink); }
+.fx-decline-row { margin: 0; text-align: center; }
+
+/* ---------- Video modal ---------- */
+.dm-modal { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(0,0,0,.82); }
+.dm-modal.is-open { display: flex; }
+.dm-modal-box { position: relative; width: min(960px, 100%); }
+.dm-modal-video { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; aspect-ratio: 16 / 9; border-radius: 2px; background: #000; border: 1px solid rgba(255,255,255,.12); }
+.dm-modal-cap { margin: 14px 0 0; color: #fff; font-family: Inter, Arial, sans-serif; font-size: 15px; text-align: center; }
+.dm-close { position: absolute; top: -44px; right: 0; width: 36px; height: 36px; border: 0; border-radius: 50%; background: #fff; color: #000; font-size: 20px; line-height: 36px; cursor: pointer; }
+
+/* ---------- Exit takeover ---------- */
+.dm-take { position: fixed; inset: 0; z-index: 1100; display: none; padding: 16px; background: rgba(0,0,0,.6); }
+.dm-take.is-open { display: block; animation: dm-fade .25s ease both; }
+@keyframes dm-fade { from { opacity: 0; } }
+.dm-take-panel { position: relative; height: 100%; overflow-y: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 64px 24px; border-radius: 2px; background: #000; color: #fff; text-align: center; animation: dm-rise .35s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes dm-rise { from { transform: translateY(24px); } }
+.dm-take-x { position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; background: transparent; color: #fff; font-size: 20px; cursor: pointer; }
+.dm-take-kicker { margin: 0 0 18px; color: #ff4b3e; font-family: Inter, Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.dm-take-h { max-width: 900px; margin: 0 0 24px; font-family: bebas-neue-pro-semiexpanded, 'Bebas Neue', sans-serif; font-size: clamp(44px, 7vw, 96px); font-weight: 600; line-height: .94; letter-spacing: .02em; text-transform: uppercase; }
+.dm-take-h b { display: block; font-weight: 200; }
+.dm-take-p { max-width: 620px; margin: 0 0 14px; color: rgba(255,255,255,.82); font-family: Inter, Arial, sans-serif; font-size: 18px; line-height: 1.6; }
+.dm-take-math { display: grid; grid-template-columns: auto auto; gap: 8px 32px; margin: 18px 0 32px; padding: 20px 28px; border: 1px solid rgba(255,255,255,.18); border-radius: 2px; font-family: Inter, Arial, sans-serif; font-size: 15px; text-align: left; }
+.dm-take-math span:nth-child(even) { text-align: right; font-weight: 700; }
+.dm-take-math .is-credit { color: #ff4b3e; }
+.dm-take-math .is-total { padding-top: 10px; border-top: 1px solid rgba(255,255,255,.18); font-size: 17px; font-weight: 700; color: #fff; }
+.dm-take-cta { display: inline-flex; align-items: center; gap: 14px; padding: 22px 38px; border-radius: 2px; background: var(--red); color: #fff; font-family: Inter, Arial, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; box-shadow: 0 10px 22px rgba(0,0,0,.35); transition: transform .22s cubic-bezier(.2,.8,.2,1); }
+.dm-take-cta:hover { transform: translateY(-3px) scale(1.04); }
+.dm-take-cta:hover .fx-arw { transform: translateX(6px); }
+.dm-take .fx-decline { color: rgba(255,255,255,.6); }
+.dm-take .fx-decline:hover { color: #fff; }
+
+/* ---------- Confirmation pages ---------- */
+.cf-summary { max-width: 640px; margin: 0 auto; border: 1px solid var(--line); border-radius: 2px; text-align: left; font-family: Inter, Arial, sans-serif; }
+.cf-summary h3 { margin: 0; padding: 16px 22px; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.cf-line { display: flex; justify-content: space-between; gap: 16px; padding: 14px 22px; border-bottom: 1px solid var(--line); color: var(--text); font-size: 15px; line-height: 1.45; }
+.cf-line:last-child { border-bottom: 0; }
+.cf-line b { color: var(--ink); white-space: nowrap; }
+.cf-line.is-credit b { color: var(--red); }
+.cf-line small { display: block; color: var(--mute); font-size: 13px; }
+.cf-steps { max-width: 640px; margin: 0 auto; padding: 0; list-style: none; counter-reset: cf; text-align: left; font-family: Inter, Arial, sans-serif; }
+.cf-step { position: relative; padding: 18px 0 18px 56px; border-bottom: 1px solid var(--line); counter-increment: cf; }
+.cf-step:first-child { border-top: 1px solid var(--line); }
+.cf-step::before { content: counter(cf); position: absolute; left: 0; top: 16px; width: 36px; height: 36px; border-radius: 50%; background: #000; color: #fff; font-family: bebas-neue-pro-semiexpanded, 'Bebas Neue', sans-serif; font-size: 20px; font-weight: 600; line-height: 36px; text-align: center; }
+.cf-step b { display: block; margin-bottom: 4px; color: var(--ink); font-size: 16px; }
+.cf-step span { color: var(--text); font-size: 15px; line-height: 1.55; }
+.cf-sign { margin: 0; font-family: Inter, Arial, sans-serif; color: var(--text); font-size: 18px; line-height: 1.6; }
+.cf-sign-name { display: block; margin-top: 10px; width: 120px; height: auto; margin-left: auto; margin-right: auto; }
+
+@media (max-width: 767px) {
+  .fx-2, .fx-plans { grid-template-columns: 1fr; }
+  .fx-total-amt { font-size: 28px; }
+  .dm-take-panel { padding: 72px 20px 40px; justify-content: flex-start; }
+  .dm-take-p { font-size: 16px; }
+  .dm-take-cta { padding: 20px 22px; font-size: 13px; }
+  .dm-bar { bottom: 10px; }
+  .dm-bar a { padding: 7px 10px; font-size: 11px; }
+}
+@media (max-width: 479px) {
+  .fx-addon { grid-template-columns: 26px minmax(0,1fr); }
+  .fx-addon-price { grid-column: 2; text-align: left; }
+  .fx-addon-body { grid-column: 1 / 3; }
+  .fx-cardline { grid-template-columns: 1fr 80px 60px; }
+}
+@media (prefers-reduced-motion: reduce) { .dm-take.is-open, .dm-take-panel { animation: none; } }
