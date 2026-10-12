@@ -54,7 +54,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <div class="dm-cl-item"><b class="dm-cl-t">AI Execution Systems</b><span>Darren's methods built into AI tools that do hours of your work in minutes.</span></div>
 <div class="dm-cl-item"><b class="dm-cl-t">HARDYbot, your 24/7 Strategic Advisor</b><span>A straight answer to your hardest question, the moment you need it.</span></div>
 <div class="dm-cl-item"><b class="dm-cl-t">Elite Leader Network and Expert Office Hours</b><span>Leaders and experts who've already solved your problem, so you never solve one alone.</span></div>
-</div></div><div class="ei-plans"><div class="ei-plan"><p class="ei-plan-label">Pay monthly</p><p class="ei-price-row"><b class="ei-was ei-was">$895</b><b class="ei-now ei-now">$385</b><b class="ei-now-unit ei-now-unit">today</b></p><p class="ei-terms">then 12 mo payments of $385.</p><div class="ei-plan-cta"><a href="#founder" data-plan="monthly" class="pp-btn is-solid w-inline-block"><b class="pp-btn-label pp-btn-label">Yes, I want to be there</b></a></div></div><div class="ei-plan"><p class="ei-plan-label">Prepay</p><p class="ei-price-row"><b class="ei-was ei-was">$9,995</b><b class="ei-now ei-now">$4,995</b></p><div class="ei-plan-cta"><a href="#founder" data-plan="full" class="pp-btn is-solid w-inline-block"><b class="pp-btn-label pp-btn-label">Yes, I want to be there</b></a></div></div></div></div></section><section class="pp-order"><div id="founder" class="pp-anchor"></div><div class="pp-wrap"><div class="pp-order-inner"><h2 class="pp-h2 is-order">Your Founders seat</h2><div class="fx" data-fx="event">
+</div></div><div class="ei-plans"><div class="ei-plan"><p class="ei-plan-label">Pay monthly</p><p class="ei-price-row"><b class="ei-was ei-was">$895</b><b class="ei-now ei-now">$385</b><b class="ei-now-unit ei-now-unit">today</b></p><p class="ei-terms">then 12 mo payments of $385.</p><div class="ei-plan-cta"><a href="#founder" data-plan="monthly" class="pp-btn is-solid w-inline-block"><b class="pp-btn-label pp-btn-label">Yes, I want to be there</b></a></div></div><div class="ei-plan"><p class="ei-plan-label">Prepay</p><p class="ei-price-row"><b class="ei-was ei-was">$9,995</b><b class="ei-now ei-now">$4,995</b></p><div class="ei-plan-cta"><a href="#founder" data-plan="full" class="pp-btn is-solid w-inline-block"><b class="pp-btn-label pp-btn-label">Yes, I want to be there</b></a></div></div></div><p class="fx-decline-row"><button type="button" class="fx-decline" data-decline>No thanks, I'll hear about this event later.</button></p></div></section><section class="pp-order"><div id="founder" class="pp-anchor"></div><div class="pp-wrap"><div class="pp-order-inner"><h2 class="pp-h2 is-order">Your Founders seat</h2><div class="fx" data-fx="event">
 <div class="fx-card">
   <div class="fx-card-body"><p class="fx-sumtitle">TCEB Founders Event</p>
   <span class="fx-chip">&#127991; 1000OFF</span><br>
@@ -106,7 +106,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <p class="dm-take-p">The $1,000 you just invested in your 100 books can go toward your Founders seat. It only applies from this page.</p>
 <p class="dm-take-big">Once you leave, it can't be applied.</p>
 <div class="dm-take-math"><span>Founders seat</span><span>$9,995</span><span>Rearden Press sponsorship</span><span>&minus;$5,000</span><span class="is-credit">Your $1,000 book credit</span><span class="is-credit">&minus;$1,000</span><span class="is-total">Your seat, from this page only</span><span class="is-total">$3,995</span></div>
-<a href="#founder" class="dm-take-cta" data-take-cta>Yes! I want my $1,000 credit! <span class="fx-arw" aria-hidden="true">&rarr;</span></a>
+<a href="#plans" class="dm-take-cta" data-take-cta>Yes! I want my $1,000 credit! <span class="fx-arw" aria-hidden="true">&rarr;</span></a>
 <a class="fx-decline" data-final-decline href="../pre-print-confirmation-demo-3/">No thanks, I don't want my investment back.</a>
 </div></div>
 <nav class="dm-bar" aria-label="Demo funnel steps"><span class="dm-bar-tag">DEMO</span><a href="../pre-print-demo-1/">1 · Pre-print order</a><a href="../pre-print-event-invite-demo-2/?order=48213&tier=100" class="is-here">2 · Event invite</a><a href="../pre-print-confirmation-demo-3/?order=48213&tier=100">3a · Confirmed: book only</a><a href="../pre-print-event-confirmation-demo-3/?order=48213&tier=100">3b · Confirmed: event</a><a href="../pre-print-event-vip-confirmation-demo-3/?order=48213&tier=100">3c · Confirmed: event + VIP</a></nav>
@@ -208,6 +208,15 @@ showOrder();
   function closeTake() { take.classList.remove('is-open'); document.documentElement.style.overflow = ''; }
   document.querySelectorAll('[data-decline]').forEach(function (b) { b.addEventListener('click', openTake); });
   take.querySelector('[data-take-close]').addEventListener('click', closeTake);
+  // Takeover button: back to the Pay monthly / Prepay cards so they pick a plan
+  take.querySelector('[data-take-cta]').addEventListener('click', function (e) {
+    e.preventDefault(); closeTake();
+    var plans = document.querySelector('.ei-plans');
+    var y = Math.max(0, plans.getBoundingClientRect().top + window.pageYOffset - 40);
+    if (REDUCE) { window.scrollTo(0, y); return; }
+    var y0 = window.pageYOffset, d = y - y0, t0 = null;
+    (function step(ts) { if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / 400); window.scrollTo(0, y0 + d * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); })(performance.now());
+  });
   var armed = false; setTimeout(function () { armed = true; }, 2500);
   document.addEventListener('mouseout', function (e) {
     if (!armed || shownByExit || e.relatedTarget || e.clientY > 0) return;
