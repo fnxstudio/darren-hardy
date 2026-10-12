@@ -66,11 +66,14 @@
 .fx-note { margin: 14px 0 0; color: var(--mute); font-size: 12px; text-align: center; }
 
 /* Payment plan options (event form) */
-.fx-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.fx-plans { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+/* Only the plan picked on the page (Pay monthly or Prepay) shows; monthly when none was picked */
+.fx-plan:not(.is-on) { display: none; }
 .fx-plan { position: relative; padding: 18px 16px; border: 1px solid var(--line); border-radius: 2px; background: #fff; text-align: center; cursor: pointer; font: inherit; color: var(--text); transition: border-color .2s; }
 .fx-plan b { display: block; color: var(--ink); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
 .fx-plan span { display: block; color: var(--mute); font-size: 13px; line-height: 1.4; }
 .fx-plan.is-on { border-color: var(--red); outline: 1.5px solid var(--red); outline-offset: -1.5px; }
+.fx-plan.is-on { cursor: default; }
 .fx-plan.is-on::before { content: "\2713"; position: absolute; top: -9px; right: -9px; width: 22px; height: 22px; border-radius: 50%; background: var(--red); color: #fff; font-size: 12px; font-weight: 700; line-height: 22px; text-align: center; }
 
 /* Add-on cards: VIP + Team (restyled versions of Spiffy's checkbox + select) */
