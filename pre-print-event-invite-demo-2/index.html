@@ -51,7 +51,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
   <button type="button" class="fx-toggle" aria-expanded="false" aria-controls="fx-ev-lines">Show order details </button>
   <ul class="fx-lines" id="fx-ev-lines" data-fx="lines"></ul></div>
   <div class="fx-row"><span>Discount</span><span>$200 off</span></div>
-  <div class="fx-total"><span>Due today:</span><span class="fx-total-amt"><span data-fx="total">$369.59</span><span class="fx-total-sub" data-fx="total-sub">Then $369.59 monthly for a year</span></span></div>
+  <div class="fx-total"><span>Due today:</span><span class="fx-total-amt"><span data-fx="total">$369.59</span><span class="fx-total-sub" data-fx="total-sub">+12 additional monthly installments of $369.59</span></span></div>
 </div>
 <div class="fx-addons"><div class="fx-addon" data-addon="vip">
 <button type="button" class="fx-addon-box" aria-pressed="false" aria-label="YES! Go VIP" data-addon-toggle>&#10003;</button>
@@ -66,10 +66,6 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <div class="fx-addon-body"><p class="fx-addon-sub">Extra team seats</p><ul><li>A full Founders Event seat for each team member</li><li>[Team detail to confirm with DH]</li><li>[Team detail to confirm with DH]</li></ul><div class="fx-stepper-wrap"><span class="fx-stepper"><button type="button" data-seat="-1" aria-label="Fewer seats" disabled>&minus;</button><output data-fx="seats">0</output><button type="button" data-seat="1" aria-label="More seats">+</button></span><span class="fx-stepper-label">extra seats (up to 10)</span></div>
 <button type="button" class="fx-more" data-video="team"><span class="fx-more-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div>
 </div></div>
-<div class="fx-plans">
-  <button type="button" class="fx-plan is-on" data-plan-opt="monthly"><b data-fx="m1">Pay $369.59 now</b><span data-fx="m2">Then $369.59 monthly for a year</span></button>
-  <button type="button" class="fx-plan" data-plan-opt="full"><b>Pay in full</b><span data-fx="f1">Pay $4,795 today</span></button>
-</div>
 
 <div class="fx-card"><div class="fx-card-body"><p class="fx-h">Contact information</p>
 <div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>First Name <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Last Name <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Email Address <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Confirm Email <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Phone Number <i>*</i></label></div>
@@ -149,12 +145,8 @@ showOrder();
   function monthly() { return Math.ceil(full() * MONTHLY_RATIO * 100) / 100; }
   function render() {
     var f = full(), mo = monthly();
-    document.querySelector('[data-fx="m1"]').textContent = 'Pay ' + money(mo) + ' now';
-    document.querySelector('[data-fx="m2"]').textContent = 'Then ' + money(mo) + ' monthly for a year';
-    document.querySelector('[data-fx="f1"]').textContent = 'Pay ' + money(f) + ' today';
     document.querySelector('[data-fx="total"]').textContent = state.plan === 'full' ? money(f) : money(mo);
-    document.querySelector('[data-fx="total-sub"]').textContent = state.plan === 'full' ? 'Paid in full' : 'Then ' + money(mo) + ' monthly for a year';
-    document.querySelectorAll('[data-plan-opt]').forEach(function (b) { b.classList.toggle('is-on', b.getAttribute('data-plan-opt') === state.plan); });
+    document.querySelector('[data-fx="total-sub"]').textContent = state.plan === 'full' ? 'Paid in full' : '+12 additional monthly installments of ' + money(mo);
     var lines = '<li><span>Founders Event seat, April 26&ndash;27, 2027</span><b>$4,995</b></li>';
     if (state.vip) lines += '<li><span>VIP: Day 3, April 28, 2027</span><b>$1,495</b></li>';
     if (state.seats) lines += '<li><span>Extra team seats &times; ' + state.seats + '</span><b>' + money(state.seats * SEAT) + '</b></li>';
@@ -168,7 +160,6 @@ showOrder();
     document.querySelector('[data-seat="-1"]').disabled = state.seats === 0;
     document.querySelector('[data-seat="1"]').disabled = state.seats === 10;
   }
-  document.querySelectorAll('[data-plan-opt]').forEach(function (b) { b.addEventListener('click', function () { state.plan = b.getAttribute('data-plan-opt'); render(); }); });
   document.querySelectorAll('[data-addon="vip"] [data-addon-toggle]').forEach(function (b) { b.addEventListener('click', function () { state.vip = !state.vip; render(); }); });
   document.querySelectorAll('[data-addon="team"] [data-addon-toggle]').forEach(function (b) { b.addEventListener('click', function () { state.seats = state.seats ? 0 : 1; render(); }); });
   document.querySelectorAll('[data-seat]').forEach(function (b) { b.addEventListener('click', function () { state.seats = Math.max(0, Math.min(10, state.seats + +b.getAttribute('data-seat'))); render(); }); });
