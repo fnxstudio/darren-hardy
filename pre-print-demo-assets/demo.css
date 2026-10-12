@@ -238,3 +238,41 @@
   .dm-duo .dm-trio-card { padding: 32px 24px; }
   .dm-plus { justify-self: center; margin: -14px 0; width: 52px; height: 52px; font-size: 30px; }
 }
+
+/* Demo 2: Video 1 as a scrollable transcript in the 16:9 box, with a red scrub bar */
+.dm-player { position: relative; display: flex; flex-direction: column; aspect-ratio: 16 / 9; margin-bottom: 40px; border-radius: 2px; background: #000; overflow: hidden; text-align: left; }
+.dm-player-top { padding: 14px 20px 0; }
+.dm-transcript { flex: 1; min-height: 0; overflow-y: scroll; padding: 18px 40px 28px; color: rgba(255,255,255,.88); font-family: Inter, Arial, sans-serif; font-size: 18px; line-height: 1.65; scrollbar-width: thin; scrollbar-color: #e1132e rgba(255,255,255,.12); -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22px, #000 calc(100% - 28px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 22px, #000 calc(100% - 28px), transparent 100%); }
+.dm-transcript:focus { outline: none; }
+.dm-transcript::-webkit-scrollbar { width: 8px; }
+.dm-transcript::-webkit-scrollbar-track { background: rgba(255,255,255,.12); }
+.dm-transcript::-webkit-scrollbar-thumb { background: #e1132e; border-radius: 4px; }
+.dm-transcript p { margin: 0 0 14px; }
+.dm-controls { display: flex; align-items: center; gap: 14px; padding: 26px 20px 16px; background: linear-gradient(to top, #000 60%, rgba(0,0,0,0)); }
+.dm-playbtn { flex: none; width: 36px; height: 36px; border: 0; border-radius: 50%; background: #e1132e; color: #fff; font-size: 13px; line-height: 36px; cursor: pointer; padding: 0 0 0 2px; }
+.dm-scrub { position: relative; flex: 1; height: 24px; display: flex; align-items: center; }
+.dm-scrub input { --p: 0%; width: 100%; height: 6px; margin: 0; border-radius: 3px; background: linear-gradient(to right, #e1132e var(--p), rgba(255,255,255,.25) var(--p)); -webkit-appearance: none; appearance: none; cursor: pointer; }
+.dm-scrub input::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 3px solid #e1132e; }
+.dm-scrub input::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid #e1132e; }
+.dm-cta-mark { position: absolute; top: -20px; bottom: -2px; width: 2px; margin-left: -1px; background: #fff; pointer-events: none; }
+.dm-cta-mark b { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 2px; padding: 2px 6px; border-radius: 2px; background: #fff; color: #e1132e; font-family: Inter, Arial, sans-serif; font-size: 10px; font-weight: 800; letter-spacing: .1em; white-space: nowrap; }
+.dm-player.is-cta .dm-cta-mark b { background: #e1132e; color: #fff; }
+.dm-time { flex: none; min-width: 84px; color: rgba(255,255,255,.75); font-family: Inter, Arial, sans-serif; font-size: 12px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+/* The rest of the page waits for the CTA point */
+.dm-timed { display: none !important; }
+.dm-timed-in { animation: dm-timed-in .6s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes dm-timed-in { from { opacity: 0; transform: translateY(24px); } }
+@media (max-width: 767px) {
+  .dm-transcript { padding: 12px 18px 20px; font-size: 14px; }
+  .dm-controls { gap: 10px; padding: 20px 12px 10px; }
+  .dm-time { min-width: 70px; font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { .dm-timed-in { animation: none; } }
+@media (max-width: 767px) {
+  .dm-player-top { display: none; }
+  .dm-transcript { padding: 10px 16px 14px; font-size: 13px; line-height: 1.55; }
+  .dm-transcript p { margin-bottom: 8px; }
+  .dm-controls { padding: 18px 10px 8px; }
+  .dm-playbtn { width: 28px; height: 28px; line-height: 28px; font-size: 10px; }
+  .dm-cta-mark b { font-size: 9px; padding: 1px 4px; }
+}
