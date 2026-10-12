@@ -167,7 +167,7 @@ document.querySelectorAll('.fx-toggle').forEach(function (b) {
 showOrder();
 (function () {
   var ORDER = param('order', '48213'), TIER = param('tier', '100');
-  var BASE = 4995, VIP = 1495, SEAT = 3000, CREDIT = 1000, MONTHLY_RATIO = 385 / 4995;
+  var BASE = 4995, VIP = 1500, SEAT = 3000, CREDIT = 1000, MONTHLY_RATIO = 385 / 4995;
   var state = { plan: 'monthly', vip: false, seats: 0 };
   function full() { return BASE + (state.vip ? VIP : 0) + state.seats * SEAT - CREDIT; }
   function monthly() { return Math.ceil(full() * MONTHLY_RATIO * 100) / 100; }
@@ -175,14 +175,14 @@ showOrder();
     var f = full(), mo = monthly();
     // Add-on prices follow the plan picked on the page (monthly figures from DH's copy doc)
     var m = state.plan !== 'full';
-    document.querySelector('[data-fx="vip-amt"]').textContent = m ? '+$115' : '+$1,495';
+    document.querySelector('[data-fx="vip-amt"]').textContent = m ? '+$115' : '+$1,500';
     document.querySelector('[data-fx="vip-sub"]').textContent = m ? 'today, then 12 monthly' : 'one time';
     document.querySelector('[data-fx="team-amt"]').textContent = m ? '+$235' : '+$3,000';
     document.querySelector('[data-fx="team-sub"]').textContent = m ? 'per seat today, then 12 monthly' : 'per seat';
     document.querySelector('[data-fx="total"]').textContent = state.plan === 'full' ? money(f) : money(mo);
     document.querySelector('[data-fx="total-sub"]').textContent = state.plan === 'full' ? 'Paid in full' : '+12 additional monthly installments of ' + money(mo);
     var lines = '<li><span>Founders Event seat, April 26&ndash;27, 2027</span><b>$4,995</b></li>';
-    if (state.vip) lines += '<li><span>VIP: Day 3, April 28, 2027</span><b>$1,495</b></li>';
+    if (state.vip) lines += '<li><span>VIP: Day 3, April 28, 2027</span><b>$1,500</b></li>';
     if (state.seats) lines += '<li><span>Extra team seats &times; ' + state.seats + '</span><b>' + money(state.seats * SEAT) + '</b></li>';
     lines += '<li><span>Your $1,000 book credit (1000OFF)</span><b>&minus;$1,000</b></li>';
     document.querySelector('[data-fx="lines"]').innerHTML = lines;
