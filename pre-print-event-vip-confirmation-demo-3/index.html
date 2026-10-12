@@ -41,7 +41,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 @keyframes pp-shimmer{to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){.pp-skel{animation:none}}
 </style>
-<link rel="stylesheet" href="../pre-print-demo-assets/demo.css?v=e1f52d1e">
+<link rel="stylesheet" href="../pre-print-demo-assets/demo.css?v=034de97e">
 </head>
 <body>
 <main class="pp-main">
@@ -77,6 +77,17 @@ function showOrder() {
   var el = document.querySelector('[data-ei="order"]'), id = param('order', '');
   if (el && id) { el.textContent = 'Order #' + id; el.classList.add('is-on'); }
 }
+// Quantity pill on the book (x3 / x10 / x100), in place of the red check
+function showQty() {
+  var img = document.querySelector('.ei-confirm-book'); if (!img) return;
+  var t = TIERS[param('tier', '100')] || TIERS['100'];
+  var wrap = document.createElement('span'); wrap.className = 'dm-book-wrap';
+  img.parentNode.insertBefore(wrap, img); wrap.appendChild(img);
+  var pill = document.createElement('b'); pill.className = 'dm-qty'; pill.textContent = '\u00d7' + t.books;
+  wrap.appendChild(pill);
+  document.querySelectorAll('.ei-check').forEach(function (c) { c.remove(); });
+}
+document.addEventListener('DOMContentLoaded', showQty); if (document.readyState !== 'loading') showQty();
 showOrder();
 (function () {
   var t = TIERS[param('tier', '100')] || TIERS['100'];
