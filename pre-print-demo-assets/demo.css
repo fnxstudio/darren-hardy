@@ -419,3 +419,27 @@
 /* Guarantee in the black panel: seal on the left, text left-aligned beside it (block centred under the cards) */
 .ei-block:has(.dm-duo) .dm-offer .ei-guar { display: grid; grid-template-columns: 88px minmax(0, 1fr); align-items: center; gap: 0 24px; max-width: 800px; text-align: left; }
 @media (max-width: 479px) { .ei-block:has(.dm-duo) .dm-offer .ei-guar { grid-template-columns: 64px minmax(0, 1fr); gap: 0 14px; } .dm-offer .ei-seal { width: 64px; height: 64px; } .dm-offer .ei-seal-big { font-size: 22px; } .dm-offer .ei-seal-small { font-size: 6px; } }
+
+/* ---- Takeover style options (review: ?take=a|b|c) ---- */
+/* A: white card floating over a darkened page, red bar on top */
+.dm-take.v-a { background: rgba(0,0,0,.72); display: none; padding: 32px; }
+.dm-take.v-a.is-open { display: flex; align-items: center; justify-content: center; }
+.dm-take.v-a .dm-take-panel { height: auto; max-height: 100%; max-width: 860px; width: 100%; padding: 56px 48px 44px; background: #fff; color: #000; border-top: 8px solid #e1132e; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+/* B: full-page white with a frosted, blurred page behind; black price box for contrast */
+.dm-take.v-b { background: rgba(255,255,255,.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.dm-take.v-b .dm-take-panel { background: rgba(255,255,255,.94); color: #000; border: 1px solid #e2e2e2; box-shadow: 0 30px 80px rgba(0,0,0,.18); }
+/* C: warm light grey field with a heavy black frame */
+.dm-take.v-c { background: rgba(0,0,0,.6); }
+.dm-take.v-c .dm-take-panel { background: #f0f0f0; color: #000; outline: 10px solid #000; outline-offset: -10px; }
+/* Shared light-panel text colours */
+.dm-take.v-a .dm-take-h, .dm-take.v-b .dm-take-h, .dm-take.v-c .dm-take-h { color: #000 !important; }
+.dm-take.v-a .dm-take-h b, .dm-take.v-b .dm-take-h b, .dm-take.v-c .dm-take-h b { color: #7a7a7a !important; }
+.dm-take.v-a .dm-take-p, .dm-take.v-b .dm-take-p, .dm-take.v-c .dm-take-p { color: #262626; }
+.dm-take.v-a .dm-take-big, .dm-take.v-b .dm-take-big, .dm-take.v-c .dm-take-big { color: #000; }
+.dm-take.v-a .dm-take-kicker, .dm-take.v-b .dm-take-kicker, .dm-take.v-c .dm-take-kicker { color: #e1132e; }
+.dm-take.v-a .dm-take-math, .dm-take.v-c .dm-take-math { border-color: #d0d0d0; background: #fff; color: #000; }
+.dm-take.v-a .dm-take-math .is-total, .dm-take.v-c .dm-take-math .is-total { color: #000; border-top-color: #d0d0d0; }
+.dm-take.v-a .dm-take-math .dm-take-or, .dm-take.v-c .dm-take-math .dm-take-or { color: #6e6e6e; }
+.dm-take.v-b .dm-take-math { border: 0; background: #000; color: #fff; }
+.dm-take.v-a .fx-decline, .dm-take.v-b .fx-decline, .dm-take.v-c .fx-decline { color: #6e6e6e; }
+.dm-take.v-a .dm-take-x, .dm-take.v-b .dm-take-x, .dm-take.v-c .dm-take-x { border-color: #d0d0d0; color: #000; }
