@@ -99,7 +99,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <div class="fx-cardline"><input placeholder="Card number" autocomplete="off"><input placeholder="MM / YY" autocomplete="off"><input placeholder="CVC" autocomplete="off"></div>
 </div>
 <p class="fx-secure">&#128274; All payments are secured by 256-bit encryption</p>
-<button type="button" class="fx-submit" data-fx="submit">Join the Founders Event <span class="fx-arw" aria-hidden="true">&rarr;</span></button>
+<button type="button" class="fx-submit" data-fx="submit"><span data-fx="submit-label">Join the Founders Event</span> <span class="fx-arw" aria-hidden="true">&rarr;</span></button>
 <p class="fx-note">Demo form: nothing is required and no card is charged. Click to continue.</p>
 <p class="fx-decline-row"><button type="button" class="fx-decline" data-decline>No thanks, I'll hear about this event later.</button></p>
 </div></div></div></section></main><footer class="dh-footer-slim"><div class="dh-container"><div class="dh-footer-slim-bottom"><span class="dh-footer-slim-copy">© Darren Hardy, LLC. All Rights Reserved.</span><div class="dh-footer-legal-links"><a href="https://dh.darrenhardy.com/terms-of-service/" class="dh-footer-legal-link">Terms &amp; Conditions</a><a href="https://dh.darrenhardy.com/privacy" class="dh-footer-legal-link">Privacy Policy</a><a href="#privacy-choices" class="dh-footer-legal-link is-choices">Your Privacy Choices</a></div></div></div></footer><div class="dm-modal" data-modal role="dialog" aria-modal="true" aria-label="Video from Darren">
@@ -175,6 +175,11 @@ showOrder();
     if (state.seats) lines += '<li><span>Extra team seats &times; ' + state.seats + '</span><b>' + money(state.seats * SEAT) + '</b></li>';
     lines += '<li><span>Your $1,000 book credit (1000OFF)</span><b>&minus;$1,000</b></li>';
     document.querySelector('[data-fx="lines"]').innerHTML = lines;
+    // Button copy follows the add-ons picked
+    document.querySelector('[data-fx="submit-label"]').textContent =
+      state.vip && state.seats ? 'Join as a VIP, with my team' :
+      state.vip ? 'Join the Founders Event as a VIP' :
+      state.seats ? 'Join the Founders Event with my team' : 'Join the Founders Event';
     var vipCard = document.querySelector('[data-addon="vip"]');
     vipCard.classList.toggle('is-on', state.vip); vipCard.querySelector('.fx-addon-box').setAttribute('aria-pressed', state.vip);
     var teamCard = document.querySelector('[data-addon="team"]');
