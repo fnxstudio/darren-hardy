@@ -364,18 +364,18 @@
 @media (max-width: 479px) { .fx-save { display: table; margin: 6px 0 0; } }
 
 /* Confirmation pages: no dividing lines; "What happens next" sits close under the video */
-.ei-hero:has(.dm-ph) { padding-bottom: 8px; }
-.ei-hero:has(.dm-ph) ~ .ei-block { border-top: 0; padding-top: 32px; padding-bottom: 32px; }
-.ei-hero:has(.dm-ph) ~ .ei-block:last-child { padding-bottom: 96px; }
-.ei-hero:has(.dm-ph) { padding-bottom: 0; }
-.ei-hero:has(.dm-ph) .ei-video.dm-ph { margin-bottom: 0; }
-.ei-hero:has(.dm-ph) + .ei-block { padding-top: 40px; }
+.ei-hero.dm-confirm { padding-bottom: 8px; }
+.ei-hero.dm-confirm ~ .ei-block { border-top: 0; padding-top: 32px; padding-bottom: 32px; }
+.ei-hero.dm-confirm ~ .ei-block:last-child { padding-bottom: 96px; }
+.ei-hero.dm-confirm { padding-bottom: 0; }
+.ei-hero.dm-confirm .ei-video.dm-ph { margin-bottom: 0; }
+.ei-hero.dm-confirm + .ei-block { padding-top: 40px; }
 
 /* Confirmation headlines: grey second line, no red (user, 2026-10-11) */
-.ei-hero:has(.dm-ph) .ei-title .pp-answer { color: #6e6e6e; }
+.ei-hero.dm-confirm .ei-title .pp-answer { color: #6e6e6e; }
 /* Confirmation headlines: one line, all black */
-.ei-hero:has(.dm-ph) .ei-title .pp-setup, .ei-hero:has(.dm-ph) .ei-title .pp-answer { display: inline; color: #000; }
-.ei-hero:has(.dm-ph) .ei-title .pp-setup::after { content: " "; }
+.ei-hero.dm-confirm .ei-title .pp-setup, .ei-hero.dm-confirm .ei-title .pp-answer { display: inline; color: #000; }
+.ei-hero.dm-confirm .ei-title .pp-setup::after { content: " "; }
 
 /* Demo 2: the price table as the focal point: black panel, bigger white cards, bigger prices */
 .ei-block:has(.dm-duo) .ei-plans { max-width: 1080px; margin-top: 72px; padding: 48px; gap: 24px; border-radius: 2px; background: #000; }
@@ -449,3 +449,8 @@
 .dm-take-cta:focus, .fx-submit:focus, .dm-take-x:focus { outline: none; }
 .dm-take-cta:focus-visible, .fx-submit:focus-visible, .dm-take-x:focus-visible { outline: 3px solid #000; outline-offset: 3px; }
 .dm-br { display: block; }
+
+/* 2a (3-book): only the sponsorship card, centred, no plus */
+.dm-duo.dm-solo { grid-template-columns: minmax(0, 560px); justify-content: center; }
+/* Confirmations without a video: headline section closes up to "What happens next" */
+.ei-hero.dm-confirm .ei-sub { margin-bottom: 0; }
