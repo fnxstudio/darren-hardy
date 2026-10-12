@@ -56,13 +56,13 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <div class="fx-addons"><div class="fx-addon" data-addon="vip">
 <button type="button" class="fx-addon-box" aria-pressed="false" aria-label="YES! Go VIP" data-addon-toggle>&#10003;</button>
 <p class="fx-addon-title" data-addon-toggle>YES! Go VIP</p>
-<div class="fx-addon-price">+$1,495<small>one time</small></div>
+<div class="fx-addon-price"><span data-fx="vip-amt">+$115</span><small><span data-fx="vip-sub">today, then 12 monthly</span></small></div>
 <div class="fx-addon-body"><p class="fx-addon-sub">Adds Day 3 &middot; April 28, 2027</p><ul><li>A third day with Darren, for VIPs only</li><li>[VIP detail to confirm with DH]</li><li>[VIP detail to confirm with DH]</li></ul>
 <button type="button" class="fx-more" data-video="vip"><span class="fx-more-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div>
 </div><div class="fx-addon" data-addon="team">
 <button type="button" class="fx-addon-box" aria-pressed="false" aria-label="Bring your team" data-addon-toggle>&#10003;</button>
 <p class="fx-addon-title" data-addon-toggle>Bring your team</p>
-<div class="fx-addon-price">+$3,000<small>per seat</small></div>
+<div class="fx-addon-price"><span data-fx="team-amt">+$235</span><small><span data-fx="team-sub">per seat today, then 12 monthly</span></small></div>
 <div class="fx-addon-body"><p class="fx-addon-sub">Extra team seats</p><ul><li>A full Founders Event seat for each team member</li><li>[Team detail to confirm with DH]</li><li>[Team detail to confirm with DH]</li></ul><div class="fx-stepper-wrap"><span class="fx-stepper"><button type="button" data-seat="-1" aria-label="Fewer seats" disabled>&minus;</button><output data-fx="seats">0</output><button type="button" data-seat="1" aria-label="More seats">+</button></span><span class="fx-stepper-label">extra seats (up to 10)</span></div>
 <button type="button" class="fx-more" data-video="team"><span class="fx-more-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div>
 </div></div>
@@ -145,6 +145,12 @@ showOrder();
   function monthly() { return Math.ceil(full() * MONTHLY_RATIO * 100) / 100; }
   function render() {
     var f = full(), mo = monthly();
+    // Add-on prices follow the plan picked on the page (monthly figures from DH's copy doc)
+    var m = state.plan !== 'full';
+    document.querySelector('[data-fx="vip-amt"]').textContent = m ? '+$115' : '+$1,495';
+    document.querySelector('[data-fx="vip-sub"]').textContent = m ? 'today, then 12 monthly' : 'one time';
+    document.querySelector('[data-fx="team-amt"]').textContent = m ? '+$235' : '+$3,000';
+    document.querySelector('[data-fx="team-sub"]').textContent = m ? 'per seat today, then 12 monthly' : 'per seat';
     document.querySelector('[data-fx="total"]').textContent = state.plan === 'full' ? money(f) : money(mo);
     document.querySelector('[data-fx="total-sub"]').textContent = state.plan === 'full' ? 'Paid in full' : '+12 additional monthly installments of ' + money(mo);
     var lines = '<li><span>Founders Event seat, April 26&ndash;27, 2027</span><b>$4,995</b></li>';
