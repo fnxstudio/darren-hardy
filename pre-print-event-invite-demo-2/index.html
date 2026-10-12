@@ -250,7 +250,7 @@ showOrder();
 (function () {
   var player = document.querySelector('.dm-player'); if (!player) return;
   var tx = player.querySelector('[data-tx]'), scrub = player.querySelector('[data-scrub]'), timeEl = player.querySelector('[data-time]'), playBtn = player.querySelector('[data-play]');
-  var words = tx.textContent.split(/\s+/).length, DURATION = Math.round(words / 150 * 60), CTA = 0.75, revealed = false, syncing = false, timer = null;
+  var words = tx.textContent.split(/\s+/).length, DURATION = Math.round(words / 150 * 60), CTA_AT = 211, CTA = Math.min(1, CTA_AT / DURATION), revealed = false, syncing = false, timer = null;
   function fmt(t) { t = Math.round(t); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
   // Everything after the video, down to the footer, is held back until the CTA point
   var held = [], hero = player.closest('section');
@@ -286,6 +286,8 @@ showOrder();
     var step = 1000 / (DURATION * 50 / 20);
     timer = setInterval(function () { scrub.value = Math.min(1000, +scrub.value + step); fromScrub(); if (+scrub.value >= 1000) stop(); }, 20);
   });
+  // CTA marker at 3:31 (user, 2026-10-11)
+  player.querySelector('.dm-cta-mark').style.left = (CTA * 100) + '%';
   paint(0);
 })();
 
