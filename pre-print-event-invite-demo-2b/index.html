@@ -41,7 +41,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 @keyframes pp-shimmer{to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){.pp-skel{animation:none}}
 </style>
-<link rel="stylesheet" href="../pre-print-demo-assets/demo.css?v=9a2a98e5">
+<link rel="stylesheet" href="../pre-print-demo-assets/demo.css?v=c422f83b">
 </head>
 <body>
 <main class="pp-main"><section class="ei-hero"><div class="pp-wrap"><div class="ei-narrow"><div class="ei-confirm"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac6f71ddb61be27280238af_tceb-book-3d-680.webp" loading="lazy" alt="The Compound Effect in Business hardcover" class="ei-confirm-book"/><div class="ei-confirm-col"><p class="ei-confirm-text"><b class="ei-check ei-check">✓</b><b class="ei-confirm-words ei-confirm-words">Congratulations! Your pre-print book order is confirmed.</b></p><p data-ei="order" class="ei-order-no">Order #</p></div></div><h1 class="ei-title"><b class="dm-pre">Before you go&hellip;</b><b class="pp-setup">A gift from Darren:</b><b class="pp-answer">Your $200 back.</b></h1><p class="ei-sub">And get a chance to <b class="pp-strong">be part of the book&#x27;s history</b> before the rest of the world discovers it.<span class="dm-sub-2">Watch this video message from Darren to learn how.</span></p><div class="dm-player" data-ei="video">
@@ -81,7 +81,8 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <li>Your own VIP virtual space throughout the event</li>
 <li>Two weeks of recording access instead of 96 hours</li>
 </ul>
-<span class="sp-price">Add $115 today + 12 monthly payments of $115, or $1,495&nbsp;paid&nbsp;in&nbsp;full</span>
+<span class="sp-price" data-plan-show="monthly">Add $115 today + 12 monthly payments of $115</span>
+<span class="sp-price" data-plan-show="full">Add $1,495</span>
 </div></div>
 <div class="sp-qty"><label class="sp-addon-title"><input type="checkbox" data-vip> Add VIP to my seat</label></div>
 <div class="sp-popup-in"><button type="button" class="sp-popup" data-video="vip"><span class="sp-popup-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div></div><div class="sp-block sp-team" data-team-mode="tier"><div class="sp-content">
@@ -95,8 +96,10 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <li>You come back with a team ready to lead the change</li>
 <li>Option to upgrade seat(s) to VIP before the event</li>
 </ul>
-<span class="sp-price">1 seat: $3,995, or $308 today + 12 monthly payments of $308</span>
-<span class="sp-price sp-price-2">2 or more: $2,995 each, or $231 today + 12 monthly payments of $231 each</span>
+<span class="sp-price" data-plan-show="monthly">1 seat: $308 today + 12 monthly payments of $308</span>
+<span class="sp-price sp-price-2" data-plan-show="monthly">2 or more: $231 each today + 12 monthly payments of $231 each</span>
+<span class="sp-price" data-plan-show="full">1 seat: $3,995</span>
+<span class="sp-price sp-price-2" data-plan-show="full">2 or more: $2,995 each</span>
 </div></div>
 <div class="fx-field is-select sp-select"><select id="sp-seats" data-seats><option value="0">0</option><option value="1">1 seat &middot; $3,995</option><option value="2">2 seats &middot; $5,990</option><option value="3">3 seats &middot; $8,985</option><option value="4">4 seats &middot; $11,980</option><option value="5">5 seats &middot; $14,975</option><option value="6">6 seats &middot; $17,970</option><option value="7">7 seats &middot; $20,965</option><option value="8">8 seats &middot; $23,960</option><option value="9">9 seats &middot; $26,955</option><option value="10">10 seats &middot; $29,950</option></select><label for="sp-seats">Extra team seats</label></div>
 <div class="sp-popup-in"><button type="button" class="sp-popup" data-video="team"><span class="sp-popup-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div></div><div class="sp-block sp-team" data-team-mode="flat"><div class="sp-content">
@@ -110,7 +113,8 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <li>You come back with a team ready to lead the change</li>
 <li>Option to upgrade seat(s) to VIP before the event</li>
 </ul>
-<span class="sp-price">Each seat: $231 today + 12 monthly payments of $231, or $3,000&nbsp;paid&nbsp;in&nbsp;full</span>
+<span class="sp-price" data-plan-show="monthly">Each seat: $231 today + 12 monthly payments of $231</span>
+<span class="sp-price" data-plan-show="full">Each seat: $3,000</span>
 </div></div>
 <div class="sp-qty"><span class="sp-qty-label">Extra team seats</span>
 <span class="sp-stepper"><button type="button" data-seat="-1" aria-label="Fewer seats">&minus;</button><input type="number" min="0" max="10" value="0" inputmode="numeric" aria-label="Extra team seats" data-seats><button type="button" data-seat="1" aria-label="More seats">+</button></span></div>
@@ -208,6 +212,8 @@ showOrder();
   function full() { return BASE + (state.vip ? VIP : 0) + team(state.seats) - CREDIT; }
   function monthly() { return Math.ceil(full() * MONTHLY_RATIO * 100) / 100; }
   function render() {
+    // Price lines follow the plan picked (Spiffy: the pay-plan script sets this; see SPIFFY-TEAM-INSTRUCTIONS.md)
+    document.querySelectorAll('[data-plan-show]').forEach(function (el) { el.hidden = el.getAttribute('data-plan-show') !== (state.plan === 'full' ? 'full' : 'monthly'); });
     var f = full(), mo = monthly();
     document.querySelector('[data-fx="total"]').textContent = state.plan === 'full' ? money(f) : money(mo);
     document.querySelector('[data-fx="total-label"]').textContent = state.plan === 'full' ? 'Total:' : 'Due Today:';
