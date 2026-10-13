@@ -114,7 +114,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <li>Option to upgrade seat(s) to VIP before the event</li>
 </ul>
 <span class="sp-price" data-plan-show="monthly">Each seat: $231 today + 12 monthly payments of $231</span>
-<span class="sp-price" data-plan-show="full">Each seat: $3,000</span>
+<span class="sp-price" data-plan-show="full">Each seat: $2,995</span>
 </div></div>
 <div class="sp-qty"><span class="sp-qty-label">Extra team seats</span>
 <span class="sp-stepper"><button type="button" data-seat="-1" aria-label="Fewer seats">&minus;</button><input type="number" min="0" max="10" value="0" inputmode="numeric" aria-label="Extra team seats" data-seats><button type="button" data-seat="1" aria-label="More seats">+</button></span></div>
@@ -205,10 +205,10 @@ showOrder();
   var ORDER = param('order', '48213'), TIER = param('tier', C_TIER);
   var BASE = 4995, VIP = 1495, SEAT = 3000, CREDIT = C_CREDIT, MONTHLY_RATIO = 385 / 4995;
   var state = { plan: 'monthly', vip: false, seats: 0 };
-  // Team pricing: tier = live Spiffy since 2026-10-13 (1 seat $3,995; 2 or more $2,995 each); flat = before ($3,000 a seat)
+  // Team pricing: tier = live Spiffy since 2026-10-13 (1 seat $3,995; 2 or more $2,995 each); flat = one price, $2,995 a seat
   var TEAM_MODE = /^(flat|tier)$/.test(param('team', '')) ? param('team', '') : C_TEAM;
   var off = document.querySelector('[data-team-mode]:not([data-team-mode="' + TEAM_MODE + '"])'); if (off) off.remove();
-  function team(n) { return TEAM_MODE === 'flat' ? n * 3000 : n === 0 ? 0 : n === 1 ? 3995 : n * 2995; }
+  function team(n) { return TEAM_MODE === 'flat' ? n * 2995 : n === 0 ? 0 : n === 1 ? 3995 : n * 2995; }
   function full() { return BASE + (state.vip ? VIP : 0) + team(state.seats) - CREDIT; }
   function monthly() { return Math.ceil(full() * MONTHLY_RATIO * 100) / 100; }
   function render() {
