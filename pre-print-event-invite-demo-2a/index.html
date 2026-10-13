@@ -83,7 +83,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <span class="sp-price">Add $115 today + 12 monthly payments of $115, or $1,495&nbsp;paid&nbsp;in&nbsp;full</span>
 </div></div>
 <div class="sp-qty"><label class="sp-addon-title"><input type="checkbox" data-vip> Add VIP to my seat</label></div>
-<div class="sp-popup-in"><button type="button" class="sp-popup" data-video="vip"><span class="sp-popup-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div></div><div class="sp-block sp-team"><div class="sp-content">
+<div class="sp-popup-in"><button type="button" class="sp-popup" data-video="vip"><span class="sp-popup-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div></div><div class="sp-block sp-team" data-team-mode="tier"><div class="sp-content">
 <div class="sp-content-img" aria-hidden="true"><span>Team image</span></div>
 <div class="sp-content-main">
 <p class="sp-content-h">YES! I want to bring my leaders</p>
@@ -98,6 +98,21 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <span class="sp-price sp-price-2">2 or more: $2,995 each, or $231 today + 12 monthly payments of $231 each</span>
 </div></div>
 <div class="fx-field is-select sp-select"><select id="sp-seats" data-seats><option value="0">0</option><option value="1">1 seat &middot; $3,995</option><option value="2">2 seats &middot; $5,990</option><option value="3">3 seats &middot; $8,985</option><option value="4">4 seats &middot; $11,980</option><option value="5">5 seats &middot; $14,975</option><option value="6">6 seats &middot; $17,970</option><option value="7">7 seats &middot; $20,965</option><option value="8">8 seats &middot; $23,960</option><option value="9">9 seats &middot; $26,955</option><option value="10">10 seats &middot; $29,950</option></select><label for="sp-seats">Extra team seats</label></div>
+<div class="sp-popup-in"><button type="button" class="sp-popup" data-video="team"><span class="sp-popup-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div></div><div class="sp-block sp-team" data-team-mode="flat"><div class="sp-content">
+<div class="sp-content-img" aria-hidden="true"><span>Team image</span></div>
+<div class="sp-content-main">
+<p class="sp-content-h">YES! I want to bring my leaders</p>
+<span class="sp-sub">Extra team seats</span> <span class="sp-save">Save $7,000 per seat</span>
+<ul class="sp-ul">
+<li>General Admission seats for your key leaders</li>
+<li>They see the vision and share your conviction firsthand</li>
+<li>You come back with a team ready to lead the change</li>
+<li>Option to upgrade seat(s) to VIP before the event</li>
+</ul>
+<span class="sp-price">Each seat: $231 today + 12 monthly payments of $231, or $3,000&nbsp;paid&nbsp;in&nbsp;full</span>
+</div></div>
+<div class="sp-qty"><span class="sp-qty-label">Extra team seats</span>
+<span class="sp-stepper"><button type="button" data-seat="-1" aria-label="Fewer seats">&minus;</button><input type="number" min="0" max="10" value="0" inputmode="numeric" aria-label="Extra team seats" data-seats><button type="button" data-seat="1" aria-label="More seats">+</button></span></div>
 <div class="sp-popup-in"><button type="button" class="sp-popup" data-video="team"><span class="sp-popup-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div></div></div>
 
 <div class="fx-card"><div class="fx-card-body"><p class="fx-h">Contact information</p>
@@ -178,14 +193,16 @@ document.querySelectorAll('.fx-toggle').forEach(function (b) {
     b.firstChild.textContent = open ? 'Hide Order Details ' : 'Show Order Details ';
   });
 });
-var C_CREDIT = 0, C_CODE = '', C_TIER = '3', C_CTA_AT = null;
+var C_CREDIT = 0, C_CODE = '', C_TIER = '3', C_CTA_AT = null, C_TEAM = 'tier';
 showOrder();
 (function () {
   var ORDER = param('order', '48213'), TIER = param('tier', C_TIER);
   var BASE = 4995, VIP = 1495, SEAT = 3000, CREDIT = C_CREDIT, MONTHLY_RATIO = 385 / 4995;
   var state = { plan: 'monthly', vip: false, seats: 0 };
-  // Team seats as the live Spiffy dropdown prices them (checked 2026-10-13): 1 seat $3,995; 2 or more $2,995 each
-  function team(n) { return n === 0 ? 0 : n === 1 ? 3995 : n * 2995; }
+  // Team pricing: tier = live Spiffy since 2026-10-13 (1 seat $3,995; 2 or more $2,995 each); flat = before ($3,000 a seat)
+  var TEAM_MODE = /^(flat|tier)$/.test(param('team', '')) ? param('team', '') : C_TEAM;
+  var off = document.querySelector('[data-team-mode]:not([data-team-mode="' + TEAM_MODE + '"])'); if (off) off.remove();
+  function team(n) { return TEAM_MODE === 'flat' ? n * 3000 : n === 0 ? 0 : n === 1 ? 3995 : n * 2995; }
   function full() { return BASE + (state.vip ? VIP : 0) + team(state.seats) - CREDIT; }
   function monthly() { return Math.ceil(full() * MONTHLY_RATIO * 100) / 100; }
   function render() {
