@@ -62,12 +62,12 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <div class="dm-cl-item"><b class="dm-cl-t">Elite Leader Network and Expert Office Hours</b><span>Leaders and experts who've already solved your problem, so you never solve one alone.</span></div>
 </div></div><div class="dm-offer"><div class="ei-plans"><div class="ei-plan"><p class="ei-plan-label">Pay monthly</p><p class="dm-strikes"><s>$895</s></p><p class="ei-price-row"><b class="ei-now">$385</b><b class="ei-now-unit">today</b></p><p class="ei-terms">then 12 monthly payments of $385.</p><div class="ei-plan-cta"><a href="#founder" data-plan="monthly" class="pp-btn is-solid w-inline-block"><b class="pp-btn-label pp-btn-label">Yes, I want to be there</b></a></div></div><div class="ei-plan"><p class="ei-plan-label">Prepay</p><p class="dm-strikes"><s>$9,995</s></p><p class="ei-price-row"><b class="ei-now">$4,995</b></p><p class="ei-terms">paid in full.</p><div class="ei-plan-cta"><a href="#founder" data-plan="full" class="pp-btn is-solid w-inline-block"><b class="pp-btn-label pp-btn-label">Yes, I want to be there</b></a></div></div></div><div class="ei-guar"><div class="ei-seal"><b class="ei-seal-big ei-seal-big">3X</b><b class="ei-seal-small ei-seal-small">GUARANTEE</b></div><div class="ei-guar-copy"><p class="ei-guar-h">Triple your investment, or you pay nothing</p><p class="ei-guar-p">Come to the first day. If by 5 PM PT you don&#x27;t see how these strategies return at least 3 times what you put in, return your materials, and we refund every dollar.</p></div></div></div><p class="fx-decline-row"><button type="button" class="fx-decline" data-decline>No thanks, I'll hear about this event later.</button></p></div></section><section class="pp-order"><div id="founder" class="pp-anchor"></div><div class="pp-wrap"><div class="pp-order-inner"><h2 class="pp-h2 is-order">Your Founders seat</h2><div class="fx" data-fx="event">
 <div class="fx-card">
-  <div class="fx-card-body"><p class="fx-sumtitle">TCEB Founders Event</p>
+  <div class="fx-card-body"><p class="fx-sumtitle">TCEB FOUNDER'S EVENT</p>
 
-  <button type="button" class="fx-toggle" aria-expanded="false" aria-controls="fx-ev-lines">Show order details </button>
+  <button type="button" class="fx-toggle" aria-expanded="false" aria-controls="fx-ev-lines">Show Order Details </button>
   <ul class="fx-lines" id="fx-ev-lines" data-fx="lines"></ul></div>
 
-  <div class="fx-total"><span>Due today:</span><span class="fx-total-amt"><span data-fx="total"></span><span class="fx-total-sub" data-fx="total-sub"></span></span></div>
+  <div class="fx-total"><span data-fx="total-label">Due Today:</span><span class="fx-total-amt"><span data-fx="total"></span><span class="fx-total-sub" data-fx="total-sub"></span></span></div>
 </div>
 <div class="fx-addons"><div class="fx-addon" data-addon="vip">
 <button type="button" class="fx-addon-box" aria-pressed="false" aria-label="YES! Make me a VIP" data-addon-toggle>&#10003;</button>
@@ -158,7 +158,7 @@ document.querySelectorAll('.fx-toggle').forEach(function (b) {
   b.addEventListener('click', function () {
     var l = document.getElementById(b.getAttribute('aria-controls')); var open = !l.classList.contains('is-open');
     l.classList.toggle('is-open', open); b.setAttribute('aria-expanded', open);
-    b.firstChild.textContent = open ? 'Hide order details ' : 'Show order details ';
+    b.firstChild.textContent = open ? 'Hide Order Details ' : 'Show Order Details ';
   });
 });
 var C_CREDIT = 0, C_CODE = '', C_TIER = '3', C_CTA_AT = null;
@@ -178,11 +178,12 @@ showOrder();
     document.querySelector('[data-fx="team-amt"]').textContent = m ? '+$235' : '+$3,000';
     document.querySelector('[data-fx="team-sub"]').textContent = m ? 'per seat today, then 12 monthly' : 'per seat';
     document.querySelector('[data-fx="total"]').textContent = state.plan === 'full' ? money(f) : money(mo);
-    document.querySelector('[data-fx="total-sub"]').textContent = state.plan === 'full' ? 'Paid in full' : '+12 additional monthly installments of ' + money(mo);
-    var lines = '<li><span>Founders Event seat, April 26&ndash;27, 2027</span><b>$4,995</b></li>';
-    if (state.vip) lines += '<li><span>VIP: Day 3, April 28, 2027</span><b>$1,495</b></li>';
-    if (state.seats) lines += '<li><span>Extra team seats &times; ' + state.seats + '</span><b>' + money(state.seats * SEAT) + '</b></li>';
-    if (CREDIT) lines += '<li><span>Your ' + money(CREDIT) + ' book credit (' + C_CODE + ')</span><b>&minus;' + money(CREDIT) + '</b></li>';
+    document.querySelector('[data-fx="total-label"]').textContent = state.plan === 'full' ? 'Total:' : 'Due Today:';
+    document.querySelector('[data-fx="total-sub"]').textContent = state.plan === 'full' ? '' : '+12 monthly payments';
+    // Line items use the real Spiffy product names; Spiffy shows the code only as the Discount row (matched to the live checkout, 2026-10-12)
+    var lines = '<li><span>The Compound Effect In Business - FOUNDER&#39;S EVENT</span><b>$4,995</b></li>';
+    if (state.vip) lines += '<li><span>The Compound Effect In Business - FOUNDER&#39;S EVENT VIP</span><b>$1,495</b></li>';
+    if (state.seats) lines += '<li><span>The Compound Effect In Business - FOUNDER&#39;S EVENT - TEAM (' + state.seats + ')</span><b>' + money(state.seats * SEAT) + '</b></li>';
     document.querySelector('[data-fx="lines"]').innerHTML = lines;
     // Button copy follows the add-ons picked
     document.querySelector('[data-fx="submit-label"]').textContent =
