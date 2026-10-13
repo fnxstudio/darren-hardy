@@ -455,15 +455,30 @@
 /* Confirmations without a video: headline section closes up to "What happens next" */
 .ei-hero.dm-confirm .ei-sub { margin-bottom: 0; }
 
-/* ---------- Add-ons as Spiffy really renders them (2026-10-12) ----------
-   VIP = one checkbox; its option label is our HTML. Team = Spiffy's plain 0-10 dropdown. */
-.sp-block { margin-bottom: 20px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 2px; background: #fff; }
-.sp-check { position: relative; padding-left: 30px; }
-.sp-check input { position: absolute; left: 0; top: 2px; width: 18px; height: 18px; margin: 0; accent-color: var(--red); cursor: pointer; }
-.sp-check-label { display: block; color: var(--ink); font-size: 16px; font-weight: 700; line-height: 1.35; cursor: pointer; }
+/* ---------- Add-ons as the recommended native Spiffy build (2026-10-12) ----------
+   VIP = Addon block (image left) + Popup Link. Team = Content block + Quantity block (Quantity Input) + Popup Link. */
+.sp-block { margin-bottom: 12px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 2px; background: #fff; }
+.sp-addon, .sp-content { display: grid; grid-template-columns: 160px minmax(0,1fr); gap: 20px; align-items: start; }
+.sp-addon:has(input:checked) { border-color: var(--red); }
+.sp-addon-img { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 2px; background: #111; }
+.sp-addon-img img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.sp-thumb-play { position: absolute; left: 8px; bottom: 8px; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--red); color: #fff; font-size: 10px; padding-left: 2px; }
+.sp-addon-title { display: flex; align-items: center; gap: 10px; margin: 0 0 2px; color: var(--ink); font-size: 16px; font-weight: 700; line-height: 1.35; cursor: pointer; }
+.sp-addon-title input { width: 18px; height: 18px; margin: 0; accent-color: var(--red); cursor: pointer; flex: none; }
+.sp-content-img { display: grid; place-items: center; aspect-ratio: 16 / 9; border: 1px dashed #c9c9c9; border-radius: 2px; background: var(--field); color: var(--mute); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.sp-content-h { margin: 0 0 2px; color: var(--ink); font-size: 16px; font-weight: 700; line-height: 1.35; }
 .sp-sub { display: inline-block; margin: 4px 0 8px; color: #7a7a7a; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.sp-save { display: inline-block; margin-left: 6px; padding: 2px 7px; border: 1.5px solid var(--red); border-radius: 2px; color: var(--red); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; vertical-align: 1px; }
 .sp-ul { margin: 0; padding-left: 18px; color: var(--text); font-size: 14px; font-weight: 400; line-height: 1.6; }
 .sp-price { display: block; margin-top: 10px; color: var(--ink); font-size: 14px; font-weight: 600; }
-.sp-link { display: inline-block; margin-top: 10px; color: var(--ink); font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; text-decoration: underline; }
-.sp-block .sp-select { margin-bottom: 0; }
-.sp-select label small { color: var(--mute); font-size: 9px; }
+.sp-qty { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.sp-qty-label { color: var(--ink); font-size: 15px; font-weight: 700; }
+.sp-qty-label small { display: block; color: var(--mute); font-size: 12px; font-weight: 500; }
+.sp-stepper { display: inline-flex; border: 1px solid var(--line); border-radius: 2px; }
+.sp-stepper button { width: 40px; height: 42px; border: 0; background: #fff; color: var(--ink); font-size: 18px; cursor: pointer; }
+.sp-stepper input { width: 48px; border: 0; border-left: 1px solid var(--line); border-right: 1px solid var(--line); text-align: center; font: inherit; font-size: 16px; font-weight: 700; -moz-appearance: textfield; }
+.sp-stepper input::-webkit-inner-spin-button, .sp-stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.sp-popup-row { margin: -2px 0 22px; }
+.sp-popup { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; color: var(--ink); font: inherit; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; text-decoration: underline; cursor: pointer; }
+.sp-popup-play { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: #fff; font-size: 8px; padding-left: 2px; text-decoration: none; }
+@media (max-width: 560px) { .sp-addon, .sp-content { grid-template-columns: 1fr; } .sp-addon-img, .sp-content-img { max-width: 240px; } }

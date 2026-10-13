@@ -41,7 +41,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 @keyframes pp-shimmer{to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){.pp-skel{animation:none}}
 </style>
-<link rel="stylesheet" href="../pre-print-demo-assets/demo.css?v=a988e26e">
+<link rel="stylesheet" href="../pre-print-demo-assets/demo.css?v=ebb4e644">
 </head>
 <body>
 <main class="pp-main"><section class="ei-hero"><div class="pp-wrap"><div class="ei-narrow"><div class="ei-confirm"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac6f71ddb61be27280238af_tceb-book-3d-680.webp" loading="lazy" alt="The Compound Effect in Business hardcover" class="ei-confirm-book"/><div class="ei-confirm-col"><p class="ei-confirm-text"><b class="ei-check ei-check">✓</b><b class="ei-confirm-words ei-confirm-words">Congratulations! Your pre-print book order is confirmed.</b></p><p data-ei="order" class="ei-order-no">Order #</p></div></div><h1 class="ei-headline"><b class="pp-setup pp-setup">Before you go… Darren has a <b class="ei-nowrap ei-nowrap">once-in-a-lifetime</b> invitation for you.</b><b class="pp-answer pp-answer">And it comes with a $5,000 sponsorship.</b></h1><p class="ei-sub">And get a chance to <b class="pp-strong">be part of the book&#x27;s history</b> before the rest of the world discovers it.<span class="dm-sub-2">Watch this video message from Darren to learn how.</span></p><div class="dm-player" data-ei="video">
@@ -69,7 +69,10 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 
   <div class="fx-total"><span data-fx="total-label">Due Today:</span><span class="fx-total-amt"><span data-fx="total"></span><span class="fx-total-sub" data-fx="total-sub"></span></span></div>
 </div>
-<div class="fx-addons"><div class="sp-block"><div class="sp-check"><input type="checkbox" id="sp-vip" data-vip><label for="sp-vip" class="sp-check-label"><strong>YES! Make me a VIP</strong><br>
+<div class="fx-addons"><div class="sp-block sp-addon">
+<div class="sp-addon-img"><img src="../pre-print-demo-assets/dh-video-poster.webp" alt="" width="160" height="90"><b class="sp-thumb-play" aria-hidden="true">&#9654;</b></div>
+<div class="sp-addon-main">
+<label class="sp-addon-title"><input type="checkbox" data-vip> YES! Make me a VIP</label>
 <span class="sp-sub">An extra half-day with Darren &middot; April 28, 2027</span>
 <ul class="sp-ul">
 <li>A private Day 3 morning session with Darren and the in-studio audience</li>
@@ -78,7 +81,22 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <li>Two weeks of recording access instead of 96 hours</li>
 </ul>
 <span class="sp-price">Add $115 today + 12 monthly payments of $115, or $1,495 paid in full</span>
-<a href="#" class="sp-link" data-video="vip">&#9654; Get more details from Darren</a></label></div></div><div class="sp-block"><div class="fx-field is-select sp-select"><select id="sp-seats" data-seats><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select><label for="sp-seats">Extra Team Seats <small>(optional)</small></label></div></div></div>
+</div></div>
+<div class="sp-popup-row"><button type="button" class="sp-popup" data-video="vip"><span class="sp-popup-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div><div class="sp-block sp-content">
+<div class="sp-content-img" aria-hidden="true"><span>Team image</span></div>
+<div class="sp-content-main">
+<p class="sp-content-h">YES! I want to bring my leaders</p>
+<span class="sp-sub">Extra team seats</span> <span class="sp-save">Save $7,000 per seat</span>
+<ul class="sp-ul">
+<li>General Admission seats for your key leaders</li>
+<li>They see the vision and share your conviction firsthand</li>
+<li>You come back with a team ready to lead the change</li>
+<li>Option to upgrade seat(s) to VIP before the event</li>
+</ul>
+</div></div>
+<div class="sp-block sp-qty"><span class="sp-qty-label">Extra team seats <small>$3,000 each</small></span>
+<span class="sp-stepper"><button type="button" data-seat="-1" aria-label="Fewer seats">&minus;</button><input type="number" min="0" max="10" value="0" inputmode="numeric" aria-label="Extra team seats" data-seats><button type="button" data-seat="1" aria-label="More seats">+</button></span></div>
+<div class="sp-popup-row"><button type="button" class="sp-popup" data-video="team"><span class="sp-popup-play" aria-hidden="true">&#9654;</span>Get more details from Darren</button></div></div>
 
 <div class="fx-card"><div class="fx-card-body"><p class="fx-h">Contact information</p>
 <div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>First Name <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Last Name <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Email Address <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Confirm Email <i>*</i></label></div><div class="fx-field"><input type="text" placeholder=" " autocomplete="off"><label>Phone Number <i>*</i></label></div>
@@ -179,9 +197,11 @@ showOrder();
   }
 
   document.querySelector('[data-vip]').addEventListener('change', function (e) { state.vip = e.target.checked; render(); });
-  document.querySelector('[data-seats]').addEventListener('change', function (e) { state.seats = +e.target.value; render(); });
-  // The video link sits inside the VIP label: open the video without ticking the box
-  document.querySelector('.sp-link').addEventListener('click', function (e) { e.preventDefault(); });
+  // Quantity block (Quantity Input layout): type a number or use the +/- buttons, 0 to 10
+  var seatsIn = document.querySelector('[data-seats]');
+  function setSeats(n) { state.seats = Math.max(0, Math.min(10, n | 0)); seatsIn.value = state.seats; render(); }
+  seatsIn.addEventListener('change', function () { setSeats(+seatsIn.value); });
+  document.querySelectorAll('[data-seat]').forEach(function (b) { b.addEventListener('click', function () { setSeats(state.seats + +b.getAttribute('data-seat')); }); });
 
   // Page buttons: "Yes, I want to be there" scrolls to the form; Monthly / Prepay also pick that plan
   var form = document.getElementById('founder');
