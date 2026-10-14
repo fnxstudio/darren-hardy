@@ -216,8 +216,9 @@ showOrder();
   seatsIn.addEventListener('change', function () { setSeats(+seatsIn.value); });
   document.querySelectorAll('[data-seat]').forEach(function (b) { b.addEventListener('click', function () { setSeats(state.seats + +b.getAttribute('data-seat')); }); });
 
-  // The real Spiffy cart for the plan picked: monthly (13 payments) or paid in full (user, 2026-10-14)
-  var MOCK = param('form', '') === 'mock', spBox = document.querySelector('[data-spiffy-box]'), mounted = '';
+  // Our styled form (new prices) is the default; ?form=real loads the real Spiffy cart for the plan picked:
+  // monthly (13 payments) or paid in full (user, 2026-10-14)
+  var MOCK = param('form', '') !== 'real', spBox = document.querySelector('[data-spiffy-box]'), mounted = '';
   if (MOCK) { spBox.hidden = true; document.querySelector('.dm-skip').hidden = true; document.querySelector('[data-mock-form]').hidden = false; }
   function mountCheckout() {
     if (MOCK) return;
