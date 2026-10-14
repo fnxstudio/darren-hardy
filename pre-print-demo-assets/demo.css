@@ -55,9 +55,11 @@
 .fx-paypal { color: #003087; font-weight: 800; font-style: italic; font-size: 16px; letter-spacing: 0; }
 .fx-cards { display: flex; gap: 6px; align-items: center; }
 .fx-cards i { display: inline-block; padding: 3px 6px; border: 1px solid var(--line); border-radius: 2px; color: var(--ink); font-style: normal; font-size: 10px; font-weight: 800; }
-.fx-cardline { margin: 0 22px 20px; display: grid; grid-template-columns: 1fr 90px 70px; border: 1px solid var(--line); border-radius: 2px; }
-.fx-cardline input { height: 50px; padding: 0 14px; border: 0; font: inherit; font-size: 15px; outline: none; background: transparent; }
-.fx-cardline input + input { border-left: 1px solid var(--line); }
+.fx-cardline { margin: 4px 22px 20px; display: flex; align-items: center; height: 50px; padding: 0 14px; border: 1px solid var(--line); border-radius: 2px; background: #fff; } /* one box, like Spiffy's Stripe card field: no dividers */
+.fx-cardline input { min-width: 0; height: 100%; padding: 0; border: 0; font: inherit; font-size: 15px; outline: none; background: transparent; }
+.fx-cardline input:first-child { flex: 1; }
+.fx-cardline input:nth-child(2) { flex: none; width: 72px; margin-left: 12px; }
+.fx-cardline input:nth-child(3) { flex: none; width: 44px; margin-left: 12px; }
 .fx-secure { margin: 10px 0 22px; color: var(--mute); font-size: 13px; text-align: center; }
 .fx-submit { display: flex; justify-content: center; align-items: center; gap: 12px; width: 100%; padding: 22px 24px; border: 0; border-radius: 2px; background: var(--red); color: #fff; font: inherit; font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 22px rgba(0,0,0,.16); transition: transform .22s cubic-bezier(.2,.8,.2,1); }
 .fx-submit:hover { transform: translateY(-3px) scale(1.02); }
@@ -163,7 +165,7 @@
   .fx-addon { grid-template-columns: 26px minmax(0,1fr); }
   .fx-addon-price { grid-column: 2; text-align: left; }
   .fx-addon-body { grid-column: 1 / 3; }
-  .fx-cardline { grid-template-columns: 1fr 80px 60px; }
+  .fx-cardline input:nth-child(2) { width: 64px; }
 }
 @media (prefers-reduced-motion: reduce) { .dm-take.is-open, .dm-take-panel { animation: none; } }
 
