@@ -41,7 +41,7 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 @keyframes pp-shimmer{to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){.pp-skel{animation:none}}
 </style>
-<link rel="stylesheet" href="../pre-print-demo-assets/demo.css?v=2f71c273">
+<link rel="stylesheet" href="../pre-print-demo-assets/demo.css?v=52aab05a">
 </head>
 <body>
 <main class="pp-main"><section class="ei-hero"><div class="pp-wrap"><div class="ei-narrow"><div class="ei-confirm"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac6f71ddb61be27280238af_tceb-book-3d-680.webp" loading="lazy" alt="The Compound Effect in Business hardcover" class="ei-confirm-book"/><div class="ei-confirm-col"><p class="ei-confirm-text"><b class="ei-check ei-check">✓</b><b class="ei-confirm-words ei-confirm-words">Congratulations! Your pre-print book order is confirmed.</b></p><p data-ei="order" class="ei-order-no">Order #</p></div></div><h1 class="ei-headline"><b class="pp-setup pp-setup">Before you go… Darren has a <b class="ei-nowrap ei-nowrap">once-in-a-lifetime</b> invitation for you.</b><b class="pp-answer pp-answer">And it comes with a $5,000 sponsorship.</b></h1><p class="ei-sub">And get a chance to <b class="pp-strong">be part of the book&#x27;s history</b> before the rest of the world discovers it.<span class="dm-sub-2">Watch this video message from Darren to learn how.</span></p><div class="dm-player" data-ei="video">
@@ -118,10 +118,15 @@ html body .dh-nav a[class*="btn"],html body .dh-nav .dh-nav-cta{display:none!imp
 <div class="fx-cardline"><input placeholder="Card number" autocomplete="off"><input placeholder="MM / YY" autocomplete="off"><input placeholder="CVC" autocomplete="off"></div>
 </div>
 <p class="fx-secure">&#128274; All payments are secured by 256-bit encryption</p>
+<div class="fx-card fx-card-again">
+  <div class="fx-card-body"><button type="button" class="fx-toggle" aria-expanded="false" aria-controls="fx-ev-lines-2">Show Order Details </button>
+  <ul class="fx-lines" id="fx-ev-lines-2" data-fx="lines"></ul></div>
+  <div class="fx-total"><span data-fx="total-label">Due Today:</span><span class="fx-total-amt"><span data-fx="total"></span><span class="fx-total-sub" data-fx="total-sub"></span></span></div>
+</div>
 <button type="button" class="fx-submit" data-fx="submit"><span data-fx="submit-label">JOIN THE FOUNDER'S EVENT!</span> <span class="fx-arw" aria-hidden="true">&rarr;</span></button>
 <p class="fx-note">Demo form: nothing is required and no card is charged. Click to continue.</p>
 <p class="fx-decline-row"><button type="button" class="fx-decline" data-decline>No thanks, I'll hear about this event later.</button></p>
-</div></div></div></div></section></main><footer class="dh-footer-slim"><div class="dh-container"><div class="dh-footer-slim-bottom"><span class="dh-footer-slim-copy">© Darren Hardy, LLC. All Rights Reserved.</span><div class="dh-footer-legal-links"><a href="https://dh.darrenhardy.com/terms-of-service/" class="dh-footer-legal-link">Terms &amp; Conditions</a><a href="https://dh.darrenhardy.com/privacy" class="dh-footer-legal-link">Privacy Policy</a><a href="#privacy-choices" class="dh-footer-legal-link is-choices">Your Privacy Choices</a></div></div></div></footer><script src="../pre-print-demo-assets/spiffy-checkout-custom.js?v=abae1375"></script><div class="dm-modal" data-modal role="dialog" aria-modal="true" aria-label="Video from Darren">
+</div></div></div></div></section></main><footer class="dh-footer-slim"><div class="dh-container"><div class="dh-footer-slim-bottom"><span class="dh-footer-slim-copy">© Darren Hardy, LLC. All Rights Reserved.</span><div class="dh-footer-legal-links"><a href="https://dh.darrenhardy.com/terms-of-service/" class="dh-footer-legal-link">Terms &amp; Conditions</a><a href="https://dh.darrenhardy.com/privacy" class="dh-footer-legal-link">Privacy Policy</a><a href="#privacy-choices" class="dh-footer-legal-link is-choices">Your Privacy Choices</a></div></div></div></footer><script src="../pre-print-demo-assets/spiffy-checkout-custom.js?v=8b6486c7"></script><div class="dm-modal" data-modal role="dialog" aria-modal="true" aria-label="Video from Darren">
 <div class="dm-modal-box"><button type="button" class="dm-close" data-close aria-label="Close">&times;</button>
 <div class="dm-modal-video"><b class="ei-play" aria-hidden="true">&#9654;</b><b class="dm-video-label" data-modal-label></b></div>
 <p class="dm-modal-cap" data-modal-cap></p></div></div><div class="dm-take v-a" data-take role="dialog" aria-modal="true" aria-labelledby="dm-take-h">
@@ -195,17 +200,18 @@ showOrder();
   // credit built in; the PIF cart is $4,995 with the code shown as a Discount row
   function full() { return C_SEAT_PIF + (state.vip ? VIP : 0) + state.seats * SEAT_PIF; }
   function monthly() { return C_SEAT_MO + (state.vip ? VIP_MO : 0) + state.seats * SEAT_MO; }
+  function setAll(k, v) { document.querySelectorAll('[data-fx="' + k + '"]').forEach(function (el) { el.innerHTML = v; }); }
   function render() {
-    // Price lines follow the plan picked (Spiffy: the pay-plan script sets this; see SPIFFY-TEAM-INSTRUCTIONS.md)
+    // Price lines follow the plan picked
     document.querySelectorAll('[data-plan-show]').forEach(function (el) { el.hidden = el.getAttribute('data-plan-show') !== (state.plan === 'full' ? 'full' : 'monthly'); });
     var f = full(), mo = monthly(), pif = state.plan === 'full';
-    document.querySelector('[data-fx="total"]').textContent = pif ? money(f) : money(mo);
-    document.querySelector('[data-fx="total-label"]').textContent = pif ? 'Total:' : 'Due Today:';
-    document.querySelector('[data-fx="total-sub"]').textContent = pif ? '' : '+12 monthly payments';
+    setAll('total', pif ? money(f) : money(mo));
+    setAll('total-label', pif ? 'Total:' : 'Due Today:');
+    setAll('total-sub', pif ? '' : '+12 monthly payments');
     var lines = '<li><span>The Compound Effect In Business - FOUNDER&#39;S EVENT</span><b>' + money(pif ? 4995 : C_SEAT_MO * 13) + '</b></li>';
     if (state.vip) lines += '<li><span>The Compound Effect In Business - FOUNDER&#39;S EVENT VIP</span><b>$1,495</b></li>';
     if (state.seats) lines += '<li><span>The Compound Effect In Business - FOUNDER&#39;S EVENT - TEAM (' + state.seats + ')</span><b>' + money(state.seats * (pif ? SEAT_PIF : SEAT_MO * 13)) + '</b></li>';
-    document.querySelector('[data-fx="lines"]').innerHTML = lines;
+    setAll('lines', lines);
   }
 
   document.querySelector('[data-vip]').addEventListener('change', function (e) { state.vip = e.target.checked; render(); });

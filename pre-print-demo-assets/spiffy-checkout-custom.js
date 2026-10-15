@@ -3,11 +3,15 @@
    sees in the demo is what gets installed. Hand-over: paste inside <script></script> in each checkout's
    Settings > custom code. */
 
-/* 1. Prepay: hide the code chip and the Discount row, so the PIF summary reads like the monthly carts
-      (the credit is still applied; only the display changes). */
+/* 1. Order summary.
+      a. Show the total a second time, right above the Join button, after address, shipping and tax. Spiffy
+         already draws this copy (.order-summary-mobile) and shows it on phones; this shows it on desktop too.
+      b. Prepay: hide the code chip and the Discount row, so the PIF summary reads like the monthly carts
+         (the credit is still applied; only the display changes). */
 (function () {
   var css = document.createElement('style');
-  css.textContent = '.coupon-code,.line--discount{display:none!important}';
+  css.textContent = '.order-summary-mobile{display:flex!important}' +
+    '.coupon-code,.line--discount{display:none!important}';
   document.head.appendChild(css);
 })();
 
