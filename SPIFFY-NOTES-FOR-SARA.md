@@ -10,22 +10,16 @@ Running list. Read from the live Spiffy checkout settings on 2026-10-16.
 3. **VIP buyers go to the regular confirmation.** Every Founders cart lands on `/pre-print-event-confirmation`. VIP buyers should go to `/pre-print-event-vip-confirmation` (add a condition: order includes the VIP item).
 4. **Team seats count isn't passed.** If possible, add `?seats={qty}` on the confirmation redirect so the team-seat step shows only to people who bought seats.
 5. **Checkout title:** "TCEB FOUNDER'S EVENT" needs a new name (exact wording to come from us).
-6. **Button text:** "JOIN THE FOUNDER'S EVENT!" should be "JOIN THE FOUNDERS EVENT!" (no apostrophe).
-7. **Fallback step.** A pre-print order that matches none of the 3/10/100 conditions lands on Spiffy's own "Thank You 1" page. Point it at `https://thecompoundeffect.com/pre-print-confirmation` or confirm that it can't happen.
+6. **Fallback step.** A pre-print order that matches none of the 3/10/100 conditions lands on Spiffy's own "Thank You 1" page. Point it at `https://thecompoundeffect.com/pre-print-confirmation` or confirm that it can't happen.
 
-## VIP and Team blocks (Founders carts)
-Our code file (section 3) now does the corner tabs, the display font on headings, the tinted action rows and the 44px VIP checkbox automatically. It also hides the green price badge on the VIP checkbox, since the price shows in the block. Sara builds the content blocks; the code styles them.
-- **Pricing goes on the right**, right-aligned under the corner tab ("Only $115 today" / "+$115 for 12 months"; Team "Only $308/ea today" / "+$308 for 12 months"; on the prepay (PIF) cart: VIP "Only $1,495", Team "Only $3,995/ea", no sub line). Main line bold, 16px; sub line regular, 12px, grey, never longer than the main line. On phones it sits right-aligned under the tab, above the headline.
-- **Bullet copy.** VIP: "Connect with your fellow VIP Founders before the event begins" / "Your own VIP virtual space throughout the event" / "Two weeks of recording access instead of 96 hours" / "Get more details from Darren →". Team: "They see the vision and share your conviction firsthand" / "You come back with a team ready to lead the change" / "Option to upgrade seat(s) to VIP before the event" / "Get more details from Darren →".
-- **VIP checkbox label:** "YES! GO VIP" becomes "Add VIP to my seat".
-8. **No images** in the VIP or Team blocks. The copy runs full width, left-aligned.
-9. **Block headlines** ("YES! Make me a VIP", "YES! I want to bring my leaders") are large display headlines (Bebas, uppercase, about 30px). A red tab sits in each block's top-right corner: "SAVE $6,000 PER SEAT" on Team, "EXTRA HALF-DAY WITH DARREN" on VIP. Each block has one small grey uppercase line under the headline: VIP "Private additional session · April 28, 2027", Team "General Admission seats for your key leaders". Those two bullets are removed from the lists (3 bullets each now). Team drops the old "Extra team seats" line and the outlined savings chip.
-10. **Headline sits at the top of the block, beside the corner tab** (normal top padding, ~230px kept clear on the right so they never touch). On phones (under 600px) the headline drops below the tab instead.
-11. **"Get more details from Darren"** is the last bullet in each block's list (VIP video: https://vimeo.com/1236615000, Team video: https://vimeo.com/1236615058). No thumbnail for now.
-12. **"Get more details from Darren →"** is regular weight (not bold), underlined, with an arrow at the end.
-13. **The checkbox and the seat counter sit at the bottom of each block**, under the bullets, large, on a soft champagne background (#f5eedf).
-14. **VIP checkbox matches the seat counter's buttons:** a 44px square, 1px #dedede border, white; when checked it fills red (#e1132e) with a white check mark.
-15. **The seat counter** (from our code file) shows −/+ first, then "Extra team seats", the same way the checkbox shows box then label.
+## The code (all four Founders carts: base, -200-off, -1000-off, -pif)
+Paste `pre-print-demo-assets/spiffy-checkout-custom.js` inside `<script></script>` in each checkout's Settings > custom code. Same file for all four; it detects the -pif cart and shows the prepay prices there. Nothing else to build in the editor. The code:
+- Keeps the duplicate total above the Join button, and hides the code chip and Discount row on the prepay cart.
+- Turns the Extra Team Seats dropdown into a − / + counter.
+- Builds the VIP and Team boxes around the existing checkbox and dropdown: corner tab, headline, grey line, bullets, price on the right, and "Get more details from Darren →", which plays Darren's video in the box (with a Close button).
+- Relabels the VIP checkbox "Add VIP to my seat" and hides its green price badge.
+- Changes the Join button to "JOIN THE FOUNDERS EVENT!" (no apostrophe).
+
+Keep the VIP checkbox's name containing "VIP" and the dropdown named "Extra Team Seats"; that's how the code finds them.
 
 Demo of the target: https://fnxstudio.github.io/darren-hardy/pre-print-event-invite-demo-2b/
-Code file: `pre-print-demo-assets/spiffy-checkout-custom.js`
