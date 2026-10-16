@@ -131,6 +131,7 @@
     '.tceb-price small{display:block;margin-top:2px;color:#6e6e6e;font-size:12px}' +
     '.tceb-video{position:relative;margin-top:12px;padding-top:56.25%;background:#000}' +
     '.tceb-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}' +
+    '.tceb-close{position:absolute;top:8px;right:8px;z-index:2;display:flex;align-items:center;gap:6px;padding:6px 10px;border:0;border-radius:2px;background:rgba(0,0,0,.75);color:#fff;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}' +
     '.tceb-vip .layout-checkboxes1,.tceb-team .tceb-team-row{margin-top:16px;padding:14px 16px;border-radius:2px;background:#f5eedf}' +
     '.tceb-vip .custom-control{padding-left:0}' +
     '.tceb-vip .custom-control-label{position:relative;display:flex;align-items:center;min-height:44px;padding-left:58px;font-size:17px;font-weight:700;cursor:pointer}' +
@@ -162,15 +163,23 @@
       '<li><button type="button" class="tceb-more">Get more details from Darren →</button></li></ul>';
     inner.insertBefore(box, inner.firstChild);
 
-    // Darren's video plays right under the bullets; a second click closes it
-    var more = box.querySelector('.tceb-more');
-    more.addEventListener('click', function () {
+    // Darren's video plays right under the bullets. Close it with the Close button on the video, or by clicking
+    // the link again (which reads "Close the video" while it's open).
+    var more = box.querySelector('.tceb-more'), LINK = more.textContent;
+    function close() {
       var open = box.querySelector('.tceb-video');
-      if (open) { open.remove(); return; }
+      if (open) open.remove();
+      more.textContent = LINK;
+    }
+    more.addEventListener('click', function () {
+      if (box.querySelector('.tceb-video')) { close(); return; }
       var v = document.createElement('div');
       v.className = 'tceb-video';
-      v.innerHTML = '<iframe src="https://player.vimeo.com/video/' + c.video + '?autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Darren on the ' + (kind === 'vip' ? 'VIP upgrade' : 'team seats') + '"></iframe>';
+      v.innerHTML = '<button type="button" class="tceb-close" aria-label="Close the video">Close <span aria-hidden="true">&times;</span></button>' +
+        '<iframe src="https://player.vimeo.com/video/' + c.video + '?autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Darren on the ' + (kind === 'vip' ? 'VIP upgrade' : 'team seats') + '"></iframe>';
+      v.querySelector('.tceb-close').addEventListener('click', close);
       box.appendChild(v);
+      more.textContent = 'Close the video \u00d7';
     });
   }
 
