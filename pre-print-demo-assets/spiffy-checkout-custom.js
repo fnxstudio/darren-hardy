@@ -21,8 +21,8 @@
 (function () {
   var css = document.createElement('style');
   css.textContent =
-    '.tceb-team-row{display:flex;justify-content:space-between;align-items:center;gap:16px}' +
-    '.tceb-team-label{font-weight:700;font-size:15px}' +
+    '.tceb-team-row{display:flex;justify-content:flex-start;align-items:center;gap:14px}' +
+    '.tceb-team-label{font-weight:700;font-size:17px}' +
     '.tceb-stepper{display:inline-flex;border:1px solid #dedede;border-radius:2px;background:#fff}' +
     '.tceb-stepper button{width:42px;height:44px;border:0;background:#fff;color:#000;font-size:20px;line-height:1;cursor:pointer}' +
     '.tceb-stepper button:disabled{color:#c4c4c4;cursor:default}' +
@@ -50,9 +50,10 @@
     field.style.display = 'none';
     var row = document.createElement('div');
     row.className = 'tceb-team-row';
-    row.innerHTML = '<span class="tceb-team-label">Extra team seats</span>' +
-      '<span class="tceb-stepper"><button type="button" aria-label="Fewer seats">&minus;</button>' +
-      '<output aria-live="polite">0</output><button type="button" aria-label="More seats">+</button></span>';
+    // Counter first, label after it (mirrors the VIP checkbox + label)
+    row.innerHTML = '<span class="tceb-stepper"><button type="button" aria-label="Fewer seats">&minus;</button>' +
+      '<output aria-live="polite">0</output><button type="button" aria-label="More seats">+</button></span>' +
+      '<span class="tceb-team-label">Extra team seats</span>';
     field.parentNode.insertBefore(row, field.nextSibling);
     var minus = row.querySelectorAll('button')[0], plus = row.querySelectorAll('button')[1], out = row.querySelector('output');
 
