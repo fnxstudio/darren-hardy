@@ -100,11 +100,11 @@
     '.tceb-vip .layout-checkboxes1,.tceb-team .tceb-team-row{margin-top:16px;padding:14px 16px;border-radius:2px;background:#f5eedf}' +
     '.tceb-vip .custom-control{padding-left:0}' +
     '.tceb-vip .custom-control-label{position:relative;display:flex;align-items:center;min-height:44px;padding-left:58px;font-size:17px;font-weight:700;cursor:pointer}' +
-    '.tceb-vip .custom-control-label::before,.tceb-vip .custom-control-label::after{top:50%;left:0;width:44px;height:44px;margin-top:-22px}' +
+    '.tceb-vip .custom-control-label::before,.tceb-vip .custom-control-label::after{top:0!important;left:0!important;width:44px!important;height:44px!important;margin-top:0!important}' +
     '.tceb-vip .custom-control-label::before{border:1px solid #dedede;border-radius:2px;background:#fff;box-shadow:none}' +
-    '.tceb-vip .custom-control-input:checked~.custom-control-label::before{border-color:#e1132e;background:#e1132e}' +
+    '.tceb-vip .custom-control-input:checked~.custom-control-label::before{border-color:#e1132e!important;background-color:#e1132e!important}' +
     '.tceb-vip .custom-control-label::after{background-size:22px}' +
-    '.tceb-vip .option-price{display:none}' +
+    '.tceb-vip .option-price{display:none!important}' +
     '@media (max-width:600px){.tceb-box .card{padding-top:24px}.tceb-box h1,.tceb-box h2,.tceb-box h3,.tceb-box h4{padding-right:0}}';
   document.head.appendChild(css);
 
