@@ -121,8 +121,8 @@
   }
   function scan() {
     document.querySelectorAll('[id^="block-"]').forEach(function (b) {
-      var cb = b.querySelector('input[type="checkbox"]');
-      if (cb && /vip/i.test(b.textContent)) tag(b, 'vip');
+      var cbLabel = b.querySelector('input[type="checkbox"] ~ label');
+      if (cbLabel && /vip/i.test(cbLabel.textContent)) tag(b, 'vip');
       if (b.querySelector('select') && /extra team seats/i.test(b.textContent)) tag(b, 'team');
     });
   }
