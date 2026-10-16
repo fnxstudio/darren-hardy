@@ -25,17 +25,15 @@ function tcebAfterMount(fn) {
   if (document.readyState === 'complete') settle(); else window.addEventListener('load', settle);
 }
 
-/* 1. Design + order summary (CSS only, safe to add straight away).
-      a. The TCEB checkout design, same as the pre-print checkout's Custom CSS: brand colours (so the Due Today box
-         is grey/black, not Spiffy's red), Inter, hairline borders, 2px corners, no shadows, the red Join button.
-      b. Show the total a second time, right above the Join button, after address, shipping and tax. Spiffy
+/* 1. Order summary (CSS only, safe to add straight away). The checkout design itself (brand colours, Inter,
+      hairlines) lives in each cart's Design > Custom CSS: spiffy-founders-carts-custom.css.
+      a. Show the total a second time, right above the Join button, after address, shipping and tax. Spiffy
          already draws this copy (.order-summary-mobile) and shows it on phones; this shows it on desktop too.
-      c. Prepay: hide the code chip and the Discount row, so the PIF summary reads like the monthly carts
+      b. Prepay: hide the code chip and the Discount row, so the PIF summary reads like the monthly carts
          (the credit is still applied; only the display changes). */
 (function () {
   var css = document.createElement('style');
-  css.textContent = "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');\n.checkout{--brand-main:#e1132e!important;--brand-light:#f0f0f0!important;--ch-btn-color:#e1132e!important;--ch-btn-hover-color:#e1132e!important;--option-btn:#e1132e!important;--option-btn-bg-color:#fff!important;--option-btn-border-color:#e1132e!important;--order-total:#000!important;--order-total-bg:#f0f0f0!important;--general-price:#6e6e6e!important;--general-price-bg:transparent!important;--link:#000!important;--link-hover:#000!important;--form-focus:#000!important;--form-control-radius:2px!important;--form-control-border:#e2e2e2!important}\nbody{background:#fff!important}\nbody,.checkout input,.checkout select,.checkout button,.checkout label,.checkout h5,.checkout h6{font-family:'Inter',sans-serif!important}\n.checkout .card,.checkout .section__inner,.checkout .payment-gateway{border-radius:2px!important;box-shadow:none!important}\n.checkout .section__inner.card-body,.checkout .payment-gateway,.checkout .order-summary .card-body{border:1px solid #e2e2e2!important}\n.checkout h6,.checkout .option-button-auto-width h5{font-size:12px!important;font-weight:700!important;letter-spacing:.08em!important;text-transform:uppercase!important;color:inherit}\n.option-button-auto-width .option-price{display:none!important}\n.checkout .option-button-auto-width:not(.option-button-auto-width--pill){opacity:1!important;border-width:1.5px!important;border-radius:2px!important;box-shadow:none!important}\n.checkout .option-button-auto-width.option-button-auto-width--selected:not(.option-button-auto-width--pill),.checkout .option-button-auto-width:not(.option-button-auto-width--pill):hover{background-color:#e1132e!important;color:#fff!important}\n.checkout .option-button-auto-width--selected *,.checkout .option-button-auto-width:hover *{color:#fff!important}\n.checkout .payment-type--selected{border-color:#000!important}\n.checkout h6{color:#000!important}\n.checkout button[id^=\"checkoutButton\"]{border:0!important;border-radius:2px!important;box-shadow:0 10px 22px rgba(0,0,0,.16)!important;font-size:14px!important;font-weight:700!important;letter-spacing:.08em!important;text-transform:uppercase!important;padding:18px 24px!important;transition:transform .22s!important}\n.checkout button[id^=\"checkoutButton\"]:hover{transform:translateY(-3px) scale(1.02)}" +
-    '.order-summary-mobile{display:flex!important}' +
+  css.textContent = '.order-summary-mobile{display:flex!important}' +
     '.coupon-code,.line--discount{display:none!important}';
   document.head.appendChild(css);
 })();
