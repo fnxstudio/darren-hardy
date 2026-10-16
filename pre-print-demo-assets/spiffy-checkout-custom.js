@@ -122,8 +122,8 @@
     '.tceb-box .card{position:relative;overflow:hidden}' +
     '.tceb-tab{position:absolute;top:0;right:0;z-index:1;padding:7px 12px;background:#e1132e;color:#fff;font-size:11px;font-weight:800;letter-spacing:.1em;line-height:1.2;text-transform:uppercase}' +
     '.tceb-content{position:relative;color:#000}' +
-    '.tceb-head{margin:0 0 10px;padding-right:230px;font-family:"Bebas Neue",sans-serif;font-size:30px;font-weight:400;line-height:.95;letter-spacing:.02em;text-transform:uppercase}' +
-    '.tceb-sub{margin:0 0 10px;padding-right:230px;color:#7a7a7a;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}' +
+    '.tceb-head{margin:0 0 10px;padding-right:170px;font-family:"Bebas Neue",sans-serif;font-size:30px;font-weight:400;line-height:.95;letter-spacing:.02em;text-transform:uppercase}' +
+    '.tceb-sub{margin:0 0 10px;padding-right:170px;color:#7a7a7a;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}' +
     '.tceb-list{margin:0;padding-left:18px;font-size:14px;line-height:1.6}' +
     '.tceb-more{padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}' +
     '.tceb-price{position:absolute;top:20px;right:0;text-align:right}' +
