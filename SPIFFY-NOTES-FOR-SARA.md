@@ -15,6 +15,7 @@ Running list. Read from the live Spiffy checkout settings on 2026-10-16.
 6. **No images** in the VIP or Team blocks. The copy runs full width, left-aligned.
 7. **"Get more details from Darren"** is the last bullet in each block's list (VIP video: https://vimeo.com/1236615000, Team video: https://vimeo.com/1236615058). No thumbnail for now.
 8. **The checkbox and the seat counter sit at the bottom of each block**, under the price, large, on a soft champagne background (#f5eedf).
+10. **Block headlines** ("YES! Make me a VIP", "YES! I want to bring my leaders") are large display headlines (Bebas, uppercase, about 30px). A red tab sits in each block's top-right corner: "SAVE $6,000 PER SEAT" on Team, "EXTRA HALF-DAY WITH DARREN" on VIP. VIP keeps "April 28, 2027" as a small grey line under the headline; Team drops the "Extra team seats" line and the outlined savings chip.
 9. **The seat counter** (from our code file) shows −/+ first, then "Extra team seats", the same way the checkbox shows box then label.
 
 Demo of the target: https://fnxstudio.github.io/darren-hardy/pre-print-event-invite-demo-2b/
