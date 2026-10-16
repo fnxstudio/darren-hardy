@@ -15,7 +15,7 @@ Running list. Read from the live Spiffy checkout settings on 2026-10-16.
 
 ## VIP and Team blocks (Founders carts)
 Our code file (section 3) now does the corner tabs, the display font on headings, the tinted action rows and the 44px VIP checkbox automatically. It also hides the green price badge on the VIP checkbox, since the price shows in the block. Sara builds the content blocks; the code styles them.
-- **Pricing goes on the right**, right-aligned under the corner tab ("Only $115 today / + 12 monthly payments of $115"; Team "Each seat: $308 today / + 12 monthly payments of $308"). On phones it sits right-aligned under the tab, above the headline.
+- **Pricing goes on the right**, right-aligned under the corner tab ("Only $115 today" / "+$115 for 12 months"; Team "Each seat: $308 today" / "+$308 for 12 months"). Main line bold, 16px; sub line regular, 12px, grey, never longer than the main line. On phones it sits right-aligned under the tab, above the headline.
 - **VIP checkbox label:** "YES! GO VIP" becomes "Add VIP to my seat".
 8. **No images** in the VIP or Team blocks. The copy runs full width, left-aligned.
 9. **Block headlines** ("YES! Make me a VIP", "YES! I want to bring my leaders") are large display headlines (Bebas, uppercase, about 30px). A red tab sits in each block's top-right corner: "SAVE $6,000 PER SEAT" on Team, "EXTRA HALF-DAY WITH DARREN" on VIP. Each block has one small grey uppercase line under the headline: VIP "Private Extra Day 3 session · April 28, 2027", Team "General Admission seats for your key leaders". Those two bullets are removed from the lists (3 bullets each now). Team drops the old "Extra team seats" line and the outlined savings chip.
