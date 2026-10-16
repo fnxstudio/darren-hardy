@@ -13,13 +13,13 @@ Running list. Read from the live Spiffy checkout settings on 2026-10-16.
 
 ## VIP and Team blocks (Founders carts)
 6. **No images** in the VIP or Team blocks. The copy runs full width, left-aligned.
-7. **"Get more details from Darren"** is the last bullet in each block's list (VIP video: https://vimeo.com/1236615000, Team video: https://vimeo.com/1236615058). No thumbnail for now.
-8. **The checkbox and the seat counter sit at the bottom of each block**, under the price, large, on a soft champagne background (#f5eedf).
-10. **Block headlines** ("YES! Make me a VIP", "YES! I want to bring my leaders") are large display headlines (Bebas, uppercase, about 30px). A red tab sits in each block's top-right corner: "SAVE $6,000 PER SEAT" on Team, "EXTRA HALF-DAY WITH DARREN" on VIP. Each block has one small grey uppercase line under the headline: VIP "Private Day 3 morning session · April 28, 2027", Team "General Admission seats for your key leaders". Those two bullets are removed from the lists (3 bullets each now). Team drops the old "Extra team seats" line and the outlined savings chip.
-13. **Headline sits at the top of the block, beside the corner tab** (normal top padding, ~230px kept clear on the right so they never touch). On phones (under 600px) the headline drops below the tab instead.
+7. **Block headlines** ("YES! Make me a VIP", "YES! I want to bring my leaders") are large display headlines (Bebas, uppercase, about 30px). A red tab sits in each block's top-right corner: "SAVE $6,000 PER SEAT" on Team, "EXTRA HALF-DAY WITH DARREN" on VIP. Each block has one small grey uppercase line under the headline: VIP "Private Extra Day 3 session · April 28, 2027", Team "General Admission seats for your key leaders". Those two bullets are removed from the lists (3 bullets each now). Team drops the old "Extra team seats" line and the outlined savings chip.
+8. **Headline sits at the top of the block, beside the corner tab** (normal top padding, ~230px kept clear on the right so they never touch). On phones (under 600px) the headline drops below the tab instead.
+9. **"Get more details from Darren"** is the last bullet in each block's list (VIP video: https://vimeo.com/1236615000, Team video: https://vimeo.com/1236615058). No thumbnail for now.
+10. **"Get more details from Darren →"** is regular weight (not bold), underlined, with an arrow at the end.
+11. **The checkbox and the seat counter sit at the bottom of each block**, under the price, large, on a soft champagne background (#f5eedf).
 12. **VIP checkbox matches the seat counter's buttons:** a 44px square, 1px #dedede border, white; when checked it fills red (#e1132e) with a white check mark.
-11. **"Get more details from Darren →"** is regular weight (not bold), underlined, with an arrow at the end.
-9. **The seat counter** (from our code file) shows −/+ first, then "Extra team seats", the same way the checkbox shows box then label.
+13. **The seat counter** (from our code file) shows −/+ first, then "Extra team seats", the same way the checkbox shows box then label.
 
 Demo of the target: https://fnxstudio.github.io/darren-hardy/pre-print-event-invite-demo-2b/
 Code file: `pre-print-demo-assets/spiffy-checkout-custom.js`
