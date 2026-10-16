@@ -82,11 +82,36 @@
 })();
 
 /* 3. VIP and Team sections. Finds the section holding the VIP checkbox and the one holding the Extra Team Seats
-      dropdown, then: a red corner tab on each, display headlines (any heading in the section), the action row on a
-      champagne tint, and a 44px checkbox to match the seat counter. Only styles; if it doesn't run, the plain
-      Spiffy blocks show instead. */
+      dropdown and builds the rest of each box: corner tab, headline, grey line, bullets, price on the right
+      (prepay prices on the -pif cart), and a "Get more details from Darren" link that plays Darren's video inline.
+      Also styles the action rows (champagne tint, 44px checkbox), relabels the checkbox "Add VIP to my seat" and
+      takes the apostrophe out of "FOUNDER'S" on the Join button. If the script doesn't run, the plain Spiffy
+      checkbox and dropdown show instead and still work. */
 (function () {
-  var TABS = { vip: 'Extra half-day with Darren', team: 'Save $6,000 per seat' };
+  var PIF = /-pif(\/|$|\?)/.test(location.pathname + '/');
+  var BOX = {
+    vip: {
+      tab: 'Extra half-day with Darren',
+      price: PIF ? ['Only $1,495'] : ['Only $115 today', '+$115 for 12 months'],
+      head: 'YES! Make me a VIP',
+      sub: 'Private additional session · April 28, 2027',
+      bullets: ['Connect with your fellow VIP Founders before the event begins',
+        'Your own VIP virtual space throughout the event',
+        'Two weeks of recording access instead of 96 hours'],
+      video: '1236615000'
+    },
+    team: {
+      tab: 'Save $6,000 per seat',
+      price: PIF ? ['Only $3,995/ea'] : ['Only $308/ea today', '+$308 for 12 months'],
+      head: 'YES! I want to bring my leaders',
+      sub: 'General Admission seats for your key leaders',
+      bullets: ['They see the vision and share your conviction firsthand',
+        'You come back with a team ready to lead the change',
+        'Option to upgrade seat(s) to VIP before the event'],
+      video: '1236615058'
+    }
+  };
+
   var font = document.createElement('link');
   font.rel = 'stylesheet';
   font.href = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap';
@@ -96,7 +121,16 @@
   css.textContent =
     '.tceb-box .card{position:relative;overflow:hidden}' +
     '.tceb-tab{position:absolute;top:0;right:0;z-index:1;padding:7px 12px;background:#e1132e;color:#fff;font-size:11px;font-weight:800;letter-spacing:.1em;line-height:1.2;text-transform:uppercase}' +
-    '.tceb-box h1,.tceb-box h2,.tceb-box h3,.tceb-box h4{margin:0 0 10px;padding-right:230px;font-family:"Bebas Neue",sans-serif;font-size:30px;font-weight:400;line-height:.95;letter-spacing:.02em;text-transform:uppercase}' +
+    '.tceb-content{position:relative;color:#000}' +
+    '.tceb-head{margin:0 0 10px;padding-right:230px;font-family:"Bebas Neue",sans-serif;font-size:30px;font-weight:400;line-height:.95;letter-spacing:.02em;text-transform:uppercase}' +
+    '.tceb-sub{margin:0 0 10px;padding-right:230px;color:#7a7a7a;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}' +
+    '.tceb-list{margin:0;padding-left:18px;font-size:14px;line-height:1.6}' +
+    '.tceb-more{padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}' +
+    '.tceb-price{position:absolute;top:20px;right:0;text-align:right}' +
+    '.tceb-price b{display:block;font-size:16px;font-weight:700;line-height:1.25}' +
+    '.tceb-price small{display:block;margin-top:2px;color:#6e6e6e;font-size:12px}' +
+    '.tceb-video{position:relative;margin-top:12px;padding-top:56.25%;background:#000}' +
+    '.tceb-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}' +
     '.tceb-vip .layout-checkboxes1,.tceb-team .tceb-team-row{margin-top:16px;padding:14px 16px;border-radius:2px;background:#f5eedf}' +
     '.tceb-vip .custom-control{padding-left:0}' +
     '.tceb-vip .custom-control-label{position:relative;display:flex;align-items:center;min-height:44px;padding-left:58px;font-size:17px;font-weight:700;cursor:pointer}' +
@@ -105,32 +139,72 @@
     '.tceb-vip .custom-control-input:checked~.custom-control-label::before{border-color:#e1132e!important;background-color:#e1132e!important}' +
     '.tceb-vip .custom-control-label::after{background-size:22px}' +
     '.tceb-vip .option-price{display:none!important}' +
-    '@media (max-width:600px){.tceb-box .card{padding-top:24px}.tceb-box h1,.tceb-box h2,.tceb-box h3,.tceb-box h4{padding-right:0}}';
+    '@media (max-width:600px){.tceb-box .section__inner{padding-top:40px}.tceb-head,.tceb-sub{padding-right:0}' +
+    '.tceb-price{position:static;margin:0 0 12px}}';
   document.head.appendChild(css);
+
+  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+
+  function build(sec, kind) {
+    var c = BOX[kind], card = sec.querySelector('.card'), inner = sec.querySelector('.section__inner') || card;
+    if (!card || card.querySelector('.tceb-tab')) return;
+    var tab = document.createElement('span');
+    tab.className = 'tceb-tab'; tab.textContent = c.tab;
+    card.insertBefore(tab, card.firstChild);
+
+    var box = document.createElement('div');
+    box.className = 'tceb-content';
+    box.innerHTML =
+      '<div class="tceb-price"><b>' + esc(c.price[0]) + '</b>' + (c.price[1] ? '<small>' + esc(c.price[1]) + '</small>' : '') + '</div>' +
+      '<h3 class="tceb-head">' + esc(c.head) + '</h3>' +
+      '<p class="tceb-sub">' + esc(c.sub) + '</p>' +
+      '<ul class="tceb-list">' + c.bullets.map(function (b) { return '<li>' + esc(b) + '</li>'; }).join('') +
+      '<li><button type="button" class="tceb-more">Get more details from Darren →</button></li></ul>';
+    inner.insertBefore(box, inner.firstChild);
+
+    // Darren's video plays right under the bullets; a second click closes it
+    var more = box.querySelector('.tceb-more');
+    more.addEventListener('click', function () {
+      var open = box.querySelector('.tceb-video');
+      if (open) { open.remove(); return; }
+      var v = document.createElement('div');
+      v.className = 'tceb-video';
+      v.innerHTML = '<iframe src="https://player.vimeo.com/video/' + c.video + '?autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Darren on the ' + (kind === 'vip' ? 'VIP upgrade' : 'team seats') + '"></iframe>';
+      box.appendChild(v);
+    });
+  }
 
   function tag(block, kind) {
     var sec = block && block.closest('.section');
-    if (!sec || sec.classList.contains('tceb-' + kind)) return;
-    sec.classList.add('tceb-box', 'tceb-' + kind);
-    var card = sec.querySelector('.card');
-    if (card && !card.querySelector('.tceb-tab')) {
-      var t = document.createElement('span');
-      t.className = 'tceb-tab'; t.textContent = TABS[kind];
-      card.insertBefore(t, card.firstChild);
+    if (!sec) return;
+    if (!sec.classList.contains('tceb-' + kind)) sec.classList.add('tceb-box', 'tceb-' + kind);
+    build(sec, kind);
+  }
+
+  function relabel(label) {
+    // The checkbox label's own text (the price badge beside it is hidden by the CSS above)
+    for (var n = label.firstChild; n; n = n.nextSibling) {
+      if (n.nodeType === 3 && n.nodeValue.trim()) {
+        if (n.nodeValue.trim() !== 'Add VIP to my seat') n.nodeValue = ' Add VIP to my seat ';
+        return;
+      }
     }
   }
+
   function scan() {
     document.querySelectorAll('[id^="block-"]').forEach(function (b) {
       var cbLabel = b.querySelector('input[type="checkbox"] ~ label');
-      if (cbLabel && /vip/i.test(cbLabel.textContent)) tag(b, 'vip');
+      if (cbLabel && /vip/i.test(cbLabel.textContent)) { tag(b, 'vip'); relabel(cbLabel); }
       if (b.querySelector('select') && /extra team seats/i.test(b.textContent)) tag(b, 'team');
+    });
+    // Join button: FOUNDER'S -> FOUNDERS
+    document.querySelectorAll('button, .btn').forEach(function (btn) {
+      for (var n = btn.firstChild; n; n = n.nextSibling) {
+        if (n.nodeType === 3 && /FOUNDER['’]S/i.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/(FOUNDER)['’](S)/gi, '$1$2');
+      }
     });
   }
   var tries = 0;
   (function wait() { scan(); if (!document.querySelector('.tceb-vip') && tries++ < 100) setTimeout(wait, 100); })();
-  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
 })();
-
-/* 4. Pop-up videos (not code): Spiffy's "Get more details from Darren" Popup Link blocks
-      VIP:  https://vimeo.com/1236615000
-      Team: https://vimeo.com/1236615058 */
