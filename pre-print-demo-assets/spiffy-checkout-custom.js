@@ -79,3 +79,7 @@
   new MutationObserver(function () { var s = findSelect(); if (s && !s.getAttribute('data-tceb-stepper')) build(); })
     .observe(document.documentElement, { childList: true, subtree: true });
 })();
+
+/* 3. Pop-up videos (not code): Spiffy's "Get more details from Darren" Popup Link blocks
+      VIP:  https://vimeo.com/1236615000
+      Team: https://vimeo.com/1236615058 */
