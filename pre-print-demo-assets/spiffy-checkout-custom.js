@@ -1,7 +1,27 @@
 /* TCEB Founders Event: custom code for the Spiffy checkouts (base, -200-off, -1000-off, -pif).
    One file for everything we add inside Spiffy. The demo pages run this same file, so what the team
-   sees in the demo is what gets installed. Hand-over: paste inside <script></script> in each checkout's
+   sees in the demo is what gets installed. Hand-over: wrap in script tags and paste into each checkout's
    Settings > custom code. */
+
+/* 0. Wait for Spiffy's checkout to settle. Spiffy's server sends the checkout as finished HTML, then its app takes over
+      that HTML in the browser and keeps adding parts of the form for a moment after (even after its own "ready" hook).
+      Changing the page during that makes the app crash ("HierarchyRequestError: appendChild"), and on phones the form
+      can then never finish loading. So everything below that touches the form waits until the page has fully loaded
+      AND Spiffy has stopped changing the page for half a second (6s cap). The CSS in part 1 is safe right away.
+      On a page without Spiffy's app (our demo) it runs straight away. */
+function tcebAfterMount(fn) {
+  var done = false;
+  function go() { if (done) return; done = true; setTimeout(fn, 0); }
+  if (!document.getElementById('__nuxt')) { go(); return; }
+  function settle() {
+    var quiet, cap = setTimeout(finish, 6000);
+    var mo = new MutationObserver(function () { clearTimeout(quiet); quiet = setTimeout(finish, 500); });
+    function finish() { clearTimeout(quiet); clearTimeout(cap); mo.disconnect(); go(); }
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+    quiet = setTimeout(finish, 500);
+  }
+  if (document.readyState === 'complete') settle(); else window.addEventListener('load', settle);
+}
 
 /* 1. Order summary.
       a. Show the total a second time, right above the Join button, after address, shipping and tax. Spiffy
@@ -75,10 +95,12 @@
   }
 
   // Spiffy draws the form after load, and can redraw it: build once it appears, and again if it is redrawn
-  var tries = 0;
-  (function wait() { if (!build() && tries++ < 100) setTimeout(wait, 100); })();
-  new MutationObserver(function () { var s = findSelect(); if (s && !s.getAttribute('data-tceb-stepper')) build(); })
-    .observe(document.documentElement, { childList: true, subtree: true });
+  tcebAfterMount(function () {
+    var tries = 0;
+    (function wait() { if (!build() && tries++ < 100) setTimeout(wait, 100); })();
+    new MutationObserver(function () { var s = findSelect(); if (s && !s.getAttribute('data-tceb-stepper')) build(); })
+      .observe(document.documentElement, { childList: true, subtree: true });
+  });
 })();
 
 /* 3. VIP and Team sections. Finds the section holding the VIP checkbox and the one holding the Extra Team Seats
@@ -213,7 +235,9 @@
       }
     });
   }
-  var tries = 0;
-  (function wait() { scan(); if (!document.querySelector('.tceb-vip') && tries++ < 100) setTimeout(wait, 100); })();
-  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  tcebAfterMount(function () {
+    var tries = 0;
+    (function wait() { scan(); if (!document.querySelector('.tceb-vip') && tries++ < 100) setTimeout(wait, 100); })();
+    new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  });
 })();
