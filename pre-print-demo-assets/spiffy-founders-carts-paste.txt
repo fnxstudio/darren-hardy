@@ -2,7 +2,8 @@
 /* TCEB Founders Event: custom code for the Spiffy checkouts (base, -200-off, -1000-off, -pif).
    One file for everything we add inside Spiffy. The demo pages run this same file, so what the team
    sees in the demo is what gets installed. Hand-over: wrap in script tags and paste into each checkout's
-   Settings > custom code. */
+   Settings > custom code. Keep it free of dollar signs: Spiffy's save step rewrites a dollar sign followed by
+   digits, so prices are written as \u0024 (the browser still shows a dollar sign). */
 
 /* 0. Wait for Spiffy's checkout to settle. Spiffy's server sends the checkout as finished HTML, then its app takes over
       that HTML in the browser and keeps adding parts of the form for a moment after (even after its own "ready" hook).
@@ -111,11 +112,11 @@ function tcebAfterMount(fn) {
       takes the apostrophe out of "FOUNDER'S" on the Join button. If the script doesn't run, the plain Spiffy
       checkbox and dropdown show instead and still work. */
 (function () {
-  var PIF = /-pif(\/|$|\?)/.test(location.pathname + '/');
+  var PIF = /-pif\//.test(location.pathname + '/');   // the prepay cart's address ends in -pif
   var BOX = {
     vip: {
       tab: 'Extra half-day with Darren',
-      price: PIF ? ['Only $1,495'] : ['Only $115 today', '+$115 for 12 months'],
+      price: PIF ? ['Only \u00241,495'] : ['Only \u0024115 today', '+\u0024115 for 12 months'],
       head: 'YES! Make me a VIP',
       sub: 'Private additional session · April 28, 2027',
       bullets: ['Connect with your fellow VIP Founders before the event begins',
@@ -124,8 +125,8 @@ function tcebAfterMount(fn) {
       video: '1236615000'
     },
     team: {
-      tab: 'Save $6,000 per seat',
-      price: PIF ? ['Only $3,995/ea'] : ['Only $308/ea today', '+$308 for 12 months'],
+      tab: 'Save \u00246,000 per seat',
+      price: PIF ? ['Only \u00243,995/ea'] : ['Only \u0024308/ea today', '+\u0024308 for 12 months'],
       head: 'YES! I want to bring my leaders',
       sub: 'General Admission seats for your key leaders',
       bullets: ['They see the vision and share your conviction firsthand',
@@ -232,7 +233,7 @@ function tcebAfterMount(fn) {
     // Join button: FOUNDER'S -> FOUNDERS
     document.querySelectorAll('button, .btn').forEach(function (btn) {
       for (var n = btn.firstChild; n; n = n.nextSibling) {
-        if (n.nodeType === 3 && /FOUNDER['’]S/i.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/(FOUNDER)['’](S)/gi, '$1$2');
+        if (n.nodeType === 3 && /FOUNDER['’]S/i.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/(FOUNDER)['’](S)/gi, function (m, a, b) { return a + b; });
       }
     });
   }
