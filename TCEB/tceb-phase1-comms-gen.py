@@ -14,7 +14,7 @@ def pill(text, fill, w=None):
     return (f"<rect x='2' y='-19' width='{w}' height='38' rx='19' fill='{fill}' stroke='#fff' stroke-width='3'/>"
             f"<text x='{2 + w/2}' y='8' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='25' font-weight='800' fill='#fff'>{text}</text>")
 
-PHONE = "<rect x='30' y='4' width='82' height='150' rx='12' fill='#fff' stroke='#222' stroke-width='3'/><rect x='58' y='12' width='26' height='4' rx='2' fill='#222'/><rect x='38' y='22' width='66' height='118' rx='3' fill='#f4f4f4'/>"
+PHONE = "<rect x='30' y='4' width='82' height='150' rx='12' fill='#fff' stroke='#222' stroke-width='3'/><rect x='38' y='22' width='66' height='118' rx='3' fill='#f4f4f4'/>"
 
 ART = {
  # envelope with body lines + CTA button
@@ -22,7 +22,7 @@ ART = {
  # personal DH video: black 16:9 frame + play, "DH" tag
  "video": "<rect x='4' y='34' width='134' height='84' rx='6' fill='#1f1f1f' stroke='#222' stroke-width='3'/><circle cx='71' cy='76' r='18' fill='#fff' opacity='.92'/><path d='M64 66v20l16-10z' fill='#1f1f1f'/><rect x='12' y='42' width='30' height='16' rx='3' fill='#c9a227'/><text x='27' y='54' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='12' font-weight='700' fill='#fff'>DH</text>",
  # phone + chat bubbles
- "sms": PHONE + "<rect x='44' y='32' width='44' height='18' rx='9' fill='#ccc'/><rect x='54' y='58' width='44' height='18' rx='9' fill='#17a34a'/><rect x='44' y='84' width='36' height='18' rx='9' fill='#ccc'/><rect x='60' y='110' width='38' height='18' rx='9' fill='#17a34a'/>",
+ "sms": PHONE + "<rect x='44' y='36' width='44' height='20' rx='10' fill='#ccc'/><rect x='54' y='68' width='44' height='20' rx='10' fill='#17a34a'/><rect x='44' y='100' width='38' height='20' rx='10' fill='#ccc'/>",
  # phone + voicemail glyph
  "vm": PHONE + "<circle cx='55' cy='72' r='11' fill='none' stroke='#7b2d8e' stroke-width='5'/><circle cx='87' cy='72' r='11' fill='none' stroke='#7b2d8e' stroke-width='5'/><path d='M55 83h32' stroke='#7b2d8e' stroke-width='5'/><path d='M46 108h50M50 118h42' stroke='#bbb' stroke-width='4' stroke-linecap='round'/>",
  # DarrenDaily: phone with black video + sun-yellow DD tag
@@ -96,7 +96,6 @@ BIG = {"B": "BMC45<br/>BMC44", "E": "ELITE", "A": "BMC<br/>ALUMNI", "L": "DHLLC<
        "R": "ACTIVE<br/>DARREN<br/>DAILY", "D": "FULL<br/>DATABASE"}
 COLOR = {}
 PAGE_URL = {"D": "https://www.thecompoundeffect.com/pre-print"}
-NAMED_ALUMNI = "Named on the To: line of<br/>Database #2, #3, #4, #5<br/>Closedown #1, #2 · Reopening #1, #2, #3<br/>SMS 2 + SMS 3"
 rows = [
  ("B", "on Exclude lines", "#f5eef8", "#7b2d8e", {
    "c22": [("warn", None, "<b>On the Exclude line of every email</b><br/>"
@@ -106,17 +105,17 @@ rows = [
    "c22": [("email", "open", "<b>ELITE #1</b> · 7am TZ<br/>[Time-sensitive] ELITE invitation<br/>To: ELITE, A-Team<br/>" + W_ + "no HubSpot link"),
            ("sms", None, "<b>SMS Elite Day 1</b> · 1pm TZ<br/>To: Elite members")],
    "c23": [("email", None, "<b>ELITE #2</b> · 1pm TZ<br/>Jeff, bumping this up!<br/>" + W_ + "no HubSpot link<br/>" + W_ + "copy: wider group tomorrow morning<br/>(Sat 10/24 has no sends)")],
-   "c28": [("note", None, "Named on the To: line of<br/>Database #3, #4, #5<br/>Closedown #1, #2 · Reopening #1, #2, #3<br/>SMS 2 + SMS 3")]}),
+   }),
  ("A", "", "#e8f1fc", "#1f5fa8", {
    "c23": [("email", "open", "<b>BMC Alumni #1</b> · 7am TZ<br/>[Time-sensitive] Alumni invitation<br/>" + W_ + "no HubSpot link"),
            ("sms", None, "<b>SMS BMC Alumni Day 1</b> · 1pm TZ")],
    "c26": [("email", None, "<b>BMC Alumni #2</b> · 1pm TZ<br/>Jeff, bumping this up!<br/>" + W_ + "no HubSpot link<br/>" + W_ + "doc also lists Fri 10/23 1pm<br/>and a 2nd subject line")],
-   "c27": [("note", None, NAMED_ALUMNI)]}),
+   }),
  ("L", "", "#eef0fb", "#3f51b5", {
    "c23": [("email", "open", "<b>DHLLC Alumni #1</b> · 7am TZ<br/>[Time-sensitive] personal invitation<br/>" + W_ + "no HubSpot link"),
            ("sms", None, "<b>SMS DHTV Alumni Day 1</b> · 1pm TZ<br/>" + W_ + "To: DHTV Alumni<br/>(emails go to DHLLC Alumni)")],
    "c26": [("email", None, "<b>DHLLC Alumni #2</b> · 7am TZ<br/>Jeff, bumping this up!<br/>" + W_ + "no HubSpot link")],
-   "c27": [("note", None, NAMED_ALUMNI)]}),
+   }),
  ("R", "", "#fff6d8", "#b8860b", {
    "c25": [("email", "open", "<b>DarrenDaily #1</b> · 7am TZ<br/>Quick heads up! About tomorrow…<br/>" + W_ + "no pre-print purchaser exclusion")],
    "c26": [("dd", None, "<b>Episode announcement</b><br/>promised in DarrenDaily #1<br/>" + W_ + "no script in this tab")],
@@ -138,6 +137,21 @@ rows = [
            ("email", None, "<b>Reopening #3</b> (Brenda) · 7pm PT<br/>Closing at midnight, Jeff")]}),
 ]
 
+# Elite / BMC Alumni / DHLLC Alumni are named on the To: line of these database sends, so they appear in those tracks too
+# (short label: name + time; the subject lines sit on the Full Database track)
+TO_LINE = {"E": ["Database #3", "Database #4", "SMS 2", "Database #5", "SMS 3", "Closedown #1", "Closedown #2",
+                 "Reopening #1", "Reopening #2", "Reopening #3"]}
+TO_LINE["A"] = TO_LINE["L"] = ["Database #2"] + TO_LINE["E"]
+def short(lab):
+    seg = lab.split("<br/>")
+    return seg[0] if "TZ" in seg[0] or "PT" in seg[0] else seg[0] + " · " + seg[1]
+D_CELLS = next(r[4] for r in rows if r[0] == "D")
+for r in rows:
+    if r[0] in TO_LINE:
+        for cid, items in D_CELLS.items():
+            got = [(k, b, short(lab)) for k, b, lab in items if lab.split("</b>")[0].replace("<b>", "").split(" ·")[0] in TO_LINE[r[0]]]
+            if got: r[4][cid] = got
+
 # click-through for each send: the HubSpot email when the doc has one, otherwise its copy in the doc tab
 DOC = "https://docs.google.com/document/d/15628lGSNXqxl2xQh4pL2uDGvO1i7xhiTiUNM2asodcE/edit?tab="
 HS = "https://app.hubspot.com/email/2518645/edit/{}/content"
@@ -151,6 +165,7 @@ def link_for(rid, kind, label):
     if kind not in ("email", "sms"): return None
     name = label.split("</b>")[0].replace("<b>", "")
     if name in HSID: return HS.format(HSID[name])
+    if name.startswith(("SMS 2", "SMS 3")): return TAB["D"]
     return TAB[rid]
 
 W, H = 96, 122
@@ -213,6 +228,8 @@ for rid, sub, fill, stroke, cells in rows:
     ids = [c[0] for c in cols]
     first_c = min(cells, key=ids.index); last_c = max(cells, key=ids.index)
     def put(nid, k, b, lab):
+        if k == "blank":
+            L.append(f'        {nid}[" "]'); return   # empty filler box: far cheaper than an image under the 50K cap
         if k in ("note", "warn"):
             L.append(f'        {nid}["{lab}"]'); cls[k].append(nid)
         else:
