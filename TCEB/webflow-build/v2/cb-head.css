@@ -63,7 +63,7 @@
 .cb-row-rank { font-family: kepler-3-display, serif; font-weight: 600; font-size: 30px; line-height: 1; color: #7A6440; }
 .cb-row.is-me .cb-row-rank { color: #14120E; }
 .cb-row-face { width: 48px; height: 48px; border-radius: 2px; object-fit: cover; background: #1E1B15; display: block; }
-.cb-row-name { font-family: bebas-neue-pro, sans-serif; font-size: 26px; line-height: 1; color: #14120E; }
+.cb-row-name { font-family: bebas-neue-pro, sans-serif; font-weight: 600; text-transform: uppercase; font-size: 26px; line-height: 1; color: #14120E; }
 .cb-row-team { margin-top: 3px; font-size: 13px; font-weight: 600; line-height: 1.4; color: #5E574B; }
 .cb-row.is-me .cb-row-team { color: #3A2F1C; }
 .cb-row-coin { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.22em; line-height: 1.2; color: #14120E; text-transform: uppercase; }
@@ -87,16 +87,16 @@ html.cb-lock { overflow: hidden; }
 .cb-person { display: flex; flex-direction: column; gap: 8px; width: 124px; }
 .cb-person-frame { padding: 4px; border-radius: 2px; background-image: var(--metal, linear-gradient(160deg, #F4F3EF 0%, #B9B8B2 45%, #6F6E69 100%)); }
 .cb-person-face { display: block; width: 116px; height: 116px; border-radius: 1px; object-fit: cover; }
-.cb-person-name { font-family: bebas-neue-pro, sans-serif; font-size: 20px; line-height: 1; color: #14120E; }
+.cb-person-name { font-family: bebas-neue-pro, sans-serif; font-weight: 600; text-transform: uppercase; font-size: 20px; line-height: 1; color: #14120E; }
 .cb-person-team { font-size: 11px; font-weight: 600; line-height: 1.4; color: #5E574B; }
-.cb-person-open { display: flex; align-items: center; justify-content: center; width: 124px; height: 124px; border: 2px dashed #5E574B; border-radius: 2px; text-align: center; font-family: bebas-neue-pro, sans-serif; font-size: 20px; line-height: 1; color: #7A6440; }
+.cb-person-open { display: flex; align-items: center; justify-content: center; width: 124px; height: 124px; border: 2px dashed #5E574B; border-radius: 2px; text-align: center; font-family: bebas-neue-pro, sans-serif; font-weight: 600; text-transform: uppercase; font-size: 20px; line-height: 1; color: #7A6440; }
 @media (max-width: 767px) { .cb-person { width: 96px; } .cb-person-face { width: 88px; height: 88px; } .cb-person-open { width: 96px; height: 96px; } }
 
 /* Champion Friday waveform (built by the script) */
 .cb-wave-bar { width: 4px; flex: none; border-radius: 2px; background: rgba(232, 217, 176, 0.4); }
 .cb-wave-bar.is-played { background: #D4A017; }
 
-/* phone: the hero deck and the tier stack are the desktop layout scaled to fit (script sets the scale) */
+/* phone: the hero deck is the desktop layout scaled to fit (script sets the scale) */
 @media (max-width: 991px) { .cb-deck { margin: 0 auto; } }
 
 /* text inputs live in small embeds (Webflow's native forms would post to Webflow) */
@@ -109,3 +109,63 @@ html.cb-lock { overflow: hidden; }
 .cb-msgbox .w-embed, .cb-field-group .w-embed, .cb-sign-form .w-embed { width: 100%; }
 .cb-field:focus, .cb-search-input:focus { outline: none; border-color: #D4A017; }
 .cb-search-input::-webkit-search-cancel-button { display: none; }
+
+/* MOTION (v1 parity). Transform and opacity only, using the individual translate/rotate/scale
+   properties so they stack on top of the Designer transforms instead of replacing them. */
+@keyframes cb-lift { from { opacity: 0; translate: 0 28px; } }
+@keyframes cb-rise { from { opacity: 0; translate: 0 38px; } }
+@keyframes cb-in { from { opacity: 0; translate: 0 26px; } }
+@keyframes cb-float { 50% { translate: 0 -8px; } }
+@keyframes cb-drop { from { opacity: 0; translate: 0 -12px; } }
+@keyframes cb-wave { 50% { scale: 1 0.5; } }
+/* hero settles in on load */
+.cb-hero-copy > * { animation: cb-rise 0.9s cubic-bezier(.2,.8,.2,1) 0.2s backwards; }
+.cb-hero-copy > .cb-hero-title { animation-name: cb-lift; animation-delay: 0.05s; }
+.cb-deck-fit { animation: cb-lift 0.9s cubic-bezier(.2,.8,.2,1) 0.1s backwards; }
+/* live pings drift */
+.cb-pings .w-dyn-item { animation: cb-float 6s ease-in-out infinite; }
+.cb-pings.is-coins .w-dyn-item:nth-child(2) { animation-delay: -2s; }
+.cb-pings.is-moves .w-dyn-item:nth-child(1) { animation-delay: -4s; }
+.cb-pings.is-moves .w-dyn-item:nth-child(2) { animation-delay: -3s; }
+/* hero deck fans out on hover */
+.cb-deck-slot { transition: translate 0.5s cubic-bezier(.2,.8,.2,1), rotate 0.5s cubic-bezier(.2,.8,.2,1); }
+.cb-deck:hover .cb-deck-slot.is-1 { translate: 0 -12px; }
+.cb-deck:hover .cb-deck-slot.is-2 { translate: -16px 4px; rotate: -4deg; }
+.cb-deck:hover .cb-deck-slot.is-3 { translate: 20px 4px; rotate: 4deg; }
+/* buttons lift, arrows slide, gold buttons get a sheen */
+.cb-btn { position: relative; overflow: hidden; transition: translate 0.22s cubic-bezier(.2,.8,.2,1), scale 0.22s cubic-bezier(.2,.8,.2,1), background-color 0.22s, border-color 0.22s, color 0.22s; }
+.cb-btn:hover { translate: 0 -3px; }
+.cb-btn > span { display: inline-block; transition: translate 0.22s cubic-bezier(.2,.8,.2,1); }
+.cb-btn:hover > span { translate: 6px 0; }
+.cb-btn:not(.is-line):not(.is-ghost):not(.is-ink)::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.45) 50%, transparent 65%); translate: -120% 0; transition: translate 0.6s cubic-bezier(.2,.8,.2,1); pointer-events: none; }
+.cb-btn:not(.is-line):not(.is-ghost):not(.is-ink):hover::after { translate: 120% 0; }
+/* cards rise on hover */
+.cb-tier { transition: translate 0.45s cubic-bezier(.2,.8,.2,1), rotate 0.45s cubic-bezier(.2,.8,.2,1); }
+.cb-tier:hover { transform: none; translate: 0 -14px; rotate: -1.5deg; }
+.cb-reward, .cb-play, .cb-prize, .cb-perk, .cb-opt, .cb-stop-card, .cb-member, .cb-coinwall-item, .cb-pay { transition: translate 0.3s cubic-bezier(.2,.8,.2,1), background-color 0.2s, border-color 0.2s, box-shadow 0.3s; }
+.cb-reward:hover, .cb-play:hover, .cb-prize:hover, .cb-perk:hover, .cb-opt:hover, .cb-stop-card:hover, .cb-member:hover, .cb-coinwall-item:hover { translate: 0 -4px; }
+.cb-rank { transition: translate 0.25s cubic-bezier(.2,.8,.2,1); }
+.cb-rank:hover { translate: 4px 0; }
+.cb-audio-btn, .cb-play-btn { transition: scale 0.2s cubic-bezier(.2,.8,.2,1); }
+.cb-audio-btn:hover, .cb-play-btn:hover { scale: 1.06; }
+/* full standings drop in when opened */
+.cb-full { animation: cb-drop 0.45s cubic-bezier(.2,.8,.2,1); }
+/* Champion Friday waveform moves */
+.cb-wave-bar { transform-origin: center; animation: cb-wave 1.1s ease-in-out infinite; }
+.cb-wave-bar:nth-child(3n) { animation-delay: -0.35s; }
+.cb-wave-bar:nth-child(3n+1) { animation-delay: -0.7s; }
+.cb-wave-bar:nth-child(4n) { animation-delay: -0.9s; }
+/* scroll reveal: the script marks targets with data-in and adds .is-in as they enter (no script: all visible) */
+.cb-motion [data-in]:not(.is-in) { opacity: 0; }
+.cb-motion [data-in].is-in { animation: cb-in 0.7s cubic-bezier(.2,.8,.2,1) var(--in-d, 0s) backwards; }
+/* closing line: a shine sweeps across the gold words, repeating */
+@keyframes cb-shine { to { background-position: -200% 0; } }
+.cb-close-gold { background-image: linear-gradient(100deg, #CAA76A 0%, #E8D5A0 18%, #CAA76A 36%, #FFF4CF 45%, #FFFDF4 48%, #FFF4CF 51%, #CAA76A 60%, #B8924F 80%, #CAA76A 100%); background-size: 200% 100%; background-repeat: repeat-x; animation: cb-shine 5s linear infinite; }
+/* Show my spot: your row flashes gold */
+@keyframes cb-flash { 0%, 100% { box-shadow: inset 0 0 0 0 rgba(212,160,23,0); } 30% { box-shadow: inset 0 0 0 3px #D4A017; } }
+.cb-row.is-flash { animation: cb-flash 1.4s ease-in-out 2; }
+@media (hover: none) { .cb-deck:hover .cb-deck-slot, .cb-tier:hover { translate: none; rotate: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .cb-page *, .cb-page *::after { animation: none !important; transition: none !important; }
+  .cb-motion [data-in]:not(.is-in) { opacity: 1; }
+}

@@ -21,6 +21,14 @@
   var page = document.querySelector('.cb-page');
   if (!page) return;
 
+  // Open seats and missing headshots show the midnight-glow placeholder (the CMS open-seat image is v1's purple one)
+  var PH = 'https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad59b670153fbdf72e77b16_cb-headshot-placeholder.webp';
+  function isOpenSeat(src) { return !src || /champ-open-seat/.test(src); }
+  all('img', page).forEach(function (im) {
+    if (im.closest('#cbIndex, #cbindex') || !/face|photo|frame|plaque|member|rank|tier|ping|person|chip/.test(im.className + ' ' + (im.parentNode.className || ''))) return;
+    if (im.classList.contains('w-dyn-bind-empty') || isOpenSeat(im.getAttribute('src'))) { im.removeAttribute('srcset'); im.removeAttribute('sizes'); im.src = PH; im.classList.remove('w-dyn-bind-empty'); }
+  });
+
   // Buttons JUMP to their section, no animated scroll (user call, 2026-10-09).
   function go(el) {
     if (typeof el === 'string') el = $(el);
@@ -39,6 +47,8 @@
     if (a.hasAttribute('data-lv-close')) closeLv();
     go(t);
   }, true);
+  // Webflow's own smooth scroll (listening on document) would also jump to a data-own link's #target; stop it at the page
+  page.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('a[data-own]')) e.stopPropagation(); });
   // Space and Enter on role=button links
   page.addEventListener('keydown', function (e) {
     var b = e.target.closest('[role=button]');
@@ -67,7 +77,7 @@
     m.classList.toggle('is-up', n > 0);
   });
 
-  // ---------- scale-to-fit: hero deck and tier stack keep the desktop layout on small screens ----------
+  // ---------- scale-to-fit: the hero deck keeps the desktop layout on small screens; the tier row does on tablets ----------
   function fit() {
     var df = $('deckFit'), d = $('deck');
     if (df && d) {
@@ -77,10 +87,25 @@
     var tf = $('tiersFit'), t = $('tiers');
     if (tf && t) {
       t.style.width = ''; t.style.transform = ''; tf.style.height = '';
-      if (tf.clientWidth < 1000) { var s2 = tf.clientWidth / 1000; t.style.width = '1000px'; t.style.transform = 'scale(' + s2.toFixed(4) + ')'; tf.style.height = Math.round(t.offsetHeight * s2) + 'px'; }
+      if (tf.clientWidth < 1000 && innerWidth > 767) { var s2 = tf.clientWidth / 1000; t.style.width = '1000px'; t.style.transform = 'scale(' + s2.toFixed(4) + ')'; tf.style.height = Math.round(t.offsetHeight * s2) + 'px'; }
     }
   }
   fit(); addEventListener('resize', fit); addEventListener('load', fit);
+
+  // ---------- scroll reveal: section heads and cards rise in as they enter, staggered per batch ----------
+  (function () {
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var sel = '.cb-head, .cb-board-head, .cb-podium-slot, .cb-ranks-list > .w-dyn-item, .cb-rewards-copy, .cb-reward, .cb-start, .cb-tier, .cb-prize, .cb-step, .cb-play, .cb-play-photo, .cb-studio-copy, .cb-perk, .cb-tableband-copy, .cb-season-head, .cb-video, .cb-stop, .cb-circle-head, .cb-member, .cb-open, .cb-newcoins-head, .cb-coinwall-item, .cb-friday-photo, .cb-friday-copy, .cb-opt, .cb-panel, .cb-close-in, .cb-faq-intro, .cb-qa';
+    var els = all(sel, page).filter(function (e) { return !e.closest('.cb-hero, .cb-overlay, #cbIndex, #cbindex') && e.getBoundingClientRect().top > innerHeight * 0.9; });
+    if (!els.length) return;
+    els.forEach(function (e) { e.setAttribute('data-in', ''); });
+    document.documentElement.classList.add('cb-motion');
+    var io = new IntersectionObserver(function (ents) {
+      ents.filter(function (x) { return x.isIntersecting; }).sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left; })
+        .forEach(function (x, i) { x.target.style.setProperty('--in-d', Math.min(i * 0.08, 0.48) + 's'); x.target.classList.add('is-in'); io.unobserve(x.target); });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (e) { io.observe(e); });
+  })();
 
   // ---------- full standings ----------
   // Board Pages (/champion-board/p1..pN): line 1 of p1 is "pages=N"; each row is rank|name|coin|impacts.
@@ -89,9 +114,9 @@
   var IDX = {};
   all('#cbIndex .w-dyn-item').forEach(function (it) {
     var r = it.querySelector('[data-i="rank"]'), im = it.querySelector('img'), tm = it.querySelector('[data-i="team"]');
-    if (r) IDX[r.textContent.trim()] = { src: im && !im.classList.contains('w-dyn-bind-empty') ? (im.currentSrc || im.src) : '', team: tm ? tm.textContent.trim() : '' };
+    if (r) IDX[r.textContent.trim()] = { src: im && !im.classList.contains('w-dyn-bind-empty') && !isOpenSeat(im.getAttribute('src')) ? (im.currentSrc || im.src) : '', team: tm ? tm.textContent.trim() : '' };
   });
-  var OPEN_SEAT = (document.querySelector('.cb-plaque-photo img') || {}).src || '';
+  var OPEN_SEAT = PH;
   function boardPage(n) {
     return fetch('/champion-board/p' + n, { credentials: 'same-origin' }).then(function (r) { if (!r.ok) throw r.status; return r.text(); }).then(function (h) {
       var el = new DOMParser().parseFromString(h, 'text/html').querySelector('[data-board]');
@@ -130,7 +155,7 @@
     pin.hidden = !mine;
     if (mine) pin.innerHTML = '<div class="cb-row-gap">· · ·</div>' + row(mine, true).replace('<li', '<div').replace(/<\/li>$/, '</div>');
   }
-  function centerRow(r) { list.scrollTop += r.getBoundingClientRect().top - list.getBoundingClientRect().top - (list.clientHeight - r.offsetHeight) / 2; }
+  function centerRow(r) { list.scrollTop += r.getBoundingClientRect().top - list.getBoundingClientRect().top - Math.min(list.clientHeight * 0.3, 240); }
   function showMe() { if (search) search.value = ''; render(''); var r = me && list.querySelector('[data-rank="' + me.rank + '"]'); if (r) centerRow(r); }
   function setOpen(open) {
     full.hidden = !open;
@@ -141,10 +166,30 @@
   function openFull() { setOpen(true); list.innerHTML = ALL ? list.innerHTML : '<li class="cb-row-note">Loading the board&hellip;</li>'; return loadBoard().then(function () { if (me) showMe(); else render(search ? search.value : ''); }); }
   setOpen(false);
   fullBtn.setAttribute('data-own', '');
-  fullBtn.addEventListener('click', function (e) { e.preventDefault(); if (isOpen()) { setOpen(false); go('board'); return; } openFull().then(function () { go(full); }); });
+  // closing keeps the button where it was on screen; opening jumps to the top of the table
+  fullBtn.addEventListener('click', function (e) { e.preventDefault(); if (isOpen()) { var t0 = fullBtn.getBoundingClientRect().top; setOpen(false); scrollBy(0, fullBtn.getBoundingClientRect().top - t0); return; } openFull().then(function () { go(full); }); });
   if (search) { var st0; search.addEventListener('input', function () { clearTimeout(st0); st0 = setTimeout(function () { render(search.value); }, 120); }); }
   $('fullMe').setAttribute('data-own', '');
-  $('fullMe').addEventListener('click', function (e) { e.preventDefault(); if (!me) { go('link'); return; } openFull().then(function () { go(full); }); });
+  // Show my spot: the table is already open (the button lives in it), so the page stays put; the list scrolls to your row and it flashes
+  $('fullMe').addEventListener('click', function (e) {
+    e.preventDefault();
+    if (!me) { go('link'); return; }
+    loadBoard().then(function () {
+      if (search) search.value = '';
+      render('');
+      var r = list.querySelector('[data-rank="' + me.rank + '"]') || pin.querySelector('.cb-row');
+      if (!r) return;
+      if (list.contains(r)) {
+        // put your row in the part of the list that is on screen
+        var lt = list.getBoundingClientRect().top, rh = r.offsetHeight;
+        var want = Math.max(lt + 8, Math.min(lt + list.clientHeight * 0.3, innerHeight - rh - 120));
+        list.scrollTop += r.getBoundingClientRect().top - want;
+      }
+      var b = r.getBoundingClientRect();
+      if (b.bottom > innerHeight - 24) scrollBy(0, b.bottom - innerHeight + 96); else if (b.top < 24) scrollBy(0, b.top - 96);
+      r.classList.remove('is-flash'); void r.offsetWidth; r.classList.add('is-flash');
+    });
+  });
 
   // Coin counts ("# here now") from the full board
   loadBoard().then(function (rows) {
@@ -239,7 +284,7 @@
     me = { rank: rank, imp: imp };
     $('stChipName').textContent = nm;
     var ci = $('stChipImg') || $('stchipimg'); // Webflow lowercases ids set on images
-    if (ci && f.photo) { ci.src = f.photo; ci.removeAttribute('srcset'); ci.alt = nm; ci.style.display = ''; } else if (ci) ci.style.display = 'none';
+    if (ci && f.photo && !isOpenSeat(f.photo)) { ci.src = f.photo; ci.removeAttribute('srcset'); ci.alt = nm; ci.style.display = ''; } else if (ci) { ci.src = PH; ci.removeAttribute('srcset'); ci.style.display = ''; }
     st('rank').textContent = rank;
     st('move').textContent = move > 0 ? '▲ ' + move : 'Holding';
     st('impacts').textContent = imp;
