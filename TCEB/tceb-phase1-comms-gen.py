@@ -41,6 +41,7 @@ ART = {
  "loveform": "<path d='M4 4h96l16 16v136H4z' fill='#fff' stroke='#1f5fa8' stroke-width='3'/><path d='M100 4v16h16' fill='#e3eefb' stroke='#1f5fa8' stroke-width='3'/><rect x='14' y='16' width='70' height='6' rx='2' fill='#1f5fa8'/><rect x='14' y='30' width='60' height='5' rx='2' fill='#1f5fa8'/><rect x='14' y='44' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='50' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='14' y='64' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='70' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='14' y='84' width='40' height='3' rx='1.5' fill='#bbb'/><rect x='14' y='90' width='92' height='10' rx='2' fill='none' stroke='#bbb' stroke-width='1.5'/><rect x='20' y='132' width='80' height='16' rx='3' fill='#1f5fa8'/>" + LIVE,
 }
 ART["salespagelive"] = ART["salespage"] + LIVE
+ART["blank"] = ""   # invisible filler: keeps every day in a row the same height so the email line stays straight
 ART["spiffylive"] = ART["loveform"].replace("#1f5fa8", "#222").replace("#e3eefb", "#ddd").replace(LIVE, "") + CART + LIVE
 ART["pumpkin"] = ("<path d='M50 22c0-9 5-16 12-19' stroke='#4d6b1f' stroke-width='7' fill='none'/>"
     "<ellipse cx='28' cy='58' rx='25' ry='32' fill='#d9661a'/><ellipse cx='72' cy='58' rx='25' ry='32' fill='#d9661a'/>"
@@ -87,23 +88,46 @@ REST = {"c24"}
 DSHORT = {c[0]: c[2].replace("Oct ", "10/").replace("Nov ", "11/") for c in cols}
 DFULL = {c[0]: f"{c[1]} {DSHORT[c[0]]}" for c in cols}
 
-# rows: id, prefix, title, open col, open extras, closing extras, callout, track fill, track stroke
+# rows = the ACTUAL sends in the TCEB doc, tab "DB EMAIL COMMS" (docs.google.com/document/d/15628lGSNXqxl2xQh4pL2uDGvO1i7xhiTiUNM2asodcE)
+# cells: col -> [(kind, badge, label)]; first item is the day's main send. "merge" = list folds into the full-database sends.
 BIG = {"B": "BMC45<br/>ATTENDEES", "E": "WAVE&nbsp;1<br/>ELITES", "A": "WAVE&nbsp;2<br/>BMC&nbsp;ALUMNI",
-       "M": "WAVE&nbsp;3<br/>MEMBERS", "D": "WAVE&nbsp;4<br/>FULL<br/>DATABASE"}
+       "L": "WAVE&nbsp;2<br/>DHLLC<br/>ALUMNI", "R": "WAVE&nbsp;3<br/>DARREN<br/>DAILY", "D": "WAVE&nbsp;4<br/>FULL<br/>DATABASE"}
 COLOR = {"B": "#7b2d8e"}
 SPIFFY_URL = "https://secure.darrenhardy.com/checkout/bmc45-love-form"
 PAGE_URL = {"B": "https://www.hardybmc.com/love",
-            "E": None, "A": None, "M": None, "D": None}   # pre-print /preorder: fill in when live
+            "D": "https://www.thecompoundeffect.com/pre-print"}
 rows = [
- ("E","EL","WAVE 1 · ELITES (not at BMC45)","c22",["sms","vm"],["sms","vm"],"Elite","#fff8e1","#c9a227"),
- ("A","AL","WAVE 2 · BMC ALUMNI (excl. BMC45 attendees)","c23",["sms"],["sms"],"Alumni","#e8f1fc","#1f5fa8"),
- ("M","MB","WAVE 3 · MEMBERS: RIV · HJ · IPL · JST · eFP + HARDY CLUB","c26",["sms","hc"],["sms","hc"],"Member","#e6f4f1","#00796b"),
- ("D","DB","WAVE 4 · FULL DATABASE + DARRENDAILY SUBSCRIBERS","c27",["social","dd","ddod"],["sms","ddod","social"],"Public","#fdeeee","#b00020"),
+ ("E", "+ A-Team<br/>not BMC45 / BMC44", "#fff8e1", "#c9a227", {
+   "c22": [("email", "open", "EL-1 · 7am<br/>ELITE invitation"), ("sms", None, "SMS · 1pm")],
+   "c23": [("email", None, "EL-2 · 1pm<br/>bump: Fwd")],
+   "c28": "merge"}),
+ ("A", "not BMC45 / BMC44", "#e8f1fc", "#1f5fa8", {
+   "c23": [("email", "open", "AL-1 · 7am<br/>Alumni invitation"), ("sms", None, "SMS · 1pm")],
+   "c26": [("email", None, "AL-2 · 1pm<br/>bump: Fwd")],
+   "c27": "merge"}),
+ ("L", "program + DHTV alumni", "#eef0fb", "#3f51b5", {
+   "c23": [("email", "open", "DA-1 · 7am<br/>personal invitation"), ("sms", None, "SMS · 1pm<br/>DHTV alumni")],
+   "c26": [("email", None, "DA-2 · 7am<br/>bump: Fwd")],
+   "c27": "merge"}),
+ ("R", "active subscribers<br/>from DarrenDaily@", "#fff6d8", "#b8860b", {
+   "c25": [("email", "open", "DD-1 · 7am<br/>heads up: tomorrow")],
+   "c26": [("dd", None, "DarrenDaily episode<br/>announcement")],
+   "c27": [("email", None, "DD-2 · 7am<br/>Your name. In my book.")],
+   "c28": "merge"}),
+ ("D", "+ A-Team", "#fdeeee", "#b00020", {
+   "c26": [("email", "open", "DB-1 · 7am<br/>personal invitation"), ("sms", None, "SMS · 1pm")],
+   "c27": [("email", None, "DB-2 · 7am · bump<br/>+ BMC + DHLLC alumni")],
+   "c28": [("email", None, "DB-3 · 7am<br/>+ ELITE + DarrenDaily<br/><b>everyone from here</b>")],
+   "c29": [("email", None, "DB-4 · 7am<br/>feature you in my book"), ("sms", None, "SMS · 1pm<br/>deadline tomorrow")],
+   "c30": [("email", "close", "DB-5 · 7am<br/>last day"), ("sms", None, "SMS · 1pm<br/>last chance"),
+           ("email", "close", "Closedown · 3pm PT<br/>2 hrs left"), ("email", "close", "Closedown · 4pm PT<br/>Brenda · 1 hr left")],
+   "c31": [("email", None, "Reopen-1 · 7am<br/>open through Sunday")],
+   "c01": [("email", "close", "Reopen-2 · 7am<br/>Halloween's over"), ("email", "close", "Reopen-3 · 7pm PT<br/>Brenda · closes midnight")]}),
 ]
 
 W, H = 96, 122
 L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = opening day · red envelope = closedown" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
-cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[], "cc":[]}
+cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[], "cc":[], "merge":[]}
 
 IMGS = []
 def node(nid, kind, label, badge=None, w=None, h=None):
@@ -124,6 +148,8 @@ tprev = "HL"
 for cid, _, _ in cols:
     tid = "T" + cid[1:]
     if cid == "c31": node(tid, "pumpkin", " ", w=190, h=175)
+    elif cid == "c30":
+        L.append(f'        {tid}["<b>First deadline 5pm PT</b><br/>reopened Sat through Sun"]'); cls["dst"].append(tid)
     elif cid == "c01":
         L.append(f'        {tid}["<b>Daylight saving ends</b><br/>2am · clocks fall back 1 hr"]'); cls["dst"].append(tid)
     else:
@@ -146,6 +172,61 @@ L.append(f"        {prev} ~~~~~ HP")
 L.append("    end")
 L.append("")
 links_out = []
+
+GRID = []
+for rid, sub, fill, stroke, cells in rows:
+    mark()
+    COLOR[rid] = stroke
+    L.append(f'    subgraph T_{rid} [" "]')
+    L.append('        direction LR')
+    L.append(f'        {rid}L["<b>{BIG[rid]}</b><br/><small><small>{sub}</small></small>"]')
+    links = []
+    prev = rid+"L"; started = False; merged = False; xi = 0
+    depth = max(len(c) for c in cells.values() if c != "merge")
+    lanes = [None] * depth
+    for cid,_,_ in cols:
+        nid = f"{rid}_{cid}"
+        gid = f"{rid}{cid[1:]}"
+        GRID.append(gid)
+        L.append(f'        subgraph {gid} [" "]')
+        cell = cells.get(cid)
+        if cell and not started: started = True; first = True
+        else: first = False
+        arrow = started and not merged and not first and not prev.endswith("L")
+        items = []
+        if cell == "merge":
+            L.append(f'        {nid}["joins the<br/><b>FULL DATABASE</b><br/>sends from here"]'); cls["merge"].append(nid)
+        elif cell:
+            (k, b, lab), items = cell[0], cell[1:]
+            node(nid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
+        elif started and not merged and cid in REST:
+            L.append(f'        {nid}["no send"]'); cls["rest"].append(nid)
+        else:
+            L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
+        # other sends that day stack in the same column; the main email is defined last so it sits on top
+        # plain line through empty days, arrowhead only into a real send
+        links.append(f"    {prev} {('-->' if cell else '---') if arrow else '~~~'} {nid}")
+        # each extra send sits in a lane chained from the same lane the day before, so the rows stay straight
+        if cell and cell != "merge":
+            items = items + [("blank", None, " ")] * (depth - len(cell))
+        for j, (k, b, lab) in enumerate(items):
+            xi += 1; xid = f"{rid}x{xi}"
+            node(xid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
+            links.append(f"    {lanes[j] or prev} ~~~ {xid}")
+            lanes[j] = xid
+        L.append("        end")
+        if cell == "merge": merged = True
+        prev = nid
+    if rid in PAGE_URL:
+        pid = rid+"P"
+        node(pid, "salespagelive", "<b>Pre-print page</b><br/>/pre-print<br/>every email + SMS", w=212, h=269)
+        links.append(f'    click {pid} href "{PAGE_URL[rid]}" _blank')
+        links.append(f"    {prev} ~~~~~ {pid}")
+    L.append("    end")
+    L.extend(links)
+    L.append(f"    HL ~~~ {rid}_c21")
+    L.append(f"    style T_{rid} fill:{fill},stroke:{stroke},stroke-width:2px,color:{stroke}")
+    L.append("")
 
 mark()
 # BMC45 track
@@ -175,78 +256,6 @@ L.append("    end")
 L.append("    HL ~~~ B_c21")
 L.append("")
 
-MAIN_FIRST = True
-GRID = []
-for rid, pfx, title, opencol, openx, closex, callout, fill, stroke in rows:
-    mark()
-    COLOR[rid] = stroke
-    sub = {"E": "not at BMC45", "A": "excl. BMC45<br/>attendees", "M": "RIV · HJ · IPL<br/>JST · eFP<br/>+ Hardy Club", "D": "+ DarrenDaily<br/>subscribers"}[rid]
-    L.append(f'    subgraph T_{rid} [" "]')
-    L.append('        direction LR')
-    L.append(f'        {rid}L["<b>{BIG[rid]}</b><br/><small><small>{sub}</small></small>"]')
-    links = []
-    prev = rid+"L"; n = 0; started = False; xi = 0; lane = {}; closing = []; tail = None
-    for cid,_,_ in cols:
-        nid = f"{rid}_{cid}"
-        gid = f"{rid}{cid[1:]}"
-        GRID.append(gid)
-        L.append(f'        subgraph {gid} [" "]')
-        if cid == opencol: started = True
-        extras = []
-        newtail = None
-        snap = dict(lane)
-        mark_main = len(L)
-        if not started:
-            L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
-        elif cid in REST:
-            L.append(f'        {nid}["{"no email" if rid == "D" else "no send"}"]'); cls["rest"].append(nid)
-        elif cid == opencol:
-            n += 1; node(nid, "email", f"{pfx}-{n}<br/>open", OPEN); extras = [(k, None, "") for k in openx]
-        elif cid == "c30":
-            n += 1; node(nid, "email", f"{pfx}-{n}<br/>48 hrs left", CLOSE)
-        elif cid == "c31":
-            n += 1; node(nid, "email", f"{pfx}-{n}<br/>24 hrs left", CLOSE)
-        elif cid == "c01":
-            n += 1; node(nid, "email", f"{pfx}-{n}<br/>AM last day", CLOSE)
-            n += 1; extras = [("email", CLOSE, f"{pfx}-{n}<br/>PM final hours")] + [(k, None, "") for k in closex]
-        else:
-            n += 1; node(nid, "email", f"{pfx}-{n}")
-        if rid == "M" and cid == "c01":
-            extras = extras + [("hc", None, "Hardy Club post<br/><b>SUNDAY SERMON</b>")]
-        if rid == "D" and started and cid not in ("c01", opencol):
-            extras = extras + [("social", None, "")] + ([] if cid in ("c24", "c25", "c31") else [("dd", None, "")])  # DarrenDaily Mon-Fri only
-        main_lines = L[mark_main:]; del L[mark_main:]
-        main_link = f"    {prev} {'-->' if started and cid != opencol and not prev.endswith('L') else '~~~'} {nid}"
-        if not MAIN_FIRST: links.append(main_link)
-        for kind, badge, lab in extras:
-            xi += 1; xid = f"{rid}x{xi}"
-            node(xid, kind, lab or NAME[kind], badge)
-            if cid == "c01": closing.append(xid)
-            key = kind + ("2" if lab else "")
-            if kind == "email": src = prev
-            elif "SERMON" in lab: src = snap.get("hc", prev)
-            else: src = snap.get(key) or tail or prev
-            links.append(f"    {src} ~~~ {xid}")
-            lane[key] = xid
-            if kind != "email": newtail = xid
-        if MAIN_FIRST: links.append(main_link)
-        # emails are defined after the other channels so Mermaid stacks them on top
-        L.extend(main_lines)
-        L.append("        end")
-        tail = newtail
-        prev = nid
-    pid = rid+"P"
-    node(pid, "salespagelive" if PAGE_URL[rid] else "salespage", f"<b>Pre-print page</b><br/>/preorder<br/>+ {callout} callout", w=212, h=269)
-    if PAGE_URL[rid]: links.append(f'    click {pid} href "{PAGE_URL[rid]}" _blank')
-    # one visible arrow; invisible ties from every closing-day item centre the page on the track
-    links.append(f"    {prev} ~~~~~ {pid}")
-    for c in closing: links.append(f"    {c} ~~~~~ {pid}")
-    L.append("    end")
-    L.extend(links)
-    L.append(f"    HL ~~~ {rid}_c21")
-    L.append(f"    style T_{rid} fill:{fill},stroke:{stroke},stroke-width:2px,color:{stroke}")
-    L.append("")
-
 mark()
 # legend
 if INLINE:
@@ -255,7 +264,7 @@ if INLINE:
 else:
     L.append('    subgraph KEY ["KEY"]')
     L.append('        direction LR')
-    keys = ["email","video","sms","vm","dd","ddod","social","hc","stage","salespage"]
+    keys = ["email","sms","dd","stage","salespage"]
     prev = None
     for k in keys:
         kid = "K_"+k
@@ -291,6 +300,7 @@ L += [
  "    classDef rest fill:#eee,color:#888,stroke:#ccc,stroke-dasharray:4 3",
  "    classDef sp fill:none,stroke:none,color:transparent",
  "    classDef gridc fill:none,stroke:none",
+ "    classDef merge fill:#fff,stroke:#b00020,stroke-width:2px,color:#b00020,font-size:20px",
  "    classDef dst fill:#fff,stroke:#7b2d8e,stroke-dasharray:4 3,color:#333,font-size:22px",
  "    linkStyle default stroke:#888",
 ]
