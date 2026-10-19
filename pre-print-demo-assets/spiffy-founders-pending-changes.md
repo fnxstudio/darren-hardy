@@ -1,7 +1,11 @@
 # Founders carts: changes queued for the next Spiffy paste
 
-Not installed yet. The user is collecting more edits; when asked, turn this list into one paste
-(code box and/or Custom CSS box) for all four Founders carts, then check all four after install.
+BUILT 2026-10-19 into spiffy-founders-carts-paste.txt (code box only; the Custom CSS box is unchanged) and
+tested on all four live carts with the new code swapped in (scratchpad sweep/newpaste.mjs): totals unchanged,
+lines right, no errors, desktop + phone. Handed to the user for Sara. NEXT: after Sara/Lesli install,
+diff each cart's stored <div id="customCode"> against the file and re-run the four-cart check.
+Sara's -1000-off cart holds the sponsorship twice (old checkout item 81223 + the new auto-selected option);
+the code shows one line either way, but she can remove the old one.
 Mocks: `tce-mocks/pif-before-after.png` (10-book) and `tce-mocks/pif-before-after-100.png` (100-book).
 
 Sara added "REARDEN SPONSORSHIP" ($0, checkout item 81223) to the -1000-off cart only (2026-10-19).

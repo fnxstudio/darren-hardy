@@ -28,13 +28,66 @@ function tcebAfterMount(fn) {
 /* 1. Order summary.
       a. Show the total a second time, right above the Join button, after address, shipping and tax. Spiffy
          already draws this copy (.order-summary-mobile) and shows it on phones; this shows it on desktop too.
-      b. Prepay: hide the code chip and the Discount row, so the PIF summary reads like the monthly carts
-         (the credit is still applied; only the display changes). */
+      b. Hide the code chip, and Spiffy's own "Discount" row (it sits apart from the items, under a divider).
+      c. Add two lines to Order Details, styled like the item lines above them, from Spiffy's own order numbers:
+         - the Rearden Sponsorship: Spiffy leaves free (zero-price) items out of Order Details, so it is added
+           here as "REARDEN SPONSORSHIP (5,000 dollar value)  INCLUDED" whenever that item is in the order;
+         - the credit, when a code is applied: "10 Book Credit (-200)" for 200OFF, "100 Book Credit (-1,000)"
+           for 1000OFF, "Credit (-amount)" for any other code (shown with a dollar sign). The amount is Spiffy's own discount, so it always
+           matches the total. Only the display changes. Redrawn whenever Spiffy redraws the summary. */
 (function () {
   var css = document.createElement('style');
   css.textContent = '.order-summary-mobile{display:flex!important}' +
-    '.coupon-code,.line--discount{display:none!important}';
+    '.coupon-code,.line--discount{display:none!important}' +
+    '.tceb-line .line-item__group_price{white-space:nowrap}' +
+    '.tceb-inc{font-size:.8em;letter-spacing:.08em}';
   document.head.appendChild(css);
+
+  var BOOKS = { '200OFF': '10', '1000OFF': '100' };   // code -> books in the pre-print order
+  function money(cents) {
+    var d = cents / 100;
+    return '\u0024' + d.toLocaleString('en-US', { minimumFractionDigits: d % 1 ? 2 : 0, maximumFractionDigits: 2 });
+  }
+  function lines() {
+    var ck = null;
+    try { ck = window['\u0024nuxt'].$store.state.checkout; } catch (e) {}
+    if (!ck || !ck.summary) return [];
+    var out = [], s = ck.summary;
+    var rearden = (s.line_items || []).some(function (li) {   // one line, even if the cart holds it twice
+      return /rearden/i.test((li.pretty_name || '') + ' ' + (li.name || '')) && !li.total;
+    });
+    if (rearden) out.push(['REARDEN SPONSORSHIP (\u00245,000 value)', '<span class="tceb-inc">INCLUDED</span>']);
+    if (s.discount_amount > 0) {
+      var books = BOOKS[String((ck.promo && ck.promo.code) || '').toUpperCase()];
+      out.push([books ? books + ' Book Credit' : 'Credit', '(-' + money(s.discount_amount) + ')']);
+    }
+    return out;
+  }
+  function draw() {
+    var want = lines(), key = JSON.stringify(want);
+    document.querySelectorAll('.order-summary__slide').forEach(function (list) {
+      var mine = list.querySelectorAll('.tceb-line');
+      if (list.getAttribute('data-tceb') === key && mine.length === want.length &&
+          (!mine.length || list.lastElementChild === mine[mine.length - 1])) return;   // already right
+      mine.forEach(function (el) { el.remove(); });
+      var proto = list.querySelector('.line-item__group');
+      want.forEach(function (w) {
+        var el = document.createElement('div');
+        if (proto) for (var i = 0; i < proto.attributes.length; i++) {
+          if (/^data-v-/.test(proto.attributes[i].name)) el.setAttribute(proto.attributes[i].name, '');
+        }
+        el.className = 'list-group-item row no-gutters line-item__group tceb-line';
+        el.innerHTML = '<div class="col"><p class="line-item__group_name">' + w[0] + '</p></div>' +
+          '<div class="text-right col-auto"><p class="line-item__group_price">' + w[1] + '</p></div>';
+        list.appendChild(el);
+      });
+      list.setAttribute('data-tceb', key);
+    });
+  }
+  tcebAfterMount(function () {
+    draw();
+    new MutationObserver(draw).observe(document.documentElement, { childList: true, subtree: true });
+  });
 })();
 
 /* 2. Spiffy's Quantity block can't go to 0, so the checkout keeps the "Extra Team Seats" dropdown (0 to 10) as the
@@ -106,10 +159,10 @@ function tcebAfterMount(fn) {
 })();
 
 /* 3. VIP and Team sections. Finds the section holding the VIP checkbox and the one holding the Extra Team Seats
-      dropdown and builds the rest of each box: corner tab, headline, grey line, bullets, price on the right
+      dropdown and builds the rest of each box: red corner tab (the benefit or the saving, the biggest thing in the box), headline, grey line, bullets, price on the right
       (prepay prices on the -pif cart), and a "Get more details from Darren" link that plays Darren's video inline.
       Also styles the action rows (champagne tint, 44px checkbox), relabels the checkbox "Add VIP to my seat" and
-      takes the apostrophe out of "FOUNDER'S" on the Join button. If the script doesn't run, the plain Spiffy
+      takes the apostrophe out of "FOUNDER'S" on the Join button, and hides the Rearden Sponsorship checkbox. If the script doesn't run, the plain Spiffy
       checkbox and dropdown show instead and still work. */
 (function () {
   var PIF = /-pif\//.test(location.pathname + '/');   // the prepay cart's address ends in -pif
@@ -119,14 +172,14 @@ function tcebAfterMount(fn) {
       price: PIF ? ['Only \u00241,495'] : ['Only \u0024115 today', '+\u0024115 for 12 months'],
       head: 'YES! Make me a VIP',
       sub: 'Private additional session · April 28, 2027',
-      bullets: ['Connect with your fellow VIP Founders before the event begins',
+      bullets: ['Connect with fellow VIP Founders before the event',
         'Your own VIP virtual space throughout the event',
         'Two weeks of recording access instead of 96 hours'],
       video: '1236615000'
     },
     team: {
       tab: 'Save \u00246,000 per seat',
-      price: PIF ? ['Only \u00243,995/ea'] : ['Only \u0024308/ea today', '+\u0024308 for 12 months'],
+      price: PIF ? ['Only \u00243,995/ea'] : ['Only \u0024308/ea today', '+\u0024308/ea for 12 months'],
       head: 'YES! I want to bring my leaders',
       sub: 'General Admission seats for your key leaders',
       bullets: ['They see the vision and share your conviction firsthand',
@@ -144,19 +197,22 @@ function tcebAfterMount(fn) {
   var css = document.createElement('style');
   css.textContent =
     '.tceb-box .card{position:relative;overflow:hidden}' +
-    '.tceb-tab{position:absolute;top:0;right:0;z-index:1;padding:7px 12px;background:#e1132e;color:#fff;font-size:11px;font-weight:800;letter-spacing:.1em;line-height:1.2;text-transform:uppercase}' +
+    '.tceb-tab{position:absolute;top:0;right:0;z-index:1;padding:12px 16px;background:#e1132e;color:#fff;font-size:17px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase}' +
+    '.tceb-box .section__inner{padding-top:66px!important}' +
     '.tceb-content{position:relative;color:#000}' +
     '.tceb-head{margin:0 0 10px;padding-right:170px;font-family:"Bebas Neue",sans-serif;font-size:30px;font-weight:400;line-height:.95;letter-spacing:.02em;text-transform:uppercase}' +
     '.tceb-sub{margin:0 0 10px;padding-right:170px;color:#7a7a7a;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}' +
     '.tceb-list{margin:0;padding-left:18px;font-size:14px;line-height:1.6}' +
     '.tceb-more{padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}' +
-    '.tceb-price{position:absolute;top:20px;right:0;text-align:right}' +
-    '.tceb-price b{display:block;font-size:16px;font-weight:700;line-height:1.25}' +
+    '.tceb-price{position:absolute;top:-9px;right:0;text-align:right}' +
+    '.tceb-price b{display:block;font-size:16px;font-weight:400;line-height:1.25}' +
     '.tceb-price small{display:block;margin-top:2px;color:#6e6e6e;font-size:12px}' +
     '.tceb-video{position:relative;margin-top:12px;padding-top:56.25%;background:#000}' +
     '.tceb-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}' +
     '.tceb-close{position:absolute;top:8px;right:8px;z-index:2;display:flex;align-items:center;gap:6px;padding:6px 10px;border:0;border-radius:2px;background:rgba(0,0,0,.75);color:#fff;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}' +
     '.tceb-vip .layout-checkboxes1,.tceb-team .tceb-team-row{margin-top:16px;padding:14px 16px;border-radius:2px;background:#f5eedf}' +
+    '.tceb-vip .layout-checkboxes1{padding-top:15px;padding-bottom:15px;margin:16px 10px 20px;max-width:calc(100% - 20px)}' +
+    '.tceb-vip .layout-checkboxes1 .form-group,.tceb-vip .layout-checkboxes1 .custom-control{margin-bottom:0!important}' +
     '.tceb-vip .custom-control{padding-left:0}' +
     '.tceb-vip .custom-control-label{position:relative;display:flex;align-items:center;min-height:44px;padding-left:58px;font-size:17px;font-weight:700;cursor:pointer}' +
     '.tceb-vip .custom-control-label::before,.tceb-vip .custom-control-label::after{top:0!important;left:0!important;width:44px!important;height:44px!important;margin-top:0!important}' +
@@ -164,8 +220,9 @@ function tcebAfterMount(fn) {
     '.tceb-vip .custom-control-input:checked~.custom-control-label::before{border-color:#e1132e!important;background-color:#e1132e!important}' +
     '.tceb-vip .custom-control-label::after{background-size:22px}' +
     '.tceb-vip .option-price{display:none!important}' +
-    '@media (max-width:600px){.tceb-box .section__inner{padding-top:40px}.tceb-head,.tceb-sub{padding-right:0}' +
-    '.tceb-price{position:static;margin:0 0 12px}}';
+    '.tceb-hide{display:none!important}' +
+    '@media (max-width:600px){.tceb-box .section__inner{padding-top:60px!important}.tceb-head,.tceb-sub{padding-right:0}' +
+    '.tceb-price{position:static;margin:0 0 12px}.tceb-vip .layout-checkboxes1{margin-bottom:13px}}';
   document.head.appendChild(css);
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
@@ -200,7 +257,7 @@ function tcebAfterMount(fn) {
       var v = document.createElement('div');
       v.className = 'tceb-video';
       v.innerHTML = '<button type="button" class="tceb-close" aria-label="Close the video">Close <span aria-hidden="true">&times;</span></button>' +
-        '<iframe src="https://player.vimeo.com/video/' + c.video + '?autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Darren on the ' + (kind === 'vip' ? 'VIP upgrade' : 'team seats') + '"></iframe>';
+        '<iframe src="https://player.vimeo.com/video/' + c.video + '?autoplay=1&title=0&byline=0&portrait=0&color=e02826&colors=000000,e02826,ffffff,000000&cc=0&pip=0&transcript=0&quality_selector=0&airplay=0&chromecast=0&speed=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Darren on the ' + (kind === 'vip' ? 'VIP upgrade' : 'team seats') + '"></iframe>';
       v.querySelector('.tceb-close').addEventListener('click', close);
       box.appendChild(v);
       more.textContent = 'Close the video \u00d7';
@@ -229,6 +286,13 @@ function tcebAfterMount(fn) {
       var cbLabel = b.querySelector('input[type="checkbox"] ~ label');
       if (cbLabel && /vip/i.test(cbLabel.textContent)) { tag(b, 'vip'); relabel(cbLabel); }
       if (b.querySelector('select') && /extra team seats/i.test(b.textContent)) tag(b, 'team');
+      // The Rearden Sponsorship is always included: hide its ticked checkbox so it can't be unticked
+      // (it still shows in Order Details, see part 1)
+      if (cbLabel && /rearden/i.test(cbLabel.textContent)) {
+        var sec = b.closest('.section');
+        var hide = sec && sec.querySelectorAll('[id^="block-"]').length === 1 ? sec : b;
+        if (!hide.classList.contains('tceb-hide')) hide.classList.add('tceb-hide');
+      }
     });
     // Join button: FOUNDER'S -> FOUNDERS
     document.querySelectorAll('button, .btn').forEach(function (btn) {
