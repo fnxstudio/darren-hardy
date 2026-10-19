@@ -4,7 +4,13 @@ Not installed yet. The user is collecting more edits; when asked, turn this list
 (code box and/or Custom CSS box) for all four Founders carts, then check all four after install.
 Mocks: `tce-mocks/pif-before-after.png` (10-book) and `tce-mocks/pif-before-after-100.png` (100-book).
 
-Waiting on Sara: a $0, always-selected product option "REARDEN SPONSORSHIP ($5,000 value)" on the
+Sara added "REARDEN SPONSORSHIP" ($0, checkout item 81223) to the -1000-off cart only (2026-10-19).
+It IS in Spiffy's summary data ($nuxt.$store.state.checkout.summary.line_items) but Spiffy does not draw $0
+lines in Order Details. Proven not our code: same result with our custom code stripped in flight
+(scratchpad sweep/rearden.mjs). So item 5 must ADD the visible line ourselves from that store data
+(name + INCLUDED), re-drawn whenever the summary redraws, and only when the item is in line_items.
+It doesn't appear in the form, so item 6 may not be needed; re-check once it's on all four carts.
+Earlier note: a $0, always-selected product option "REARDEN SPONSORSHIP ($5,000 value)" on the
 Founders carts. Once it's on one cart, read the live cart to get its real block id and summary markup
 before writing the code. Asked her not to add her own hiding code.
 
@@ -26,9 +32,9 @@ before writing the code. Asked her not to add her own hiding code.
    inside `tcebAfterMount` (wait for Spiffy's app to settle).
 
 ## VIP / Team boxes (all four carts)
-8. **Bigger red callout.** The corner tab becomes a full-width red band across the top of each box:
-   18px, letter-spacing .08em, padding 11px 16px, centred; box top padding 64px so the headline clears it
-   (check the 600px rule, which sets 40px). Mock: `tce-mocks/founders-boxes-banner-tab.jpg` (live cart with
+8. **Bigger red callout, still a corner tab** (user: NOT full width). Tab 15px, letter-spacing .08em,
+   padding 9px 14px (was 11px / 7px 12px), so it's 36px tall; box top padding 56px so the headline clears it
+   (check the 600px rule, which sets 40px). Mock: `tce-mocks/founders-boxes-corner-tab.jpg` (live cart with
    the CSS injected, not saved).
 9. **VIP row spacing = Team row.** Zero the inner margins (`.form-group` 10px, `.custom-control` 5px) in
    `.tceb-vip .layout-checkboxes1`, give it padding 15px 16px and margin-bottom 20px. Measured with the
