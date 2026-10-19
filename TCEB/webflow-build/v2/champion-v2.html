@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Champion Board v2 (local)</title>
+<link rel="stylesheet" href="https://use.typekit.net/qhq4rzk.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="cb.css">
+<link rel="stylesheet" href="cb-head.css">
+<style>body{margin:0}</style>
+</head>
+<body>
+<!-- LOCAL PREVIEW of /champion-v2. In Webflow every block below is native; blocks marked data-cms are Collection Lists
+     bound to Champions (6ac88291653ad8734d1bd847). Locally, demo.js repeats their first item so the layout can be checked. -->
+<div class="cb-page">
+
+  <!-- NAV -->
+  <div class="cb-nav-bar"><div class="cb-wrap"><div class="cb-nav">
+    <a class="cb-brand" href="#top"><img class="cb-brand-mark" src="assets/web-darren-hardy-mark.webp" alt="Darren Hardy"><span class="cb-brand-name">THE CHAMPION BOARD</span></a>
+    <a class="cb-btn is-nav" id="navCta" href="#link">Get my link <span>&rarr;</span></a>
+  </div></div></div>
+
+  <!-- HERO -->
+  <div class="cb-hero" id="top"><div class="cb-wrap"><div class="cb-hero-grid">
+    <div class="cb-hero-copy">
+      <div class="cb-label">Founders Event · The Champion Board</div>
+      <h1 class="cb-hero-title"><span class="cb-hero-setup">Who will<br>be the first</span>to rise<span class="cb-dot">?</span></h1>
+      <p class="cb-hero-lede">Bring a leader to the Founders Event and your name goes on the board. <span class="cb-strong">Every leader after that compounds your impact and moves you up.</span></p>
+      <div class="cb-btns"><a class="cb-btn" href="#link">Get my link <span>&rarr;</span></a><a class="cb-btn is-line" href="#win">How to win <span>&darr;</span></a></div>
+    </div>
+    <div class="cb-deck-fit" id="deckFit"><div class="cb-deck" id="deck">
+      <!-- three lists: rank 2, 3, 1 (sort rank asc, limit 1, offset 1 / 2 / 0) -->
+      <div class="cb-deck-slot is-2 w-dyn-list" data-cms="offset1"><div class="w-dyn-items"><div class="w-dyn-item">
+        <div class="cb-plaque is-silver"><div class="cb-plaque-photo"><img class="cb-face" src="assets/open-seat.webp" alt="Your Name Here"><div class="cb-plaque-rank is-silver">2</div></div>
+          <div class="cb-plaque-foot"><div><div class="cb-plaque-name">Your Name Here</div><div class="cb-plaque-team">Open seat</div></div><div class="cb-plaque-score"><div class="cb-plaque-num">0</div><div class="cb-unit">IMPACTS</div></div></div></div>
+      </div></div></div>
+      <div class="cb-deck-slot is-3 w-dyn-list" data-cms="offset2"><div class="w-dyn-items"><div class="w-dyn-item">
+        <div class="cb-plaque is-copper"><div class="cb-plaque-photo"><img class="cb-face" src="assets/open-seat.webp" alt="Your Name Here"><div class="cb-plaque-rank is-copper">3</div></div>
+          <div class="cb-plaque-foot"><div><div class="cb-plaque-name">Your Name Here</div><div class="cb-plaque-team">Open seat</div></div><div class="cb-plaque-score"><div class="cb-plaque-num">0</div><div class="cb-unit">IMPACTS</div></div></div></div>
+      </div></div></div>
+      <div class="cb-deck-slot is-1 w-dyn-list" data-cms="offset0"><div class="w-dyn-items"><div class="w-dyn-item">
+        <div class="cb-plaque"><div class="cb-plaque-photo"><img class="cb-face" src="assets/open-seat.webp" alt="Your Name Here"><div class="cb-plaque-rank">1</div></div>
+          <div class="cb-plaque-foot"><div><div class="cb-plaque-name">Your Name Here</div><div class="cb-plaque-team">Open seat</div></div><div class="cb-plaque-score"><div class="cb-plaque-num">0</div><div class="cb-unit">IMPACTS</div></div></div></div>
+      </div></div></div>
+      <!-- pings: new coins this month (limit 2) and the biggest moves this week (limit 2) -->
+      <div class="cb-pings is-coins w-dyn-list" data-cms="newcoin x2"><div class="w-dyn-items"><div class="w-dyn-item" data-repeat="2">
+        <div class="cb-ping" data-ping="coin" data-coin="Platinum"><img class="cb-ping-face" src="assets/open-seat.webp" alt=""><div><div class="cb-ping-title"><span>Your Name Here</span> just went <span data-coin-text>Platinum</span></div><div class="cb-ping-meta">New coin this month</div></div></div>
+      </div></div></div>
+      <div class="cb-pings is-moves w-dyn-list" data-cms="moves x2"><div class="w-dyn-items"><div class="w-dyn-item" data-repeat="2">
+        <div class="cb-ping" data-ping="move"><img class="cb-ping-face" src="assets/open-seat.webp" alt=""><div><div class="cb-ping-title"><span>Your Name Here</span> moved to #<span>7</span></div><div class="cb-ping-meta">&#9650; <span data-move="ping">3</span> spots this week</div></div></div>
+      </div></div></div>
+    </div></div>
+  </div></div></div>
+
+  <!-- WHERE YOU STAND (signed in only) -->
+  <div class="cb-stand-band" id="stand" hidden><div class="cb-wrap">
+    <div class="cb-stand">
+      <div class="cb-stand-chip" id="stChip"><img class="cb-stand-chip-face" id="stChipImg" src="assets/open-seat.webp" alt=""><div><div class="cb-stand-chip-name" id="stChipName">Demo Member</div><div class="cb-stand-chip-sub">YOUR CHAMPION BOARD</div></div></div>
+      <div>
+        <div class="cb-stand-label">WHERE YOU STAND</div>
+        <div class="cb-stand-rankrow"><div class="cb-stand-rank"><span class="cb-stand-hash">#</span><span data-st="rank">27</span></div><div><div class="cb-stand-move" data-st="move">Holding</div><div class="cb-stand-small">THIS WEEK</div></div></div>
+      </div>
+      <div class="cb-stand-imp"><div class="cb-stand-impnum" data-st="impacts">1</div><div class="cb-stand-small">IMPACTS</div></div>
+      <div class="cb-stand-next">
+        <div class="cb-stand-say"><span data-st="next-line">Next coin <span class="cb-stand-coin" data-coin="Copper" data-st="next">Copper</span> · <span data-st="togo">1</span> to go.</span><span class="cb-stand-hint" data-st="say">One more leader to get your first coin!</span></div>
+        <div class="cb-bars">
+          <div class="cb-bar"><div class="cb-bar-track"><div class="cb-bar-fill" data-bar="Copper"></div></div><div class="cb-bar-label" data-bar-label="Copper">COPPER · 2</div></div>
+          <div class="cb-bar"><div class="cb-bar-track"><div class="cb-bar-fill is-silver" data-bar="Silver"></div></div><div class="cb-bar-label" data-bar-label="Silver">SILVER · 4</div></div>
+          <div class="cb-bar"><div class="cb-bar-track"><div class="cb-bar-fill is-gold" data-bar="Gold"></div></div><div class="cb-bar-label" data-bar-label="Gold">GOLD · 8</div></div>
+          <div class="cb-bar"><div class="cb-bar-track"><div class="cb-bar-fill is-platinum" data-bar="Platinum"></div></div><div class="cb-bar-label" data-bar-label="Platinum">PLATINUM · 16</div></div>
+        </div>
+      </div>
+      <div class="cb-stand-cta"><a class="cb-btn" href="#link">Get my link to share <span>&rarr;</span></a></div>
+    </div>
+  </div></div>
+
+  <!-- THE BOARD -->
+  <div class="cb-board" id="board"><div class="cb-wrap"><div class="cb-board-in">
+    <div class="cb-board-head"><div class="cb-label is-gold">The Champion Board</div><h2 class="cb-title is-light is-center"><span class="cb-setup is-gold">The leaders</span>other leaders follow<span class="cb-dot">.</span></h2></div>
+    <div class="cb-podium">
+      <div class="cb-podium-slot w-dyn-list" data-cms="offset1"><div class="w-dyn-items"><div class="w-dyn-item">
+        <div class="cb-plaque is-silver"><div class="cb-plaque-photo"><img class="cb-face" src="assets/open-seat.webp" alt=""><div class="cb-plaque-rank is-silver">2</div></div>
+          <div class="cb-plaque-foot"><div><div class="cb-plaque-name">Your Name Here</div><div class="cb-plaque-team">Open seat</div></div><div class="cb-plaque-score"><div class="cb-plaque-num">0</div><div class="cb-unit">IMPACTS</div></div></div></div>
+      </div></div></div>
+      <div class="cb-podium-slot is-1 w-dyn-list" data-cms="offset0"><div class="w-dyn-items"><div class="w-dyn-item">
+        <div class="cb-plaque"><div class="cb-plaque-photo"><img class="cb-face" src="assets/open-seat.webp" alt=""><div class="cb-plaque-rank is-lead">1</div></div>
+          <div class="cb-plaque-foot"><div><div class="cb-plaque-name is-lead">Your Name Here</div><div class="cb-plaque-team">Open seat</div></div><div class="cb-plaque-score"><div class="cb-plaque-num is-lead">0</div><div class="cb-unit">IMPACTS</div></div></div></div>
+      </div></div></div>
+      <div class="cb-podium-slot w-dyn-list" data-cms="offset2"><div class="w-dyn-items"><div class="w-dyn-item">
+        <div class="cb-plaque is-copper"><div class="cb-plaque-photo"><img class="cb-face" src="assets/open-seat.webp" alt=""><div class="cb-plaque-rank is-copper">3</div></div>
+          <div class="cb-plaque-foot"><div><div class="cb-plaque-name">Your Name Here</div><div class="cb-plaque-team">Open seat</div></div><div class="cb-plaque-score"><div class="cb-plaque-num">0</div><div class="cb-unit">IMPACTS</div></div></div></div>
+      </div></div></div>
+    </div>
+    <div class="cb-ranks w-dyn-list" data-cms="offset3 limit8"><div class="cb-ranks-list w-dyn-items"><div class="w-dyn-item" data-repeat="8">
+      <div class="cb-rank"><div class="cb-rank-num">4</div><img class="cb-rank-face" src="assets/open-seat.webp" alt=""><div><div class="cb-rank-name">Your Name Here</div><div class="cb-rank-team">Open seat</div></div><div class="cb-move" data-move="chip">2</div><div class="cb-rank-score"><div class="cb-rank-imp">0</div><div class="cb-rank-unit">IMPACTS</div></div></div>
+    </div></div></div>
+
+    <div class="cb-full" id="full" hidden>
+      <div class="cb-rule-row"><div class="cb-label is-gold">Full standings</div><div class="cb-rule-line"></div></div>
+      <div class="cb-table">
+        <div class="cb-table-head"><div class="cb-th">#</div><div class="cb-th"></div><div class="cb-th">CHAMPION</div><div class="cb-th is-coin">COIN</div><div class="cb-th is-right">IMPACTS</div></div>
+        <div class="cb-table-satin"></div>
+        <div class="cb-table-tools">
+          <div class="cb-search"><svg class="cb-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input class="cb-search-input" id="fullSearch" type="search" placeholder="Find a name" aria-label="Find a name" autocomplete="off"></div>
+          <a class="cb-btn is-line" id="fullMe" href="#full">Show my spot</a>
+          <div class="cb-table-count" id="fullCount"></div>
+        </div>
+        <ul class="cb-table-body" id="fullList"></ul>
+        <div id="fullPin" hidden></div>
+      </div>
+    </div>
+    <div class="cb-board-acts"><a class="cb-btn is-ghost" id="fullBtn" href="#full" aria-expanded="false">Full standings <span>&darr;</span></a><a class="cb-btn" href="#win">Climb the board <span>&rarr;</span></a></div>
+
+    <div class="cb-rewards">
+      <div class="cb-rewards-copy">
+        <div class="cb-label is-gold">What you are playing for</div>
+        <div class="cb-rewards-title">The rewards<span class="cb-dot">.</span></div>
+        <div class="cb-rewards-text"><span class="cb-rewards-strong">The top-ranked Champions at the final count</span> become eligible to win three days In the Studio. The top 5 earn a private dinner at Darren's Table.</div>
+        <div class="cb-btns"><a class="cb-btn" href="#win">Climb the board <span>&rarr;</span></a></div>
+      </div>
+      <div class="cb-reward"><div class="cb-reward-frame"><img class="cb-reward-img" src="assets/champ-dh-room-table.webp" alt="Darren Hardy laughing with Champions In the Studio" style="object-position:84% 40%"><div class="cb-reward-tag">THE MAIN PRIZE</div></div><div><div class="cb-reward-name">In the Studio</div><div class="cb-reward-meta">TOP RANKS · THREE DAYS LIVE</div></div></div>
+      <div class="cb-reward"><div class="cb-reward-frame is-silver"><img class="cb-reward-img is-table" src="assets/champ-table-dg3.webp" alt="Darren and Georgia Hardy at dinner with Champions"></div><div><div class="cb-reward-name is-small">Darren's Table</div><div class="cb-reward-meta">TOP 5 · PRIVATE DINNER</div></div></div>
+    </div>
+  </div></div></div>
+
+  <!-- HOW TO WIN -->
+  <div class="cb-section is-champagne" id="win"><div class="cb-wrap"><div class="cb-win">
+    <div class="cb-head"><h2 class="cb-title"><span class="cb-setup">How to win.</span>Every leader compounds<span class="cb-dot">.</span></h2><p class="cb-lede">Bring a leader to April and your impact compounds. Climb the coins, rise through the ranks and finish the season live with Darren.</p></div>
+    <div class="cb-tiers-fit" id="tiersFit"><div class="cb-tiers" id="tiers">
+      <div class="cb-start"><div class="cb-label is-gold">Start here</div><div class="cb-start-title">Your link</div><div class="cb-start-copy">Every leader who joins through your unique link compounds your impact.</div><div class="cb-tier-who"><a class="cb-btn" href="#link">Get my link <span>&rarr;</span></a></div></div>
+      <div class="cb-tier" data-lv="copper" role="button" tabindex="0"><div class="cb-tier-bar is-copper"><div class="cb-tier-num is-copper">2</div><div class="cb-tier-req">2 IMPACTS</div></div>
+        <div class="cb-tier-body is-copper"><div class="cb-tier-name">Copper</div><div class="cb-tier-copy">Two leaders in. Your name is on the board and climbing.</div>
+          <div class="cb-tier-who"><div class="cb-tier-faces w-dyn-list" data-slot="faces-copper" data-cms="coin=Copper limit3"><div class="w-dyn-items"><div class="w-dyn-item" data-repeat="3"><img class="cb-tier-face" src="assets/open-seat.webp" alt="Your Name Here"></div></div></div><div class="cb-tier-count"><span data-count="Copper">#</span> here now</div></div></div></div>
+      <div class="cb-tier" data-lv="silver" role="button" tabindex="0"><div class="cb-tier-bar is-silver"><div class="cb-tier-num">4</div><div class="cb-tier-req">4 IMPACTS</div></div>
+        <div class="cb-tier-body is-silver"><div class="cb-tier-name">Silver</div><div class="cb-tier-copy">Four leaders in the room because of you. Keep going.</div>
+          <div class="cb-tier-who"><div class="cb-tier-faces w-dyn-list" data-slot="faces-silver" data-cms="coin=Silver limit3"><div class="w-dyn-items"><div class="w-dyn-item" data-repeat="3"><img class="cb-tier-face" src="assets/open-seat.webp" alt="Your Name Here"></div></div></div><div class="cb-tier-count"><span data-count="Silver">#</span> here now</div></div></div></div>
+      <div class="cb-tier" data-lv="gold" role="button" tabindex="0"><div class="cb-tier-bar is-gold"><div class="cb-tier-num">8</div><div class="cb-tier-req">8 IMPACTS</div></div>
+        <div class="cb-tier-body is-gold"><div class="cb-tier-name">Gold</div><div class="cb-tier-copy">Eight leaders in. The top ranks are now in reach.</div>
+          <div class="cb-tier-who"><div class="cb-tier-faces w-dyn-list" data-slot="faces-gold" data-cms="coin=Gold limit3"><div class="w-dyn-items"><div class="w-dyn-item" data-repeat="3"><img class="cb-tier-face" src="assets/open-seat.webp" alt="Your Name Here"></div></div></div><div class="cb-tier-count"><span data-count="Gold">#</span> here now</div></div></div></div>
+      <div class="cb-tier" data-lv="platinum" role="button" tabindex="0"><div class="cb-tier-bar is-platinum"><div class="cb-tier-num">16</div><div class="cb-tier-req">16+ IMPACTS</div></div>
+        <div class="cb-tier-body is-platinum"><div class="cb-tier-name">Platinum</div><div class="cb-tier-copy">Sixteen leaders and counting. Hold your rank to the final count.</div>
+          <div class="cb-tier-who"><div class="cb-tier-faces w-dyn-list" data-slot="faces-platinum" data-cms="coin=Platinum limit3"><div class="w-dyn-items"><div class="w-dyn-item" data-repeat="3"><img class="cb-tier-face" src="assets/open-seat.webp" alt="Your Name Here"></div></div></div><div class="cb-tier-count"><span data-count="Platinum">#</span> here now</div></div></div></div>
+    </div></div>
+    <div class="cb-hint">Select any coin for tips and who is there now &rarr;</div>
+    <div class="cb-prizes">
+      <div class="cb-prize"><img class="cb-prize-img is-studio" src="assets/champ-dh-room-table.webp" alt="Darren Hardy laughing with a room of Champions"><div class="cb-prize-card"><div class="cb-label">Earned by rank</div><div class="cb-prize-name">In the Studio</div><div class="cb-prize-copy">Top ranks at the final count. Three days live with Darren.</div></div></div>
+      <div class="cb-prize"><img class="cb-prize-img is-table" src="assets/champ-table-dg3.webp" alt="Darren and Georgia Hardy at dinner with Champions"><div class="cb-prize-card is-wide"><div class="cb-label">Top 5 · 5 places</div><div class="cb-prize-name">Darren's Table</div><div class="cb-prize-copy">A private dinner with Darren and Georgia.</div></div></div>
+    </div>
+  </div></div></div>
+
+  <!-- COIN POP-UP (filled by the script) -->
+  <div class="cb-overlay" id="lv" role="dialog" aria-modal="true" aria-labelledby="lvName"><div class="cb-modal">
+    <div class="cb-modal-top is-silver" id="lvTop">
+      <div class="cb-modal-num" id="lvNum">4</div>
+      <div class="cb-modal-intro"><div class="cb-modal-req" id="lvReq">4 IMPACTS · COIN 2 OF 4</div><h3 class="cb-modal-name" id="lvName">Silver</h3><p class="cb-modal-desc" id="lvDesc">Four leaders in April because of you. Keep going.</p></div>
+      <a class="cb-modal-x" id="lvX" href="#" role="button" aria-label="Close">&times;</a>
+    </div>
+    <div class="cb-modal-body">
+      <div><div class="cb-label">How to get here</div>
+        <ul class="cb-steps">
+          <li class="cb-step"><div class="cb-step-num is-silver" data-lv-num>01</div><div><div class="cb-step-title" data-lv-t="0">Bring them as a team.</div><div class="cb-step-copy" data-lv-c="0">Two leaders from the same company is two impacts in one conversation.</div></div></li>
+          <li class="cb-step"><div class="cb-step-num is-silver" data-lv-num>02</div><div><div class="cb-step-title" data-lv-t="1">Use the Challenge.</div><div class="cb-step-copy" data-lv-c="1">Leaders who spend three days with Darren in December say yes to April.</div></div></li>
+          <li class="cb-step"><div class="cb-step-num is-silver" data-lv-num>03</div><div><div class="cb-step-title" data-lv-t="2">Follow up personally.</div><div class="cb-step-copy" data-lv-c="2">A two-line text a week later turns maybes into yeses.</div></div></li>
+        </ul></div>
+      <div><div class="cb-label" id="lvWho">At Silver now</div><div class="cb-people" id="lvPeople"></div></div>
+      <div class="cb-btns"><a class="cb-btn" href="#link" data-lv-close>Get my link <span>&rarr;</span></a><a class="cb-btn is-line" href="#playbook" data-lv-close>The playbook <span>&rarr;</span></a></div>
+    </div>
+  </div></div>
+
+  <!-- PLAYBOOK -->
+  <div class="cb-section is-ivory" id="playbook"><div class="cb-wrap"><div class="cb-win">
+    <div class="cb-head"><h2 class="cb-title"><span class="cb-setup">The playbook.</span>How the top impact makers do it<span class="cb-dot">.</span></h2><p class="cb-lede">Nothing held back. The moves the leaders at the top of the board made to get there.</p></div>
+    <div class="cb-plays">
+      <div class="cb-play is-lead"><div class="cb-play-ghost">01</div><div class="cb-label is-gold">The #1 move on the board</div><div class="cb-play-title is-lead">Start inside your own org chart<span class="cb-dot">.</span></div><div class="cb-play-copy is-lead">Your number two, your ops lead, your managers. They should hear it from Darren, not secondhand from you. The fastest path to Platinum runs straight through your own leadership team.</div>
+        <div class="cb-play-photo"><img class="cb-play-photo-img" src="assets/open-seat.webp" alt=""><div class="cb-play-photo-cap"><div class="cb-play-photo-name">Your Name Here · #1</div><div class="cb-play-photo-note">Brought a leadership team of 6</div></div></div></div>
+      <div class="cb-play is-satin"><div class="cb-play-num is-ink">02</div><div class="cb-play-title">Make it personal</div><div class="cb-play-copy is-ink">A one-line text beats a forwarded link every time. "You're the one I thought of first." Then send your link.</div>
+        <div class="cb-play-by"><img class="cb-play-face" src="assets/open-seat.webp" alt=""><div><div class="cb-play-name">Your Name Here · #2</div><div class="cb-play-note is-ink">The GM, ops lead and 3 managers</div></div></div></div>
+      <div class="cb-play"><div class="cb-play-num">03</div><div class="cb-play-title">Give them Darren's voice first</div><div class="cb-play-copy">Not ready for April? Gift them The Compound Effect audiobook. A few hours of Darren in their ears does the convincing for you.</div>
+        <div class="cb-play-by"><img class="cb-play-face" src="assets/open-seat.webp" alt=""><div><div class="cb-play-name">Your Name Here · #4</div><div class="cb-play-note">Climbed 4 spots in a week</div></div></div></div>
+      <div class="cb-play"><div class="cb-play-num">04</div><div class="cb-play-title">Bring the people who make you run</div><div class="cb-play-copy">A key vendor, client or partner. A spouse or business partner. Start with the person who knows your numbers best.</div>
+        <div class="cb-play-by"><img class="cb-play-face" src="assets/open-seat.webp" alt=""><div><div class="cb-play-name">Your Name Here · #8</div><div class="cb-play-note">Her accountant, a partner and 4 managers</div></div></div></div>
+      <div class="cb-play is-sand"><div class="cb-play-num is-ink">05</div><div class="cb-play-title">Pick a friendly rival</div><div class="cb-play-copy">Find the Champion one spot ahead of you on Friday and let them know you're coming for it.</div>
+        <div class="cb-play-by"><img class="cb-play-face" src="assets/open-seat.webp" alt=""><div><div class="cb-play-name">Your Name Here · #11</div><div class="cb-play-note">Up 6 spots this week</div></div></div></div>
+    </div>
+  </div></div></div>
+
+  <!-- IN THE STUDIO -->
+  <div class="cb-studio">
+    <div class="cb-studio-hero"><img class="cb-studio-img" src="assets/champ-dh-room-table.webp" alt="Darren Hardy laughing with Champions In the Studio"><div class="cb-studio-fade"></div>
+      <div class="cb-wrap"><div class="cb-studio-copy"><div class="cb-label">What every impact is building toward</div><div class="cb-studio-title">Three days<br>In the Studio<span class="cb-dot">.</span></div><div class="cb-orn"><div class="cb-orn-line"></div><div class="cb-orn-mark"></div><div class="cb-orn-line"></div></div><div class="cb-studio-sub">Live with Darren</div><p class="cb-studio-lede">Not a seat in an audience. A seat in the studio itself, across the table from Darren, for all three days of the Founders Event. Earned, never sold.</p></div></div></div>
+    <div class="cb-wrap"><div class="cb-perks">
+      <div class="cb-perk"><div class="cb-perk-num">01</div><div class="cb-perk-title">The Sunday reception</div><div class="cb-perk-copy">The night before it starts, with Darren and the other leaders who earned it.</div></div>
+      <div class="cb-perk is-alt is-gold"><div class="cb-perk-num">02</div><div class="cb-perk-title">Three days in the studio</div><div class="cb-perk-copy">Every session live, in the room where it is filmed, a few feet from Darren.</div></div>
+      <div class="cb-perk"><div class="cb-perk-num">03</div><div class="cb-perk-title">Private Q&amp;A every night</div><div class="cb-perk-copy">Your questions, your company, answered by Darren himself.</div></div>
+      <div class="cb-perk is-alt"><div class="cb-perk-num">04</div><div class="cb-perk-title">Curated dinners</div><div class="cb-perk-copy">Around the table with the top impact makers of the season.</div></div>
+    </div></div>
+    <div class="cb-wrap"><div class="cb-tableband-wrap"><div class="cb-tableband"><img class="cb-tableband-img" src="assets/champ-table-dg3.webp" alt="Darren and Georgia Hardy at a private dinner with Champions"><div class="cb-tableband-copy"><div class="cb-label is-gold">Top 5 only</div><div class="cb-tableband-title">Darren's Table</div><div class="cb-tableband-text">A private dinner with Darren and Georgia.</div><div class="cb-btns"><a class="cb-btn" data-stand-link href="#stand">Where do I stand <span>&rarr;</span></a></div></div></div></div></div>
+  </div>
+
+  <!-- THE SEASON -->
+  <div class="cb-section is-season" id="season"><div class="cb-wrap"><div class="cb-season-in">
+    <div class="cb-season-head">
+      <div class="cb-season-copy"><h2 class="cb-title is-light"><span class="cb-setup is-gold">The season.</span>New sprints to run all season<span class="cb-dot">.</span></h2><p class="cb-lede is-light">The count runs all season, and each sprint brings a new reason for a leader to say yes. Wherever you start, there is a play to run this week.</p></div>
+      <div class="cb-video" id="seasonVideo"><img class="cb-video-img" src="assets/dh-sept-16-9.webp" alt="Darren Hardy on the season"><div class="cb-video-shade"></div><div class="cb-video-foot"><div class="cb-video-meta"><div class="cb-play-btn"><svg class="cb-play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"></path></svg></div><div><div class="cb-video-label">WATCH · DARREN ON THE SEASON</div><div class="cb-video-title">How the sprints work</div></div></div><div class="cb-video-time">1:30</div></div></div>
+    </div>
+    <div class="cb-stops"><div class="cb-track"></div>
+      <div class="cb-stop"><div class="cb-stop-date is-now">Today</div><div class="cb-stop-pin"><div class="cb-pin is-now"></div></div><div class="cb-stop-card is-now"><div class="cb-stop-tag is-now">YOU ARE HERE</div><div class="cb-stop-title is-now">Starting line</div><div class="cb-stop-copy is-now">Who will be first? One leader puts your name on the board.</div></div></div>
+      <div class="cb-stop"><div class="cb-stop-date">Nov 10 to 12</div><div class="cb-stop-pin"><div class="cb-pin"></div></div><div class="cb-stop-card is-next"><div class="cb-stop-tag is-next">UP NEXT</div><div class="cb-stop-title">? ? ?</div><div class="cb-stop-copy">A new play for this sprint. Unlocks Nov 10.</div></div></div>
+      <div class="cb-stop"><div class="cb-stop-date">Dec 8 to 13</div><div class="cb-stop-pin"><div class="cb-pin"></div></div><div class="cb-stop-card"><div class="cb-stop-tag">COMING</div><div class="cb-stop-title">? ? ?</div><div class="cb-stop-copy">A new play for this sprint. Unlocks Dec 8.</div></div></div>
+      <div class="cb-stop"><div class="cb-stop-date">Dec 14 to 31</div><div class="cb-stop-pin"><div class="cb-pin"></div></div><div class="cb-stop-card"><div class="cb-stop-tag">COMING</div><div class="cb-stop-title">? ? ?</div><div class="cb-stop-copy">A new play for this sprint. Unlocks Dec 14.</div></div></div>
+      <div class="cb-stop"><div class="cb-stop-date">Jan to Mar</div><div class="cb-stop-pin"><div class="cb-pin"></div></div><div class="cb-stop-card"><div class="cb-stop-tag">COMING</div><div class="cb-stop-title">? ? ?</div><div class="cb-stop-copy">A new play for this sprint. Unlocks in January.</div></div></div>
+      <div class="cb-stop"><div class="cb-stop-date is-end">Mar 31</div><div class="cb-stop-pin"><div class="cb-pin is-end"></div></div><div class="cb-stop-card is-end"><div class="cb-stop-title is-end">Final count</div><div class="cb-stop-copy">The last impacts land and the board locks.</div></div></div>
+      <div class="cb-stop"><div class="cb-stop-date is-end">April 2027</div><div class="cb-stop-pin"><div class="cb-pin is-end"></div></div><div class="cb-stop-card is-end"><div class="cb-stop-title is-end">In the Studio</div><div class="cb-stop-copy">Three days live with Darren.</div></div></div>
+    </div>
+  </div></div></div>
+
+  <!-- THE PLATINUM CIRCLE -->
+  <div class="cb-section is-ivory is-flush" id="circle"><div class="cb-wrap"><div class="cb-circle">
+    <div class="cb-circle-head"><h2 class="cb-title"><span class="cb-setup">The Platinum Circle.</span>Compounding right now<span class="cb-dot">.</span></h2>
+      <div class="cb-coin-badge"><div class="cb-coin is-platinum"><div class="cb-coin-core"><div class="cb-coin-num is-platinum">16</div></div></div><div><div class="cb-coin-name">Platinum</div><div class="cb-coin-req">16+ IMPACTS</div></div></div></div>
+    <div class="cb-members">
+      <div class="w-dyn-list" data-slot="wall-plat" data-cms="coin=Platinum sort rank limit8"><div class="w-dyn-items"><div class="cb-member w-dyn-item" data-repeat="8">
+        <div class="cb-member-frame is-platinum"><img class="cb-member-face" src="assets/open-seat.webp" alt="Your Name Here"><div class="cb-member-rank">1</div></div><div class="cb-member-name">Your Name Here</div><div class="cb-member-team">Open seat</div>
+      </div></div></div>
+      <div class="cb-open"><div class="cb-label is-ink">This seat is open</div><div class="cb-open-title">Your name here next.</div><div class="cb-open-copy">Sixteen impacts puts you in the Platinum Circle.</div><div><a class="cb-btn is-ink" href="#link">Get my link <span>&rarr;</span></a></div></div>
+    </div>
+  </div></div>
+  <div class="cb-newcoins"><div class="cb-wrap"><div class="cb-newcoins-in">
+    <div class="cb-newcoins-head"><div class="cb-newcoins-title"><div class="cb-coin is-small"><div class="cb-coin-core is-small"><div class="cb-coin-num is-small">8</div></div></div>New coins this month</div><div class="cb-newcoins-key">GOLD · SILVER · COPPER</div></div>
+    <div class="cb-coinwall">
+      <div class="w-dyn-list" data-slot="wall-new" data-cms="new-coin-this-month limit10"><div class="w-dyn-items"><div class="cb-coinwall-item w-dyn-item" data-repeat="10">
+        <div class="cb-coinwall-frame" data-coin="Gold"><img class="cb-coinwall-face" src="assets/open-seat.webp" alt="Your Name Here"></div><div class="cb-coinwall-name">Your Name Here</div><div class="cb-coinwall-coin"><div class="cb-mini-chip" data-coin="Gold"><div class="cb-mini-core"></div></div><span data-coin-text>Gold</span></div>
+      </div></div></div>
+    </div>
+  </div></div></div></div>
+
+  <!-- CHAMPION FRIDAY -->
+  <div class="cb-section is-satin" id="friday"><div class="cb-wrap"><div class="cb-friday">
+    <div class="cb-friday-photo"><div class="cb-friday-frame"><img class="cb-friday-img" src="assets/open-seat.webp" alt=""></div><div class="cb-friday-tag">CHAMPION FRIDAY</div></div>
+    <div class="cb-friday-copy">
+      <div class="cb-friday-quote">"Why I'm bringing<br>my team."</div>
+      <div class="cb-friday-sub">In the Champion's own words.</div>
+      <div><div class="cb-friday-name">Your Name Here</div><div class="cb-friday-team">Platinum · brought their forum peers and the team</div></div>
+      <div class="cb-audio"><a class="cb-audio-btn" href="#" role="button" aria-label="Play"><svg class="cb-play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"></path></svg></a><div class="cb-wave" id="wave"></div><div class="cb-audio-time">0:18 / 0:42</div></div>
+    </div>
+  </div></div></div>
+
+  <!-- YOUR NEXT IMPACT: LINK HUB -->
+  <div class="cb-section is-ivory" id="link"><div class="cb-wrap"><div class="cb-hub">
+    <div class="cb-head"><h2 class="cb-title"><span class="cb-setup">Your next impact.</span>Pick it. Send it<span class="cb-dot">.</span></h2><p class="cb-lede">Choose what to share. Your personal link is built in, so every leader who uses it is credited to you.</p></div>
+    <div>
+      <div class="cb-opts">
+        <a class="cb-opt is-on" href="#" role="button" data-opt="audio"><div class="cb-opt-media"><img class="cb-opt-img" src="assets/tce-pair-cutout.webp" alt="The Compound Effect hardcover and audiobook"><div class="cb-opt-tag is-on" data-opt-tag>SELECTED</div></div><div class="cb-opt-body"><div class="cb-label">Gift</div><div class="cb-opt-title">The Compound Effect</div><div class="cb-opt-edition">10TH ANNIVERSARY EDITION</div><div class="cb-opt-copy">The 10th anniversary hardcover and the audiobook + eBook, on you. The easiest yes you can offer. Darren covers the costs for you.</div></div></a>
+        <a class="cb-opt" href="#" role="button" data-opt="event"><div class="cb-opt-media"><img class="cb-opt-img is-darren" src="assets/dh-black-6-cutout.webp" alt="Darren Hardy"><div class="cb-opt-tag" data-opt-tag>CHOOSE</div></div><div class="cb-opt-body"><div class="cb-label">Endorse</div><div class="cb-opt-title">The Founders Event</div><div class="cb-opt-copy">Put Darren's April event in front of a leader you respect. If they take a seat through your link, it's an impact.</div></div></a>
+        <a class="cb-opt" href="#" role="button" data-opt="leader"><div class="cb-opt-media"><div class="cb-ticket" role="img" aria-label="Founders Event ticket"><div class="cb-ticket-main"><div class="cb-ticket-brand">THE COMPOUND EFFECT</div><div class="cb-ticket-small">IN BUSINESS</div><div class="cb-ticket-name">FOUNDERS EVENT</div><div class="cb-ticket-small">APRIL 26-27, 2027</div></div><div class="cb-ticket-stub"><div class="cb-ticket-stub-text">FOUNDER TICKET · Nº 001</div></div></div><div class="cb-opt-tag" data-opt-tag>CHOOSE</div></div><div class="cb-opt-body"><div class="cb-label">Enroll</div><div class="cb-opt-title">Enroll a leader</div><div class="cb-opt-copy">Investing in a seat for one of your leaders? Enroll them here in under a minute and the impact goes on your board.</div></div></a>
+      </div>
+      <div class="cb-panel" id="hubOut">
+        <!-- signed in: share -->
+        <div class="cb-share" id="sharePane" hidden>
+          <div class="cb-share-col"><div class="cb-label" id="linkLabel">Your link · The Compound Effect</div><div class="cb-linkbox" id="refLink"></div><div class="cb-refnote" id="refNote"></div><div><a class="cb-btn" href="#" role="button" data-copy="refLink">Copy link</a></div></div>
+          <div class="cb-share-col"><div class="cb-share-row"><div class="cb-label">Ready-to-send message</div><div class="cb-edit-hint">Edit it to sound like you</div></div><div class="cb-msgbox"><textarea class="cb-msg" id="refMsg" aria-label="Your message"></textarea><div class="cb-msg-count" id="msgCount"></div></div>
+            <div class="cb-share-acts"><a class="cb-btn is-line is-small" href="#" role="button" data-copy="refMsg">Copy message</a><a class="cb-btn is-line is-small" id="refMail" href="#">Open in email &rarr;</a><a class="cb-btn is-line is-small" id="refSms" href="#">Text it &rarr;</a><a class="cb-preview" id="refOpen" href="#" target="_blank" rel="noopener">Preview the page &rarr;</a></div></div>
+        </div>
+        <!-- signed in: enroll a leader -->
+        <div class="cb-enroll" id="enrollPane" hidden>
+          <div class="cb-label">Enroll a leader</div>
+          <h3 class="cb-enroll-title">Their seat. Your impact.</h3>
+          <div class="cb-enroll-grid">
+            <div class="cb-field-group"><div class="cb-field-label">Their first name</div><input class="cb-field" id="enFirst" aria-label="Their first name" name="first" type="text" autocomplete="off"></div>
+            <div class="cb-field-group"><div class="cb-field-label">Their last name</div><input class="cb-field" id="enLast" aria-label="Their last name" name="last" type="text" autocomplete="off"></div>
+            <div class="cb-field-group is-full"><div class="cb-field-label">Their email</div><input class="cb-field" id="enEmail" aria-label="Their email" name="email" type="email" autocomplete="off"></div>
+          </div>
+          <div class="cb-label">How you're covering their seat</div>
+          <div class="cb-pays" role="radiogroup" aria-label="How you are covering their seat">
+            <a class="cb-pay is-on" href="#" role="radio" aria-checked="true" data-pay="credit"><span><span class="cb-pay-title">Use a seat credit</span><span class="cb-pay-sub">This seat uses 5,000 credits · $5,000 covered by Rearden Press</span></span></a>
+            <a class="cb-pay" href="#" role="radio" aria-checked="false" data-pay="invest"><span><span class="cb-pay-title">Invest in a new seat</span><span class="cb-pay-sub">$385/mo · $5,000 covered by Rearden Press</span></span></a>
+          </div>
+          <div class="cb-enroll-acts"><a class="cb-btn" href="#" role="button" id="enrollGo">Go to the portal to enroll them <span>&rarr;</span></a><span class="cb-fine">We'll email you as soon as they're enrolled.</span></div>
+          <p class="cb-err" id="enrollErr" hidden>Add their first name, last name and email to continue.</p>
+          <div class="cb-done" id="enrollDone" hidden><span class="cb-strong">Done.</span> <span id="enrollWho"></span> is enrolled. We just emailed you a confirmation, and Darren will send them their welcome.</div>
+        </div>
+        <!-- signed out: sign in -->
+        <div class="cb-sign" id="signPane">
+          <div class="cb-sign-copy"><div class="cb-label">Your link</div><h3 class="cb-sign-title">Sign in to get your link<span class="cb-dot">.</span></h3><p class="cb-sign-text">Enter the email we send your Champion updates to. Your link loads here, and every leader who uses it and enrolls is counted for you.</p></div>
+          <div class="cb-sign-form"><div class="cb-field-label">Email</div><input class="cb-field" id="signEmail" aria-label="Email" name="email" type="email" placeholder="your@email.com" autocomplete="email"><a class="cb-btn is-wide" href="#" role="button" id="signGo">Sign in <span>&rarr;</span></a><p class="cb-fine" id="signFine">Not sure which email? Try your main one and we'll check it for you.</p><p class="cb-err" id="signErr" hidden></p></div>
+        </div>
+      </div>
+    </div>
+  </div></div></div>
+
+  <!-- THE CLOSE -->
+  <div class="cb-close"><div class="cb-wrap"><div class="cb-close-in">
+    <div class="cb-close-mark">&ldquo;</div>
+    <div class="cb-close-line">Winning is not<br>a sometime thing.</div>
+    <div class="cb-orn"><div class="cb-orn-line is-gold"></div><div class="cb-orn-mark is-gold"></div><div class="cb-orn-line is-gold"></div></div>
+    <div class="cb-close-line">Winning is an<br><span class="cb-close-gold">all the time</span> thing.</div>
+    <div class="cb-close-by">Vince Lombardi</div>
+    <div class="cb-btns is-center"><a class="cb-btn" href="#link">Get my link <span>&rarr;</span></a><a class="cb-btn is-ghost" data-stand-link href="#stand">My Champion Board <span>&rarr;</span></a></div>
+  </div></div></div>
+
+  <!-- QUESTIONS -->
+  <div class="cb-section is-ivory" id="faq"><div class="cb-wrap"><div class="cb-faq">
+    <div class="cb-faq-intro"><h2 class="cb-title"><span class="cb-setup">Questions.</span>Answered<span class="cb-dot">.</span></h2><p class="cb-lede">Still stuck? Your Champion host is a reply away.</p></div>
+    <div class="cb-faq-list">
+      <div class="cb-qa is-open" data-qa><a class="cb-qa-q" href="#" role="button" aria-expanded="true"><span class="cb-qa-text">What counts as an impact?</span><span class="cb-qa-icon is-open">&minus;</span></a><p class="cb-qa-a is-open">Every leader who takes a seat at the Founders Event because of you. They join through your link, they name you at checkout, or you invest in a seat for one of your own leaders and name them. Each one is one impact.</p></div>
+      <div class="cb-qa" data-qa><a class="cb-qa-q" href="#" role="button" aria-expanded="false"><span class="cb-qa-text">Started late. Can I still make the Studio?</span><span class="cb-qa-icon">+</span></a><p class="cb-qa-a">Yes. Every impact counts the same until the final count, and each sprint of the season opens a new play. Plenty of the board is still to be decided.</p></div>
+      <div class="cb-qa" data-qa><a class="cb-qa-q" href="#" role="button" aria-expanded="false"><span class="cb-qa-text">How do I see where I stand?</span><span class="cb-qa-icon">+</span></a><p class="cb-qa-a">Your Champion Board shows your rank, your impacts and how far you are from your next coin. It updates the moment a leader's seat is confirmed.</p></div>
+      <div class="cb-qa" data-qa><a class="cb-qa-q" href="#" role="button" aria-expanded="false"><span class="cb-qa-text">A leader says they joined. Where's my credit?</span><span class="cb-qa-icon">+</span></a><p class="cb-qa-a">They show on your board as pending right away, and the impact locks in once their seat is confirmed. If it hasn't shown up, reply to any Champion email with their name and we'll sort it out.</p></div>
+      <div class="cb-qa" data-qa><a class="cb-qa-q" href="#" role="button" aria-expanded="false"><span class="cb-qa-text">Does my own ticket count?</span><span class="cb-qa-icon">+</span></a><p class="cb-qa-a">Your own seat is your way in. Impacts are the leaders you bring with you.</p></div>
+      <div class="cb-qa" data-qa><a class="cb-qa-q" href="#" role="button" aria-expanded="false"><span class="cb-qa-text">How is In the Studio awarded?</span><span class="cb-qa-icon">+</span></a><p class="cb-qa-a">By rank at the final count: the top-ranked Champions. Every seat is earned by rank and Darren's selection. Nothing is left to chance.</p></div>
+    </div>
+  </div></div></div>
+
+  <!-- index for full-standings photos: Champions sorted by rank, limit 100, hidden -->
+  <div class="w-dyn-list" id="cbIndex" hidden data-cms="index"><div class="w-dyn-items"></div></div>
+</div>
+<!-- Site Footer Slim (global component) goes here in Webflow -->
+<script src="demo.js"></script>
+<script src="champion-v2.js"></script>
+</body>
+</html>

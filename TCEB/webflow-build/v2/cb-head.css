@@ -1,0 +1,111 @@
+/* CHAMPION BOARD v2: page head CSS. Only what Webflow classes cannot express:
+   text clipped to a metal, octagon coins, CMS-list layout (nth-child, display: contents),
+   data-coin colours set by the script, and script-built rows.
+   Everything else is a Designer class (cb-*). */
+.cb-page [hidden] { display: none !important; }
+.cb-page *, .cb-page *::before, .cb-page *::after { box-sizing: border-box; }
+.cb-page :is(h1, h2, h3, p, blockquote, figure, ul, ol) { margin: 0; }
+.cb-page :is(.cb-title, .cb-hero-title, .cb-close-line, .cb-friday-quote) { text-wrap: balance; }
+.cb-page :is(.cb-lede, .cb-hero-lede, .cb-tier-copy, .cb-play-copy, .cb-perk-copy, .cb-stop-copy, .cb-opt-copy, .cb-qa-a) { text-wrap: pretty; }
+.cb-page .w-dyn-empty { display: none; }
+#cbIndex, #cbindex { display: none !important; }
+#full, #link, #stand, #win, #board, #playbook { scroll-margin-top: 24px; }
+
+/* text filled with a metal (the metal is the class or is-* combo background on the same element) */
+.cb-plaque-rank, .cb-step-num, .cb-coin-num, .cb-ticket-name, .cb-close-mark, .cb-close-gold { -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+
+/* octagon coins */
+.cb-chip, .cb-chip-core, .cb-coin, .cb-coin-core, .cb-mini-chip, .cb-mini-core { clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); }
+.cb-mini-chip { display: grid; place-items: center; }
+.cb-mini-core { width: 6px; height: 6px; background: #0E0D0A; }
+
+/* hero deck: CMS pings sit at fixed spots around the plaques */
+.cb-pings .w-dyn-item { position: absolute; }
+.cb-pings.is-coins .w-dyn-item:nth-child(1) { left: 330px; top: 46px; }
+.cb-pings.is-coins .w-dyn-item:nth-child(2) { left: -14px; top: 430px; }
+.cb-pings.is-moves .w-dyn-item:nth-child(1) { left: 392px; top: 470px; }
+.cb-pings.is-moves .w-dyn-item:nth-child(2) { left: 120px; top: 560px; }
+.cb-ping { position: relative; }
+
+/* coin colour set by the script from the CMS coin (data-coin on the element) */
+[data-coin="Copper"] { --metal: linear-gradient(160deg, #E9B08C 0%, #B26A3E 45%, #5E3015 100%); --metal-ink: #E9B08C; }
+[data-coin="Silver"] { --metal: linear-gradient(160deg, #F4F3EF 0%, #B9B8B2 45%, #6F6E69 100%); --metal-ink: #D6D5D0; }
+[data-coin="Gold"] { --metal: linear-gradient(160deg, #F3E2A9 0%, #CAA76A 40%, #8A6A2E 100%); --metal-ink: #CAA76A; }
+[data-coin="Platinum"] { --metal: linear-gradient(160deg, #FFFFFF 0%, #DCDCE0 40%, #8E9096 100%); --metal-ink: #E4E5EA; }
+.cb-ping[data-coin] { border-left-color: transparent; border-image: var(--metal) 1; }
+.cb-coinwall-frame[data-coin], .cb-mini-chip[data-coin], .cb-chip[data-coin] { background-image: var(--metal); }
+.cb-stand-coin[data-coin] { color: var(--metal-ink); }
+
+/* ranks 4 to 11: two columns, zebra on the left column */
+.cb-ranks-list > .w-dyn-item:nth-child(odd) .cb-rank { background-color: rgba(232, 217, 176, 0.06); }
+
+/* tier faces: CMS list in a row */
+.cb-tier-faces .w-dyn-items { display: flex; gap: 6px; }
+
+/* Platinum Circle: one grid holds the CMS members and the open seat; #1 takes 2 x 2 */
+.cb-members > .w-dyn-list, .cb-members > .w-dyn-list > .w-dyn-items { display: contents; }
+.cb-members .w-dyn-item:first-child { grid-column: span 2; grid-row: span 2; }
+.cb-members .w-dyn-item:first-child .cb-member-rank { font-size: 84px; }
+.cb-members .w-dyn-item:first-child .cb-member-name { font-size: 56px; }
+.cb-members .w-dyn-item:first-child .cb-member-team { font-size: 17px; }
+.cb-members .w-dyn-item:first-child .cb-member-frame { padding: 5px; }
+@media (max-width: 767px) {
+  .cb-members .w-dyn-item:first-child .cb-member-rank { font-size: 56px; }
+  .cb-members .w-dyn-item:first-child .cb-member-name { font-size: 40px; }
+}
+.cb-coinwall .w-dyn-items { display: contents; }
+.cb-coinwall > .w-dyn-list { display: contents; }
+
+/* full standings rows (built by the script from the Board Pages) */
+.cb-row { display: grid; grid-template-columns: 70px 56px 1fr 170px 90px; gap: 16px; align-items: center; padding: 12px 24px; border-bottom: 1px solid #DCD2BE; background: #FFFDF8; }
+.cb-row:nth-child(even) { background: #F7F3EA; }
+.cb-row.is-me { background: linear-gradient(135deg, #F3E2A9 0%, #D9BC7E 28%, #CAA76A 52%, #E8D5A0 72%, #B8924F 100%); }
+.cb-row-rank { font-family: kepler-3-display, serif; font-weight: 600; font-size: 30px; line-height: 1; color: #7A6440; }
+.cb-row.is-me .cb-row-rank { color: #14120E; }
+.cb-row-face { width: 48px; height: 48px; border-radius: 2px; object-fit: cover; background: #1E1B15; display: block; }
+.cb-row-name { font-family: bebas-neue-pro, sans-serif; font-size: 26px; line-height: 1; color: #14120E; }
+.cb-row-team { margin-top: 3px; font-size: 13px; font-weight: 600; line-height: 1.4; color: #5E574B; }
+.cb-row.is-me .cb-row-team { color: #3A2F1C; }
+.cb-row-coin { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.22em; line-height: 1.2; color: #14120E; text-transform: uppercase; }
+.cb-row-coin .cb-chip { display: grid; place-items: center; }
+.cb-row-coin .cb-chip-core { position: static; }
+.cb-row-imp { font-family: kepler-3-display, serif; font-weight: 600; font-size: 32px; line-height: 1; color: #14120E; text-align: right; }
+.cb-row-gap { padding: 10px 24px; background: #EDE4D0; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 0.3em; line-height: 1.4; color: #7A6440; }
+.cb-row-note { padding: 18px 24px; font-size: 15px; color: #5E574B; }
+@media (max-width: 991px) { .cb-row { grid-template-columns: 50px 48px 1fr 130px 70px; padding-left: 16px; padding-right: 16px; } }
+@media (max-width: 767px) {
+  .cb-row { grid-template-columns: 34px 40px 1fr 56px; gap: 10px; padding-left: 12px; padding-right: 12px; }
+  .cb-row-coin { display: none; }
+  .cb-row-face { width: 40px; height: 40px; }
+  .cb-row-rank { font-size: 22px; } .cb-row-name { font-size: 20px; } .cb-row-team { font-size: 12px; } .cb-row-imp { font-size: 24px; }
+}
+
+/* coin pop-up: people built by the script */
+.cb-overlay .cb-modal { opacity: 0; transform: translateY(16px) scale(0.98); transition: opacity 0.25s, transform 0.25s; }
+.cb-overlay.is-shown .cb-modal { opacity: 1; transform: none; }
+html.cb-lock { overflow: hidden; }
+.cb-person { display: flex; flex-direction: column; gap: 8px; width: 124px; }
+.cb-person-frame { padding: 4px; border-radius: 2px; background-image: var(--metal, linear-gradient(160deg, #F4F3EF 0%, #B9B8B2 45%, #6F6E69 100%)); }
+.cb-person-face { display: block; width: 116px; height: 116px; border-radius: 1px; object-fit: cover; }
+.cb-person-name { font-family: bebas-neue-pro, sans-serif; font-size: 20px; line-height: 1; color: #14120E; }
+.cb-person-team { font-size: 11px; font-weight: 600; line-height: 1.4; color: #5E574B; }
+.cb-person-open { display: flex; align-items: center; justify-content: center; width: 124px; height: 124px; border: 2px dashed #5E574B; border-radius: 2px; text-align: center; font-family: bebas-neue-pro, sans-serif; font-size: 20px; line-height: 1; color: #7A6440; }
+@media (max-width: 767px) { .cb-person { width: 96px; } .cb-person-face { width: 88px; height: 88px; } .cb-person-open { width: 96px; height: 96px; } }
+
+/* Champion Friday waveform (built by the script) */
+.cb-wave-bar { width: 4px; flex: none; border-radius: 2px; background: rgba(232, 217, 176, 0.4); }
+.cb-wave-bar.is-played { background: #D4A017; }
+
+/* phone: the hero deck and the tier stack are the desktop layout scaled to fit (script sets the scale) */
+@media (max-width: 991px) { .cb-deck { margin: 0 auto; } }
+
+/* text inputs live in small embeds (Webflow's native forms would post to Webflow) */
+.cb-search-input { width: 100%; height: 50px; padding: 0; border: 0; background: transparent; color: #14120E; font-family: Inter, sans-serif; font-size: 15px; }
+.cb-field { width: 100%; height: 62px; padding: 0 20px; border: 1px solid #14120E; border-radius: 2px; background: #FFFFFF; color: #14120E; font-family: Inter, sans-serif; font-size: 17px; }
+.cb-msg { display: block; width: 100%; min-height: 236px; padding: 20px 22px 8px; border: 0; border-radius: 2px; background: transparent; color: #14120E; font-family: Inter, sans-serif; font-size: 16px; line-height: 1.65; resize: vertical; outline: none; }
+
+/* embeds inside native layout */
+.cb-search .w-embed { flex: 1; }
+.cb-msgbox .w-embed, .cb-field-group .w-embed, .cb-sign-form .w-embed { width: 100%; }
+.cb-field:focus, .cb-search-input:focus { outline: none; border-color: #D4A017; }
+.cb-search-input::-webkit-search-cancel-button { display: none; }
