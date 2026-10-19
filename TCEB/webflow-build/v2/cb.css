@@ -128,16 +128,16 @@
 .cb-bar-label.is-on { color: #E8D9B0; }
 
 /* ---------- the board ---------- */
-.cb-board { overflow: hidden; padding-top: 128px; padding-bottom: 120px; background-color: #EFEAE0; background-image: radial-gradient(ellipse 46% 36% at 50% 30%, rgba(234, 218, 180, 0.7), rgba(234, 218, 180, 0) 70%); }
+.cb-board { overflow: hidden; padding-top: 128px; padding-bottom: 120px; background-color: #FFFFFF; }
 .cb-board-in { display: flex; flex-direction: column; align-items: center; gap: 52px; }
 .cb-board-head { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.cb-podium { display: flex; align-items: flex-end; justify-content: center; gap: 32px; margin-top: 56px; }
+.cb-podium { display: flex; align-items: flex-end; justify-content: center; gap: 6px; margin-top: 56px; }
 .cb-podium-slot { width: 270px; }
 .cb-podium-slot.is-1 { width: 330px; transform: translateY(-48px); }
 
 .cb-ranks { width: 100%; }
 .cb-ranks-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; row-gap: 6px; }
-.cb-rank { display: grid; grid-template-columns: 52px 60px 1fr auto auto; align-items: center; gap: 16px; padding: 14px 18px; border: 1px solid #E2D9C6; border-radius: 2px; background-color: #FFFDF8; }
+.cb-rank { display: grid; grid-template-columns: 52px 60px 1fr auto auto; align-items: center; gap: 16px; padding: 14px 18px; border: 1px solid #E2D9C6; border-radius: 2px; background-color: #FFFFFF; box-shadow: 0 12px 28px -20px rgba(20, 18, 14, 0.35); }
 .cb-rank-num { font-family: kepler-3-display, serif; font-weight: 600; font-size: 30px; line-height: 1; color: #8A6300; }
 .cb-rank-face { width: 60px; height: 60px; border-radius: 2px; object-fit: cover; }
 .cb-rank-name { font-family: bebas-neue-pro, sans-serif; font-weight: 600; text-transform: uppercase; font-size: 24px; line-height: 1; color: #14120E; }
@@ -248,8 +248,8 @@
 
 /* ---------- playbook ---------- */
 .cb-plays { display: grid; grid-template-columns: 1.25fr 1fr 1fr; grid-template-rows: auto auto; gap: 16px; }
-.cb-play { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 30px; overflow: hidden; border-radius: 2px; border: 1px solid #DCD2BE; background-color: #FFFDF8; }
-.cb-play.is-lead { grid-row: span 2; gap: 20px; padding: 40px; border-color: #14120E; background-color: #14120E; background-image: radial-gradient(ellipse 70% 45% at 75% 100%, rgba(202, 167, 106, 0.32), rgba(202, 167, 106, 0) 70%); }
+.cb-play { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 30px 30px 0; overflow: hidden; border-radius: 2px; border: 1px solid #DCD2BE; background-color: #FFFDF8; }
+.cb-play.is-lead { grid-row: span 2; gap: 20px; padding: 40px 40px 0; border-color: #14120E; background-color: #14120E; background-image: radial-gradient(ellipse 70% 45% at 75% 100%, rgba(202, 167, 106, 0.32), rgba(202, 167, 106, 0) 70%); }
 .cb-play.is-satin { border-color: #CAA76A; background-image: linear-gradient(135deg, #F3E2A9 0%, #D9BC7E 28%, #CAA76A 52%, #E8D5A0 72%, #B8924F 100%); }
 .cb-play.is-sand { border-top-color: #EDE4D0; border-right-color: #EDE4D0; border-bottom-color: #EDE4D0; border-left: 4px solid #14120E; background-color: #EDE4D0; }
 .cb-play-ghost { position: absolute; right: -10px; top: -30px; font-family: kepler-3-display, serif; font-weight: 600; font-size: 320px; line-height: 1; color: rgba(202, 167, 106, 0.12); }
@@ -260,14 +260,14 @@
 .cb-play-copy { position: relative; font-size: 14px; line-height: 1.6; color: #5E574B; }
 .cb-play-copy.is-lead { font-size: 17px; color: #C9C3B6; }
 .cb-play-copy.is-ink { color: #14120E; }
-.cb-play-by { display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 12px; min-height: 210px; margin-top: auto; padding-top: 16px; padding-right: 44%; }
-.cb-play-face { position: absolute; right: 0; bottom: 0; width: 46%; max-width: 230px; height: auto; object-fit: contain; pointer-events: none; }
+.cb-play-by { display: grid; grid-template-columns: 1fr 42%; align-items: end; column-gap: 12px; margin-top: auto; padding-top: 4px; }
+.cb-play-face { grid-area: 1 / 2 / 2 / 3; display: block; width: 100%; height: auto; object-fit: contain; pointer-events: none; }
 .cb-play-name { font-size: 15px; font-weight: 700; line-height: 1.4; color: #14120E; }
-.cb-play-note { margin-top: 2px; font-size: 13px; line-height: 1.4; color: #5E574B; }
+.cb-play-note { margin-top: 2px; margin-bottom: 30px; font-size: 13px; line-height: 1.4; color: #5E574B; }
 .cb-play-note.is-ink { color: #4A3C22; }
-.cb-play-photo { display: flex; flex-direction: column; justify-content: flex-end; min-height: 420px; margin-top: auto; }
-.cb-play-photo-img { position: absolute; right: 0; bottom: 0; display: block; width: 64%; max-width: 400px; height: auto; object-fit: contain; pointer-events: none; }
-.cb-play-photo-cap { position: relative; z-index: 1; max-width: 70%; }
+.cb-play-photo { display: grid; grid-template-columns: 1fr; align-items: end; margin-top: auto; }
+.cb-play-photo-img { grid-area: 1 / 1 / 2 / 2; justify-self: end; display: block; width: auto; height: 460px; max-width: none; margin-right: -40px; object-fit: contain; pointer-events: none; }
+.cb-play-photo-cap { grid-area: 1 / 1 / 2 / 2; position: relative; z-index: 1; max-width: 58%; padding-bottom: 40px; }
 .cb-play-photo-name { font-family: bebas-neue-pro, sans-serif; font-weight: 600; text-transform: uppercase; font-size: 30px; line-height: 1; color: #E8D9B0; }
 .cb-play-photo-note { margin-top: 4px; font-size: 13px; line-height: 1.4; color: #C9C3B6; }
 
@@ -365,7 +365,7 @@
 .cb-open-title { font-family: bebas-neue-pro, sans-serif; font-weight: 600; text-transform: uppercase; font-size: 44px; line-height: 0.9; letter-spacing: 0.01em; color: #14120E; }
 .cb-open-copy { font-size: 14px; line-height: 1.5; color: #3A2F1C; }
 
-.cb-newcoins { padding-top: 48px; padding-bottom: 104px; background-color: #EDE4D0; padding-top: 96px; }
+.cb-newcoins { padding-top: 24px; padding-bottom: 104px; background-color: #F7F3EA; }
 .cb-newcoins-in { display: flex; flex-direction: column; gap: 44px; }
 .cb-newcoins-head { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 .cb-newcoins-title { display: flex; align-items: center; gap: 14px; font-family: bebas-neue-pro, sans-serif; font-weight: 600; text-transform: uppercase; font-size: 34px; line-height: 1; color: #14120E; }
