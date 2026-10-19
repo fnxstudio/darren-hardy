@@ -125,8 +125,24 @@ rows = [
    "c01": [("email", "close", "Reopen-2 · 7am<br/>Halloween's over"), ("email", "close", "Reopen-3 · 7pm PT<br/>Brenda · closes midnight")]}),
 ]
 
+
+# click-through for each send: the HubSpot email when the doc has one, otherwise its copy in the doc tab
+DOC = "https://docs.google.com/document/d/15628lGSNXqxl2xQh4pL2uDGvO1i7xhiTiUNM2asodcE/edit?tab="
+HS = "https://app.hubspot.com/email/2518645/edit/{}/content"
+TAB = {"E": DOC + "t.hb2basg0f79j", "A": DOC + "t.8smus8m5ntqa", "L": DOC + "t.s79c1yc88ito",
+       "R": DOC + "t.24dzkch4015d", "D": DOC + "t.dnqyqufg1y5"}
+HSID = {"DD-1": "224873946746", "DD-2": "224873978382", "DB-1": "224630243100", "DB-2": "224630258783",
+        "DB-3": "224630324315", "DB-4": "224630474342", "DB-5": "224640335988",
+        "Closedown · 3pm": "224635911725", "Closedown · 4pm": "224636060817",
+        "Reopen-1": "224653094263", "Reopen-2": "224640510644", "Reopen-3": "224653107269"}
+def link_for(rid, kind, label):
+    if kind not in ("email", "sms"): return None
+    for k, v in HSID.items():
+        if label.startswith(k): return HS.format(v)
+    return TAB[rid]
+
 W, H = 96, 122
-L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = opening day · red envelope = closedown" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
+L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = opening day · red envelope = closedown · click any send to open it" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
 cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[], "cc":[], "merge":[]}
 
 IMGS = []
@@ -173,61 +189,6 @@ L.append("    end")
 L.append("")
 links_out = []
 
-GRID = []
-for rid, sub, fill, stroke, cells in rows:
-    mark()
-    COLOR[rid] = stroke
-    L.append(f'    subgraph T_{rid} [" "]')
-    L.append('        direction LR')
-    L.append(f'        {rid}L["<b>{BIG[rid]}</b><br/><small><small>{sub}</small></small>"]')
-    links = []
-    prev = rid+"L"; started = False; merged = False; xi = 0
-    depth = max(len(c) for c in cells.values() if c != "merge")
-    lanes = [None] * depth
-    for cid,_,_ in cols:
-        nid = f"{rid}_{cid}"
-        gid = f"{rid}{cid[1:]}"
-        GRID.append(gid)
-        L.append(f'        subgraph {gid} [" "]')
-        cell = cells.get(cid)
-        if cell and not started: started = True; first = True
-        else: first = False
-        arrow = started and not merged and not first and not prev.endswith("L")
-        items = []
-        if cell == "merge":
-            L.append(f'        {nid}["joins the<br/><b>FULL DATABASE</b><br/>sends from here"]'); cls["merge"].append(nid)
-        elif cell:
-            (k, b, lab), items = cell[0], cell[1:]
-            node(nid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
-        elif started and not merged and cid in REST:
-            L.append(f'        {nid}["no send"]'); cls["rest"].append(nid)
-        else:
-            L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
-        # other sends that day stack in the same column; the main email is defined last so it sits on top
-        # plain line through empty days, arrowhead only into a real send
-        links.append(f"    {prev} {('-->' if cell else '---') if arrow else '~~~'} {nid}")
-        # each extra send sits in a lane chained from the same lane the day before, so the rows stay straight
-        if cell and cell != "merge":
-            items = items + [("blank", None, " ")] * (depth - len(cell))
-        for j, (k, b, lab) in enumerate(items):
-            xi += 1; xid = f"{rid}x{xi}"
-            node(xid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
-            links.append(f"    {lanes[j] or prev} ~~~ {xid}")
-            lanes[j] = xid
-        L.append("        end")
-        if cell == "merge": merged = True
-        prev = nid
-    if rid in PAGE_URL:
-        pid = rid+"P"
-        node(pid, "salespagelive", "<b>Pre-print page</b><br/>/pre-print<br/>every email + SMS", w=212, h=269)
-        links.append(f'    click {pid} href "{PAGE_URL[rid]}" _blank')
-        links.append(f"    {prev} ~~~~~ {pid}")
-    L.append("    end")
-    L.extend(links)
-    L.append(f"    HL ~~~ {rid}_c21")
-    L.append(f"    style T_{rid} fill:{fill},stroke:{stroke},stroke-width:2px,color:{stroke}")
-    L.append("")
-
 mark()
 # BMC45 track
 L.append('    subgraph T_B [" "]')
@@ -255,6 +216,67 @@ if PAGE_URL["B"]: L.append(f'    click BP href "{PAGE_URL["B"]}" _blank')
 L.append("    end")
 L.append("    HL ~~~ B_c21")
 L.append("")
+
+GRID = []
+for rid, sub, fill, stroke, cells in rows:
+    mark()
+    COLOR[rid] = stroke
+    L.append(f'    subgraph T_{rid} [" "]')
+    L.append('        direction LR')
+    L.append(f'        {rid}L["<b>{BIG[rid]}</b><br/><small><small>{sub}</small></small>"]')
+    links = []
+    prev = rid+"L"; started = False; merged = False; xi = 0
+    depth = max(len(c) for c in cells.values() if c != "merge")
+    lanes = [None] * depth
+    for cid,_,_ in cols:
+        nid = f"{rid}_{cid}"
+        gid = f"{rid}{cid[1:]}"
+        GRID.append(gid)
+        L.append(f'        subgraph {gid} [" "]')
+        cell = cells.get(cid)
+        if cell and not started: started = True; first = True
+        else: first = False
+        arrow = started and not merged and not first and not prev.endswith("L")
+        items = []
+        if cell == "merge":
+            L.append(f'        {nid}["joins the<br/><b>FULL DATABASE</b><br/>sends from here"]'); cls["merge"].append(nid)
+        elif cell:
+            (k, b, lab), items = cell[0], cell[1:]
+            node(nid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
+            if link_for(rid, k, lab): links.append(f'    click {nid} href "{link_for(rid, k, lab)}" _blank')
+        elif started and not merged and cid in REST:
+            L.append(f'        {nid}["no send"]'); cls["rest"].append(nid)
+        else:
+            L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
+        # other sends that day stack in the same column; the main email is defined last so it sits on top
+        # plain line through empty days, arrowhead only into a real send
+        links.append(f"    {prev} {('-->' if cell else '---') if arrow else '~~~'} {nid}")
+        # each extra send sits in a lane chained from the same lane the day before, so the rows stay straight
+        if cell and cell != "merge":
+            items = items + [("blank", None, " ")] * (depth - len(cell))
+        for j, (k, b, lab) in enumerate(items):
+            xi += 1; xid = f"{rid}x{xi}"
+            node(xid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
+            if link_for(rid, k, lab): links.append(f'    click {xid} href "{link_for(rid, k, lab)}" _blank')
+            links.append(f"    {lanes[j] or prev} ~~~ {xid}")
+            lanes[j] = xid
+        L.append("        end")
+        if cell == "merge": merged = True
+        prev = nid
+    if rid in PAGE_URL:
+        pid = rid+"P"
+        node(pid, "salespagelive", "<b>Pre-print page</b><br/>/pre-print<br/>every email + SMS", w=212, h=269)
+        links.append(f'    click {pid} href "{PAGE_URL[rid]}" _blank')
+        links.append(f"    {prev} ~~~~~ {pid}")
+    else:
+        # invisible box in the CTA column: without it the layout pulls BMC45 down next to the database track
+        L.append(f'        {rid}P[" "]'); cls["sp"].append(rid+"P")
+        links.append(f"    {prev} ~~~~~ {rid}P")
+    L.append("    end")
+    L.extend(links)
+    L.append(f"    HL ~~~ {rid}_c21")
+    L.append(f"    style T_{rid} fill:{fill},stroke:{stroke},stroke-width:2px,color:{stroke}")
+    L.append("")
 
 mark()
 # legend
