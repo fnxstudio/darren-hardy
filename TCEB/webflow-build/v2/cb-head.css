@@ -168,6 +168,14 @@ html.cb-lock { overflow: hidden; }
 @keyframes cb-ring { 0% { scale: 1; opacity: 0.9; } 70%, 100% { scale: 1.7; opacity: 0; } }
 .cb-play-btn { position: relative; box-shadow: 0 0 0 10px rgba(212, 160, 23, 0.25), 0 0 44px 10px rgba(212, 160, 23, 0.45); animation: cb-breathe 1.8s ease-in-out infinite; }
 .cb-play-btn::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 50%; background-color: rgba(212, 160, 23, 0.5); pointer-events: none; animation: cb-ring 1.8s cubic-bezier(.25,.6,.3,1) infinite; }
+/* gold metal surfaces: a light sweep passes over them, repeating */
+@keyframes cb-sweep { 0% { translate: -130% 0; } 40%, 100% { translate: 130% 0; } }
+.cb-tableband-tag, .cb-stand-chip, .cb-open, .cb-stop-card.is-now, .cb-row.is-me, .cb-tier-bar.is-gold, .cb-plaque:not(.is-silver):not(.is-copper), .cb-reward-frame { overflow: hidden; isolation: isolate; }
+.cb-open, .cb-stop-card.is-now, .cb-row.is-me, .cb-tier-bar.is-gold, .cb-plaque:not(.is-silver):not(.is-copper) { position: relative; }
+.cb-tableband-tag::after, .cb-stand-chip::after, .cb-open::after, .cb-stop-card.is-now::after, .cb-row.is-me::after, .cb-tier-bar.is-gold::after, .cb-plaque:not(.is-silver):not(.is-copper)::after, .cb-reward-frame::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(105deg, rgba(255,255,255,0) 38%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 62%); pointer-events: none; translate: -130% 0; animation: cb-sweep 5s ease-in-out infinite; }
+.cb-stand-chip::after, .cb-row.is-me::after { animation-delay: -1.2s; }
+.cb-open::after, .cb-reward-frame::after { animation-delay: -2.4s; }
+.cb-tier-bar.is-gold::after, .cb-stop-card.is-now::after { animation-delay: -3.4s; }
 @media (hover: none) { .cb-deck:hover .cb-deck-slot, .cb-tier:hover { translate: none; rotate: none; } }
 @media (prefers-reduced-motion: reduce) {
   .cb-page *, .cb-page *::after { animation: none !important; transition: none !important; }
