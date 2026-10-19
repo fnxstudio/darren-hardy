@@ -20,6 +20,8 @@
   var esc = function (s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) { return { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]; }); };
   var page = document.querySelector('.cb-page');
   if (!page) return;
+  // Webflow drops the hidden attribute on publish, so messages that start hidden are hidden here
+  ['enrollErr', 'signErr', 'fullPin'].forEach(function (id) { var e = $(id); if (e) e.hidden = true; });
 
   // Open seats and missing headshots show the midnight-glow placeholder (the CMS open-seat image is v1's purple one)
   var PH = 'https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad59b670153fbdf72e77b16_cb-headshot-placeholder.webp';
@@ -389,9 +391,7 @@
     var f1 = $('enFirst').value.trim(), ln = $('enLast').value.trim(), em = $('enEmail').value.trim(), ok = !!f1 && !!ln && /\S+@\S+\.\S+/.test(em);
     $('enrollErr').hidden = ok;
     if (!ok) return;
-    if (pay === 'invest') { window.open(withRef(OPTS.leader.url), '_blank', 'noopener'); return; }
-    $('enrollWho').textContent = f1 + ' ' + ln;
-    $('enrollDone').hidden = false;
+    if (pay === 'invest') window.open(withRef(OPTS.leader.url), '_blank', 'noopener');
   }
   all('.cb-field', ef).forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Enter') enroll(e); }); });
   eGo.addEventListener('click', enroll);
