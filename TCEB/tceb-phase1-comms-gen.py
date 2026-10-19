@@ -81,69 +81,81 @@ OPEN = pill("OPEN", "#c9a227")
 CLOSE = pill("CLOSE", "#b00020")
 
 # ---------- calendar ----------
-cols = [("c21","Wed","Oct 21"),("c22","Thu","Oct 22"),("c23","Fri","Oct 23"),("c24","Sat","Oct 24"),
+cols = [("c22","Thu","Oct 22"),("c23","Fri","Oct 23"),("c24","Sat","Oct 24"),
         ("c25","Sun","Oct 25"),("c26","Mon","Oct 26"),("c27","Tue","Oct 27"),("c28","Wed","Oct 28"),
         ("c29","Thu","Oct 29"),("c30","Fri","Oct 30"),("c31","Sat","Oct 31"),("c01","Sun","Nov 1")]
+C0 = cols[0][0]
 REST = {"c24"}
-DSHORT = {c[0]: c[2].replace("Oct ", "10/").replace("Nov ", "11/") for c in cols}
-DFULL = {c[0]: f"{c[1]} {DSHORT[c[0]]}" for c in cols}
 
-# rows = the ACTUAL sends in the TCEB doc, tab "DB EMAIL COMMS" (docs.google.com/document/d/15628lGSNXqxl2xQh4pL2uDGvO1i7xhiTiUNM2asodcE)
-# cells: col -> [(kind, badge, label)]; first item is the day's main send. "merge" = list folds into the full-database sends.
-BIG = {"B": "BMC45<br/>ATTENDEES", "E": "WAVE&nbsp;1<br/>ELITES", "A": "WAVE&nbsp;2<br/>BMC&nbsp;ALUMNI",
-       "L": "WAVE&nbsp;2<br/>DHLLC<br/>ALUMNI", "R": "WAVE&nbsp;3<br/>DARREN<br/>DAILY", "D": "WAVE&nbsp;4<br/>FULL<br/>DATABASE"}
-COLOR = {"B": "#7b2d8e"}
-SPIFFY_URL = "https://secure.darrenhardy.com/checkout/bmc45-love-form"
-PAGE_URL = {"B": "https://www.hardybmc.com/love",
-            "D": "https://www.thecompoundeffect.com/pre-print"}
+# ONLY what the TCEB doc states (tab "DB EMAIL COMMS" + sub-tabs, docs.google.com/document/d/15628lGSNXqxl2xQh4pL2uDGvO1i7xhiTiUNM2asodcE).
+# Rows = the lists named on the To: lines. Labels = the doc's own email names, send times and subject lines.
+# "W ..." = a gap or contradiction in the doc for the team to check. Nothing here is inferred.
+# cells: col -> [(kind, badge, label)]; first item is the day's main send. kind "note" / "warn" = text box, not a send.
+W_ = "⚠ "
+BIG = {"B": "BMC45<br/>BMC44", "E": "ELITE", "A": "BMC<br/>ALUMNI", "L": "DHLLC<br/>ALUMNI",
+       "R": "ACTIVE<br/>DARREN<br/>DAILY", "D": "FULL<br/>DATABASE"}
+COLOR = {}
+PAGE_URL = {"D": "https://www.thecompoundeffect.com/pre-print"}
+NAMED_ALUMNI = "Named on the To: line of<br/>Database #2, #3, #4, #5<br/>Closedown #1, #2 · Reopening #1, #2, #3<br/>SMS 2 + SMS 3"
 rows = [
- ("E", "+ A-Team<br/>not BMC45 / BMC44", "#fff8e1", "#c9a227", {
-   "c22": [("email", "open", "EL-1 · 7am<br/>ELITE invitation"), ("sms", None, "SMS · 1pm")],
-   "c23": [("email", None, "EL-2 · 1pm<br/>bump: Fwd")],
-   "c28": "merge"}),
- ("A", "not BMC45 / BMC44", "#e8f1fc", "#1f5fa8", {
-   "c23": [("email", "open", "AL-1 · 7am<br/>Alumni invitation"), ("sms", None, "SMS · 1pm")],
-   "c26": [("email", None, "AL-2 · 1pm<br/>bump: Fwd")],
-   "c27": "merge"}),
- ("L", "program + DHTV alumni", "#eef0fb", "#3f51b5", {
-   "c23": [("email", "open", "DA-1 · 7am<br/>personal invitation"), ("sms", None, "SMS · 1pm<br/>DHTV alumni")],
-   "c26": [("email", None, "DA-2 · 7am<br/>bump: Fwd")],
-   "c27": "merge"}),
- ("R", "active subscribers<br/>from DarrenDaily@", "#fff6d8", "#b8860b", {
-   "c25": [("email", "open", "DD-1 · 7am<br/>heads up: tomorrow")],
-   "c26": [("dd", None, "DarrenDaily episode<br/>announcement")],
-   "c27": [("email", None, "DD-2 · 7am<br/>Your name. In my book.")],
-   "c28": "merge"}),
+ ("B", "on Exclude lines", "#f5eef8", "#7b2d8e", {
+   "c22": [("warn", None, "<b>On the Exclude line of every email</b><br/>"
+            + W_ + "SMS Database Day 1 excludes neither BMC45 nor BMC44<br/>"
+            + W_ + "SMS Elite / BMC Alumni / DHTV Alumni Day 1 exclude BMC45, not BMC44")]}),
+ ("E", "", "#fff8e1", "#c9a227", {
+   "c22": [("email", "open", "<b>ELITE #1</b> · 7am TZ<br/>[Time-sensitive] ELITE invitation<br/>To: ELITE, A-Team<br/>" + W_ + "no HubSpot link"),
+           ("sms", None, "<b>SMS Elite Day 1</b> · 1pm TZ<br/>To: Elite members")],
+   "c23": [("email", None, "<b>ELITE #2</b> · 1pm TZ<br/>Jeff, bumping this up!<br/>" + W_ + "no HubSpot link<br/>" + W_ + "copy: wider group tomorrow morning<br/>(Sat 10/24 has no sends)")],
+   "c28": [("note", None, "Named on the To: line of<br/>Database #3, #4, #5<br/>Closedown #1, #2 · Reopening #1, #2, #3<br/>SMS 2 + SMS 3")]}),
+ ("A", "", "#e8f1fc", "#1f5fa8", {
+   "c23": [("email", "open", "<b>BMC Alumni #1</b> · 7am TZ<br/>[Time-sensitive] Alumni invitation<br/>" + W_ + "no HubSpot link"),
+           ("sms", None, "<b>SMS BMC Alumni Day 1</b> · 1pm TZ")],
+   "c26": [("email", None, "<b>BMC Alumni #2</b> · 1pm TZ<br/>Jeff, bumping this up!<br/>" + W_ + "no HubSpot link<br/>" + W_ + "doc also lists Fri 10/23 1pm<br/>and a 2nd subject line")],
+   "c27": [("note", None, NAMED_ALUMNI)]}),
+ ("L", "", "#eef0fb", "#3f51b5", {
+   "c23": [("email", "open", "<b>DHLLC Alumni #1</b> · 7am TZ<br/>[Time-sensitive] personal invitation<br/>" + W_ + "no HubSpot link"),
+           ("sms", None, "<b>SMS DHTV Alumni Day 1</b> · 1pm TZ<br/>" + W_ + "To: DHTV Alumni<br/>(emails go to DHLLC Alumni)")],
+   "c26": [("email", None, "<b>DHLLC Alumni #2</b> · 7am TZ<br/>Jeff, bumping this up!<br/>" + W_ + "no HubSpot link")],
+   "c27": [("note", None, NAMED_ALUMNI)]}),
+ ("R", "", "#fff6d8", "#b8860b", {
+   "c25": [("email", "open", "<b>DarrenDaily #1</b> · 7am TZ<br/>Quick heads up! About tomorrow…<br/>" + W_ + "no pre-print purchaser exclusion")],
+   "c26": [("dd", None, "<b>Episode announcement</b><br/>promised in DarrenDaily #1<br/>" + W_ + "no script in this tab")],
+   "c27": [("email", None, "<b>DarrenDaily #2</b> · 7am TZ<br/>Your name. In my new book.<br/>" + W_ + "no pre-print purchaser exclusion")],
+   "c28": [("warn", None, W_ + "<b>Not on any To: line after 10/27</b><br/>Excluded by name from Database #2<br/>Are they part of Full database?")]}),
  ("D", "+ A-Team", "#fdeeee", "#b00020", {
-   "c26": [("email", "open", "DB-1 · 7am<br/>personal invitation"), ("sms", None, "SMS · 1pm")],
-   "c27": [("email", None, "DB-2 · 7am · bump<br/>+ BMC + DHLLC alumni")],
-   "c28": [("email", None, "DB-3 · 7am<br/>+ ELITE + DarrenDaily<br/><b>everyone from here</b>")],
-   "c29": [("email", None, "DB-4 · 7am<br/>feature you in my book"), ("sms", None, "SMS · 1pm<br/>deadline tomorrow")],
-   "c30": [("email", "close", "DB-5 · 7am<br/>last day"), ("sms", None, "SMS · 1pm<br/>last chance"),
-           ("email", "close", "Closedown · 3pm PT<br/>2 hrs left"), ("email", "close", "Closedown · 4pm PT<br/>Brenda · 1 hr left")],
-   "c31": [("email", None, "Reopen-1 · 7am<br/>open through Sunday")],
-   "c01": [("email", "close", "Reopen-2 · 7am<br/>Halloween's over"), ("email", "close", "Reopen-3 · 7pm PT<br/>Brenda · closes midnight")]}),
+   "c26": [("email", "open", "<b>Database #1</b> · 7am TZ<br/>[Time-sensitive] personal invitation<br/>" + W_ + "no pre-print purchaser exclusion<br/>" + W_ + "excludes HC, HJ, RIV:<br/>never on any To: line"),
+           ("sms", None, "<b>SMS Database Day 1</b> · 1pm TZ<br/>" + W_ + "no BMC45 / BMC44 exclusion")],
+   "c27": [("email", None, "<b>Database #2</b> · 7am TZ<br/>Jeff, bumping this up!<br/>+ BMC Alumni, DHLLC Alumni")],
+   "c28": [("email", None, "<b>Database #3</b> · 7am TZ<br/>Jeff, I've never invited anyone to do this<br/>+ ELITE")],
+   "c29": [("email", None, "<b>Database #4</b> · 7am TZ<br/>Can I feature you in my book, Jeff?"),
+           ("sms", None, "<b>SMS 2 · Deadline Tomorrow</b><br/>1pm TZ")],
+   "c30": [("email", None, "<b>Database #5</b> · 7am TZ<br/>Today's your last day, Jeff"),
+           ("sms", None, "<b>SMS 3 · Last Chance</b><br/>1pm TZ"),
+           ("email", "close", "<b>Closedown #1</b> · 3pm PT<br/>Still want your name in it, Jeff?"),
+           ("email", "close", "<b>Closedown #2</b> (Brenda) · 4pm PT<br/>Jeff, did you get this taken care of?")],
+   "c31": [("email", None, "<b>Reopening #1</b> · 7am TZ<br/>Jeff, I pulled some strings for you")],
+   "c01": [("email", None, "<b>Reopening #2</b> · 7am TZ<br/>Halloween's over. This isn't, Jeff."),
+           ("email", None, "<b>Reopening #3</b> (Brenda) · 7pm PT<br/>Closing at midnight, Jeff")]}),
 ]
-
 
 # click-through for each send: the HubSpot email when the doc has one, otherwise its copy in the doc tab
 DOC = "https://docs.google.com/document/d/15628lGSNXqxl2xQh4pL2uDGvO1i7xhiTiUNM2asodcE/edit?tab="
 HS = "https://app.hubspot.com/email/2518645/edit/{}/content"
 TAB = {"E": DOC + "t.hb2basg0f79j", "A": DOC + "t.8smus8m5ntqa", "L": DOC + "t.s79c1yc88ito",
        "R": DOC + "t.24dzkch4015d", "D": DOC + "t.dnqyqufg1y5"}
-HSID = {"DD-1": "224873946746", "DD-2": "224873978382", "DB-1": "224630243100", "DB-2": "224630258783",
-        "DB-3": "224630324315", "DB-4": "224630474342", "DB-5": "224640335988",
-        "Closedown · 3pm": "224635911725", "Closedown · 4pm": "224636060817",
-        "Reopen-1": "224653094263", "Reopen-2": "224640510644", "Reopen-3": "224653107269"}
+HSID = {"DarrenDaily #1": "224873946746", "DarrenDaily #2": "224873978382", "Database #1": "224630243100",
+        "Database #2": "224630258783", "Database #3": "224630324315", "Database #4": "224630474342",
+        "Database #5": "224640335988", "Closedown #1": "224635911725", "Closedown #2": "224636060817",
+        "Reopening #1": "224653094263", "Reopening #2": "224640510644", "Reopening #3": "224653107269"}
 def link_for(rid, kind, label):
     if kind not in ("email", "sms"): return None
-    for k, v in HSID.items():
-        if label.startswith(k): return HS.format(v)
+    name = label.split("</b>")[0].replace("<b>", "")
+    if name in HSID: return HS.format(HSID[name])
     return TAB[rid]
 
 W, H = 96, 122
-L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = opening day · red envelope = closedown · click any send to open it" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
-cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[], "cc":[], "merge":[]}
+L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = list's first send · red envelope = named Closedown in the doc · ⚠ = gap in the doc to check · times as written (TZ / PT) · click any send to open it" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
+cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[], "cc":[], "note":[], "warn":[]}
 
 IMGS = []
 def node(nid, kind, label, badge=None, w=None, h=None):
@@ -157,25 +169,23 @@ mark()
 L.append('    subgraph HDR [" "]')
 L.append('        direction LR')
 L.append('        HL[" "]'); cls["sp"].append("HL")
-L.append('        H_c21["<small>WED</small><br/><b>OCT 21</b>"]')
-L.append("        HL ~~~ H_c21")
+L.append(f'        H_{C0}["<small>{cols[0][1].upper()}</small><br/><b>{cols[0][2].upper()}</b>"]')
+L.append(f"        HL ~~~ H_{C0}")
 # a top row of spacers over the dates; Oct 31 holds the pumpkin, Nov 1 the DST note
 tprev = "HL"
 for cid, _, _ in cols:
     tid = "T" + cid[1:]
     if cid == "c31": node(tid, "pumpkin", " ", w=190, h=175)
     elif cid == "c30":
-        L.append(f'        {tid}["<b>First deadline 5pm PT</b><br/>reopened Sat through Sun"]'); cls["dst"].append(tid)
-    elif cid == "c01":
-        L.append(f'        {tid}["<b>Daylight saving ends</b><br/>2am · clocks fall back 1 hr"]'); cls["dst"].append(tid)
+        L.append(f'        {tid}["<b>5pm PT deadline</b> (Database #5)<br/>Reopening #1: open through Sunday night"]'); cls["dst"].append(tid)
     else:
         L.append(f'        {tid}[" "]'); cls["sp"].append(tid)
     L.append(f"        {tprev} ~~~ {tid}")
     if cid == "c01":
-        L.append('        CC["<b>CART CLOSES</b><br/>11:59pm PT · Sun Nov 1"]'); cls["cc"].append("CC")
+        L.append('        CC["<b>CLOSES 11:59pm PT</b><br/>Sun Nov 1 (Reopening #3)"]'); cls["cc"].append("CC")
         L.append(f"        {tprev} ~~~ CC")
     tprev = tid
-prev = "H_c21"; cls["hdr"].append("H_c21")
+prev = f"H_{C0}"; cls["hdr"].append(prev)
 for cid, dow, d in cols[1:]:
     nid = "H_"+cid
     if cid in REST:
@@ -189,34 +199,6 @@ L.append("    end")
 L.append("")
 links_out = []
 
-mark()
-# BMC45 track
-L.append('    subgraph T_B [" "]')
-L.append('        direction LR')
-L.append(f'        BL["<b>{BIG["B"]}</b><br/><small><small>kept off pre-print<br/>love-form track only</small></small>"]')
-prev = "BL"
-for cid,_,_ in cols:
-    nid = "B_"+cid
-    if cid == "c21":
-        node(nid, "stage", "<b>On stage</b><br/>Gold/Silver/Elite<br/>name in book")
-    elif cid == "c22":
-        node(nid, "email", "<b>Love-form closedown</b><br/>own schedule")
-    else:
-        L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
-    if prev: L.append(f"        {prev} {'-->' if cid=='c22' else '~~~'} {nid}")
-    prev = nid
-node("BP", "loveform", "<b>BMC45 Love Form</b><br/>hardybmc.com/love", w=212, h=269)
-L.append(f"        {prev} ~~~~~ BP")
-L.append("        B_c22 ~~~ BP")
-node("BS", "spiffylive", "<b>Spiffy checkout</b><br/>BMC45 Love Form cart", w=212, h=269)
-L.append(f"        {prev} ~~~~~ BS")
-L.append("        B_c22 ~~~ BS")
-L.append(f'    click BS href "{SPIFFY_URL}" _blank')
-if PAGE_URL["B"]: L.append(f'    click BP href "{PAGE_URL["B"]}" _blank')
-L.append("    end")
-L.append("    HL ~~~ B_c21")
-L.append("")
-
 GRID = []
 for rid, sub, fill, stroke, cells in rows:
     mark()
@@ -225,56 +207,57 @@ for rid, sub, fill, stroke, cells in rows:
     L.append('        direction LR')
     L.append(f'        {rid}L["<b>{BIG[rid]}</b><br/><small><small>{sub}</small></small>"]')
     links = []
-    prev = rid+"L"; started = False; merged = False; xi = 0
-    depth = max(len(c) for c in cells.values() if c != "merge")
+    prev = rid+"L"; xi = 0
+    depth = max(len(c) for c in cells.values())
     lanes = [None] * depth
+    ids = [c[0] for c in cols]
+    first_c = min(cells, key=ids.index); last_c = max(cells, key=ids.index)
+    def put(nid, k, b, lab):
+        if k in ("note", "warn"):
+            L.append(f'        {nid}["{lab}"]'); cls[k].append(nid)
+        else:
+            node(nid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
+            if link_for(rid, k, lab): links.append(f'    click {nid} href "{link_for(rid, k, lab)}" _blank')
     for cid,_,_ in cols:
         nid = f"{rid}_{cid}"
         gid = f"{rid}{cid[1:]}"
         GRID.append(gid)
         L.append(f'        subgraph {gid} [" "]')
         cell = cells.get(cid)
-        if cell and not started: started = True; first = True
-        else: first = False
-        arrow = started and not merged and not first and not prev.endswith("L")
+        live = ids.index(first_c) < ids.index(cid) <= ids.index(last_c)
         items = []
-        if cell == "merge":
-            L.append(f'        {nid}["joins the<br/><b>FULL DATABASE</b><br/>sends from here"]'); cls["merge"].append(nid)
-        elif cell:
+        if cell:
             (k, b, lab), items = cell[0], cell[1:]
-            node(nid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
-            if link_for(rid, k, lab): links.append(f'    click {nid} href "{link_for(rid, k, lab)}" _blank')
-        elif started and not merged and cid in REST:
+            put(nid, k, b, lab)
+        elif live and cid in REST:
             L.append(f'        {nid}["no send"]'); cls["rest"].append(nid)
         else:
             L.append(f'        {nid}[" "]'); cls["sp"].append(nid)
-        # other sends that day stack in the same column; the main email is defined last so it sits on top
-        # plain line through empty days, arrowhead only into a real send
-        links.append(f"    {prev} {('-->' if cell else '---') if arrow else '~~~'} {nid}")
+        # timeline line runs between this list's sends; arrowhead only into a real send, never into a note box
+        is_send = bool(cell) and cell[0][0] not in ("note", "warn")
+        links.append(f"    {prev} {('-->' if is_send else '---' if not cell else '-.-') if live else '~~~'} {nid}")
         # each extra send sits in a lane chained from the same lane the day before, so the rows stay straight
-        if cell and cell != "merge":
+        if cell:
             items = items + [("blank", None, " ")] * (depth - len(cell))
         for j, (k, b, lab) in enumerate(items):
             xi += 1; xid = f"{rid}x{xi}"
-            node(xid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
-            if link_for(rid, k, lab): links.append(f'    click {xid} href "{link_for(rid, k, lab)}" _blank')
+            put(xid, k, b, lab)
             links.append(f"    {lanes[j] or prev} ~~~ {xid}")
             lanes[j] = xid
         L.append("        end")
-        if cell == "merge": merged = True
         prev = nid
     if rid in PAGE_URL:
         pid = rid+"P"
-        node(pid, "salespagelive", "<b>Pre-print page</b><br/>/pre-print<br/>every email + SMS", w=212, h=269)
+        node(pid, "salespagelive", "<b>Pre-print page</b><br/>/pre-print<br/>(SMS link)", w=212, h=269)
         links.append(f'    click {pid} href "{PAGE_URL[rid]}" _blank')
         links.append(f"    {prev} ~~~~~ {pid}")
     else:
-        # invisible box in the CTA column: without it the layout pulls BMC45 down next to the database track
+        # invisible box in the CTA column: without it the layout pulls the BMC45 row down next to the database track
         L.append(f'        {rid}P[" "]'); cls["sp"].append(rid+"P")
         links.append(f"    {prev} ~~~~~ {rid}P")
     L.append("    end")
     L.extend(links)
-    L.append(f"    HL ~~~ {rid}_c21")
+    L.append(f"    HL ~~~ {rid}_{C0}")
     L.append(f"    style T_{rid} fill:{fill},stroke:{stroke},stroke-width:2px,color:{stroke}")
     L.append("")
 
@@ -299,7 +282,6 @@ else:
     L.append("    end")
     L.append("")
 L.append("    style HDR fill:#f3f1ec,stroke:#d9d4c7,stroke-width:1px")
-L.append("    style T_B fill:#f5eef8,stroke:#7b2d8e,stroke-width:2px,color:#7b2d8e")
 if not INLINE: L.append("    style KEY fill:#fafafa,stroke:#999,stroke-dasharray:4 3")
 # (no per-image class needed: the frontmatter theme vars already make node frames transparent)
 # Mermaid stacks LR subgraphs bottom-up, so emit tracks in reverse to read top-down
@@ -322,7 +304,8 @@ L += [
  "    classDef rest fill:#eee,color:#888,stroke:#ccc,stroke-dasharray:4 3",
  "    classDef sp fill:none,stroke:none,color:transparent",
  "    classDef gridc fill:none,stroke:none",
- "    classDef merge fill:#fff,stroke:#b00020,stroke-width:2px,color:#b00020,font-size:20px",
+ "    classDef note fill:#fff,stroke:#888,stroke-width:1px,color:#333,font-size:20px",
+ "    classDef warn fill:#fff3cd,stroke:#d97706,stroke-width:2px,color:#7c2d12,font-size:20px",
  "    classDef dst fill:#fff,stroke:#7b2d8e,stroke-dasharray:4 3,color:#333,font-size:22px",
  "    linkStyle default stroke:#888",
 ]
