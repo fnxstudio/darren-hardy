@@ -200,7 +200,7 @@
 
   // ---------- coin pop-up ----------
   var LV = {
-    copper:   { coin: 'Copper', i: 1, desc: 'Two leaders in April because of you. Your name is on the board and climbing.',
+    copper:   { coin: 'Copper', i: 1, desc: 'You plus another leader in April. Your name is on the board and climbing.',
                 tips: [['Start with the leader closest to you.', 'Your number two is the easiest first yes on the board.'], ['Investing for your own team?', 'Enroll each leader and every one shows on your board.'], ['Your first impact is the hardest one.', 'Your Copper coin follows the next.']] },
     silver:   { coin: 'Silver', i: 2, desc: 'Four leaders in April because of you. Keep going.',
                 tips: [['Bring them as a team.', 'Two leaders from the same company is two impacts in one conversation.'], ['Use the Challenge.', 'Leaders who spend three days with Darren in December say yes to April.'], ['Follow up personally.', 'A two-line text a week later turns maybes into yeses.']] },
