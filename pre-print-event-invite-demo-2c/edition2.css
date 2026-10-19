@@ -1,0 +1,223 @@
+/* Founders Event invite, 100-book: TCEB Brand & Design System Edition 2.0, light (red) register.
+   Layered over the live page's Webflow classes so each rule maps 1:1 to a Webflow style change later.
+   Boards used: 1.1 palette + type, 1.2 grounds + rules, 8.1 UI kit, 8.2 forms, 8.5 pop-ups, 7.1 player. */
+
+:root {
+  --jet: #000; --ink: #111; --graphite: #2B2B2B; --slate: #5A5A5A; --ash: #9A9A9A;
+  --platinum: #D9D7D2; --rule: #E9E8E4; --rule-dark: #E1E0DC; --studio: #F3F3F1; --white: #fff;
+  --red: #E1132E; --cardinal: #A50F1E;
+  --display: bebas-neue-pro-semiexpanded, "Bebas Neue", sans-serif;
+  --serif: kepler-3-display, "Bodoni Moda", Georgia, serif;
+  --sans: Inter, Arial, sans-serif;
+  --lift: 0 1px 2px rgba(17,17,17,.04), 0 24px 48px -20px rgba(17,17,17,.18);
+  --object: 0 2px 4px rgba(17,17,17,.05), 0 40px 80px -30px rgba(17,17,17,.28);
+}
+
+/* Grounds: every ground is lit. Studio white, lit from above. */
+.pp-main { background: var(--studio); color: var(--ink); }
+.ei-hero {
+  padding-top: 40px; padding-bottom: 72px;
+  background: radial-gradient(120% 70% at 50% 0%, #fff 0%, #fff 35%, var(--studio) 100%);
+}
+
+/* Confirmation: a paper card, the book standing on its own reflection */
+.ei-confirm {
+  background: var(--white); border: 1px solid var(--rule); box-shadow: var(--lift);
+  padding: 16px 28px 16px 18px; margin-bottom: 56px;
+}
+.ei-confirm-book { -webkit-box-reflect: below 1px linear-gradient(transparent 62%, rgba(255,255,255,.28)); }
+.ei-qty { font-family: var(--serif); font-weight: 600; color: var(--ink); }
+.ei-check { background: var(--ink) !important; color: #fff !important; }
+.ei-confirm-words { font-family: var(--sans); font-weight: 600; letter-spacing: .14em; color: var(--ink); }
+.ei-order-no { color: var(--slate); font-variant-numeric: tabular-nums; letter-spacing: .06em; }
+
+/* Headline: small sets up, big answers. Display line-height .88, the period carries the red. */
+.ei-pre {
+  font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .32em;
+  color: var(--slate); margin-bottom: 20px;
+}
+.ei-title { text-wrap: balance; font-family: var(--display); font-weight: 700; line-height: .88; letter-spacing: .005em; margin-bottom: 28px; }
+.ei-title .pp-setup { color: var(--ash); font-weight: 700; font-size: .52em; line-height: .95; margin-bottom: .12em; }
+.ei-title .pp-answer { color: var(--ink); font-weight: 700; font-size: 1.32em; }
+.ei-title .pp-answer::after { content: ""; }
+.ei-sub { font-family: var(--sans); font-weight: 300; font-size: 20px; line-height: 1.6; color: var(--graphite); margin-bottom: 40px; }
+.ei-sub .pp-strong { font-weight: 600; color: var(--ink); }
+.ei-sub-line { display: block; margin-top: 4px; }
+
+/* Player: an object on Studio, lifted, 2px corners */
+.ei-player { border-radius: 2px; box-shadow: var(--object); margin-bottom: 48px; background: var(--jet); }
+
+/* Buttons (8.1): 60px, Inter 600 12px .2em, one solid per view, hover lifts and grows, never darkens */
+.pp-btn {
+  min-height: 60px; padding: 0 40px; border-radius: 2px;
+  font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: .2em;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s;
+}
+.pp-btn.is-solid { background: var(--red); color: #fff; box-shadow: 0 14px 30px -14px rgba(225,19,46,.55); }
+.pp-btn.is-solid:hover { background: var(--red); transform: translateY(-3px) scale(1.04); box-shadow: 0 22px 40px -16px rgba(225,19,46,.6); }
+.pp-btn .pp-arw { transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+.pp-btn:hover .pp-arw { transform: translateX(6px); }
+.ei-no-thanks { color: var(--slate); font-size: 13px; text-underline-offset: 4px; text-decoration-color: var(--platinum); }
+.ei-no-thanks:hover { color: var(--ink); text-decoration-color: var(--ink); }
+
+/* The event: Founders display is Kepler caps, wide, never narrow */
+.ei-event-block { margin-top: 104px; padding-top: 64px; border-top: 1px solid var(--rule-dark); }
+.ei-event-title {
+  font-family: var(--serif); font-weight: 600; text-transform: uppercase;
+  letter-spacing: .12em; line-height: 1; color: var(--ink);
+  font-size: min(64px, 5vw); margin: 0 0 22px; white-space: nowrap;
+}
+.ei-event-meta { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .32em; color: var(--slate); margin-bottom: 28px; }
+.ei-dot { color: var(--platinum); margin: 0 .6em; }
+.ei-event-note { font-family: var(--sans); font-weight: 300; font-size: 20px; line-height: 1.6; color: var(--graphite); max-width: 640px; margin-left: auto; margin-right: auto; }
+.ei-event-note .pp-book-title { font-weight: 600; font-style: normal; color: var(--ink); }
+
+/* Two paper cards on Studio, joined by a serif plus (circles are kept for play, seal and the DH mark) */
+.ei-block { background: var(--studio); padding-top: 0; padding-bottom: 120px; }
+.ei-duo { align-items: stretch; }
+.ei-card { background: var(--white); border: 1px solid var(--rule); box-shadow: var(--lift); padding: 48px 44px 44px; }
+.ei-card-h { text-wrap: balance; font-family: var(--display); font-weight: 700; line-height: .9; font-size: clamp(30px, 3vw, 40px); margin-bottom: 18px; }
+.ei-card-h .ei-br { color: var(--ash); }
+.ei-card-p, .ei-card-p-end { font-family: var(--sans); font-size: 16px; line-height: 1.65; color: var(--graphite); }
+.ei-card-p-end { color: var(--ink); font-weight: 600; }
+.ei-card-red { color: var(--cardinal); font-family: var(--sans); font-size: 14px; font-weight: 600; }
+.ei-plus {
+  background: none; box-shadow: none; color: var(--ink); border-radius: 0;
+  font-family: var(--serif); font-weight: 400; font-size: 72px; width: 64px; height: 64px;
+}
+
+/* BMC|COLLECTIVE strip: a paper card with serif numerals */
+.ei-cl { background: var(--white); border: 1px solid var(--rule); box-shadow: var(--lift); margin-top: 72px; }
+.ei-cl-chip {
+  color: var(--ink); border: 1px solid var(--ink); background: var(--white);
+  font-size: 11px; font-weight: 600; letter-spacing: .32em; padding: 10px 18px;
+}
+.ei-cl-intro { border-right-color: var(--rule) !important; }
+.ei-cl-lead { color: var(--ink); }
+.ei-cl-items { counter-reset: cl; }
+.ei-cl-item, .ei-cl-item-b { counter-increment: cl; border-color: var(--rule) !important; color: var(--graphite); }
+.ei-cl-item::before, .ei-cl-item-b::before {
+  content: counter(cl, lower-roman) "."; display: block; margin-bottom: 8px;
+  font-family: var(--serif); font-size: 26px; line-height: 1; color: var(--cardinal);
+}
+.ei-cl-t { font-family: var(--sans); font-weight: 600; color: var(--ink); }
+
+/* The offer: light, never dark. Two paper cards; the struck price sets up, the investment answers big. */
+.ei-offer { background: transparent; padding: 0; margin-top: 96px; }
+.ei-plans { gap: 28px; }
+.ei-plan { background: var(--white); border: 1px solid var(--rule); box-shadow: var(--object); padding: 52px 40px 44px; }
+.ei-plan-label { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .32em; color: var(--slate); margin-bottom: 22px; }
+.ei-big-struck {
+  font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1; color: var(--ash);
+  text-decoration: line-through; text-decoration-color: var(--slate); text-decoration-thickness: 1.5px;
+}
+.ei-yours { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; color: var(--slate); margin-top: 18px; }
+.ei-yours-b {
+  display: block; margin-top: 10px; font-family: var(--serif); font-weight: 600; font-size: 64px;
+  line-height: 1; letter-spacing: -.01em; text-transform: none; color: var(--ink);
+}
+.ei-yours-unit { font-family: var(--sans); font-size: 15px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--slate); vertical-align: middle; margin-left: 6px; }
+.ei-terms { color: var(--graphite); font-size: 15px; margin-top: 12px; }
+/* One solid per view: monthly leads, prepay is the ink ghost */
+.pp-btn[data-plan="full"] { background: transparent; color: var(--ink); border: 1px solid var(--ink); box-shadow: none; }
+.pp-btn[data-plan="full"]:hover { background: var(--ink); color: #fff; box-shadow: var(--lift); }
+.ei-applied {
+  margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--rule); width: 100%;
+  color: var(--ink); font-size: 11px; font-weight: 600; letter-spacing: .16em; gap: 8px; align-items: center;
+}
+.ei-applied span::before { content: "✓"; margin-right: 10px; color: var(--ink); }
+.ei-plan-cta { width: 100%; margin-top: 28px; }
+.ei-plan-cta .pp-btn { width: 100%; }
+
+/* Guarantee: the one material moment. A satin silver coin (TCEB's metal), never chrome, never red. */
+.ei-guar { margin-top: 64px; grid-template-columns: 112px minmax(0, 1fr); gap: 32px; }
+.ei-seal {
+  width: 112px; height: 112px; color: var(--ink);
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 41px, rgba(0,0,0,.18) 41px 42px, transparent 42px),
+    repeating-conic-gradient(from 0deg, rgba(255,255,255,.35) 0 2deg, rgba(0,0,0,.06) 2deg 4deg),
+    radial-gradient(circle at 32% 26%, #fff 0%, #e9e8e4 30%, #bdbbb6 62%, #8f8d88 100%);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.9), inset 0 -2px 4px rgba(0,0,0,.18), 0 14px 28px -12px rgba(17,17,17,.35);
+}
+.ei-seal-big { font-family: var(--serif); font-weight: 600; font-size: 38px; line-height: 1; }
+.ei-seal-small { font-family: var(--sans); font-size: 8px; font-weight: 600; letter-spacing: .28em; margin-top: 4px; }
+.ei-guar-h { font-family: var(--display); font-weight: 700; font-size: 30px; line-height: .9; color: var(--ink); text-transform: uppercase; margin-bottom: 10px; }
+.ei-guar-p { font-family: var(--sans); font-size: 16px; line-height: 1.65; color: var(--graphite); }
+.ei-decline-row-2 { margin-top: 56px; }
+
+/* Order form section */
+.pp-order { background: var(--white); border-top: 1px solid var(--rule); padding-top: 104px; }
+.pp-h2.is-order { font-family: var(--display); font-weight: 700; line-height: .88; }
+
+/* Leave-page pop-up (8.5 modal, red register): lit white card, book standing on its reflection, left of the copy */
+.ei-take { background: rgba(17,17,17,.62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.ei-take-panel {
+  display: grid; grid-template-columns: 250px minmax(0, 1fr); column-gap: 44px; align-items: start;
+  text-align: left; max-width: 900px; padding: 56px 52px 44px 44px;
+  border-top: 0; background: radial-gradient(120% 90% at 30% 0%, #fff 0%, var(--studio) 100%);
+  box-shadow: 0 40px 100px -30px rgba(0,0,0,.6);
+}
+.ei-take-panel > * { grid-column: 2; }
+.ei-take-book { grid-column: 1; grid-row: 1 / span 9; align-self: center; }
+.ei-take-book img {
+  display: block; width: 100%; height: auto; margin-top: -8px;
+  -webkit-box-reflect: below 2px linear-gradient(transparent 70%, rgba(255,255,255,.3));
+  filter: drop-shadow(0 18px 24px rgba(0,0,0,.22));
+}
+.ei-take-x { grid-column: auto; color: var(--slate); }
+.ei-take-kicker { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .32em; color: var(--cardinal); margin-bottom: 14px; }
+.ei-take-h { font-family: var(--display); font-weight: 700; line-height: .88; font-size: clamp(34px, 4vw, 54px); margin-bottom: 18px; text-wrap: balance; }
+.ei-take-h-grey { display: block; color: var(--ash); font-size: .55em; line-height: .95; margin-bottom: .1em; }
+.ei-take-p { font-family: var(--sans); font-size: 16px; line-height: 1.6; color: var(--graphite); }
+.ei-take-big { font-family: var(--sans); font-size: 18px; font-weight: 600; color: var(--ink); margin-top: 6px; }
+.ei-take-math { background: var(--white); border: 1px solid var(--rule); width: 100%; font-variant-numeric: tabular-nums; }
+.ei-take-r, .ei-take-r-red, .ei-take-r-total { font-family: var(--serif); text-align: right; }
+.ei-take-l-red, .ei-take-r-red { color: var(--cardinal); }
+.ei-take-l-total, .ei-take-r-total { border-top: 1px solid var(--rule); padding-top: 10px; font-weight: 600; color: var(--ink); }
+.ei-take-r-total { font-size: 22px; }
+.ei-take-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px; width: 100%;
+  min-height: 60px; border-radius: 2px; background: var(--red); color: #fff; text-decoration: none;
+  font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  box-shadow: 0 14px 30px -14px rgba(225,19,46,.55); transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s;
+}
+.ei-take-cta:hover { background: var(--red); transform: translateY(-3px) scale(1.02); }
+.ei-take-cta:hover .ei-take-arw { transform: translateX(6px); }
+.ei-take-arw { transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+.ei-take-no { color: var(--slate); font-size: 13px; }
+
+/* Phone (8.3): designed at 390, checked at 360 */
+@media (max-width: 767px) {
+  .ei-hero { padding-top: 24px; padding-bottom: 48px; }
+  .ei-confirm { margin-bottom: 36px; padding: 14px 18px; }
+  .ei-confirm-words { letter-spacing: .06em; font-size: 12px; }
+  .ei-title .pp-answer { font-size: 1.12em; }
+  .ei-sub, .ei-event-note { font-size: 17px; }
+  .ei-event-block { margin-top: 64px; padding-top: 48px; }
+  .ei-event-title { font-size: 12vw; letter-spacing: .08em; line-height: 1.02; white-space: normal; }
+  .ei-event-meta { letter-spacing: .24em; line-height: 2.1; }
+  .ei-dot { display: block; height: 0; overflow: hidden; }
+  .ei-card { padding: 36px 24px 32px; }
+  .ei-plus { font-size: 44px; height: 44px; margin: -6px 0; }
+  .ei-plan { padding: 40px 22px 32px; }
+  .ei-yours-b { font-size: 52px; }
+  .ei-applied { font-size: 10px; letter-spacing: .08em; }
+  .pp-btn { padding: 0 16px; letter-spacing: .14em; white-space: nowrap; }
+  .ei-take-cta { letter-spacing: .12em; white-space: nowrap; }
+  .ei-guar { grid-template-columns: 88px minmax(0, 1fr); gap: 20px; }
+  .ei-seal { width: 88px; height: 88px; }
+  .ei-seal-big { font-size: 30px; }
+  .ei-take { padding: 0; align-items: flex-end; }
+  .ei-take-panel { grid-template-columns: 1fr; padding: 40px 22px 28px; max-height: 92vh; }
+  .ei-take-panel > *, .ei-take-book { grid-column: 1; grid-row: auto; }
+  .ei-take-book { width: 120px; margin: 0 auto 18px; }
+  .ei-take-book img { -webkit-box-reflect: unset; }
+  .ei-take-h, .ei-take-kicker, .ei-take-p, .ei-take-big { text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-btn, .pp-btn .pp-arw, .ei-take-cta, .ei-take-arw { transition: none; }
+}
+
+/* Never orphan a word: balance headlines, pretty body copy */
+.pp-main p, .ei-take p { text-wrap: pretty; }
