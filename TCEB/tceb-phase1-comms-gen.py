@@ -172,21 +172,23 @@ for r in rows:
     if r[0] in "FBEAL":
         r[4]["c26"] = r[4].get("c26", []) + [DD_EP]
 
-# click-through for each send: the HubSpot email when the doc has one, otherwise its copy in the doc tab
+# click-through for each send: its copy in the TCEB comms doc (not HubSpot), landing on the email's own
+# heading where the doc has one, otherwise on its tab. Database sends repeated in other tracks open the Database tab.
 DOC = "https://docs.google.com/document/d/15628lGSNXqxl2xQh4pL2uDGvO1i7xhiTiUNM2asodcE/edit?tab="
-HS = "https://app.hubspot.com/email/2518645/edit/{}/content"
-TAB = {"E": DOC + "t.hb2basg0f79j", "A": DOC + "t.8smus8m5ntqa", "L": DOC + "t.s79c1yc88ito",
-       "R": DOC + "t.24dzkch4015d", "D": DOC + "t.dnqyqufg1y5"}
-HSID = {"DarrenDaily #1": "224873946746", "DarrenDaily #2": "224873978382", "Database #1": "224630243100",
-        "Database #2": "224630258783", "Database #3": "224630324315", "Database #4": "224630474342",
-        "Database #5": "224640335988", "Closedown #1": "224635911725", "Closedown #2": "224636060817",
-        "Reopening #1": "224653094263", "Reopening #2": "224640510644", "Reopening #3": "224653107269"}
+TAB = {"E": "t.hb2basg0f79j", "A": "t.8smus8m5ntqa", "L": "t.s79c1yc88ito", "R": "t.24dzkch4015d", "D": "t.dnqyqufg1y5"}
+HEADING = {"BMC Alumni #1": "h.iscz5n2sg7w", "BMC Alumni #2": "h.vigy2wn7vktq",
+           "SMS 2": "h.rinsj4b75mrt", "SMS 3": "h.ybl0d88va2we",
+           "Closedown #1": "h.tjjip45m8v2l", "Closedown #2": "h.jzesfq2ejrhl",
+           "Reopening #1": "h.aj6tigohwkke", "Reopening #2": "h.26umpjrkn80a", "Reopening #3": "h.dztm4893jeeh"}
+DB_SENDS = ("Database #", "SMS 2", "SMS 3", "SMS Database", "Closedown #", "Reopening #")
 def link_for(rid, kind, label):
-    if kind not in ("email", "sms"): return None
     name = label.split("</b>")[0].replace("<b>", "")
-    if name in HSID: return HS.format(HSID[name])
-    if name.startswith(("SMS 2", "SMS 3")): return TAB["D"]
-    return TAB[rid]
+    if kind == "dd": return DOC + TAB["R"]          # the announcement is promised in DarrenDaily #1
+    if kind not in ("email", "sms"): return None
+    tab = TAB["D"] if name.startswith(DB_SENDS) else TAB[rid]
+    for k, h in HEADING.items():
+        if name.startswith(k): return DOC + tab + "#heading=" + h
+    return DOC + tab
 
 W, H = 96, 122
 L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = list's first send · red envelope = closedown (Fri 10/30 + Sun 11/1) · ⚠ = gap in the doc to check · times as written (TZ / PT) · click any send to open it" if INLINE else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
