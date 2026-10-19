@@ -60,7 +60,8 @@ def mini(v):
     v = v.replace("fill='#ffffff'", "fill='#fff'")
     return v
 OUTDIR = sys.argv[2]
-INLINE = len(sys.argv) > 3 and sys.argv[3] == "inline"
+INLINE = len(sys.argv) > 3 and sys.argv[3] in ("inline", "hosted")   # mermaid.ai look: text key, no badges
+HOSTED = len(sys.argv) > 3 and sys.argv[3] == "hosted"                  # ...with pictures served from GitHub Pages
 BASE = "https://fnxstudio.github.io/darren-hardy/TCEB/img/comms/"
 def img(kind, badge=None):
     suffix = "" if not badge else ("-open" if badge == OPEN else "-close")
@@ -71,10 +72,19 @@ def img(kind, badge=None):
         art = art.replace("#222", c).replace("#ddd", t).replace("fill='#fff'", f"fill='{t}'", 1)
     head = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 92'>" if kind == "pumpkin" else HEAD
     svg = head + art + ("" if INLINE else (badge or "")) + "</svg>"
-    open(os.path.join(OUTDIR, name), "w").write(svg.replace("'", '"'))
+    if not INLINE: open(os.path.join(OUTDIR, name), "w").write(svg.replace("'", '"'))   # badged files belong to the plain version
     if INLINE:
         svg = mini(svg)
-        return "data:image/svg+xml," + svg.replace("%", "%25").replace("#", "%23").replace("<", "%3C").replace(">", "%3E")
+        if kind == "email":
+            # one outline colour per envelope: set it once on <svg> instead of on every shape (the CTA bar shares it)
+            c = re.search(r"stroke='(#[0-9a-f]+)'", svg).group(1)
+            svg = svg.replace(f" stroke='{c}'", "").replace("<svg ", f"<svg stroke='{c}' ", 1)
+        if HOSTED:
+            mname = f"{kind}{suffix}-m.svg"
+            open(os.path.join(OUTDIR, mname), "w").write(svg)
+            return BASE + mname
+        # < and > stay raw (browsers accept them in a data URI)
+        return "data:image/svg+xml," + svg.replace("%", "%25").replace("#", "%23")
     return BASE + name
 
 OPEN = pill("OPEN", "#c9a227")
@@ -85,22 +95,25 @@ cols = [("c22","Thu","Oct 22"),("c23","Fri","Oct 23"),("c24","Sat","Oct 24"),
         ("c25","Sun","Oct 25"),("c26","Mon","Oct 26"),("c27","Tue","Oct 27"),("c28","Wed","Oct 28"),
         ("c29","Thu","Oct 29"),("c30","Fri","Oct 30"),("c31","Sat","Oct 31"),("c01","Sun","Nov 1")]
 C0 = cols[0][0]
-REST = {"c24"}
+REST = set()   # no "no send" markers (user: remove them)
 
 # ONLY what the TCEB doc states (tab "DB EMAIL COMMS" + sub-tabs, docs.google.com/document/d/15628lGSNXqxl2xQh4pL2uDGvO1i7xhiTiUNM2asodcE).
 # Rows = the lists named on the To: lines. Labels = the doc's own email names, send times and subject lines.
 # "W ..." = a gap or contradiction in the doc for the team to check. Nothing here is inferred.
 # cells: col -> [(kind, badge, label)]; first item is the day's main send. kind "note" / "warn" = text box, not a send.
 W_ = "⚠ "
-BIG = {"B": "BMC45<br/>BMC44", "E": "ELITE", "A": "BMC<br/>ALUMNI", "L": "DHLLC<br/>ALUMNI",
+BIG = {"F": "BMC45", "B": "BMC44", "E": "ELITE", "A": "BMC<br/>ALUMNI", "L": "DHLLC<br/>ALUMNI",
        "R": "ACTIVE<br/>DARREN<br/>DAILY", "D": "FULL<br/>DATABASE"}
 COLOR = {}
-PAGE_URL = {"D": "https://www.thecompoundeffect.com/pre-print"}
+PRE = "https://www.thecompoundeffect.com/pre-print"
+PAGE_URL = {r: PRE for r in "EALRD"}   # every track ends on the pre-print page except BMC44 (no CTA)
+PAGE_URL["F"] = "https://www.hardybmc.com/love"   # BMC45 ends on its Love Form
 rows = [
- ("B", "on Exclude lines", "#f5eef8", "#7b2d8e", {
-   "c22": [("warn", None, "<b>On the Exclude line of every email</b><br/>"
-            + W_ + "SMS Database Day 1 excludes neither BMC45 nor BMC44<br/>"
-            + W_ + "SMS Elite / BMC Alumni / DHTV Alumni Day 1 exclude BMC45, not BMC44")]}),
+ ("F", "on Exclude lines", "#f5eef8", "#7b2d8e", {
+   "c22": [("warn", None, "<b>On the Exclude line of every email</b><br/>" + W_ + "SMS Database Day 1 does not exclude BMC45")]}),
+ ("B", "on Exclude lines", "#f1eff4", "#5b4a6e", {
+   "c22": [("warn", None, "<b>On the Exclude line of every email</b><br/>" + W_ + "not excluded from SMS Database Day 1<br/>or SMS Elite / BMC Alumni / DHTV Alumni Day 1"),
+           ("warn", None, W_ + "<b>Why is BMC44 being excluded?</b>")]}),
  ("E", "", "#fff8e1", "#c9a227", {
    "c22": [("email", "open", "<b>ELITE #1</b> · 7am TZ<br/>[Time-sensitive] ELITE invitation<br/>To: ELITE, A-Team<br/>" + W_ + "no HubSpot link"),
            ("sms", None, "<b>SMS Elite Day 1</b> · 1pm TZ<br/>To: Elite members")],
@@ -133,8 +146,9 @@ rows = [
            ("email", "close", "<b>Closedown #1</b> · 3pm PT<br/>Still want your name in it, Jeff?"),
            ("email", "close", "<b>Closedown #2</b> (Brenda) · 4pm PT<br/>Jeff, did you get this taken care of?")],
    "c31": [("email", None, "<b>Reopening #1</b> · 7am TZ<br/>Jeff, I pulled some strings for you")],
-   "c01": [("email", None, "<b>Reopening #2</b> · 7am TZ<br/>Halloween's over. This isn't, Jeff."),
-           ("email", None, "<b>Reopening #3</b> (Brenda) · 7pm PT<br/>Closing at midnight, Jeff")]}),
+   # Sun Nov 1 = the second closedown (red), per Maggie 2026-10-19
+   "c01": [("email", "close", "<b>Reopening #2</b> · 7am TZ<br/>Halloween's over. This isn't, Jeff."),
+           ("email", "close", "<b>Reopening #3</b> (Brenda) · 7pm PT<br/>Closing at midnight, Jeff")]}),
 ]
 
 # Elite / BMC Alumni / DHLLC Alumni are named on the To: line of these database sends, so they appear in those tracks too
@@ -151,6 +165,12 @@ for r in rows:
         for cid, items in D_CELLS.items():
             got = [(k, b, short(lab)) for k, b, lab in items if lab.split("</b>")[0].replace("<b>", "").split(" ·")[0] in TO_LINE[r[0]]]
             if got: r[4][cid] = got
+
+# the Monday DarrenDaily episode announcement reaches every list above Full Database, BMC45 and BMC44 included
+DD_EP = ("dd", None, "<b>DarrenDaily episode</b><br/>announcement")
+for r in rows:
+    if r[0] in "FBEAL":
+        r[4]["c26"] = r[4].get("c26", []) + [DD_EP]
 
 # click-through for each send: the HubSpot email when the doc has one, otherwise its copy in the doc tab
 DOC = "https://docs.google.com/document/d/15628lGSNXqxl2xQh4pL2uDGvO1i7xhiTiUNM2asodcE/edit?tab="
@@ -169,7 +189,7 @@ def link_for(rid, kind, label):
     return TAB[rid]
 
 W, H = 96, 122
-L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = list's first send · red envelope = named Closedown in the doc · ⚠ = gap in the doc to check · times as written (TZ / PT) · click any send to open it" if len(sys.argv) > 3 and sys.argv[3] == "inline" else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
+L = ["---", ("title: TCEB LAUNCH PHASE 1 · Pre-print comms" + (" · KEY · gold envelope = list's first send · red envelope = closedown (Fri 10/30 + Sun 11/1) · ⚠ = gap in the doc to check · times as written (TZ / PT) · click any send to open it" if INLINE else "")), "config:", "  layout: dagre", "  look: classic", "  theme: default", "  flowchart:", "    wrappingWidth: 420", "  themeVariables:", "    primaryColor: '#ffffff00'", "    primaryBorderColor: '#ffffff00'", "    mainBkg: '#ffffff00'", "    nodeBorder: '#ffffff00'", "---",     "flowchart LR"]
 cls = {"hdr":[], "rest":[], "sp":[], "pg":[], "cell":[], "hrest":[], "dst":[], "cc":[], "note":[], "warn":[]}
 
 IMGS = []
@@ -234,13 +254,13 @@ for rid, sub, fill, stroke, cells in rows:
             L.append(f'        {nid}["{lab}"]'); cls[k].append(nid)
         else:
             node(nid, k, lab, {"open": OPEN, "close": CLOSE}.get(b))
-            if link_for(rid, k, lab): links.append(f'    click {nid} href "{link_for(rid, k, lab)}" _blank')
+            if link_for(rid, k, lab): links.append(f'    click {nid} "{link_for(rid, k, lab)}" _blank')
     for cid,_,_ in cols:
         nid = f"{rid}_{cid}"
+        cell = cells.get(cid)
         gid = f"{rid}{cid[1:]}"
         GRID.append(gid)
         L.append(f'        subgraph {gid} [" "]')
-        cell = cells.get(cid)
         live = ids.index(first_c) < ids.index(cid) <= ids.index(last_c)
         items = []
         if cell:
@@ -265,8 +285,9 @@ for rid, sub, fill, stroke, cells in rows:
         prev = nid
     if rid in PAGE_URL:
         pid = rid+"P"
-        node(pid, "salespagelive", "<b>Pre-print page</b><br/>/pre-print<br/>(SMS link)", w=212, h=269)
-        links.append(f'    click {pid} href "{PAGE_URL[rid]}" _blank')
+        if rid == "F": node(pid, "loveform", "<b>BMC45 Love Form</b><br/>hardybmc.com/love", w=212, h=269)
+        else: node(pid, "salespagelive", "<b>Pre-print page</b><br/>/pre-print<br/>(SMS link)", w=212, h=269)
+        links.append(f'    click {pid} "{PAGE_URL[rid]}" _blank')
         links.append(f"    {prev} ~~~~~ {pid}")
     else:
         # invisible box in the CTA column: without it the layout pulls the BMC45 row down next to the database track
@@ -326,4 +347,6 @@ L += [
  "    classDef dst fill:#fff,stroke:#7b2d8e,stroke-dasharray:4 3,color:#333,font-size:22px",
  "    linkStyle default stroke:#888",
 ]
+fm = L.index("flowchart LR")
+L[fm:] = [x.strip() for x in L[fm:]]   # indentation is free in Mermaid but counts against mermaid.ai's 50K cap
 open(sys.argv[1],"w").write("\n".join(L)+"\n")
