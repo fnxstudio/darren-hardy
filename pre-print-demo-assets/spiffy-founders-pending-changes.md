@@ -32,11 +32,12 @@ before writing the code. Asked her not to add her own hiding code.
    inside `tcebAfterMount` (wait for Spiffy's app to settle).
 
 ## VIP / Team boxes (all four carts)
-8. **Bigger red callout, still a corner tab** (user: NOT full width). Tab 15px, letter-spacing .08em,
-   padding 9px 14px (was 11px / 7px 12px), so it's 36px tall; box top padding 56px so the headline clears it
-   (check the 600px rule, which sets 40px). Price block `.tceb-price` top: -7px (was 20px) so "Only ..."
-   sits 14px under the tab, the same gap as before. Mock: `tce-mocks/founders-boxes-corner-tab.jpg` (live cart with
-   the CSS injected, not saved).
+8. **Bigger red callout, still a corner tab** (user: NOT full width; benefit + savings must be the most
+   eye-catching thing). Tab 17px, letter-spacing .08em, padding 12px 16px (was 11px / 7px 12px), so it's
+   44px tall; box top padding 66px so the headline clears it (check the 600px rule, which sets 40px).
+   Price `.tceb-price` top: -9px (was 20px) so "Only ..." sits 14px under the tab as before, and
+   `.tceb-price b` font-weight 400 (was 700). Mock: `tce-mocks/founders-boxes-corner-tab.jpg` (live cart
+   with the CSS injected, not saved).
 9. **VIP row spacing = Team row.** Zero the inner margins (`.form-group` 10px, `.custom-control` 5px) in
    `.tceb-vip .layout-checkboxes1`, give it padding 15px 16px and margin-bottom 20px. Measured with the
    CSS injected: VIP row 74px tall with 21px below, same as Team.
