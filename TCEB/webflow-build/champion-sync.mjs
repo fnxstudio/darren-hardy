@@ -26,6 +26,10 @@
 // Season impacts = seats in `credits` that are not refunded (the console sets refunded for refunded OR cancelled deals). Sprint impacts are the same seats,
 // counted only inside a sprint's dates. Sprints are records in the Webflow "Champion Sprints"
 // collection, so new sprints never need a code change.
+//
+// Levels work the same way. The "Champion Levels" collection holds each level's number (1, 2, 3...)
+// and the seats it takes (Min seats). This script only writes level NUMBERS. What each level is
+// called, and how many seats it takes, are set in Webflow and can change without a code change.
 
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
@@ -37,12 +41,14 @@ const COLLECTIONS = {
   logins: '6acf13c97a9a39ec5acbee1a',
   boardPages: '6ac89043132e0bf5aad97b4a',
   sprints: '6ad15edd5f23f38cd51f5b83',
+  levels: '6ad776ab90f1167d6dedc395',
 };
-const COINS = [ // highest first
-  { name: 'Platinum', min: 10, id: '1d3650743ca4c70aef69155f3c1f44a7' },
-  { name: 'Gold', min: 5, id: 'd412b7374ee3ec2980be561aeebd0220' },
-  { name: 'Silver', min: 3, id: '5e1f014253a7a1e45a1d6bdb8f50342d' },
-  { name: 'Copper', min: 1, id: 'a49b5c01443a208160da4cb973415dca' },
+// Champions "Level option" field, used by the page's list filters: index 0 = Level 1, index 1 = Level 2...
+const LEVEL_OPTIONS = [
+  'a49b5c01443a208160da4cb973415dca',
+  '5e1f014253a7a1e45a1d6bdb8f50342d',
+  'd412b7374ee3ec2980be561aeebd0220',
+  '1d3650743ca4c70aef69155f3c1f44a7',
 ];
 
 // ---- Board rules (we will tell you if any of these change) ----
@@ -66,13 +72,29 @@ export function slugFor(referralId) {
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
-export function coinFor(impacts) {
-  return COINS.find((c) => impacts >= c.min) || null;
+// Champion Levels records -> [{ level, min, name }], lowest first. Stops the sync if they don't add up.
+export function readLevels(items) {
+  const levels = items
+    .map((it) => ({ level: Number(it.fieldData.level), min: Number(it.fieldData['min-seats']), name: String(it.fieldData.name || '').trim() }))
+    .filter((l) => l.level > 0)
+    .sort((a, b) => a.level - b.level);
+  if (!levels.length || levels.length > LEVEL_OPTIONS.length) throw new Error(`Champion Levels needs 1 to ${LEVEL_OPTIONS.length} levels, found ${levels.length}`);
+  levels.forEach((l, i) => {
+    if (l.level !== i + 1) throw new Error('Champion Levels must be numbered 1, 2, 3... with no gaps');
+    if (!(l.min > 0) || (i && l.min <= levels[i - 1].min)) throw new Error(`Champion Levels: Level ${l.level} needs more Min seats than the level below it`);
+  });
+  return levels;
 }
 
-export function nextCoinFor(impacts) {
-  const above = COINS.filter((c) => c.min > impacts);
-  return above.length ? above[above.length - 1] : null; // the lowest coin still above them
+// 0 = not at a level yet.
+export function levelFor(impacts, levels) {
+  let n = 0;
+  for (const l of levels) if (impacts >= l.min) n = l.level;
+  return n;
+}
+
+export function nextLevelFor(impacts, levels) {
+  return levels.find((l) => l.min > impacts) || null; // null at the top level
 }
 
 export function statusLine(rank, impacts) {
@@ -159,10 +181,10 @@ export function sprintStandings(champions, win) {
 // new-coin-this-month, team-line) are never included, so updates leave them alone.
 // `sprint` is { impacts, rank, status } for the live sprint, null when no sprint is live,
 // or undefined to leave the sprint fields as they are (live sprint that is locked).
-export function fieldsFor(c, lastWeekRank, sprint) {
+export function fieldsFor(c, lastWeekRank, sprint, levels) {
   const impacts = Math.max(0, Math.floor(Number(c.impacts) || 0));
-  const coin = coinFor(impacts);
-  const next = nextCoinFor(impacts);
+  const level = levelFor(impacts, levels);
+  const next = nextLevelFor(impacts, levels);
   const f = {
     name: c.name,
     slug: slugFor(c.referralId),
@@ -171,9 +193,10 @@ export function fieldsFor(c, lastWeekRank, sprint) {
     email: String(c.email || '').trim().toLowerCase(),
     impacts,
     rank: c.rank,
-    coin: coin ? coin.id : null,
-    'next-coin': next ? next.name : '',
-    'to-next-coin': next ? next.min - impacts : 0,
+    level,
+    coin: level ? LEVEL_OPTIONS[level - 1] : null,
+    'next-level': next ? next.level : 0,
+    'to-next-level': next ? next.min - impacts : 0,
     'spots-to-studio-line': Math.max(0, c.rank - STUDIO_SEATS),
     'move-this-week': lastWeekRank ? lastWeekRank - c.rank : 0,
     'status-line': statusLine(c.rank, impacts),
@@ -186,14 +209,18 @@ export function fieldsFor(c, lastWeekRank, sprint) {
   return f;
 }
 
-export function boardPageRows(ranked) {
+// Page 1 starts with two header lines: "pages=N" and "levels=Name:min,Name:min,..." (lowest first),
+// so the page can name the levels without its own copy of the rules. Rows are rank|name|level|impacts.
+export function boardPageRows(ranked, levels) {
+  const clean = (t) => String(t).replace(/[|,:\n]/g, ' ').trim();
+  const levelLine = 'levels=' + levels.map((l) => `${clean(l.name)}:${l.min}`).join(',');
   const onBoard = ranked.filter((c) => c.impacts > 0);
-  const lines = onBoard.map((c) => [c.rank, String(c.name).replace(/\|/g, ' '), coinFor(c.impacts).name, c.impacts].join('|'));
+  const lines = onBoard.map((c) => [c.rank, clean(c.name), levelFor(c.impacts, levels), c.impacts].join('|'));
   const pages = Math.max(1, Math.ceil(lines.length / ROWS_PER_PAGE));
   const out = [];
   for (let p = 0; p < pages; p++) {
     const chunk = lines.slice(p * ROWS_PER_PAGE, (p + 1) * ROWS_PER_PAGE);
-    out.push(p === 0 ? [`pages=${pages}`, ...chunk].join('\n') : chunk.join('\n'));
+    out.push(p === 0 ? [`pages=${pages}`, levelLine, ...chunk].join('\n') : chunk.join('\n'));
   }
   return out; // out[0] -> p1, out[1] -> p2 ...
 }
@@ -321,7 +348,10 @@ export async function syncChampions(input, opts = {}) {
   const everyone = [...byId.values()];
   if (everyone.some((c) => !Array.isArray(c.credits))) log('Note: some Champions were sent without `credits`, so their sprint impacts count as 0.');
 
-  // 2. Season ranking, then every field, before writing anything.
+  // 2. Levels from Webflow, then the season ranking and every field, before writing anything.
+  if (offline && !opts.levels) throw new Error('A dry run without a token needs opts.levels (Champion Levels records)');
+  const levels = readLevels(offline ? opts.levels : await wf.listAll(COLLECTIONS.levels));
+  log(`Levels: ${levels.map((l) => `${l.level} = ${l.min}+ seats`).join(', ')}`);
   const ranked = rankChampions(everyone);
   let snap = await snapshot.load();
   if (!snap.takenAt || new Date(snap.takenAt) < lastMondayET(now)) {
@@ -357,7 +387,7 @@ export async function syncChampions(input, opts = {}) {
   };
   const wanted = ranked.map((c) => {
     const slug = slugFor(c.referralId);
-    return fieldsFor(c, snap.ranks[slug], sprintFor(slug));
+    return fieldsFor(c, snap.ranks[slug], sprintFor(slug), levels);
   });
 
   // 4. Read what is in Webflow now.
@@ -395,7 +425,7 @@ export async function syncChampions(input, opts = {}) {
   }
 
   // 7. Board Pages (the season's full standings list).
-  const pageRows = boardPageRows(ranked);
+  const pageRows = boardPageRows(ranked, levels);
   const pageBySlug = new Map(existingPages.map((it) => [it.fieldData.slug, it]));
   const pageCreate = [], pageUpdate = [];
   pageRows.forEach((rows, i) => {
@@ -451,9 +481,23 @@ export async function selfTest() {
   assert(statusLine(27, 2) === '22 spots behind the Top 5 right now.', 'inside top 40, any impacts');
   assert(statusLine(43, 4) === '3 spots behind In Studio eligibility right now.', 'studio gap');
   assert(statusLine(2, 0) === 'Your first impact puts you on the board.', 'zero impacts');
-  assert(coinFor(0) === null && coinFor(2).name === 'Copper' && coinFor(4).name === 'Silver' && coinFor(9).name === 'Gold' && coinFor(10).name === 'Platinum', 'coins');
-  const f = fieldsFor({ referralId: 'ABC123', name: 'Pat Lee', email: 'P@x.com', impacts: 8, rank: 27 }, 29);
-  assert(f.slug === 'abc123' && f['next-coin'] === 'Platinum' && f['to-next-coin'] === 2 && f['move-this-week'] === 2 && f.coin === COINS[1].id, 'fields');
+  const lv = (level, min, name) => ({ fieldData: { level, 'min-seats': min, name } });
+  const levelItems = [lv(4, 16, 'Platinum'), lv(1, 2, 'Copper'), lv(3, 8, 'Gold'), lv(2, 4, 'Silver')]; // any order
+  const levels = readLevels(levelItems);
+  assert(levelFor(0, levels) === 0 && levelFor(1, levels) === 0 && levelFor(2, levels) === 1 && levelFor(7, levels) === 2 && levelFor(8, levels) === 3 && levelFor(40, levels) === 4, 'levels');
+  assert(nextLevelFor(5, levels).level === 3 && nextLevelFor(16, levels) === null, 'next level');
+  const alt = readLevels([lv(1, 1, 'A'), lv(2, 3, 'B'), lv(3, 5, 'C'), lv(4, 10, 'D')]);
+  assert(levelFor(1, alt) === 1 && levelFor(9, alt) === 3, 'levels follow the records');
+  let bad = 0;
+  for (const items of [[], [lv(1, 2, 'A'), lv(3, 8, 'C')], [lv(1, 4, 'A'), lv(2, 4, 'B')], [1, 2, 3, 4, 5].map((n) => lv(n, n, 'X'))]) {
+    try { readLevels(items); } catch { bad++; }
+  }
+  assert(bad === 4, 'bad level records stop the sync');
+  const f = fieldsFor({ referralId: 'ABC123', name: 'Pat Lee', email: 'P@x.com', impacts: 9, rank: 27 }, 29, undefined, levels);
+  assert(f.slug === 'abc123' && f.level === 3 && f.coin === LEVEL_OPTIONS[2] && f['next-level'] === 4 && f['to-next-level'] === 7 && f['move-this-week'] === 2, 'fields');
+  const top = fieldsFor({ referralId: 'T1', name: 'Top', impacts: 20, rank: 1 }, 1, undefined, levels);
+  const zero = fieldsFor({ referralId: 'N1', name: 'New', impacts: 0, rank: 50 }, 50, undefined, levels);
+  assert(top.level === 4 && top['next-level'] === 0 && top['to-next-level'] === 0 && zero.level === 0 && zero.coin === null && zero['to-next-level'] === 2, 'top and zero');
   assert(!('sprint-impacts' in f), 'sprint fields left alone when undefined');
   const r = rankChampions([
     { name: 'A', impacts: 3, lastCreditAt: '2026-11-02T00:00:00Z' },
@@ -461,8 +505,8 @@ export async function selfTest() {
     { name: 'C', impacts: 5 },
   ]);
   assert(r.map((c) => c.name).join('') === 'CBA', 'rank and tie-break');
-  const rows = boardPageRows(r.concat({ name: 'Z|ero', impacts: 0, rank: 4 }));
-  assert(rows.length === 1 && rows[0].startsWith('pages=1\n1|C|Gold|5') && !rows[0].includes('ero'), 'board rows');
+  const rows = boardPageRows(r.concat({ name: 'Z|ero', impacts: 0, rank: 4 }), levels);
+  assert(rows.length === 1 && rows[0].startsWith('pages=1\nlevels=Copper:2,Silver:4,Gold:8,Platinum:16\n1|C|2|5\n2|B|1|3') && !rows[0].includes('ero'), 'board rows');
 
   // Eastern-time windows, including the daylight-saving change on Nov 1, 2026.
   assert(new Date(easternDayStart('2026-11-01')).toISOString() === '2026-11-01T04:00:00.000Z', 'EDT midnight');
@@ -491,7 +535,7 @@ export async function selfTest() {
   assert(sprintStatusLine(2, 5, 7) === '2 impacts behind the sprint leader.' && sprintStatusLine(1, 7, 7) === 'Leading this sprint.', 'sprint status');
 
   // Full offline run during the sprint, then after it ends, then with no sprints at all.
-  const quiet = { log: () => {}, dryRun: true, snapshot: { load: async () => ({ takenAt: null, ranks: {} }), save: async () => {} } };
+  const quiet = { log: () => {}, dryRun: true, levels: levelItems, snapshot: { load: async () => ({ takenAt: null, ranks: {} }), save: async () => {} } };
   const during = await syncChampions(people, { ...quiet, now: '2026-11-03T12:00:00Z', sprints: [sprint] });
   const b = during.wanted.find((w) => w.slug === 'brenda1'), p = during.wanted.find((w) => w.slug === 'pat1');
   assert(b['sprint-impacts'] === 5 && b['sprint-rank'] === 2 && b.impacts === 7, 'Brenda during sprint');

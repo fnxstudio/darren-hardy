@@ -9,9 +9,9 @@
      /champion-key/<hash>   email sign-in key -> referral ID
    Hooks are ids and data-* attributes only. Classes are only toggled for state (is-*).
 
-   v2 coin thresholds (design only, 2026-10-18): Copper 2, Silver 4, Gold 8, Platinum 16.
-   The sync still writes the v1 thresholds into the CMS coin field; the stand card
-   below works from impacts, so it shows the v2 numbers.
+   Levels (2026-10-20): names and seat counts live in the "Champion Levels" collection.
+   The sync writes level numbers only, plus a "levels=" header on board page 1 that this
+   script reads. Written copy that mentions a level (tier sentences, FAQ) is edited by hand.
    REF_IN/OUT: referral param names (waiting on the real HubSpot field name)
    ============================================================================= */
 (function () {
@@ -57,16 +57,64 @@
     if (b && (e.key === ' ' || e.key === 'Enter') && b.tagName !== 'BUTTON') { e.preventDefault(); b.click(); }
   });
 
-  // ---------- coins (v2 thresholds) ----------
-  var COINS = [['Copper', 2], ['Silver', 4], ['Gold', 8], ['Platinum', 16]];
-  function coinFor(imp) { var c = ''; COINS.forEach(function (x) { if (imp >= x[1]) c = x[0]; }); return c; }
-  function nextCoin(imp) { for (var i = 0; i < COINS.length; i++) if (imp < COINS[i][1]) return COINS[i]; return null; }
+  // ---------- levels ----------
+  // Names and seat counts come from the Webflow "Champion Levels" collection, through the sync's
+  // header on board page 1 ("levels=Name:min,..."). The values below only show until that loads.
+  // `key` never changes: it picks each level's colours (data-coin, is-copper...) and its list filter.
+  var KEYS = ['Copper', 'Silver', 'Gold', 'Platinum'];
+  var LEVELS = [{ key: 'Copper', name: 'Copper', min: 2 }, { key: 'Silver', name: 'Silver', min: 4 }, { key: 'Gold', name: 'Gold', min: 8 }, { key: 'Platinum', name: 'Platinum', min: 16 }];
+  function levelFor(imp) { var n = 0; LEVELS.forEach(function (l, i) { if (imp >= l.min) n = i + 1; }); return n; }
+  function nextLevel(imp) { for (var i = 0; i < LEVELS.length; i++) if (imp < LEVELS[i].min) return LEVELS[i]; return null; }
+  function byKey(k) { return LEVELS[KEYS.indexOf(k)] || null; }
+  function upper(t) { return String(t).toUpperCase(); }
+  var onLevels = [];
+  function readLevels(txt) {
+    var m = /levels=([^\n<]*)/.exec(txt);
+    if (!m) return;
+    var got = m[1].split(',').map(function (p, i) { var a = p.split(':'); return { key: KEYS[i], name: a[0].trim(), min: +a[1] }; })
+      .filter(function (l) { return l.key && l.name && l.min > 0; });
+    if (!got.length) return;
+    LEVELS = got;
+    onLevels.forEach(function (fn) { fn(); });
+  }
+  // Fixed spots on the page that name a level or its seats.
+  function paintLevels() {
+    LEVELS.forEach(function (l, i) {
+      var k = l.key.toLowerCase(), last = i === LEVELS.length - 1;
+      var tier = document.querySelector('.cb-tier[data-lv="' + k + '"]');
+      if (tier) {
+        var tn = tier.querySelector('.cb-tier-num'), tr = tier.querySelector('.cb-tier-req'), nm = tier.querySelector('.cb-tier-name');
+        if (tn) tn.textContent = l.min;
+        if (tr) tr.textContent = l.min + (last ? '+' : '') + ' IMPACTS';
+        if (nm) nm.textContent = l.name;
+      }
+      var bl = document.querySelector('[data-bar-label="' + l.key + '"]');
+      if (bl) bl.textContent = upper(l.name) + ' · ' + l.min;
+    });
+    var top = LEVELS[LEVELS.length - 1], badge = document.querySelector('.cb-coin-badge');
+    if (badge && top.key === 'Platinum') {
+      var bn = badge.querySelector('.cb-coin-num'), bnm = badge.querySelector('.cb-coin-name'), br = badge.querySelector('.cb-coin-req');
+      if (bn) bn.textContent = top.min;
+      if (bnm) bnm.textContent = top.name;
+      if (br) br.textContent = top.min + '+ IMPACTS';
+    }
+    var key = document.querySelector('.cb-newcoins-key');
+    if (key) key.textContent = LEVELS.slice(0, -1).reverse().map(function (l) { return upper(l.name); }).join(' · ');
+    // CMS text holding a level option name (the internal key) shows the level's current name.
+    all('[data-coin-text]').forEach(function (t) {
+      if (!t.hasAttribute('data-key')) t.setAttribute('data-key', t.textContent.trim());
+      var l = byKey(t.getAttribute('data-key'));
+      if (l) t.textContent = l.name;
+    });
+  }
+  paintLevels();
+  onLevels.push(paintLevels);
   var plural = function (n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); };
 
   // ---------- CMS lists: coin colours, movement chips, pings ----------
-  // An element marked data-coin-text holds the CMS coin; its item takes that coin on every [data-coin].
+  // An element marked data-coin-text holds the CMS level option; its item takes that key on every [data-coin].
   all('[data-coin-text]').forEach(function (t) {
-    var coin = t.textContent.trim(), item = t.closest('.w-dyn-item') || t.parentNode;
+    var coin = t.getAttribute('data-key') || t.textContent.trim(), item = t.closest('.w-dyn-item') || t.parentNode;
     if (!coin) return;
     all('[data-coin]', item).forEach(function (e) { e.setAttribute('data-coin', coin); });
   });
@@ -110,7 +158,7 @@
   })();
 
   // ---------- full standings ----------
-  // Board Pages (/champion-board/p1..pN): line 1 of p1 is "pages=N"; each row is rank|name|coin|impacts.
+  // Board Pages (/champion-board/p1..pN): p1 starts "pages=N" then "levels=Name:min,..."; each row is rank|name|level|impacts.
   // Photos and team lines come from the hidden index list (#cbIndex: Champions by rank, first 100).
   var full = $('full'), fullBtn = $('fullBtn'), list = $('fullList'), search = $('fullSearch'), pin = $('fullPin'), ALL = null, me = null;
   var IDX = {};
@@ -131,20 +179,21 @@
     if (boardP) return boardP;
     boardP = boardPage(1).then(function (t) {
       var m = /pages=(\d+)/.exec(t), n = m ? +m[1] : 1, more = [];
+      readLevels(t);
       for (var i = 2; i <= n; i++) more.push(boardPage(i));
       return Promise.all(more).then(function (rest) { var a = parse(t); rest.forEach(function (x) { a = a.concat(parse(x)); }); ALL = a; return a; });
     }).catch(function () { ALL = []; return ALL; });
     return boardP;
   }
-  function chip(coin) { return coin ? '<span class="cb-chip" data-coin="' + esc(coin) + '"><span class="cb-chip-core"></span></span>' : ''; }
+  function chip(key) { return key ? '<span class="cb-chip" data-coin="' + esc(key) + '"><span class="cb-chip-core"></span></span>' : ''; }
   function row(r, isMe) {
-    var rank = +r[0], x = IDX[r[0]] || {}, imp = +r[3] || 0, coin = r[2];
+    var rank = +r[0], x = IDX[r[0]] || {}, imp = +r[3] || 0, lv = LEVELS[(+r[2] || 0) - 1];
     var sub = isMe ? meLine(imp) : (x.team || '');
     return '<li class="cb-row' + (isMe ? ' is-me' : '') + '" data-rank="' + rank + '"><span class="cb-row-rank">' + rank + '</span><img class="cb-row-face" src="' + esc(x.src || OPEN_SEAT) + '" alt="" loading="lazy">' +
       '<span><span class="cb-row-name">' + esc(r[1]) + '</span>' + (sub ? '<span class="cb-row-team" style="display:block">' + esc(sub) + '</span>' : '') + '</span>' +
-      '<span class="cb-row-coin">' + (coin ? chip(coin) + esc(coin) : 'On the board') + '</span><span class="cb-row-imp">' + esc(r[3]) + '</span></li>';
+      '<span class="cb-row-coin">' + (lv ? chip(lv.key) + esc(lv.name) : 'On the board') + '</span><span class="cb-row-imp">' + esc(r[3]) + '</span></li>';
   }
-  function meLine(imp) { var n = nextCoin(imp); return 'You' + (n ? ' · ' + (n[1] - imp === 1 ? 'one more leader earns ' : (n[1] - imp) + ' more leaders earn ') + n[0] : ''); }
+  function meLine(imp) { var n = nextLevel(imp); return 'You' + (n ? ' · ' + (n.min - imp === 1 ? 'one more leader earns ' : (n.min - imp) + ' more leaders earn ') + n.name : ''); }
   function render(q) {
     if (!ALL) return;
     $('fullCount').textContent = ALL.length ? plural(ALL.length, 'Champion') + ' on the board' : '';
@@ -197,38 +246,39 @@
   loadBoard().then(function (rows) {
     var n = {};
     rows.forEach(function (r) { n[r[2]] = (n[r[2]] || 0) + 1; });
-    all('[data-count]').forEach(function (e) { var k = e.getAttribute('data-count'); e.textContent = n[k] || 0; });
+    all('[data-count]').forEach(function (e) { e.textContent = n[KEYS.indexOf(e.getAttribute('data-count')) + 1] || 0; });
   });
 
   // ---------- coin pop-up ----------
   var LV = {
-    copper:   { coin: 'Copper', i: 1, desc: 'You plus another leader in April. Your name is on the board and climbing.',
+    copper:   { i: 1, desc: 'You plus another leader in April. Your name is on the board and climbing.',
                 tips: [['Start with the leader closest to you.', 'Your number two is the easiest first yes on the board.'], ['Investing for your own team?', 'Enroll each leader and every one shows on your board.'], ['Your first impact is the hardest one.', 'Your Copper coin follows the next.']] },
-    silver:   { coin: 'Silver', i: 2, desc: 'Four leaders in April because of you. Keep going.',
+    silver:   { i: 2, desc: 'Four leaders in April because of you. Keep going.',
                 tips: [['Bring them as a team.', 'Two leaders from the same company is two impacts in one conversation.'], ['Use the Challenge.', 'Leaders who spend three days with Darren in December say yes to April.'], ['Follow up personally.', 'A two-line text a week later turns maybes into yeses.']] },
-    gold:     { coin: 'Gold', i: 3, desc: 'Eight leaders in April because of you. The top ranks are now in reach.',
+    gold:     { i: 3, desc: 'Eight leaders in April because of you. The top ranks are now in reach.',
                 tips: [['Think past your company.', 'A key vendor, a client, a partner. The relationship is already there.'], ['A spouse or business partner counts.', 'Same language at home and at work.'], ['Watch for each sprint.', 'Each one brings a new play. Run it the week it opens.']] },
-    platinum: { coin: 'Platinum', i: 4, desc: 'Sixteen leaders and counting. Hold your rank to the final count.',
+    platinum: { i: 4, desc: 'Sixteen leaders and counting. Hold your rank to the final count.',
                 tips: [['Your org chart is the fastest path.', 'Every Platinum Champion on the board brought their own leaders.'], ['Ask to speak.', 'Your association, your mastermind, your forum. One room, several leaders.'], ['Rank decides the Studio.', 'Hold your rank to the final count to be eligible.']] }
   };
   var dlg = $('lv');
   function openLv(key) {
     var d = LV[key]; if (!d || !dlg) return;
-    var need = COINS[d.i - 1][1], k = key;
+    var l = LEVELS[d.i - 1]; if (!l) return;
+    var need = l.min, k = key;
     $('lvTop').className = 'cb-modal-top is-' + k;
     $('lvNum').textContent = need;
-    $('lvReq').textContent = need + (k === 'platinum' ? '+' : '') + ' IMPACTS · COIN ' + d.i + ' OF 4';
-    $('lvName').textContent = d.coin;
+    $('lvReq').textContent = need + (d.i === LEVELS.length ? '+' : '') + ' IMPACTS · COIN ' + d.i + ' OF ' + LEVELS.length;
+    $('lvName').textContent = l.name;
     $('lvDesc').textContent = d.desc;
     all('[data-lv-num]', dlg).forEach(function (n) { n.className = 'cb-step-num is-' + k; });
     d.tips.forEach(function (t, i) { dlg.querySelector('[data-lv-t="' + i + '"]').textContent = t[0]; dlg.querySelector('[data-lv-c="' + i + '"]').textContent = t[1]; });
-    $('lvWho').textContent = 'At ' + d.coin + ' now';
+    $('lvWho').textContent = 'At ' + l.name + ' now';
     var seen = {}, ppl = [];
     all('[data-slot="faces-' + k + '"] .w-dyn-item').forEach(function (it) {
       var im = it.querySelector('img'), nm = im && im.getAttribute('alt'), tm = it.querySelector('[data-i="team"]');
       if (im && ppl.length < 3) ppl.push([im.currentSrc || im.src, nm || '', tm ? tm.textContent.trim() : '']);
     });
-    $('lvPeople').setAttribute('data-coin', d.coin);
+    $('lvPeople').setAttribute('data-coin', l.key);
     $('lvPeople').innerHTML = ppl.map(function (p) { return '<div class="cb-person"><div class="cb-person-frame"><img class="cb-person-face" src="' + esc(p[0]) + '" alt="' + esc(p[1]) + '" loading="lazy"></div><div class="cb-person-name">' + esc(p[1]) + '</div>' + (p[2] ? '<div class="cb-person-team">' + esc(p[2]) + '</div>' : '') + '</div>'; }).join('') +
       '<div class="cb-person-open">Your seat<br>is open</div>';
     lastFocus = document.activeElement;
@@ -281,7 +331,10 @@
       a.firstChild.nodeValue = inside ? a.getAttribute('data-label') : 'Sign in to see where you stand ';
     });
   }
+  var lastStand = null;
+  onLevels.push(function () { if (lastStand) fillStand(lastStand); });
   function fillStand(f) {
+    lastStand = f;
     var rank = +f.rank || 0, imp = +f.impacts || 0, move = +f.move || 0, nm = f.name || f['first-name'] || '';
     me = { rank: rank, imp: imp };
     $('stChipName').textContent = nm;
@@ -290,24 +343,24 @@
     st('rank').textContent = rank;
     st('move').textContent = move > 0 ? '▲ ' + move : 'Holding';
     st('impacts').textContent = imp;
-    var n = nextCoin(imp), have = coinFor(imp);
+    var n = nextLevel(imp), have = levelFor(imp);
     if (n) {
-      var togo = n[1] - imp;
-      st('next').textContent = n[0]; st('next').setAttribute('data-coin', n[0]);
+      var togo = n.min - imp;
+      st('next').textContent = n.name; st('next').setAttribute('data-coin', n.key);
       st('togo').textContent = togo;
       st('next-line').hidden = false;
-      st('say').textContent = f.status || (have ? plural(togo, 'more leader') + ' to ' + n[0] + '.' : (togo === 1 ? 'One more leader to get your first coin!' : plural(togo, 'more leader') + ' to get your first coin!'));
+      st('say').textContent = f.status || (have ? plural(togo, 'more leader') + ' to ' + n.name + '.' : (togo === 1 ? 'One more leader to get your first coin!' : plural(togo, 'more leader') + ' to get your first coin!'));
     } else {
       st('next-line').hidden = true;
-      st('say').textContent = f.status || 'Platinum. Hold your rank to the final count.';
+      st('say').textContent = f.status || LEVELS[LEVELS.length - 1].name + '. Hold your rank to the final count.';
     }
-    // Bars: each coin fills over its own stretch (Copper 0-2, Silver 2-4, Gold 4-8, Platinum 8-16)
+    // Bars: each level fills over its own stretch (0 to level 1's seats, then on to level 2's...)
     var lo = 0;
-    COINS.forEach(function (c) {
-      var pct = Math.max(0, Math.min(1, (imp - lo) / (c[1] - lo)));
-      document.querySelector('[data-bar="' + c[0] + '"]').style.width = Math.round(pct * 100) + '%';
-      document.querySelector('[data-bar-label="' + c[0] + '"]').classList.toggle('is-on', imp >= lo && (imp < c[1] || c[0] === have));
-      lo = c[1];
+    LEVELS.forEach(function (l, i) {
+      var pct = Math.max(0, Math.min(1, (imp - lo) / (l.min - lo))), bar = document.querySelector('[data-bar="' + l.key + '"]'), lab = document.querySelector('[data-bar-label="' + l.key + '"]');
+      if (bar) bar.style.width = Math.round(pct * 100) + '%';
+      if (lab) lab.classList.toggle('is-on', imp >= lo && (imp < l.min || i + 1 === have));
+      lo = l.min;
     });
   }
   function loadStand(ref) {
