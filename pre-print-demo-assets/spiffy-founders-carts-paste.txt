@@ -35,7 +35,7 @@ function tcebAfterMount(fn) {
          - the credit, when a code is applied: "10 Book Credit (-200)" for 200OFF, "100 Book Credit (-1,000)"
            for 1000OFF, "Credit (-amount)" for any other code (shown with a dollar sign). The monthly -200-off and
            -1000-off carts have the credit built into their price (no code), so they show it as
-           "10 Book Credit (-200)  INCLUDED" / "100 Book Credit (-1,000)  INCLUDED". The amount is Spiffy's own discount, so it always
+           "10 Book Credit (200 off)  INCLUDED" / "100 Book Credit (1,000 off)  INCLUDED". The amount is Spiffy's own discount, so it always
            matches the total. Only the display changes. Redrawn whenever Spiffy redraws the summary. */
 (function () {
   var css = document.createElement('style');
@@ -65,7 +65,7 @@ function tcebAfterMount(fn) {
     } else {
       // Monthly -200-off and -1000-off carts: the credit is already in their price, so name it here
       var built = /-200-off\//.test(location.pathname + '/') ? ['10', 20000] : /-1000-off\//.test(location.pathname + '/') ? ['100', 100000] : null;
-      if (built) out.push([built[0] + ' Book Credit (-' + money(built[1]) + ')', '<span class="tceb-inc">INCLUDED</span>']);
+      if (built) out.push([built[0] + ' Book Credit (' + money(built[1]) + ' off)', '<span class="tceb-inc">INCLUDED</span>']);
     }
     return out;
   }
