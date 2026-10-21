@@ -1,0 +1,73 @@
+<script>
+/* PRE-PRINT INTRO VIDEO, part 2 of 2 (part 1, in the page head, decides whether this visit shows it).
+   Darren's message covers the page on the first visit and plays straight away where the browser allows
+   sound to start on its own. Where it doesn't (most browsers on a first visit), Vimeo would start it silently;
+   instead it is stopped and the video's cover shows with a "Click to see Darren's private message" button
+   on the left on computers and on his shirt on phones, clear of his face.
+   When the video ends, the overlay fades out and the page is free. The visit is remembered as soon as
+   the overlay shows, so it never shows again in this browser.
+   Safety net: if Vimeo can't load or connect, the overlay closes and the page shows. */
+(function () {
+  var h = document.documentElement;
+  if (!h.classList.contains('pp-intro')) return;
+  var VIDEO = '1237601091';
+  var POSTER = 'https://i.vimeocdn.com/video/2214430408-71603c67b7cc110c175a950eea73b3405df131e4c63cad8ca94d27fdac00b8ef-d_1280?region=us';
+  try { localStorage.setItem('tceb-pp-intro', '1'); } catch (e) {}
+
+  var ov = document.createElement('div');
+  ov.className = 'pp-intro-ov';
+  ov.setAttribute('role', 'dialog');
+  ov.setAttribute('aria-modal', 'true');
+  ov.setAttribute('aria-label', "Darren's private message");
+  ov.innerHTML = '<div class="pp-intro-stage">' +
+    '<iframe src="https://player.vimeo.com/video/' + VIDEO + '?autoplay=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1' +
+    '&color=e02826&colors=000000,e02826,ffffff,000000&cc=0&pip=0&transcript=0&quality_selector=0&airplay=0&chromecast=0&speed=1"' +
+    ' allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen title="Darren\'s private message"></iframe>' +
+    '<div class="pp-intro-cover" aria-hidden="true" style="background-image:url(\'' + POSTER + '\')">' +
+    '<span class="pp-intro-play"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="none" stroke="#fff" stroke-width="2"/>' +
+    '<path d="M16 12.5v15l12-7.5z" fill="#fff"/></svg>Click to see Darren\'s private message</span></div></div>';
+  document.body.appendChild(ov);
+  h.classList.add('pp-intro-ready');
+
+  var cover = ov.querySelector('.pp-intro-cover'), frame = ov.querySelector('iframe'), player = null, closed = false;
+  function close() {
+    if (closed) return;
+    closed = true;
+    ov.classList.add('is-out');
+    h.classList.remove('pp-intro');
+    setTimeout(function () { ov.remove(); }, 600);
+  }
+  var connect = setTimeout(close, 12000);   // never connected: let the visitor in
+
+  // The cover is only a picture: a click or tap on it lands on the Vimeo player underneath, so the player
+  // starts with sound from the visitor's own click (phones don't allow it any other way).
+  var started = false;
+  var s = document.createElement('script');
+  s.src = 'https://player.vimeo.com/api/player.js';
+  s.onload = function () {
+    try {
+      player = new Vimeo.Player(frame);
+      player.ready().then(function () { clearTimeout(connect); ov.classList.add('is-ready'); frame.focus({ preventScroll: true }); }, close);   // the button shows once a click will work
+      player.setLoop(false).catch(function () {});
+      player.on('play', function () {
+        if (started) return;
+        // Started on its own: keep it only if it has sound, otherwise stop and wait for the click
+        player.getMuted().then(function (muted) {
+          if (!muted) { started = true; cover.hidden = true; return; }
+          // started on its own without sound: stop, rewind and turn the sound on, ready for the visitor's click
+          player.pause().catch(function () {});
+          player.setCurrentTime(0).catch(function () {});
+          player.setMuted(false).catch(function () {});
+        }, function () {});
+      });
+      player.on('timeupdate', function (d) {
+        if (!started) { player.getMuted().then(function (m) { if (m) { player.pause().catch(function () {}); player.setCurrentTime(0).catch(function () {}); player.setMuted(false).catch(function () {}); } }, function () {}); return; }   // still silent: keep it stopped
+        if (d.duration && d.duration - d.seconds < 0.4) close();
+      });
+      player.on('ended', close);
+    } catch (e) { close(); }
+  };
+  s.onerror = close;
+  document.head.appendChild(s);
+})();
+</script>
