@@ -3,7 +3,8 @@
    Darren's message covers the page on the first visit and plays straight away where the browser allows
    sound to start on its own. Where it doesn't (most browsers on a first visit), Vimeo would start it silently;
    instead it is stopped and the cover (Darren smiling, 11.5s into the video, cropped above the caption) shows
-   with a "Click to see Darren's private message" button on his shirt, clear of his face.
+   with a "Click to see Darren's private message" button on his shirt, clear of his face. A small label in the
+   top-right corner shows the video's length, then counts down while it plays (there's no scrub bar).
    When the video ends, the overlay fades out and the page is free. The visit is remembered as soon as
    the overlay shows, so it never shows again in this browser.
    Safety net: if Vimeo can't load or connect, the overlay closes and the page shows. */
@@ -25,11 +26,14 @@
     ' allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen title="Darren\'s private message"></iframe>' +
     '<div class="pp-intro-cover" aria-hidden="true" style="background-image:url(\'' + POSTER + '\')">' +
     '<span class="pp-intro-play"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="none" stroke="#fff" stroke-width="2"/>' +
-    '<path d="M16 12.5v15l12-7.5z" fill="#fff"/></svg>Click to see Darren\'s private message</span></div></div>';
+    '<path d="M16 12.5v15l12-7.5z" fill="#fff"/></svg>Click to see Darren\'s private message</span></div>' +
+    '<span class="pp-intro-time" aria-hidden="true">5:47</span></div>';
   document.body.appendChild(ov);
   h.classList.add('pp-intro-ready');
 
   var cover = ov.querySelector('.pp-intro-cover'), frame = ov.querySelector('iframe'), player = null, closed = false;
+  var clock = ov.querySelector('.pp-intro-time');
+  function mmss(t) { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
   function close() {
     if (closed) return;
     closed = true;
@@ -48,6 +52,7 @@
     try {
       player = new Vimeo.Player(frame);
       player.ready().then(function () { clearTimeout(connect); ov.classList.add('is-ready'); frame.focus({ preventScroll: true }); }, close);   // the button shows once a click will work
+      player.getDuration().then(function (d) { if (d && !started) clock.textContent = mmss(d); }, function () {});   // the video's real length
       player.setLoop(false).catch(function () {});
       player.on('play', function () {
         if (started) return;
@@ -62,6 +67,7 @@
       });
       player.on('timeupdate', function (d) {
         if (!started) { player.getMuted().then(function (m) { if (m) { player.pause().catch(function () {}); player.setCurrentTime(0).catch(function () {}); player.setMuted(false).catch(function () {}); } }, function () {}); return; }   // still silent: keep it stopped
+        if (d.duration) clock.textContent = mmss(d.duration - d.seconds) + ' left';
         if (d.duration && d.duration - d.seconds < 0.4) close();
       });
       player.on('ended', close);
