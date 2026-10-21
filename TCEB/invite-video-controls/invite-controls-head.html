@@ -1,20 +1,26 @@
 <style>
-/* INVITE VIDEO CONTROLS (same block on all three invite pages; script below).
+/* INVITE VIDEO CONTROLS (same block on all three invite pages; the script is in the footer).
    Vimeo's own buttons must never show. The player runs with play_button_position=bottom, so Vimeo has no big centre
    button; its only icons are a play box in the bottom-left (56x32, 8px in) and a speed box in the bottom-right
    (40x32, 8px in). Our running time (bottom-left) and speed button (bottom-right) sit exactly over them, solid, so
    neither can ever be seen; our round red play/pause sits just left of the speed button. The cover shows from the
    start for the same reason (Vimeo's icons show while the player loads).
-   Before play: the video's Vimeo thumbnail as a cover with the glowing "Click to get Darren's special invite" button.
-   The cover is a picture only, so the tap lands on the Vimeo player itself (phones only start it that way); the button
-   sits at least 60px up because the bottom of the player belongs to Vimeo's control strip and doesn't start it. */
+   Before play: the video's Vimeo thumbnail as a cover with the glowing "Click to get Darren's special invite" button,
+   clear of Darren's chin. The cover is a picture only, so the tap lands on the Vimeo player itself (phones only start
+   it that way); the button sits as low as it can and still start the video (taps in the bottom ~42px of the player
+   land on Vimeo's control strip). It's sized by the player's width, not the screen's: slim on any player under 600px. */
+.ei-player{container-type:inline-size}
 .ei-vc-cover{position:absolute;inset:0;z-index:1;background:#000 center/cover no-repeat;pointer-events:none}
 .ei-player:not(.ei-vc-ready) .ei-vc-start{visibility:hidden}
 /* Once tapped the button goes; the thumbnail stays until the first frame plays (no black while it buffers) */
 .ei-player.ei-vc-on .ei-vc-start{display:none}
 .ei-player.ei-vc-live .ei-vc-cover{display:none}
-.ei-vc-start{position:absolute;left:50%;bottom:max(14%,60px);transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;padding:14px 24px 14px 14px;border-radius:2px;background:#e1132e;color:#fff;font-size:16px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
-.ei-vc-start svg{flex:none;width:40px;height:40px}
+.ei-vc-start{position:absolute;left:50%;bottom:52px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:12px;padding:10px 20px 10px 10px;border-radius:2px;background:#e1132e;color:#fff;font-size:15px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.ei-vc-start svg{flex:none;width:30px;height:30px}
+@container (max-width:600px){.ei-vc-start{bottom:44px;gap:6px;padding:4px 11px 4px 5px;font-size:10px;letter-spacing:.04em}
+.ei-vc-start svg{width:20px;height:20px}}
+/* Chrome / Edge on a computer: a real button with the hand cursor (script below) */
+.ei-vc-click .ei-vc-start{pointer-events:auto;cursor:pointer}
 /* Glow: a red halo that breathes in and out (opacity only) */
 .ei-vc-start::before{content:"";position:absolute;inset:-4px;z-index:-1;border-radius:4px;box-shadow:0 0 26px 8px rgba(225,19,46,.85);opacity:.25;animation:ei-vc-glow 1.6s ease-in-out infinite}
 @keyframes ei-vc-glow{50%{opacity:1}}
@@ -30,7 +36,18 @@
 .ei-player.ei-vc-on .ei-vc-pp{display:flex}
 .ei-player.ei-vc-on .ei-vc-speed{display:block}
 .ei-vc-pp:focus-visible,.ei-vc-speed:focus-visible{outline:3px solid #fff;outline-offset:3px}
-@media (max-width:479px){.ei-vc-start{gap:7px;padding:6px 12px 6px 7px;font-size:11px;letter-spacing:.03em}
-.ei-vc-start svg{width:22px;height:22px}}
 @media (prefers-reduced-motion:reduce){.ei-vc-start::before{animation:none;opacity:.8}}
 </style>
+<script>
+/* Hand cursor on the video start button: Chrome / Edge on a computer can start Vimeo with sound from a click on this
+   page, so there the button is a real button (on press, so the cookie banner can't swallow the first click). Elsewhere
+   (Safari, Firefox, phones) the click must land on Vimeo's own player, so the button stays a picture. */
+(function () {
+  if (!(navigator.userAgentData && matchMedia('(hover:hover) and (pointer:fine)').matches)) return;
+  document.documentElement.classList.add('ei-vc-click');
+  document.addEventListener('pointerdown', function (e) {
+    var b = e.target.closest && e.target.closest('.ei-vc-start'), f = b && document.querySelector('[data-vimeo]');
+    if (f && window.Vimeo) new Vimeo.Player(f).play().catch(function () {});
+  });
+})();
+</script>
