@@ -1,5 +1,5 @@
 <script>
-/* INVITE VIDEO CONTROLS (same block on all three invite pages; styles in the head). The page script above still runs
+/* INVITE VIDEO CONTROLS (same block on all three invite pages; styles just above). The page script above still runs
    the timed reveal, the last-frame hold and the pop-up pause; this only adds the player controls, on the same player.
    ?skip=1 (for the team): the video jumps to 5 seconds before Darren's CTA point when play is pressed, so the offer
    and the "Yes, I want to be there" button appear 5 seconds later. ?reveal=1 still shows the offer straight away. */
@@ -8,18 +8,13 @@
   if (!frame || !frame.parentNode) return;
   var wrap = frame.parentNode;
   var id = (frame.getAttribute('src').match(/video\/(\d+)/) || [])[1];
-  // Each video's own Vimeo thumbnail (what the player showed before)
-  var POSTERS = {
-    '1236614858': 'https://i.vimeocdn.com/video/2213166900-3fc80e60460d63a0629e5cae98584cad4b9cdf17a9c16290d30a2d309dcc9469-d_1280',
-    '1236614876': 'https://i.vimeocdn.com/video/2213166738-bdfbc76f0ac459d4b155cd3711ce0100462557962946762505e636b834a60769-d_1280',
-    '1236614909': 'https://i.vimeocdn.com/video/2213166598-8db3dd7f20616d63de0e82f1eeac87ed93cb87f72055febe6c035dc55d031513-d_1280'
-  };
   var cta = parseFloat(frame.getAttribute('data-cta-seconds')) || 0;
   var skip = /[?&]skip=1(&|$)/.test(location.search);
 
   var bits = document.createElement('div');
-  bits.innerHTML = '<div class="ei-vc-cover" aria-hidden="true"' + (POSTERS[id] ? ' style="background-image:url(\'' + POSTERS[id] + '\')"' : '') + '>' +
-    '<span class="ei-vc-start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></div>' +
+  bits.innerHTML = '<div class="ei-vc-cover" aria-hidden="true">' +
+    '<span class="ei-vc-start"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="none" stroke="#fff" stroke-width="2"/>' +
+    '<path d="M16 12.5v15l12-7.5z" fill="#fff"/></svg>Click to get Darren\'s special invite</span></div>' +
     '<span class="ei-vc-time" aria-hidden="true"></span>' +
     '<div class="ei-vc-shield" aria-hidden="true"></div>' +
     '<button type="button" class="ei-vc-speed" aria-label="Playback speed">1&times;</button>' +
@@ -28,6 +23,11 @@
   var clock = wrap.querySelector('.ei-vc-time'), pp = wrap.querySelector('.ei-vc-pp');
   var shield = wrap.querySelector('.ei-vc-shield'), speed = wrap.querySelector('.ei-vc-speed');
   var player = null, started = false;
+  // The cover is the video's current Vimeo thumbnail, read live so a thumbnail change in Vimeo shows here too
+  if (id && window.fetch) fetch('https://vimeo.com/api/oembed.json?width=1920&url=' + encodeURIComponent('https://vimeo.com/' + id))
+    .then(function (r) { return r.json(); })
+    .then(function (d) { if (d.thumbnail_url) wrap.querySelector('.ei-vc-cover').style.backgroundImage = 'url("' + d.thumbnail_url + '")'; })
+    .catch(function () {});
 
   function mmss(t) { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
   var ICON_PLAY = '<path d="M8 5v14l11-7z"/>', ICON_PAUSE = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
@@ -70,7 +70,11 @@
       player.on('play', function () { begin(); showPlaying(true); });
       player.on('pause', function () { if (started) showPlaying(false); });
       player.on('ended', function () { showPlaying(false); });
-      player.on('timeupdate', function (d) { if (started && d.duration) clock.textContent = mmss(d.duration - d.seconds); });
+      player.on('timeupdate', function (d) {
+        if (!started) return;
+        if (d.seconds > 0.1) wrap.classList.add('ei-vc-live');
+        if (d.duration) clock.textContent = mmss(d.duration - d.seconds);
+      });
     } catch (e) {}
   }
 })();

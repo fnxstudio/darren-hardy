@@ -1,29 +1,36 @@
 <style>
-/* INVITE VIDEO CONTROLS (same block on all three invite pages; script in the footer).
-   Before play: Vimeo's own thumbnail as a cover with a brand-red play circle, raised above the bottom 45px of the
-   player because taps there belong to Vimeo's control strip and don't start the video (measured: starts from 50px up).
-   The cover is a picture only, so the tap lands on the Vimeo player itself (phones only start it that way).
-   Once playing: a clear layer keeps Vimeo's own controls hidden; red play/pause and a speed button sit in the
-   bottom-right corner, and the running time (top-right) ticks down. No scrub bar, volume or fullscreen. */
-.ei-vc-cover{position:absolute;inset:0;z-index:1;display:none;background:#000 center/cover no-repeat;pointer-events:none}
-.ei-player.ei-vc-ready .ei-vc-cover{display:block}
-.ei-player.ei-vc-on .ei-vc-cover{display:none}
-.ei-vc-start{position:absolute;right:16px;bottom:56px;display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;background:#e1132e;box-shadow:0 8px 22px rgba(0,0,0,.45)}
-.ei-vc-start svg{width:26px;height:26px;margin-left:3px;fill:#fff}
-.ei-vc-time{position:absolute;top:12px;right:12px;z-index:2;display:none;padding:5px 9px;border-radius:2px;background:rgba(0,0,0,.6);color:#fff;font-size:13px;font-weight:700;letter-spacing:.04em;line-height:1.2;font-variant-numeric:tabular-nums;pointer-events:none}
-.ei-player.ei-vc-ready .ei-vc-time{display:block}
+/* INVITE VIDEO CONTROLS (same block on all three invite pages; script below).
+   Vimeo's own buttons must never show. The player runs with play_button_position=bottom, so Vimeo has no big centre
+   button; its only icons are a play box in the bottom-left (56x32, 8px in) and a speed box in the bottom-right
+   (40x32, 8px in). Our running time (bottom-left) and speed button (bottom-right) sit exactly over them, solid, so
+   neither can ever be seen; our round red play/pause sits just left of the speed button. The cover shows from the
+   start for the same reason (Vimeo's icons show while the player loads).
+   Before play: the video's Vimeo thumbnail as a cover with the glowing "Click to get Darren's special invite" button.
+   The cover is a picture only, so the tap lands on the Vimeo player itself (phones only start it that way); the button
+   sits at least 60px up because the bottom of the player belongs to Vimeo's control strip and doesn't start it. */
+.ei-vc-cover{position:absolute;inset:0;z-index:1;background:#000 center/cover no-repeat;pointer-events:none}
+.ei-player:not(.ei-vc-ready) .ei-vc-start{visibility:hidden}
+/* Once tapped the button goes; the thumbnail stays until the first frame plays (no black while it buffers) */
+.ei-player.ei-vc-on .ei-vc-start{display:none}
+.ei-player.ei-vc-live .ei-vc-cover{display:none}
+.ei-vc-start{position:absolute;left:50%;bottom:max(14%,60px);transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;padding:14px 24px 14px 14px;border-radius:2px;background:#e1132e;color:#fff;font-size:16px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.ei-vc-start svg{flex:none;width:40px;height:40px}
+/* Glow: a red halo that breathes in and out (opacity only) */
+.ei-vc-start::before{content:"";position:absolute;inset:-4px;z-index:-1;border-radius:4px;box-shadow:0 0 26px 8px rgba(225,19,46,.85);opacity:.25;animation:ei-vc-glow 1.6s ease-in-out infinite}
+@keyframes ei-vc-glow{50%{opacity:1}}
+/* Running time: the length before play, then it ticks down. Over Vimeo's play box (left 8-64, bottom 8-40) */
+.ei-vc-time{position:absolute;left:4px;bottom:6px;z-index:2;width:64px;height:40px;border-radius:8px;background:#111;color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;line-height:40px;text-align:center;font-variant-numeric:tabular-nums;pointer-events:none}
 .ei-vc-shield{position:absolute;inset:0;z-index:1;display:none;cursor:pointer}
 .ei-player.ei-vc-on .ei-vc-shield{display:block}
-.ei-vc-pp{position:absolute;right:12px;bottom:12px;z-index:2;display:none;align-items:center;justify-content:center;width:48px;height:48px;margin:0;padding:0;border:0;border-radius:50%;background:#e1132e;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4)}
-.ei-vc-pp svg{width:20px;height:20px;fill:#fff}
-.ei-vc-speed{position:absolute;right:70px;bottom:20px;z-index:2;display:none;min-width:48px;height:32px;margin:0;padding:0 10px;border:0;border-radius:16px;background:rgba(0,0,0,.6);color:#fff;font:inherit;font-size:13px;font-weight:700;letter-spacing:.02em;line-height:32px;font-variant-numeric:tabular-nums;cursor:pointer}
+/* Round red play/pause, just left of the speed button */
+.ei-vc-pp{position:absolute;right:66px;bottom:4px;z-index:2;display:none;align-items:center;justify-content:center;width:44px;height:44px;margin:0;padding:0;border:0;border-radius:50%;background:#e1132e;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.ei-vc-pp svg{width:18px;height:18px;fill:#fff}
+/* Speed, in the corner over Vimeo's speed box (right 8-48, bottom 8-40) */
+.ei-vc-speed{position:absolute;right:4px;bottom:6px;z-index:2;display:none;width:52px;height:40px;margin:0;padding:0;border:0;border-radius:8px;background:#111;color:#fff;font:inherit;font-size:14px;font-weight:700;letter-spacing:.02em;line-height:40px;text-align:center;font-variant-numeric:tabular-nums;cursor:pointer}
 .ei-player.ei-vc-on .ei-vc-pp{display:flex}
 .ei-player.ei-vc-on .ei-vc-speed{display:block}
 .ei-vc-pp:focus-visible,.ei-vc-speed:focus-visible{outline:3px solid #fff;outline-offset:3px}
-@media (max-width:479px){.ei-vc-start{right:12px;bottom:54px;width:48px;height:48px}
-.ei-vc-start svg{width:20px;height:20px}
-.ei-vc-time{top:8px;right:8px;padding:3px 6px;font-size:11px}
-.ei-vc-pp{right:8px;bottom:8px;width:40px;height:40px}
-.ei-vc-pp svg{width:16px;height:16px}
-.ei-vc-speed{right:56px;bottom:14px;min-width:40px;height:28px;padding:0 8px;font-size:11px;line-height:28px}}
+@media (max-width:479px){.ei-vc-start{gap:7px;padding:6px 12px 6px 7px;font-size:11px;letter-spacing:.03em}
+.ei-vc-start svg{width:22px;height:22px}}
+@media (prefers-reduced-motion:reduce){.ei-vc-start::before{animation:none;opacity:.8}}
 </style>

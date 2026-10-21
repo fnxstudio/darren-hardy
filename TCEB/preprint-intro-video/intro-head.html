@@ -17,7 +17,7 @@ html.pp-intro,html.pp-intro body{overflow:hidden}
 html.pp-intro:not(.pp-intro-ready)::after{content:"";position:fixed;inset:0;z-index:2147483000;background:#000}
 .pp-intro-ov{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;background:#000;transition:opacity .5s ease}
 .pp-intro-ov.is-out{opacity:0;pointer-events:none}
-.pp-intro-stage{position:relative;width:min(100vw,177.78vh);aspect-ratio:16/9}
+.pp-intro-stage{position:relative;width:min(100vw,177.78vh);aspect-ratio:16/9;container-type:inline-size}
 .pp-intro-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .pp-intro-cover{position:absolute;inset:0;background:#000 center/cover no-repeat;pointer-events:none}
 .pp-intro-cover[hidden]{display:none}
@@ -25,20 +25,31 @@ html.pp-intro:not(.pp-intro-ready)::after{content:"";position:fixed;inset:0;z-in
    the bottom strip of the player belongs to Vimeo's controls (tested: 12%+ from the bottom on computers, 21%+ on phones). */
 .pp-intro-play{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;padding:14px 24px 14px 14px;border-radius:2px;background:#e1132e;color:#fff;font-size:16px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .pp-intro-ov:not(.is-ready) .pp-intro-play{visibility:hidden}
-/* Running time, top-right corner (clear of his face): the length before play, then it ticks down */
-.pp-intro-time{position:absolute;top:3%;right:2%;padding:6px 10px;border-radius:2px;background:rgba(0,0,0,.6);color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;line-height:1.2;font-variant-numeric:tabular-nums;pointer-events:none}
+/* Running time, bottom-left over Vimeo's play box: the length before play, then it ticks down */
+.pp-intro-time{position:absolute;left:4px;bottom:calc(6px + var(--pp-lift,0px));width:64px;height:40px;border-radius:8px;background:#111;color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;line-height:40px;text-align:center;font-variant-numeric:tabular-nums;pointer-events:none}
 .pp-intro-play svg{flex:none;width:40px;height:40px}
-/* Play / pause once the video is going: brand-red circle in the bottom-right corner (the cookie badge sits bottom-left), with a
-   speed button beside it. While the cookie banner is up they lift above it (--pp-lift, set in the footer). The shield keeps
-   Vimeo's own controls hidden; Vimeo's volume icon is off (volume=0) and its speed icon sits behind the red circle. */
+/* Glow: a red halo that breathes in and out (opacity only) */
+.pp-intro-play::before{content:"";position:absolute;inset:-4px;z-index:-1;border-radius:4px;box-shadow:0 0 26px 8px rgba(225,19,46,.85);opacity:.25;animation:pp-intro-glow 1.6s ease-in-out infinite}
+@keyframes pp-intro-glow{50%{opacity:1}}
+/* Vimeo's own buttons must never show. The player runs with play_button_position=bottom, so Vimeo has no big centre
+   button; its only icons are a play box in the bottom-left and a speed box in the bottom-right (56x32 and 40x32, 8px in;
+   64x40 and 48x40, 16px in once the player is 1600px+ wide). Our running time (bottom-left) and speed button
+   (bottom-right) sit exactly over them, solid, so neither can ever be seen; our round red play/pause sits just left of
+   the speed button. While the cookie banner is
+   up they lift above it (--pp-lift, set in the footer). The shield keeps Vimeo's hover controls from showing. */
 .pp-intro-shield{position:absolute;inset:0;display:none;cursor:pointer}
 .pp-intro-shield.is-on{display:block}
 .pp-intro-time,.pp-intro-go,.pp-intro-pp,.pp-intro-speed{z-index:2}
-.pp-intro-pp{position:absolute;right:2%;bottom:calc(3% + var(--pp-lift,0px));display:none;align-items:center;justify-content:center;width:56px;height:56px;margin:0;padding:0;border:0;border-radius:50%;background:#e1132e;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.pp-intro-pp{position:absolute;right:66px;bottom:calc(4px + var(--pp-lift,0px));display:none;align-items:center;justify-content:center;width:44px;height:44px;margin:0;padding:0;border:0;border-radius:50%;background:#e1132e;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4)}
 .pp-intro-pp.is-on{display:flex}
-.pp-intro-pp svg{width:22px;height:22px;fill:#fff}
+.pp-intro-pp svg{width:18px;height:18px;fill:#fff}
 .pp-intro-pp:focus-visible{outline:3px solid #fff;outline-offset:3px}
-.pp-intro-speed{position:absolute;right:calc(2% + 68px);bottom:calc(3% + 12px + var(--pp-lift,0px));display:none;min-width:52px;height:32px;margin:0;padding:0 10px;border:0;border-radius:16px;background:rgba(0,0,0,.6);color:#fff;font:inherit;font-size:13px;font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums;cursor:pointer}
+.pp-intro-speed{position:absolute;right:4px;bottom:calc(6px + var(--pp-lift,0px));display:none;width:52px;height:40px;margin:0;padding:0;border:0;border-radius:8px;background:#111;color:#fff;font:inherit;font-size:14px;font-weight:700;letter-spacing:.02em;line-height:40px;text-align:center;font-variant-numeric:tabular-nums;cursor:pointer}
+/* Vimeo's bigger icons from 1600px (sized from 1500 so the switch-over point is covered either way) */
+@container (min-width:1500px){.pp-intro-pp{right:82px;bottom:calc(5px + var(--pp-lift,0px));width:56px;height:56px}
+.pp-intro-pp svg{width:22px;height:22px}
+.pp-intro-speed{right:6px;bottom:calc(6px + var(--pp-lift,0px));width:62px;height:54px;line-height:54px;font-size:16px}
+.pp-intro-time{left:6px;bottom:calc(6px + var(--pp-lift,0px));width:78px;height:54px;line-height:54px;font-size:16px}}
 .pp-intro-speed.is-on{display:block}
 .pp-intro-speed:focus-visible{outline:3px solid #fff;outline-offset:3px}
 /* From 5:27 ("click the button right now", after the deadline) a button takes them to the offer. Same spot as the play button. */
@@ -51,11 +62,7 @@ html.pp-intro:not(.pp-intro-ready)::after{content:"";position:fixed;inset:0;z-in
    goes straight to the player, which is what lets phones start it with sound. */
 @media (max-aspect-ratio:1/1){.pp-intro-play{bottom:21%;gap:7px;padding:6px 12px 6px 7px;font-size:11px;letter-spacing:.03em}
 .pp-intro-play svg{width:22px;height:22px}
-.pp-intro-time{padding:4px 7px;font-size:11px}
-.pp-intro-pp{right:3%;bottom:calc(4% + var(--pp-lift,0px));width:40px;height:40px}
-.pp-intro-speed{right:calc(3% + 48px);bottom:calc(4% + 7px + var(--pp-lift,0px));min-width:42px;height:26px;padding:0 8px;font-size:11px}
-.pp-intro-pp svg{width:16px;height:16px}
 .pp-intro-go{bottom:21%;gap:8px;padding:8px 14px;font-size:11px;letter-spacing:.03em}
 .pp-intro-stage:hover .pp-intro-play{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.pp-intro-ov{transition:none}.pp-intro-go{animation:none}}
+@media (prefers-reduced-motion:reduce){.pp-intro-ov{transition:none}.pp-intro-go{animation:none}.pp-intro-play::before{animation:none;opacity:.8}}
 </style>
