@@ -112,12 +112,18 @@
   // The cover is only a picture: a click or tap on it lands on the Vimeo player underneath, so the player
   // starts with sound from the visitor's own click (phones don't allow it any other way).
   var started = false;
+  // Phones: Vimeo can take the first tap as "show controls" rather than "play". The tap moves focus into the player,
+  // so if it hasn't started a moment later, start it from here; that tap counts as the visitor's permission.
+  if (!AUTO) window.addEventListener('blur', function () {
+    if (started || document.activeElement !== frame) return;
+    setTimeout(function () { if (!started && player) player.play().catch(function () {}); }, 600);
+  });
   var s = document.createElement('script');
   s.src = 'https://player.vimeo.com/api/player.js';
   s.onload = function () {
     try {
       player = new Vimeo.Player(frame);
-      player.ready().then(function () { clearTimeout(connect); ov.classList.add('is-ready'); frame.focus({ preventScroll: true }); }, close);   // the button shows once a click will work
+      player.ready().then(function () { clearTimeout(connect); ov.classList.add('is-ready'); if (AUTO) frame.focus({ preventScroll: true }); }, close);   // the button shows once a click will work (focus only on computers: on phones the tap itself must move focus, see above)
       player.getDuration().then(function (d) { if (d && !started) clock.textContent = mmss(d); }, function () {});   // the video's real length
       player.setLoop(false).catch(function () {});
       player.on('pause', function () { if (started) showPlaying(false); });
