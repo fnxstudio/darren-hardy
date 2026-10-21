@@ -1,6 +1,6 @@
 <script>
 /* PRE-PRINT INTRO VIDEO, part 2 of 2 (part 1, in the page head, decides whether this visit shows it).
-   Darren's message covers the page on the first visit and plays straight away where the browser allows
+   Darren's message covers the page on the first visit. On computers it plays straight away where the browser allows
    sound to start on its own. Where it doesn't (most browsers on a first visit), Vimeo would start it silently;
    instead it is stopped and the cover (the video's Vimeo thumbnail) shows with a glowing "Click to see Darren's
    private message" button on his shirt, clear of his face. A small label in the
@@ -16,6 +16,9 @@
   var h = document.documentElement;
   if (!h.classList.contains('pp-intro')) return;
   var VIDEO = '1237601091';
+  // Autoplay is only tried on computers. Phones only autoplay muted, and a phone won't let this page turn the sound
+  // back on (only a tap inside the player can), so there the video simply waits for the visitor's tap.
+  var AUTO = matchMedia('(hover:hover) and (pointer:fine)').matches ? 1 : 0;
   try { localStorage.setItem('tceb-pp-intro', '1'); } catch (e) {}
 
   var ov = document.createElement('div');
@@ -24,7 +27,7 @@
   ov.setAttribute('aria-modal', 'true');
   ov.setAttribute('aria-label', "Darren's private message");
   ov.innerHTML = '<div class="pp-intro-stage">' +
-    '<iframe src="https://player.vimeo.com/video/' + VIDEO + '?autoplay=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1' +
+    '<iframe src="https://player.vimeo.com/video/' + VIDEO + '?autoplay=' + AUTO + '&dnt=1&title=0&byline=0&portrait=0&playsinline=1' +
     '&color=e02826&colors=000000,e02826,ffffff,000000&cc=0&pip=0&transcript=0&quality_selector=0&airplay=0&chromecast=0&speed=1&volume=0&progress_bar=0&fullscreen=0&play_button_position=bottom"' +
     ' allow="autoplay; encrypted-media" title="Darren\'s private message"></iframe>' +
     '<div class="pp-intro-cover" aria-hidden="true">' +
