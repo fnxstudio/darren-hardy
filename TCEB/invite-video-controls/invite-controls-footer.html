@@ -1,0 +1,77 @@
+<script>
+/* INVITE VIDEO CONTROLS (same block on all three invite pages; styles in the head). The page script above still runs
+   the timed reveal, the last-frame hold and the pop-up pause; this only adds the player controls, on the same player.
+   ?skip=1 (for the team): the video jumps to 5 seconds before Darren's CTA point when play is pressed, so the offer
+   and the "Yes, I want to be there" button appear 5 seconds later. ?reveal=1 still shows the offer straight away. */
+(function () {
+  var frame = document.querySelector('[data-vimeo]');
+  if (!frame || !frame.parentNode) return;
+  var wrap = frame.parentNode;
+  var id = (frame.getAttribute('src').match(/video\/(\d+)/) || [])[1];
+  // Each video's own Vimeo thumbnail (what the player showed before)
+  var POSTERS = {
+    '1236614858': 'https://i.vimeocdn.com/video/2213166900-3fc80e60460d63a0629e5cae98584cad4b9cdf17a9c16290d30a2d309dcc9469-d_1280',
+    '1236614876': 'https://i.vimeocdn.com/video/2213166738-bdfbc76f0ac459d4b155cd3711ce0100462557962946762505e636b834a60769-d_1280',
+    '1236614909': 'https://i.vimeocdn.com/video/2213166598-8db3dd7f20616d63de0e82f1eeac87ed93cb87f72055febe6c035dc55d031513-d_1280'
+  };
+  var cta = parseFloat(frame.getAttribute('data-cta-seconds')) || 0;
+  var skip = /[?&]skip=1(&|$)/.test(location.search);
+
+  var bits = document.createElement('div');
+  bits.innerHTML = '<div class="ei-vc-cover" aria-hidden="true"' + (POSTERS[id] ? ' style="background-image:url(\'' + POSTERS[id] + '\')"' : '') + '>' +
+    '<span class="ei-vc-start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></div>' +
+    '<span class="ei-vc-time" aria-hidden="true"></span>' +
+    '<div class="ei-vc-shield" aria-hidden="true"></div>' +
+    '<button type="button" class="ei-vc-speed" aria-label="Playback speed">1&times;</button>' +
+    '<button type="button" class="ei-vc-pp" aria-label="Pause"><svg viewBox="0 0 24 24" aria-hidden="true"></svg></button>';
+  while (bits.firstChild) wrap.appendChild(bits.firstChild);
+  var clock = wrap.querySelector('.ei-vc-time'), pp = wrap.querySelector('.ei-vc-pp');
+  var shield = wrap.querySelector('.ei-vc-shield'), speed = wrap.querySelector('.ei-vc-speed');
+  var player = null, started = false;
+
+  function mmss(t) { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
+  var ICON_PLAY = '<path d="M8 5v14l11-7z"/>', ICON_PAUSE = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+  function showPlaying(on) { pp.querySelector('svg').innerHTML = on ? ICON_PAUSE : ICON_PLAY; pp.setAttribute('aria-label', on ? 'Pause' : 'Play'); }
+  function toggle() {
+    if (!player) return;
+    player.getPaused().then(function (paused) { (paused ? player.play() : player.pause()).catch(function () {}); }, function () {});
+  }
+  pp.addEventListener('click', toggle);
+  shield.addEventListener('click', toggle);   // a tap on the video itself pauses / resumes too
+  var RATES = [1, 1.25, 1.5, 1.75, 2], rate = 0;
+  speed.addEventListener('click', function () {
+    if (!player) return;
+    rate = (rate + 1) % RATES.length;
+    player.setPlaybackRate(RATES[rate]).then(function () { speed.innerHTML = RATES[rate] + '&times;'; }, function () { rate = 0; });
+  });
+
+  // The page script loads Vimeo's player script; wait for it (up to 15s), then attach to the same player
+  var tries = 0;
+  (function wait() {
+    if (window.Vimeo && Vimeo.Player) { connect(); return; }
+    if (++tries < 150) setTimeout(wait, 100);
+  })();
+  function connect() {
+    try {
+      player = new Vimeo.Player(frame);
+      // The cover only shows once the player is connected, so a tap on it always reaches a working player
+      player.ready().then(function () { wrap.classList.add('ei-vc-ready'); }, function () {});
+      player.getDuration().then(function (d) { if (d && !started) clock.textContent = mmss(d); }, function () {});
+      // Started: the cover goes and our controls take over. Also on buffering, because a video can take a few seconds
+      // to start after the tap, and a second tap meanwhile would pause it.
+      function begin() {
+        if (started) return;
+        started = true;
+        wrap.classList.add('ei-vc-on');
+        showPlaying(true);
+        if (skip && cta > 5) player.setCurrentTime(cta - 5).catch(function () {});
+      }
+      player.on('bufferstart', begin);
+      player.on('play', function () { begin(); showPlaying(true); });
+      player.on('pause', function () { if (started) showPlaying(false); });
+      player.on('ended', function () { showPlaying(false); });
+      player.on('timeupdate', function (d) { if (started && d.duration) clock.textContent = mmss(d.duration - d.seconds); });
+    } catch (e) {}
+  }
+})();
+</script>
