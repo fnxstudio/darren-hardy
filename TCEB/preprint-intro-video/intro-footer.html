@@ -73,7 +73,9 @@
   pp.addEventListener('click', toggle);
   shield.addEventListener('click', toggle);   // a tap on the video itself pauses / resumes too
   // The thumbnail stays up until the first frame plays (no black while it buffers); its button goes straight away
-  function nowPlaying() { started = true; cover.querySelector('.pp-intro-play').style.display = 'none'; shield.classList.add('is-on'); pp.classList.add('is-on'); speed.classList.add('is-on'); showPlaying(true); }
+  var offer;
+  function showButton() { clearTimeout(offer); if (!started) ov.classList.add('is-ready'); }
+  function nowPlaying() { clearTimeout(offer); started = true; cover.querySelector('.pp-intro-play').style.display = 'none'; shield.classList.add('is-on'); pp.classList.add('is-on'); speed.classList.add('is-on'); showPlaying(true); }
   var GO_AT = 327;   // 5:27, where Darren says "click the button right now" (after the deadline)
   function mmss(t) { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
   function close() {
@@ -135,7 +137,10 @@
   s.onload = function () {
     try {
       player = new Vimeo.Player(frame);
-      player.ready().then(function () { clearTimeout(connect); ov.classList.add('is-ready'); if (AUTO) frame.focus({ preventScroll: true }); }, close);   // the button shows once a click will work (focus only on computers: on phones the tap itself must move focus, see above)
+      // The button shows once a click will work. On computers it first waits to see whether the video starts on its own
+      // with sound (a returning visitor, or the Re-watch click, usually allows it), so it never flashes up and away.
+      // Focus only on computers: on phones the tap itself must move focus, see above.
+      player.ready().then(function () { clearTimeout(connect); if (AUTO) { frame.focus({ preventScroll: true }); offer = setTimeout(showButton, 2500); } else showButton(); }, close);
       player.getDuration().then(function (d) { if (d && !started) clock.textContent = mmss(d); }, function () {});   // the video's real length
       player.setLoop(false).catch(function () {});
       player.on('pause', function () { if (started) showPlaying(false); });
@@ -148,10 +153,11 @@
           player.pause().catch(function () {});
           player.setCurrentTime(0).catch(function () {});
           player.setMuted(false).catch(function () {});
+          showButton();
         }, function () {});
       });
       player.on('timeupdate', function (d) {
-        if (!started) { player.getMuted().then(function (m) { if (m) { player.pause().catch(function () {}); player.setCurrentTime(0).catch(function () {}); player.setMuted(false).catch(function () {}); } }, function () {}); return; }   // still silent: keep it stopped
+        if (!started) { player.getMuted().then(function (m) { if (m) { player.pause().catch(function () {}); player.setCurrentTime(0).catch(function () {}); player.setMuted(false).catch(function () {}); showButton(); } }, function () {}); return; }   // still silent: keep it stopped
         if (d.seconds > 0.1) cover.hidden = true;
         if (d.duration) clock.textContent = mmss(d.duration - d.seconds);
         if (d.seconds >= GO_AT && !go.classList.contains('is-on')) go.classList.add('is-on');
