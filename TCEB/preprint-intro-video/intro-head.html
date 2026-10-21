@@ -25,15 +25,21 @@ html.pp-intro:not(.pp-intro-ready)::after{content:"";position:fixed;inset:0;z-in
    the bottom strip of the player belongs to Vimeo's controls (tested: 12%+ from the bottom on computers, 21%+ on phones). */
 .pp-intro-play{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;padding:14px 24px 14px 14px;border-radius:2px;background:#e1132e;color:#fff;font-size:16px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .pp-intro-ov:not(.is-ready) .pp-intro-play{visibility:hidden}
-/* Running time, top-right corner (clear of his face): the length before play, then a countdown */
+/* Running time, top-right corner (clear of his face): the length before play, then it ticks down */
 .pp-intro-time{position:absolute;top:3%;right:2%;padding:6px 10px;border-radius:2px;background:rgba(0,0,0,.6);color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;line-height:1.2;font-variant-numeric:tabular-nums;pointer-events:none}
 .pp-intro-play svg{flex:none;width:40px;height:40px}
+/* From 5:27 ("click the button right now", after the deadline) a button takes them to the offer. Same spot as the play button. */
+.pp-intro-go{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);display:none;align-items:center;gap:12px;margin:0;padding:16px 26px;border:0;border-radius:2px;background:#e1132e;color:#fff;font:inherit;font-size:16px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45);cursor:pointer;animation:pp-intro-in .4s ease both}
+.pp-intro-go.is-on{display:inline-flex}
+.pp-intro-go:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@keyframes pp-intro-in{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translateX(-50%)}}
 .pp-intro-stage:hover .pp-intro-play{transform:translate(-50%,-2px)}
 /* Phones held upright: a slim one-line button so it stays below his chin. It has to be on the video: a tap there
    goes straight to the player, which is what lets phones start it with sound. */
 @media (max-aspect-ratio:1/1){.pp-intro-play{bottom:21%;gap:7px;padding:6px 12px 6px 7px;font-size:11px;letter-spacing:.03em}
 .pp-intro-play svg{width:22px;height:22px}
 .pp-intro-time{padding:4px 7px;font-size:11px}
+.pp-intro-go{bottom:21%;gap:8px;padding:8px 14px;font-size:11px;letter-spacing:.03em}
 .pp-intro-stage:hover .pp-intro-play{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.pp-intro-ov{transition:none}}
+@media (prefers-reduced-motion:reduce){.pp-intro-ov{transition:none}.pp-intro-go{animation:none}}
 </style>
