@@ -6,7 +6,7 @@
    with a "Click to see Darren's private message" button on his shirt, clear of his face. A small label in the
    top-right corner shows the video's length, then ticks down while it plays. Once it's playing, a clear layer keeps
    Vimeo's own controls hidden; a brand-red circle in the bottom-right corner pauses and resumes it, and the small
-   button beside it steps the speed (1x, 1.25x, 1.5x, 1.75x, 2x).
+   button beside it steps the speed (1x, 1.25x, 1.5x, 1.75x, 2x). Both lift above the cookie banner while it's up.
    From 5:27, when he says "click the button right now" (after the deadline), a "Reserve my copies" button takes
    them straight to the bundles.
    When the video ends, the overlay fades out and the page is free. The visit is remembered as soon as
@@ -26,7 +26,7 @@
   ov.setAttribute('aria-label', "Darren's private message");
   ov.innerHTML = '<div class="pp-intro-stage">' +
     '<iframe src="https://player.vimeo.com/video/' + VIDEO + '?autoplay=1&dnt=1&title=0&byline=0&portrait=0&playsinline=1' +
-    '&color=e02826&colors=000000,e02826,ffffff,000000&cc=0&pip=0&transcript=0&quality_selector=0&airplay=0&chromecast=0&speed=1&progress_bar=0&fullscreen=0"' +
+    '&color=e02826&colors=000000,e02826,ffffff,000000&cc=0&pip=0&transcript=0&quality_selector=0&airplay=0&chromecast=0&speed=1&volume=0&progress_bar=0&fullscreen=0"' +
     ' allow="autoplay; encrypted-media" title="Darren\'s private message"></iframe>' +
     '<div class="pp-intro-cover" aria-hidden="true" style="background-image:url(\'' + POSTER + '\')">' +
     '<span class="pp-intro-play"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="none" stroke="#fff" stroke-width="2"/>' +
@@ -68,6 +68,18 @@
     setTimeout(function () { ov.remove(); }, 600);
   }
   var connect = setTimeout(close, 12000);   // never connected: let the visitor in
+
+  // The cookie banner (computers) covers the bottom of the screen until it's answered: lift the corner buttons above it meanwhile
+  var stage = ov.querySelector('.pp-intro-stage');
+  var lifter = setInterval(function () {
+    if (closed) { clearInterval(lifter); return; }
+    var d = document.getElementById('CybotCookiebotDialog'), lift = 0;
+    if (d) {
+      var cs = getComputedStyle(d), r = d.getBoundingClientRect(), sb = stage.getBoundingClientRect().bottom;
+      if (cs.display !== 'none' && cs.visibility !== 'hidden' && +cs.opacity > 0 && r.height && r.top < sb) lift = Math.ceil(sb - r.top) + 12;
+    }
+    stage.style.setProperty('--pp-lift', lift + 'px');
+  }, 400);
 
   // "Reserve my copies": close the video and jump to the bundles. It acts on press, not click, because the site's
   // cookie banner takes a new visitor's first click on the page as consent and swallows it.
