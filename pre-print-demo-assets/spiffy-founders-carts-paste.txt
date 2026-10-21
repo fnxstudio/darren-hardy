@@ -168,7 +168,7 @@ function tcebAfterMount(fn) {
       dropdown and builds the rest of each box: red corner tab (the benefit or the saving, the biggest thing in the box), headline, grey line, bullets, price on the right
       (prepay prices on the -pif cart), and a "Get more details from Darren" link that plays Darren's video inline.
       Also styles the action rows (champagne tint, 44px checkbox), relabels the checkbox "Add VIP to my seat" and
-      takes the apostrophe out of "FOUNDER'S" on the Join button, and hides the Rearden Sponsorship checkbox. If the script doesn't run, the plain Spiffy
+      takes the apostrophe out of "FOUNDER'S" on the Join button, and hides the Rearden Sponsorship and Book Credit checkboxes. If the script doesn't run, the plain Spiffy
       checkbox and dropdown show instead and still work. */
 (function () {
   var PIF = /-pif\//.test(location.pathname + '/');   // the prepay cart's address ends in -pif
@@ -292,9 +292,9 @@ function tcebAfterMount(fn) {
       var cbLabel = b.querySelector('input[type="checkbox"] ~ label');
       if (cbLabel && /vip/i.test(cbLabel.textContent)) { tag(b, 'vip'); relabel(cbLabel); }
       if (b.querySelector('select') && /extra team seats/i.test(b.textContent)) tag(b, 'team');
-      // The Rearden Sponsorship is always included: hide its ticked checkbox so it can't be unticked
-      // (it still shows in Order Details, see part 1)
-      if (cbLabel && /rearden/i.test(cbLabel.textContent)) {
+      // The Rearden Sponsorship and the monthly carts' Book Credit are always included: hide their ticked
+      // checkboxes so they can't be unticked (they still show in Order Details, see part 1)
+      if (cbLabel && /rearden|book credit/i.test(cbLabel.textContent)) {
         var sec = b.closest('.section');
         var hide = sec && sec.querySelectorAll('[id^="block-"]').length === 1 ? sec : b;
         if (!hide.classList.contains('tceb-hide')) hide.classList.add('tceb-hide');
