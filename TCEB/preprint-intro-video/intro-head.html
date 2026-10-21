@@ -1,10 +1,11 @@
 <script>
 /* PRE-PRINT INTRO VIDEO, part 1 of 2 (part 2 is in the page footer).
    First visit only: Darren's message covers the page until it ends. This marks the first visit before the page
-   paints, so the page never flashes first. ?intro=1 shows it again (for testing).
+   paints, so the page never flashes first. ?intro=1 shows it again (for testing); ?rewatch=1 is the hero's
+   "Re-watch Darren's personal message" link, which shows it again with a close button.
    Safety net: if the footer script never builds the overlay, the page is released after 10 seconds. */
 (function () {
-  var h = document.documentElement, show = /[?&]intro=1\b/.test(location.search);
+  var h = document.documentElement, show = /[?&](intro|rewatch)=1\b/.test(location.search);
   try { show = show || !localStorage.getItem('tceb-pp-intro'); } catch (e) { show = false; }
   if (!show) return;
   h.classList.add('pp-intro');
@@ -54,7 +55,11 @@ html.pp-intro-click .pp-intro-play{pointer-events:auto;cursor:pointer}
    up they lift above it (--pp-lift, set in the footer). The shield keeps Vimeo's hover controls from showing. */
 .pp-intro-shield{position:absolute;inset:0;display:none;cursor:pointer}
 .pp-intro-shield.is-on{display:block}
-.pp-intro-time,.pp-intro-go,.pp-intro-pp,.pp-intro-speed{z-index:2}
+.pp-intro-time,.pp-intro-go,.pp-intro-pp,.pp-intro-speed,.pp-intro-x{z-index:2}
+/* Close button: only when re-watching (the first visit has none), top-left corner (the time is top-right) */
+.pp-intro-x{position:absolute;top:3%;left:2%;display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin:0;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.6);cursor:pointer}
+.pp-intro-x svg{width:18px;height:18px;stroke:#fff;stroke-width:2.5;stroke-linecap:round}
+.pp-intro-x:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .pp-intro-pp{position:absolute;right:66px;bottom:calc(4px + var(--pp-lift,0px));display:none;align-items:center;justify-content:center;width:44px;height:44px;margin:0;padding:0;border:0;border-radius:50%;background:#e1132e;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4)}
 .pp-intro-pp.is-on{display:flex}
 .pp-intro-pp svg{width:18px;height:18px;fill:#fff}
@@ -75,7 +80,9 @@ html.pp-intro-click .pp-intro-play{pointer-events:auto;cursor:pointer}
 .pp-intro-stage:hover .pp-intro-play{transform:translate(-50%,-2px)}
 /* Phones held upright: a slim one-line button so it stays below his chin. It has to be on the video: a tap there
    goes straight to the player, which is what lets phones start it with sound. */
-@media (max-aspect-ratio:1/1){.pp-intro-play{bottom:21%;gap:7px;padding:6px 12px 6px 7px;font-size:11px;letter-spacing:.03em}
+@media (max-aspect-ratio:1/1){.pp-intro-x{width:34px;height:34px}
+.pp-intro-x svg{width:14px;height:14px}
+.pp-intro-play{bottom:21%;gap:7px;padding:6px 12px 6px 7px;font-size:11px;letter-spacing:.03em}
 .pp-intro-play svg{width:22px;height:22px}
 .pp-intro-time{padding:4px 7px;font-size:11px}
 .pp-intro-go{bottom:21%;gap:8px;padding:8px 14px;font-size:11px;letter-spacing:.03em}

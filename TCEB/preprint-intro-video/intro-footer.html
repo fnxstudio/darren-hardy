@@ -9,7 +9,7 @@
    beside it steps the speed (1x, 1.25x, 1.5x, 1.75x, 2x). Vimeo's own icons never show. Both lift above the cookie banner while it's up.
    From 5:27, when he says "click the button right now" (after the deadline), a "Reserve my copies" button takes
    them straight to the bundles.
-   When the video ends, the overlay fades out and the page is free. The visit is remembered as soon as
+   When the video ends, the overlay fades out and the page is free. Re-watching (?rewatch=1) adds a close button. The visit is remembered as soon as
    the overlay shows, so it never shows again in this browser.
    Safety net: if Vimeo can't load or connect, the overlay closes and the page shows. */
 (function () {
@@ -19,6 +19,8 @@
   // Autoplay is only tried on computers. Phones only autoplay muted, and a phone won't let this page turn the sound
   // back on (only a tap inside the player can), so there the video simply waits for the visitor's tap.
   var AUTO = matchMedia('(hover:hover) and (pointer:fine)').matches ? 1 : 0;
+  // Opened again from the hero's "Re-watch" link: this time it gets a close button (the first visit has none)
+  var REWATCH = /[?&]rewatch=1\b/.test(location.search);
   try { localStorage.setItem('tceb-pp-intro', '1'); } catch (e) {}
 
   var ov = document.createElement('div');
@@ -37,7 +39,8 @@
     '<button type="button" class="pp-intro-go">Reserve my copies <span aria-hidden="true">&rarr;</span></button>' +
     '<div class="pp-intro-shield" aria-hidden="true"></div><div class="pp-intro-mask" aria-hidden="true"></div>' +
     '<button type="button" class="pp-intro-speed" aria-label="Playback speed">1&times;</button>' +
-    '<button type="button" class="pp-intro-pp" aria-label="Pause"><svg viewBox="0 0 24 24" aria-hidden="true"></svg></button></div>';
+    '<button type="button" class="pp-intro-pp" aria-label="Pause"><svg viewBox="0 0 24 24" aria-hidden="true"></svg></button>' +
+    (REWATCH ? '<button type="button" class="pp-intro-x" aria-label="Close video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' : '') + '</div>';
   document.body.appendChild(ov);
   h.classList.add('pp-intro-ready');
 
@@ -81,6 +84,15 @@
     setTimeout(function () { ov.remove(); }, 600);
   }
   var connect = setTimeout(close, 12000);   // never connected: let the visitor in
+  if (REWATCH) {
+    // On press, not click: the site's cookie banner takes a new visitor's first click on the page as consent and swallows it
+    var shut = function (e) { if (e) e.preventDefault(); if (player) player.pause().catch(function () {}); close(); };
+    ov.querySelector('.pp-intro-x').addEventListener('pointerdown', shut);
+    ov.querySelector('.pp-intro-x').addEventListener('click', shut);   // keyboard (Enter / Space)
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') shut(); });
+    // A page refresh after closing shouldn't bring it back
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  }
 
   // The cookie banner (computers) covers the bottom of the screen until it's answered: lift the corner buttons above it meanwhile
   var stage = ov.querySelector('.pp-intro-stage');
