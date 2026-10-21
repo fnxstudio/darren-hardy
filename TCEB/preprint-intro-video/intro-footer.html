@@ -4,7 +4,8 @@
    sound to start on its own. Where it doesn't (most browsers on a first visit), Vimeo would start it silently;
    instead it is stopped and the cover (Darren smiling, 11.5s into the video, cropped above the caption) shows
    with a "Click to see Darren's private message" button on his shirt, clear of his face. A small label in the
-   top-right corner shows the video's length, then counts down while it plays (there's no scrub bar).
+   top-right corner shows the video's length, then ticks down while it plays. Once it's playing, a clear layer keeps
+   Vimeo's own controls hidden and a brand-red circle in the bottom-left corner pauses and resumes it.
    From 5:27, when he says "click the button right now" (after the deadline), a "Reserve my copies" button takes
    them straight to the bundles.
    When the video ends, the overlay fades out and the page is free. The visit is remembered as soon as
@@ -30,12 +31,25 @@
     '<span class="pp-intro-play"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="none" stroke="#fff" stroke-width="2"/>' +
     '<path d="M16 12.5v15l12-7.5z" fill="#fff"/></svg>Click to see Darren\'s private message</span></div>' +
     '<span class="pp-intro-time" aria-hidden="true">5:47</span>' +
-    '<button type="button" class="pp-intro-go">Reserve my copies <span aria-hidden="true">&rarr;</span></button></div>';
+    '<button type="button" class="pp-intro-go">Reserve my copies <span aria-hidden="true">&rarr;</span></button>' +
+    '<div class="pp-intro-shield" aria-hidden="true"></div>' +
+    '<button type="button" class="pp-intro-pp" aria-label="Pause"><svg viewBox="0 0 24 24" aria-hidden="true"></svg></button></div>';
   document.body.appendChild(ov);
   h.classList.add('pp-intro-ready');
 
   var cover = ov.querySelector('.pp-intro-cover'), frame = ov.querySelector('iframe'), player = null, closed = false;
   var clock = ov.querySelector('.pp-intro-time'), go = ov.querySelector('.pp-intro-go');
+  var pp = ov.querySelector('.pp-intro-pp'), shield = ov.querySelector('.pp-intro-shield');
+  var ICON_PLAY = '<path d="M8 5v14l11-7z"/>', ICON_PAUSE = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+  function showPlaying(on) { pp.querySelector('svg').innerHTML = on ? ICON_PAUSE : ICON_PLAY; pp.setAttribute('aria-label', on ? 'Pause' : 'Play'); }
+  function toggle() {
+    if (!player) return;
+    player.getPaused().then(function (paused) { (paused ? player.play() : player.pause()).catch(function () {}); }, function () {});
+  }
+  pp.addEventListener('click', toggle);
+  shield.addEventListener('click', toggle);   // a tap on the video itself pauses / resumes too
+  // Once it's playing, a clear layer covers the video so Vimeo's own play/pause (centre, over his face) never shows
+  function nowPlaying() { started = true; cover.hidden = true; shield.classList.add('is-on'); pp.classList.add('is-on'); showPlaying(true); }
   var GO_AT = 327;   // 5:27, where Darren says "click the button right now" (after the deadline)
   function mmss(t) { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
   function close() {
@@ -73,11 +87,12 @@
       player.ready().then(function () { clearTimeout(connect); ov.classList.add('is-ready'); frame.focus({ preventScroll: true }); }, close);   // the button shows once a click will work
       player.getDuration().then(function (d) { if (d && !started) clock.textContent = mmss(d); }, function () {});   // the video's real length
       player.setLoop(false).catch(function () {});
+      player.on('pause', function () { if (started) showPlaying(false); });
       player.on('play', function () {
-        if (started) return;
+        if (started) { showPlaying(true); return; }
         // Started on its own: keep it only if it has sound, otherwise stop and wait for the click
         player.getMuted().then(function (muted) {
-          if (!muted) { started = true; cover.hidden = true; return; }
+          if (!muted) { nowPlaying(); return; }
           // started on its own without sound: stop, rewind and turn the sound on, ready for the visitor's click
           player.pause().catch(function () {});
           player.setCurrentTime(0).catch(function () {});
