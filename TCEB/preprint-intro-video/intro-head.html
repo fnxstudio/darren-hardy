@@ -9,6 +9,16 @@
   if (!show) return;
   h.classList.add('pp-intro');
   setTimeout(function () { if (!h.classList.contains('pp-intro-ready')) h.classList.remove('pp-intro'); }, 10000);
+  // Hand cursor on the start button: Chrome / Edge on a computer can start Vimeo with sound from a click on this page,
+  // so there the button is a real button (on press, so the cookie banner can't swallow the first click). Elsewhere
+  // (Safari, Firefox, phones) the click must land on Vimeo's own player, so the button stays a picture.
+  if (navigator.userAgentData && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    h.classList.add('pp-intro-click');
+    document.addEventListener('pointerdown', function (e) {
+      var b = e.target.closest && e.target.closest('.pp-intro-play'), f = b && document.querySelector('.pp-intro-stage iframe');
+      if (f && window.Vimeo) new Vimeo.Player(f).play().catch(function () {});
+    });
+  }
 })();
 </script>
 <style>
@@ -25,17 +35,22 @@ html.pp-intro:not(.pp-intro-ready)::after{content:"";position:fixed;inset:0;z-in
    the bottom strip of the player belongs to Vimeo's controls (tested: 12%+ from the bottom on computers, 21%+ on phones). */
 .pp-intro-play{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;padding:14px 24px 14px 14px;border-radius:2px;background:#e1132e;color:#fff;font-size:16px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .pp-intro-ov:not(.is-ready) .pp-intro-play{visibility:hidden}
-/* Running time, bottom-left over Vimeo's play box: the length before play, then it ticks down */
-.pp-intro-time{position:absolute;left:4px;bottom:calc(6px + var(--pp-lift,0px));width:64px;height:40px;border-radius:8px;background:#111;color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;line-height:40px;text-align:center;font-variant-numeric:tabular-nums;pointer-events:none}
+html.pp-intro-click .pp-intro-play{pointer-events:auto;cursor:pointer}
+/* Running time, top-right corner (the cookie badge sits bottom-left): the length before play, then it ticks down */
+.pp-intro-time{position:absolute;top:3%;right:2%;padding:6px 10px;border-radius:2px;background:rgba(0,0,0,.6);color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;line-height:1.2;font-variant-numeric:tabular-nums;pointer-events:none}
+/* Vimeo shows its own play icon bottom-left while paused and for a few seconds after it starts: a plain dark patch
+   covers it at those moments only (is-paused / is-fresh, set in the footer) */
+.pp-intro-mask{position:absolute;left:4px;bottom:4px;z-index:2;display:none;width:64px;height:40px;border-radius:8px;background:#111;pointer-events:none}
+.pp-intro-ov.is-paused .pp-intro-mask,.pp-intro-ov.is-fresh .pp-intro-mask{display:block}
 .pp-intro-play svg{flex:none;width:40px;height:40px}
 /* Glow: a red halo that breathes in and out (opacity only) */
 .pp-intro-play::before{content:"";position:absolute;inset:-4px;z-index:-1;border-radius:4px;box-shadow:0 0 26px 8px rgba(225,19,46,.85);opacity:.25;animation:pp-intro-glow 1.6s ease-in-out infinite}
 @keyframes pp-intro-glow{50%{opacity:1}}
 /* Vimeo's own buttons must never show. The player runs with play_button_position=bottom, so Vimeo has no big centre
    button; its only icons are a play box in the bottom-left and a speed box in the bottom-right (56x32 and 40x32, 8px in;
-   64x40 and 48x40, 16px in once the player is 1600px+ wide). Our running time (bottom-left) and speed button
-   (bottom-right) sit exactly over them, solid, so neither can ever be seen; our round red play/pause sits just left of
-   the speed button. While the cookie banner is
+   64x40 and 48x40, 16px in once the player is 1600px+ wide). Our speed button (bottom-right) and a plain dark patch
+   (bottom-left, shown only when Vimeo's icons would be) sit exactly over them, solid, so neither can ever be seen;
+   our round red play/pause sits just left of the speed button. While the cookie banner is
    up they lift above it (--pp-lift, set in the footer). The shield keeps Vimeo's hover controls from showing. */
 .pp-intro-shield{position:absolute;inset:0;display:none;cursor:pointer}
 .pp-intro-shield.is-on{display:block}
@@ -49,7 +64,7 @@ html.pp-intro:not(.pp-intro-ready)::after{content:"";position:fixed;inset:0;z-in
 @container (min-width:1500px){.pp-intro-pp{right:82px;bottom:calc(5px + var(--pp-lift,0px));width:56px;height:56px}
 .pp-intro-pp svg{width:22px;height:22px}
 .pp-intro-speed{right:6px;bottom:calc(6px + var(--pp-lift,0px));width:62px;height:54px;line-height:54px;font-size:16px}
-.pp-intro-time{left:6px;bottom:calc(6px + var(--pp-lift,0px));width:78px;height:54px;line-height:54px;font-size:16px}}
+.pp-intro-mask{left:6px;bottom:6px;width:78px;height:54px}}
 .pp-intro-speed.is-on{display:block}
 .pp-intro-speed:focus-visible{outline:3px solid #fff;outline-offset:3px}
 /* From 5:27 ("click the button right now", after the deadline) a button takes them to the offer. Same spot as the play button. */
@@ -62,6 +77,7 @@ html.pp-intro:not(.pp-intro-ready)::after{content:"";position:fixed;inset:0;z-in
    goes straight to the player, which is what lets phones start it with sound. */
 @media (max-aspect-ratio:1/1){.pp-intro-play{bottom:21%;gap:7px;padding:6px 12px 6px 7px;font-size:11px;letter-spacing:.03em}
 .pp-intro-play svg{width:22px;height:22px}
+.pp-intro-time{padding:4px 7px;font-size:11px}
 .pp-intro-go{bottom:21%;gap:8px;padding:8px 14px;font-size:11px;letter-spacing:.03em}
 .pp-intro-stage:hover .pp-intro-play{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.pp-intro-ov{transition:none}.pp-intro-go{animation:none}.pp-intro-play::before{animation:none;opacity:.8}}

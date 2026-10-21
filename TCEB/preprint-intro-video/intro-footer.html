@@ -6,7 +6,7 @@
    private message" button on his shirt, clear of his face. A small label in the
    top-right corner shows the video's length, then ticks down while it plays. Once it's playing, a clear layer keeps
    Vimeo's hover controls hidden; a brand-red button in the bottom-right corner pauses and resumes it, and the button
-   in the bottom-left steps the speed (1x, 1.25x, 1.5x, 1.75x, 2x). They sit over Vimeo's own two icons so those never show. Both lift above the cookie banner while it's up.
+   beside it steps the speed (1x, 1.25x, 1.5x, 1.75x, 2x). Vimeo's own icons never show. Both lift above the cookie banner while it's up.
    From 5:27, when he says "click the button right now" (after the deadline), a "Reserve my copies" button takes
    them straight to the bundles.
    When the video ends, the overlay fades out and the page is free. The visit is remembered as soon as
@@ -32,7 +32,7 @@
     '<path d="M16 12.5v15l12-7.5z" fill="#fff"/></svg>Click to see Darren\'s private message</span></div>' +
     '<span class="pp-intro-time" aria-hidden="true">5:47</span>' +
     '<button type="button" class="pp-intro-go">Reserve my copies <span aria-hidden="true">&rarr;</span></button>' +
-    '<div class="pp-intro-shield" aria-hidden="true"></div>' +
+    '<div class="pp-intro-shield" aria-hidden="true"></div><div class="pp-intro-mask" aria-hidden="true"></div>' +
     '<button type="button" class="pp-intro-speed" aria-label="Playback speed">1&times;</button>' +
     '<button type="button" class="pp-intro-pp" aria-label="Pause"><svg viewBox="0 0 24 24" aria-hidden="true"></svg></button></div>';
   document.body.appendChild(ov);
@@ -53,14 +53,19 @@
     player.setPlaybackRate(RATES[rate]).then(function () { speed.innerHTML = RATES[rate] + '&times;'; }, function () { rate = 0; });
   });
   var ICON_PLAY = '<path d="M8 5v14l11-7z"/>', ICON_PAUSE = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
-  function showPlaying(on) { pp.querySelector('svg').innerHTML = on ? ICON_PAUSE : ICON_PLAY; pp.setAttribute('aria-label', on ? 'Pause' : 'Play'); }
+  // Paused, or just started: Vimeo's own icons can show for a moment, so the bottom-left patch covers them (head CSS)
+  var fresh;
+  function showPlaying(on) {
+    pp.querySelector('svg').innerHTML = on ? ICON_PAUSE : ICON_PLAY; pp.setAttribute('aria-label', on ? 'Pause' : 'Play');
+    ov.classList.toggle('is-paused', !on);
+    if (on) { ov.classList.add('is-fresh'); clearTimeout(fresh); fresh = setTimeout(function () { ov.classList.remove('is-fresh'); }, 4000); }
+  }
   function toggle() {
     if (!player) return;
     player.getPaused().then(function (paused) { (paused ? player.play() : player.pause()).catch(function () {}); }, function () {});
   }
   pp.addEventListener('click', toggle);
   shield.addEventListener('click', toggle);   // a tap on the video itself pauses / resumes too
-  // Once it's playing, a clear layer covers the video so Vimeo's own play/pause (centre, over his face) never shows
   // The thumbnail stays up until the first frame plays (no black while it buffers); its button goes straight away
   function nowPlaying() { started = true; cover.querySelector('.pp-intro-play').style.display = 'none'; shield.classList.add('is-on'); pp.classList.add('is-on'); speed.classList.add('is-on'); showPlaying(true); }
   var GO_AT = 327;   // 5:27, where Darren says "click the button right now" (after the deadline)
