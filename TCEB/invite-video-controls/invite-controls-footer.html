@@ -22,11 +22,22 @@
   while (bits.firstChild) wrap.appendChild(bits.firstChild);
   var clock = wrap.querySelector('.ei-vc-time'), pp = wrap.querySelector('.ei-vc-pp');
   var shield = wrap.querySelector('.ei-vc-shield'), speed = wrap.querySelector('.ei-vc-speed');
-  var player = null, started = false;
+  var player = null, started = false, cover = wrap.querySelector('.ei-vc-cover');
+  // Phones: one tap must start it. A tap that lands on Vimeo's player can just bring up its controls, so once the player
+  // is connected the cover takes the tap itself (on touchend, which phones count as the visitor's permission for sound,
+  // and before the cookie banner can swallow the click) and starts the player. If the phone still refuses, the cover
+  // steps aside so the next tap goes straight to Vimeo's player.
+  var TOUCH = !matchMedia('(hover:hover) and (pointer:fine)').matches;
+  function tapPlay(e) {
+    if (e.cancelable) e.preventDefault();
+    if (!player || started) return;
+    player.play().catch(function () { cover.style.pointerEvents = 'none'; });
+  }
+  if (TOUCH) { cover.addEventListener('touchend', tapPlay); cover.addEventListener('click', tapPlay); }
   // The cover is the video's current Vimeo thumbnail, read live so a thumbnail change in Vimeo shows here too
   if (id && window.fetch) fetch('https://vimeo.com/api/oembed.json?width=1920&url=' + encodeURIComponent('https://vimeo.com/' + id))
     .then(function (r) { return r.json(); })
-    .then(function (d) { if (d.thumbnail_url) wrap.querySelector('.ei-vc-cover').style.backgroundImage = 'url("' + d.thumbnail_url + '")'; })
+    .then(function (d) { if (d.thumbnail_url) cover.style.backgroundImage = 'url("' + d.thumbnail_url + '")'; })
     .catch(function () {});
 
   function mmss(t) { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
@@ -55,7 +66,7 @@
     try {
       player = new Vimeo.Player(frame);
       // The cover only shows once the player is connected, so a tap on it always reaches a working player
-      player.ready().then(function () { wrap.classList.add('ei-vc-ready'); }, function () {});
+      player.ready().then(function () { wrap.classList.add('ei-vc-ready'); if (TOUCH) cover.style.pointerEvents = 'auto'; }, function () {});
       player.getDuration().then(function (d) { if (d && !started) clock.textContent = mmss(d); }, function () {});
       // Started: the cover goes and our controls take over. Also on buffering, because a video can take a few seconds
       // to start after the tap, and a second tap meanwhile would pause it.

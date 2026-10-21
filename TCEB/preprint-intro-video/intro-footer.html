@@ -132,6 +132,18 @@
     if (started || document.activeElement !== frame) return;
     setTimeout(function () { if (!started && player) player.play().catch(function () {}); }, 600);
   });
+  // Phones: one tap must start it. A tap that lands on Vimeo's player can just bring up its controls, so once the player
+  // is connected the cover takes the tap itself (on touchend, which phones count as the visitor's permission for sound,
+  // and before the cookie banner can swallow the click) and starts the player. If the phone still refuses, the cover
+  // steps aside so the next tap goes straight to Vimeo's player.
+  function passTaps() { cover.style.pointerEvents = 'none'; }
+  function tapPlay(e) {
+    if (e.cancelable) e.preventDefault();
+    if (!player || started) return;
+    player.play().catch(passTaps);
+  }
+  cover.addEventListener('touchend', tapPlay);
+  cover.addEventListener('click', tapPlay);
   var s = document.createElement('script');
   s.src = 'https://player.vimeo.com/api/player.js';
   s.onload = function () {
@@ -140,7 +152,7 @@
       // The button shows once a click will work. On computers it first waits to see whether the video starts on its own
       // with sound (a returning visitor, or the Re-watch click, usually allows it), so it never flashes up and away.
       // Focus only on computers: on phones the tap itself must move focus, see above.
-      player.ready().then(function () { clearTimeout(connect); if (AUTO) { frame.focus({ preventScroll: true }); offer = setTimeout(showButton, 2500); } else showButton(); }, close);
+      player.ready().then(function () { clearTimeout(connect); if (AUTO) { frame.focus({ preventScroll: true }); offer = setTimeout(showButton, 2500); } else { showButton(); cover.style.pointerEvents = 'auto'; } }, close);
       player.getDuration().then(function (d) { if (d && !started) clock.textContent = mmss(d); }, function () {});   // the video's real length
       player.setLoop(false).catch(function () {});
       player.on('pause', function () { if (started) showPlaying(false); });
@@ -154,6 +166,7 @@
           player.setCurrentTime(0).catch(function () {});
           player.setMuted(false).catch(function () {});
           showButton();
+          if (!AUTO) passTaps();
         }, function () {});
       });
       player.on('timeupdate', function (d) {
