@@ -21,14 +21,16 @@ html.pp-intro:not(.pp-intro-ready)::after{content:"";position:fixed;inset:0;z-in
 .pp-intro-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .pp-intro-cover{position:absolute;inset:0;background:#000 center/cover no-repeat;pointer-events:none}
 .pp-intro-cover[hidden]{display:none}
-.pp-intro-play{position:absolute;left:4%;bottom:30%;display:inline-flex;align-items:center;gap:14px;padding:14px 24px 14px 14px;border-radius:2px;background:#e1132e;color:#fff;font-size:16px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+/* The button sits centred on his shirt, clear of his face. A click anywhere on it must land on the video itself:
+   the bottom strip of the player belongs to Vimeo's controls (tested: 12%+ from the bottom on computers, 21%+ on phones). */
+.pp-intro-play{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;padding:14px 24px 14px 14px;border-radius:2px;background:#e1132e;color:#fff;font-size:16px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .pp-intro-ov:not(.is-ready) .pp-intro-play{visibility:hidden}
 .pp-intro-play svg{flex:none;width:40px;height:40px}
-.pp-intro-stage:hover .pp-intro-play{transform:translateY(-2px)}
-/* Phones held upright: the video fills the width and the button sits on its lower part (his shirt), clear of his face and above Vimeo's progress bar.
-   It has to be on the video: a tap there goes straight to the player, which is what lets phones start it with sound. */
-@media (max-aspect-ratio:1/1){.pp-intro-play{left:50%;bottom:24%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 24px);gap:10px;padding:9px 16px 9px 10px;font-size:12px;letter-spacing:.06em}
-.pp-intro-play svg{width:28px;height:28px}
+.pp-intro-stage:hover .pp-intro-play{transform:translate(-50%,-2px)}
+/* Phones held upright: a slim one-line button so it stays below his chin. It has to be on the video: a tap there
+   goes straight to the player, which is what lets phones start it with sound. */
+@media (max-aspect-ratio:1/1){.pp-intro-play{bottom:21%;gap:7px;padding:6px 12px 6px 7px;font-size:11px;letter-spacing:.03em}
+.pp-intro-play svg{width:22px;height:22px}
 .pp-intro-stage:hover .pp-intro-play{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.pp-intro-ov{transition:none}}
 </style>
