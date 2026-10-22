@@ -8,21 +8,24 @@
    Before play: the video's Vimeo thumbnail as a cover with the glowing "Click to get Darren's special invite" button,
    clear of Darren's chin. The cover is a picture only, so the tap lands on the Vimeo player itself (phones only start
    it that way); the button sits as low as it can and still start the video (taps in the bottom ~42px of the player
-   land on Vimeo's control strip). It's sized by the player's width, not the screen's: slim on any player under 600px. */
+   land on Vimeo's control strip). It's sized by the player's width, not the screen's: slim on any player under 600px.
+   Type, weight, corners and the red lacquer finish (brand guide 2.5: a lit top edge, a deeper base, a long soft shadow)
+   match the page's red buttons (.pp-btn.is-solid), so the two read as one family. */
 .ei-player{container-type:inline-size}
 .ei-vc-cover{position:absolute;inset:0;z-index:1;background:#000 center/cover no-repeat;pointer-events:none}
 .ei-player:not(.ei-vc-ready) .ei-vc-start{visibility:hidden}
 /* Once tapped the button goes; the thumbnail stays until the first frame plays (no black while it buffers) */
 .ei-player.ei-vc-on .ei-vc-start{display:none}
 .ei-player.ei-vc-live .ei-vc-cover{display:none}
-.ei-vc-start{position:absolute;left:50%;bottom:52px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:12px;padding:10px 20px 10px 10px;border-radius:2px;background:#e1132e;color:#fff;font-size:15px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.ei-vc-start{position:absolute;left:50%;bottom:52px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:14px;padding:12px 30px 12px 12px;border-radius:2px;background:radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.24) 0%,rgba(255,255,255,0) 55%),linear-gradient(180deg,#E8233B 0%,#E1132E 45%,#A50F1E 100%);color:#fff;font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:.08em;line-height:1.3;text-transform:uppercase;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 14px 30px -14px rgba(225,19,46,.55),0 22px 40px -24px rgba(0,0,0,.35)}
 .ei-vc-start svg{flex:none;width:30px;height:30px}
 @container (max-width:600px){.ei-vc-start{bottom:44px;gap:6px;padding:4px 11px 4px 5px;font-size:10px;letter-spacing:.04em}
 .ei-vc-start svg{width:20px;height:20px}}
 /* Chrome / Edge on a computer: a real button with the hand cursor (script below) */
 .ei-vc-click .ei-vc-start{pointer-events:auto;cursor:pointer}
-/* Glow: a red halo that breathes in and out (opacity only) */
-.ei-vc-start::before{content:"";position:absolute;inset:-4px;z-index:-1;border-radius:4px;box-shadow:0 0 26px 8px rgba(225,19,46,.85);opacity:.25;animation:ei-vc-glow 1.6s ease-in-out infinite}
+/* Glow: a red halo that breathes in and out (opacity only). It starts flush with the button: a gap here showed the
+   dark video through as a black frame around the button */
+.ei-vc-start::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:2px;box-shadow:0 0 26px 8px rgba(225,19,46,.85);opacity:.25;animation:ei-vc-glow 1.6s ease-in-out infinite}
 @keyframes ei-vc-glow{50%{opacity:1}}
 /* Running time: the length before play, then it ticks down. Over Vimeo's play box (left 8-64, bottom 8-40) */
 .ei-vc-time{position:absolute;left:4px;bottom:6px;z-index:2;width:64px;height:40px;border-radius:8px;background:#111;color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;line-height:40px;text-align:center;font-variant-numeric:tabular-nums;pointer-events:none}
