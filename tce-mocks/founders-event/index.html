@@ -116,7 +116,7 @@ details.learn li{margin:0 0 10px}
 .card.ink p{color:#e2e2e2}
 
 /* 7 investment */
-.invest-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:56px;align-items:start}
+.invest-grid{padding-top:40px;display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:56px;align-items:start}
 .invest-grid .h2{font-size:clamp(38px,4.3vw,62px)}
 .invest-grid .h2 .setup{white-space:nowrap}
 .price{padding:40px;background:#fff;border:1px solid var(--ink);border-radius:var(--radius)}
@@ -128,6 +128,7 @@ details.learn li{margin:0 0 10px}
 .price .now span{font:700 13px/1.3 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--grey)}
 .price .alt{margin:0 0 28px;font-size:16px;color:var(--grey)}
 .price .btn{width:100%;justify-content:center}
+.price-ticket{width:86%;margin:-84px auto 18px;transform:rotate(-4deg);filter:drop-shadow(0 18px 22px rgba(0,0,0,.35))}
 .price .activates{margin:20px 0 0;font-size:15px;line-height:1.5;color:var(--grey);text-align:center}
 .guarantee{margin:32px 0 0;padding:28px 30px;border-left:4px solid var(--red);background:var(--field)}
 .guarantee .kicker{color:var(--red);margin:0 0 10px}
@@ -156,10 +157,10 @@ details.learn li{margin:0 0 10px}
 
 
 /* event hero */
-.stage{position:relative;overflow:hidden;padding:64px 0 88px;text-align:center;color:#fff;background:radial-gradient(70% 60% at 50% 0%,#3a3a3a 0%,#121212 45%,#000 100%)}
-.beam{position:absolute;top:-20%;width:46%;height:140%;background:linear-gradient(180deg,rgba(255,236,200,.16),rgba(255,236,200,0) 70%);filter:blur(30px);pointer-events:none}
-.b1{left:4%;transform:rotate(18deg)}.b2{right:4%;transform:rotate(-18deg)}
-.stage-inner{position:relative}
+.stage{position:relative;overflow:hidden;padding:0 0 88px;text-align:center;color:#fff;background:#000}
+.stage-photo{height:min(64vh,640px);min-height:340px;background:url(dh-studio-wall-2000.webp) 58% 22%/cover no-repeat;-webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 100%);mask-image:linear-gradient(180deg,#000 62%,transparent 100%)}
+.stage-inner{margin-top:-90px}
+.stage-inner{position:relative;z-index:1}
 .live{display:inline-flex;align-items:center;gap:10px;margin:0 0 30px;padding:9px 16px;border:1px solid rgba(255,255,255,.25);border-radius:999px;font:700 12px/1 var(--body);letter-spacing:.18em;text-transform:uppercase}
 .dot-live{width:9px;height:9px;border-radius:50%;background:var(--red-hi);box-shadow:0 0 0 0 rgba(236,42,64,.7);animation:pulse 1.6s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(236,42,64,.7)}70%{box-shadow:0 0 0 12px rgba(236,42,64,0)}100%{box-shadow:0 0 0 0 rgba(236,42,64,0)}}
@@ -177,7 +178,7 @@ details.learn li{margin:0 0 10px}
 .tile{min-width:92px;padding:14px 10px 12px;background:#fff;color:#111;border-radius:var(--radius)}
 .tile b{display:block;font-family:var(--display);font-weight:600;font-size:52px;line-height:.9}
 .tile span{display:block;margin:6px 0 0;font:700 10px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:#6e6e6e}
-.btn-lg{padding:24px 44px;font-size:14px}
+.btn-lg{margin-top:30px;padding:24px 44px;font-size:14px}
 .stage .note{margin-top:22px}
 .glance{padding:0;background:#000;color:#fff;border-top:1px solid rgba(255,255,255,.12)}
 .glance-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -229,7 +230,9 @@ details.learn li{margin:0 0 10px}
   .topbar{font-size:11px;letter-spacing:.1em}
   .results li{font-size:16px;padding:20px 16px}
   .invest-grid .h2 .setup{white-space:normal}
-  .stage{padding:40px 0 64px}
+  .stage{padding:0 0 64px}
+  .stage-photo{height:52vh;min-height:300px;background-position:62% 20%}
+  .stage-inner{margin-top:-60px}
   .hide-sm{display:none}
   .tile{min-width:0;padding:12px 6px 10px}
   .tile b{font-size:38px}
@@ -250,27 +253,13 @@ details.learn li{margin:0 0 10px}
 
 <!-- 1 HERO: THE EVENT -->
 <section class="stage">
-  <div class="beam b1"></div><div class="beam b2"></div>
+  <div class="stage-photo" role="img" aria-label="Darren Hardy live in the Charleston studio, in front of a wall of live attendees"></div>
   <div class="wrap stage-inner">
     <p class="live"><span class="dot-live"></span>Live · April&nbsp;26&nbsp;and&nbsp;27,&nbsp;2027</p>
     <img class="lockup-img" src="founders-lockup-silver.webp" width="1100" height="279" alt="The Compound Effect In Business: Founders Event">
     <h1 class="stage-h">You asked for it. Now be there <span class="block">first</span><span class="dot">.</span></h1>
     <p class="stage-sub">2 days live with Darren Hardy, before the book is released.<br class="hide-sm"> Broadcast live from the studio in Charleston.</p>
-
-    <div class="ticket-wrap"><img class="ticket" src="founder-ticket-black-cutout-1120.webp" width="1120" height="519" alt="Founders Event ticket, April 26 and 27, 2027"></div>
-
-    <div class="count" id="count" aria-label="Countdown to the Founders Event">
-      <p class="count-label">Doors open in</p>
-      <div class="tiles">
-        <div class="tile"><b data-u="d">000</b><span>Days</span></div>
-        <div class="tile"><b data-u="h">00</b><span>Hours</span></div>
-        <div class="tile"><b data-u="m">00</b><span>Minutes</span></div>
-        <div class="tile"><b data-u="s">00</b><span>Seconds</span></div>
-      </div>
-    </div>
-
     <a class="btn btn-lg" href="#invest">Reserve my Founders seat →</a>
-    <span class="note">Countdown target is a placeholder: Monday, April 26, 2027, 9:00 AM ET. Confirm the start time.</span>
   </div>
 </section>
 
@@ -418,6 +407,7 @@ details.learn li{margin:0 0 10px}
       </div>
     </div>
     <div class="price">
+      <img class="price-ticket" src="founder-ticket-black-cutout-1120.webp" width="1120" height="519" alt="Founders Event ticket">
       <div class="row"><span>Founders Event seat</span><s>$9,995</s></div>
       <div class="row sponsor"><span>Sponsored by Rearden Press</span><span>−$5,000</span></div>
       <div class="now"><b>$385</b><span>today, then 12 monthly installments of&nbsp;$385</span></div>
@@ -462,15 +452,5 @@ details.learn li{margin:0 0 10px}
 
 <footer class="foot"><div class="wrap">© Darren Hardy, LLC · Page mock for review, not live</div></footer>
 
-<script>
-(function(){
-  var target=new Date('2027-04-26T09:00:00-04:00').getTime();
-  var el={d:document.querySelector('[data-u=d]'),h:document.querySelector('[data-u=h]'),m:document.querySelector('[data-u=m]'),s:document.querySelector('[data-u=s]')};
-  function pad(n,w){n=String(n);while(n.length<w)n='0'+n;return n}
-  function tick(){var t=Math.max(0,target-Date.now());var d=Math.floor(t/864e5),h=Math.floor(t/36e5)%24,m=Math.floor(t/6e4)%60,s=Math.floor(t/1e3)%60;
-    el.d.textContent=pad(d,3);el.h.textContent=pad(h,2);el.m.textContent=pad(m,2);el.s.textContent=pad(s,2)}
-  tick();setInterval(tick,1000);
-})();
-</script>
 </body>
 </html>
