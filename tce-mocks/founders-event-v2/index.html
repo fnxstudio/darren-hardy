@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Founders Event · Page Mock v2</title>
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/qhq4rzk.css">
+<style>
+@font-face{font-family:Inter;src:url("https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/fonts/6aaf55be1c2f880d17fcd6d7-Inter-Variable.woff2") format("woff2");font-weight:400 900;font-display:swap}
+:root{
+  --ground:#fff;--ground-mid:#f7f7f5;--ground-edge:#ececea;
+  --ink:#111;--muted:#8a8a8a;--grey:#5f5f5f;--line:#e2e2e2;--field:#f3f3f1;
+  --red:#e1132e;--red-hi:#ec2a40;--red-lo:#b80f25;
+  --display:'bebas-neue-pro','Bebas Neue Pro','Bebas Neue',Impact,sans-serif;
+  --body:'Inter',-apple-system,'Segoe UI',sans-serif;
+  --wrap:1120px;--gutter:32px;--radius:2px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+p,li,summary{text-wrap:pretty}
+h1,h2,h3{text-wrap:balance}
+.wrap{max-width:calc(var(--wrap) + var(--gutter)*2);margin:0 auto;padding:0 var(--gutter)}
+.narrow{max-width:760px}
+section{padding:120px 0}
+.light{background:radial-gradient(120% 90% at 18% 10%,var(--ground) 0%,var(--ground-mid) 45%,var(--ground-edge) 100%)}
+.dark{background:radial-gradient(120% 90% at 18% 10%,#262626 0%,#0a0a0a 60%,#000 100%);color:#fff}
+.dark .muted{color:#9a9a9a}
+.muted{color:var(--muted)}
+
+/* mock label */
+.mock{position:fixed;right:12px;bottom:12px;z-index:50;padding:8px 12px;background:#111;color:#fff;font:700 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;border-radius:var(--radius);opacity:.85}
+.note{display:block;margin:18px 0 0;font:italic 500 13px/1.5 var(--body);color:#a07a00}
+.dark .note{color:#d9b54a}
+
+/* top bar */
+.topbar{background:#111;color:#fff;text-align:center;padding:12px 16px;font:600 12px/1.4 var(--body);letter-spacing:.16em;text-transform:uppercase}
+.topbar b{color:#fff}.topbar span{color:var(--red-hi)}
+
+/* display type */
+.eyebrow{margin:0 0 .5em;font-family:var(--display);font-weight:400;letter-spacing:.03em;text-transform:uppercase;color:var(--muted)}
+.lockup{margin:0;font-family:var(--display);font-weight:600;line-height:.9;letter-spacing:.01em;text-transform:uppercase}
+.lockup .l{display:block}
+.lockup .block{display:inline-block;padding:0 .08em;margin-left:.04em;background:var(--ink);color:#fff;line-height:.86}
+.dark .lockup .block{background:#fff;color:#111}
+.lockup .dot{color:var(--red)}
+.h2{margin:0 0 28px;font-family:var(--display);font-weight:600;font-size:clamp(40px,5.2vw,72px);line-height:.92;letter-spacing:.015em;text-transform:uppercase}
+.h2 .setup{display:block;color:var(--muted)}
+.dark .h2 .setup{color:#9a9a9a}
+.h2 .answer{display:block}
+.copy p{margin:0 0 18px;font-size:20px;line-height:1.6}
+.copy p.big{font-weight:700;font-size:22px}
+.kicker{font:700 12px/1.3 var(--body);letter-spacing:.18em;text-transform:uppercase}
+
+/* button */
+.btn{display:inline-flex;align-items:center;gap:14px;padding:21px 34px;border-radius:var(--radius);background:linear-gradient(180deg,var(--red-hi),var(--red) 55%,var(--red-lo));color:#fff;font:700 13px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;box-shadow:0 12px 24px rgba(0,0,0,.18);transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 30px rgba(0,0,0,.22)}
+.btn:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+
+/* 1 hero */
+.hero{padding:72px 0 96px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:center}
+.hero .book{width:100%;max-width:400px;margin:0 auto;filter:drop-shadow(0 30px 40px rgba(0,0,0,.22))}
+.hero .eyebrow{font-size:clamp(20px,2.1vw,30px)}
+.hero .lockup{font-size:clamp(54px,7.4vw,108px)}
+.hero .sub{margin:28px 0 34px}
+.hero .sub .s1{display:block;font:500 15px/1.6 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.hero .sub .s2{display:block;font:800 16px/1.5 var(--body);letter-spacing:.14em;text-transform:uppercase}
+.hero .fine{margin:16px 0 0;font-size:14px;color:var(--grey)}
+
+/* 2 question */
+.question .h2{font-size:clamp(38px,4.6vw,64px)}
+
+/* 3 days + results */
+.days{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:48px 0 72px}
+.day{padding:32px;border:1px solid rgba(255,255,255,.16);border-radius:var(--radius);background:rgba(255,255,255,.03)}
+.day .kicker{color:var(--red-hi);margin:0 0 12px}
+.day h3{margin:0 0 14px;font-family:var(--display);font-weight:600;font-size:34px;line-height:1;letter-spacing:.02em;text-transform:uppercase}
+.day p{margin:0;font-size:17px;line-height:1.6;color:#d6d6d6}
+.results-h{margin:0 0 24px;font-family:var(--display);font-weight:600;font-size:34px;letter-spacing:.02em;text-transform:uppercase}
+.results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:0;padding:0;list-style:none;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14)}
+.results li{padding:24px 20px 26px;background:#0b0b0b;font-size:17px;font-weight:600;line-height:1.35}
+.results .n{display:block;margin:0 0 10px;font-family:var(--display);font-weight:600;font-size:30px;line-height:1;color:var(--red-hi)}
+.results li.lead{background:#1a1a1a}
+details.learn{margin:28px 0 0;border:1px solid rgba(255,255,255,.16);border-radius:var(--radius)}
+details.learn summary{cursor:pointer;list-style:none;padding:20px 24px;font:700 13px/1.3 var(--body);letter-spacing:.12em;text-transform:uppercase}
+details.learn summary::-webkit-details-marker{display:none}
+details.learn summary::after{content:"+";float:right;font-size:20px;line-height:.8}
+details.learn[open] summary::after{content:"\2212"}
+details.learn ol{margin:0;padding:0 24px 24px 48px;color:#d6d6d6;font-size:16px;line-height:1.6}
+details.learn li{margin:0 0 10px}
+.leave{margin:48px 0 0;font-size:22px;line-height:1.5;font-weight:600;max-width:760px}
+
+/* 4 upgrades */
+.upgrades{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:44px 0 0}
+.up{padding:26px 18px;background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+.up .n{display:block;font:700 12px/1 var(--body);letter-spacing:.16em;color:var(--red);margin:0 0 14px}
+.up b{display:block;font-family:var(--display);font-weight:600;font-size:clamp(22px,2vw,30px);line-height:.95;letter-spacing:.02em;text-transform:uppercase}
+
+/* 5 founders */
+.founders-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:56px;align-items:center}
+.studio{padding:40px 32px;border:1px solid rgba(255,255,255,.2);border-radius:var(--radius);text-align:center}
+.studio .big{display:block;font-family:var(--display);font-weight:600;font-size:120px;line-height:.85}
+.studio .kicker{display:block;margin:12px 0 10px}
+.studio p{margin:0;color:#cfcfcf;font-size:16px;line-height:1.5}
+
+/* 6 bmc */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:40px 0 0}
+.card{padding:40px 36px;background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+.card.ink{background:#111;color:#fff;border-color:#111}
+.card h3{margin:0 0 18px;font-family:var(--display);font-weight:600;font-size:44px;line-height:.95;letter-spacing:.02em;text-transform:uppercase}
+.card p{margin:0 0 12px;font-size:18px;line-height:1.55}
+.card.ink p{color:#e2e2e2}
+
+/* 7 investment */
+.invest-grid{padding-top:40px;display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:56px;align-items:start}
+.invest-grid .h2{font-size:clamp(38px,4.3vw,62px)}
+.invest-grid .h2 .setup{white-space:nowrap}
+.price{padding:40px;background:#fff;border:1px solid var(--ink);border-radius:var(--radius)}
+.price .row{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px}
+.price .row s{color:var(--muted)}
+.price .row.sponsor{color:var(--red);font-weight:700}
+.price .now{display:flex;align-items:baseline;gap:12px;margin:28px 0 4px}
+.price .now b{font-family:var(--display);font-weight:600;font-size:84px;line-height:.85}
+.price .now span{font:700 13px/1.3 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--grey)}
+.price .alt{margin:0 0 28px;font-size:16px;color:var(--grey)}
+.price .btn{width:100%;justify-content:center}
+.price-ticket{width:86%;margin:-84px auto 18px;transform:rotate(-4deg);filter:drop-shadow(0 18px 22px rgba(0,0,0,.35))}
+.price .activates{margin:20px 0 0;font-size:15px;line-height:1.5;color:var(--grey);text-align:center}
+.guarantee{margin:32px 0 0;padding:28px 30px;border-left:4px solid var(--red);background:var(--field)}
+.guarantee .kicker{color:var(--red);margin:0 0 10px}
+.guarantee p{margin:0;font-size:18px;line-height:1.55}
+
+/* 8 team band */
+.team{padding:88px 0;background:#111;color:#fff}
+.team-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:48px;align-items:center}
+.team .h2{margin:0}
+.team p{margin:0 0 14px;font-size:19px;line-height:1.55;color:#e2e2e2}
+
+/* 9 faq */
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:24px 40px 24px 0;position:relative;font-size:19px;font-weight:700}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:20px;font-size:26px;font-weight:400}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{margin:0 0 24px;font-size:17px;line-height:1.6;color:var(--grey)}
+
+/* 10 close */
+.close{text-align:center;padding:140px 0}
+.close .pre{margin:0 0 18px;font-size:22px;color:#cfcfcf}
+.close .lockup{font-size:clamp(64px,10vw,150px);margin:0 0 44px}
+
+.foot{background:#000;color:#8a8a8a;padding:32px 0;font-size:12px;line-height:1.6;text-align:center}
+
+
+/* event hero */
+.stage{position:relative;overflow:hidden;padding:0 0 88px;text-align:center;color:#fff;background:#000}
+.stage-photo{height:min(64vh,640px);min-height:340px;background:url(dh-studio-wall-2000.webp) 58% 22%/cover no-repeat;-webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 100%);mask-image:linear-gradient(180deg,#000 62%,transparent 100%)}
+.stage-inner{margin-top:-90px}
+.stage-inner{position:relative;z-index:1}
+.live{display:inline-flex;align-items:center;gap:10px;margin:0 0 30px;padding:9px 16px;border:1px solid rgba(255,255,255,.25);border-radius:999px;font:700 12px/1 var(--body);letter-spacing:.18em;text-transform:uppercase}
+.dot-live{width:9px;height:9px;border-radius:50%;background:var(--red-hi);box-shadow:0 0 0 0 rgba(236,42,64,.7);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(236,42,64,.7)}70%{box-shadow:0 0 0 12px rgba(236,42,64,0)}100%{box-shadow:0 0 0 0 rgba(236,42,64,0)}}
+.lockup-img{width:min(760px,92%);margin:0 auto 28px}
+.stage-h{margin:0 auto 14px;max-width:900px;font-family:var(--display);font-weight:600;font-size:clamp(34px,4.6vw,64px);line-height:.95;letter-spacing:.015em;text-transform:uppercase}
+.stage-h .block{display:inline-block;padding:0 .08em;background:#fff;color:#111;line-height:.86}
+.stage-h .dot{color:var(--red)}
+.stage-sub{margin:0 auto 8px;max-width:640px;font-size:18px;line-height:1.55;color:#cfcfcf}
+.ticket-wrap{position:relative;margin:26px auto 8px;max-width:620px}
+.ticket-wrap::before{content:"";position:absolute;inset:12% 8%;background:radial-gradient(closest-side,rgba(214,176,108,.55),rgba(214,176,108,0));filter:blur(28px)}
+.ticket{position:relative;width:100%;transform:rotate(-4deg);filter:drop-shadow(0 28px 34px rgba(0,0,0,.6))}
+.count{margin:18px 0 34px}
+.count-label{margin:0 0 14px;font:700 12px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:#d9b54a}
+.tiles{display:inline-grid;grid-template-columns:repeat(4,auto);gap:10px}
+.tile{min-width:92px;padding:14px 10px 12px;background:#fff;color:#111;border-radius:var(--radius)}
+.tile b{display:block;font-family:var(--display);font-weight:600;font-size:52px;line-height:.9}
+.tile span{display:block;margin:6px 0 0;font:700 10px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:#6e6e6e}
+.btn-lg{margin-top:30px;padding:24px 44px;font-size:14px}
+.stage .note{margin-top:22px}
+.glance{padding:0;background:#000;color:#fff;border-top:1px solid rgba(255,255,255,.12)}
+.glance-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.g{padding:28px 20px;border-right:1px solid rgba(255,255,255,.12);text-align:center}
+.g:last-child{border-right:0}
+.g-k{display:block;margin:0 0 8px;font:700 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--red-hi)}
+.g b{display:block;font-family:var(--display);font-weight:600;font-size:30px;line-height:1;letter-spacing:.02em;text-transform:uppercase}
+.g span:last-child{display:block;margin:8px 0 0;font-size:14px;color:#bdbdbd}
+.video-sec{padding:96px 0;background:#0b0b0b;color:#fff}
+.center{text-align:center;margin:0 0 22px}
+.video{position:relative;max-width:900px;margin:0 auto;aspect-ratio:16/9;border-radius:var(--radius);background:radial-gradient(80% 80% at 30% 30%,#2b2b2b,#0d0d0d);border:1px solid rgba(255,255,255,.12);display:grid;place-items:center}
+.play{width:96px;height:96px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(180deg,var(--red-hi),var(--red-lo));box-shadow:0 14px 30px rgba(0,0,0,.5);display:grid;place-items:center}
+.play span{display:block;width:0;height:0;margin-left:6px;border-left:26px solid #fff;border-top:16px solid transparent;border-bottom:16px solid transparent}
+.vlabel{position:absolute;bottom:16px;left:0;right:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8a8a8a}
+.book-side{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:48px;align-items:center}
+.book-side img{filter:drop-shadow(0 24px 30px rgba(0,0,0,.2))}
+
+
+/* v2 */
+.stage-h .mt{display:block;margin:0 0 .18em;color:#9a9a9a}
+.start{margin:22px 0 0;font:700 13px/1.4 var(--body);letter-spacing:.18em;text-transform:uppercase;color:#d9b54a}
+.start+.btn-lg{margin-top:16px}
+.g span:last-child{max-width:240px;margin-left:auto;margin-right:auto;line-height:1.45}
+.tx{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:48px 0 0;padding:0;list-style:none;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14)}
+.tx li{display:flex;flex-direction:column;padding:28px 22px 26px;background:#0b0b0b}
+.tx li.tx-last{background:#1a1a1a}
+.tx-n{font-family:var(--display);font-weight:600;font-size:28px;line-height:1;color:var(--red-hi);margin:0 0 14px}
+.tx-from{margin:0 0 4px;font:700 11px/1.3 var(--body);letter-spacing:.16em;text-transform:uppercase;color:#8a8a8a}
+.tx h3{margin:0 0 14px;font-family:var(--display);font-weight:600;font-size:28px;line-height:.98;letter-spacing:.02em;text-transform:uppercase}
+.tx p{margin:0 0 16px;font-size:15px;line-height:1.55;color:#cfcfcf}
+.tx .tx-who{margin:auto 0 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.14);font-weight:700;color:#fff}
+details.learn li b{color:#fff;font-weight:700}
+.up p{margin:10px 0 0;font-size:14px;line-height:1.45;color:var(--grey)}
+.price .row .was{color:var(--ink);font-weight:700}
+.price .now{flex-direction:column;align-items:flex-start;gap:6px}
+.price .now .lbl{font:700 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.price .now b small{font-family:var(--body);font-size:22px;font-weight:700;margin-left:4px}
+.team-price{margin-top:22px!important;padding-top:18px;border-top:1px solid rgba(255,255,255,.2);color:#fff!important}
+.close-h{font-size:clamp(48px,7vw,104px)!important}
+
+/* phone */
+@media (max-width:991px){
+  section{padding:88px 0}
+  .hero-grid,.founders-grid,.invest-grid,.team-grid{grid-template-columns:1fr;gap:36px}
+  .hero .book{max-width:260px}
+  .results{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .upgrades{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .upgrades .up:last-child{grid-column:1/-1}
+  .tx{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .glance-grid{grid-template-columns:1fr 1fr}
+  .g:nth-child(2){border-right:0}
+  .g:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.12)}
+  .book-side{grid-template-columns:1fr}
+  .book-side img{max-width:180px;margin:0 auto}
+}
+@media (max-width:767px){
+  :root{--gutter:16px}
+  section{padding:72px 0}
+  .hero{padding:28px 0 56px}
+  .hero-grid{gap:20px}
+  .hero .book{max-width:150px}
+  .hero .lockup{font-size:clamp(40px,12vw,54px)}
+  .hero .sub{margin:20px 0 26px}
+  .hero .sub .s1{font-size:13px;letter-spacing:.12em}
+  .hero .sub .s2{font-size:14px;letter-spacing:.1em}
+  .days,.two{grid-template-columns:1fr}
+  .copy p{font-size:18px}
+  .card{padding:30px 24px}
+  .price{padding:28px 22px}
+  .price .now b{font-size:68px}
+  .price .now{flex-direction:column;align-items:flex-start;gap:8px}
+  .btn{padding:19px 22px;letter-spacing:.07em}
+  .topbar{font-size:11px;letter-spacing:.1em}
+  .results li{font-size:16px;padding:20px 16px}
+  .invest-grid .h2 .setup{white-space:normal}
+  .stage{padding:0 0 64px}
+  .stage-photo{height:52vh;min-height:300px;background-position:62% 20%}
+  .stage-inner{margin-top:-60px}
+  .hide-sm{display:none}
+  .tile{min-width:0;padding:12px 6px 10px}
+  .tile b{font-size:38px}
+  .tiles{gap:6px;width:100%;grid-template-columns:repeat(4,minmax(0,1fr))}
+  .g{padding:22px 12px}
+  .g b{font-size:24px}
+  .video-sec{padding:64px 0}
+  .play{width:72px;height:72px}
+  .tx{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="mock">Page mock v2 · copy draft</div>
+
+<!-- 0 TOP BAR -->
+<div class="topbar">The publisher is sponsoring <span>$5,000</span> of the first 500 Founders seats</div>
+
+<!-- 1 HERO: THE EVENT -->
+<section class="stage">
+  <div class="stage-photo" role="img" aria-label="Darren Hardy live in the Charleston studio, in front of a wall of live attendees"></div>
+  <div class="wrap stage-inner">
+    <p class="live"><span class="dot-live"></span>Live · April&nbsp;26&nbsp;and&nbsp;27,&nbsp;2027</p>
+    <img class="lockup-img" src="founders-lockup-silver.webp" width="1100" height="279" alt="The Compound Effect In Business: Founders Event">
+    <h1 class="stage-h"><span class="mt">On Monday morning, you're the place every decision goes.</span>By Tuesday night, you've made the <span class="block">6</span> that decide the rest<span class="dot">.</span></h1>
+    <p class="stage-sub">2 days live with Darren Hardy, before the book is released.<br class="hide-sm"> Broadcast live from the studio in Charleston.</p>
+    <p class="start">Start compounding your growth now.</p>
+    <a class="btn btn-lg" href="#invest">Reserve my Founders seat →</a>
+  </div>
+</section>
+
+<!-- 1b THE EVENT AT A GLANCE -->
+<section class="glance">
+  <div class="wrap glance-grid">
+    <div class="g"><span class="g-k">Day 1</span><b>Mon · Apr 26</b><span>Find where time and money are leaking out of your business.</span></div>
+    <div class="g"><span class="g-k">Day 2</span><b>Tue · Apr 27</b><span>Build the rhythms that keep your team moving without you pushing.</span></div>
+    <div class="g"><span class="g-k">Where</span><b>Live, from Charleston</b><span>Join from wherever you lead.</span></div>
+    <div class="g"><span class="g-k">In the studio</span><b>40 seats</b><span>Earned, not bought.</span></div>
+  </div>
+</section>
+
+<!-- 1c VIDEO -->
+<section class="video-sec">
+  <div class="wrap">
+    <p class="kicker center">A personal word from Darren</p>
+    <div class="video"><button class="play" aria-label="Play Darren's invitation"><span></span></button><span class="vlabel">Darren's invitation · video placeholder</span></div>
+  </div>
+</section>
+
+<!-- 2 YOUR QUESTION -->
+<section class="question">
+  <div class="wrap narrow">
+    <h2 class="h2"><span class="setup">For 16 years, you've asked one question.</span><span class="answer">"Darren... what about my business?"</span></h2>
+    <div class="copy">
+      <p>You read The Compound Effect. Maybe more than once. It worked on your health. Your money. Your marriage.</p>
+      <p>Then you tried it on your company. Maybe you handed out copies. Gave the speech. A few people tried. Then everything slid right back.</p>
+      <p>That's not you. It's the math. In your life, your choices compound through you. In a business, they multiply through other people first.</p>
+      <p class="big">This time, I'll show you how. Live. On your own company.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 MONDAY MORNING TO TUESDAY NIGHT: THE 7 TRANSFORMATIONS -->
+<section class="dark">
+  <div class="wrap">
+    <h2 class="h2"><span class="setup">Monday morning</span><span class="answer">to Tuesday night.</span></h2>
+    <div class="copy narrow">
+      <p>Right now, you're the place every decision in your company has to go. Every question finds you. Every problem waits for you.</p>
+      <p class="big">On Monday morning, you're the engine your whole company runs on. By Tuesday night, you're the architect of a company that runs on what you designed.</p>
+    </div>
+
+    <ol class="tx">
+      <li><span class="tx-n">01</span><p class="tx-from">From the mark</p><h3>To the one nobody can sell to</h3><p>The 5 questions that expose any pitch, agency or "expert" in 10 seconds, so your money and your team's attention stay on what compounds.</p><p class="tx-who">The calmest leader at the conference.</p></li>
+      <li><span class="tx-n">02</span><p class="tx-from">From guessing</p><h3>To seeing</h3><p>You'll give the 7 surfaces of your business an arrow, up or down, and price the small habits. A 2-minute leak in a 12-person company runs $37,500 a year.</p><p class="tx-who">The leader who sees it coming.</p></li>
+      <li><span class="tx-n">03</span><p class="tx-from">From the bottleneck</p><h3>To the architect</h3><p>The 6 decisions that make 10,000 others for you, so your people make the call you would have made, without calling you.</p><p class="tx-who">You decide once, and it gets made 10,000 times.</p></li>
+      <li><span class="tx-n">04</span><p class="tx-from">From the hero</p><h3>To the multiplier</h3><p>The systems that run the business without running you, so your best day stops being a lucky day and becomes an ordinary Tuesday.</p><p class="tx-who">The system doesn't replace you. It multiplies you.</p></li>
+      <li><span class="tx-n">05</span><p class="tx-from">From relaunching</p><h3>To finishing</h3><p>The Monday-to-Friday rhythm and the 90-day push, so what you decide on Monday is done by Friday, every week.</p><p class="tx-who">The leader whose team believes what you launch.</p></li>
+      <li><span class="tx-n">06</span><p class="tx-from">From tolerating it</p><h3>To setting the standard</h3><p>What your company lets in, applauds and tolerates, including the conversation you've been avoiding with the person everyone works around.</p><p class="tx-who">The leader whose standard holds.</p></li>
+      <li><span class="tx-n">07</span><p class="tx-from">From one of the options</p><h3>To the only choice</h3><p>Every moment your customer has with you, graded and planned, so customers choose you by name and price stops being the conversation.</p><p class="tx-who">The exception.</p></li>
+      <li class="tx-last"><span class="tx-n">+</span><p class="tx-from">And then</p><h3>From reader to Founder</h3><p>Before anyone has turned a page, you'll have put a date on your own 31 months, chosen your first upgrade, and mapped your first 30 days.</p><p class="tx-who">You were there when it began.</p></li>
+    </ol>
+
+    <details class="learn">
+      <summary>See all 12 things you'll walk away knowing</summary>
+      <ol>
+        <li><b>Why smart leaders keep buying the next big fix, and the 5 questions that expose any pitch in 10 seconds,</b> so the next agency, guru or AI panic never gets another year of your life or another dollar of your profit.</li>
+        <li><b>The operating system already running your company: what happens every day when nobody decides,</b> so you stop bolting new strategies onto a system that's been breaking every one of them.</li>
+        <li><b>Which direction your company is compounding right now, and what your small habits really cost</b> (a 2-minute leak in a 12-person company runs $37,500 a year), so you find the slide while it's cheap to fix, not after it shows up on your P&amp;L.</li>
+        <li><b>The 6 decisions that make 10,000 others for you,</b> so your people make the call you would have made, and your phone stops ringing with questions only you used to answer.</li>
+        <li><b>Why one 10% discount can erase a third of your profit, and the pricing rule your team can hold on a bad Friday,</b> so you keep more of every dollar you earn, without selling a single extra job.</li>
+        <li><b>The one-page dashboard that tells you the truth in 3 minutes,</b> so you catch trouble in month 2, and everyone on your team knows the score without you asking.</li>
+        <li><b>How to get the routine decisions off your phone,</b> so your evenings belong to your family again, and your hours go to the dozen calls a week that actually matter.</li>
+        <li><b>Where your next 20 customers are coming from,</b> so revenue stops feeling like the weather, and you sleep through the slow months.</li>
+        <li><b>How to attract, select and keep A-players,</b> so you never hire in a panic again, and your best people stop taking the recruiter's call.</li>
+        <li><b>The Monday-to-Friday rhythm, plus the 90-day push that finishes what you start,</b> so what you decide on Monday is done by Friday, and your team starts believing in what you launch.</li>
+        <li><b>The 3 forces that decide how your people act when you're not watching, including what to do about the person everyone's been working around,</b> so the right behavior becomes normal, and the weight you've been carrying for a year comes off your chest.</li>
+        <li><b>How to become the only choice in your market,</b> so customers choose you by name, send you people who are already sold, and your competitors can't explain how you did it.</li>
+      </ol>
+    </details>
+  </div>
+</section>
+
+<!-- 4 LITTLE HINGES -->
+<section class="light">
+  <div class="wrap">
+    <div class="book-side"><div>
+    <h2 class="h2"><span class="setup">There's an old saying:</span><span class="answer">"Little hinges swing big doors."</span></h2>
+    <div class="copy narrow">
+      <p>These are the little hinges inside a business that swing the big doors of results.</p>
+      <p class="big">Small moves compound into market advantages.</p>
+    </div>
+    </div><img src="tceb-book-3d-680.webp" width="680" height="1071" alt="The Compound Effect In Business"></div>
+    <div class="upgrades">
+      <div class="up"><span class="n">01</span><b>Decisions</b><p>The 6 that make 10,000 others for you.</p></div>
+      <div class="up"><span class="n">02</span><b>Systems</b><p>Your company's best day, made repeatable.</p></div>
+      <div class="up"><span class="n">03</span><b>Routines</b><p>The Monday-to-Friday rhythm that keeps it firing when the mood leaves.</p></div>
+      <div class="up"><span class="n">04</span><b>Environment</b><p>What your company lets in, applauds and tolerates.</p></div>
+      <div class="up"><span class="n">05</span><b>Be The Exception</b><p>The standard your whole company copies. Yours.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 FOUNDERS -->
+<section class="dark">
+  <div class="wrap founders-grid">
+    <div>
+      <h2 class="h2"><span class="setup">There will only ever</span><span class="answer">be one first.</span></h2>
+      <div class="copy">
+        <p>Super Bowl I. Tickets were about $12, and it wasn't even called the Super Bowl yet. Nobody in those seats knew what they were part of.</p>
+        <p>The book is released after the event. By the time your competitors pick up a copy and start chapter one, you'll already have the compound effect multiplying profits in your business.</p>
+        <p class="big">Years from now, someone will ask if you've read it. "Read it? I was there when it all began. I'm a Founder."</p>
+      </div>
+    </div>
+    <div class="studio">
+      <span class="big">40</span>
+      <span class="kicker">Seats in the Charleston studio</span>
+      <p>Earned, not bought. The leaders who join early have the best shot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7 INVESTMENT -->
+<section class="light" id="invest">
+  <div class="wrap invest-grid">
+    <div>
+      <h2 class="h2"><span class="setup">The publisher is sponsoring</span><span class="answer">$5,000 of your seat.</span></h2>
+      <div class="copy">
+        <p>To celebrate the launch, the publisher is sponsoring $5,000 of each seat for the first 500 Founders.</p>
+        <p class="big">When those are gone, the sponsorship is gone.</p>
+        <p>Start compounding your growth now. Your BMC|COLLECTIVE year turns on the day you join, not in April.</p>
+      </div>
+      <div class="guarantee">
+        <p class="kicker">The Day 1 promise</p>
+        <p>Attend Day 1. If you don't see a 3X to 10X return by the end of the day, hand in your materials for a full refund.</p>
+      </div>
+    </div>
+    <div class="price">
+      <img class="price-ticket" src="founder-ticket-black-cutout-1120.webp" width="1120" height="519" alt="Founders Event ticket">
+      <div class="row"><span>Founders seat</span><span class="was">$9,995</span></div>
+      <div class="row sponsor"><span>Rearden Press sponsorship</span><span>−$5,000</span></div>
+      <div class="now"><span class="lbl">Your seat</span><b>$385<small>/mo</small></b></div>
+      <p class="alt">or $4,995 pre-pay</p>
+      <a class="btn" href="#invest">Reserve my Founders seat →</a>
+      <p class="activates">$385 today plus 12 monthly payments. Full terms on the order form.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 WHO SHOULD BE THERE WITH YOU -->
+<section class="team">
+  <div class="wrap team-grid">
+    <h2 class="h2"><span class="setup">Who should be there</span><span class="answer">with you?</span></h2>
+    <div>
+      <p>Don't come back with something to teach your team. Bring your team.</p>
+      <p>Add a seat for whoever owns each part of your company: your clients, your margin, your team, your standards, your pipeline and your brand. Every seat counts toward the studio.</p>
+      <p class="team-price"><b>Team seat · $308/mo</b> or $3,995 pre-pay</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9 FAQ -->
+<section class="faq">
+  <div class="wrap narrow">
+    <h2 class="h2"><span class="setup">Straight</span><span class="answer">answers.</span></h2>
+    <details><summary>Do I need to have read the new book?</summary><p>No. The Compound Effect in Business is released just after the event. If you've read The Compound Effect, you're ready.</p></details>
+    <details><summary>Is it live? What about recordings?</summary><p>Yes. Both days are broadcast live from the studio in Charleston on April 26 and 27, 2027. You'll have recording access for 96 hours after.</p></details>
+    <details><summary>Who should I bring?</summary><p>Whoever owns a part of your company: your clients, margin, team, standards, pipeline and brand. Bring the people running service, marketing and operations, and the people closest to the customer. And bring the leaders you're not sure about. They're usually the ones a shared language rescues.</p></details>
+    <details><summary>When does my COLLECTIVE year start?</summary><p>The day you join. You don't wait until April to start.</p></details>
+    <details><summary>How do I get into the studio?</summary><p>Those seats are earned, not bought, and the leaders who join early have the best shot at one.</p></details>
+  </div>
+</section>
+
+<!-- 10 CLOSE -->
+<section class="close dark">
+  <div class="wrap">
+    <p class="pre">Years from now, someone will ask if you've read it.</p>
+    <h2 class="lockup close-h"><span class="l">"Read it? I was there</span><span class="l">when it all <span class="block">began</span><span class="dot">."</span></span></h2>
+    <a class="btn" href="#invest">Reserve my Founders seat →</a>
+  </div>
+</section>
+
+<footer class="foot"><div class="wrap">© Darren Hardy, LLC · Page mock v2 for review, not live</div></footer>
+
+</body>
+</html>
