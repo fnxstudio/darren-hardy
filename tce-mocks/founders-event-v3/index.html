@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Founders Event · Fresh Page Mock</title>
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/qhq4rzk.css">
+<style>
+@font-face{font-family:Inter;src:url("https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/fonts/6aaf55be1c2f880d17fcd6d7-Inter-Variable.woff2") format("woff2");font-weight:400 900;font-display:swap}
+:root{
+  --jet:#000;--vault:#14120E;--raised:#1E1B15;--bronze:#6B4E00;
+  --brass:#B8892B;--gold:#D4A017;--goldlux:#CAA76A;--champ:#E8D9B0;--text:#C9C3B6;--dim:#8f8a7f;
+  --serif:'kepler-3-display','Kepler Std','Bodoni Moda',Georgia,serif;
+  --body:'Inter',-apple-system,'Segoe UI',sans-serif;
+  --wrap:1160px;--g:32px;--r:2px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--jet);color:var(--text);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+p,li,summary{text-wrap:pretty}
+h1,h2,h3{text-wrap:balance}
+.wrap{max-width:calc(var(--wrap) + var(--g)*2);margin:0 auto;padding:0 var(--g)}
+.narrow{max-width:780px}
+section{padding:140px 0}
+.vault{background:radial-gradient(110% 80% at 20% 0%,#221e17 0%,var(--vault) 55%,#0a0907 100%)}
+.jet{background:radial-gradient(100% 70% at 80% 0%,#141414 0%,#050505 60%,#000 100%)}
+
+.mock{position:fixed;right:12px;bottom:12px;z-index:50;padding:8px 12px;background:var(--champ);color:var(--vault);font:700 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;border-radius:var(--r)}
+
+/* type */
+.label{margin:0 0 18px;font:700 12px/1.3 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--brass)}
+.serif{font-family:var(--serif);font-weight:600;text-transform:uppercase;letter-spacing:.12em}
+.h{margin:0 0 30px;font-family:var(--serif);font-weight:600;text-transform:uppercase;letter-spacing:.1em;line-height:1.02}
+.h .set{display:block;margin:0 0 .35em;font-size:.5em;letter-spacing:.16em;color:var(--goldlux)}
+.h .ans{display:block;color:var(--champ)}
+.h2{font-size:clamp(34px,4.4vw,60px)}
+.lead{font-size:20px;line-height:1.65}
+.lead p{margin:0 0 18px}
+.lead b{color:var(--champ);font-weight:600}
+
+/* button */
+.btn{display:inline-flex;align-items:center;gap:14px;padding:21px 36px;border-radius:var(--r);background:linear-gradient(180deg,#e9c14a,var(--gold) 55%,#b8890f);color:var(--vault);font:800 13px/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;box-shadow:0 14px 30px rgba(0,0,0,.45);transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 18px 36px rgba(0,0,0,.5)}
+.btn:focus-visible{outline:3px solid var(--champ);outline-offset:3px}
+
+/* 1 hero */
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,58fr) minmax(0,42fr);min-height:min(92vh,860px);background:var(--jet)}
+.hero-photo{position:relative;overflow:hidden}
+.hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:68% 30%}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0) 55%,#000 100%),linear-gradient(0deg,rgba(0,0,0,.55),rgba(0,0,0,0) 35%)}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;padding:72px var(--g) 72px 24px;max-width:560px}
+.hero .lockup{width:100%;max-width:440px;margin:0 0 34px}
+.hero h1{margin:0 0 26px;font-family:var(--serif);font-weight:600;text-transform:uppercase;letter-spacing:.1em;line-height:1}
+.hero h1 .set{display:block;margin:0 0 .3em;font-size:clamp(20px,2vw,28px);color:var(--goldlux);letter-spacing:.16em}
+.hero h1 .ans{display:block;font-size:clamp(40px,4.4vw,64px);color:var(--champ)}
+.hero p.sub{margin:0 0 30px;font-size:18px;line-height:1.6}
+.when{display:flex;gap:0;margin:0 0 34px;border-top:1px solid var(--bronze);border-bottom:1px solid var(--bronze)}
+.when div{flex:1;padding:16px 0}
+.when div+div{padding-left:20px;border-left:1px solid var(--bronze)}
+.when .k{display:block;font:700 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin:0 0 8px}
+.when b{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(14px,1.45vw,20px);letter-spacing:.1em;text-transform:uppercase;color:var(--champ);white-space:nowrap}
+.when div:first-child{flex:1.6}
+.hero .fine{margin:18px 0 0;font-size:14px;color:var(--dim)}
+
+/* 2 letter */
+.letter .lead p{font-size:21px}
+.plain{margin:40px 0;padding:0;list-style:none;border-top:1px solid var(--bronze)}
+.plain li{position:relative;padding:20px 0 20px 40px;border-bottom:1px solid var(--bronze);font-size:19px;line-height:1.55;color:var(--champ)}
+.plain li::before{content:"";position:absolute;left:4px;top:30px;width:14px;height:1px;background:var(--gold)}
+.sig{margin:36px 0 0}
+.sig img{width:150px;filter:invert(1) sepia(.35) brightness(.95)}
+.sig span{display:block;margin:10px 0 0;font:700 12px/1.3 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+.creds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:96px 0 0;border-top:1px solid var(--bronze);border-bottom:1px solid var(--bronze)}
+.creds div{padding:26px 18px;text-align:center}
+.creds div+div{border-left:1px solid var(--bronze)}
+.creds b{display:block;font-family:var(--serif);font-weight:600;font-size:40px;letter-spacing:.06em;color:var(--champ);line-height:1}
+.creds span{display:block;margin:10px 0 0;font-size:13px;line-height:1.45;color:var(--dim)}
+
+/* 3 monday / tuesday */
+.mt{margin:56px 0 0;border:1px solid var(--bronze)}
+.mt-head,.mt-row{display:grid;grid-template-columns:1fr 64px 1fr;align-items:center}
+.mt-head{background:var(--raised)}
+.mt-head div{padding:22px 28px;font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.16em;text-transform:uppercase}
+.mt-head div:first-child{color:var(--dim)}
+.mt-head div:last-child{color:var(--champ)}
+.mt-row{border-top:1px solid var(--bronze)}
+.mt-row div{padding:22px 28px;font-size:18px;line-height:1.45}
+.mt-row div:first-child{color:var(--dim)}
+.mt-row div:last-child{color:#fff;font-weight:600}
+.mt .arr{padding:0!important;text-align:center;color:var(--gold);font-size:20px}
+.after{margin:44px 0 0;font-family:var(--serif);font-weight:600;font-size:clamp(22px,2.4vw,32px);line-height:1.3;letter-spacing:.08em;text-transform:uppercase;color:var(--champ)}
+
+/* 4 hinges (the one material moment) */
+.hinges{padding:120px 0;background:linear-gradient(115deg,#8d8d8b 0%,#d9d8d4 22%,#a9a8a4 40%,#efeeea 58%,#9c9b97 78%,#cfcecb 100%);color:#111;text-align:center}
+.hinges .saying{margin:0 0 18px;font:700 12px/1.3 var(--body);letter-spacing:.22em;text-transform:uppercase;color:#3a3a3a}
+.hinges blockquote{margin:0 auto 26px;max-width:900px;font-family:var(--serif);font-weight:600;font-size:clamp(34px,4.6vw,66px);line-height:1.04;letter-spacing:.08em;text-transform:uppercase;color:#111}
+.hinges p{margin:0 auto;max-width:640px;font-size:19px;line-height:1.6;color:#2b2b2b}
+.hinges p b{display:block;margin:14px 0 0;color:#111}
+
+/* 5 agenda */
+.day-h{display:flex;align-items:baseline;gap:20px;margin:72px 0 0;padding:0 0 18px;border-bottom:1px solid var(--gold)}
+.day-h b{font-family:var(--serif);font-weight:600;font-size:clamp(28px,3vw,40px);letter-spacing:.12em;text-transform:uppercase;color:var(--champ)}
+.day-h span{font:700 12px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--brass)}
+.ag{border-bottom:1px solid var(--bronze)}
+.ag summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr) 32px;gap:24px;align-items:center;padding:26px 0}
+.ag summary::-webkit-details-marker{display:none}
+.ag .ch{font:700 11px/1.4 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--brass)}
+.ag .tt{font-family:var(--serif);font-weight:600;font-size:clamp(20px,1.9vw,26px);line-height:1.15;letter-spacing:.08em;text-transform:uppercase;color:var(--champ)}
+.ag .tt i{display:block;font-style:normal;color:var(--dim);font-size:.72em}
+.ag .who{font-size:16px;line-height:1.45;color:var(--goldlux)}
+.ag .pm{font-size:26px;color:var(--gold);text-align:right;line-height:1}
+.ag .pm::before{content:"+"}
+.ag[open] .pm::before{content:"\2212"}
+.ag-body{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr);gap:24px;padding:0 0 36px}
+.ag-body .c1{grid-column:2}
+.ag-body .c2{grid-column:3}
+.ag-body h4{margin:0 0 8px;font:700 11px/1.3 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--brass)}
+.ag-body p{margin:0 0 20px;font-size:16px;line-height:1.6}
+.ag-body p.so{color:#fff;font-weight:600}
+.ag-body dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 16px;font-size:15px;line-height:1.5}
+.ag-body dt{font:700 11px/1.9 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--brass);white-space:nowrap}
+.ag-body dd{margin:0}
+
+/* 6 learn */
+.learn{margin:56px 0 0;padding:0;list-style:none;counter-reset:l;display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+.learn li{counter-increment:l;position:relative;padding:22px 0 22px 56px;border-top:1px solid var(--bronze);font-size:16px;line-height:1.6}
+.learn li::before{content:counter(l,decimal-leading-zero);position:absolute;left:0;top:20px;font-family:var(--serif);font-weight:600;font-size:22px;color:var(--gold);letter-spacing:.06em}
+.learn b{display:block;margin:0 0 6px;color:var(--champ);font-weight:600}
+
+/* 7 founders */
+.founders-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:72px;align-items:center}
+.one{font-family:var(--serif);font-weight:600;font-size:clamp(150px,18vw,260px);line-height:.8;color:var(--champ);text-align:center}
+.one-cap{display:block;margin:18px 0 0;text-align:center;font:700 12px/1.4 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--brass)}
+.studio{margin:48px 0 0;padding:28px 30px;border:1px solid var(--bronze);background:var(--raised)}
+.studio .label{margin:0 0 10px}
+.studio p{margin:0;font-size:17px;line-height:1.55;color:var(--champ)}
+
+/* 8 seat */
+.seat-grid{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:72px;align-items:start}
+.card{position:relative;padding:44px 40px 36px;background:var(--raised);border:1px solid var(--bronze)}
+.card .tk{width:92%;margin:-112px auto 22px;transform:rotate(-4deg);filter:drop-shadow(0 22px 26px rgba(0,0,0,.55))}
+.card .row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--bronze);font-size:16px}
+.card .row b{color:var(--champ);font-weight:600}
+.card .sp{color:var(--goldlux)}
+.card .you{margin:28px 0 4px;font:700 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--brass)}
+.card .big{display:flex;align-items:baseline;gap:6px;font-family:var(--serif);font-weight:600;color:var(--champ)}
+.card .big b{font-size:88px;line-height:.9;letter-spacing:.02em}
+.card .big span{font-size:26px;letter-spacing:.06em}
+.card .pre{margin:8px 0 28px;font-size:16px}
+.card .btn{width:100%;justify-content:center}
+.card .terms{margin:16px 0 0;font-size:13px;line-height:1.5;color:var(--dim);text-align:center}
+.promise{margin:44px 0 0;padding:28px 30px;border-left:2px solid var(--gold);background:rgba(212,160,23,.06)}
+.promise p{margin:0;font-size:18px;line-height:1.6;color:var(--champ)}
+
+/* 9 team */
+.team-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:72px;align-items:center}
+.team-price{display:flex;align-items:baseline;gap:14px;margin:28px 0 0;padding:20px 0 0;border-top:1px solid var(--bronze)}
+.team-price b{font-family:var(--serif);font-weight:600;font-size:36px;color:var(--champ);letter-spacing:.04em}
+.team-price span{font-size:16px}
+
+/* 10 faq */
+.faq details{border-bottom:1px solid var(--bronze)}
+.faq summary{cursor:pointer;list-style:none;position:relative;padding:26px 44px 26px 0;font-size:19px;font-weight:600;color:var(--champ)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:22px;font-size:26px;color:var(--gold);font-weight:400}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{margin:0 0 26px;font-size:17px;line-height:1.65}
+
+/* 11 close */
+.close{text-align:center;padding:170px 0}
+.close .pre{margin:0 0 26px;font-size:20px}
+.close blockquote{margin:0 auto 48px;max-width:980px;font-family:var(--serif);font-weight:600;font-size:clamp(34px,5vw,72px);line-height:1.08;letter-spacing:.08em;text-transform:uppercase;color:var(--champ)}
+.close blockquote span{color:var(--goldlux)}
+
+.foot{padding:30px 0;background:#000;border-top:1px solid #1d1a14;text-align:center;font-size:12px;color:var(--dim)}
+
+/* tablet */
+@media (max-width:991px){
+  section{padding:104px 0}
+  .hero{grid-template-columns:1fr;min-height:0}
+  .hero-photo{height:56vh;min-height:340px}
+  .hero-photo::after{background:linear-gradient(0deg,#000 0%,rgba(0,0,0,0) 45%)}
+  .hero-copy{max-width:640px;margin:-40px auto 0;padding:0 var(--g) 72px;position:relative}
+  .creds{grid-template-columns:1fr 1fr}
+  .creds div:nth-child(3){border-left:0}
+  .creds div:nth-child(-n+2){border-bottom:1px solid var(--bronze)}
+  .ag summary{grid-template-columns:110px minmax(0,1fr) 28px}
+  .ag .who{display:none}
+  .ag-body{grid-template-columns:1fr}
+  .ag-body .c1,.ag-body .c2{grid-column:auto}
+  .ag-body > div:first-child{display:none}
+  .learn{grid-template-columns:1fr}
+  .founders-grid,.seat-grid,.team-grid{grid-template-columns:1fr;gap:48px}
+  .seat-grid .card{margin-top:60px}
+}
+/* phone */
+@media (max-width:767px){
+  :root{--g:16px}
+  section{padding:80px 0}
+  .hero-photo{height:46vh;min-height:280px}
+  .hero-photo img{object-position:64% 25%}
+  .hero .lockup{max-width:300px;margin:0 0 24px}
+  .when b{font-size:16px}
+  .lead,.letter .lead p{font-size:18px}
+  .mt-head,.mt-row{grid-template-columns:1fr 28px 1fr}
+  .mt-head div,.mt-row div{padding:16px 12px}
+  .mt-head div{font-size:13px;letter-spacing:.12em}
+  .mt-row div{font-size:15px}
+  .ag summary{grid-template-columns:1fr 24px;gap:8px 14px}
+  .ag .ch{grid-column:1/-1}
+  .creds b{font-size:30px}
+  .card{padding:36px 22px 28px}
+  .card .big b{font-size:72px}
+  .btn{padding:19px 22px;letter-spacing:.1em}
+  .hinges{padding:88px 0}
+  .close{padding:112px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="mock">Fresh page mock · copy from v4 + Bullets v2</div>
+
+<!-- 1 HERO -->
+<header class="hero">
+  <div class="hero-photo"><img src="dh-studio-wall-2000.webp" width="2000" height="1333" alt="Darren Hardy live in the Charleston studio, in front of a wall of live attendees" fetchpriority="high"></div>
+  <div class="hero-copy">
+    <img class="lockup" src="founders-lockup-silver.webp" width="1100" height="279" alt="The Compound Effect In Business: Founders Event">
+    <h1><span class="set">From the engine</span><span class="ans">to the architect.</span></h1>
+    <p class="sub">2 days live with Darren Hardy, installing the operating system from The Compound Effect in Business inside your company, before the book is even released.</p>
+    <div class="when">
+      <div><span class="k">Live</span><b>April 26 and 27, 2027</b></div>
+      <div><span class="k">From</span><b>Charleston</b></div>
+    </div>
+    <a class="btn" href="#seat">Reserve my Founders seat →</a>
+    <p class="fine">The publisher is sponsoring $5,000 of each seat for the first 500 Founders.</p>
+  </div>
+</header>
+
+<!-- 2 THE LETTER -->
+<section class="letter vault">
+  <div class="wrap narrow">
+    <p class="label">A word from Darren</p>
+    <h2 class="h h2"><span class="set">Right now,</span><span class="ans">every decision in your company has to go through you.</span></h2>
+    <div class="lead">
+      <p>Every question finds you. Every problem waits for you. And every good idea fades the week you stop pushing it.</p>
+      <p>That isn't a flaw in you. <b>It's the operating system your company runs on, and nobody ever designed it.</b></p>
+      <p>The Founders Event is 2 days with me, live, installing the operating system from The Compound Effect in Business inside your company, before the book is even released. In those 2 days:</p>
+    </div>
+    <ul class="plain">
+      <li>You'll find where time and money are leaking out of your business.</li>
+      <li>You'll get the decisions that keep landing on your desk off your plate for good.</li>
+      <li>And you'll build the rhythms that keep your team moving without you pushing them every single day.</li>
+    </ul>
+    <div class="lead"><p>And 31 months from now, the people around you start asking what happened. You'll be able to tell them you were there first.</p></div>
+    <div class="sig"><img src="dh-signature.webp" width="184" height="126" alt="Darren Hardy signature"><span>Darren Hardy</span></div>
+  </div>
+  <div class="wrap">
+    <div class="creds">
+      <div><b>2M+</b><span>copies of The Compound Effect, in 47 languages</span></div>
+      <div><b>12,000+</b><span>CEOs and founders mentored</span></div>
+      <div><b>35</b><span>years building, buying and selling companies</span></div>
+      <div><b>45</b><span>Business Master Classes held</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 MONDAY MORNING TO TUESDAY NIGHT -->
+<section class="jet">
+  <div class="wrap">
+    <p class="label">2 days. 7 shifts.</p>
+    <h2 class="h h2"><span class="set">Monday morning</span><span class="ans">to Tuesday night.</span></h2>
+    <div class="mt" role="table" aria-label="Monday morning to Tuesday night">
+      <div class="mt-head" role="row"><div role="columnheader">Monday morning</div><div class="arr" aria-hidden="true"></div><div role="columnheader">Tuesday night</div></div>
+      <div class="mt-row" role="row"><div>You're buying the next big move.</div><div class="arr">→</div><div>Nobody can sell it to you.</div></div>
+      <div class="mt-row" role="row"><div>You're guessing which way your company is heading.</div><div class="arr">→</div><div>You can see it, a year before your P&amp;L can.</div></div>
+      <div class="mt-row" role="row"><div>You're the place every decision goes.</div><div class="arr">→</div><div>You've made the 6 that decide the rest.</div></div>
+      <div class="mt-row" role="row"><div>You're the hero of every crisis.</div><div class="arr">→</div><div>You've built the systems that make fewer of them.</div></div>
+      <div class="mt-row" role="row"><div>You're relaunching.</div><div class="arr">→</div><div>You have the rhythm that finishes.</div></div>
+      <div class="mt-row" role="row"><div>You're working around the one person everyone works around.</div><div class="arr">→</div><div>You have your standard back.</div></div>
+      <div class="mt-row" role="row"><div>You're one of the options in your market.</div><div class="arr">→</div><div>You're on your way to being the only choice.</div></div>
+    </div>
+    <p class="after">And 31 months later, the people around you start asking what happened.</p>
+  </div>
+</section>
+
+<!-- 4 LITTLE HINGES -->
+<section class="hinges">
+  <div class="wrap">
+    <p class="saying">There's an old saying</p>
+    <blockquote>"Little hinges swing big doors."</blockquote>
+    <p>These are the little hinges inside a business that swing the big doors of results.<b>Small moves compound into market advantages.</b></p>
+  </div>
+</section>
+
+<!-- 5 THE AGENDA -->
+<section class="vault" id="agenda">
+  <div class="wrap">
+    <p class="label">The agenda</p>
+    <h2 class="h h2"><span class="set">What happens in</span><span class="ans">those 2 days.</span></h2>
+
+    <div class="day-h"><b>Day 1</b><span>Monday, April 26</span></div>
+
+    <details class="ag" open>
+      <summary><span class="ch">Introduction · The Big Shiny Lie</span><span class="tt"><i>From the mark</i>to the one nobody can sell to</span><span class="who">The calmest leader at the conference.</span><span class="pm"></span></summary>
+      <div class="ag-body"><div></div>
+        <div class="c1"><h4>Your moment</h4><p>You have a shelf of books with "apply this" written in the margins. An agency you're still paying. Software nobody logs into. And this year, it's AI. Every one of them promised to be the move.</p><h4>What we install</h4><p>Why smart, driven leaders are the perfect target for the next big fix. It's wiring, not weakness. Then the 5 questions that expose any pitch, agency or "expert" in 10 seconds.</p><p class="so">So the next shiny thing loses its grip on you, and your money, your calendar and your team's attention stay on what compounds.</p></div>
+        <div class="c2"><dl><dt>Off your plate</dt><dd>The vendor pitches, the panic purchases, the AI tools you felt you had to try.</dd><dt>Back to you</dt><dd>The retainers, subscriptions and programs that never paid you back.</dd><dt>Off your chest</dt><dd>The fear that you're falling behind. "Behind" isn't where you are. Behind is what they're selling you.</dd><dt>Who notices</dt><dd>Your team, who stops bracing for your next big idea.</dd></dl></div>
+      </div>
+    </details>
+
+    <details class="ag">
+      <summary><span class="ch">Chapter 1 · The Operating System</span><span class="tt"><i>From guessing</i>to seeing</span><span class="who">The leader who sees it coming.</span><span class="pm"></span></summary>
+      <div class="ag-body"><div></div>
+        <div class="c1"><h4>Your moment</h4><p>The numbers look fine. Nobody's worried out loud. But something in your gut says the company is drifting, and you can't point to where.</p><h4>What we install</h4><p>The Compounding Audit: the 7 surfaces of your business (your clients, margin, team, standards, pipeline, brand, and you), each with an arrow, up or down, and the evidence. Then the math to price any small habit. A 2-minute leak in a 12-person company runs $37,500 a year.</p><p class="so">So you know which direction your company is compounding a year before your P&amp;L tells you.</p></div>
+        <div class="c2"><dl><dt>Off your plate</dt><dd>The vague, all-hands "we need to get better" push that never lands anywhere.</dd><dt>Back to you</dt><dd>The leaks you find, priced in dollars, in your own business.</dd><dt>Off your chest</dt><dd>The 3 a.m. ceiling stare. You stop wondering and start knowing.</dd><dt>Who notices</dt><dd>You, first. A good year stops lulling you to sleep.</dd></dl></div>
+      </div>
+    </details>
+
+    <details class="ag">
+      <summary><span class="ch">Chapter 2 · Decisions</span><span class="tt"><i>From the bottleneck</i>to the architect</span><span class="who">You decide once, and it gets made 10,000 times.</span><span class="pm"></span></summary>
+      <div class="ag-body"><div></div>
+        <div class="c1"><h4>Your moment</h4><p>Your phone lights up all day with questions only you can answer. Your people aren't the problem. Nobody ever decided the big things in writing, so every small thing comes back to you.</p><h4>What we install</h4><p>The 6 decisions that make 10,000 others for you: who you serve, what you promise, what you charge, what you won't do, who gets a seat, and who gets your ear. Each one leaves as a standing rule in your Leader's Ledger.</p><p class="so">So your people make the call you would have made, without calling you. And your prices hold on a bad Friday, because one panic discount on a 30%-margin job erases a third of the profit.</p></div>
+        <div class="c2"><dl><dt>Off your plate</dt><dd>The same questions, every week, from the same people.</dd><dt>Back to you</dt><dd>The margin you used to give away to close a conversation faster.</dd><dt>Off your chest</dt><dd>The decisions you've been putting off for a year.</dd><dt>Who notices</dt><dd>Your leadership team, who finally knows what you'd say before you say it.</dd></dl></div>
+      </div>
+    </details>
+
+    <details class="ag">
+      <summary><span class="ch">Chapter 3 · Systems</span><span class="tt"><i>From the hero</i>to the multiplier</span><span class="who">The system doesn't replace you. It multiplies you.</span><span class="pm"></span></summary>
+      <div class="ag-body"><div></div>
+        <div class="c1"><h4>Your moment</h4><p>In the book, Frank runs a $14 million company. On his first vacation in 4 years, he takes 61 calls from the beach. Maybe you've never taken 61. But you know what it feels like to check your phone under the table at your kid's game.</p><h4>What we install</h4><p>The 6 systems that run the business without running you: a one-page dashboard (6 to 12 numbers, one owner each), decision rights so every decision has a home, the marketing and sales engine that tells you where your next 20 customers come from, a customer experience that doesn't depend on who answers the phone, an always-on recruiting pipeline, and a weekly view of cash. Each one ends with how AI multiplies it, once it's sound.</p><p class="so">So your company's best day stops being a lucky day and becomes an ordinary Tuesday.</p></div>
+        <div class="c2"><dl><dt>Off your plate</dt><dd>The routine decisions. Frank went from 61 calls to about a dozen a week, the ones that actually matter.</dd><dt>Back to you</dt><dd>Your evenings, your weekends, and a vacation that's a vacation.</dd><dt>Off your chest</dt><dd>The feast-and-famine months, and the fear that it all falls apart if you step away.</dd><dt>Who notices</dt><dd>Your family, first. Nobody at home has to count your calls anymore.</dd></dl></div>
+      </div>
+    </details>
+
+    <div class="day-h"><b>Day 2</b><span>Tuesday, April 27</span></div>
+
+    <details class="ag">
+      <summary><span class="ch">Chapter 4 · Routines</span><span class="tt"><i>From relaunching</i>to finishing</span><span class="who">The leader whose team believes what you launch.</span><span class="pm"></span></summary>
+      <div class="ag-body"><div></div>
+        <div class="c1"><h4>Your moment</h4><p>You've launched the referral program 3 times. The weekly meeting lasted 6 weeks. Your team has seen enough launches to know the drill: nod, wait, and it'll go away.</p><h4>What we install</h4><p>The Monday-to-Friday rhythm. Monday sets the plays, with a leadership meeting and team huddles. Friday grades them, with a review and a personal development session that grows your people on company time. Then the 90-day push that finishes one big thing a quarter, and the meeting rules that give your team back hours every week.</p><p class="so">So what you decide on Monday is done by Friday, every week, and momentum stops leaking out between launches.</p></div>
+        <div class="c2"><dl><dt>Off your plate</dt><dd>Chasing status updates, and relaunching the same initiative a 4th time.</dd><dt>Back to you</dt><dd>The hours your meetings were eating.</dd><dt>Off your chest</dt><dd>The worry that your team doesn't believe you anymore.</dd><dt>Who notices</dt><dd>Your team. Every initiative you abandon teaches your company how seriously to take the next one. Every one you finish teaches them too.</dd></dl></div>
+      </div>
+    </details>
+
+    <details class="ag">
+      <summary><span class="ch">Chapter 5 · Environment</span><span class="tt"><i>From tolerating it</i>to setting the standard</span><span class="who">The leader whose standard holds.</span><span class="pm"></span></summary>
+      <div class="ag-body"><div></div>
+        <div class="c1"><h4>Your moment</h4><p>There's one person in your company everyone works around. You know who it is. So does your team. And every week you keep them, your best people learn what your real standard is.</p><h4>What we install</h4><p>The 3 forces that decide how your people act when you're not watching: what your company lets in, what it applauds, and what it tolerates. A truth pipeline so bad news reaches you while it's still cheap to fix, a recognition system you'll actually run every week, and the conversation you've been avoiding, word for word.</p><p class="so">So the right behavior becomes the easy behavior, and your A-players stop taking the recruiter's call.</p></div>
+        <div class="c2"><dl><dt>Off your plate</dt><dd>The cleanup, the workarounds, and the drama that eats your Fridays.</dd><dt>Back to you</dt><dd>The A-players who stay, and the ones who'd never have applied otherwise.</dd><dt>Off your chest</dt><dd>The conversation you've been dreading for a year. The whole company breathes again.</dd><dt>Who notices</dt><dd>Your best people, who finally see that you see them.</dd></dl></div>
+      </div>
+    </details>
+
+    <details class="ag">
+      <summary><span class="ch">Chapter 6 · Be The Exception</span><span class="tt"><i>From one of the options</i>to the only choice</span><span class="who">The exception. The company your industry measures itself against.</span><span class="pm"></span></summary>
+      <div class="ag-body"><div></div>
+        <div class="c1"><h4>Your moment</h4><p>You're good. Your customers say so. And they'd still leave for a 10% discount, because "good" is what everyone in your market claims.</p><h4>What we install</h4><p>A map of every moment your customer has with you, graded broken, expected or exceptional. Wows you plan in advance so they happen on an ordinary Tuesday. One signature experience your customers tell at dinner. A referral system that sends you customers who are already sold. And the 2 or 3 standards you keep where nobody is looking.</p><p class="so">So customers choose you by name, and price stops being the conversation.</p></div>
+        <div class="c2"><dl><dt>Off your plate</dt><dd>The price objection, the bidding war, the next-cheapest competitor.</dd><dt>Back to you</dt><dd>The customers you keep. One $2,000-a-month client kept versus lost is $128,000 versus $10,000.</dd><dt>Off your chest</dt><dd>The fear that one bad review or one cheaper competitor takes it all.</dd><dt>Who notices</dt><dd>Your competitors. They'll say you got lucky. Luck is the word the market uses for compounding it didn't see.</dd></dl></div>
+      </div>
+    </details>
+
+    <details class="ag">
+      <summary><span class="ch">The Conclusion</span><span class="tt"><i>And then</i>from reader to Founder</span><span class="who">You were there when it began.</span><span class="pm"></span></summary>
+      <div class="ag-body"><div></div>
+        <div class="c1"><p>Millions of people will read this book. On Tuesday night, before any of them has turned a page, you'll have put a date on your own 31 months, chosen the first upgrade you're installing, and mapped your first 30 days with your team.</p><p class="so">You won't come home with something to teach. You'll come home with something already started.</p></div>
+        <div class="c2"></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- 6 THE 12 LEARNINGS -->
+<section class="jet">
+  <div class="wrap">
+    <p class="label">The proof is in the detail</p>
+    <h2 class="h h2"><span class="set">12 things you'll</span><span class="ans">walk away knowing.</span></h2>
+    <ol class="learn">
+      <li><b>Why smart leaders keep buying the next big fix, and the 5 questions that expose any pitch in 10 seconds...</b>so the next agency, guru or AI panic never gets another year of your life or another dollar of your profit.</li>
+      <li><b>The operating system already running your company: what happens every day when nobody decides...</b>so you stop bolting new strategies onto a system that's been breaking every one of them.</li>
+      <li><b>Which direction your company is compounding right now, and what your small habits really cost...</b>so you find the slide while it's cheap to fix, not after it shows up on your P&amp;L.</li>
+      <li><b>The 6 decisions that make 10,000 others for you...</b>so your people make the call you would have made, and your phone stops ringing with questions only you used to answer.</li>
+      <li><b>Why one 10% discount can erase a third of your profit, and the pricing rule your team can hold on a bad Friday...</b>so you keep more of every dollar you earn, without selling a single extra job.</li>
+      <li><b>The one-page dashboard that tells you the truth in 3 minutes...</b>so you catch trouble in month 2, and everyone on your team knows the score without you asking.</li>
+      <li><b>How to get the routine decisions off your phone...</b>so your evenings belong to your family again, and your hours go to the dozen calls a week that actually matter.</li>
+      <li><b>Where your next 20 customers are coming from...</b>so revenue stops feeling like the weather, and you sleep through the slow months.</li>
+      <li><b>How to attract, select and keep A-players...</b>so you never hire in a panic again, and your best people stop taking the recruiter's call.</li>
+      <li><b>The Monday-to-Friday rhythm, plus the 90-day push that finishes what you start...</b>so what you decide on Monday is done by Friday, and your team starts believing in what you launch.</li>
+      <li><b>The 3 forces that decide how your people act when you're not watching...</b>so the right behavior becomes normal, and the weight you've been carrying for a year comes off your chest.</li>
+      <li><b>How to become the only choice in your market...</b>so customers choose you by name, send you people who are already sold, and your competitors can't explain how you did it.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 7 FOUNDERS -->
+<section class="vault">
+  <div class="wrap founders-grid">
+    <div>
+      <p class="label">Why "Founders"</p>
+      <h2 class="h h2"><span class="set">There will only ever</span><span class="ans">be one first.</span></h2>
+      <div class="lead">
+        <p>Super Bowl I. January 15, 1967, at the LA Coliseum. Tickets were about $12, and it wasn't even called the Super Bowl yet. Nobody in those seats knew what they were part of. Today they still tell the story.</p>
+        <p>The book is released just after the event. <b>By the time your competitors pick up a copy and start chapter one, you'll already have the compound effect multiplying profits in your business.</b></p>
+      </div>
+      <div class="studio"><p class="label">40 seats in the Charleston studio</p><p>Earned, not bought. The leaders who join early have the best shot at one.</p></div>
+    </div>
+    <div><div class="one">1</div><span class="one-cap">First. And only.</span></div>
+  </div>
+</section>
+
+<!-- 8 YOUR SEAT -->
+<section class="jet" id="seat">
+  <div class="wrap seat-grid">
+    <div>
+      <p class="label">Your seat</p>
+      <h2 class="h h2"><span class="set">Start compounding</span><span class="ans">your growth now.</span></h2>
+      <div class="lead">
+        <p>Your seat is a full BMC|COLLECTIVE year, and it turns on the day you join. You don't wait until April to start.</p>
+        <p>To celebrate the launch, the publisher is sponsoring $5,000 of each seat for the first 500 Founders. <b>When those 500 are gone, the sponsorship is gone.</b></p>
+      </div>
+      <div class="promise"><p class="label">The Day 1 promise</p><p>Attend Day 1. If you don't see a 3X to 10X return by the end of the day, hand in your materials for a full refund.</p></div>
+    </div>
+    <div class="card">
+      <img class="tk" src="founder-ticket-black-cutout-1120.webp" width="1120" height="519" alt="Founders Event ticket">
+      <div class="row"><span>Founders seat</span><b>$9,995</b></div>
+      <div class="row sp"><span>Rearden Press sponsorship</span><b>−$5,000</b></div>
+      <p class="you">Your seat</p>
+      <div class="big"><b>$385</b><span>/mo</span></div>
+      <p class="pre">or $4,995 pre-pay</p>
+      <a class="btn" href="#seat">Reserve my Founders seat →</a>
+      <p class="terms">$385 today plus 12 monthly payments. Full terms on the order form.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9 TEAM -->
+<section class="vault">
+  <div class="wrap team-grid">
+    <h2 class="h h2"><span class="set">Who should be</span><span class="ans">there with you?</span></h2>
+    <div class="lead">
+      <p>Don't come back with something to teach your team. <b>Bring your team.</b> If they didn't experience it, you come home to a team you have to convince.</p>
+      <p>Every team seat counts toward the studio.</p>
+      <div class="team-price"><b>$308/mo</b><span>or $3,995 pre-pay, per team seat</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 FAQ -->
+<section class="jet faq">
+  <div class="wrap narrow">
+    <h2 class="h h2"><span class="set">Straight</span><span class="ans">answers.</span></h2>
+    <details><summary>Do I need to have read the new book?</summary><p>No. The Compound Effect in Business is released just after the event. You'll put it to work before anyone else has read it.</p></details>
+    <details><summary>Is it live?</summary><p>Yes. Both days are broadcast live from the studio in Charleston, Monday and Tuesday, April 26 and 27, 2027. You join from wherever you lead.</p></details>
+    <details><summary>Who should I bring?</summary><p>Whoever owns a part of your company: your clients, margin, team, standards, pipeline and brand. The people running service, marketing and operations. And the leaders you're not sure about. They're usually the ones a shared language rescues.</p></details>
+    <details><summary>When does my BMC|COLLECTIVE year start?</summary><p>The day you join.</p></details>
+    <details><summary>How do I get a seat in the studio?</summary><p>Those seats are earned, not bought, and the leaders who join early have the best shot at one.</p></details>
+  </div>
+</section>
+
+<!-- 11 CLOSE -->
+<section class="close vault">
+  <div class="wrap">
+    <p class="pre">Years from now, someone is going to ask if you've read The Compound Effect in Business.</p>
+    <blockquote>"Read it? Heck, <span>I was there when it all began.</span> I'm a Founder."</blockquote>
+    <a class="btn" href="#seat">Reserve my Founders seat →</a>
+  </div>
+</section>
+
+<footer class="foot"><div class="wrap">© Darren Hardy, LLC · Fresh page mock for review, not live</div></footer>
+
+</body>
+</html>
