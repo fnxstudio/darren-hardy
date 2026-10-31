@@ -9,6 +9,8 @@
      /champion-key/<hash>   email sign-in key -> referral ID
    Hooks are ids and data-* attributes only. Classes are only toggled for state (is-*).
 
+   Coins removed from the page (2026-10-30): no coin pings, stand bars, next-coin line or
+   standings coin column. The level code below stays for the sync's data but shows nothing.
    Levels (2026-10-20): names and seat counts live in the "Champion Levels" collection.
    The sync writes level numbers only, plus a "levels=" header on board page 1 that this
    script reads. Written copy that mentions a level (tier sentences, FAQ) is edited by hand.
@@ -191,9 +193,9 @@
     var sub = isMe ? meLine(imp) : (x.team || '');
     return '<li class="cb-row' + (isMe ? ' is-me' : '') + '" data-rank="' + rank + '"><span class="cb-row-rank">' + rank + '</span><img class="cb-row-face" src="' + esc(x.src || OPEN_SEAT) + '" alt="" loading="lazy">' +
       '<span><span class="cb-row-name">' + esc(r[1]) + '</span>' + (sub ? '<span class="cb-row-team" style="display:block">' + esc(sub) + '</span>' : '') + '</span>' +
-      '<span class="cb-row-coin">' + (lv ? chip(lv.key) + esc(lv.name) : 'On the board') + '</span><span class="cb-row-imp">' + esc(r[3]) + '</span></li>';
+      '<span class="cb-row-imp">' + esc(r[3]) + '</span></li>';
   }
-  function meLine(imp) { var n = nextLevel(imp); return 'You' + (n ? ' · ' + (n.min - imp === 1 ? 'one more leader earns ' : (n.min - imp) + ' more leaders earn ') + n.name : ''); }
+  function meLine() { return 'You'; }
   function render(q) {
     if (!ALL) return;
     $('fullCount').textContent = ALL.length ? plural(ALL.length, 'Champion') + ' on the board' : '';
@@ -343,25 +345,8 @@
     st('rank').textContent = rank;
     st('move').textContent = move > 0 ? '▲ ' + move : 'Holding';
     st('impacts').textContent = imp;
-    var n = nextLevel(imp), have = levelFor(imp);
-    if (n) {
-      var togo = n.min - imp;
-      st('next').textContent = n.name; st('next').setAttribute('data-coin', n.key);
-      st('togo').textContent = togo;
-      st('next-line').hidden = false;
-      st('say').textContent = f.status || (have ? plural(togo, 'more leader') + ' to ' + n.name + '.' : (togo === 1 ? 'One more leader to get your first coin!' : plural(togo, 'more leader') + ' to get your first coin!'));
-    } else {
-      st('next-line').hidden = true;
-      st('say').textContent = f.status || LEVELS[LEVELS.length - 1].name + '. Hold your rank to the final count.';
-    }
-    // Bars: each level fills over its own stretch (0 to level 1's seats, then on to level 2's...)
-    var lo = 0;
-    LEVELS.forEach(function (l, i) {
-      var pct = Math.max(0, Math.min(1, (imp - lo) / (l.min - lo))), bar = document.querySelector('[data-bar="' + l.key + '"]'), lab = document.querySelector('[data-bar-label="' + l.key + '"]');
-      if (bar) bar.style.width = Math.round(pct * 100) + '%';
-      if (lab) lab.classList.toggle('is-on', imp >= lo && (imp < l.min || i + 1 === have));
-      lo = l.min;
-    });
+    // Coins are off the board (2026-10-30): the stand card shows rank, move, impacts and the status line only.
+    st('say').textContent = f.status || (imp < 1 ? 'Your first impact puts you on the board.' : '');
   }
   function loadStand(ref) {
     return fetch('/champion-data/' + encodeURIComponent(ref.toLowerCase()), { credentials: 'same-origin' }).then(function (r) { if (!r.ok) throw r.status; return r.text(); }).then(function (h) {
