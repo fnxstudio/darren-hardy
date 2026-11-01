@@ -525,8 +525,7 @@ html{scroll-behavior:smooth}
 .take-panel{position:relative;width:min(980px,100%);max-height:calc(100vh - 48px);overflow:auto;display:grid;grid-template-columns:1fr 1.05fr;align-items:center;background:radial-gradient(ellipse 60% 80% at 20% 50%,rgba(60,84,128,.22),transparent 70%),#07090E;border:1px solid rgba(220,226,236,.22);border-radius:2px;box-shadow:0 50px 120px rgba(0,0,0,.7);transform:translateY(16px) scale(.98);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
 .take.is-open .take-panel{transform:none}
 .take-x{position:absolute;top:14px;right:14px;z-index:2}
-.take-art{position:relative;height:100%;min-height:420px;overflow:hidden}
-.take-art .mini{width:96%;left:52%;transform:translate(-50%,-50%) rotate(-3deg)}
+.take-art{position:relative}
 .take-copy{padding:56px 48px 44px 8px}
 .take-copy .hl{font-size:clamp(36px,3.6vw,52px);margin:0 0 18px}
 .take-copy .l1{color:#7A808C;font-size:.62em;display:inline-block;margin-bottom:.1em}
@@ -549,9 +548,6 @@ html{scroll-behavior:smooth}
   .take-panel{grid-template-columns:minmax(0,1fr);max-height:calc(100vh - 24px)}
   .take-cta{white-space:normal;text-align:center;letter-spacing:.1em;padding:18px 14px}
   .take-copy .hl{font-size:34px}
-  .take-art .mini{left:50%}
-  .take-art{min-height:220px}
-  .take-art .mini{width:70%}
   .take-copy{padding:4px 22px 28px}
 }
 @media (prefers-reduced-motion:reduce){.take,.take-panel{transition:none}}
@@ -593,6 +589,26 @@ html{scroll-behavior:smooth}
   background:radial-gradient(ellipse 30% 44% at 50% 40%,rgba(235,240,250,.34) 0%,rgba(165,188,226,.30) 26%,rgba(70,100,156,.20) 52%,rgba(40,60,100,0) 74%);
   filter:blur(10px);animation:breathe 9s ease-in-out infinite;pointer-events:none}
 .order .cart-form{box-shadow:0 0 0 1px rgba(255,255,255,.6),0 0 40px rgba(205,218,240,.28),0 0 120px rgba(140,165,210,.22),0 50px 100px rgba(0,0,0,.6)}
+/* exit pop: one solid light panel on the dark page, with the full Founder ticket */
+.take-panel{background:#F4F5F7;border:0;box-shadow:0 0 0 1px rgba(255,255,255,.6),0 0 60px rgba(190,205,232,.22),0 50px 120px rgba(0,0,0,.7)}
+.take-art{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:22px;padding:48px 8px 48px 44px;min-height:0}
+.take-tk{width:100%;transform:rotate(-2deg);filter:drop-shadow(0 26px 34px rgba(10,14,24,.35))}
+.take-cap{margin:0;font:600 10px/1.5 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:#6B7280;text-align:center}
+.take-x{border-color:rgba(10,12,16,.2);color:#0A0C10}
+.take-x:hover{background:rgba(10,12,16,.06)}
+.take-copy .hl{color:#0A0C10}
+.take-copy .l1{color:#7a7a7a}
+.take-copy p{color:#3A404B}
+.take-big{color:#0A0C10!important}
+.take-math{background:#fff;border-color:rgba(10,12,16,.14);color:#3A404B}
+.take-math b{color:#0A0C10}
+.take-math b.m{color:#6B7280}
+.take-math .t{border-top-color:rgba(10,12,16,.16);color:#0A0C10}
+.take-math b.metal{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#0A0C10}
+.take-math small{color:#6B7280}
+.take-cta{box-shadow:0 1px 0 rgba(255,255,255,.75) inset,0 0 0 1px rgba(10,12,16,.22),0 0 26px rgba(150,172,210,.35),0 12px 30px rgba(14,22,38,.22)}
+.take-no{color:#6B7280}
+@media (max-width:900px){.take-art{padding:64px 28px 6px}.take-tk{width:92%}}
 </style>
 </head>
 <body>
@@ -1143,11 +1159,25 @@ document.documentElement.classList.add('js');
   <div class="take-panel">
     <button class="take-x" type="button" data-take-close aria-label="Close">×</button>
     <div class="take-art" aria-hidden="true">
-      <div class="halo sm"></div>
-      <div class="mini"><div class="mtk"><div class="mtk-main"><span class="mtk-top">Admit one · Founder</span><img src="img/lockup-steel.webp" alt="" width="1400" height="375"></div><div class="mtk-stub"><span>Nº 001</span></div><span class="shine"></span></div></div>
+      <div class="take-tk">
+        <div class="ticket">
+          <div class="t-main">
+            <div class="t-top"><span>Admit one</span><span>Founder</span></div>
+            <img class="t-lock" src="img/lockup-steel.webp" width="1400" height="375" alt="">
+            <div class="t-meta">
+              <div><b>Mon + Tue</b>April 26 + 27, 2027</div>
+              <div><b>Live</b>From anywhere</div>
+              <div><b>Exclusively with</b>Darren Hardy</div>
+            </div>
+          </div>
+          <div class="t-stub"><span class="ft">Founder ticket</span><i class="bar"></i><span class="no">Nº 001</span></div>
+          <span class="shine"></span>
+        </div>
+      </div>
+      <p class="take-cap">500 sponsored seats · Then the sponsorship is gone</p>
     </div>
     <div class="take-copy">
-      <img class="rp-badge sm" src="img/rearden-press-white.webp" width="240" height="262" alt="Rearden Press">
+      <img class="rp-badge sm" src="img/rearden-press-charcoal.webp" width="240" height="262" alt="Rearden Press">
       <h2 class="hl"><span class="l1">The $5,000 sponsorship</span><br>First 500 seats only</h2>
       <p>To celebrate this historic launch, Rearden Press is covering 50%&nbsp;of&nbsp;your investment when you reserve your seat&nbsp;today.</p>
       <p class="take-big">When they're gone, the sponsorship is gone with&nbsp;them.</p>
