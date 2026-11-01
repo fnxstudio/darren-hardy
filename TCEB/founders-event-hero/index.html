@@ -75,7 +75,7 @@ a{color:inherit}
 .stage::after{content:"";position:absolute;left:12%;right:12%;bottom:-40px;height:56px;background:radial-gradient(ellipse at center,rgba(0,0,0,.85),rgba(0,0,0,0) 70%);filter:blur(10px)}
 .float{animation:float 8s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.tilt{transform:rotateX(var(--rx,7deg)) rotateY(var(--ry,-6deg)) rotateZ(-1.5deg);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.7,.2,1);filter:drop-shadow(0 0 1px rgba(220,226,236,.35)) drop-shadow(0 0 46px rgba(150,170,205,.13))}
+.tilt{transform:scale(var(--s,1)) rotateX(var(--rx,4deg)) rotateY(var(--ry,-3deg)) rotateZ(-1deg);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.7,.2,1);filter:drop-shadow(0 0 1px rgba(220,226,236,.35)) drop-shadow(0 0 46px rgba(150,170,205,.13))}
 
 /* THE TICKET */
 .stage{position:relative;perspective:1400px;padding:40px 0}
@@ -239,9 +239,9 @@ a{color:inherit}
   if(matchMedia('(hover:hover) and (prefers-reduced-motion:no-preference)').matches){
     stage.addEventListener('pointermove',function(e){
       var r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-      tilt.style.setProperty('--ry',(-6+x*14)+'deg');tilt.style.setProperty('--rx',(7-y*10)+'deg');stage.style.setProperty('--lx',(x*90)+'px');stage.style.setProperty('--ly',(y*70)+'px');
+      tilt.style.setProperty('--ry',(-3+x*14)+'deg');tilt.style.setProperty('--rx',(4-y*10)+'deg');tilt.style.setProperty('--s','1.045');stage.style.setProperty('--lx',(x*90)+'px');stage.style.setProperty('--ly',(y*70)+'px');
     });
-    stage.addEventListener('pointerleave',function(){tilt.style.removeProperty('--ry');tilt.style.removeProperty('--rx');stage.style.removeProperty('--lx');stage.style.removeProperty('--ly');});
+    stage.addEventListener('pointerleave',function(){tilt.style.removeProperty('--ry');tilt.style.removeProperty('--rx');tilt.style.removeProperty('--s');stage.style.removeProperty('--lx');stage.style.removeProperty('--ly');});
   }
   // keep the last two words of the headline together
   document.querySelectorAll('h1,.tag,.sub').forEach(function(n){
