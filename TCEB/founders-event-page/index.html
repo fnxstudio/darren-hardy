@@ -451,9 +451,16 @@ html{scroll-behavior:smooth}
 .order .c-box input::placeholder,.order .c-card::placeholder{color:#8A909B}
 .order .c-box input:focus,.order .c-box select:focus{border-color:#0E1626}
 .order .c-due{background:#ECEEF2}
-.order .c-add{background:#EEF0F3}
-.order .c-step button:hover{background:rgba(10,12,16,.06)}
-.order .c-check input,.order .c-add input,.order .c-pay-row input[type=radio]{accent-color:#0E1626}
+.order .c-add{background:linear-gradient(160deg,#1C2C48,#0D1626);color:#F2F4F8}
+.order .c-add input{accent-color:#E4E8EE}
+.order .c-step{border-color:rgba(242,244,248,.35)}
+.order .c-step button{color:#F2F4F8}
+.order .c-step button:hover{background:rgba(255,255,255,.1)}
+.c-more{padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.c-video{position:relative;padding-top:56.25%;background:#000;border-radius:2px;overflow:hidden}
+.c-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.c-video-x{position:absolute;z-index:1;top:8px;right:8px;padding:6px 10px;border:0;border-radius:2px;background:rgba(0,0,0,.7);color:#fff;font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.order .c-check input,.order .c-pay-row input[type=radio]{accent-color:#0E1626}
 .order .c-offer{border-color:rgba(10,12,16,.28)}
 .order .c-pay{background:#fff}
 .order .c-mock{border-color:rgba(10,12,16,.35);background:#fff}
@@ -932,6 +939,7 @@ html{scroll-behavior:smooth}
           <li>A private VIP-only pre-event meetup</li>
           <li>A VIP-only room during the event</li>
           <li>An exclusive extra half-day mastermind with Darren and the in-studio guests, where we go deeper on your business in a much smaller group</li>
+          <li><button type="button" class="c-more" data-video="1236615000" data-title="Darren on the VIP upgrade">Get more details from Darren →</button></li>
         </ul>
         <label class="c-add"><input type="checkbox" data-vip><span>Add VIP to my seat</span></label>
       </div>
@@ -946,6 +954,7 @@ html{scroll-behavior:smooth}
           <li>They see the vision and share your conviction firsthand</li>
           <li>You come back with a team ready to lead the change</li>
           <li>Option to upgrade seat(s) to VIP before the event</li>
+          <li><button type="button" class="c-more" data-video="1236615058" data-title="Darren on the team seats">Get more details from Darren →</button></li>
         </ul>
         <div class="c-add"><span class="c-step"><button type="button" data-step="-1" aria-label="One fewer team seat">−</button><output data-team>0</output><button type="button" data-step="1" aria-label="One more team seat">+</button></span><span>Extra team seats</span></div>
       </div>
@@ -1156,6 +1165,19 @@ document.documentElement.classList.add('js');
     var open = e.currentTarget.getAttribute('aria-expanded') !== 'true';
     e.currentTarget.setAttribute('aria-expanded', open);
     cart.querySelector('.c-lines').hidden = !open;
+  });
+  // Darren's video plays right under the bullets (same as the Spiffy custom code). The link toggles it.
+  $('.c-more').forEach(function (more) {
+    var LINK = more.textContent, ul = more.closest('ul');
+    function close() { var v = ul.nextElementSibling; if (v && v.classList.contains('c-video')) v.remove(); more.textContent = LINK; }
+    more.addEventListener('click', function () {
+      var v = ul.nextElementSibling;
+      if (v && v.classList.contains('c-video')) { close(); return; }
+      v = document.createElement('div'); v.className = 'c-video';
+      v.innerHTML = '<button type="button" class="c-video-x" aria-label="Close the video">Close ×</button><iframe src="https://player.vimeo.com/video/' + more.getAttribute('data-video') + '?autoplay=1&dnt=1&title=0&byline=0&portrait=0&color=C9CED6&cc=0&pip=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="' + more.getAttribute('data-title') + '"></iframe>';
+      v.querySelector('.c-video-x').addEventListener('click', close);
+      ul.after(v); more.textContent = 'Close the video ×';
+    });
   });
   cart.querySelector('form').addEventListener('submit', function (e) { e.preventDefault(); cart.querySelector('[data-done]').hidden = false; });
   render();
