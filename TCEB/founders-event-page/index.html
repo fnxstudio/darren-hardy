@@ -558,15 +558,17 @@ html{scroll-behavior:smooth}
 .callout-in::before{content:"";position:absolute;inset:12px 24px;border:1px solid rgba(220,221,223,.3);pointer-events:none}
 .callout-top{display:block;font:600 10px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--mute);margin-bottom:22px}
 .callout p{margin:0!important;font-family:var(--sans);font-weight:600;font-size:clamp(22px,2.3vw,30px);line-height:1.38;letter-spacing:-.012em;color:var(--bright)!important;text-wrap:balance}
-/* the 12 points sit under a + until opened */
-.disclose{max-width:1080px;margin:96px auto 0;border-top:2px solid var(--bright);border-bottom:1px dotted var(--line-2)}
-.disclose summary{cursor:pointer;list-style:none;position:relative;padding:28px 72px 28px 0;font-family:var(--display);font-weight:600;font-size:clamp(26px,2.6vw,34px);line-height:1;text-transform:uppercase;color:var(--bright)}
+/* the 12 points sit under a small + right under the paragraph */
+.disclose{max-width:1080px;margin:28px auto 0;text-align:center}
+.disclose summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:12px;padding:8px 0;font:600 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
 .disclose summary::-webkit-details-marker{display:none}
-.disclose summary::after{content:"+";position:absolute;right:0;top:50%;width:40px;height:40px;margin-top:-20px;display:grid;place-items:center;border:1px solid var(--line-2);font:300 24px/1 var(--sans);color:var(--bright);transition:transform .3s ease,background .3s ease}
+.disclose summary::after{content:"+";width:22px;height:22px;display:grid;place-items:center;border:1px solid var(--line-2);font:300 15px/1 var(--sans);color:var(--bright);transition:transform .3s ease,background .3s ease}
+.disclose summary:hover{color:var(--bright)}
 .disclose summary:hover::after{background:rgba(255,255,255,.06)}
 .disclose[open] summary::after{transform:rotate(45deg)}
+.disclose[open] .learn{margin-top:28px;text-align:left}
 .disclose .learn{margin:0 0 12px}
-@media (max-width:900px){.callout-in{padding:44px 32px 46px}.callout-in::before{inset:10px 18px}.disclose summary{font-size:24px;padding-right:56px}}
+@media (max-width:900px){.callout-in{padding:44px 32px 46px}.callout-in::before{inset:10px 18px}}
 /* what the seat includes, set as ticket entries */
 .incl{display:grid;grid-template-columns:1fr 1fr;margin-top:26px;border-top:1px dotted var(--line-2)}
 .incl>div{position:relative;padding:20px 18px 18px 0;display:grid;gap:6px;border-bottom:1px dotted var(--line-2)}
@@ -621,6 +623,17 @@ html{scroll-behavior:smooth}
   .author-facts b{font-size:36px}
   .author-facts>div:nth-child(even){padding-left:18px}
 }
+/* declarations over the stage b-roll */
+.decls{position:relative;min-height:88vh;display:flex;align-items:center;padding:120px 0;background:var(--night);overflow:hidden}
+.decl-vid{position:absolute;inset:0;z-index:0;opacity:.34;pointer-events:none;overflow:hidden}
+.decl-vid iframe{position:absolute;top:50%;left:50%;width:100%;height:100%;min-width:177.78vh;min-height:56.25vw;transform:translate(-50%,-50%);border:0;filter:grayscale(1) contrast(1.1)}
+.decl-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,var(--night) 0%,rgba(4,6,12,.35) 30%,rgba(4,6,12,.35) 70%,var(--night) 100%),radial-gradient(ellipse 70% 60% at 50% 50%,rgba(30,50,90,.25),rgba(30,50,90,0) 70%)}
+.decls .wrap{position:relative;z-index:2;width:100%}
+.decl-stack{display:grid}
+.decl{grid-area:1/1;margin:0!important;font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:clamp(52px,9.4vw,156px);line-height:.92;letter-spacing:.005em;color:var(--bright)!important;opacity:0;animation:declLoop 7.2s ease-in-out infinite}
+.decl.d2{animation-delay:1.8s}.decl.d3{animation-delay:3.6s}.decl.d4{animation-delay:5.4s}
+@keyframes declLoop{0%{opacity:0;transform:translateY(20px)}7%{opacity:1;transform:none}25%{opacity:1;transform:none}33%{opacity:0;transform:translateY(-10px)}33.1%,100%{opacity:0;transform:translateY(20px)}}
+@media (prefers-reduced-motion:reduce){.decl{animation:none}.decl.d4{opacity:1}}
 </style>
 </head>
 <body>
@@ -804,6 +817,20 @@ html{scroll-behavior:smooth}
     </div>
     <div class="identity rv"><span class="fx-s">FOUNDERS</span></div>
     <a class="btn btn-silver rv" href="#reserve">Reserve my FOUNDERS seat <span class="arr">→</span></a>
+  </div>
+</section>
+
+<!-- Declarations over Darren's stage b-roll (same footage and idea as darrenhardy.com, lines for this event) -->
+<section class="decls" aria-label="Start first. Install the hinges. Bring your team. Become a Founder.">
+  <div class="decl-vid" aria-hidden="true"><iframe data-vsrc="https://player.vimeo.com/video/1198744115?badge=0&autopause=0&background=1&autoplay=1&muted=1&loop=1&dnt=1" title="Darren on stage" tabindex="-1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture"></iframe></div>
+  <div class="decl-scrim" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="decl-stack" aria-hidden="true">
+      <p class="decl d1">Start first.</p>
+      <p class="decl d2">Install the hinges.</p>
+      <p class="decl d3">Bring your team.</p>
+      <p class="decl d4">Become a <span class="sx">Founder</span>.</p>
+    </div>
   </div>
 </section>
 
@@ -1154,6 +1181,8 @@ html{scroll-behavior:smooth}
     var w=n.lastChild;while(w&&w.nodeType!==3){w=w.lastChild;}
     if(w&&/\S\s+\S+\s*$/.test(w.nodeValue)){w.nodeValue=w.nodeValue.replace(/\s+(\S+)\s*$/,' $1');}
   });
+  // stage b-roll: phones pull 360p (same as darrenhardy.com); the src is written once so loading=lazy still defers it
+  document.querySelectorAll('iframe[data-vsrc]').forEach(function(f){var v=f.getAttribute('data-vsrc');if(v&&!f.src)f.src=matchMedia('(max-width:767px)').matches?v+'&quality=360p':v;});
   // No orphans anywhere in the body copy: the last two words of every block stay together, and the first
   // word of each new sentence stays with the word after it, so a line never ends on a lone "You" or "It".
   var NB='\u00a0';
