@@ -432,6 +432,105 @@ html{scroll-behavior:smooth}
   .quote{margin-top:56px!important}
 }
 @media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}.pfloat,.sx,.fx-s{animation:none}}
+
+/* ===== MOCK CART (Spiffy outline) + leave-page pop-up ===== */
+.take[hidden]{display:none}
+.order{padding-top:40px}
+.order-in{max-width:620px;margin:0 auto;scroll-margin-top:96px}
+.order-in .hl{margin-bottom:40px}
+.take-x{width:36px;height:36px;display:grid;place-items:center;background:none;border:1px solid var(--line-2);border-radius:2px;color:var(--bright);font:300 22px/1 var(--sans);cursor:pointer}
+.take-x:hover{background:rgba(255,255,255,.06)}
+.take-x:focus-visible{outline:2px solid rgba(230,236,245,.7);outline-offset:2px}
+.cart-form{display:grid;gap:18px}
+.cart-plan{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-2);border-radius:2px;padding:4px;gap:4px}
+.cart-plan button{background:none;border:0;border-radius:2px;padding:13px;font:600 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);cursor:pointer}
+.cart-plan button[aria-checked="true"]{background:var(--steel);color:#0A0C10}
+.c-box{position:relative;margin:0;border:1px solid var(--line-2);border-radius:2px;padding:22px 20px;display:grid;gap:10px;background:rgba(255,255,255,.015)}
+.c-box legend{padding:0 8px;margin-left:-8px;font:700 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+.c-box input[type=text],.c-box input[type=email],.c-box input[type=tel],.c-box select,.c-card{width:100%;box-sizing:border-box;background:rgba(255,255,255,.03);border:1px solid var(--line-2);border-radius:2px;padding:15px 14px;font:400 15px/1.2 var(--sans);color:var(--bright);outline:none;transition:border-color .2s ease}
+.c-box select{appearance:none;-webkit-appearance:none;color:var(--soft);background-image:linear-gradient(45deg,transparent 50%,#8E99AE 50%),linear-gradient(135deg,#8E99AE 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+.c-box select option{background:#0B0E14;color:var(--bright)}
+.c-box input::placeholder,.c-card::placeholder{color:#7A808C}
+.c-box input:focus,.c-box select:focus{border-color:rgba(230,236,245,.6)}
+.c-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.c-check{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--soft);cursor:pointer}
+.c-check input,.c-add input{width:18px;height:18px;accent-color:#C9CED6;margin:0}
+.c-fine{margin:0;font:600 10px/1.4 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.c-sum{padding:0;gap:0;overflow:hidden}
+.c-sum-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px}
+.c-sum-head b{font-family:var(--display);font-weight:600;font-size:24px;text-transform:uppercase;color:var(--bright)}
+.c-details{background:none;border:0;padding:0;font:500 13px/1 var(--sans);color:var(--soft);cursor:pointer}
+.c-details i{font-style:normal;display:inline-block;transition:transform .3s ease}
+.c-details[aria-expanded="true"] i{transform:rotate(180deg)}
+.c-lines{padding:0 20px 14px;display:grid;gap:8px}
+.c-lines div{display:flex;justify-content:space-between;font-size:14px;color:var(--soft)}
+.c-lines[hidden],.c-lines div[hidden]{display:none}
+.c-due{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:rgba(255,255,255,.05);border-top:1px dotted var(--line-2);font-size:15px;color:var(--soft)}
+.c-sum>.c-due:only-child{border-top:0}
+.c-due>span:last-child{text-align:right;display:grid}
+.c-due b{font-family:var(--display);font-weight:600;font-size:34px;line-height:1;color:var(--bright)}
+.c-due small{font-size:11px;color:var(--mute);margin-top:4px}
+.c-offer{padding:30px 20px 20px;gap:12px;border-color:rgba(220,226,236,.32)}
+.c-flag{position:absolute;top:-1px;right:-1px;background:var(--steel);color:#0A0C10;font:700 10px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;padding:9px 12px;border-radius:0 2px 0 2px}
+.c-offer-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-top:8px}
+.c-offer h3{font-family:var(--display);font-weight:600;font-size:26px;line-height:1;text-transform:uppercase;color:var(--bright);margin:0 0 6px}
+.c-sub{margin:0;font:600 10px/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.c-price{text-align:right;display:grid;gap:3px;white-space:nowrap}
+.c-price b{font-size:14px;color:var(--bright);font-weight:600}
+.c-price small{font-size:11px;color:var(--mute)}
+.c-lead{margin:4px 0 0;font-size:14px;font-weight:600;color:var(--bright)}
+.c-offer ul{margin:0;padding-left:18px;font-size:14px;line-height:1.55;color:var(--soft);display:grid;gap:4px}
+.c-add{display:flex;align-items:center;gap:14px;margin-top:6px;padding:16px;background:rgba(255,255,255,.05);border-radius:2px;font-weight:600;font-size:15px;color:var(--bright);cursor:pointer}
+.c-step{display:inline-flex;align-items:center;border:1px solid var(--line-2);border-radius:2px}
+.c-step button{width:34px;height:34px;background:none;border:0;color:var(--bright);font:400 18px/1 var(--sans);cursor:pointer}
+.c-step button:hover{background:rgba(255,255,255,.06)}
+.c-step output{min-width:28px;text-align:center;font-weight:600}
+.c-pay{display:grid;gap:0;border:1px solid var(--line-2);border-radius:2px}
+.c-pay-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:16px 20px;font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--bright);cursor:pointer}
+.c-pay-row+.c-pay-row{border-top:1px solid var(--line-2)}
+.c-pay-row input[type=radio]{accent-color:#C9CED6;margin:0}
+.c-card{flex-basis:100%;margin-top:6px;opacity:.6}
+.c-secure{margin:0;padding:12px 20px;border-top:1px dotted var(--line-2);font-size:12px;color:var(--mute);text-align:center}
+.c-terms{padding:0 2px}
+.c-mock{margin:6px 0 -6px;padding:12px 14px;border:1px dashed rgba(220,226,236,.45);border-radius:2px;font-size:13px;line-height:1.45;color:var(--bright);text-align:center}
+.c-mock b{letter-spacing:.14em;text-transform:uppercase;font-size:12px}
+.c-go{justify-content:center;width:100%;box-sizing:border-box;padding:22px 20px}
+.c-done{margin:0;text-align:center;font-size:13px;color:var(--soft)}
+
+.take{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:24px;background:rgba(2,3,7,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .35s ease}
+.take.is-open{opacity:1}
+.take-panel{position:relative;width:min(980px,100%);max-height:calc(100vh - 48px);overflow:auto;display:grid;grid-template-columns:1fr 1.05fr;align-items:center;background:radial-gradient(ellipse 60% 80% at 20% 50%,rgba(60,84,128,.22),transparent 70%),#07090E;border:1px solid rgba(220,226,236,.22);border-radius:2px;box-shadow:0 50px 120px rgba(0,0,0,.7);transform:translateY(16px) scale(.98);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.take.is-open .take-panel{transform:none}
+.take-x{position:absolute;top:14px;right:14px;z-index:2}
+.take-art{position:relative;height:100%;min-height:420px;overflow:hidden}
+.take-art .mini{width:96%;left:52%;transform:translate(-50%,-50%) rotate(-3deg)}
+.take-copy{padding:56px 48px 44px 8px}
+.take-copy .hl{font-size:clamp(36px,3.6vw,52px);margin:0 0 18px}
+.take-copy .l1{color:#7A808C;font-size:.62em;display:inline-block;margin-bottom:.1em}
+.take-copy p{margin:0 0 14px;color:var(--soft);font-size:16px;line-height:1.6}
+.take-big{color:var(--bright)!important;font-weight:600}
+.take-math{display:grid;grid-template-columns:1fr auto;gap:8px 18px;padding:18px 20px;margin:20px 0 26px;border:1px solid var(--line-2);border-radius:2px;font-size:14px;color:var(--soft)}
+.take-math b{text-align:right;color:var(--bright);font-weight:600}
+.take-math b.m{color:var(--mute)}
+.take-math .t{padding-top:10px;border-top:1px dotted var(--line-2);font-weight:600;color:var(--bright)}
+.take-math b.t{font-family:var(--display);font-size:30px;line-height:1}
+.take-math small{text-align:right;font-size:12px;color:var(--mute);margin-top:-4px}
+.take-cta{width:100%;box-sizing:border-box;justify-content:center}
+.take-no{display:block;margin-top:16px;text-align:center;font-size:13px;color:var(--mute)}
+
+@media (max-width:900px){
+  .c-offer-head{flex-direction:column;gap:8px}
+  .c-price{text-align:left}
+  .take{padding:12px;align-items:end}
+  .take-panel{grid-template-columns:minmax(0,1fr);max-height:calc(100vh - 24px)}
+  .take-cta{white-space:normal;text-align:center;letter-spacing:.1em;padding:18px 14px}
+  .take-copy .hl{font-size:34px}
+  .take-art .mini{left:50%}
+  .take-art{min-height:220px}
+  .take-art .mini{width:70%}
+  .take-copy{padding:4px 22px 28px}
+}
+@media (prefers-reduced-motion:reduce){.take,.take-panel{transition:none}}
 </style>
 </head>
 <body>
@@ -748,12 +847,108 @@ html{scroll-behavior:smooth}
             <span class="lab">Your seat</span>
             <b class="big metal">$385<small>/mo</small></b>
             <span class="alt">or $4,995 pre-pay</span>
-            <a class="btn btn-silver" href="#checkout-link-pending">Reserve my FOUNDERS seat <span class="arr">→</span></a>
+            <a class="btn btn-silver" href="#order" data-open-cart>Reserve my FOUNDERS seat <span class="arr">→</span></a>
             <span class="terms">$385 today plus 12 monthly payments of $385. Full terms on the order form.</span>
           </div>
           <span class="shine"></span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOCK SPIFFY ORDER FORM: same outline as the pre-print-invite order form. Nothing is submitted or stored. -->
+<section class="s order" id="order" aria-label="Your Founders seat">
+  <div class="wrap">
+    <div class="order-in" id="cart">
+      <div class="tlabel center"><span>Nº 001</span>Order form</div>
+      <h2 class="hl center">Your Founders <span class="sx">seat</span>.</h2>
+      <form class="cart-form" autocomplete="off" novalidate>
+      <div class="cart-plan" role="radiogroup" aria-label="Plan">
+        <button type="button" role="radio" aria-checked="true" data-plan-pick="monthly">Pay monthly</button>
+        <button type="button" role="radio" aria-checked="false" data-plan-pick="full">Prepay</button>
+      </div>
+
+      <div class="c-box c-sum">
+        <div class="c-sum-head"><b>Founders Event</b><button type="button" class="c-details" data-details aria-expanded="false">Show order details <i>▾</i></button></div>
+        <div class="c-lines" hidden>
+          <div><span>Founders seat</span><span>$9,995</span></div>
+          <div><span>Rearden Press sponsorship</span><span>−$5,000</span></div>
+          <div data-line="vip" hidden><span>VIP upgrade</span><span data-v="vip"></span></div>
+          <div data-line="team" hidden><span data-v="teamlabel"></span><span data-v="team"></span></div>
+        </div>
+        <div class="c-due"><span>Due today:</span><span><b data-v="due">$385</b><small data-v="then">+12 monthly payments of $385</small></span></div>
+      </div>
+
+      <fieldset class="c-box">
+        <legend>Contact information</legend>
+        <input type="text" placeholder="First Name *" aria-label="First Name">
+        <input type="text" placeholder="Last Name *" aria-label="Last Name">
+        <input type="email" placeholder="Email Address *" aria-label="Email Address">
+        <input type="email" placeholder="Confirm Email *" aria-label="Confirm Email">
+        <input type="tel" placeholder="Phone Number *" aria-label="Phone Number">
+      </fieldset>
+
+      <fieldset class="c-box">
+        <legend>Billing info</legend>
+        <input type="text" placeholder="Street *" aria-label="Street">
+        <div class="c-two">
+          <select aria-label="Country"><option>Select Country *</option><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option></select>
+          <input type="text" placeholder="State *" aria-label="State">
+        </div>
+        <div class="c-two">
+          <input type="text" placeholder="City *" aria-label="City">
+          <input type="text" placeholder="Zip Code *" aria-label="Zip Code">
+        </div>
+        <label class="c-check"><input type="checkbox" checked><span>Shipping info is the same as billing info</span></label>
+        <p class="c-fine">*Please include your suite, apt or unit if applicable.</p>
+      </fieldset>
+
+      <div class="c-box c-offer">
+        <span class="c-flag">Extra half-day with Darren</span>
+        <div class="c-offer-head">
+          <div><h3>Yes! Make me a VIP</h3><p class="c-sub">Private additional session · April 28, 2027</p></div>
+          <div class="c-price"><b data-v="vipprice">Only $115 today</b><small data-v="vipthen">+$115 for 12 months</small></div>
+        </div>
+        <p class="c-lead">VIP gets you…</p>
+        <ul>
+          <li>A private VIP-only pre-event meetup</li>
+          <li>A VIP-only room during the event</li>
+          <li>An exclusive extra half-day mastermind with Darren and the in-studio guests, where we go deeper on your business in a much smaller group</li>
+        </ul>
+        <label class="c-add"><input type="checkbox" data-vip><span>Add VIP to my seat</span></label>
+      </div>
+
+      <div class="c-box c-offer">
+        <span class="c-flag">Save $6,000 per seat</span>
+        <div class="c-offer-head">
+          <div><h3>Yes! I want to bring my leaders</h3><p class="c-sub">General admission seats for your key leaders</p></div>
+          <div class="c-price"><b data-v="teamprice">Only $308/ea today</b><small data-v="teamthen">+$308/ea for 12 months</small></div>
+        </div>
+        <ul>
+          <li>They see the vision and share your conviction firsthand</li>
+          <li>You come back with a team ready to lead the change</li>
+          <li>Option to upgrade seat(s) to VIP before the event</li>
+        </ul>
+        <div class="c-add"><span class="c-step"><button type="button" data-step="-1" aria-label="One fewer team seat">−</button><output data-team>0</output><button type="button" data-step="1" aria-label="One more team seat">+</button></span><span>Extra team seats</span></div>
+      </div>
+
+      <div class="c-pay">
+        <label class="c-pay-row"><input type="radio" name="mockpay"><span>PayPal</span></label>
+        <label class="c-pay-row is-on"><input type="radio" name="mockpay" checked><span>Credit/Debit card</span><input type="text" class="c-card" placeholder="Card number" aria-label="Card number" disabled></label>
+        <p class="c-secure">All payments are secured by 256-bit encryption</p>
+      </div>
+
+      <label class="c-check c-terms"><input type="checkbox"><span>I agree to the terms and conditions.</span></label>
+
+      <div class="c-box c-sum">
+        <div class="c-due"><span>Due today:</span><span><b data-v="due">$385</b><small data-v="then">+12 monthly payments of $385</small></span></div>
+      </div>
+
+      <p class="c-mock" role="note"><b>Mock form.</b> No checkout or info is captured.</p>
+      <button type="submit" class="btn btn-silver c-go">Join the Founders Event! <span class="arr">→</span></button>
+      <p class="c-done" data-done hidden>This is a mock form. Nothing was submitted, charged or saved.</p>
+    </form>
     </div>
   </div>
 </section>
@@ -878,6 +1073,105 @@ document.documentElement.classList.add('js');
     st.addEventListener('pointerleave',function(){f.style.removeProperty('--ry');f.style.removeProperty('--rx');f.style.removeProperty('--s');});
   });
   document.querySelectorAll('.hl,.quote,.lede,.cquote,.tagline,.keyline').forEach(function(n){var w=n.lastChild;while(w&&w.nodeType!==3){w=w.lastChild;}if(w&&/\S\s+\S+\s*$/.test(w.nodeValue)){w.nodeValue=w.nodeValue.replace(/\s+(\S+)\s*$/,'\u00a0$1');}});
+})();
+</script>
+
+<!-- Leave-page pop-up: same content as the pre-print-invite pop-up, in the Founders style -->
+<div class="take" id="take" role="dialog" aria-modal="true" aria-label="Before you go" hidden>
+  <div class="take-panel">
+    <button class="take-x" type="button" data-take-close aria-label="Close">×</button>
+    <div class="take-art" aria-hidden="true">
+      <div class="halo sm"></div>
+      <div class="mini"><div class="mtk"><div class="mtk-main"><span class="mtk-top">Admit one · Founder</span><img src="img/lockup-steel.webp" alt="" width="1400" height="375"></div><div class="mtk-stub"><span>Nº 001</span></div><span class="shine"></span></div></div>
+    </div>
+    <div class="take-copy">
+      <h2 class="hl"><span class="l1">The $5,000 sponsorship</span><br>First 500 seats only</h2>
+      <p>To celebrate this historic launch, Rearden Press is covering 50%&nbsp;of&nbsp;your investment when you reserve your seat&nbsp;today.</p>
+      <p class="take-big">When they're gone, the sponsorship is gone with&nbsp;them.</p>
+      <div class="take-math">
+        <span>Founders seat</span><b>$9,995</b>
+        <span>Rearden Press sponsorship</span><b class="m">−$5,000</b>
+        <span class="t">Your seat</span><b class="t metal">$385/mo</b>
+        <span></span><small>or $4,995 pre-pay</small>
+      </div>
+      <a class="btn btn-silver take-cta" href="#reserve" data-take-cta>Yes! Save my Founders seat! <span class="arr">→</span></a>
+      <a class="take-no" href="#" data-take-close>No thanks, I'll hear about this event&nbsp;later.</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* MOCK ORDER FORM + leave-page pop-up.
+   The on-page form copies the pre-print-invite Spiffy order form outline. It never submits: no field has a name,
+   the form's submit is cancelled, and nothing is sent or stored. The real Spiffy cart replaces it later.
+   The pop-up opens when the pointer leaves through the top of the window (once, after 2.5s) or on the back button. */
+(function () {
+  var html = document.documentElement;
+  var cart = document.getElementById('cart'), take = document.getElementById('take');
+  var P = { monthly: { seat: 385, vip: 115, team: 308 }, full: { seat: 4995, vip: 1495, team: 3995 } };
+  var plan = 'monthly', vip = false, team = 0, last = null;
+  var $ = function (s) { return cart.querySelectorAll(s); };
+  var money = function (n) { return '$' + n.toLocaleString('en-US'); };
+  function set(k, v) { $('[data-v="' + k + '"]').forEach(function (e) { e.textContent = v; }); }
+  function render() {
+    var p = P[plan], m = plan === 'monthly', due = p.seat + (vip ? p.vip : 0) + team * p.team;
+    set('due', money(due));
+    set('then', m ? '+12 monthly payments of ' + money(due) : 'Pre-paid in full');
+    set('vipprice', m ? 'Only $115 today' : 'Only $1,495');
+    set('vipthen', m ? '+$115 for 12 months' : 'Pre-paid in full');
+    set('teamprice', m ? 'Only $308/ea today' : 'Only $3,995/ea');
+    set('teamthen', m ? '+$308/ea for 12 months' : 'Pre-paid in full');
+    set('vip', money(p.vip) + (m ? '/mo' : ''));
+    set('teamlabel', team + ' team seat' + (team === 1 ? '' : 's'));
+    set('team', money(team * p.team) + (m ? '/mo' : ''));
+    cart.querySelector('[data-line="vip"]').hidden = !vip;
+    cart.querySelector('[data-line="team"]').hidden = !team;
+    cart.querySelector('[data-team]').textContent = team;
+    $('[data-plan-pick]').forEach(function (b) { b.setAttribute('aria-checked', b.getAttribute('data-plan-pick') === plan); });
+  }
+  function lock(on) { html.style.overflow = on ? 'hidden' : ''; }
+  function toForm(e) { if (e) e.preventDefault(); closeTake(); cart.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  document.querySelectorAll('[data-open-cart]').forEach(function (a) { a.addEventListener('click', toForm); });
+  $('[data-plan-pick]').forEach(function (b) { b.addEventListener('click', function () { plan = b.getAttribute('data-plan-pick'); render(); }); });
+  cart.querySelector('[data-vip]').addEventListener('change', function (e) { vip = e.target.checked; render(); });
+  $('[data-step]').forEach(function (b) { b.addEventListener('click', function () { team = Math.max(0, Math.min(25, team + +b.getAttribute('data-step'))); render(); }); });
+  cart.querySelector('[data-details]').addEventListener('click', function (e) {
+    var open = e.currentTarget.getAttribute('aria-expanded') !== 'true';
+    e.currentTarget.setAttribute('aria-expanded', open);
+    cart.querySelector('.c-lines').hidden = !open;
+  });
+  cart.querySelector('form').addEventListener('submit', function (e) { e.preventDefault(); cart.querySelector('[data-done]').hidden = false; });
+  render();
+
+  function openTake() {
+    if (!take) return;
+    take.hidden = false; lock(true);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { take.classList.add('is-open'); }); });
+  }
+  function closeTake(e) {
+    if (e) e.preventDefault();
+    if (!take || take.hidden) return;
+    take.classList.remove('is-open'); lock(false);
+    setTimeout(function () { take.hidden = true; }, 350);
+  }
+  take.querySelectorAll('[data-take-close]').forEach(function (a) { a.addEventListener('click', closeTake); });
+  take.addEventListener('click', function (e) { if (e.target === take) closeTake(); });
+  take.querySelector('[data-take-cta]').addEventListener('click', function (e) {
+    e.preventDefault(); closeTake();
+    var r = document.getElementById('reserve'); if (r) r.scrollIntoView({ behavior: 'smooth' });
+  });
+  var armed = false, shown = false; setTimeout(function () { armed = true; }, 2500);
+  document.addEventListener('mouseout', function (e) {
+    if (!armed || shown || e.relatedTarget || e.clientY > 0) return;
+    shown = true; openTake();
+  });
+  history.pushState({ feStay: 1 }, '');
+  window.addEventListener('popstate', function () {
+    if (!take.hidden) { history.back(); return; }
+    openTake(); history.pushState({ feStay: 1 }, '');
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeTake(); });
+  if (/[?&]exit=1\b/.test(location.search)) openTake();
 })();
 </script>
 </body>
