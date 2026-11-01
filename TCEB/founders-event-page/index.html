@@ -178,7 +178,7 @@ a{color:inherit}
 
 
 /* ===== SALES PAGE BODY, built from the hero's design language ===== */
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 .topbar{position:fixed;transition:background .4s ease,padding .4s ease}
 .topbar.solid{background:rgba(3,5,10,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding-top:14px;padding-bottom:14px;border-bottom:1px solid var(--line)}
 .narrow{max-width:760px;margin-left:auto;margin-right:auto}
@@ -707,6 +707,13 @@ html{scroll-behavior:smooth}
 .author-book:hover .ab-seal{opacity:0;transform:translateY(10px)}
 .author-book{max-width:420px}
 @media (prefers-reduced-motion:reduce){.ab-b,.ab-seal{transition:none}}
+/* the hero's midnight blue, brought back for the price and the closing ticket */
+.midnight{background:
+  radial-gradient(ellipse 38% 46% at 16% 50%,rgba(38,64,112,.30) 0%,rgba(38,64,112,0) 70%),
+  radial-gradient(ellipse 38% 46% at 84% 46%,rgba(38,64,112,.24) 0%,rgba(38,64,112,0) 70%),
+  linear-gradient(180deg,#03050A 0%,rgba(3,5,10,0) 14%,rgba(3,5,10,0) 86%,#03050A 100%),
+  radial-gradient(ellipse 80% 70% at 50% 50%,#0D1828 0%,#070D19 50%,#03050A 100%)}
+.midnight .halo{background:radial-gradient(ellipse at center,rgba(210,220,236,.24) 0%,rgba(100,135,190,.22) 28%,rgba(50,78,130,.12) 52%,rgba(50,78,130,0) 72%)}
 </style>
 </head>
 <body>
@@ -1057,7 +1064,7 @@ html{scroll-behavior:smooth}
 </section>
 
 <!-- 14. THE INVESTMENT: the price is a floating ticket -->
-<section class="s stage-s" id="reserve">
+<section class="s stage-s midnight" id="reserve">
   <div class="halo" aria-hidden="true"></div>
   <div class="wrap center">
     <div class="tlabel center rv"><span>Nº 14</span>A gift from the publisher</div>
@@ -1246,7 +1253,7 @@ html{scroll-behavior:smooth}
 </section>
 
 <!-- 18. THE FINAL CLOSE: the Founder ticket again, as the bookend -->
-<section class="s stage-s close">
+<section class="s stage-s close midnight">
   <div class="halo" aria-hidden="true"></div>
   <div class="wrap center">
     <div class="cstage rv" data-tilt>
@@ -1441,6 +1448,15 @@ document.documentElement.classList.add('js');
   take.querySelector('[data-take-cta]').addEventListener('click', function (e) {
     e.preventDefault(); closeTake();
     var r = document.getElementById('reserve'); if (r) r.scrollIntoView({ behavior: 'smooth' });
+  });
+  // In-page links scroll without adding a history step, so a jump like #reserve can never look like the back button.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented) return;
+    var id = a.getAttribute('href').slice(1), t = id && document.getElementById(id);
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   var armed = false, shown = false; setTimeout(function () { armed = true; }, 2500);
   document.addEventListener('mouseout', function (e) {
