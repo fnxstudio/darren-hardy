@@ -18,7 +18,7 @@ try {
 } catch (e) { throw new Error('webgl unavailable'); }
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.92;
+renderer.toneMappingExposure = 1.18;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 const scene = new THREE.Scene();
@@ -113,37 +113,75 @@ function brushedCanvas() {
   return c;
 }
 
+// Turn the flat artwork into a stamped plate: blurred height -> surface normals,
+// recessed areas a darker matte metal, the plate itself brushed and brighter.
+function stampMaps(src) {
+  const w = src.width, h = src.height;
+  const px = src.getContext('2d').getImageData(0, 0, w, h).data;
+  let hgt = new Float32Array(w * h);
+  for (let i = 0; i < w * h; i++) hgt[i] = px[i * 4] / 255;           // 1 = plate, 0 = stamped
+  const blur = (a, r) => {                                              // two-pass box blur
+    const t = new Float32Array(a.length), o = new Float32Array(a.length), n = 2 * r + 1;
+    for (let y = 0; y < h; y++) { let s = 0; const row = y * w;
+      for (let x = -r; x <= r; x++) s += a[row + Math.min(w - 1, Math.max(0, x))];
+      for (let x = 0; x < w; x++) { t[row + x] = s / n;
+        s += a[row + Math.min(w - 1, x + r + 1)] - a[row + Math.max(0, x - r)]; } }
+    for (let x = 0; x < w; x++) { let s = 0;
+      for (let y = -r; y <= r; y++) s += t[Math.min(h - 1, Math.max(0, y)) * w + x];
+      for (let y = 0; y < h; y++) { o[y * w + x] = s / n;
+        s += t[Math.min(h - 1, y + r + 1) * w + x] - t[Math.max(0, y - r) * w + x]; } }
+    return o;
+  };
+  const soft = blur(hgt, 1);
+  const mk = () => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+  const cC = mk(), cN = mk(), cR = mk();
+  const dC = cC.getContext('2d').createImageData(w, h), dN = cN.getContext('2d').createImageData(w, h), dR = cR.getContext('2d').createImageData(w, h);
+  const S = 7;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const i = y * w + x, k = i * 4;
+    const l = soft[y * w + Math.max(0, x - 1)], r = soft[y * w + Math.min(w - 1, x + 1)];
+    const u = soft[Math.max(0, y - 1) * w + x], d = soft[Math.min(h - 1, y + 1) * w + x];
+    let nx = (l - r) * S, ny = (d - u) * S, nz = 1; const m = Math.hypot(nx, ny, nz); nx /= m; ny /= m; nz /= m;
+    dN.data[k] = (nx * .5 + .5) * 255; dN.data[k + 1] = (ny * .5 + .5) * 255; dN.data[k + 2] = (nz * .5 + .5) * 255; dN.data[k + 3] = 255;
+    const pv = Math.min(hgt[i], soft[i] * 0.5 + hgt[i] * 0.5);           // crisp fill, soft lip
+    const grain = (Math.sin(y * 1.7 + Math.sin(x * 0.013 + y * 0.31) * 6) * 0.5 + 0.5) * 0.05;
+    const c = 34 + pv * (224 - 34) - grain * 40;                         // recess: dark gunmetal
+    dC.data[k] = c; dC.data[k + 1] = c + 3; dC.data[k + 2] = c + 7; dC.data[k + 3] = 255;
+    const rr = (0.62 - pv * 0.34 + grain) * 255;                          // recess matte, plate satin
+    dR.data[k] = rr; dR.data[k + 1] = rr; dR.data[k + 2] = rr; dR.data[k + 3] = 255;
+  }
+  cC.getContext('2d').putImageData(dC, 0, 0); cN.getContext('2d').putImageData(dN, 0, 0); cR.getContext('2d').putImageData(dR, 0, 0);
+  // brushed streaks over the plate's roughness
+  const rg = cR.getContext('2d'); rg.globalCompositeOperation = 'overlay'; rg.drawImage(brushedCanvas(), 0, 0, w, h);
+  return { color: cC, normal: cN, rough: cR };
+}
+
 function loadImg(src) { return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; }); }
 
 async function build() {
   try { await document.fonts.ready; } catch (e) {}
   const lock = await loadImg('img/lockup-steel.webp');
-  const face = new THREE.CanvasTexture(faceCanvas(lock));
-  face.colorSpace = THREE.SRGBColorSpace;
-  face.anisotropy = renderer.capabilities.getMaxAnisotropy();
-  // ExtrudeGeometry cap UVs are shape coordinates: map them to 0..1
-  face.repeat.set(1 / W, 1 / H); face.offset.set(0.5, 0.5);
+  const src = faceCanvas(lock);            // white plate, dark artwork
+  const maps = stampMaps(src);              // height -> colour, normal, roughness
 
-  const bumpTex = new THREE.CanvasTexture(face.image);
-  bumpTex.repeat.copy(face.repeat); bumpTex.offset.copy(face.offset);
-
-  const brushed = new THREE.CanvasTexture(brushedCanvas());
-  brushed.wrapS = brushed.wrapT = THREE.RepeatWrapping;
-  brushed.repeat.set(1 / W, 2 / H); brushed.offset.set(0.5, 0.5);
+  const fit = t => { t.repeat.set(1 / W, 1 / H); t.offset.set(0.5, 0.5); t.anisotropy = renderer.capabilities.getMaxAnisotropy(); return t; };
+  const colorTex = fit(new THREE.CanvasTexture(maps.color)); colorTex.colorSpace = THREE.SRGBColorSpace;
+  const normalTex = fit(new THREE.CanvasTexture(maps.normal));
+  const roughTex = fit(new THREE.CanvasTexture(maps.rough));
 
   const faceMat = new THREE.MeshPhysicalMaterial({
-    color: 0xd6dbe1, metalness: 1, roughness: 0.3,
-    map: face, bumpMap: bumpTex, bumpScale: 2.2,
-    roughnessMap: brushed, anisotropy: 0.75, anisotropyRotation: 0,
-    clearcoat: 0.25, clearcoatRoughness: 0.18
+    color: 0xffffff, metalness: 1, roughness: 1,
+    map: colorTex, normalMap: normalTex, normalScale: new THREE.Vector2(1.6, 1.6),
+    roughnessMap: roughTex, anisotropy: 0.6, anisotropyRotation: 0,
+    clearcoat: 0.3, clearcoatRoughness: 0.15, envMapIntensity: 1.45
   });
-  const edgeMat = new THREE.MeshPhysicalMaterial({ color: 0xe8ebef, metalness: 1, roughness: 0.18 });
+  const edgeMat = new THREE.MeshPhysicalMaterial({ color: 0xeef0f3, metalness: 1, roughness: 0.16, envMapIntensity: 1.5 });
 
   const mesh = new THREE.Mesh(geo, [faceMat, edgeMat]);
   const rig = new THREE.Group(); rig.add(mesh); scene.add(rig);
 
   // a soft key light that follows the pointer, so highlights slide across the metal
-  const key = new THREE.DirectionalLight(0xffffff, 1.2); key.position.set(-1.5, 2, 3); scene.add(key);
+  const key = new THREE.DirectionalLight(0xffffff, 1.9); key.position.set(-1.5, 2, 3); scene.add(key);
   const rimL = new THREE.DirectionalLight(0xb9c8e6, 0.6); rimL.position.set(2.5, -1, 1.5); scene.add(rimL);
 
   // ---------- sizing ----------
