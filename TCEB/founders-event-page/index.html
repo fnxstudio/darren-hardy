@@ -442,6 +442,24 @@ html{scroll-behavior:smooth}
 .take-x:hover{background:rgba(255,255,255,.06)}
 .take-x:focus-visible{outline:2px solid rgba(230,236,245,.7);outline-offset:2px}
 .cart-form{display:grid;gap:18px}
+/* the order form is a light sheet, like the real Spiffy cart */
+.order .cart-form{--bright:#0A0C10;--soft:#3A404B;--mute:#6B7280;--line-2:rgba(10,12,16,.16);color:var(--soft);background:#F5F6F8;padding:32px 28px 36px;border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.5),0 40px 90px rgba(0,0,0,.55),0 0 60px rgba(150,172,210,.12)}
+.order .c-box{background:#fff}
+.order .c-box input[type=text],.order .c-box input[type=email],.order .c-box input[type=tel],.order .c-box select,.order .c-card{background:#fff;border-color:rgba(10,12,16,.18);color:#0A0C10}
+.order .c-box select{color:#3A404B}
+.order .c-box select option{background:#fff;color:#0A0C10}
+.order .c-box input::placeholder,.order .c-card::placeholder{color:#8A909B}
+.order .c-box input:focus,.order .c-box select:focus{border-color:#0E1626}
+.order .c-due{background:#ECEEF2}
+.order .c-add{background:#EEF0F3}
+.order .c-step button:hover{background:rgba(10,12,16,.06)}
+.order .c-check input,.order .c-add input,.order .c-pay-row input[type=radio]{accent-color:#0E1626}
+.order .c-offer{border-color:rgba(10,12,16,.28)}
+.order .c-pay{background:#fff}
+.order .c-mock{border-color:rgba(10,12,16,.35);background:#fff}
+.order .cart-plan{background:#fff}
+.order .cart-plan button[aria-checked="true"]{box-shadow:inset 0 0 0 1px rgba(10,12,16,.2)}
+.order .c-go{box-shadow:0 1px 0 rgba(255,255,255,.75) inset,0 0 0 1px rgba(10,12,16,.22),0 0 26px rgba(150,172,210,.35),0 12px 30px rgba(14,22,38,.22)}
 .cart-plan{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-2);border-radius:2px;padding:4px;gap:4px}
 .cart-plan button{background:none;border:0;border-radius:2px;padding:13px;font:600 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);cursor:pointer}
 .cart-plan button[aria-checked="true"]{background:var(--steel);color:#0A0C10}
@@ -478,7 +496,6 @@ html{scroll-behavior:smooth}
 .c-price{text-align:right;display:grid;gap:3px;white-space:nowrap}
 .c-price b{font-size:14px;color:var(--bright);font-weight:600}
 .c-price small{font-size:11px;color:var(--mute)}
-.c-lead{margin:4px 0 0;font-size:14px;font-weight:600;color:var(--bright)}
 .c-offer ul{margin:0;padding-left:18px;font-size:14px;line-height:1.55;color:var(--soft);display:grid;gap:4px}
 .c-add{display:flex;align-items:center;gap:14px;margin-top:6px;padding:16px;background:rgba(255,255,255,.05);border-radius:2px;font-weight:600;font-size:15px;color:var(--bright);cursor:pointer}
 .c-step{display:inline-flex;align-items:center;border:1px solid var(--line-2);border-radius:2px}
@@ -521,6 +538,7 @@ html{scroll-behavior:smooth}
 @media (max-width:900px){
   .c-offer-head{flex-direction:column;gap:8px}
   .c-price{text-align:left}
+  .order .cart-form{padding:22px 14px 26px}
   .take{padding:12px;align-items:end}
   .take-panel{grid-template-columns:minmax(0,1fr);max-height:calc(100vh - 24px)}
   .take-cta{white-space:normal;text-align:center;letter-spacing:.1em;padding:18px 14px}
@@ -910,7 +928,6 @@ html{scroll-behavior:smooth}
           <div><h3>Yes! Make me a VIP</h3><p class="c-sub">Private additional session · April 28, 2027</p></div>
           <div class="c-price"><b data-v="vipprice">Only $115 today</b><small data-v="vipthen">+$115 for 12 months</small></div>
         </div>
-        <p class="c-lead">VIP gets you…</p>
         <ul>
           <li>A private VIP-only pre-event meetup</li>
           <li>A VIP-only room during the event</li>
