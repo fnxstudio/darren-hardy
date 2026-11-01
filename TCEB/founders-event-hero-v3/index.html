@@ -153,7 +153,7 @@ a{color:inherit}
 /* ===== v2: liquid glass panel inside a silver frame ===== */
 .band-wrap{padding:0 var(--gut) 120px;max-width:1320px;margin:0 auto;width:100%}
 .under{position:absolute;inset:-60px 0 40px;pointer-events:none;z-index:0}
-.under i{position:absolute;border-radius:50%;filter:blur(30px)}
+.under i{position:absolute;border-radius:50%}
 .under .b1{left:6%;top:6%;width:34%;height:70%;background:radial-gradient(circle,rgba(90,115,165,.08),rgba(90,115,165,0) 70%);animation:drift1 16s ease-in-out infinite alternate}
 .under .b2{right:4%;top:20%;width:30%;height:70%;background:radial-gradient(circle,rgba(220,228,240,.03),rgba(220,228,240,0) 70%);animation:drift2 19s ease-in-out infinite alternate}
 .under .b3{left:38%;top:40%;width:28%;height:60%;background:radial-gradient(circle,rgba(50,75,125,.09),rgba(50,75,125,0) 70%);animation:drift3 22s ease-in-out infinite alternate}
@@ -193,7 +193,7 @@ a{color:inherit}
 @keyframes speck{0%,100%{transform:translate(0,0);opacity:.55}50%{transform:translate(14px,-26px);opacity:1}}
 /* ===== TCE liquid glass slab (ported from the TCE site pages), no border, square ===== */
 .slabwrap{position:relative;z-index:1}
-.band.glass{position:relative;overflow:hidden;border-radius:2px;padding:76px 72px 72px;--rim:22px;
+.band.glass{position:relative;overflow:hidden;border-radius:2px;padding:76px 72px 72px;--rim:10px;
   background:linear-gradient(176deg,rgba(255,255,255,.045),rgba(255,255,255,.012) 46%,rgba(255,255,255,.025)) !important;
   -webkit-backdrop-filter:none !important;backdrop-filter:none !important;
   box-shadow:0 2px 10px rgba(0,0,0,.22),0 40px 90px rgba(0,0,0,.58) !important}
@@ -212,7 +212,7 @@ a{color:inherit}
 .fringe{position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;--fr:calc(var(--rim) * .7);background:linear-gradient(138deg,rgba(90,200,255,.08),rgba(90,200,255,0) 20%,transparent 70%,rgba(200,170,255,.05));
   -webkit-mask:linear-gradient(to right,#000,transparent var(--fr)),linear-gradient(to left,#000,transparent var(--fr)),linear-gradient(to bottom,#000,transparent var(--fr)),linear-gradient(to top,#000,transparent var(--fr));-webkit-mask-composite:source-over;
   mask:linear-gradient(to right,#000,transparent var(--fr)),linear-gradient(to left,#000,transparent var(--fr)),linear-gradient(to bottom,#000,transparent var(--fr)),linear-gradient(to top,#000,transparent var(--fr));mask-composite:add}
-.edge{position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(255,255,255,.08),inset 0 0 0 1px rgba(255,255,255,.06),inset 0 26px 46px -30px rgba(255,255,255,.12),inset 0 -30px 50px -34px rgba(0,0,0,.5)}
+.edge{position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(255,255,255,.08),inset 0 0 0 1px rgba(255,255,255,.06),inset 0 6px 8px -6px rgba(255,255,255,.10),inset 0 -6px 8px -6px rgba(0,0,0,.4)}
 @property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
 .gspec{position:absolute;inset:0;z-index:5;pointer-events:none;border-radius:inherit;padding:1.5px;box-sizing:border-box;--ang:0deg;
   background:conic-gradient(from var(--ang),transparent 0deg,rgba(255,255,255,.45) 20deg,rgba(255,255,255,0) 56deg,transparent 160deg,rgba(255,255,255,.22) 188deg,rgba(255,255,255,0) 226deg,transparent 360deg);
@@ -222,11 +222,16 @@ a{color:inherit}
 @media (max-width:900px){.band.glass{padding:44px 22px 40px}}
 /* ===== v3: the glass is the whole section, slanted top and bottom ===== */
 .band-wrap{padding:0 0 0;max-width:none;margin:0}
-.slabwrap{transform:skewY(-3deg);transform-origin:0 0}
-.band.glass{border-radius:0;padding:110px 0 130px;box-shadow:0 -20px 60px rgba(0,0,0,.35),0 40px 90px rgba(0,0,0,.5) !important}
-.band.glass .band-in{transform:skewY(3deg)}
+.slabwrap{--sl:5.24vw;transform:none;filter:drop-shadow(0 30px 50px rgba(0,0,0,.45))}
+.band.glass{border-radius:0;padding:calc(var(--sl) + 90px) 0 calc(var(--sl) + 100px);box-shadow:none !important;clip-path:polygon(0 var(--sl),100% 0,100% calc(100% - var(--sl)),0 100%)}
+.slabwrap::before,.slabwrap::after{content:"";position:absolute;inset:0;z-index:7;pointer-events:none}
+.slabwrap::before{background:linear-gradient(90deg,rgba(255,255,255,.18),rgba(255,255,255,.42) 55%,rgba(255,255,255,.22));clip-path:polygon(0 var(--sl),100% 0,100% 1px,0 calc(var(--sl) + 1px))}
+.slabwrap::after{background:rgba(255,255,255,.10);clip-path:polygon(0 calc(100% - 1px),100% calc(100% - var(--sl) - 1px),100% calc(100% - var(--sl)),0 100%)}
+.band.glass .lens,.band.glass .fringe,.band.glass .gspec{display:none}
+.band.glass .edge{box-shadow:none}
+.band.glass .band-in{transform:none}
 .under{inset:-40px 0 0}
-@media (max-width:900px){.band.glass{padding:72px 0 84px}}
+@media (max-width:900px){.band.glass{padding:calc(var(--sl) + 56px) 0 calc(var(--sl) + 64px)}}
 .rise{animation:rise 1.2s cubic-bezier(.2,.7,.2,1) both}
 .rise.d2{animation-delay:.18s}.rise.d3{animation-delay:.36s}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
