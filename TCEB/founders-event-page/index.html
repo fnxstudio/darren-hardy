@@ -545,7 +545,6 @@ html{scroll-behavior:smooth}
 }
 @media (prefers-reduced-motion:reduce){.take,.take-panel{transition:none}}
 .rp-badge{display:block;width:64px;height:auto;margin:0 auto 40px;opacity:.92}
-.rp-badge.sm{width:44px;margin:0 0 22px}
 .rp-line{display:inline-flex;align-items:center;gap:10px}
 .rp-line img{width:18px;height:auto}
 /* the "reading vs being there" line as a centered ticket callout */
@@ -588,7 +587,6 @@ html{scroll-behavior:smooth}
 .take-panel{background:#F4F5F7;border:0;box-shadow:0 0 0 1px rgba(255,255,255,.6),0 0 60px rgba(190,205,232,.22),0 50px 120px rgba(0,0,0,.7)}
 .take-art{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:22px;padding:48px 8px 48px 44px;min-height:0}
 .take-tk{width:100%;transform:rotate(-2deg);filter:drop-shadow(0 26px 34px rgba(10,14,24,.35))}
-.take-cap{margin:0;font:600 10px/1.5 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:#6B7280;text-align:center}
 .take-x{border-color:rgba(10,12,16,.2);color:#0A0C10}
 .take-x:hover{background:rgba(10,12,16,.06)}
 .take-copy .hl{color:#0A0C10}
@@ -634,6 +632,32 @@ html{scroll-behavior:smooth}
 .decl.d2{animation-delay:1.8s}.decl.d3{animation-delay:3.6s}.decl.d4{animation-delay:5.4s}
 @keyframes declLoop{0%{opacity:0;transform:translateY(20px)}7%{opacity:1;transform:none}25%{opacity:1;transform:none}33%{opacity:0;transform:translateY(-10px)}33.1%,100%{opacity:0;transform:translateY(20px)}}
 @media (prefers-reduced-motion:reduce){.decl{animation:none}.decl.d4{opacity:1}}
+/* 1967 -> 2027: the first game ticket beside the first Founder ticket */
+.firsts{position:relative;display:grid;grid-template-columns:.82fr 1.18fr;gap:72px;align-items:center;max-width:1180px;margin:88px auto 0}
+.firsts .halo{width:min(1300px,120vw);height:760px;left:64%}
+.first{position:relative;z-index:1;margin:0;width:100%;display:grid;gap:26px;justify-items:center}
+.first figcaption{display:grid;gap:4px;text-align:center;font:600 11px/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--mute)}
+.first figcaption b{font-family:var(--display);font-weight:600;font-size:40px;letter-spacing:.02em;line-height:1;color:#8E949E}
+.f67 .oldtk{transform:rotate(-4deg);filter:drop-shadow(0 24px 30px rgba(0,0,0,.6)) grayscale(1)}
+.f27 .ticket{transform:rotate(1.2deg)}
+.f27{filter:drop-shadow(0 0 1px rgba(220,226,236,.3)) drop-shadow(0 30px 60px rgba(0,0,0,.55))}
+.oldtk{position:relative;container-type:inline-size;width:100%;aspect-ratio:2.2/1;display:grid;grid-template-columns:76% 1fr;color:#26262A;
+  background:radial-gradient(ellipse 60% 80% at 20% 20%,rgba(255,255,255,.35),transparent 60%),radial-gradient(ellipse 70% 90% at 90% 100%,rgba(0,0,0,.12),transparent 60%),linear-gradient(170deg,#D9D9D5 0%,#C6C6C1 55%,#B8B8B2 100%);
+  -webkit-mask:radial-gradient(circle 2.3cqw at 76% 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 2.3cqw at 76% 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+          mask:radial-gradient(circle 2.3cqw at 76% 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 2.3cqw at 76% 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+.ot-main{position:relative;padding:5cqw 4.6cqw 4.4cqw 5.4cqw;display:flex;flex-direction:column;justify-content:space-between;text-align:center}
+.ot-main::before{content:"";position:absolute;inset:2.2cqw 1.4cqw 2.2cqw 2.2cqw;border:.35cqw double rgba(38,38,42,.55)}
+.ot-top{display:flex;justify-content:space-between;padding:0 1.2cqw;font:700 1.5cqw/1 var(--sans);letter-spacing:.24em;text-transform:uppercase}
+.ot-game{font-family:var(--serif);font-weight:600;font-size:3.4cqw;letter-spacing:.05em;text-transform:uppercase}
+.ot-yr{font-family:var(--display);font-weight:600;font-size:15cqw;line-height:.85;letter-spacing:.04em;color:#1E1E22}
+.ot-meta{display:flex;justify-content:space-between;gap:1.6cqw;margin:0 1.2cqw;padding-top:1.6cqw;border-top:.25cqw solid rgba(38,38,42,.45);font:700 1.45cqw/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.ot-stub{position:relative;border-left:.6cqw dotted rgba(38,38,42,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2cqw;writing-mode:vertical-rl;transform:rotate(180deg);font:700 1.9cqw/1 var(--sans);letter-spacing:.28em;text-transform:uppercase}
+.ot-stub b{font-family:var(--display);font-size:4cqw;letter-spacing:.08em}
+@media (max-width:900px){
+  .firsts{grid-template-columns:1fr;gap:48px;margin-top:56px}
+  .firsts .halo{left:50%;top:70%}
+  .f67{max-width:82%;margin:0 auto}
+}
 </style>
 </head>
 <body>
@@ -813,8 +837,40 @@ html{scroll-behavior:smooth}
     <h2 class="hl center rv">There will only ever be <em class="box">one first</em>.</h2>
     <div class="narrow rv">
       <p class="lede">For 16 years, the question I've been asked more than any other is, “Darren, what about my business?” The answer is finally written. Before the book is released to the world, I'm putting it to work, live, with one group of leaders.</p>
-      <p>On January 15, 1967, a crowd filed into the LA Coliseum for a football game. Tickets were about $12. It wasn't even called the Super Bowl yet. Nobody in those seats knew what they were part of. They still tell the story today. The leaders who start with me in April will carry this book into the world. They have a name.</p>
+      <p>On January 15, 1967, a crowd filed into the LA Coliseum for a football game. Tickets were about $12. It wasn't even called the Super Bowl yet. Nobody in those seats knew what they were part of. They still tell the story today.</p>
     </div>
+    <div class="firsts rv" aria-label="January 15, 1967, LA Coliseum, about $12. April 26 and 27, 2027, the FOUNDERS EVENT, Nº 001.">
+      <div class="halo" aria-hidden="true"></div>
+      <figure class="first f67" aria-hidden="true">
+        <div class="oldtk">
+          <div class="ot-main">
+            <div class="ot-top"><span>Admit one</span><span>Sunday</span></div>
+            <span class="ot-game">World Championship Game</span>
+            <b class="ot-yr">1967</b>
+            <div class="ot-meta"><span>January 15</span><span>LA Memorial Coliseum</span><span>$12</span></div>
+          </div>
+          <div class="ot-stub"><span>Section 1</span><b>Row 1</b></div>
+        </div>
+        <figcaption><b>1967</b>The first one</figcaption>
+      </figure>
+      <figure class="first f27" aria-hidden="true">
+        <div class="ticket">
+          <div class="t-main">
+            <div class="t-top"><span>Admit one</span><span>Founder</span></div>
+            <img class="t-lock" src="img/lockup-steel.webp" width="1400" height="375" alt="">
+            <div class="t-meta">
+              <div><b>Mon + Tue</b>April 26 + 27, 2027</div>
+              <div><b>Live</b>From anywhere</div>
+              <div><b>Exclusively with</b>Darren Hardy</div>
+            </div>
+          </div>
+          <div class="t-stub"><span class="ft">Founder ticket</span><i class="bar"></i><span class="no">Nº 001</span></div>
+          <span class="shine"></span>
+        </div>
+        <figcaption><b class="metal">2027</b>The first one</figcaption>
+      </figure>
+    </div>
+    <p class="lede narrow center rv" style="margin-top:72px">The leaders who start with me in April will carry this book into the world. They have a name.</p>
     <div class="identity rv"><span class="fx-s">FOUNDERS</span></div>
     <a class="btn btn-silver rv" href="#reserve">Reserve my FOUNDERS seat <span class="arr">→</span></a>
   </div>
@@ -1186,7 +1242,7 @@ html{scroll-behavior:smooth}
   // No orphans anywhere in the body copy: the last two words of every block stay together, and the first
   // word of each new sentence stays with the word after it, so a line never ends on a lone "You" or "It".
   var NB='\u00a0';
-  document.querySelectorAll('p,li,h2,h3,summary,.tc-sw,.take-cap,.meta3 div,.tmeta div,.incl span,.c-due span').forEach(function(n){
+  document.querySelectorAll('p,li,h2,h3,summary,.tc-sw,.meta3 div,.tmeta div,.incl span,.c-due span').forEach(function(n){
     var walk=document.createTreeWalker(n,NodeFilter.SHOW_TEXT,null),t,texts=[];
     while((t=walk.nextNode()))texts.push(t);
     texts.forEach(function(x){x.nodeValue=x.nodeValue.replace(/([.?!:]["”’]?\s+)(\S{1,12})\s+(?=\S)/g,'$1$2'+NB);});
@@ -1236,10 +1292,8 @@ document.documentElement.classList.add('js');
           <span class="shine"></span>
         </div>
       </div>
-      <p class="take-cap">500 sponsored seats · Then the sponsorship is gone</p>
     </div>
     <div class="take-copy">
-      <img class="rp-badge sm" src="img/rearden-press-charcoal.webp" width="240" height="262" alt="Rearden Press">
       <h2 class="hl"><span class="l1">The $5,000 sponsorship</span><br>First 500 seats only</h2>
       <p>To celebrate this historic launch, Rearden Press is covering 50%&nbsp;of&nbsp;your investment when you reserve your seat&nbsp;today.</p>
       <p class="take-big">When they're gone, the sponsorship is gone with&nbsp;them.</p>
