@@ -578,6 +578,21 @@ html{scroll-behavior:smooth}
 .disclose[open] summary::after{transform:rotate(45deg)}
 .disclose .learn{margin:0 0 12px}
 @media (max-width:900px){.callout-in{padding:44px 32px 46px}.callout-in::before{inset:10px 18px}.disclose summary{font-size:24px;padding-right:56px}}
+/* what the seat includes, set as ticket entries */
+.incl{display:grid;grid-template-columns:1fr 1fr;margin-top:26px;border-top:1px dotted var(--line-2)}
+.incl>div{position:relative;padding:20px 18px 18px 0;display:grid;gap:6px;border-bottom:1px dotted var(--line-2)}
+.incl>div:nth-child(even){padding-left:22px;padding-right:0;border-left:1px dotted var(--line-2)}
+.incl>div:nth-last-child(-n+2){border-bottom:0}
+.in-no{font-family:var(--serif);font-weight:600;font-size:12px;letter-spacing:.08em;color:var(--mute)}
+.incl b{font-family:var(--display);font-weight:600;font-size:40px;line-height:.95}
+.incl>div>span:last-child{font:600 10px/1.6 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+/* glow behind the order sheet: the same halo light as the ticket, larger and breathing */
+.order{overflow:hidden}
+.order-in{position:relative;isolation:isolate}
+.order-in::before{content:"";position:absolute;z-index:-1;left:50%;top:260px;bottom:-60px;width:min(1400px,190%);transform:translateX(-50%);
+  background:radial-gradient(ellipse 30% 44% at 50% 40%,rgba(235,240,250,.34) 0%,rgba(165,188,226,.30) 26%,rgba(70,100,156,.20) 52%,rgba(40,60,100,0) 74%);
+  filter:blur(10px);animation:breathe 9s ease-in-out infinite;pointer-events:none}
+.order .cart-form{box-shadow:0 0 0 1px rgba(255,255,255,.6),0 0 40px rgba(205,218,240,.28),0 0 120px rgba(140,165,210,.22),0 50px 100px rgba(0,0,0,.6)}
 </style>
 </head>
 <body>
@@ -882,19 +897,19 @@ html{scroll-behavior:smooth}
             <div class="ptk-top"><span>Admit one</span><span>Founders seat</span></div>
             <div class="prow"><span>Founders seat</span><b>$9,995</b></div>
             <div class="prow sp"><span>Rearden Press sponsorship</span><b>−$5,000</b></div>
-            <ol>
-              <li>2 days live at the FOUNDERS EVENT, April 26 and 27, 2027</li>
-              <li>A full year of <span class="nb">THE COLLECTIVE</span>, starting today</li>
-              <li>The $5,000 Rearden Press sponsorship, applied</li>
-              <li>The 3X guarantee</li>
-            </ol>
+            <div class="incl">
+              <div><span class="in-no">Nº 01</span><b class="metal">2 days</b><span>Live at the FOUNDERS EVENT<br>April 26 and 27, 2027</span></div>
+              <div><span class="in-no">Nº 02</span><b class="metal">1 year</b><span>Inside <span class="nb">THE COLLECTIVE</span><br>Starting today</span></div>
+              <div><span class="in-no">Nº 03</span><b class="metal">$5,000</b><span>Rearden Press sponsorship<br>Applied</span></div>
+              <div><span class="in-no">Nº 04</span><b class="metal">3X</b><span>The guarantee<br>Or every dollar back</span></div>
+            </div>
           </div>
           <div class="ptk-stub">
             <span class="lab">Your seat</span>
             <b class="big metal">$385<small>/mo</small></b>
             <span class="alt">or $4,995 pre-pay</span>
             <a class="btn btn-silver" href="#order" data-open-cart>Reserve my FOUNDERS seat <span class="arr">→</span></a>
-            <span class="terms">$385 today plus 12 monthly payments of $385. Full terms on the order form.</span>
+            <span class="terms">$385 today plus 12 monthly payments of $385. Full terms at checkout.</span>
           </div>
           <span class="shine"></span>
         </div>
@@ -907,7 +922,7 @@ html{scroll-behavior:smooth}
 <section class="s order" id="order" aria-label="Your Founders seat" hidden>
   <div class="wrap">
     <div class="order-in" id="cart">
-      <div class="tlabel center"><span>Nº 001</span>Order form</div>
+      <div class="tlabel center"><span>Nº 001</span>Reserve your seat</div>
       <h2 class="hl center">Your Founders <span class="sx">seat</span>.</h2>
       <form class="cart-form" autocomplete="off" novalidate>
       <div class="cart-plan" role="radiogroup" aria-label="Plan">
@@ -1052,7 +1067,7 @@ html{scroll-behavior:smooth}
     <details><summary>How does the guarantee work?</summary><div class="a"><p>Come to Day 1. If by 5 PM PT you don't see how this returns at least 3X what you put in, return your materials and we'll refund every dollar.</p></div></details>
     <details><summary>Do I need to have read The Compound Effect?</summary><div class="a"><p>No. The FOUNDERS EVENT is built on the new book, which nobody outside the studio has read yet. Every Founder starts on the same page.</p></div></details>
     <details><summary>Is this just the book read out loud?</summary><div class="a"><p>No. Read out loud, the book wouldn't fill a single day. This is 2 full days, deeper and wider than the book, installed with your team.</p></div></details>
-    <details><summary>What does $385/mo mean?</summary><div class="a"><p>$385 today plus 12 monthly payments of $385. Or pre-pay $4,995. The order form states the full terms.</p></div></details>
+    <details><summary>What does $385/mo mean?</summary><div class="a"><p>$385 today plus 12 monthly payments of $385. Or pre-pay $4,995. Checkout shows the full terms.</p></div></details>
   </div>
   </div>
 </section>
