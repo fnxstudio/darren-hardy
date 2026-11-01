@@ -389,6 +389,52 @@ section>.wrap{position:relative;z-index:2}
 .host .ph,.close .ph{-webkit-mask:radial-gradient(ellipse 62% 85% at 30% 45%,#000 40%,transparent 78%);mask:radial-gradient(ellipse 62% 85% at 30% 45%,#000 40%,transparent 78%)}
 .host .ph::after,.close .ph::after{background:linear-gradient(90deg,rgba(5,8,15,0) 40%,rgba(5,8,15,.6) 70%)!important}
 @media (max-width:1000px){.host .ph,.close .ph{-webkit-mask:linear-gradient(180deg,#000 55%,transparent 95%);mask:linear-gradient(180deg,#000 55%,transparent 95%)}}
+/* ===== SYSTEM: alternating planes on one grid ===== */
+:root{--pad:180px;--inset:96px}
+.plane{top:var(--inset)!important;bottom:var(--inset)!important}
+.plane.p1{width:86%}
+.why .p1,.results .p1,.tickets .p1{left:0!important;right:auto!important}
+.team .p1,.coll-sec .p1{left:auto!important;right:0!important}
+.team .p1 .edge,.coll-sec .p1 .edge{left:auto;right:0}
+.program .p1,.guar .p1,.faq .p1{display:none}
+.fight .p1{width:auto;left:4%!important;right:4%!important;top:0!important;bottom:0!important}
+section>.wrap{padding-top:calc(var(--inset) - 40px);padding-bottom:calc(var(--inset) - 40px)}
+.program>.wrap,.first>.wrap,.guar>.wrap,.faq>.wrap{padding-top:0;padding-bottom:0}
+/* why: statement centered, then an even 3x2 grid */
+.why{padding-top:calc(var(--pad) + 60px)}
+.why-head{margin-bottom:140px}
+.why-grid{display:block}
+.why-grid .side{display:none}
+.mosaic{display:grid!important;grid-template-columns:repeat(3,1fr);gap:24px;padding:0 4% 0 0}
+.mosaic .col{display:contents}
+.mosaic .col .tile{margin:0!important;transform:none}
+.tile,.tile.tall{min-height:280px}
+/* team: tickets sit inside the plane, one clean overlap at the plane's edge */
+.team .fan{margin:0;translate:0 0!important}
+.team-grid{align-items:center}
+/* fight: centered, nothing hanging */
+.fight .proof{margin:80px 0!important}
+/* results: left-aligned on the grid, titles in a clean 3x2 */
+.results .rule{margin-left:0}
+.res{padding-left:0;margin-top:80px;gap:56px 64px;max-width:88%}
+/* collective: cards inside their plane */
+.coll{margin-top:72px;padding-left:12%}
+.coll-sec .center{text-align:left;padding-left:12%}
+.coll-sec .center .rule{margin-left:0}
+.coll-sec .narrow{margin-left:0}
+/* tickets */
+.buy{margin-top:80px}
+/* guarantee: calm, no hanging seal */
+.guar{padding:120px 0}
+.guar .seal{margin-left:0}
+@media (max-width:1000px){
+  :root{--pad:96px;--inset:40px}
+  .plane.p1{width:auto;left:0!important;right:0!important}
+  .fight .p1{left:0!important;right:0!important}
+  .mosaic{grid-template-columns:1fr;padding:0}
+  .res{max-width:none;margin-top:56px}
+  .coll,.coll-sec .center{padding-left:0}
+}
 /* reveal: transform and opacity only, safe if the observer never fires */
 .js .rv{opacity:0;transform:translateY(24px);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.2,.7,.2,1)}
 .js .rv.in{opacity:1;transform:none}
@@ -490,7 +536,7 @@ section>.wrap{position:relative;z-index:2}
 <!-- WHY -->
 <section class="why">
   <div class="plane p1" aria-hidden="true"><i class="edge"></i></div>
-  <div class="plane p2 dk" aria-hidden="true"><i class="edge"></i></div>
+  
   <div class="wrap">
     <div class="why-head rv">
       <span class="eyebrow">Why come</span>
@@ -592,6 +638,26 @@ section>.wrap{position:relative;z-index:2}
   </div>
 </section>
 
+<!-- RESULTS -->
+<section class="results">
+  <div class="plane p1" aria-hidden="true"><i class="edge"></i></div>
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">What changes</span>
+      <h2 class="h2"><span class="set">Picture your company</span> a year from now</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="res rv">
+      <div><h3>A-players other companies try to recruit</h3></div>
+      <div><h3>Competitors who call it luck</h3></div>
+      <div><h3>A company worth handing down</h3></div>
+      <div><h3>Your time back</h3></div>
+      <div><h3>Higher margins</h3></div>
+      <div><h3>Predictable growth</h3></div>
+    </div>
+  </div>
+</section>
+
 <!-- FIGHT -->
 <section class="fight">
   <div class="plane ox p1" aria-hidden="true"></div>
@@ -613,26 +679,6 @@ section>.wrap{position:relative;z-index:2}
         <div><p>GM's worst plant reopened with Toyota and 85% of the same workers. Within a year its quality rivaled Japan.</p></div>
       </div>
       <p class="turn rv">Same people.<br>Same leader.<br>Different system.</p>
-    </div>
-  </div>
-</section>
-
-<!-- RESULTS -->
-<section class="results">
-  <div class="plane p1" aria-hidden="true"><i class="edge"></i></div>
-  <div class="wrap">
-    <div class="center rv">
-      <span class="eyebrow">What changes</span>
-      <h2 class="h2"><span class="set">Picture your company</span> a year from now</h2>
-      <span class="rule"></span>
-    </div>
-    <div class="res rv">
-      <div><h3>A-players other companies try to recruit</h3></div>
-      <div><h3>Competitors who call it luck</h3></div>
-      <div><h3>A company worth handing down</h3></div>
-      <div><h3>Your time back</h3></div>
-      <div><h3>Higher margins</h3></div>
-      <div><h3>Predictable growth</h3></div>
     </div>
   </div>
 </section>
@@ -686,7 +732,7 @@ section>.wrap{position:relative;z-index:2}
 <!-- TICKETS -->
 <section class="tickets" id="tickets">
   <div class="plane p1" aria-hidden="true"><i class="edge"></i></div>
-  <div class="plane p2 dk" aria-hidden="true"><i class="edge"></i></div>
+  
   <div class="wrap">
     <div class="center narrow rv">
       <span class="eyebrow">Your seat</span>
