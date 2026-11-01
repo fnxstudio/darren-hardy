@@ -53,7 +53,7 @@ function faceCanvas(lockImg) {
   g.fillStyle = '#fff'; g.fillRect(0, 0, TW, TH);
   const ink = '#151719';
   const u = TW / 100;                                  // 1cqw equivalent
-  g.strokeStyle = ink; g.lineWidth = 2.2;
+  g.strokeStyle = ink; g.lineWidth = 3;
   const sx = STUB * TW;
   g.strokeRect(2.2 * u, 2.2 * u, sx - 3.6 * u, TH - 4.4 * u);       // main frame
   g.strokeRect(sx + 1.4 * u, 2.2 * u, TW - sx - 3.6 * u, TH - 4.4 * u); // stub frame
@@ -68,8 +68,8 @@ function faceCanvas(lockImg) {
     g.fillText(t.toUpperCase(), x, y);
     if ('letterSpacing' in g) g.letterSpacing = '0px';
   };
-  label('Admit one', 5 * u, 7.2 * u, 1.5 * u, 'left', 600, 0.45 * u);
-  label('Founder', sx - 5 * u, 7.2 * u, 1.5 * u, 'right', 600, 0.45 * u);
+  label('Admit one', 5 * u, 7.4 * u, 1.85 * u, 'left', 700, 0.4 * u);
+  label('Founder', sx - 5 * u, 7.4 * u, 1.85 * u, 'right', 700, 0.4 * u);
   // lockup, recoloured to ink
   if (lockImg) {
     const lw = sx - 24 * u, lh = lw * (lockImg.naturalHeight / lockImg.naturalWidth);
@@ -85,17 +85,17 @@ function faceCanvas(lockImg) {
   const cw = (sx - 10 * u) / 3;
   cols.forEach((c, i) => {
     const cx = 5 * u + cw * i + cw / 2;
-    label(c[0], cx, my - 1.2 * u, 1.45 * u, 'center', 700, 0.2 * u);
-    label(c[1], cx, my + 1.4 * u, 1.45 * u, 'center', 500, 0.2 * u);
+    label(c[0], cx, my - 1.4 * u, 1.8 * u, 'center', 800, 0.18 * u);
+    label(c[1], cx, my + 1.7 * u, 1.75 * u, 'center', 600, 0.16 * u);
   });
   // stub: vertical label, barcode, number
   const scx = sx + (TW - sx) / 2;
   g.save(); g.translate(scx, 14 * u); g.rotate(-Math.PI / 2);
-  label('Founder ticket', 0, 0, 1.45 * u, 'center', 600, 0.46 * u); g.restore();
+  label('Founder ticket', 0, 0, 1.8 * u, 'center', 700, 0.42 * u); g.restore();
   const bw = (TW - sx) * 0.55, bx = scx - bw / 2, by = TH - 17.5 * u, bh = 7 * u;
   let x = bx; const pat = [2, 1, 1, 3, 1, 2, 2, 1, 3, 1, 1, 2, 1, 3, 2, 1, 1, 2, 3, 1, 2, 1, 1, 3, 1, 2];
   let k = 0; while (x < bx + bw) { const w = pat[k % pat.length] * 2.6; if (k % 2 === 0) g.fillRect(x, by, w, bh); x += w; k++; }
-  g.font = `600 ${2.6 * u}px "kepler-3-display", Georgia, serif`; g.textAlign = 'center';
+  g.font = `600 ${3.1 * u}px "kepler-3-display", Georgia, serif`; g.textAlign = 'center';
   if ('letterSpacing' in g) g.letterSpacing = `${0.3 * u}px`;
   g.textBaseline = 'middle'; g.fillText('Nº 001', scx, TH - 6.8 * u);
   return c;
@@ -136,23 +136,25 @@ function stampMaps(src) {
   const mk = () => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
   const cC = mk(), cN = mk(), cR = mk();
   const dC = cC.getContext('2d').createImageData(w, h), dN = cN.getContext('2d').createImageData(w, h), dR = cR.getContext('2d').createImageData(w, h);
-  const S = 7;
+  const S = 3.2;
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
     const i = y * w + x, k = i * 4;
     const l = soft[y * w + Math.max(0, x - 1)], r = soft[y * w + Math.min(w - 1, x + 1)];
     const u = soft[Math.max(0, y - 1) * w + x], d = soft[Math.min(h - 1, y + 1) * w + x];
     let nx = (l - r) * S, ny = (d - u) * S, nz = 1; const m = Math.hypot(nx, ny, nz); nx /= m; ny /= m; nz /= m;
     dN.data[k] = (nx * .5 + .5) * 255; dN.data[k + 1] = (ny * .5 + .5) * 255; dN.data[k + 2] = (nz * .5 + .5) * 255; dN.data[k + 3] = 255;
-    const pv = Math.min(hgt[i], soft[i] * 0.5 + hgt[i] * 0.5);           // crisp fill, soft lip
-    const grain = (Math.sin(y * 1.7 + Math.sin(x * 0.013 + y * 0.31) * 6) * 0.5 + 0.5) * 0.05;
-    const c = 34 + pv * (224 - 34) - grain * 40;                         // recess: dark gunmetal
+    const pv = hgt[i];                                                    // crisp fill
+    const grain = pv * (Math.sin(y * 1.7 + Math.sin(x * 0.013 + y * 0.31) * 6) * 0.5 + 0.5) * 0.05;
+    const c = 16 + pv * (226 - 16) - grain * 40;                         // recess: dark gunmetal
     dC.data[k] = c; dC.data[k + 1] = c + 3; dC.data[k + 2] = c + 7; dC.data[k + 3] = 255;
-    const rr = (0.62 - pv * 0.34 + grain) * 255;                          // recess matte, plate satin
+    const rr = (0.7 - pv * 0.42 + grain) * 255;                          // recess matte, plate satin
     dR.data[k] = rr; dR.data[k + 1] = rr; dR.data[k + 2] = rr; dR.data[k + 3] = 255;
   }
   cC.getContext('2d').putImageData(dC, 0, 0); cN.getContext('2d').putImageData(dN, 0, 0); cR.getContext('2d').putImageData(dR, 0, 0);
   // brushed streaks over the plate's roughness
-  const rg = cR.getContext('2d'); rg.globalCompositeOperation = 'overlay'; rg.drawImage(brushedCanvas(), 0, 0, w, h);
+  const bc = document.createElement('canvas'); bc.width = w; bc.height = h; const bg = bc.getContext('2d');
+  bg.drawImage(brushedCanvas(), 0, 0, w, h); bg.globalCompositeOperation = 'multiply'; bg.drawImage(src, 0, 0);
+  const rg = cR.getContext('2d'); rg.globalCompositeOperation = 'overlay'; rg.globalAlpha = 0.8; rg.drawImage(bc, 0, 0);
   return { color: cC, normal: cN, rough: cR };
 }
 
