@@ -436,6 +436,7 @@ html{scroll-behavior:smooth}
 /* ===== MOCK CART (Spiffy outline) + leave-page pop-up ===== */
 .take[hidden]{display:none}
 .order{padding-top:40px}
+.order[hidden]{display:none}
 .order-in{max-width:620px;margin:0 auto;scroll-margin-top:96px}
 .order-in .hl{margin-bottom:40px}
 .take-x{width:36px;height:36px;display:grid;place-items:center;background:none;border:1px solid var(--line-2);border-radius:2px;color:var(--bright);font:300 22px/1 var(--sans);cursor:pointer}
@@ -883,7 +884,7 @@ html{scroll-behavior:smooth}
 </section>
 
 <!-- MOCK SPIFFY ORDER FORM: same outline as the pre-print-invite order form. Nothing is submitted or stored. -->
-<section class="s order" id="order" aria-label="Your Founders seat">
+<section class="s order" id="order" aria-label="Your Founders seat" hidden>
   <div class="wrap">
     <div class="order-in" id="cart">
       <div class="tlabel center"><span>Nº 001</span>Order form</div>
@@ -1156,7 +1157,14 @@ document.documentElement.classList.add('js');
     $('[data-plan-pick]').forEach(function (b) { b.setAttribute('aria-checked', b.getAttribute('data-plan-pick') === plan); });
   }
   function lock(on) { html.style.overflow = on ? 'hidden' : ''; }
-  function toForm(e) { if (e) e.preventDefault(); closeTake(); cart.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  // The order form stays hidden until a Reserve button on the price ticket is clicked (?form=1 shows it for review).
+  var order = document.getElementById('order');
+  function toForm(e) {
+    if (e) e.preventDefault(); closeTake();
+    order.hidden = false;
+    requestAnimationFrame(function () { cart.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  }
+  if (/[?&]form=1\b/.test(location.search)) order.hidden = false;
   document.querySelectorAll('[data-open-cart]').forEach(function (a) { a.addEventListener('click', toForm); });
   $('[data-plan-pick]').forEach(function (b) { b.addEventListener('click', function () { plan = b.getAttribute('data-plan-pick'); render(); }); });
   cart.querySelector('[data-vip]').addEventListener('change', function (e) { vip = e.target.checked; render(); });
