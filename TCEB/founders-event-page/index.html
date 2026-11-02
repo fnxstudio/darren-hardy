@@ -761,10 +761,13 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 .decls .tint{z-index:1;opacity:.22}
 .decl{text-shadow:0 2px 30px rgba(3,6,14,.55)}
 .aud .tint{inset:10px;z-index:0}
-.dh-photo .tint{z-index:1}
+.dh-photo .tint{z-index:1;-webkit-mask:linear-gradient(90deg,transparent 0%,#000 42%);mask:linear-gradient(90deg,transparent 0%,#000 42%)}
+@media (max-width:900px){.dh-photo .tint{-webkit-mask:linear-gradient(0deg,transparent 0%,#000 30%);mask:linear-gradient(0deg,transparent 0%,#000 30%)}}
 /* Darren's photo starts under the slanted guarantee band: no empty strip */
 #darren .dh-photo{top:-190px}
-@media (max-width:900px){#darren .dh-photo{top:auto;margin-top:-90px}}
+/* midnight haze over the black side, behind the photo so it never touches Darren */
+#darren{padding-top:280px;background:radial-gradient(ellipse 70% 75% at 22% 58%,rgba(40,64,112,.55),rgba(24,40,74,.28) 45%,rgba(11,21,38,0) 78%),linear-gradient(180deg,#05070C 0%,#0B1526 55%,#070B14 100%)}
+@media (max-width:900px){#darren .dh-photo{top:auto;margin-top:-90px}#darren{padding-top:0;background:radial-gradient(ellipse 120% 60% at 30% 70%,rgba(40,64,112,.5),rgba(11,21,38,0) 75%),#070B14}}
 </style>
 </head>
 <body>
