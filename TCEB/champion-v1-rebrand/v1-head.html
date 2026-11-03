@@ -302,7 +302,9 @@ a.champ-stop:hover .champ-stop-card.is-now { transform: translateY(-3px); }
 .champ-page .champ-nav-title { color: var(--fe-bright); }
 
 /* ---------- Midnight sections: hero, studio, quote ---------- */
-.champ-page .champ-hero { background: radial-gradient(ellipse 34% 40% at 50% 40%, rgba(255,255,255,.07) 0%, transparent 70%), radial-gradient(ellipse 80% 75% at 50% 38%, #1B2F55 0%, #12234A 45%, #0B1526 100%); color: var(--fe-soft); }
+.champ-page .champ-hero { background: radial-gradient(ellipse 34% 40% at 50% 40%, rgba(255,255,255,.07) 0%, transparent 70%), radial-gradient(ellipse 70% 70% at 50% 38%, rgba(42,72,128,.55) 0%, transparent 75%), linear-gradient(180deg, #12234A 0%, #0B1526 100%); color: var(--fe-soft); }
+/* Where you stand sits right under the hero on the same midnight, no seam */
+.champ-page .champ-stand { background: var(--fe-midnight); }
 .champ-page .champ-prize { background: var(--fe-ground); }
 .champ-page .champ-bigq { background: radial-gradient(ellipse 70% 80% at 50% 100%, #1B2F55 0%, #12234A 45%, #0B1526 100%); }
 .champ-page .champ-bigq::before { background: radial-gradient(closest-side, rgba(255,255,255,.06), transparent); }
@@ -338,7 +340,12 @@ a.champ-stop:hover .champ-stop-card.is-now { transform: translateY(-3px); }
 .champ-page .champ-ping-small { color: var(--fe-mute); }
 /* Open-seat placeholder art reads purple: pull it to midnight blue (real headshots untouched) */
 .champ-page img[src*="champ-open-seat"] { filter: hue-rotate(-38deg) saturate(.85); }
-.champ-page .champ-st-card { background: rgba(255,255,255,.07); border: 1px solid var(--fe-line2); box-shadow: 0 30px 70px rgba(0,0,0,.3); }
+.champ-page .champ-st-card { grid-template-columns: 1fr auto; align-items: center; column-gap: 48px; row-gap: 24px; padding: 48px 52px 40px; background: linear-gradient(160deg, rgba(27,47,85,.85) 0%, rgba(13,24,44,.95) 100%); border: 1px solid var(--fe-line2); box-shadow: 0 30px 70px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08); }
+.champ-page .champ-st-hero { grid-column: 1; }
+.champ-page .champ-st-say { margin-top: 10px; }
+.champ-page .champ-btn.is-stand { grid-column: 2; justify-self: end; align-self: center; }
+@media (max-width: 1100px) { .champ-page .champ-st-card { grid-template-columns: 1fr auto; } .champ-page .champ-btn.is-stand { grid-column: 2; justify-self: end; } }
+@media (max-width: 767px) { .champ-page .champ-st-card { grid-template-columns: 1fr; padding: 44px 24px 28px; text-align: center; } .champ-page .champ-st-hero { align-items: center; } .champ-page .champ-st-big { justify-content: center; } .champ-page .champ-btn.is-stand { grid-column: 1; justify-self: stretch; justify-content: center; } .champ-page .champ-st-hero { min-width: 0; } .champ-page .champ-st-say { white-space: normal; text-wrap: balance; font-size: 20px; line-height: 1.15; } }
 .champ-page .champ-st-chip { background: var(--fe-steel); color: var(--fe-ink); }
 .champ-page .champ-st-rank, .champ-page .champ-st-say { color: var(--fe-bright); }
 .champ-page .champ-st-move-sub { color: var(--fe-mute); }
@@ -353,6 +360,9 @@ a.champ-stop:hover .champ-stop-card.is-now { transform: translateY(-3px); }
 .champ-page .champ-pf-table { background: var(--fe-mid2); border-color: var(--fe-line); }
 .champ-page .champ-pf-table-fade { background-image: linear-gradient(270deg, #13264A 0%, rgba(19,38,74,.4) 4%, rgba(19,38,74,0) 10%); }
 .champ-page .champ-bq-by { color: var(--fe-mute); }
+
+/* Corners: 2px everywhere, like the Founders sales page (50% only for true circles) */
+.champ-page :is(.champ-st-card, .champ-opt, .champ-opt-photo, .champ-opt-img, .champ-pcard, .champ-pcard-img, .champ-pd, .champ-pd-img, .champ-perks, .champ-pf-table, .champ-studio-line, .champ-tile, .champ-tile-img, .champ-hub-out, .champ-full, .champ-ping, .champ-ping-img, .champ-st-chip, .champ-st-chip-img) { border-radius: 2px; }
 
 /* ---------- Light sections: board (grey), link hub (steel), FAQ (white) ---------- */
 .champ-page :is(#board, #link, .champ-band:has(.champ-faq-wrap)) { --ink: #2B2F36; --grey: var(--fe-grey); --line: var(--fe-rule); --field: #E9EBEE; --gold: var(--fe-mid2); --gold-ink: var(--fe-mid2); color: #2B2F36; }
