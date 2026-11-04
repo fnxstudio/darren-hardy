@@ -23,3 +23,36 @@ Paste `pre-print-demo-assets/spiffy-checkout-custom.js` inside `<script></script
 Keep the VIP checkbox's name containing "VIP" and the dropdown named "Extra Team Seats"; that's how the code finds them.
 
 Demo of the target: https://fnxstudio.github.io/darren-hardy/pre-print-event-invite-demo-2b/
+
+## Champion invite funnel: REFERRALS cart (2026-11-01)
+Code ready in `TCEB/champion-invite/` (handoff: `SPIFFY-REFERRALS-FOR-SARA.md`): `spiffy-referrals-custom.css`
+(Design > Custom CSS) + `spiffy-referrals-custom-code.html` (Settings > custom code), then publish.
+Redirects and order-details-in-URL were already set correctly on this cart. Our Webflow page swaps its mock
+form back to the real embed once she has published.
+
+## Pre-release book cart: the-compound-effect-pre-release (2026-11-02)
+Checked the live checkout. Routing is right (every order goes to `https://thecompoundeffect.com/pre-release-invite`), prices are right ($89.85 / $249.50 / $1,995), and shipping is already hidden and picked automatically from the bundle and country (tested: US 10 books adds $16.58, UK adds $32.78).
+
+Two IDs were copied over from the pre-print cart and still point at it. Change both, then publish the checkout:
+
+1. **Settings > custom code**, in this line:
+   `var btn = document.querySelectorAll('#block-370965 label.option-button-auto-width')[INDEX[tier]];`
+   change `370965` to `376023`. (This is what selects the bundle when someone clicks 3, 10 or 100 on our page.)
+2. **Design > Custom CSS**, in this rule:
+   `#section-333440:has(.option-button-auto-width--selected) { display: none !important; }`
+   change `333440` to `337566`. (This hides the 3/10/100 buttons in the form once a bundle is picked, like the pre-print cart.)
+
+Both fixes were tested inside the live checkout: picking 10 books sets the total to $249.50 and hides the bundle buttons.
+
+Optional: if Spiffy has an order-ID merge tag, add `?order={tag}` to the invite redirect so the invite page can show "Order #…".
+
+## Hardy Harvest: SALES carts founders-event + founders-event-pif (2026-11-04)
+Code ready in `Hardy-Harvest/spiffy/` (tested inside both live carts: totals right, VIP + team boxes build, "I agree" pre-ticked, no errors):
+- founders-event (Pay Monthly): `hh-founders-event-custom.css` (Design > Custom CSS) + `hh-founders-event-custom-code.html` (Settings > custom code)
+- founders-event-pif (Pay In Full): `hh-founders-event-pif-custom.css` + `hh-founders-event-pif-custom-code.html`
+Both carts are embedded on darrenhardy.com/harvest (staging) and show Spiffy's plain look until these are installed.
+
+Settings for Sara on both carts:
+1. Button text: RESERVE MY FOUNDERS SEAT
+2. Thank-you redirect: darrenhardy.com/harvest-confirmation; when the VIP add-on is bought, darrenhardy.com/harvest-vip-confirmation (both carts still end on Spiffy's generic "Thank You 1" step).
+3. founders-event-pif only: the extra team seat is priced 4,004 (2 seats add 8,008). The board and page say 3,995 per seat (team-seats-pif cart charges 3,995 correctly).

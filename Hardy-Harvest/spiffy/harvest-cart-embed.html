@@ -1,0 +1,74 @@
+<!-- /harvest REAL SPIFFY CARTS (Webflow embed in #checkout, replaces the "Spiffy checkout goes here" placeholder).
+     The pricing buttons (data-hh-plan) set #checkout's data-hh-ck-plan and open it (page footer script).
+     This embed loads the matching cart the first time each plan is picked and shows only that one:
+       monthly -> founders-event, full -> founders-event-pif.
+     The page's utm_* params are passed on to Spiffy for attribution. Styling lives in Spiffy (Sara's custom CSS/code). -->
+<div class="hh-cart" data-hh-cart></div>
+<p class="hh-cart-fallback" data-hh-cart-fallback hidden>The checkout didn't load. <a data-hh-cart-link href="https://secure.darrenhardy.com/checkout/founders-event-pif" target="_blank" rel="noopener">Open the checkout in a new tab</a>.</p>
+<style>
+.hh-cart{border:1px solid #D9C8B0;border-top:0;background:#EFE4D3;min-height:500px}
+.hh-cart:empty{min-height:0;border:0}
+.hh-cart-fallback{margin:12px 0 0;font:14px/1.5 Montserrat,sans-serif;color:#6B5547;text-align:center}
+.hh-cart-fallback a{color:#8A4936}
+</style>
+<script>
+(function () {
+  var CARTS = {
+    monthly: 'https://secure.darrenhardy.com/checkout/founders-event',
+    full: 'https://secure.darrenhardy.com/checkout/founders-event-pif'
+  };
+  var ck = document.getElementById('checkout');
+  var box = document.querySelector('[data-hh-cart]');
+  var fb = document.querySelector('[data-hh-cart-fallback]');
+  var link = document.querySelector('[data-hh-cart-link]');
+  if (!ck || !box) return;
+  var carts = {};
+
+  function withUtm(url) {
+    var q = new URLSearchParams(location.search), out = new URLSearchParams();
+    q.forEach(function (v, k) { if (/^utm_/.test(k)) out.set(k, v); });
+    var s = out.toString();
+    return s ? url + '?' + s : url;
+  }
+
+  function show(plan) {
+    if (!CARTS[plan] || !window.spiffy) return;
+    window.spiffy.load('darrenhardy', 'secure.darrenhardy.com'); // loads Spiffy's app once (later calls do nothing)
+    var url = withUtm(CARTS[plan]);
+    if (link) link.setAttribute('href', url);
+    if (!carts[plan]) {
+      var wrap = document.createElement('div');
+      var el = document.createElement('spiffy-element');
+      el.setAttribute('type', 'checkout');
+      el.setAttribute('url', url);
+      wrap.appendChild(el);
+      box.appendChild(wrap);
+      carts[plan] = wrap;
+      // Spiffy holds its frame at 500px until the form has rendered; offer the plain link if it never does
+      var t0 = Date.now(), poll = setInterval(function () {
+        var f = wrap.querySelector('iframe');
+        if (f && f.offsetHeight > 600) { clearInterval(poll); if (fb) fb.hidden = true; }
+        else if (Date.now() - t0 > 10000) { clearInterval(poll); if (fb && wrap.style.display !== 'none') fb.hidden = false; }
+      }, 200);
+    }
+    for (var k in carts) carts[k].style.display = (k === plan) ? '' : 'none';
+  }
+
+  function sync() { if (ck.classList.contains('is-open')) show(ck.getAttribute('data-hh-ck-plan')); }
+  new MutationObserver(sync).observe(ck, { attributes: true, attributeFilter: ['class', 'data-hh-ck-plan'] });
+  sync();
+})();
+</script>
+<script>
+"use strict";!function(i,t){var f=t.spiffy=t.spiffy||[];if(!f.init){
+if(f.invoked)return void(t.console&&console.error&&console.warn("Spiffy Elements included twice."))
+;f.invoked=!0,f.methods=["identify","config","debug","off","on"],f.factory=function(i){
+return function(){var t=Array.prototype.slice.call(arguments);return t.unshift(i),f.push(t),f}},
+f.methods.forEach(function(i){spiffy[i]=f.factory(i)}),f.load=function(t,f){if(!spiffy.ACCOUNT){
+spiffy.ACCOUNT=t,spiffy.DOMAIN=f;var e=i.createElement("script");e.type="text/javascript",
+e.async=!0,e.crossorigin="anonymous",e.src="https://js.static.spiffy.co/spiffy.js?a="+t
+;var n=i.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)}}}}(document,window),
+spiffy.SNIPPET_VERSION="1.1.0";
+spiffy.config({ hideSidebar: true, hideHeader: true, hideFooter: true, popupEnabled: false });
+// spiffy.load("darrenhardy", "secure.darrenhardy.com") runs in show(), the first time a plan is picked, so the page itself never pays for the checkout app
+</script>
