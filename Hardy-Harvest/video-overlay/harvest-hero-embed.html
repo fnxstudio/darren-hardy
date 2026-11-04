@@ -1,0 +1,153 @@
+<!-- Hardy Harvest in-page video (design E). Sits inside the .hh-video frame. Native <video> from Vimeo's direct file links, because a button over a Vimeo iframe can never start it on an iPhone (see the site rule rules/video.md). Cover and length come live from Vimeo's oEmbed, so a thumbnail changed in Vimeo shows here too. Edit only the HH_VIDEO line per page (placeholders is optional). -->
+<style>
+.hh-vp{position:absolute;inset:0;font-family:Montserrat,sans-serif;color:#F6F0E7;overflow:hidden}
+.hh-vp-video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+.hh-vp-cover{position:absolute;inset:0;z-index:2;background:#1E0A08 center/cover no-repeat;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hh-vp-cover::after{content:"";position:absolute;inset:0;background:radial-gradient(85% 85% at 0% 100%,rgba(30,10,8,.92) 0%,rgba(30,10,8,.62) 45%,rgba(30,10,8,0) 78%),linear-gradient(0deg,rgba(30,10,8,.62) 0%,rgba(30,10,8,0) 45%)}
+.hh-vp-start{position:absolute;left:4%;bottom:7%;z-index:3;display:flex;align-items:center;gap:26px;pointer-events:none}
+.hh-vp-btn{position:relative;width:84px;height:84px;flex-shrink:0}
+.hh-vp-glow,.hh-vp-wave{position:absolute;inset:0;border-radius:50%;pointer-events:none}
+.hh-vp-glow{inset:-26px;background:radial-gradient(closest-side,rgba(236,206,152,.75),rgba(212,183,145,.35) 55%,rgba(212,183,145,0) 100%);animation:hhVpGlow 2.4s ease-in-out infinite}
+.hh-vp-wave{border:2px solid rgba(241,221,182,.75);box-shadow:0 0 18px 2px rgba(226,190,130,.45);animation:hhVpWave 2.4s cubic-bezier(.2,.6,.3,1) infinite}
+.hh-vp-wave.is-late{animation-delay:1.2s}
+.hh-vp-play{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(110deg,#E6DCCB 0%,#FFFDF8 24%,#EFE6D6 46%,#FFFFFF 62%,#E2D6C2 100%);box-shadow:inset 0 1px 0 #fff,0 0 0 1px rgba(246,240,231,.6),0 0 40px 8px rgba(212,183,145,.55),0 16px 32px rgba(0,0,0,.5);transition:transform .2s ease}
+.hh-vp-cover:hover .hh-vp-play{transform:scale(1.06)}
+@keyframes hhVpWave{0%{transform:scale(1);opacity:.85}100%{transform:scale(1.9);opacity:0}}
+@keyframes hhVpGlow{0%,100%{opacity:.55}50%{opacity:1}}
+.hh-vp-msg{font-size:15px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#F6F0E7;text-align:left}
+.hh-vp-len{position:absolute;top:14px;right:14px;z-index:3}
+.hh-vp-pill{height:40px;min-width:56px;padding:0 14px;border-radius:2px;background:rgba(30,10,8,.88);border:1px solid rgba(212,183,145,.4);color:#F6F0E7;font:700 14px/1 Montserrat,sans-serif;letter-spacing:.04em;display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+button.hh-vp-pill{cursor:pointer}
+.hh-vp-ctl{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 14px 14px;display:flex;align-items:center;gap:12px;pointer-events:none}
+.hh-vp-ctl>*{pointer-events:auto}
+.hh-vp-grow{flex:1;pointer-events:none!important}
+.hh-vp-pp{width:46px;height:46px;padding:0;border:0;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;background:linear-gradient(110deg,#E6DCCB 0%,#FFFDF8 24%,#EFE6D6 46%,#FFFFFF 62%,#E2D6C2 100%);box-shadow:inset 0 1px 0 #fff,0 0 0 1px rgba(246,240,231,.6),0 0 22px 4px rgba(212,183,145,.45),0 8px 18px rgba(0,0,0,.5)}
+.hh-vp-bar{position:absolute;left:0;right:0;bottom:0;z-index:3;height:4px;background:rgba(246,240,231,.15);pointer-events:none}
+.hh-vp-bar i{display:block;width:0;height:100%;background:#D4B791}
+.hh-vp-wait{position:absolute;left:50%;top:50%;z-index:4;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:3px solid rgba(246,240,231,.25);border-top-color:#F6F0E7;animation:hhVpSpin .8s linear infinite;display:none}
+@keyframes hhVpSpin{to{transform:rotate(360deg)}}
+.hh-vp.is-waiting .hh-vp-wait{display:block}
+.hh-vp:not(.is-started) .hh-vp-ctl,.hh-vp:not(.is-started) .hh-vp-bar{display:none}
+.hh-vp.is-started .hh-vp-cover,.hh-vp.is-started .hh-vp-start,.hh-vp.is-started .hh-vp-len{display:none}
+.hh-video-ph{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;background:radial-gradient(90% 120% at 30% 20%,#6E2626 0%,#5B1E1E 55%,#3E1313 100%)}
+.hh-video-ph b{font-size:28px;font-weight:700;letter-spacing:.3em}
+.hh-video-ph span{font-size:12px;font-weight:600;letter-spacing:.2em;color:#D9C6B0;text-transform:uppercase}
+.hh-vp :focus-visible{outline:2px solid #D4B791;outline-offset:3px}
+@media (max-width:767px){
+.hh-vp-start{gap:16px}
+.hh-vp-btn{width:52px;height:52px}
+.hh-vp-glow{inset:-16px}
+.hh-vp-play svg{width:18px;height:18px}
+.hh-vp-msg{font-size:10px;letter-spacing:.18em}
+.hh-vp-len{top:8px;right:8px}
+.hh-vp-pill{height:28px;min-width:42px;padding:0 9px;font-size:11px}
+.hh-vp-ctl{padding:0 8px 8px;gap:8px}
+.hh-vp-pp{width:34px;height:34px}
+.hh-vp-pp svg{width:13px;height:13px}
+}
+@media (prefers-reduced-motion:reduce){.hh-vp-wave{display:none}.hh-vp-glow{animation:none;opacity:.8}.hh-vp-play{transition:none}}
+</style>
+<div class="hh-vp" id="hhVp">
+<video class="hh-vp-video" playsinline preload="metadata"></video>
+<div class="hh-vp-cover" role="button" tabindex="0" aria-label="Play: a personal invitation from Darren"></div>
+<div class="hh-vp-len"><span class="hh-vp-pill" data-len hidden></span></div>
+<div class="hh-vp-start"><span class="hh-vp-btn"><span class="hh-vp-glow"></span><span class="hh-vp-wave"></span><span class="hh-vp-wave is-late"></span><span class="hh-vp-play"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" style="margin-left:3px"><path d="M8 5v14l11-7z" fill="#5B1E1E"/></svg></span></span><span class="hh-vp-msg">A personal invitation from&nbsp;Darren</span></div>
+<div class="hh-vp-wait" aria-hidden="true"></div>
+<div class="hh-vp-ctl"><span class="hh-vp-pill" data-time>0:00</span><span class="hh-vp-grow"></span><button type="button" class="hh-vp-pp" aria-label="Pause"></button><button type="button" class="hh-vp-pill" data-speed aria-label="Playback speed">1×</button></div>
+<div class="hh-vp-bar"><i></i></div>
+</div>
+<script>
+var HH_VIDEO = { vimeo: '1242558169', hls: 'https://player.vimeo.com/external/1242558169.m3u8?s=7678483764f37591707521af83fdc94e375960ed&logging=false', mp4: '',
+  // The Aware and Hardy Exchange audiences get their own video, picked by utm_content (handoff section 4).
+  audiences: {
+    'aware': { vimeo: '1242558177', hls: 'https://player.vimeo.com/external/1242558177.m3u8?s=78e042a9f17bdbeda843663dfec2629712a4f470&logging=false' },
+    'hardy-exchange': { vimeo: '1242558207', hls: 'https://player.vimeo.com/external/1242558207.m3u8?s=79faf4085e4b9813348b3096cf9540a3b09189a5&logging=false' }
+  } };
+(function () {
+  var root = document.getElementById('hhVp'), video = root.querySelector('video'), cover = root.querySelector('.hh-vp-cover');
+  // Audiences whose video is not ready yet see a PLACEHOLDER (optional HH_VIDEO.placeholders, keyed by utm_content).
+  var ph = HH_VIDEO.placeholders || {}, aud = '';
+  try { aud = (new URLSearchParams(location.search).get('utm_content') || '').toLowerCase(); } catch (e) {}
+  if (ph[aud]) { root.innerHTML = '<div class="hh-video-ph"><b>PLACEHOLDER</b><span>' + ph[aud] + '</span></div>'; return; }
+  var alt = (HH_VIDEO.audiences || {})[aud];
+  if (alt) { HH_VIDEO.vimeo = alt.vimeo; HH_VIDEO.hls = alt.hls; HH_VIDEO.mp4 = alt.mp4 || ''; }
+  var timeEl = root.querySelector('[data-time]'), lenEl = root.querySelector('[data-len]');
+  var bar = root.querySelector('.hh-vp-bar i'), pp = root.querySelector('.hh-vp-pp'), speedBtn = root.querySelector('[data-speed]');
+  var apple = /Apple/.test(navigator.vendor || '');
+  var PAUSE = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="#5B1E1E"/></svg>';
+  var PLAYSM = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="margin-left:2px"><path d="M8 5v14l11-7z" fill="#5B1E1E"/></svg>';
+  pp.innerHTML = PAUSE;
+  function fmt(s) { s = Math.max(0, Math.round(s || 0)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+
+  // Cover and length: live from Vimeo, so the team's thumbnail in Vimeo always shows here.
+  fetch('https://vimeo.com/api/oembed.json?url=' + encodeURIComponent('https://vimeo.com/' + HH_VIDEO.vimeo) + '&width=1920')
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d.thumbnail_url) cover.style.backgroundImage = 'url("' + d.thumbnail_url + '")';
+      if (d.duration) { lenEl.textContent = fmt(d.duration); lenEl.hidden = false; }
+    }).catch(function () {});
+
+  // Source, attached on the first tap: Apple plays HLS natively; others use hls.js (Chrome's own HLS stalls); MP4 if neither.
+  var hls = null, attached = false, wantPlay = false;
+  function attach() {
+    if (attached) return; attached = true;
+    if (apple && video.canPlayType('application/vnd.apple.mpegurl')) { video.src = HH_VIDEO.hls; return; }
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.20/hls.min.js';
+    s.onload = function () {
+      if (window.Hls && Hls.isSupported()) {
+        hls = new Hls({ capLevelToPlayerSize: true, enableWebVTT: false, enableIMSC1: false, enableCEA708Captions: false });
+        hls.subtitleDisplay = false;
+        hls.loadSource(HH_VIDEO.hls); hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () { if (wantPlay) start(); });
+      } else if (HH_VIDEO.mp4) { video.src = HH_VIDEO.mp4; }
+      else if (video.canPlayType('application/vnd.apple.mpegurl')) { video.src = HH_VIDEO.hls; }
+    };
+    s.onerror = function () { video.src = HH_VIDEO.mp4 || HH_VIDEO.hls; };
+    document.head.appendChild(s);
+  }
+  // Captions stay off: Vimeo adds an auto-generated caption track to every stream, and iPhones can switch it on by themselves.
+  function noCaptions() { for (var i = 0; i < video.textTracks.length; i++) if (video.textTracks[i].mode !== 'disabled') video.textTracks[i].mode = 'disabled'; }
+  video.textTracks.addEventListener('addtrack', noCaptions);
+  video.textTracks.addEventListener('change', noCaptions);
+  video.addEventListener('loadedmetadata', function () {
+    noCaptions();
+    if (wantPlay) start();
+  });
+  function start() {
+    wantPlay = true;
+    root.classList.add('is-waiting');
+    if (!video.currentSrc && !video.getAttribute('src')) return; // not attached yet: loadedmetadata / MANIFEST_PARSED call start() again
+    var p = video.play();
+    if (p && p.catch) p.catch(function () { root.classList.remove('is-waiting'); wantPlay = false; });
+  }
+  video.addEventListener('playing', function () { root.classList.remove('is-waiting'); root.classList.add('is-started'); pp.innerHTML = PAUSE; pp.setAttribute('aria-label', 'Pause'); });
+  video.addEventListener('waiting', function () { if (root.classList.contains('is-started')) root.classList.add('is-waiting'); });
+  video.addEventListener('pause', function () { pp.innerHTML = PLAYSM; pp.setAttribute('aria-label', 'Play'); });
+  video.addEventListener('timeupdate', function () {
+    if (!video.duration) return;
+    timeEl.textContent = fmt(video.duration - video.currentTime);
+    bar.style.width = (video.currentTime / video.duration * 100) + '%';
+  });
+  video.addEventListener('ended', function () { root.classList.remove('is-started'); video.currentTime = 0; bar.style.width = '0'; });
+
+  // One tap starts it with sound: touchend for touch, pointerdown for mouse (Cookiebot's implied consent eats the first click), click with detail 0 or Enter/Space for the keyboard.
+  // The controls answer the same way, so Cookiebot never eats their first click either. A finger that moved was scrolling the page, not tapping.
+  function press(el, fn) {
+    var t = false, moved = false;
+    el.addEventListener('touchstart', function () { moved = false; }, { passive: true });
+    el.addEventListener('touchmove', function () { moved = true; }, { passive: true });
+    el.addEventListener('touchend', function (e) { t = true; if (moved) return; e.preventDefault(); fn(); });
+    el.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse' && e.button === 0) { e.preventDefault(); fn(); } });
+    el.addEventListener('click', function (e) { if (!t && e.detail === 0) fn(); });
+  }
+  function go() { attach(); start(); }
+  press(cover, go);
+  cover.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); go(); } });
+  function toggle() { if (video.paused) start(); else video.pause(); }
+  press(pp, toggle);
+  press(video, toggle);
+  var speeds = [1, 1.25, 1.5, 1.75, 2], si = 0;
+  press(speedBtn, function () { si = (si + 1) % speeds.length; video.playbackRate = speeds[si]; speedBtn.textContent = speeds[si] + '×'; });
+})();
+</script>
