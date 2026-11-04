@@ -55,3 +55,10 @@ Both carts are embedded on darrenhardy.com/harvest (staging) and show Spiffy's p
 Settings for Sara on both carts:
 1. Button text: RESERVE MY FOUNDERS SEAT
 2. Thank-you redirect: darrenhardy.com/harvest-confirmation; when the VIP add-on is bought, darrenhardy.com/harvest-vip-confirmation (both carts still end on Spiffy's generic "Thank You 1" step).
+
+## Hardy Harvest: VIP carts tceb-founders-event-vip-monthly + tceb-founders-event-vip (2026-11-04)
+Docs (two tabs each): "Spiffy - HH - VIP - Monthly" 1RfXMqK9aDBmR-35ENprgQai-NUooqUvSYfLYZKBw3yQ, "Spiffy - HH - VIP - PIF" 1zrjgJ9ZuldafiTh6jdcz411s_LFIJaOdowYmuq0gyrc.
+Settings on both carts:
+1. Button text: UPGRADE ME TO VIP
+2. Thank-you redirect: darrenhardy.com/harvest-vip-confirmation
+Both carts are embedded on darrenhardy.com/harvest-vip (staging).
