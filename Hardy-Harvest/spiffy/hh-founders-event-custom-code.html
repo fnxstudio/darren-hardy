@@ -306,4 +306,20 @@ function hhAfterMount(fn) {
     })();
   });
 })();
+/* 5. Shipping checkbox: Spiffy's "Shipping Info is the same as billing info" reads as Lesli's board has it, "Ship my
+      Hardy Harvest set to this address". Only the words change; the checkbox works as before. */
+(function () {
+  var NEW = 'Ship my Hardy Harvest set to this address';
+  function draw() {
+    R.querySelectorAll('label').forEach(function (l) {
+      if (!/shipping info is the same/i.test(l.textContent)) return;
+      var w = document.createTreeWalker(l, NodeFilter.SHOW_TEXT), n;
+      while ((n = w.nextNode())) { if (n.nodeValue.trim()) { n.nodeValue = ' ' + NEW + ' '; return; } }
+    });
+  }
+  hhAfterMount(function () {
+    draw();
+    new MutationObserver(draw).observe(R_TOP, { childList: true, subtree: true, characterData: true });
+  });
+})();
 </script>
