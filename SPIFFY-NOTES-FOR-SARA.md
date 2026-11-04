@@ -55,4 +55,3 @@ Both carts are embedded on darrenhardy.com/harvest (staging) and show Spiffy's p
 Settings for Sara on both carts:
 1. Button text: RESERVE MY FOUNDERS SEAT
 2. Thank-you redirect: darrenhardy.com/harvest-confirmation; when the VIP add-on is bought, darrenhardy.com/harvest-vip-confirmation (both carts still end on Spiffy's generic "Thank You 1" step).
-3. founders-event-pif only: the extra team seat is priced 4,004 (2 seats add 8,008). The board and page say 3,995 per seat (team-seats-pif cart charges 3,995 correctly).
