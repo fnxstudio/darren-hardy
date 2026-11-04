@@ -1,0 +1,84 @@
+<script>
+/* Hardy Harvest, FOUNDERS VIP UPGRADE cart, PAY IN FULL (secure.darrenhardy.com/checkout/tceb-founders-event-vip).
+   Spiffy > this checkout > Settings > custom code. Paste this whole file, script tags included.
+   Lesli's VIPCheckout board: the summary title reads "FOUNDERS VIP UPGRADE · PAY IN FULL" with the line of what VIP adds
+   under it, the "Shipping Info is the same as billing info" line is hidden (nothing ships with the upgrade; it stays
+   ticked, so shipping = billing), and "I agree to the terms and conditions" starts ticked.
+   No dollar signs and no backslash escapes. Nothing touches the form until Spiffy's app has settled (part 0).
+   If this code doesn't run at all, the plain Spiffy form still works. */
+
+var HH_TITLE = 'FOUNDERS VIP UPGRADE' + String.fromCharCode(160) + String.fromCharCode(183) + ' ' + 'PAY' + String.fromCharCode(160) + 'IN' + String.fromCharCode(160) + 'FULL';   // breaks only before PAY, never leaves a word alone
+var HH_DESC = 'Extra half-day with Darren on April' + String.fromCharCode(160) + '28' + String.fromCharCode(160) + String.fromCharCode(183) +
+  ' private <span class="hh-nw">pre-event</span> meetup' + String.fromCharCode(160) + String.fromCharCode(183) + ' <span class="hh-nw">VIP-only</span> room during the' + String.fromCharCode(160) + 'event';   // each dot stays with the word before it
+
+/* 0. Wait for Spiffy's checkout to settle: page fully loaded AND no changes for half a second (6s cap). Spiffy's hidden
+      countdown timer ticks several times a second, so its changes don't count (otherwise it never goes quiet). */
+function hhAfterMount(fn) {
+  var done = false;
+  function go() { if (done) return; done = true; setTimeout(fn, 0); }
+  if (!document.querySelector('#__nuxt')) { go(); return; }
+  function settle() {
+    var quiet, cap = setTimeout(finish, 6000);
+    var mo = new MutationObserver(function (rs) {
+      if (rs.every(tick)) return;
+      clearTimeout(quiet); quiet = setTimeout(finish, 500);
+    });
+    function tick(r) { var t = r.target.nodeType === 1 ? r.target : r.target.parentElement; return !!(t && t.closest && t.closest('.countdown-timer, .exit-discount-banner')); }
+    function finish() { clearTimeout(quiet); clearTimeout(cap); mo.disconnect(); go(); }
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+    quiet = setTimeout(finish, 500);
+  }
+  if (document.readyState === 'complete') settle(); else window.addEventListener('load', settle);
+}
+
+/* 1. Summary title + the line of what VIP adds (top summary only), kept in place if Spiffy redraws it. */
+(function () {
+  function draw() {
+    document.querySelectorAll('.order-summary .card-body > h5').forEach(function (h) {
+      if (h.textContent.trim() !== HH_TITLE) h.textContent = HH_TITLE;
+      var body = h.parentElement;
+      if (!body.querySelector('.hh-desc')) {
+        var p = document.createElement('p');
+        p.className = 'hh-desc'; p.innerHTML = HH_DESC;
+        h.insertAdjacentElement('afterend', p);
+      }
+    });
+  }
+  hhAfterMount(function () {
+    draw();
+    new MutationObserver(draw).observe(document.documentElement, { childList: true, subtree: true });
+  });
+})();
+
+/* 2. Hide "Shipping Info is the same as billing info" while it is ticked (Spiffy's default), so shipping = billing. */
+(function () {
+  hhAfterMount(function () {
+    var tries = 0;
+    (function hide() {
+      var lab = [].slice.call(document.querySelectorAll('label')).filter(function (l) { return /shipping info is the same/i.test(l.textContent); })[0];
+      var cb = lab && document.getElementById(lab.getAttribute('for'));
+      if (lab && cb && cb.checked) { (lab.closest('.custom-control') || lab).style.display = 'none'; return; }
+      if (tries++ < 50) setTimeout(hide, 100);
+    })();
+  });
+})();
+
+/* 3. Terms: the "I agree to the terms and conditions" box starts ticked. It ticks Spiffy's own checkbox once, the way a
+      click would, so Spiffy records it; the buyer can untick it. Never touches Spiffy's hidden anti-spam box
+      (field__purchaseTerms), which must stay empty. */
+(function () {
+  hhAfterMount(function () {
+    var tries = 0;
+    (function tick() {
+      var done = false;
+      document.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+        if (/purchaseTerms/i.test(cb.name || '') || cb.closest('.d-none')) return;
+        var lab = cb.id ? document.querySelector('label[for="' + cb.id + '"]') : null;
+        if (!lab) lab = cb.parentElement && cb.parentElement.querySelector('label');
+        if (lab && /i agree to the/i.test(lab.textContent)) { if (!cb.checked) cb.click(); done = true; }
+      });
+      if (!done && tries++ < 50) setTimeout(tick, 100);
+    })();
+  });
+})();
+</script>

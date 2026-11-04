@@ -1,0 +1,98 @@
+/* Hardy Harvest, FOUNDERS VIP UPGRADE cart (secure.darrenhardy.com/checkout/tceb-founders-event-vip).
+   Spiffy > this checkout > Design > Custom CSS. Replace everything in that box with this whole file.
+   Lesli's Checkout board styling (Hardy Harvest fonts and colours), laid out like the BMC45 referrals cart so nothing
+   floats: one column, the order summary first, flat boxes with hairline borders and 2px corners, no shadows, tight even
+   gaps on one sheet, section names as small caps inside each box, and the terms box closed off by the button.
+   Plain CSS only (safe the moment the checkout loads; no Spiffy element is moved, the order is set with CSS).
+   No dollar signs and no backslash escapes anywhere in this file (Spiffy's save step mangles dollar signs,
+   and copying through a doc can decode escapes). */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* Spiffy's Design-tab colours are variables on .checkout: override them */
+.checkout{--brand-main:#8A4936!important;--brand-light:#F1E7D8!important;--brand-dark:#5B1E1E!important;--ch-btn-color:#8A4936!important;--ch-btn-text-color:#F6F0E7!important;--ch-btn-hover-color:#8A4936!important;--option-btn:#8A4936!important;--option-btn-bg-color:#FBF8F3!important;--option-btn-border-color:#D9C8B0!important;--order-total:#5B1E1E!important;--order-total-bg:#F1E7D8!important;--payment-schedule:#6B5547!important;--general-price:#6B5547!important;--general-price-bg:transparent!important;--link:#8A4936!important;--link-hover:#5B1E1E!important;--loader:#8A4936!important;--form-focus:#8A4936!important;--form-control-radius:2px!important;--form-control-border:#D9C8B0!important}
+
+/* one sheet, the board's type, flat boxes */
+body{background:#EFE4D3!important}
+body,.checkout input,.checkout select,.checkout button,.checkout label,.checkout h5,.checkout h6,.checkout p,.checkout span,.checkout a{font-family:'Montserrat',sans-serif!important}
+.checkout{color:#2E1F1A}
+.checkout .card,.checkout .section__inner,.checkout .payment-gateway{border-radius:2px!important;box-shadow:none!important}
+.checkout .section__inner.card-body,.checkout .payment-gateway,.checkout .order-summary .card-body{background:#FBF8F3!important;border:1px solid #D9C8B0!important}
+.checkout .section__inner.card-body{padding:18px 20px 4px!important}
+
+/* section names: small spaced caps in sienna, inside the box */
+.checkout h6{font-size:11px!important;font-weight:700!important;letter-spacing:.22em!important;text-transform:uppercase!important;color:#8A4936!important;margin-bottom:12px!important}
+.checkout .block-content h6,.checkout .block-content h6 em{font-size:11px!important;font-weight:500!important;font-style:normal!important;letter-spacing:0!important;text-transform:none!important;color:#6B5547!important}
+
+/* fields: white, hairline, sienna on focus; labels in the muted brown */
+.checkout .form-control,.checkout .custom-select{border-radius:2px!important;border-color:#D9C8B0!important;background-color:#ffffff!important;color:#2E1F1A!important;font-size:14px!important}
+.checkout .form-control:focus,.checkout .custom-select:focus{border-color:#8A4936!important;box-shadow:none!important}
+.checkout .has-float-label label,.checkout .has-float-label>span{color:#6B5547!important}
+.checkout label.input-required::after{color:#B8946B!important}
+
+/* one column at every width: order summary first, then the form; tight even gaps */
+.checkout__inner>.container>.row{flex-direction:column!important;flex-wrap:nowrap!important;margin-left:0!important;margin-right:0!important}
+.checkout__inner>.container>.row>.checkout-form,.checkout__inner>.container>.row>.checkout-form>.step-content--main{display:contents!important}
+.checkout__inner>.container>.row>.checkout-form>.step-content--sidebar{display:none!important}
+.checkout__inner>.container>.row>.content-container{order:2;flex:none!important;width:100%!important;max-width:100%!important;padding:0!important}
+.checkout .step-content--main>div{order:3;width:100%}
+.checkout .step-content--main .section>.card,.checkout .content-container .order-summary{margin-bottom:12px!important}
+
+/* order summary: seat name with Show Order Details beside it, Due Today on the wheat band, Cormorant price */
+.checkout .order-summary{border:0!important;background:none!important;box-shadow:none!important}
+.checkout .order-summary .card-body{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px!important;border-bottom:0!important}
+.checkout .order-summary .card-body>h5{margin:0!important;font-size:13px!important;font-weight:700!important;letter-spacing:.16em!important;text-transform:uppercase;color:#2E1F1A!important}
+.checkout .order-summary .order-summary__description:has(p:empty){display:none!important}
+.checkout .order-summary .order-summary__click-open{flex:none;width:auto;margin:0!important}
+.checkout .order-summary .card-body>*:not(h5):not(.order-summary__click-open){flex:1 1 100%;width:100%;min-width:0}
+.checkout .order-summary .order-summary__click-open .col{padding:0!important}
+.checkout .order-summary .rounded-top{border-radius:2px 2px 0 0!important}
+.checkout .order-summary .order-summary__click-open a{font-size:12px!important;font-weight:500;color:#8A4936!important;text-decoration:none!important}
+.checkout .order-summary .cost-breakdown,.checkout .order-summary .order-summary__glance{border:1px solid #D9C8B0!important;border-top:0!important;border-radius:0 0 2px 2px!important}
+.checkout .order-summary .order-summary__due-today{padding:14px 20px!important;border:0!important;border-top:1px solid #D9C8B0!important;background:#F1E7D8!important;font-size:13px;color:#6B5547!important}
+.checkout .order-summary .order-summary__due-today .h3{font-family:'Cormorant Garamond',serif!important;font-size:32px!important;font-weight:600!important;line-height:1!important;color:#5B1E1E!important}
+.checkout .order-summary .order-summary__due-today .h3 span{font-family:inherit!important}
+.checkout .order-summary .order-summary__due-today .h3{margin-bottom:6px!important}
+.checkout .order-summary .payment-schedule__click{color:#6B5547!important}
+.order-summary-mobile{display:flex!important}
+.checkout .order-summary .line-item__group_name{color:#2E1F1A!important;text-wrap:balance}
+.checkout .order-summary .line-item__group_price{color:#6B5547!important;white-space:nowrap}
+/* the opened item list sits on its box's own colour: Spiffy draws it as a white rounded card by default */
+.checkout .order-summary .order-summary__slide,.checkout .order-summary .order-summary__slide .list-group-item{background:transparent!important;border-radius:0!important;box-shadow:none!important}
+
+/* checkboxes: sienna */
+.checkout .custom-control-input:checked~.custom-control-label::before{border-color:#8A4936!important;background-color:#8A4936!important}
+.checkout .custom-control-label::before{border-color:#B8946B!important;border-radius:2px!important}
+.checkout .custom-control-label,.checkout .custom-control-label .text-muted{color:#2E1F1A!important;font-size:13px!important}
+/* no word left alone on a line (labels, notes, section names) */
+.checkout .custom-control-label,.checkout h6,.checkout .block-content,.checkout .payment-gateway__secure{text-wrap:balance}
+
+/* payment box: one box, rows split by hairlines, the picked row edged in sienna */
+.checkout .payment-type{border:0!important;border-radius:0!important;box-shadow:none!important;background:#FBF8F3!important}
+.checkout .payment-type+.payment-type{border-top:1px solid #D9C8B0!important}
+.checkout .payment-type__label{color:#2E1F1A!important;font-size:11px!important;font-weight:700!important;letter-spacing:.2em!important;text-transform:uppercase}
+.checkout .payment-gateway__secure{color:#6B5547!important;font-size:11px!important}
+
+/* terms: their own box, closed off by the button underneath (no gap), so the end of the form is one block */
+.checkout .section:has(.input-container.terms) .section__inner{background:#F1E7D8!important;border:1px solid #D9C8B0!important;border-bottom:0!important;border-radius:2px 2px 0 0!important;padding:16px 20px!important}
+.checkout .section:has(.input-container.terms)>.card{margin-bottom:0!important}
+.checkout .section:has(.input-container.terms) a{color:#8A4936!important}
+/* the total box above the button (Spiffy repeats the order summary here) runs straight into the button */
+.checkout .section:has(button[id^="checkoutButton"]) .order-summary{margin-bottom:0!important}
+.checkout .section:has(button[id^="checkoutButton"]) .order-summary .order-summary__glance{border-radius:0!important}
+/* the terms box is wheat and the total block (Show Order Details + Due Today) is the cream of the other boxes, so they read apart (user 11/03) */
+.checkout .section:has(button[id^="checkoutButton"]) .order-summary .card-body,.checkout .section:has(button[id^="checkoutButton"]) .order-summary .order-summary__due-today{background:#FBF8F3!important}
+
+/* button: Lesli's sienna, ivory type, the brand arrow; lifts on hover (never darkens). Shadow kept tight so it
+   fades out inside Spiffy's frame (a deeper one gets cut off at the frame's edge as a hard line). */
+.checkout button[id^="checkoutButton"]{position:relative;background:linear-gradient(180deg,#9C5641,#8A4936 50%,#723A2A)!important;color:#F6F0E7!important;border:0!important;border-radius:0 0 2px 2px!important;box-shadow:0 4px 10px rgba(91,30,30,.22)!important;font-size:14px!important;font-weight:700!important;letter-spacing:.22em!important;text-transform:uppercase!important;padding:22px 24px!important;transition:transform .3s ease!important}
+.checkout button[id^="checkoutButton"]:hover{transform:translateY(-2px)}
+.checkout button[id^="checkoutButton"]::after{content:"→"!important;position:static!important;display:inline-block!important;width:auto!important;height:auto!important;margin-left:12px;background:none!important;animation:none!important;opacity:1!important;transform:none;transition:transform .3s ease}
+.checkout button[id^="checkoutButton"]:hover::after{transform:translateX(6px)}
+.checkout button[id^="checkoutButton"] i.fa:not(.fa-spinner-third){display:none!important}
+/* the words and the arrow stay on one line on phones */
+.checkout button[id^="checkoutButton"]{white-space:nowrap}
+@media (max-width:420px){.checkout button[id^="checkoutButton"]{font-size:13px!important;letter-spacing:.14em!important;padding:20px 12px!important}.checkout button[id^="checkoutButton"]::after{margin-left:8px}}
+.checkout input[type="radio"],.checkout input[type="checkbox"]{accent-color:#8A4936}
+/* the line under the title (added by the custom code): what the upgrade adds */
+.checkout .order-summary .hh-desc{flex:1 1 100%;margin:0!important;color:#6B5547;font-size:13px;line-height:1.5;text-wrap:balance}
+.checkout .order-summary .hh-nw{white-space:nowrap}
