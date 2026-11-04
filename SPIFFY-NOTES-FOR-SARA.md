@@ -62,3 +62,10 @@ Settings on both carts:
 1. Button text: UPGRADE ME TO VIP
 2. Thank-you redirect: darrenhardy.com/harvest-vip-confirmation
 Both carts are embedded on darrenhardy.com/harvest-vip (staging).
+
+## Hardy Harvest: TEAM carts hardy-harvest-team-seats + hardy-harvest-team-seats-pif (2026-11-04)
+Docs (Custom Code + CSS + NOTE tabs): "Spiffy - HH - Team - Monthly" 1Sr83SIdxMTh07hC-_wghaKCVwh3x3tbSfP02IZBx-zs, "Spiffy - HH - Team - PIF" 1L-5malZMu4X4H6S0lKVxLjfqCFCvgUmzJwpu-56JNbA.
+Settings on both carts:
+1. Button text: RESERVE THEIR SEATS
+2. Thank-you redirect: darrenhardy.com/harvest-team-seat-confirmation
+3. Reorder (NOTE tab): Select # of Team Seats above Contact Information; order Team seats, Contact, Billing, VIP seats, Payment, Terms.
