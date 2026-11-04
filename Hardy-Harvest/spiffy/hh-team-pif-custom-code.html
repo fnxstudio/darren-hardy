@@ -1,0 +1,232 @@
+<script>
+/* Hardy Harvest, FOUNDING TEAM SEATS cart, PAY IN FULL (secure.darrenhardy.com/checkout/hardy-harvest-team-seats-pif).
+   Spiffy > this checkout > Settings > custom code. Paste this whole file, script tags included.
+   Lesli's TeamCheckout board:
+   - Summary title "FOUNDING TEAM SEATS · PAY IN FULL · 1 SEAT", the seat count following the team counter.
+   - Team seats box (corner tab, headline, price, grey line) around Spiffy's "Select # of Team Seats" dropdown, which
+     becomes a minus / number / plus counter (1 to 10). Spiffy's dropdown still does the pricing, out of sight.
+   - VIP box (tab, headline, price, grey line, VIP-only exclusives) around Spiffy's "Select VIP Seats" dropdown, also a
+     counter, from 0 up to the number of team seats (one VIP per team seat).
+   - Order Details: REARDEN PRESS SPONSORSHIP and HARDY HARVEST GIFT SET as INCLUDED lines (display only).
+   - "I agree to the terms and conditions" starts ticked.
+   No dollar signs and no backslash escapes (the code builds the dollar sign itself, D below). Nothing touches the form
+   until Spiffy's app has settled (part 0). If this code doesn't run, the plain dropdowns still show and still work. */
+
+var D = String.fromCharCode(36), NB = String.fromCharCode(160), DOT = String.fromCharCode(183);
+var HH_PLAN = 'PAY' + NB + 'IN' + NB + 'FULL';
+var HH_TEAM = {
+  tab: 'Save ' + D + '6,000 per seat',
+  price: [D + '3,995/ea', ''],
+  head: 'Select the number of team seats',
+  sub: 'General admission seats for your key leaders',
+  row: 'Team' + NB + 'seats', note: 'Up to 10 per order'
+};
+var HH_VIP = {
+  tab: 'Extra half-day with Darren',
+  price: ['Only ' + D + '1,495/ea', ''],
+  head: 'Yes, make my leaders VIPs',
+  sub: 'Private additional session ' + DOT + ' April' + NB + '28,' + NB + '2027',
+  label: 'VIP-only exclusives',
+  bullets: ['A pre-event meetup', 'A private room during the event', 'Two weeks of event recordings'],
+  row: 'Add VIP' + NB + 'seats', note: 'Up to 10, one per team seat'
+};
+
+/* 0. Wait for Spiffy's checkout to settle: page fully loaded AND no changes for half a second (6s cap). Spiffy's hidden
+      countdown timer ticks several times a second, so its changes don't count (otherwise it never goes quiet). */
+function hhAfterMount(fn) {
+  var done = false;
+  function go() { if (done) return; done = true; setTimeout(fn, 0); }
+  if (!document.querySelector('#__nuxt')) { go(); return; }
+  function settle() {
+    var quiet, cap = setTimeout(finish, 6000);
+    var mo = new MutationObserver(function (rs) {
+      if (rs.every(tick)) return;
+      clearTimeout(quiet); quiet = setTimeout(finish, 500);
+    });
+    function tick(r) { var t = r.target.nodeType === 1 ? r.target : r.target.parentElement; return !!(t && t.closest && t.closest('.countdown-timer, .exit-discount-banner')); }
+    function finish() { clearTimeout(quiet); clearTimeout(cap); mo.disconnect(); go(); }
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+    quiet = setTimeout(finish, 500);
+  }
+  if (document.readyState === 'complete') settle(); else window.addEventListener('load', settle);
+}
+
+/* Spiffy's two dropdowns, found by their labels */
+function hhSelect(re) {
+  var out = null;
+  document.querySelectorAll('[id^="block-"]').forEach(function (b) {
+    var sel = b.querySelector('select'), lab = b.querySelector('label');
+    if (!out && sel && lab && re.test(lab.textContent)) out = { block: b, sel: sel };
+  });
+  return out;
+}
+function hhCount(sel) { var o = sel.options[sel.selectedIndex]; return o ? parseInt(o.text, 10) || 0 : 0; }
+function hhSetCount(sel, n) {
+  for (var i = 0; i < sel.options.length; i++) {
+    if (parseInt(sel.options[i].text, 10) === n) {
+      if (sel.selectedIndex !== i) { sel.selectedIndex = i; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+      return;
+    }
+  }
+}
+
+/* 1. The two boxes: tab, headline, price, grey line (and the VIP bullets), with the dropdown's row turned into the
+      board's harvest-red counter row. */
+(function () {
+  var css = document.createElement('style');
+  css.textContent =
+    '.hh-box .card{position:relative;overflow:hidden}' +
+    '.hh-tab{position:absolute;top:0;right:0;z-index:1;padding:10px 14px;background:#5B1E1E;color:#F6F0E7;font-size:12px;font-weight:700;letter-spacing:.2em;line-height:1;text-transform:uppercase;white-space:nowrap}' +
+    '.hh-box .section__inner.card-body{padding:52px 20px 0!important;background:#FBF8F3!important}' +
+    '.hh-content{position:relative;color:#2E1F1A}' +
+    '.hh-head{margin:0 0 10px;padding-right:170px;font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:600;line-height:1;color:#2E1F1A}' +
+    '.hh-head span{color:#8A4936}' +
+    '.hh-sub{margin:0 0 4px;padding-right:170px;color:#6B5547;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}' +
+    '.hh-label{margin:20px 0 8px;color:#8A4936;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}' +
+    '.hh-list{margin:0 0 4px;padding-left:18px;color:#4A3830;font-size:13px;line-height:1.8}' +
+    '.hh-head,.hh-sub,.hh-list li{text-wrap:balance}' +
+    '.hh-price{position:absolute;top:0;right:0;color:#6B5547;font-size:13px;line-height:1.4;text-align:right;white-space:nowrap}' +
+    '.hh-price b{display:block;color:#5B1E1E;font-size:16px;font-weight:700}' +
+    '.hh-price small{display:block;font-size:11px}' +
+    '.hh-box .hh-row{position:relative;flex:none;width:calc(100% + 20px);max-width:none;margin:16px -10px 0;padding:14px 20px;background:#5B1E1E;display:flex;align-items:center;gap:14px}' +
+    '.hh-box .hh-row>.form-group{position:absolute!important;left:0;top:0;width:1px;height:1px;margin:0!important;overflow:hidden;opacity:0;pointer-events:none}' +
+    '.hh-count{display:flex;flex:none;border:1px solid #F6F0E7;border-radius:2px;background:#fff}' +
+    '.hh-count button{width:36px;height:36px;padding:0;border:0;background:transparent;color:#8A4936;font-size:18px;line-height:1;cursor:pointer}' +
+    '.hh-count button:disabled{color:#D9C8B0;cursor:default}' +
+    '.hh-count span{display:inline-flex;align-items:center;justify-content:center;width:36px;border-left:1px solid #D9C8B0;border-right:1px solid #D9C8B0;color:#2E1F1A;font-weight:700}' +
+    '.hh-count-label{color:#F6F0E7;font-size:13px;font-weight:700;letter-spacing:.06em;line-height:1.3}' +
+    '.hh-count-label small{display:block;margin-top:2px;color:#D9C6B0;font-size:11px;font-weight:500;letter-spacing:0}' +
+    /* phones: the price stays top right; the headline wraps beside it */
+    '@media (max-width:520px){.hh-head{padding-right:118px;font-size:24px}.hh-sub{padding-right:0}' +
+    '.hh-price b{font-size:14px}.hh-price small{font-size:10px}}' +
+    '@media (max-width:340px){.hh-head{padding-right:124px;font-size:20px}.hh-price b{font-size:12px}.hh-price small{font-size:9px}.hh-tab{padding:9px 10px;font-size:11px;letter-spacing:.12em}}';
+  document.head.appendChild(css);
+
+  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+
+  function box(found, cfg, cls, minOf, maxOf, removeLabel, addLabel) {
+    var sec = found.block.closest('.section');
+    if (!sec) return;
+    sec.classList.add('hh-box', cls);
+    var card = sec.querySelector('.card'), inner = sec.querySelector('.section__inner') || card;
+    if (card && !card.querySelector('.hh-content')) {
+      var tab = document.createElement('span');
+      tab.className = 'hh-tab'; tab.textContent = cfg.tab;
+      card.insertBefore(tab, card.firstChild);
+      var c = document.createElement('div');
+      c.className = 'hh-content';
+      c.innerHTML =
+        '<div class="hh-price"><b>' + esc(cfg.price[0]) + '</b>' + (cfg.price[1] ? '<small>' + esc(cfg.price[1]) + '</small>' : '') + '</div>' +
+        '<h3 class="hh-head">' + esc(cfg.head) + '<span>.</span></h3>' +
+        '<p class="hh-sub">' + esc(cfg.sub) + '</p>' +
+        (cfg.bullets ? '<p class="hh-label">' + esc(cfg.label) + '</p><ul class="hh-list">' +
+          cfg.bullets.map(function (b) { return '<li>' + esc(b) + '</li>'; }).join('') + '</ul>' : '');
+      inner.insertBefore(c, inner.firstChild);
+    }
+    var block = found.block, sel = found.sel;
+    if (block.querySelector('.hh-count')) return;
+    block.classList.add('hh-row');
+    var k = document.createElement('div');
+    k.className = 'hh-count';
+    k.innerHTML = '<button type="button" aria-label="' + removeLabel + '">' + String.fromCharCode(8722) + '</button><span aria-live="polite">0</span><button type="button" aria-label="' + addLabel + '">+</button>';
+    var lab = document.createElement('span');
+    lab.className = 'hh-count-label'; lab.innerHTML = esc(cfg.row) + '<small>' + esc(cfg.note) + '</small>';
+    block.appendChild(k); block.appendChild(lab);
+    var minus = k.children[0], num = k.children[1], plus = k.children[2];
+    function show() { var n = hhCount(sel); num.textContent = n; minus.disabled = n <= minOf(); plus.disabled = n >= maxOf(); }
+    minus.addEventListener('click', function () { hhSetCount(sel, Math.max(minOf(), hhCount(sel) - 1)); show(); });
+    plus.addEventListener('click', function () { hhSetCount(sel, Math.min(maxOf(), hhCount(sel) + 1)); show(); });
+    sel.addEventListener('change', show);
+    sel.hhShow = show;
+    show();
+  }
+
+  function scan() {
+    var team = hhSelect(/team seats/i), vip = hhSelect(/vip seats/i);
+    if (team) box(team, HH_TEAM, 'hh-team', function () { return 1; }, function () { return 10; }, 'Remove a team seat', 'Add a team seat');
+    if (vip && team) box(vip, HH_VIP, 'hh-vip', function () { return 0; }, function () { return Math.min(10, hhCount(team.sel)); }, 'Remove a VIP seat', 'Add a VIP seat');
+  }
+  hhAfterMount(function () {
+    var tries = 0;
+    (function wait() { scan(); if (!document.querySelector('.hh-vip .hh-count') && tries++ < 100) setTimeout(wait, 100); })();
+    new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+    // one VIP per team seat: when team seats go down, VIP seats follow
+    document.addEventListener('change', function (e) {
+      var team = hhSelect(/team seats/i), vip = hhSelect(/vip seats/i);
+      if (!team || !vip || e.target !== team.sel) return;
+      if (hhCount(vip.sel) > hhCount(team.sel)) hhSetCount(vip.sel, hhCount(team.sel));
+      if (vip.sel.hhShow) vip.sel.hhShow();
+    }, true);
+  });
+})();
+
+/* 2. Summary title "FOUNDING TEAM SEATS · PAY IN FULL · n SEAT(S)", following the team counter. */
+(function () {
+  function draw() {
+    var team = hhSelect(/team seats/i), n = team ? hhCount(team.sel) : 1;
+    var title = 'FOUNDING TEAM SEATS' + NB + DOT + ' ' + HH_PLAN + NB + DOT + ' ' + n + NB + (n === 1 ? 'SEAT' : 'SEATS');
+    document.querySelectorAll('.order-summary .card-body > h5').forEach(function (h) {
+      if (h.textContent.trim() !== title) h.textContent = title;
+    });
+  }
+  hhAfterMount(function () {
+    draw();
+    new MutationObserver(draw).observe(document.documentElement, { childList: true, subtree: true });
+    document.addEventListener('change', draw);
+  });
+})();
+
+/* 3. Order Details: what comes with the seats. Two lines under the items, styled like them: "REARDEN PRESS SPONSORSHIP
+      (5,000 dollar value) INCLUDED" and "HARDY HARVEST GIFT SET INCLUDED". Display only; Spiffy's math is untouched. */
+(function () {
+  var css = document.createElement('style');
+  css.textContent = '.hh-inc{font-size:.8em;letter-spacing:.08em}';
+  document.head.appendChild(css);
+  var WANT = [['REARDEN PRESS SPONSORSHIP (' + D + '5,000 value)', '<span class="hh-inc">INCLUDED</span>'],
+              ['HARDY HARVEST GIFT SET', '<span class="hh-inc">INCLUDED</span>']];
+  var KEY = JSON.stringify(WANT);
+  function draw() {
+    document.querySelectorAll('.order-summary__slide').forEach(function (list) {
+      var mine = list.querySelectorAll('.hh-line');
+      if (list.getAttribute('data-hh') === KEY && mine.length === WANT.length &&
+          list.lastElementChild === mine[mine.length - 1]) return;   // already right
+      mine.forEach(function (el) { el.remove(); });
+      var proto = list.querySelector('.line-item__group');
+      WANT.forEach(function (w) {
+        var el = document.createElement('div');
+        if (proto) for (var i = 0; i < proto.attributes.length; i++) {
+          if (/^data-v-/.test(proto.attributes[i].name)) el.setAttribute(proto.attributes[i].name, '');
+        }
+        el.className = 'list-group-item row no-gutters line-item__group hh-line';
+        el.innerHTML = '<div class="col"><p class="line-item__group_name">' + w[0] + '</p></div>' +
+          '<div class="text-right col-auto"><p class="line-item__group_price">' + w[1] + '</p></div>';
+        list.appendChild(el);
+      });
+      list.setAttribute('data-hh', KEY);
+    });
+  }
+  hhAfterMount(function () {
+    draw();
+    new MutationObserver(draw).observe(document.documentElement, { childList: true, subtree: true });
+  });
+})();
+
+/* 4. Terms: the "I agree to the terms and conditions" box starts ticked. It ticks Spiffy's own checkbox once, the way a
+      click would, so Spiffy records it; the buyer can untick it. Never touches Spiffy's hidden anti-spam box
+      (field__purchaseTerms), which must stay empty. */
+(function () {
+  hhAfterMount(function () {
+    var tries = 0;
+    (function tick() {
+      var done = false;
+      document.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+        if (/purchaseTerms/i.test(cb.name || '') || cb.closest('.d-none')) return;
+        var lab = cb.id ? document.querySelector('label[for="' + cb.id + '"]') : null;
+        if (!lab) lab = cb.parentElement && cb.parentElement.querySelector('label');
+        if (lab && /i agree to the/i.test(lab.textContent)) { if (!cb.checked) cb.click(); done = true; }
+      });
+      if (!done && tries++ < 50) setTimeout(tick, 100);
+    })();
+  });
+})();
+</script>
