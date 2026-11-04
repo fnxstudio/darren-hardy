@@ -126,9 +126,19 @@ function rankBy(list, count, reachedAt) {
 }
 
 // Season ranking: most impacts first; ties go to whoever reached their count first.
+// Exception (user, 2026-11-04): everyone with exactly 1 impact shares ONE tie rank (the first rank
+// of that group) and is listed alphabetically by name. Every other count keeps its own rank,
+// with ties still going to whoever got there first.
 export function rankChampions(champions) {
   const time = (c) => (c.lastCreditAt ? Date.parse(c.lastCreditAt) : Number.MAX_SAFE_INTEGER);
-  return rankBy(champions, (c) => c.impacts, time).map(({ c, rank }) => ({ ...c, rank }));
+  const ranked = rankBy(champions, (c) => c.impacts, time).map(({ c, rank }) => ({ ...c, rank }));
+  const start = ranked.findIndex((c) => c.impacts === 1);
+  if (start < 0) return ranked;
+  const ones = ranked.filter((c) => c.impacts === 1);
+  const tie = ranked[start].rank;
+  ones.sort((a, b) => String(a.name).localeCompare(String(b.name), 'en', { sensitivity: 'base' }));
+  ranked.splice(start, ones.length, ...ones.map((c) => ({ ...c, rank: tie })));
+  return ranked;
 }
 
 // ---- Eastern-time sprint windows ----
@@ -505,6 +515,15 @@ export async function selfTest() {
     { name: 'C', impacts: 5 },
   ]);
   assert(r.map((c) => c.name).join('') === 'CBA', 'rank and tie-break');
+  const t = rankChampions([
+    { name: 'Zed', impacts: 1, lastCreditAt: '2026-11-01T00:00:00Z' },
+    { name: 'amy', impacts: 1, lastCreditAt: '2026-11-03T00:00:00Z' },
+    { name: 'Max', impacts: 2, lastCreditAt: '2026-11-02T00:00:00Z' },
+    { name: 'Bo', impacts: 2, lastCreditAt: '2026-11-01T00:00:00Z' },
+    { name: 'Nil', impacts: 0 },
+    { name: 'Cy', impacts: 1, lastCreditAt: '2026-11-02T00:00:00Z' },
+  ]);
+  assert(t.map((c) => c.name + c.rank).join(' ') === 'Bo1 Max2 amy3 Cy3 Zed3 Nil6', 'ones share a tie rank, alphabetical; others keep their spot');
   const rows = boardPageRows(r.concat({ name: 'Z|ero', impacts: 0, rank: 4 }), levels);
   assert(rows.length === 1 && rows[0].startsWith('pages=1\nlevels=Copper:2,Silver:4,Gold:8,Platinum:16\n1|C|2|5\n2|B|1|3') && !rows[0].includes('ero'), 'board rows');
 
