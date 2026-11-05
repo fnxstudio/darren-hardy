@@ -1,8 +1,10 @@
-/* Board podium (2026-11-05, user asked): #3 gets a real gunmetal finish with light bands like the steel #2, and all three podium cards in the board get the light sweep. Hero cards untouched. */
+/* Board podium (2026-11-05, user asked): #3 gets a real gunmetal finish with light bands like the steel #2, and one light sweep crosses the board podium row. Hero cards untouched. */
 .champ-page #board .champ-pd.is-3 { background-image: linear-gradient(110deg, #5E646D 0%, #B3B8BF 22%, #7D838D 44%, #CDD1D6 62%, #5A6069 100%); }
 .champ-page #board .champ-pd { overflow: hidden; isolation: isolate; }
-.champ-page #board .champ-pd::after { content: ""; position: absolute; top: -20%; bottom: -20%; left: -60%; width: 45%; z-index: -1; background: linear-gradient(100deg, transparent, rgba(255,255,255,.28) 45%, rgba(255,255,255,.55) 50%, rgba(255,255,255,.28) 55%, transparent); animation: champ-pd-shine 6.5s ease-in-out infinite; pointer-events: none; }
-.champ-page #board .champ-pd.is-1::after { animation-delay: .4s; }
-.champ-page #board .champ-pd.is-3::after { animation-delay: .8s; }
-@keyframes champ-pd-shine { 0%, 55% { transform: translateX(0); } 100% { transform: translateX(400%); } }
+.champ-page #board .champ-pd::after { content: ""; position: absolute; top: -20%; bottom: -20%; left: -60%; width: 45%; z-index: -1; background: linear-gradient(100deg, transparent, rgba(255,255,255,.18) 45%, rgba(255,255,255,.38) 50%, rgba(255,255,255,.18) 55%, transparent); animation: champ-pd-shine 7s linear infinite; pointer-events: none; }
+/* One sweep across the row (user, 2026-11-05): left card (#2), then middle (#1), then right (#3), each crossing in .6s, one after another */
+.champ-page #board .champ-pd.is-2::after { animation-delay: 0s; }
+.champ-page #board .champ-pd.is-1::after { animation-delay: .6s; }
+.champ-page #board .champ-pd.is-3::after { animation-delay: 1.2s; }
+@keyframes champ-pd-shine { 0% { transform: translateX(0); } 8.6% { transform: translateX(400%); } 8.61%, 100% { transform: translateX(400%); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .champ-page #board .champ-pd::after { animation: none; display: none; } }

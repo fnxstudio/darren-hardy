@@ -1,0 +1,1760 @@
+<!DOCTYPE html><!-- This site was created in Webflow. https://webflow.com --><!-- Last Published: Wed Nov 04 2026 18:06:15 GMT+0000 (Coordinated Universal Time) --><html data-wf-domain="www.thecompoundeffect.com" data-wf-page="6ac8842d6c875914f17c68c4" data-wf-site="6aa109c0730dcec4155908e1" lang="en"><head><meta charset="utf-8"/><link href="https://cdn.prod.website-files.com" rel="preconnect" crossorigin="anonymous"/><title>The Champion Board · The Compound Effect In Business</title><meta content="Every leader you bring to the Founders Event compounds your impact. See where you stand and climb the board." name="description"/><meta content="The Champion Board · The Compound Effect In Business" property="og:title"/><meta content="Every leader you bring to the Founders Event compounds your impact. See where you stand and climb the board." property="og:description"/><meta content="The Champion Board · The Compound Effect In Business" name="twitter:title"/><meta content="Every leader you bring to the Founders Event compounds your impact. See where you stand and climb the board." name="twitter:description"/><meta property="og:type" content="website"/><meta content="summary_large_image" name="twitter:card"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="Webflow" name="generator"/><meta content="noindex" name="robots"/><link href="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/css/the-compound-effect-dh.webflow.shared.ea3b24ccc.css" rel="stylesheet" type="text/css" integrity="sha384-6jskzMaO5j9ErrnzeYnq0539McylxL8thwYM6usTsqLkFD3xUgaQCg/CUX1BJHMf" crossorigin="anonymous"/><script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script><link href="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aa10f7816eda4f4f4aa357d_fav32light.png" rel="icon" type="image/png" sizes="32x32" media="(prefers-color-scheme: light)"/><link href="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aa10f8b62bdff5fd8f3bf6a_fav32dark.png" rel="icon" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)"/><link href="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aa10f781e3d16252fbab08e_fav32light.png" rel="icon" type="image/png" sizes="48x48"/><link href="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aa10f822f8d2f41783af316_favwebclip256.png" rel="apple-touch-icon" sizes="180x180"/><link href="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aa10f8203e6032ffd16e794_favwebclip256.png" rel="icon" type="image/png" sizes="192x192"/><link href="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aa10f8262bdff5fd8f3be93_favwebclip256.png" rel="icon" type="image/png" sizes="512x512"/><link href="https://www.thecompoundeffect.com/champion" rel="canonical"/><!-- Case-insensitive URL rescue - runs before anything paints. -->
+<script>
+/* Webflow matches URLs case-sensitively, so /About serves the 404 page even
+   when /about exists. Webflow only allows lowercase slugs, so a path containing
+   a capital letter can never be a real page on this site. That makes it safe to
+   run here, before the body is drawn: hide the page, send the visitor to the
+   lowercase URL (query string and anchor kept), and the 404 is never shown. A
+   timer unhides after 2.5s if the navigation is blocked, so it can never leave
+   a blank page. Cannot loop: the lowercase URL has no capitals, so this exits
+   at once there, and a genuine 404 simply shows.
+
+   Why global rather than per page: it has to catch URLs that match no page at
+   all. On real pages it costs one string comparison and does nothing. It sets
+   no cookies and makes no requests. If a consent manager with auto-blocking is
+   added later, keep this ABOVE it or give this tag its ignore attribute
+   (Cookiebot: data-cookieconsent="ignore").
+
+   Explicit 301s in Site Settings are still the SEO-correct fix for any URL that
+   is printed or widely shared - crawlers and link previews do not run this. */
+(function (d, l) {
+  var p = l.pathname, lower = p.toLowerCase();
+  if (lower === p) return;
+  d.documentElement.style.visibility = 'hidden';
+  setTimeout(function () { d.documentElement.style.visibility = ''; }, 2500);
+  l.replace(lower + l.search + l.hash);
+})(document, location);
+</script>
+
+<!-- CHAMPION NAME, EARLY START (2026-11-02). Only on /champion-invite, only when the visit carries a Champion code
+     (?ref= / ?dhrp_opt_in_affiliate_id=, or the one saved from an earlier visit). It starts Fan Bridge's first-name
+     lookup (card.darrenhardy.com) before Cookiebot, which holds the page for 2-5s, so the name is usually back by the
+     time the headline is drawn. It only starts the request and leaves it in window.__ciName; the page's own name
+     script decides what to show. Every other page: one string comparison, nothing else. No cookies, no consent data.
+     Keep it ABOVE Cookiebot. -->
+<script data-cookieconsent="ignore">
+(function () {
+  if (!/^\/champion-invite\/?$/.test(location.pathname) || !window.fetch) return;
+  var q = new URLSearchParams(location.search), c = q.get('ref') || q.get('dhrp_opt_in_affiliate_id') || '';
+  if (!c) { try { c = localStorage.getItem('dh_champion_ref') || ''; } catch (e) {} }
+  c = String(c).trim().toUpperCase();
+  if (!/^[A-Z0-9]{7}$/.test(c)) return;
+  window.__ciName = { code: c, p: fetch('https://card.darrenhardy.com/api/public/champion-name?code=' + c, { credentials: 'omit' })
+    .then(function (r) { return r.ok ? r.json() : null; })['catch'](function () { return null; }) };
+})();
+</script>
+
+<!-- CONSENT DEFAULTS v4, ported from Profits 2026-09-29. Must run BEFORE Cookiebot and GTM.
+     1) RETURNING VISITOR: their saved Cookiebot choice (the CookieConsent
+        cookie) is read and applied as the DEFAULT, in every region, so a
+        "Do not sell" or Deny holds from the first millisecond of every later
+        page view.
+     2) No saved choice: everyone denied (EU/UK/BR need opt-in); US granted from
+        arrival (opt-out law; the US group 201e33fd shows "Do not sell or share").
+     A browser sending Global Privacy Control always gets ads denied (CA requires it).
+
+     WHY STEP 1 EXISTS - measured on this site 2026-09-29, before the port:
+     load -> click "Do Not Sell" -> RELOAD, and the LinkedIn Insight Tag fired
+     again on the fresh page view (insight.min.js, insight.beta.min.js,
+     collect?pid=266308, wa/?medium=fetch) with the saved cookie already reading
+     statistics:false. The reload's requests carried gcs=G111 (granted) as well
+     as G100. After the port the same test gives ZERO LinkedIn hits and G100 only.
+     NOTE: this was first reported as "LinkedIn Website Actions records the click
+     on the opt-out button itself, nothing fires after that". Half right - there
+     IS a click-time burst - but the hits above landed on the RELOAD, not the
+     click, so switching off Website Actions in Campaign Manager would have
+     masked one vendor while Meta, Google Ads and anything else keyed to
+     ad_storage kept re-firing for opted-out returning visitors.
+
+     Auto-blocking is OFF on the Cookiebot tag: GTM tags are gated by these
+     consent states instead (Meta/LinkedIn/ViewContent require ad_storage;
+     Google tags use Consent Mode). -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('set', 'ads_data_redaction', true);
+  (function () {
+    var gpc = navigator.globalPrivacyControl === true;
+    function g(on) { return on ? 'granted' : 'denied'; }
+    var saved = null, c = document.cookie.match(/(?:^|;\s*)CookieConsent=([^;]*)/);
+    if (c) {
+      var v = c[1]; try { v = decodeURIComponent(v); } catch (e) {}
+      if (v === '-1') saved = { s: false, m: false, p: false };
+      else if (/marketing:(true|false)/.test(v)) saved = {
+        s: /statistics:true/.test(v), m: /marketing:true/.test(v), p: /preferences:true/.test(v) };
+    }
+    if (saved) {
+      var ads = g(saved.m && !gpc);
+      gtag('consent', 'default', {
+        ad_storage: ads, ad_user_data: ads, ad_personalization: ads,
+        analytics_storage: g(saved.s), functionality_storage: g(saved.p),
+        personalization_storage: g(saved.p), security_storage: 'granted'
+      });
+      return;
+    }
+    gtag('consent', 'default', {
+      ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+      analytics_storage: 'denied', functionality_storage: 'denied',
+      personalization_storage: 'denied', security_storage: 'granted',
+      wait_for_update: 500
+    });
+    var usAds = g(!gpc);
+    gtag('consent', 'default', {
+      ad_storage: usAds, ad_user_data: usAds, ad_personalization: usAds,
+      analytics_storage: 'granted', functionality_storage: 'granted',
+      personalization_storage: 'granted', security_storage: 'granted',
+      region: ['US']
+    });
+  })();
+</script>
+
+<!-- Cookiebot. GEO v5d 2026-09-30. APPROVED by Darren/Darami 2026-09-30:
+     banner only where required (California + the Allow/Deny regions below);
+     every other US state and country gets the small icon only (see the
+     BANNER GATE block right after this tag - that is what hides the banner).
+     Must be IDENTICAL on darrenhardy.com, hardybmc.com, darrendaily.com,
+     profits.darrenhardy.com and thecompoundeffect.com - do not edit one site
+     on its own.
+
+     MAIN (data-cbid) = DH - Main / Opt-in (EU/UK/BR/CA), aa91d095: explicit
+       consent, [Allow] [Deny], for every country NOT in the region list below
+       = all of Europe, Cyprus, Brazil, Canada (whole country, Quebec Law 25),
+       plus Turkey, South Korea, China, South Africa, India and Japan (added
+       v5d 2026-09-30: consent-based privacy laws). Its Territory in the
+       dashboard must include every one of those, or they get no banner.
+     ROUTED = DH - Opt-out (US + ROW, banner CA only), 201e33fd: implied
+       consent, [OK] [Do Not Sell or Share], for the US plus every other country
+       (the codes below). Only California is SHOWN this banner (banner gate).
+     To move a country to the Allow/Deny banner: REMOVE its code from the list
+     below AND tick it in the Main group's Territory. Both, or it will not apply.
+     No data-blockingmode: consent is enforced by the defaults above and the
+     bridge below. data-consentmode="disabled": Cookiebot must not send its
+     own Consent Mode signals - the bridge below is the only source.
+     DOMAIN NOTE: every site using these two IDs must be listed in BOTH domain
+     groups in the Cookiebot dashboard, or Cookiebot refuses to load there. -->
+<script
+  id="Cookiebot"
+  src="https://consent.cookiebot.com/uc.js"
+  data-cbid="aa91d095-bfd3-4cf0-8095-20022a8d22c9"
+  data-georegions="{'region':'US,AE,AF,AG,AI,AM,AO,AQ,AR,AS,AU,AW,AZ,BB,BD,BF,BH,BI,BJ,BL,BM,BN,BO,BQ,BS,BT,BV,BW,BZ,CC,CD,CF,CG,CI,CK,CL,CM,CO,CR,CU,CV,CW,CX,DJ,DM,DO,DZ,EC,EG,EH,ER,ET,FJ,FK,FM,GA,GD,GE,GF,GH,GL,GM,GN,GP,GQ,GS,GT,GU,GW,GY,HK,HM,HN,HT,ID,IL,IO,IQ,IR,JM,JO,KE,KG,KH,KI,KM,KN,KP,KW,KY,KZ,LA,LB,LC,LK,LR,LS,LY,MA,MF,MG,MH,ML,MM,MN,MO,MP,MQ,MR,MS,MU,MV,MW,MX,MY,MZ,NA,NC,NE,NF,NG,NI,NP,NR,NU,NZ,OM,PA,PE,PF,PG,PH,PK,PM,PN,PR,PS,PW,PY,QA,RE,RW,SA,SB,SC,SD,SG,SH,SL,SN,SO,SR,SS,ST,SV,SX,SY,SZ,TC,TD,TF,TG,TH,TJ,TK,TL,TM,TN,TO,TT,TV,TW,TZ,UG,UM,UY,UZ,VC,VE,VG,VI,VN,VU,WF,WS,YE,YT,ZM,ZW','cbid':'201e33fd-f8f0-4e38-8220-0344c94a500c'}"
+  data-consentmode="disabled"
+  type="text/javascript"></script>
+
+<!-- BANNER GATE v5d 2026-09-30. APPROVED plan: banner only in California and
+     the Allow/Deny regions; everyone else gets the icon only.
+     Why this is code and not Cookiebot's Territory setting: Territory is NOT
+     applied to the routed opt-out group (measured 2026-09-30 - Dallas, TX still
+     got the full banner over an hour after BOTH groups' Territories were set to
+     California only). So the site decides who sees a banner:
+       SHOW - California (Cookiebot region US-06), and every Allow/Deny visitor
+              (dialog.consentLevel 'strict'): Europe, UK, Brazil, Canada,
+              Turkey, South Korea, China, South Africa, India, Japan.
+       HIDE - everyone else on the opt-out banner (the other US states and the
+              rest of the world). Tracking runs from arrival (the bridge grants
+              it; GPC still turns ads off). They opt out with the footer
+              "Do Not Sell or Share" link, or the cookie icon this block adds
+              bottom-left, which reopens the opt-out banner.
+     The banner is held invisible until this decides, so hidden visitors never
+     see it flash. FAIL-SAFE: if Cookiebot has told us nothing after 4s, the
+     banner is released and shows as normal.
+     To give another US state the banner, add its Cookiebot region code to
+     SHOW_REGIONS (e.g. 'US-48' is Texas). Nothing else needs changing. -->
+<style>
+html:not(.dh-cb-show) #CybotCookiebotDialog { visibility: hidden !important; }
+#dh-cb-icon { position: fixed; left: 10px; bottom: 10px; z-index: 2147483630; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: #141414; color: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.25); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+#dh-cb-icon svg { width: 26px; height: 26px; display: block; }
+#dh-cb-icon:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media print { #dh-cb-icon { display: none; } }
+</style>
+<script>
+(function () {
+  var SHOW_REGIONS = ['US-06'];
+  var html = document.documentElement, decided = false;
+  function show() { decided = true; html.classList.add('dh-cb-show'); }
+  function addIcon() {
+    if (document.getElementById('dh-cb-icon') || document.getElementById('CookiebotWidget')) return;
+    var b = document.createElement('button');
+    b.id = 'dh-cb-icon'; b.type = 'button';
+    b.setAttribute('aria-label', 'Cookie settings');
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('aria-hidden', 'true');
+    var path = document.createElementNS(NS, 'path');
+    path.setAttribute('fill', 'currentColor');
+    path.setAttribute('d', 'M15.094 13.978c-1.146 0-1.946-.813-1.946-1.978s.8-1.978 1.946-1.978c1.145 0 1.945.813 1.945 1.978s-.8 1.978-1.945 1.978M9.07 10.022h3.883l-.094.09c-.537.515-.844 1.203-.844 1.888 0 1.738 1.294 3 3.079 3 1.786 0 3.082-1.262 3.082-3s-1.296-3-3.082-3H9.079C7.295 9 6 10.262 6 12s1.295 3 3.079 3h2.144v-1.022H9.07c-1.136 0-1.932-.813-1.937-1.978 0-1.146.815-1.978 1.937-1.978');
+    svg.appendChild(path); b.appendChild(svg);
+    b.addEventListener('click', function () {
+      show();
+      if (window.Cookiebot && window.Cookiebot.renew) window.Cookiebot.renew();
+    });
+    document.body.appendChild(b);
+  }
+  function decide() {
+    if (decided) return;
+    var cb = window.Cookiebot;
+    if (!cb || !cb.dialog) return;
+    var lvl = cb.dialog.consentLevel;
+    var region = String(cb.userCountry || '').toUpperCase();
+    if (!lvl || lvl === 'strict' || SHOW_REGIONS.indexOf(region) !== -1) { show(); return; }
+    decided = true;
+    if (cb.hide) cb.hide();
+    /* wait for Cookiebot's own widget first, so there is never a second icon */
+    setTimeout(function () {
+      if (document.body) addIcon(); else document.addEventListener('DOMContentLoaded', addIcon);
+    }, 1500);
+  }
+  ['CookiebotOnDialogInit', 'CookiebotOnDialogDisplay', 'CookiebotOnLoad', 'CookiebotOnConsentReady']
+    .forEach(function (ev) { window.addEventListener(ev, decide, false); });
+  setTimeout(function () { if (!decided) show(); }, 4000);
+})();
+</script>
+
+
+<!-- CONSENT BRIDGE: Cookiebot -> Google Consent Mode, GTM and HubSpot.
+     Visitor has chosen: apply their choice exactly (ads always off with GPC).
+     No choice yet, opt-out banner: grant from arrival (ads off if GPC).
+     No choice yet, Allow/Deny banner: do NOTHING - the denied defaults
+     already cover it. This bridge never sends a "denied" update for someone who
+     has not chosen, because Cookiebot briefly reports GDPR for everyone before
+     it resolves the visitor's location (seen 2026-09-29: it switched a
+     California visitor off). It runs on Cookiebot's dialog events, which fire
+     only after the location is known, plus a 2.5s safety check.
+     HubSpot is loaded here (still hardcoded, not GTM) so it can wait for
+     consent in the EU; the element with id hs-script-loader below keeps the
+     GTM HubSpot tag from loading a second copy. v3, 2026-09-29.
+     GEO v5b: "opt-in" is read from the banner Cookiebot actually served
+     (dialog.consentLevel 'strict' = Allow/Deny). Unknown = treated as opt-in,
+     so a load failure can only under-track, never track without consent.
+     v5c (2026-09-30): GPC also wins over a saved or automatic "accept" -
+     icon-only visitors get Cookiebot's automatic implied consent, and without
+     this a GPC browser would still have been sent to Meta/LinkedIn. -->
+<script>
+  window.disableHubSpotCookieBanner = true; /* Cookiebot is the only CMP. Removing this brings back HubSpot's banner. Must stay before HubSpot loads. */
+  window._hsp = window._hsp || [];
+  (function () {
+    var hsLoaded = false, last = '';
+    function loadHubSpot() {
+      if (hsLoaded) return; hsLoaded = true;
+      var s = document.createElement('script');
+      s.id = 'hs-script-loader-dh'; s.async = true; s.defer = true;
+      s.src = 'https://js.hs-scripts.com/2518645.js';
+      document.head.appendChild(s);
+    }
+    function g(on) { return on ? 'granted' : 'denied'; }
+    function sync() {
+      var cb = window.Cookiebot;
+      if (!cb || !cb.consent || !cb.regulations) return;
+      var r = cb.regulations;
+      var lvl = cb.dialog && cb.dialog.consentLevel; /* GEO v5b: 'strict' = Allow/Deny banner shown */
+      var optIn = !lvl || lvl === 'strict' || r.gdprApplies === true || r.lgpdApplies === true;
+      var chose = cb.hasResponse === true;
+      var gpc = navigator.globalPrivacyControl === true;
+      var stats, mkt, prefs;
+      if (chose) { stats = cb.consent.statistics === true; mkt = cb.consent.marketing === true && !gpc; prefs = cb.consent.preferences === true; } /* v5c: GPC always wins */
+      else if (!optIn) { stats = true; mkt = !gpc; prefs = true; }
+      else return;
+      var state = [stats, mkt, prefs].join();
+      if (state === last) return;
+      last = state;
+      gtag('consent', 'update', {
+        ad_storage: g(mkt), ad_user_data: g(mkt), ad_personalization: g(mkt),
+        analytics_storage: g(stats),
+        functionality_storage: g(prefs), personalization_storage: g(prefs)
+      });
+      window._hsp.push(['setHubSpotConsent', { analytics: stats, advertisement: mkt, functionality: prefs }]);
+      if (mkt)   dataLayer.push({ event: 'cookie_consent_marketing' });
+      if (stats) { dataLayer.push({ event: 'cookie_consent_statistics' }); loadHubSpot(); }
+    }
+    ['CookiebotOnDialogInit', 'CookiebotOnDialogDisplay', 'CookiebotOnConsentReady',
+     'CookiebotOnLoad', 'CookiebotOnAccept', 'CookiebotOnDecline']
+      .forEach(function (ev) { window.addEventListener(ev, sync, false); });
+    setTimeout(sync, 2500);
+  })();
+</script>
+
+<!-- HubSpot placeholder, portal 2518645. The real script is loaded by the
+     consent bridge above. This element exists only so the GTM HubSpot tag
+     (which checks for id="hs-script-loader") never loads a second copy.
+     It also warms up the connection. Do not delete. -->
+<link rel="preconnect" href="https://js.hs-scripts.com" id="hs-script-loader">
+
+<!-- Google Tag Manager. Single DH container - do not create a new one. -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N9M56DXM');</script>
+<!-- End Google Tag Manager -->
+
+<!-- TCE BRAND FONTS, site-wide (2026-10-15). Adobe Fonts kit qhq4rzk on DH's own Adobe account:
+     Bebas Neue Pro (regular, SemiExpanded, Expanded), ITC Franklin Gothic, Kepler 3 Display.
+     Replaces the jacket designer's kit zze6zxt, which four pages used to load in their own heads.
+     A plain link, never the Site settings Adobe Fonts picker (that is a script loader and blocks render).
+     font-display: swap is set inside the kit. In this kit CSS weight 600 = Bold, 700 = ExtraBold. -->
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/qhq4rzk.css">
+
+<!-- COOKIEBOT DIALOG LAYOUT. Shared block, 2026-09-29. Keep it identical on
+     darrenhardy.com, hardybmc.com, profits.darrenhardy.com and
+     thecompoundeffect.com so a diff between the sites means something.
+     darrendaily.com does NOT have this block yet - it has the consent stack
+     but none of the banner layout.
+
+     *** DO NOT RECORD PIXEL HEIGHTS IN THIS COMMENT. ***
+     The bar's height is whichever of its desktop columns is tallest, and the
+     text column is set by the banner copy - which lives in the Cookiebot
+     dashboard, not here, and is edited by whoever owns the copy. Every height
+     ever written into this comment went stale within the day. Measure when you
+     need a number; do not write it down. The RATIOS below are what matter.
+
+     *** NOTHING ELSE MAY STYLE THIS DIALOG. ***
+     Profits carried a second Cookiebot block in its FOOTER code until
+     2026-09-29. Footer CSS loads last, so it beat this block at every width
+     where this block did not out-specify it, and its width:auto left the two
+     consent buttons unequal from 601px to 1279px - a CPRA symmetry problem, not
+     just a cosmetic one. If banner CSS is ever needed again, it goes HERE, on
+     every site that has this block, never in a footer or a page.
+
+     *** THE LOGO ROW IS OFF (2026-09-29). ***
+     Both marks - the DH monogram and Cookiebot's own - are hidden by the single
+     rule below. Neither is required by law: no privacy statute asks for a logo
+     on a consent notice. Two things to know before reversing it:
+       - The MONOGRAM is ours, uploaded in the Cookiebot dashboard. The tidier
+         way to drop it permanently is to delete it there, which also stops the
+         image being fetched; this CSS only hides it.
+       - The "by Cookiebot" mark is THEIR branding. Cookiebot document how to
+         remove it, but unbranding is a paid-tier entitlement - confirm the plan
+         covers it.
+     The old logo-stack rules (three overrides against Cookiebot's
+     space-between column, its flex:1 on PoweredbyLink, and PoweredbyCybot's own
+     margin-top:30px) are deleted rather than left inert. If the row ever comes
+     back, all three are needed again - a single margin or gap will not do it,
+     because gap ADDS to that 30px margin.
+
+     BELOW 1280px: anchor the dialog to the bottom. Cookiebot only bottom-anchors
+     the "bottom" template above 1280px - its own rule sits inside
+     @media (min-width:1280px), so phones, tablets and any laptop window under
+     1280 get a card floating over the middle of the page. Also: buttons side by
+     side under 600px, tighter type and padding, the rule between body text and
+     footer removed, OK on the RIGHT via row-reverse.
+
+     *** DESKTOP: BUTTONS SIDE BY SIDE IN A 620px COLUMN, VERTICALLY CENTRED. ***
+     The dialog above 1280px is one flex ROW:
+         [ TabContent: title + copy + Show details ]  [ Footer: buttons ]
+     TabContent is flex:1 1 0 and Footer was a fixed 330px, so the copy was
+     sitting in ~1040px for one sentence while the two stacked buttons made the
+     Footer the TALLEST column and set the bar height. Giving the Footer a fixed
+     620px takes that width off the copy (which had it spare) and lets the
+     buttons sit on ONE row, which is what actually shortens the bar.
+     align-self:center on the Footer then centres them: without it they ride
+     high, measured 14px above and 52px below. It does not change the bar height.
+
+     620 IS A NARROW WINDOW - measured 2026-09-29, do not nudge it blind:
+        600px -> the statutory opt-out label wraps to two lines
+        620px -> correct at 1280/1366/1440/1512/1600/1920/2560
+        640px+ -> at 1280 the COPY drops to a third line and the bar grows again
+     Re-measure this window whenever the banner copy or a button label changes;
+     both edges of it are set by text that lives in the Cookiebot dashboard.
+
+     THE FLEX DIRECTION LIVES ON THE WRAPPER, NOT ON BodyButtons. Setting
+     flex-direction on #CybotCookiebotDialogBodyButtons does nothing - the
+     buttons are children of #CybotCookiebotDialogBodyButtonsWrapper inside it.
+     row-reverse there puts OK on the RIGHT, matching mobile; source order is OK
+     first. Equal widths come from flex:1 1 0 on both buttons - CPRA requires the
+     opt-out path to be no harder than the consent path, and symmetry in choice
+     is named explicitly in the regulations. Keep them identical.
+
+     *** THE "SHOW DETAILS" GAP. ***
+     Cookiebot leaves a large gap between the paragraph and the link. It is not a
+     margin and not free flex slack: forcing the body to flex-start changed the
+     computed value and moved nothing, so a negative margin-top is the lever.
+     MEASURE THE GAP FROM THE TEXT, NOT THE BOXES. The paragraph's box carries
+     trailing line-box space, so its box gap reads about 10px smaller than what
+     the eye sees - chasing the box number is why this looked loose after it had
+     supposedly been fixed. Use Range.getClientRects() on both elements and
+     compare the LOWEST bottom of one to the HIGHEST top of the other; taking
+     the last rect instead of the lowest is itself a source of wrong readings.
+     DESKTOP is deliberately set to MATCH the title-to-paragraph gap, so the
+     block reads as evenly spaced: both are 8px, produced by margin-top:-23px.
+     If the type sizes change, re-measure the title-to-paragraph gap first and
+     then tune this margin to equal it - the target is the ratio, not -23.
+     MOBILE is deliberately tighter (~2px), asked for separately, and is at its
+     floor: one step further (padding 0, margin -14px) put the link 1px INTO the
+     last line of text. -->
+<style>
+/* LOGO ROW OFF - both marks. See the note above before reinstating. */
+#CybotCookiebotDialogHeader { display: none !important; }
+
+@media screen and (max-width: 1279px) {
+  #CybotCookiebotDialog[data-template="bottom"] {
+    top: 100% !important;
+    transform: translate(-50%, -100%) !important;
+    max-height: 70vh !important;
+  }
+  /* third value is the gap under the paragraph - at its floor, see the note */
+  #CybotCookiebotDialog .CybotCookiebotScrollArea { padding: 1em 1em 0.1em !important; }
+  #CybotCookiebotDialogBodyContentTitle { margin-bottom: 0.25em !important; }
+
+  /* the rule between body text and footer comes off */
+  #CybotCookiebotDialog .CybotCookiebotScrollContainer {
+    border-bottom: none !important;
+  }
+
+  /* The gap BELOW "Show details" is set by the FOOTER's scroll area, not by
+     this element's own margin, which is why both rules are needed.
+     padding-bottom is the breathing room UNDER the buttons - Cookiebot leaves
+     only 4px, which reads as the buttons sitting on the bottom edge. */
+  #CybotCookiebotDialogBodyEdgeMoreDetails { margin: -12px 30px 4px 0 !important; }
+  #CybotCookiebotDialogFooter .CybotCookiebotScrollArea {
+    padding-top: 0.75em !important;
+    padding-bottom: 0.75em !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #CybotCookiebotDialogBodyButtons {
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+  /* row-reverse puts OK on the right; source order is OK first */
+  #CybotCookiebotDialogFooter #CybotCookiebotDialogBodyButtonsWrapper {
+    flex-direction: row-reverse !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+  /* equal width - CPRA symmetry, see the note above before changing this */
+  #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton,
+  #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton:not(:first-of-type) {
+    flex: 1 1 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  #CybotCookiebotDialogBodyContentTitle {
+    font-size: 15px !important;
+    line-height: 1.3 !important;
+  }
+  #CybotCookiebotDialogBodyContentText,
+  #CybotCookiebotDialogBodyContentText p {
+    font-size: 12.5px !important;
+    line-height: 1.45 !important;
+  }
+  #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton {
+    font-size: 13px !important;
+    padding: 0.55em 0.45em !important;
+    line-height: 1.15 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
+
+/* "Show details" at every width - stays semibold on purpose */
+#CybotCookiebotDialogBodyEdgeMoreDetailsLink {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* BUTTON LABELS NOT BOLD, every width. Cookiebot ships them at 600.
+   Both selectors are listed because Cookiebot carries a higher-specificity
+   rule for the second button. See the note above. */
+#CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton,
+#CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton:not(:first-of-type) {
+  font-weight: 400 !important;
+}
+
+/* DESKTOP BAR. See the notes above before changing any of this. */
+@media screen and (min-width: 1280px) {
+  #CybotCookiebotDialog.CybotEdge { padding: 14px 24px !important; }
+
+  #CybotCookiebotDialogBodyContentTitle {
+    font-size: 15px !important;
+    margin-bottom: 4px !important;
+  }
+  #CybotCookiebotDialogBodyContentText,
+  #CybotCookiebotDialogBodyContentText p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+  #CybotCookiebotDialog .CybotCookiebotScrollContainer {
+    padding-bottom: 0 !important;
+  }
+  /* tuned to equal the title-to-paragraph gap (8px). See the note above. */
+  #CybotCookiebotDialogBodyEdgeMoreDetails {
+    margin-top: -23px !important;
+  }
+
+  /* BUTTONS SIDE BY SIDE IN A 620px COLUMN, VERTICALLY CENTRED - see the note
+     above. 620 is a measured window: 600 wraps the opt-out label, 640+ wraps the
+     copy at 1280. align-self:center stops them riding high in the bar. */
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter {
+    width: 620px !important;
+    flex: 0 0 620px !important;
+    align-self: center !important;
+  }
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter .CybotCookiebotScrollArea {
+    width: 100% !important;
+  }
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogBodyButtons {
+    max-width: none !important;
+    width: 100% !important;
+  }
+  /* the flex direction MUST go on the wrapper, not on BodyButtons */
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter #CybotCookiebotDialogBodyButtonsWrapper {
+    flex-direction: row-reverse !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton,
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogFooter .CybotCookiebotDialogBodyButton:not(:first-of-type) {
+    width: auto !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    height: 44px !important;
+    padding: 8px 14px !important;
+    line-height: 1.2 !important;
+    font-size: 13px !important;
+  }
+}
+</style>
+
+<!-- TCE MOTION. Keyframes and entrance timing for the tce- classes. In the head so the start state exists
+     before first paint. PERFORMANCE RULE: animate transform and opacity only. The hero's main image
+     (video poster, book stage) and its headline never fade: they slide in fully visible, so the first
+     screen paints at once. Copy below them may fade. Entrances use fill-mode backwards, so once they
+     finish the class's own transform (card hover) takes over. -->
+<style>
+@keyframes tce-rise{from{opacity:0;transform:translateY(38px)}}
+@keyframes tce-lift-in{from{transform:translateY(28px)}}
+@keyframes tce-drift{to{transform:translate(120px,80px)}}
+@keyframes tce-drift-alt{to{transform:translate(-90px,-60px)}}
+.tce-aura{animation:tce-drift 18s ease-in-out infinite alternate}
+.tce-aura.is-alt{animation-name:tce-drift-alt;animation-duration:22s}
+.tce-hero .tce-h1{animation:tce-lift-in .9s cubic-bezier(.2,.8,.2,1) .05s backwards}
+.tce-hero .tce-lede,.tce-hero .tce-note{animation:tce-rise .9s cubic-bezier(.2,.8,.2,1) .2s backwards}
+.tce-stage,.tce-hero .tce-video{animation:tce-lift-in .9s cubic-bezier(.2,.8,.2,1) .1s backwards}
+.tce-section .tce-h2,.tce-card{animation:tce-rise .9s cubic-bezier(.2,.8,.2,1) .56s backwards}
+@media (max-width:767px){.tce-aura{animation:none}}
+@media (prefers-reduced-motion:reduce){.tce-aura,.tce-h1,.tce-lede,.tce-note,.tce-stage,.tce-video,.tce-h2,.tce-card{animation:none!important}}
+</style>
+
+<!-- TCE VIDEO CONFIRMATION (the "Video Confirmation Hero" component; first used on /resources-invite and
+     /resource-delivery). In the head so hidden content is hidden before first paint.
+     1. TIMED REVEAL: any element with data-reveal="<seconds>" stays hidden until the visitor has watched that
+        far into the inline video (footer script adds .is-revealed). Once revealed, the element's own classes
+        decide its display, so desktop/phone variants still apply. Preview without watching: add ?reveal=1.
+     2. PLAY PULSE (Unbreakable Sole recipe, in TCE red) on .tce-play.is-red: the orb breathes 1 -> 1.06 while a
+        red ring pushes out ~30px and fades. Transform and opacity only, so phones run it on the compositor. -->
+<style>
+[data-reveal]:not(.is-revealed){display:none!important}
+[data-reveal].is-revealed{animation:tce-reveal-in .7s cubic-bezier(.2,.8,.2,1) both}
+.tce-cta[data-reveal].is-revealed{animation-delay:.15s}
+@keyframes tce-reveal-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.tce-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.tce-video.is-playing{cursor:default}
+.tce-play.is-red{animation:tce-play-breathe 1.8s ease-in-out infinite}
+.tce-play.is-red::before{content:"";position:absolute;inset:0;border-radius:50%;background:inherit;pointer-events:none}
+.tce-play.is-red::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;z-index:-1;background-color:rgba(225,19,46,.5);opacity:0;animation:tce-play-ring 1.8s cubic-bezier(.25,.6,.3,1) infinite}
+.tce-play.is-red svg{position:relative;margin-left:4px}
+@keyframes tce-play-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes tce-play-ring{0%{transform:scale(1);opacity:1}70%{transform:scale(1.714);opacity:0}100%{transform:scale(1.714);opacity:0}}
+@media (prefers-reduced-motion:reduce){[data-reveal].is-revealed,.tce-play.is-red,.tce-play.is-red::after{animation:none}}
+</style>
+
+<!-- TCE SHARED SECTIONS (one copy for every page that has them; the footer scripts drive them).
+     1. SHELF (Home, /resources, /free-audiobook): three real book renders on one floor. Pointing at a side
+        book rotates it to the front. The side books are dimmed instantly (filter is never animated).
+     2. READER WALL PANEL (.tce-sold.is-panel on /resources, /free-audiobook): zooms 1.6x -> 1x as it rises.
+        Home's taller pinned wall keeps its own page code.
+     3. PAGE REVEAL (/resources, /free-audiobook): each section below the hero plays once as it scrolls in.
+        No JS or reduced motion = everything shown. -->
+<style>
+.tce-shelf-books{--gap:clamp(96px,10.5vw,152px)}
+.tce-shelf-book{--x:0px;--s:1;transform:translateX(calc(-50% + var(--x))) scale(var(--s));transform-origin:50% 100%;transition:transform 800ms cubic-bezier(.2,.8,.2,1),z-index 0s linear 200ms}
+.tce-shelf-book.is-left{--x:calc(var(--gap) * -1);--s:.93;z-index:1;filter:brightness(.78)}
+.tce-shelf-book.is-right{--x:var(--gap);--s:.93;z-index:1;filter:brightness(.78)}
+.tce-shelf-book.is-front{z-index:3}
+.tce-shelf-books[data-front=left] .is-left,.tce-shelf-books[data-front=right] .is-right{--x:0px;--s:1;z-index:3;filter:none}
+.tce-shelf-books[data-front=left] .is-front{--x:calc(var(--gap) * -1);--s:.93;z-index:1;filter:brightness(.78)}
+.tce-shelf-books[data-front=right] .is-front{--x:var(--gap);--s:.93;z-index:1;filter:brightness(.78)}
+.tce-shelf-copy:hover .tce-button{transform:scale(1.04)}
+.tce-sold.is-panel .tce-sold-img{transform:scale(var(--z,1));transform-origin:50% 50%}
+.tce-sold.is-panel.is-armed .tce-h2{opacity:0;transform:translateY(26px)}
+.tce-sold.is-panel.is-in .tce-h2{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.2,.8,.2,1) .15s,transform .9s cubic-bezier(.2,.8,.2,1) .15s}
+.tce-section.is-spaced.is-armed .tce-stars-eyebrow span{display:inline-block;opacity:0;transform:translateY(12px) scale(.5)}
+.tce-section.is-spaced.is-armed .tce-h2,.tce-section.is-spaced.is-armed .tce-lede{opacity:0;transform:translateY(22px);animation:none}
+.tce-section.is-spaced.is-armed:not(.is-done) .tce-lead-card{opacity:0;transform:translateY(34px)}
+.tce-section.is-spaced.is-in .tce-stars-eyebrow span{animation:tce-star-pop .55s cubic-bezier(.2,.9,.3,1.35) forwards}
+.tce-section.is-spaced.is-in .tce-stars-eyebrow span:nth-child(2){animation-delay:.14s}
+.tce-section.is-spaced.is-in .tce-stars-eyebrow span:nth-child(3){animation-delay:.25s}
+.tce-section.is-spaced.is-in .tce-stars-eyebrow span:nth-child(4){animation-delay:.33s}
+.tce-section.is-spaced.is-in .tce-stars-eyebrow span:nth-child(5){animation-delay:.38s}
+.tce-section.is-spaced.is-in .tce-h2{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,.8,.2,1) .62s,transform .8s cubic-bezier(.2,.8,.2,1) .62s}
+.tce-section.is-spaced.is-in .tce-lede{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,.8,.2,1) .8s,transform .8s cubic-bezier(.2,.8,.2,1) .8s}
+.tce-section.is-spaced.is-in:not(.is-done) .tce-lead-card{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.2,.8,.2,1) 1s,transform .9s cubic-bezier(.2,.8,.2,1) 1s}
+.tce-section.is-spaced.is-in:not(.is-done) .tce-lead-card:nth-child(2){transition-delay:1.14s}
+.tce-section.is-spaced.is-in:not(.is-done) .tce-lead-card:nth-child(3){transition-delay:1.28s}
+@keyframes tce-star-pop{0%{opacity:0;transform:translateY(12px) scale(.5)}65%{opacity:1;transform:translateY(-3px) scale(1.15)}100%{opacity:1;transform:none}}
+.tce-shelf.is-armed .tce-shelf-books{opacity:0}
+.tce-shelf.is-armed .tce-shelf-title,.tce-shelf.is-armed .tce-shelf-lede{opacity:0;transform:translateY(22px)}
+.tce-shelf.is-armed:not(.is-done) .tce-shelf-copy .tce-button{opacity:0;transform:translateY(22px)}
+.tce-shelf.is-in .tce-shelf-books{opacity:1;transition:opacity 1s ease .1s}
+.tce-shelf.is-in .tce-shelf-title{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,.8,.2,1) .35s,transform .8s cubic-bezier(.2,.8,.2,1) .35s}
+.tce-shelf.is-in .tce-shelf-lede{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,.8,.2,1) .5s,transform .8s cubic-bezier(.2,.8,.2,1) .5s}
+.tce-shelf.is-in:not(.is-done) .tce-shelf-copy .tce-button{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,.8,.2,1) .65s,transform .8s cubic-bezier(.2,.8,.2,1) .65s}
+@media (prefers-reduced-motion:reduce){.tce-shelf-book{transition:none}.tce-sold.is-panel .tce-sold-img{transform:none!important}}
+</style>
+
+<!-- TCE GLASS on the order boxes (.tce-form.is-glass: /bundle, /resources, /free-audiobook). The footer script
+     adds the layers. Optimised 2026-10-06: no backdrop filters (they re-blurred every frame for no visible
+     gain on the dark page). The soft highlight drifts and the rim light turns, both on transform only, so
+     phones run them on the compositor. -->
+<style>
+.tce-form.is-glass>:not(.tce-glass){position:relative;z-index:6}
+.tce-glass{position:absolute;inset:0;pointer-events:none;border-radius:inherit}
+.tce-glass.is-frost{z-index:0;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,0) 55%)}
+.tce-glass.is-pool{z-index:2;inset:-60% -30%;border-radius:0;background:radial-gradient(34% 26% at 26% 18%,rgba(255,255,255,.2),transparent 68%),radial-gradient(28% 34% at 78% 76%,rgba(255,255,255,.1),transparent 70%);animation:tce-glass-drift 18s ease-in-out infinite alternate}
+@keyframes tce-glass-drift{from{transform:translate3d(-7%,-5%,0) scale(1)}to{transform:translate3d(9%,7%,0) scale(1.08)}}
+.tce-glass.is-fringe{z-index:3;--w:15px;background:linear-gradient(138deg,rgba(90,200,255,.22),rgba(90,200,255,0) 20%,transparent 70%,rgba(255,90,190,.18));-webkit-mask:linear-gradient(to right,#000,transparent var(--w)),linear-gradient(to left,#000,transparent var(--w)),linear-gradient(to bottom,#000,transparent var(--w)),linear-gradient(to top,#000,transparent var(--w));-webkit-mask-composite:source-over;mask:linear-gradient(to right,#000,transparent var(--w)),linear-gradient(to left,#000,transparent var(--w)),linear-gradient(to bottom,#000,transparent var(--w)),linear-gradient(to top,#000,transparent var(--w));mask-composite:add}
+.tce-glass.is-edge{z-index:4;box-shadow:inset 0 1px 0 rgba(255,255,255,.74),inset 0 -1px 0 rgba(255,255,255,.24),inset 0 0 0 1px rgba(255,255,255,.14),inset 0 26px 46px -30px rgba(255,255,255,.5),inset 0 -30px 50px -34px rgba(0,0,0,.6)}
+.tce-glass.is-spec{z-index:5;padding:1.5px;box-sizing:border-box;overflow:hidden;-webkit-mask:linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);mask:linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);-webkit-mask-composite:xor;mask-composite:exclude}
+.tce-glass.is-spec::before{content:"";position:absolute;inset:-50%;background:conic-gradient(transparent 0deg,rgba(255,255,255,.95) 20deg,rgba(255,255,255,0) 56deg,transparent 160deg,rgba(255,255,255,.55) 188deg,rgba(255,255,255,0) 226deg,transparent 360deg);animation:tce-glass-spin 12s linear infinite}
+@keyframes tce-glass-spin{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion:reduce){.tce-glass.is-pool,.tce-glass.is-spec::before{animation:none}}
+</style><meta name="robots" content="noindex, nofollow">
+<style>
+/* CHAMPION BOARD: tokens, scoped reset, states and script-built pieces Webflow cannot express natively */
+:root {--ink: #262626; --grey: #6e6e6e; --line: #e4e4e4; --field: #f0f0f0; --gold: #d4a017; --gold-ink: #8a6300; --red: #e1132e; --display: 'bebas-neue-pro-semiexpanded', 'Bebas Neue', 'Arial Narrow', sans-serif; --body: 'Inter', -apple-system, 'Segoe UI', sans-serif; --r: 2px; --ease: cubic-bezier(.2,.8,.2,1); --g-copper: linear-gradient(150deg, #f2b98a, #c27a3c 45%, #8a4b1d); --g-silver: linear-gradient(150deg, #ffffff, #d3d7dc 45%, #9aa1aa); --g-gold: linear-gradient(150deg, #fbe08a, #d4a017 50%, #a87f12); --g-plat: linear-gradient(150deg, #ffffff, #eef2f6 40%, #c3ccd6 75%, #eef2f6); --g-red: linear-gradient(160deg, #ff3b50, var(--red) 55%, #a90e22);}
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; overflow-x: hidden; }
+.champ-page { background: #fff; color: var(--ink); font: 400 17px/1.62 var(--body); -webkit-font-smoothing: antialiased; }
+.champ-page, :where(.champ-page) :is(div, span, section, header, footer, nav, h1, h2, h3, h4, h5, h6, p, blockquote, figure, figcaption, ul, ol, li, a, b, strong, em, i, small, code, img, svg, form, label, input, select, option, textarea, button, dialog, details, summary) { box-sizing: border-box; margin: 0; padding: 0; }
+:where(.champ-page) blockquote { border: 0; }
+:where(.champ-page) img { display: block; max-width: 100%; height: auto; }
+:where(.champ-page) a { color: inherit; text-decoration: none; }
+:where(.champ-page) [hidden] { display: none !important; }
+@keyframes champ-pulse { 50% { transform: scale(.5); opacity: .4; } }
+@keyframes champ-float { 50% { transform: translateY(-8px); } }
+@keyframes champ-drop { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+@keyframes champ-tick { 0% { transform: scale(1.08); } 30%, 100% { transform: scale(1); } }
+@keyframes champ-wave { 0%, 100% { transform: scaleY(var(--a)); } 50% { transform: scaleY(var(--b)); } }
+.champ-lab.is-black { color: #000; }
+.champ-lab.is-gap20 { margin-top: 20px; }
+.champ-lab.is-gap22 { margin-top: 22px; }
+.champ-btn.is-done { background: #000; color: #fff; border-color: #000; }
+.champ-nav { -webkit-backdrop-filter: blur(12px); }
+@media (max-width: 1100px) { .champ-st-card { grid-template-columns: 1fr 1fr; gap: 20px; } }
+@media (max-width: 1100px) { .champ-st-hero, .champ-st-next { grid-column: 1 / -1; } }
+@media (max-width: 1100px) { .champ-st-rank { font-size: 88px; } }
+@media (max-width: 1100px) { .champ-st-imp { padding-left: 0; border-left: 0; } }
+@media (max-width: 1100px) { .champ-btn.is-stand { grid-column: 1 / -1; justify-self: start; } }
+.champ-chip.is-copper { background: var(--g-copper); }
+.champ-chip.is-silver { background: var(--g-silver); box-shadow: inset 0 0 0 1px #b9bfc6; }
+@media (max-width: 1100px) { .champ-hint-desktop { display: none; } }
+@media (max-width: 1100px) { .champ-hint-touch { display: inline; } }
+.champ-opt.is-on { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+.champ-hub-h { margin-top: 6px; font: 600 34px/1 var(--display); text-transform: uppercase; color: #000; }
+.champ-share { flex: 1; display: flex; flex-direction: column; }
+.champ-copyrow { display: flex; gap: 10px; margin-top: 10px; }
+.champ-copy-input { flex: 1; min-width: 0; padding: 16px 14px; background: #fff; border: 1.5px solid #d6d6d6; border-radius: var(--r); font: 600 15px var(--body); color: #000; }
+.champ-btn.is-copy { padding: 16px 20px; white-space: nowrap; }
+.champ-msg { flex: 1; width: 100%; min-height: 240px; margin-top: 10px; padding: 14px; background: #fff; border: 1.5px solid #d6d6d6; border-radius: var(--r); font: 400 15px/1.55 var(--body); color: #000; resize: none; }
+.champ-hub-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }
+.champ-btn.is-small { padding: 14px 18px; font-size: 12px; }
+.champ-hub-preview { margin-left: auto; font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--gold-ink); }
+.champ-hub-id { margin-top: 14px; font-size: 12.5px; color: var(--grey); }
+.champ-hub-code { font: 600 12.5px ui-monospace, Menlo, monospace; color: #000; }
+.champ-sign-p { max-width: 34em; margin-top: 10px; font-size: 15px; line-height: 1.55; color: #444; }
+.champ-sign-row { display: flex; gap: 10px; margin-top: 18px; }
+.champ-sign-input { flex: 1; min-width: 0; padding: 15px 16px; background: #fff; border: 1px solid #cfcfcf; border-radius: 10px; font: 500 16px var(--body); }
+.champ-btn.is-signin { white-space: nowrap; }
+.champ-sign-err { margin-top: 10px; font-size: 13.5px; font-weight: 700; color: var(--red); }
+.champ-sign-fine { margin-top: 14px; font-size: 13px; color: var(--grey); }
+.champ-en-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.champ-en-label { display: flex; flex-direction: column; gap: 6px; font: 700 11.5px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--grey); }
+.champ-en-field { padding: 13px 12px; background: #fff; border: 1.5px solid #d6d6d6; border-radius: var(--r); font: 500 15px var(--body); letter-spacing: 0; text-transform: none; color: #000; }
+.champ-en-field:focus { outline: none; border-color: var(--gold); }
+.champ-en-pay { display: grid; gap: 10px; margin-top: 10px; }
+.champ-pay { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; background: #fff; border: 1.5px solid #d6d6d6; border-radius: 10px; cursor: pointer; }
+.champ-pay.is-on { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.champ-pay-radio { margin-top: 3px; accent-color: #000; }
+.champ-pay-title { display: block; font-size: 15px; color: #000; }
+.champ-pay-sub { display: block; margin-top: 3px; font-size: 13px; color: var(--grey); }
+.champ-pay-strong { color: #000; }
+.champ-en-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 18px; }
+.champ-btn.is-enroll { padding: 16px 22px; }
+.champ-en-note { font-size: 13px; color: var(--grey); }
+.champ-en-err { margin-top: 10px; font-size: 13.5px; font-weight: 600; color: var(--red); }
+.champ-en-done { margin-top: 14px; padding: 14px 16px; background: #000; border-left: 4px solid var(--gold); font-size: 15px; color: #fff; }
+.champ-en-done-b { color: var(--gold); }
+@media (max-width: 900px) { .champ-copyrow { flex-direction: column; } }
+@media (max-width: 900px) { .champ-msg { min-height: 260px; } }
+@media (max-width: 900px) { .champ-hub-preview { margin-left: 0; } }
+@media (max-width: 600px) { .champ-en-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .champ-sign-row { flex-direction: column; } }
+@media (max-width: 560px) { .champ-btn.is-signin { justify-content: center; } }
+.champ-dot.is-9 { width: 9px; height: 9px; }
+.champ-btn:hover .champ-arw { transform: translateX(6px); }
+.champ-btn.is-solid::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.45) 50%, transparent 65%); transform: translateX(-120%); transition: transform .6s var(--ease); }
+.champ-btn.is-solid:hover::after { transform: translateX(120%); }
+.champ-pf-link:hover .champ-pf-arw { transform: translateX(5px); }
+a.champ-stop:hover .champ-stop-card.is-now { transform: translateY(-3px); }
+.champ-prize-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.6) 26%, rgba(0,0,0,0) 60%), linear-gradient(0deg, #000 0%, rgba(0,0,0,0) 40%); }
+.champ-track::before { content: ""; position: absolute; left: 7%; right: 7%; top: 11px; height: 3px; background: linear-gradient(90deg, #000 0 4%, #cfcfcf 4%); }
+.champ-faq-q::-webkit-details-marker { display: none; }
+.champ-faq-q::after { content: "+"; flex: none; display: grid; place-items: center; width: 30px; height: 30px; border: 1.5px solid var(--gold); border-radius: 50%; color: var(--gold-ink); font-size: 18px; font-weight: 500; transition: transform .25s var(--ease); }
+.champ-faq-item[open] .champ-faq-q::after { transform: rotate(45deg); }
+.champ-bigq::before { content: ""; position: absolute; inset: auto 50% -55% auto; width: 120%; aspect-ratio: 2; transform: translateX(50%); background: radial-gradient(closest-side, rgba(212,160,23,.18), transparent); }
+@media (max-width: 960px) { .champ-prize-photo::after { background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0) 50%); } }
+@media (max-width: 860px) { .champ-track::before { left: 12px; right: auto; top: 0; bottom: 0; width: 3px; height: auto; background: #cfcfcf; } }
+.champ-deck:hover .champ-pcard.is-1 { transform: rotate(1deg) translateY(-12px); }
+.champ-deck:hover .champ-pcard.is-2 { transform: rotate(-12deg) translateX(-14px); }
+.champ-deck:hover .champ-pcard.is-3 { transform: translateX(46px) rotate(15deg); }
+.champ-pd-num { -webkit-background-clip: text; background-clip: text; }
+.champ-pd-num.is-2 { -webkit-background-clip: text; background-clip: text; }
+.champ-pd-num.is-3 { -webkit-background-clip: text; background-clip: text; }
+.champ-full.is-open { animation: champ-drop .45s var(--ease); }
+.champ-full-row { display: grid; grid-template-columns: 64px 1fr 150px 90px; gap: 12px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line); font-size: 15px; }
+.champ-full-row:nth-child(even) { background: #fafafa; }
+.champ-full-rank { font: 600 26px/1 var(--display); color: #000; }
+.champ-full-rank.is-top { color: var(--gold-ink); }
+.champ-full-name { font-weight: 700; color: #000; }
+.champ-full-coin { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--grey); }
+.champ-full-imp { font: 600 28px/1 var(--display); color: #000; text-align: right; }
+.champ-full-line { display: block; padding: 10px 20px; background: #000; border-bottom: 1px solid var(--line); font: 800 11px var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); text-align: center; }
+@media (max-width: 600px) { .champ-full-row { grid-template-columns: 44px 1fr 56px; padding: 10px 14px; } }
+@media (max-width: 600px) { .champ-full-coin { display: none; } }
+.champ-wcard:first-child { margin-left: 0; }
+.champ-rail:hover .champ-wcard:hover ~ .champ-wcard { transform: translateX(94px); }
+.champ-wcard-n { -webkit-text-stroke: 1.5px rgba(0,0,0,.35); }
+.champ-face:first-child { margin-left: 0; }
+@media (min-width: 1101px) { .champ-rgroup.is-prize { flex: 1 1 auto; min-width: 250px; } }
+@media (max-width: 1100px) { .champ-rail { flex-direction: column; } }
+@media (max-width: 1100px) { .champ-steps-fit { width: 100%; overflow: hidden; } }
+@media (max-width: 1100px) { .champ-rail-steps { width: 768px; padding: 26px 0 8px 4px; transform-origin: top left; } }
+@media (max-width: 1100px) { .champ-rail-arrow { align-self: flex-start; margin: 10px 0; transform: rotate(90deg); } }
+@media (max-width: 1100px) { .champ-rail-prize { flex-direction: row; } }
+@media (max-width: 1100px) { .champ-reward { flex: 1; } }
+@media (max-width: 1100px) { .champ-wcard:hover { transform: none; } }
+@media (max-width: 1100px) { .champ-rail:hover .champ-wcard:hover ~ .champ-wcard { transform: none; } }
+@media (max-width: 1100px) { .champ-wcard.is-lift { z-index: 5; transform: translateY(-20px) rotate(-2deg); box-shadow: -20px 30px 60px rgba(0,0,0,.25); } }
+.champ-wf-pic.is-gold { background: var(--g-gold); }
+.champ-wf-pic.is-silver { background: var(--g-silver); }
+.champ-wf-pic.is-copper { background: var(--g-copper); }
+.champ-wave-bar { flex: 1; min-width: 2px; height: 100%; background: var(--gold); border-radius: 2px; transform-origin: center; animation: champ-wave 1.1s ease-in-out infinite; }
+.champ-wave-bar.is-played { background: #fff; }
+.champ-close { position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(255,255,255,.9); font-size: 22px; line-height: 1; color: #000; cursor: pointer; }
+.champ-close.is-hp { z-index: 3; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.2); }
+.champ-hpop { width: min(1480px, calc(100vw - 56px)); height: calc(100vh - 56px); max-height: calc(100vh - 56px); margin: auto; padding: 0; overflow: hidden; background: #fff; border: 0; border-radius: var(--r); box-shadow: 0 50px 120px rgba(0,0,0,.45); opacity: 0; transform: translateY(40px) scale(.94); transition: transform .55s var(--ease), opacity .35s ease; }
+.champ-hpop.is-open { opacity: 1; transform: none; }
+.champ-hpop::backdrop { background: rgba(0,0,0,.55); }
+.champ-hp-grid { display: grid; grid-template-columns: 40% 1fr; height: 100%; min-height: 0; }
+.champ-hp-side { position: relative; display: flex; flex-direction: column; justify-content: flex-start; padding: clamp(24px, 3.4vh, 40px) clamp(24px, 2.6vw, 40px) 0; overflow: hidden; background: #141414; color: #fff; }
+.champ-hp-hero { position: relative; order: 3; display: block; flex: 1 1 0; width: calc(100% + 2 * clamp(24px, 2.6vw, 40px)); max-width: none; height: auto; min-height: 0; margin: 2vh calc(-1 * clamp(24px, 2.6vw, 40px)) 0; object-fit: contain; object-position: 50% 100%; }
+.champ-hp-flash { position: relative; order: 1; align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--gold); border-radius: var(--r); font: 600 26px/1 var(--display); letter-spacing: .03em; text-transform: uppercase; color: #000; }
+.champ-hp-flash-icon { font-size: 22px; }
+.champ-hp-plus { position: relative; z-index: 2; order: 2; display: flex; flex-direction: row; align-items: center; gap: 16px; margin-top: 2.4vh; }
+.champ-hp-plus-n { font: 600 clamp(72px, 11vh, 120px)/.8 var(--display); letter-spacing: -.02em; color: var(--gold); }
+.champ-hp-plus-w { font: 600 clamp(24px, 3.6vh, 36px)/1.05 var(--display); text-transform: uppercase; color: #fff; }
+.champ-hp-plus-line { display: block; white-space: nowrap; }
+.champ-hp-plus-em { font-style: normal; color: var(--gold); }
+.champ-hp-sidecd { position: relative; z-index: 2; display: none; align-items: center; gap: 8px; padding: 0 0 16px 18px; font: 800 10.5px var(--body); letter-spacing: .12em; text-transform: uppercase; color: #fff; white-space: nowrap; }
+.champ-hp-sidecd-time { font: 600 26px/1 var(--display); letter-spacing: .02em; color: var(--gold); }
+.champ-hp-sidecd-b { font-weight: 600; }
+.champ-hp-body { display: flex; flex-direction: column; justify-content: center; padding: clamp(24px, 3.4vh, 52px) clamp(28px, 3.4vw, 56px); overflow: hidden; }
+.champ-hp-urgent { display: inline-flex; align-items: center; gap: 10px; font: 800 12px var(--body); letter-spacing: .12em; text-transform: uppercase; color: #000; }
+.champ-display.is-hp { margin-top: 1vh; font-size: clamp(44px, 8vh, 96px); }
+.champ-hp-lede { margin-top: .8vh; font-size: clamp(14.5px, 1.9vh, 17px); color: var(--grey); }
+.champ-hp-lede-b { color: #000; }
+.champ-hp-cdwrap { margin-top: 2vh; padding: 0; border-radius: 12px; text-align: left; color: #000; }
+.champ-hp-cdk { display: inline-flex; align-items: center; gap: 8px; font: 800 11.5px var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+.champ-hp-cdk::before { content: ""; width: 7px; height: 7px; background: var(--red); border-radius: 50%; animation: champ-pulse 1s ease-in-out infinite; }
+.champ-hp-cd { display: flex; align-items: flex-start; gap: 10px; margin-top: 10px; }
+.champ-hp-cd-unit { flex: 1; display: flex; flex-direction: column; align-items: center; max-width: 150px; }
+.champ-hp-cd-num { display: block; width: 100%; padding: 12px 0 10px; background: #111; border-radius: 10px; box-shadow: inset 0 -1px 0 rgba(255,255,255,.06), 0 10px 22px rgba(0,0,0,.12); font: 600 clamp(36px, 6vh, 58px)/1 var(--display); color: #fff; font-variant-numeric: tabular-nums; text-align: center; }
+.champ-hp-cd-num.is-sec { animation: champ-tick 1s ease-in-out infinite; }
+.champ-hp-cd-lab { margin-top: 8px; font: 700 10.5px var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); }
+.champ-hp-cd-colon { align-self: center; margin-top: -22px; font: 600 40px/1 var(--display); font-style: normal; color: var(--red); }
+.champ-hp-cdk2 { margin-top: 10px; font-size: 13.5px; font-weight: 700; color: var(--red); }
+.champ-hp-kit { display: grid; grid-template-columns: minmax(max-content, 1fr) 1fr 1fr; gap: 16px; margin-top: 1.8vh; list-style: none; }
+.champ-hp-kit-item { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.champ-hp-kit-img { width: 100%; height: clamp(84px, 17vh, 190px); aspect-ratio: auto; object-fit: cover; }
+.champ-hp-kit-img.is-apron { width: 0; min-width: 100%; object-position: 50% 45%; }
+.champ-hp-kit-cap { padding: 8px 12px 10px; }
+.champ-hp-kit-lab { display: block; font: 700 10px/1.3 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--gold-ink); white-space: nowrap; }
+.champ-hp-kit-name { display: block; margin-top: 3px; font: 600 clamp(17px, 2.4vh, 24px)/1 var(--display); text-transform: uppercase; color: #000; }
+.champ-hp-kit-name.is-apron { white-space: nowrap; }
+.champ-hp-fine { margin-top: 1.2vh; font-size: 13px; color: var(--grey); }
+.champ-ctas.is-hp { align-items: center; margin-top: 1.8vh; }
+.champ-hp-later { background: none; border: 0; font: 600 13px var(--body); color: var(--grey); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+@media (max-width: 820px) { .champ-hpop { position: fixed; inset: 0; width: auto; height: auto; max-width: none; max-height: none; margin: 0; border-radius: 0; } }
+@media (max-width: 820px) { .champ-hp-grid { display: flex; flex-direction: column; grid-template-columns: 1fr; height: 100%; } }
+@media (max-width: 820px) { .champ-hp-side { flex: 1 0 34dvh; height: auto; padding: 0; justify-content: flex-end; } }
+@media (max-width: 820px) { .champ-hp-side::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #141414 0%, rgba(20,20,20,.85) 38%, rgba(20,20,20,0) 62%); } }
+@media (max-width: 820px) { .champ-hp-hero { position: absolute; inset: 0; order: 0; flex: 0 1 auto; width: 100%; max-width: 100%; height: 100%; min-height: auto; margin: 0; object-fit: contain; object-position: 100% 100%; } }
+@media (max-width: 820px) { .champ-hp-flash { position: absolute; top: 14px; left: 14px; z-index: 2; order: 0; padding: 7px 10px; font-size: 15px; } }
+@media (max-width: 820px) { .champ-hp-flash-icon { font-size: 14px; } }
+@media (max-width: 820px) { .champ-hp-plus { order: 0; flex-direction: column; align-items: flex-start; gap: 4px; max-width: 52%; margin: 0; padding: 0 0 8px 18px; } }
+@media (max-width: 820px) { .champ-hp-plus-n { font-size: 64px; } }
+@media (max-width: 820px) { .champ-hp-plus-w { font-size: 19px; line-height: 1.1; } }
+@media (max-width: 820px) { .champ-hp-sidecd { display: flex; } }
+@media (max-width: 820px) { .champ-hp-body { flex: 0 1 auto; justify-content: flex-start; min-height: 0; padding: 14px 18px 0; overflow-x: hidden; overflow-y: auto; } }
+@media (max-width: 820px) { .champ-hp-urgent { order: 1; font-size: 10.5px; letter-spacing: .08em; } }
+@media (max-width: 820px) { .champ-dot.is-urgent { display: none; } }
+@media (max-width: 820px) { .champ-display.is-hp { order: 2; margin-top: 6px; font-size: clamp(36px, 10.5vw, 46px); } }
+@media (max-width: 820px) { .champ-hp-lede { order: 3; margin-top: 6px; font-size: 14px; line-height: 1.45; } }
+@media (max-width: 820px) { .champ-hp-cdwrap { order: 4; display: none; margin-top: 10px; } }
+@media (max-width: 820px) { .champ-hp-cd { gap: 6px; } }
+@media (max-width: 820px) { .champ-hp-cd-num { padding: 8px 0 6px; border-radius: 8px; font-size: 32px; } }
+@media (max-width: 820px) { .champ-hp-cd-lab { margin-top: 4px; font-size: 9px; } }
+@media (max-width: 820px) { .champ-hp-cd-colon { margin-top: -18px; font-size: 26px; } }
+@media (max-width: 820px) { .champ-hp-cdk2 { display: none; } }
+@media (max-width: 820px) { .champ-hp-kit { order: 6; margin-top: 14px; } }
+@media (max-width: 820px) { .champ-hp-kit-item { border-radius: 8px; } }
+@media (max-width: 820px) { .champ-hp-kit-img { height: 56px; } }
+@media (max-width: 820px) { .champ-hp-kit-cap { padding: 6px 7px 7px; } }
+@media (max-width: 820px) { .champ-hp-kit-lab { font-size: 8.5px; } }
+@media (max-width: 820px) { .champ-hp-kit-name { font-size: 13px; line-height: 1.05; } }
+@media (max-width: 820px) { .champ-hp-fine { order: 7; margin-top: 10px; font-size: 12.5px; line-height: 1.45; } }
+@media (max-width: 820px) { .champ-ctas.is-hp { position: sticky; bottom: 0; z-index: 3; order: 8; display: grid; grid-template-columns: 1fr auto; gap: 12px; margin: 14px -18px 0; padding: 12px 18px calc(12px + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--line); } }
+@media (max-width: 820px) { .champ-btn.is-hp { justify-content: center; padding: 17px 14px; font-size: 12.5px; } }
+@media (max-width: 820px) { .champ-close.is-hp { top: 12px; right: 12px; } }
+@media (max-width: 820px) and (max-height: 760px) { .champ-display.is-hp { font-size: 34px; } }
+@media (max-width: 820px) and (max-height: 760px) { .champ-hp-lede { display: none; } }
+@media (max-width: 820px) and (max-height: 760px) { .champ-hp-kit-img { height: 46px; } }
+@media (max-width: 820px) and (max-height: 760px) { .champ-hp-fine { display: none; } }
+.champ-lv { width: min(760px, calc(100vw - 32px)); max-height: calc(100vh - 48px); margin: auto; padding: 0; overflow: auto; background: #fff; border: 0; border-radius: var(--r); box-shadow: 0 40px 100px rgba(0,0,0,.35); color: var(--ink); opacity: 0; transform: var(--from, translateY(40px)) scale(.4) rotate(-4deg); transition: transform .5s var(--ease), opacity .3s ease; }
+.champ-lv.is-open { opacity: 1; transform: none; }
+.champ-lv::backdrop { background: rgba(0,0,0,.45); }
+.champ-lv-top { position: relative; padding: 34px 36px 30px; }
+.champ-lv-top.is-lead { background: var(--field); }
+.champ-lv-top.is-copper { background: var(--g-copper); }
+.champ-lv-top.is-silver { background: var(--g-silver); }
+.champ-lv-top.is-gold { background: var(--g-gold); }
+.champ-lv-top.is-plat { background: var(--g-plat); }
+.champ-lv-top.is-studio { background: #000; }
+.champ-lv-top.is-table { background: var(--g-red); }
+.champ-lv-title { padding-right: 48px; font: 600 clamp(44px, 6vw, 64px)/.92 var(--display); text-transform: uppercase; color: #000; }
+.champ-lv-req { margin-top: 8px; font: 800 12.5px var(--body); letter-spacing: .1em; text-transform: uppercase; color: rgba(0,0,0,.65); }
+.champ-lv-desc { max-width: 34em; margin-top: 14px; font-size: 16px; color: rgba(0,0,0,.78); }
+.champ-lv-top.is-studio .champ-lv-title { color: var(--gold); }
+.champ-lv-top.is-studio .champ-lv-req, .champ-lv-top.is-studio .champ-lv-desc { color: rgba(255,255,255,.8); }
+.champ-lv-top.is-table .champ-lv-title { color: #fff; }
+.champ-lv-top.is-table .champ-lv-req, .champ-lv-top.is-table .champ-lv-desc { color: rgba(255,255,255,.9); }
+.champ-lv-body { padding: 30px 36px 36px; }
+.champ-lv-h4 { font: 800 12px var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--gold-ink); }
+.champ-lv-tips { margin-top: 14px; list-style: none; counter-reset: t; }
+.champ-lv-tip { position: relative; padding: 12px 0 12px 44px; border-bottom: 1px solid var(--line); font-size: 15.5px; counter-increment: t; }
+.champ-lv-tip::before { content: counter(t); position: absolute; left: 0; top: 10px; display: grid; place-items: center; width: 28px; height: 28px; background: #000; border-radius: 50%; font: 600 16px/1 var(--display); color: var(--gold); }
+.champ-lv-tip b { color: #000; }
+.champ-lv-who { margin-top: 30px; }
+.champ-lv-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 14px; }
+.champ-lv-person { text-align: center; }
+.champ-lv-face { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
+.champ-lv-face.is-q { display: grid; place-items: center; background: var(--field); font: 600 34px/1 var(--display); color: #b5b5b5; }
+.champ-lv-name { display: block; margin-top: 6px; font: 600 14px/1.05 var(--display); text-transform: uppercase; color: #000; }
+.champ-lv-more { margin-top: 12px; font-size: 13.5px; color: var(--grey); }
+.champ-lv-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+@media (max-width: 600px) { .champ-lv-top, .champ-lv-body { padding-left: 22px; padding-right: 22px; } }
+@media (max-width: 600px) { .champ-lv-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .champ-ping, .champ-dot, .champ-hp-cd-num.is-sec { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .champ-wave-bar { animation: none; transform: scaleY(var(--a)); } }
+/* ---- Webflow CMS additions (data-driven pieces the Designer can't style) ---- */
+.champ-chip[data-coin="Copper"] { background: var(--g-copper); }
+.champ-chip[data-coin="Silver"] { background: var(--g-silver); box-shadow: inset 0 0 0 1px #b9bfc6; }
+.champ-chip[data-coin="Gold"] { background: var(--g-gold); box-shadow: none; }
+.champ-chip[data-coin="Platinum"] { background: var(--g-plat); box-shadow: inset 0 0 0 1px #b9c3ce; }
+.champ-wf-pic[data-coin="Gold"] { background: var(--g-gold); }
+.champ-wf-pic[data-coin="Silver"] { background: var(--g-silver); }
+.champ-wf-pic[data-coin="Copper"] { background: var(--g-copper); }
+.champ-pcard-rank::before, .champ-wf-badge::before { content: "#"; }
+.champ-tile-move::before { content: "\25B2"; }
+.champ-page .w-dyn-empty { display: none; }
+.champ-deck .w-dyn-list, .champ-deck .w-dyn-items { display: contents; }
+.champ-full-row.is-me { background: #fff7e0 !important; }
+.champ-wcard:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+/* Link hub: on desktop the selected share card joins the YOUR LINK panel as one gold-outlined tab */
+@media (min-width: 992px) { .champ-hub-out { position: relative; z-index: 1; box-shadow: inset 0 0 0 2px var(--gold); } }
+@media (min-width: 992px) { .champ-hub-opts .champ-opt { position: relative; } }
+@media (min-width: 992px) { .champ-hub-opts .champ-opt.is-on { z-index: 2; background: var(--field); border: 2px solid var(--gold); border-right-color: transparent; border-top-right-radius: 0; border-bottom-right-radius: 0; box-shadow: none; transform: none; } }
+@media (min-width: 992px) { .champ-hub-opts .champ-opt.is-on::after { content: ""; position: absolute; top: -2px; bottom: -2px; right: -28px; width: 30px; background: var(--field); border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); } }
+@media (min-width: 992px) { .champ-hub:has(.champ-opt.is-on:first-child) .champ-hub-out { border-top-left-radius: 0; } }
+@media (min-width: 992px) { .champ-hub:has(.champ-opt.is-on:last-child) .champ-hub-out { border-bottom-left-radius: 0; } }
+.champ-opt:focus:not(:focus-visible) { outline: none; }
+/* ---- Coins removed and impact counts hidden (2026-10-30): the page shows rank only; the CMS keeps the counts ---- */
+.champ-ping.is-a, .champ-ping.is-c, .champ-st-next, .champ-chip, .champ-full-coin, .champ-full-head-coin { display: none !important; }
+.champ-pcard-meta, .champ-pd-score, .champ-tile-score, .champ-st-imp, .champ-full-imp, .champ-full-head-r { display: none !important; }
+.champ-page .champ-full-row, .champ-page .champ-full-head { grid-template-columns: 64px 1fr; }
+@media (max-width: 600px) { .champ-page .champ-full-row, .champ-page .champ-full-head { grid-template-columns: 44px 1fr; } }
+/* Sections cut for launch (2026-10-30) that the page script still reads: kept in the page, never shown */
+.champ-page [data-cut] { display: none !important; }
+/* ---- FAQ formatted like v2 (2026-10-30): intro left (v2 cb-* classes), questions right in one column ---- */
+.champ-page .champ-band:has(.champ-faq-wrap) { background: #F3F3F1; padding-top: 128px; padding-bottom: 128px; }
+.champ-page .champ-faq-wrap { display: grid; grid-template-columns: 360px 1fr; gap: 56px; align-items: start; }
+.champ-page .champ-faq { display: block; margin: 0; border-top: 2px solid #14120E; }
+.champ-page .champ-faq-item { margin: 0 -18px; padding: 0 18px; border: 0; border-bottom: 1px solid #E1E0DC; border-radius: 0; background: transparent; box-shadow: none; }
+.champ-page .champ-faq-item[open] { background: #FFFFFF; }
+.champ-page .champ-faq-q { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; list-style: none; cursor: pointer; font-family: bebas-neue-pro, sans-serif; font-weight: 600; font-size: 28px; line-height: 1.1; letter-spacing: normal; text-transform: uppercase; color: #14120E; }
+.champ-page .champ-faq-q::after { content: "+"; flex: none; display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid #14120E; border-radius: 2px; background: transparent; font: 400 20px/1 Inter, Arial, sans-serif; color: #14120E; transform: none; transition: none; }
+.champ-page .champ-faq-item[open] .champ-faq-q::after { content: "\2212"; transform: none; background: #14120E; color: #E8D9B0; }
+.champ-page .champ-faq-a { margin: 0; padding: 0 60px 22px 0; font-size: 15px; line-height: 1.6; color: #5E574B; }
+@media (max-width: 991px) { .champ-page .champ-band:has(.champ-faq-wrap) { padding-top: 104px; padding-bottom: 104px; } .champ-page .champ-faq-wrap { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 767px) { .champ-page .champ-band:has(.champ-faq-wrap) { padding-top: 80px; padding-bottom: 80px; } .champ-page .champ-faq-q { font-size: 24px; } .champ-page .champ-faq-a { padding-right: 0; } }
+/* ==== FOUNDERS EVENT THEME (2026-11-03, v2 after DH: less black): midnight blue grounds alternate with white, grey and steel sections. Neutral greys only, no light blue. Delete this block to go back to the old gold-on-white look ==== */
+.champ-page {
+  --fe-midnight: #0B1526; --fe-mid2: #13264A; --fe-mid3: #1B2F55;
+  --fe-line: rgba(255,255,255,.14); --fe-line2: rgba(255,255,255,.26);
+  --fe-mute: #9A9DA3; --fe-soft: #C8CACE; --fe-bright: #F4F5F6; --fe-ash: #8E9094; --fe-silver: #B9BBBF; --fe-plat: #DCDDDF;
+  --fe-ink: #0A0C10; --fe-ink2: #3A3E46; --fe-grey: #5F646D; --fe-rule: rgba(11,21,38,.12);
+  --fe-steel: linear-gradient(110deg, #9AA1AC 0%, #E9ECF0 22%, #BCC2CB 44%, #F8F9FB 62%, #A3AAB4 100%);
+  --fe-band: linear-gradient(100deg, #8C939E 0%, #E3E6EA 18%, #C3C8CF 40%, #F5F6F8 60%, #A6ACB5 100%);
+  --fe-foil: linear-gradient(115deg, #8A6E43 0%, #E6CF9F 22%, #B8975F 42%, #F3E3BE 58%, #9C7C4B 78%, #DCC08C 100%);
+  --fe-ash-steel: linear-gradient(150deg, #C9CDD3 0%, #8E949C 45%, #5E646D 100%);
+  --fe-btn-mid: linear-gradient(160deg, #1C2C48, #0D1626);
+  --fe-ground: radial-gradient(45% 60% at 12% 30%, rgba(42,72,128,.45), transparent 70%), radial-gradient(45% 60% at 88% 70%, rgba(42,72,128,.35), transparent 70%), var(--fe-midnight);
+  --ink: var(--fe-soft); --grey: var(--fe-mute); --line: var(--fe-line); --field: var(--fe-mid2); --gold: #C3C8CF; --gold-ink: var(--fe-plat);
+  --g-gold: var(--fe-foil); --g-silver: var(--fe-steel); --g-copper: var(--fe-ash-steel);
+  background: var(--fe-midnight); color: var(--fe-soft);
+}
+/* Pop-ups stay light (they are not part of the launch page) */
+.champ-page dialog { --ink: #262626; --grey: #5F646D; --line: #E4E5E7; --field: #EDEEF0; --gold: #13264A; --gold-ink: #13264A; }
+
+/* Top bar */
+.champ-page .champ-nav { background: rgba(11,21,38,.86); border-bottom-color: var(--fe-line); }
+.champ-page .champ-nav-logo { filter: none; }
+.champ-page .champ-nav-title { color: var(--fe-bright); }
+
+/* ---------- Midnight sections: hero, studio, quote ---------- */
+.champ-page .champ-hero { background: radial-gradient(ellipse 34% 40% at 50% 40%, rgba(255,255,255,.07) 0%, transparent 70%), radial-gradient(ellipse 70% 70% at 50% 38%, rgba(42,72,128,.55) 0%, transparent 75%), linear-gradient(180deg, #12234A 0%, #0B1526 100%); color: var(--fe-soft); }
+/* Where you stand sits right under the hero on the same midnight, no seam */
+.champ-page .champ-stand { background: var(--fe-midnight); }
+.champ-page .champ-prize { background: var(--fe-ground); }
+.champ-page .champ-bigq { background: radial-gradient(ellipse 70% 80% at 50% 100%, #1B2F55 0%, #12234A 45%, #0B1526 100%); }
+.champ-page .champ-bigq::before { background: radial-gradient(closest-side, rgba(255,255,255,.06), transparent); }
+
+/* Headlines on midnight: grey first line, white second line, steel accent words */
+.champ-page .champ-display { color: var(--fe-bright); }
+.champ-page .champ-d-s { font-weight: 600; color: var(--fe-ash); }
+.champ-page .champ-d-a { color: var(--fe-bright); }
+.champ-page .champ-d-em, .champ-page .champ-d-em.is-gold { font-style: normal; background: var(--fe-steel); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.champ-page .champ-display.is-line { color: var(--fe-bright); }
+.champ-page .champ-lede, .champ-page .champ-lede.is-dark { color: var(--fe-soft); }
+.champ-page .champ-lede-b { color: var(--fe-bright); }
+.champ-page .champ-lab.is-gold, .champ-page .champ-prize-kicker, .champ-page .champ-lab.is-table, .champ-page .champ-perk-num, .champ-page .champ-bq-mark, .champ-page .champ-pf-link, .champ-page .champ-pf-arw, .champ-page .champ-st-move { color: var(--fe-silver); }
+
+/* Buttons: steel primary and midnight secondary on midnight; midnight primary and outlined secondary on light */
+.champ-page .champ-btn.is-solid { background: var(--fe-steel); color: var(--fe-ink); border-color: transparent; font-weight: 600; letter-spacing: .16em; box-shadow: 0 0 0 1px rgba(255,255,255,.2) inset, 0 10px 30px rgba(0,0,0,.25); }
+.champ-page .champ-btn.is-solid .champ-arw { color: var(--fe-ink); }
+.champ-page .champ-btn.is-ghost, .champ-page .champ-btn.is-ghost.is-light { background: var(--fe-btn-mid); color: var(--fe-bright); border: 1px solid var(--fe-line2); font-weight: 600; letter-spacing: .16em; }
+.champ-page .champ-btn.is-ghost .champ-arw { color: var(--fe-bright); }
+.champ-page .champ-btn.is-done { background: var(--fe-mid2); color: var(--fe-bright); border-color: var(--fe-line2); }
+
+/* Hero cards, pings, where you stand */
+.champ-page .champ-pcard.is-1, .champ-page .champ-pd.is-1, .champ-page .champ-pd-num.is-1, .champ-page .champ-pcard.is-1 .champ-pd-num { background-image: var(--fe-foil); }
+.champ-page .champ-pcard.is-2, .champ-page .champ-pd.is-2, .champ-page .champ-pd-num.is-2 { background-image: var(--fe-steel); }
+.champ-page .champ-pcard.is-3, .champ-page .champ-pd.is-3, .champ-page .champ-pd-num.is-3 { background-image: var(--fe-ash-steel); }
+.champ-page .champ-pd-rank { background-image: linear-gradient(var(--fe-midnight), var(--fe-midnight)), var(--fe-foil); }
+.champ-page .champ-pd-rank.is-2 { background-image: linear-gradient(var(--fe-midnight), var(--fe-midnight)), var(--fe-steel); }
+.champ-page .champ-pd-rank.is-3 { background-image: linear-gradient(var(--fe-midnight), var(--fe-midnight)), var(--fe-ash-steel); }
+.champ-page .champ-pcard { box-shadow: 0 30px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.1) inset; }
+.champ-page .champ-pcard.is-3 .champ-pcard-name, .champ-page .champ-pd.is-3 .champ-pd-name { color: var(--fe-ink); }
+.champ-page .champ-ping { background: rgba(11,21,38,.92); border-color: var(--fe-line2); box-shadow: 0 14px 34px rgba(0,0,0,.35); color: var(--fe-soft); }
+.champ-page .champ-ping-b { color: var(--fe-bright); }
+.champ-page .champ-ping-small { color: var(--fe-mute); }
+/* Open-seat placeholder art reads purple: pull it to midnight blue (real headshots untouched) */
+.champ-page img[src*="champ-open-seat"] { filter: hue-rotate(-38deg) saturate(.85); }
+.champ-page .champ-st-card { grid-template-columns: 1fr auto; align-items: center; column-gap: 48px; row-gap: 24px; padding: 48px 52px 40px; background: linear-gradient(160deg, rgba(27,47,85,.85) 0%, rgba(13,24,44,.95) 100%); border: 1px solid var(--fe-line2); box-shadow: 0 30px 70px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08); }
+.champ-page .champ-st-hero { grid-column: 1; }
+.champ-page .champ-st-say { margin-top: 10px; }
+.champ-page .champ-btn.is-stand { grid-column: 2; justify-self: end; align-self: center; }
+@media (max-width: 1100px) { .champ-page .champ-st-card { grid-template-columns: 1fr auto; } .champ-page .champ-btn.is-stand { grid-column: 2; justify-self: end; } }
+@media (max-width: 767px) { .champ-page .champ-st-card { grid-template-columns: 1fr; padding: 44px 24px 28px; text-align: center; } .champ-page .champ-st-hero { align-items: center; } .champ-page .champ-st-big { justify-content: center; } .champ-page .champ-btn.is-stand { grid-column: 1; justify-self: stretch; justify-content: center; } .champ-page .champ-st-hero { min-width: 0; } .champ-page .champ-st-say { white-space: normal; text-wrap: balance; font-size: 20px; line-height: 1.15; } }
+.champ-page .champ-st-chip { background: var(--fe-steel); color: var(--fe-ink); }
+.champ-page .champ-st-rank, .champ-page .champ-st-say { color: var(--fe-bright); }
+.champ-page .champ-st-move-sub { color: var(--fe-mute); }
+
+/* Studio */
+.champ-page .champ-prize-photo::after { background: linear-gradient(90deg, #0B1526 0%, rgba(11,21,38,.6) 26%, rgba(11,21,38,0) 60%), linear-gradient(0deg, #0B1526 0%, rgba(11,21,38,0) 40%), linear-gradient(rgba(11,21,38,.22), rgba(11,21,38,.22)); }
+@media (max-width: 960px) { .champ-page .champ-prize-photo::after { background: linear-gradient(0deg, #0B1526 0%, rgba(11,21,38,0) 50%), linear-gradient(rgba(11,21,38,.22), rgba(11,21,38,.22)); } }
+.champ-page .champ-perks { background: var(--fe-line); border-color: var(--fe-line); }
+.champ-page .champ-perk { background: rgba(19,38,74,.94); }
+.champ-page .champ-perk-title, .champ-page .champ-pf-table-title { color: var(--fe-bright); }
+.champ-page .champ-perk-p, .champ-page .champ-pf-table-p { color: var(--fe-soft); }
+.champ-page .champ-pf-table { background: var(--fe-mid2); border-color: var(--fe-line); }
+.champ-page .champ-pf-table-fade { background-image: linear-gradient(270deg, #13264A 0%, rgba(19,38,74,.4) 4%, rgba(19,38,74,0) 10%); }
+.champ-page .champ-bq-by { color: var(--fe-mute); }
+
+/* Corners: 2px everywhere, like the Founders sales page (50% only for true circles) */
+.champ-page :is(.champ-st-card, .champ-opt, .champ-opt-photo, .champ-opt-img, .champ-pcard, .champ-pcard-img, .champ-pd, .champ-pd-img, .champ-perks, .champ-pf-table, .champ-studio-line, .champ-tile, .champ-tile-img, .champ-hub-out, .champ-full, .champ-ping, .champ-ping-img, .champ-st-chip, .champ-st-chip-img) { border-radius: 2px; }
+
+/* ---------- Light sections: board (grey), link hub (steel), FAQ (white) ---------- */
+.champ-page :is(#board, #link, .champ-band:has(.champ-faq-wrap)) { --ink: #2B2F36; --grey: var(--fe-grey); --line: var(--fe-rule); --field: #E9EBEE; --gold: var(--fe-mid2); --gold-ink: var(--fe-mid2); color: #2B2F36; }
+.champ-page #board { background: #EDEEF0; }
+.champ-page #link { background: var(--fe-band); padding-top: 120px; }
+@media (max-width: 767px) { .champ-page #link { padding-top: 72px; } }
+.champ-page .champ-band:has(.champ-faq-wrap) { background: #F7F7F8; }
+.champ-page :is(#board, #link) .champ-display { color: var(--fe-ink); }
+.champ-page :is(#board, #link) .champ-d-s { color: var(--fe-grey); }
+.champ-page :is(#board, #link) .champ-d-a { color: var(--fe-ink); }
+.champ-page :is(#board, #link) .champ-d-em { background: none; -webkit-text-fill-color: currentColor; color: var(--fe-mid2); }
+.champ-page :is(#board, #link) .champ-lede { color: var(--fe-ink2); }
+.champ-page :is(#board, #link) .champ-lede-b { color: var(--fe-ink); }
+.champ-page :is(#board, #link) .champ-lab.is-gold { color: var(--fe-mid2); }
+.champ-page :is(#board, #link) .champ-btn.is-solid { background: var(--fe-btn-mid); color: var(--fe-bright); box-shadow: 0 10px 24px rgba(11,21,38,.22); }
+.champ-page :is(#board, #link) .champ-btn.is-solid .champ-arw { color: var(--fe-bright); }
+.champ-page :is(#board, #link) .champ-btn.is-ghost { background: transparent; color: var(--fe-ink); border-color: rgba(11,21,38,.4); }
+.champ-page :is(#board, #link) .champ-btn.is-ghost .champ-arw { color: var(--fe-ink); }
+.champ-page :is(#board, #link) .champ-btn.is-done { background: var(--fe-mid2); color: var(--fe-bright); }
+
+/* Board: podium, white tiles, midnight rewards bar, white full standings */
+.champ-page #board .champ-pd { box-shadow: 0 24px 50px rgba(11,21,38,.2); }
+.champ-page #board .champ-tile { background: #fff; border-color: var(--fe-rule); }
+.champ-page #board .champ-tile-rank, .champ-page #board .champ-tile-name, .champ-page #board .champ-inl { color: var(--fe-ink); }
+.champ-page #board .champ-tile-sub { color: var(--fe-grey); }
+.champ-page #board .champ-studio-line { background: var(--fe-midnight); border: 0; }
+.champ-page #board .champ-display.is-line { color: var(--fe-bright); }
+.champ-page #board .champ-studio-line-p { color: var(--fe-soft); }
+.champ-page #board .champ-studio-line-b { color: var(--fe-bright); }
+.champ-page #board .champ-full { background: #fff; border-color: var(--fe-rule); }
+.champ-page #board .champ-full-head { background: var(--fe-midnight); color: var(--fe-bright); }
+.champ-page #board .champ-full-search { background: #fff; }
+.champ-page #board .champ-full-input { background: #fff; border-color: rgba(11,21,38,.2); color: var(--fe-ink); }
+.champ-page #board .champ-full-row:nth-child(even) { background: #F6F7F8; }
+.champ-page #board .champ-full-rank, .champ-page #board .champ-full-name { color: var(--fe-ink); }
+.champ-page #board .champ-full-rank.is-top, .champ-page #board .champ-full-me { color: var(--fe-mid2); }
+.champ-page #board .champ-full-row.is-me { background: #E4E6EA !important; }
+.champ-page #board .champ-full-line { background: var(--fe-midnight); color: var(--fe-bright); }
+
+/* Link hub: white cards on steel */
+.champ-page #link .champ-opt { background: #fff; border-color: var(--fe-rule); }
+.champ-page #link .champ-opt.is-on, .champ-page #link .champ-hub-out { background: var(--field); }
+.champ-page #link .champ-opt.is-on { border-color: var(--gold); }
+@media (min-width: 992px) { .champ-page #link .champ-opt.is-on { border-right-color: transparent; } }
+.champ-page #link .champ-hub-out { box-shadow: 0 24px 60px rgba(11,21,38,.12); }
+@media (min-width: 992px) { .champ-page #link .champ-hub-out { box-shadow: inset 0 0 0 2px var(--gold), 0 24px 60px rgba(11,21,38,.12); } }
+.champ-page #link .champ-copy-input, .champ-page #link .champ-msg { border-color: rgba(11,21,38,.2); }
+
+/* FAQ: white, dark questions, thin grey lines, midnight open state */
+.champ-page .cb-faq-intro .cb-title { color: var(--fe-ink); }
+.champ-page .cb-faq-intro .cb-setup { color: var(--fe-grey); }
+.champ-page .cb-faq-intro .cb-dot { color: var(--fe-mid2); }
+.champ-page .cb-faq-intro .cb-lede { color: var(--fe-ink2); }
+.champ-page .champ-faq { border-top: 2px solid var(--fe-ink); }
+.champ-page .champ-faq-item { border-bottom: 1px solid #DCDEE2; }
+.champ-page .champ-faq-item[open] { background: #fff; }
+.champ-page .champ-faq-q { color: var(--fe-ink); }
+.champ-page .champ-faq-q::after { border-color: var(--fe-ink); color: var(--fe-ink); }
+.champ-page .champ-faq-item[open] .champ-faq-q::after { background: var(--fe-midnight); border-color: var(--fe-midnight); color: var(--fe-bright); }
+.champ-page .champ-faq-a { color: var(--fe-ink2); }
+</style><script src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1%2F689e5ba67671442434f3ca35%2F6acdc67f5871e861d9909491%2Fcookiebotdetailsinline-1.0.1.js" type="text/javascript"></script></head><body><div class="champ-page"><div class="champ-topbar"><header class="champ-nav"><div class="champ-container champ-nav-row"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac888ad653ad8734d1e645f_champ-dh-mark-white.webp" loading="lazy" alt="Darren Hardy" class="champ-nav-logo"/><span class="champ-nav-title">THE CHAMPION BOARD</span><a id="navCta" href="#link" class="champ-btn is-solid is-nav">Get my link <span class="champ-arw">→</span></a></div></header></div><section class="champ-hero"><div class="champ-container"><div class="champ-hero-grid"><div class="champ-hero-copy"><h1 class="champ-display is-h1"><span class="champ-d-s">Who will</span><span class="champ-d-a">be first</span><span class="champ-d-a"><em class="champ-d-em">to rise?</em></span></h1><p class="champ-lede">Bring a leader to the Founders Event and your name goes on the board. <b class="champ-lede-b champ-lede-b">Every leader after that compounds your impact and moves you up.</b></p><div class="champ-ctas"><a href="#link" class="champ-btn is-solid">Get my link <span class="champ-arw">→</span></a><a href="#studio" class="champ-btn is-textlink">Learn about the reward</a></div></div><div id="deckFit" class="champ-deck-fit"><div id="deck" data-slot="deck" class="champ-deck"><div class="w-dyn-list"><div role="list" class="w-dyn-items"><div role="listitem" class="champ-pcard is-2 w-dyn-item"><img src="" loading="lazy" alt="Charlott Sitarski" class="champ-pcard-img w-dyn-bind-empty"/><div class="champ-pd-rank is-2 is-deck"><span class="champ-pd-num is-2">2</span></div><div class="champ-pcard-name">Charlott Sitarski</div><div class="champ-pcard-meta"><span>Impacts</span><div class="champ-pcard-score">6</div></div></div></div></div><div class="w-dyn-list"><div role="list" class="w-dyn-items"><div role="listitem" class="champ-pcard is-3 w-dyn-item"><img src="" loading="lazy" alt="Shalee Schafeitel" class="champ-pcard-img w-dyn-bind-empty"/><div class="champ-pd-rank is-3 is-deck"><span class="champ-pd-num is-3">3</span></div><div class="champ-pcard-name">Shalee Schafeitel</div><div class="champ-pcard-meta"><span>Impacts</span><div class="champ-pcard-score">4</div></div></div></div></div><div class="w-dyn-list"><div role="list" class="w-dyn-items"><div role="listitem" class="champ-pcard is-1 w-dyn-item"><img src="" loading="lazy" alt="Stephen Siegel" class="champ-pcard-img w-dyn-bind-empty"/><div class="champ-pd-rank is-deck"><span class="champ-pd-num">1</span></div><div class="champ-pcard-name">Stephen Siegel</div><div class="champ-pcard-meta"><span>Impacts</span><div class="champ-pcard-score">6</div></div></div></div></div><div class="champ-ping is-a"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad00d36582b37772eb78828_champ-open-seat.webp" loading="lazy" alt="" class="champ-ping-img"/><div><b class="champ-ping-b champ-ping-b">Your Name Here just went Platinum</b><span class="champ-ping-small"><span class="champ-ping-up">▲ 6 spots</span> · 4 min ago</span></div></div><div class="champ-ping is-b"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad00d36582b37772eb78828_champ-open-seat.webp" loading="lazy" alt="" class="champ-ping-img is-small"/><div><b class="champ-ping-b champ-ping-b">Your Name Here</b><small class="champ-ping-small champ-ping-small">Moved to #7 · 1 hr ago</small></div></div><div class="champ-ping is-c"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad00d36582b37772eb78828_champ-open-seat.webp" loading="lazy" alt="" class="champ-ping-img"/><div><b class="champ-ping-b champ-ping-b">3 leaders joined Your Name Here</b><small class="champ-ping-small champ-ping-small">+3 impacts this week</small></div></div></div></div></div></div></section><section id="stand" class="champ-stand champ-anchor"><div class="champ-container"><div class="champ-st-card"><div id="stChip" class="champ-st-chip is-photo"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac91c2b050e6f4f39e88bfe_champ-brenda-v3.webp" loading="lazy" id="stChipImg" alt="Brenda Huntley" class="champ-st-chip-img"/><span id="stChipName">Brenda Huntley</span></div><div class="champ-st-hero"><div class="champ-lab is-gold">Where you stand<span id="stName"></span></div><div class="champ-st-big"><span data-st="rank" class="champ-st-rank">#27</span><span data-st="move" class="champ-st-move">▲ 2<small class="champ-st-move-sub champ-st-move-sub">this week</small></span></div><b data-st="say" class="champ-st-say champ-st-say">2 seats added. Moving up the board.</b></div><div class="champ-st-imp"><span data-st="impacts" class="champ-st-num">8</span><span data-st="coin" class="champ-lab is-nowrap"><i data-coin="Gold" class="champ-chip is-gold champ-chip is-gold"></i>Impacts · Gold</span></div><div class="champ-st-next"><div class="champ-st-row"><span>Next coin: <b data-st="next" class="champ-st-row-b champ-st-row-b">Platinum</b></span><span><b data-st="togo" class="champ-st-row-b champ-st-row-b">2</b> to go</span></div><div class="champ-st-bar"><i data-st="coinbar" class="champ-st-fill champ-st-fill"></i></div><div hidden="" class="champ-st-row"><span>Darren&#x27;s Table: <b class="champ-st-row-b champ-st-row-b">Top 5</b></span><span><b data-st="away" class="champ-st-row-b champ-st-row-b">2 spots</b> away</span></div><div hidden="" class="champ-st-bar is-line"><i data-st="linebar" class="champ-st-fill is-line champ-st-fill is-line"></i></div></div><a href="#link" class="champ-btn is-solid is-stand">Get my link to share <span class="champ-arw">→</span></a></div></div></section><section id="board" class="champ-band is-field champ-anchor"><div class="champ-container"><div class="champ-center"><h2 class="champ-display is-h2"><span class="champ-d-s">The Champion Board</span><span class="champ-d-a is-one">The leaders <em class="champ-d-em">other leaders follow.</em></span></h2></div><div id="podium" data-slot="podium" class="champ-podium"><div class="champ-podium-col w-dyn-list"><div role="list" class="w-dyn-items"><div role="listitem" class="champ-pd is-2 w-dyn-item"><img src="" loading="lazy" alt="Charlott Sitarski" class="champ-pd-img w-dyn-bind-empty"/><div class="champ-pd-rank is-2"><span class="champ-pd-num is-2">2</span></div><div class="champ-pd-name">Charlott Sitarski</div><div class="champ-pd-bio w-dyn-bind-empty"></div><div class="champ-pd-score"><div>6</div><span class="champ-pd-score-lab">IMPACTS</span></div></div></div></div><div class="champ-podium-col w-dyn-list"><div role="list" class="w-dyn-items"><div role="listitem" class="champ-pd is-1 w-dyn-item"><img src="" loading="lazy" alt="Stephen Siegel" class="champ-pd-img w-dyn-bind-empty"/><div class="champ-pd-rank is-1"><span class="champ-pd-num is-1">1</span></div><div class="champ-pd-name">Stephen Siegel</div><div class="champ-pd-bio w-dyn-bind-empty"></div><div class="champ-pd-score"><div>6</div><span class="champ-pd-score-lab">IMPACTS</span></div></div></div></div><div class="champ-podium-col w-dyn-list"><div role="list" class="w-dyn-items"><div role="listitem" class="champ-pd is-3 w-dyn-item"><img src="" loading="lazy" alt="Shalee Schafeitel" class="champ-pd-img w-dyn-bind-empty"/><div class="champ-pd-rank is-3"><span class="champ-pd-num is-3">3</span></div><div class="champ-pd-name">Shalee Schafeitel</div><div class="champ-pd-bio w-dyn-bind-empty"></div><div class="champ-pd-score"><div>4</div><span class="champ-pd-score-lab">IMPACTS</span></div></div></div></div></div><div data-slot="tiles" class="champ-tiles-slot"><div class="w-dyn-list"><div role="list" class="champ-tiles w-dyn-items"><div role="listitem" class="champ-tile w-dyn-item"><div class="champ-tile-rank">4</div><img src="" loading="lazy" alt="Nick Spyros" class="champ-tile-img w-dyn-bind-empty"/><div class="champ-tile-name"><div class="champ-inl">Nick Spyros</div><div class="champ-tile-move">0</div><div class="champ-tile-sub"><i data-coin="Silver" class="champ-chip"></i><div class="champ-inl w-dyn-bind-empty"></div></div></div><div class="champ-tile-score"><div class="champ-inl">4</div><span class="champ-tile-score-lab">IMPACTS</span></div></div><div role="listitem" class="champ-tile w-dyn-item"><div class="champ-tile-rank">5</div><img src="https://cdn.prod.website-files.com/6ac88291653ad8734d1bd828/6aeb6e5fda5826635e204e8a_6ae2cd054bd58a99f059c994_f100-john-barber.webp" loading="lazy" alt="John Barber" class="champ-tile-img"/><div class="champ-tile-name"><div class="champ-inl">John Barber</div><div class="champ-tile-move">0</div><div class="champ-tile-sub"><i data-coin="Silver" class="champ-chip"></i><div class="champ-inl w-dyn-bind-empty"></div></div></div><div class="champ-tile-score"><div class="champ-inl">4</div><span class="champ-tile-score-lab">IMPACTS</span></div></div><div role="listitem" class="champ-tile w-dyn-item"><div class="champ-tile-rank">6</div><img src="https://cdn.prod.website-files.com/6ac88291653ad8734d1bd828/6aeb6e5fda5826635e204e93_6ae010f49f4ab2bc515c28d7_f100-jesse-villafranca.webp" loading="lazy" alt="Jesse Villafranca" class="champ-tile-img"/><div class="champ-tile-name"><div class="champ-inl">Jesse Villafranca</div><div class="champ-tile-move">0</div><div class="champ-tile-sub"><i data-coin="Copper" class="champ-chip"></i><div class="champ-inl w-dyn-bind-empty"></div></div></div><div class="champ-tile-score"><div class="champ-inl">3</div><span class="champ-tile-score-lab">IMPACTS</span></div></div><div role="listitem" class="champ-tile w-dyn-item"><div class="champ-tile-rank">7</div><img src="" loading="lazy" alt="Meredith Moore" class="champ-tile-img w-dyn-bind-empty"/><div class="champ-tile-name"><div class="champ-inl">Meredith Moore</div><div class="champ-tile-move">0</div><div class="champ-tile-sub"><i data-coin="Copper" class="champ-chip"></i><div class="champ-inl w-dyn-bind-empty"></div></div></div><div class="champ-tile-score"><div class="champ-inl">3</div><span class="champ-tile-score-lab">IMPACTS</span></div></div><div role="listitem" class="champ-tile w-dyn-item"><div class="champ-tile-rank">8</div><img src="https://cdn.prod.website-files.com/6ac88291653ad8734d1bd828/6aeb6e5fda5826635e204e90_6ae2ce6704f3fc5f29001a54_f100-chris-casselberry.webp" loading="lazy" alt="Chris Casselberry" class="champ-tile-img"/><div class="champ-tile-name"><div class="champ-inl">Chris Casselberry</div><div class="champ-tile-move">0</div><div class="champ-tile-sub"><i data-coin="Copper" class="champ-chip"></i><div class="champ-inl w-dyn-bind-empty"></div></div></div><div class="champ-tile-score"><div class="champ-inl">3</div><span class="champ-tile-score-lab">IMPACTS</span></div></div><div role="listitem" class="champ-tile w-dyn-item"><div class="champ-tile-rank">9</div><img src="" loading="lazy" alt="Antonia Roybalmack" class="champ-tile-img w-dyn-bind-empty"/><div class="champ-tile-name"><div class="champ-inl">Antonia Roybalmack</div><div class="champ-tile-move">0</div><div class="champ-tile-sub"><i data-coin="Copper" class="champ-chip"></i><div class="champ-inl w-dyn-bind-empty"></div></div></div><div class="champ-tile-score"><div class="champ-inl">3</div><span class="champ-tile-score-lab">IMPACTS</span></div></div><div role="listitem" class="champ-tile w-dyn-item"><div class="champ-tile-rank">10</div><img src="https://cdn.prod.website-files.com/6ac88291653ad8734d1bd828/6aeb6e5fda5826635e204e96_6ae2ca00c1a3fa4d6d928934_f100-john-ward-ai.webp" loading="lazy" alt="John Ward" class="champ-tile-img"/><div class="champ-tile-name"><div class="champ-inl">John Ward</div><div class="champ-tile-move">0</div><div class="champ-tile-sub"><i data-coin="Copper" class="champ-chip"></i><div class="champ-inl w-dyn-bind-empty"></div></div></div><div class="champ-tile-score"><div class="champ-inl">2</div><span class="champ-tile-score-lab">IMPACTS</span></div></div><div role="listitem" class="champ-tile w-dyn-item"><div class="champ-tile-rank">11</div><img src="" loading="lazy" alt="Frank Hintz" class="champ-tile-img w-dyn-bind-empty"/><div class="champ-tile-name"><div class="champ-inl">Frank Hintz</div><div class="champ-tile-move">0</div><div class="champ-tile-sub"><i data-coin="Copper" class="champ-chip"></i><div class="champ-inl w-dyn-bind-empty"></div></div></div><div class="champ-tile-score"><div class="champ-inl">2</div><span class="champ-tile-score-lab">IMPACTS</span></div></div></div></div></div><div class="champ-studio-line"><span class="champ-display is-line">The Rewards</span><p class="champ-studio-line-p"><b class="champ-studio-line-b champ-studio-line-b">The top-ranked Champions at the final count</b> become eligible to win three days In the Studio. The top 5 earn a private dinner at Darren&#x27;s Table.</p></div><div id="full" class="champ-full"><div class="champ-full-head"><span>#</span><span>Champion</span><span class="champ-full-head-coin">Coin</span><span class="champ-full-head-r">Impacts</span></div><div class="champ-full-search"><div class="w-embed"><input class="champ-full-input" id="fullSearch" type="search" placeholder="Find a name" aria-label="Find a name"></div><a id="fullMe" href="#" class="champ-full-me">Show my spot</a></div><div id="fullList" class="champ-full-list"></div></div><div class="champ-board-cta"><a id="fullBtn" aria-controls="full" aria-expanded="false" role="button" href="#" class="champ-btn is-ghost">Full standings <span class="champ-arw">↓</span></a><a href="#link" class="champ-btn is-solid">Climb the board <span class="champ-arw">→</span></a></div></div></section><section id="win" data-cut="1" class="champ-band"><div class="champ-container"><h2 class="champ-display is-h2"><span class="champ-d-s">How to win</span><span class="champ-d-a">Every leader <em class="champ-d-em">compounds.</em></span></h2><p class="champ-lede">Bring a leader to April and your impact compounds. Climb the coins, rise through the ranks and finish the season live with Darren.</p><div id="rail" class="champ-rail"><div class="champ-rgroup"><div class="champ-rlab">The climb</div><div id="stepsFit" class="champ-steps-fit"><div id="railSteps" class="champ-rail-steps"><div role="button" data-lv="lead" tabindex="0" class="champ-wcard is-lead"><div><h3 class="champ-wcard-title is-lead">Start here</h3><div class="champ-wcard-req">Your link</div><p class="champ-wcard-p">Send it to the leader you want next to you in April. Every one who joins compounds your impact.</p></div><span class="champ-btn is-solid is-card">Get my link <span class="champ-arw">→</span></span></div><div role="button" data-lv="copper" tabindex="0" class="champ-wcard is-copper"><div><div class="champ-wcard-n">1</div><h3 class="champ-wcard-title">Copper</h3><div class="champ-wcard-req">1 impact</div><p class="champ-wcard-p">Your first leader is in. Your name goes on the board.</p></div><div class="champ-here"><div data-slot="faces-copper" class="champ-faces-slot"><div class="w-dyn-list"><div class="w-dyn-empty"><div>No items found.</div></div></div></div><span class="champ-here-count"># here now</span></div></div><div role="button" data-lv="silver" tabindex="0" class="champ-wcard is-silver"><div><div class="champ-wcard-n">3</div><h3 class="champ-wcard-title">Silver</h3><div class="champ-wcard-req">3 impacts</div><p class="champ-wcard-p">Three leaders in April because of you. Keep climbing.</p></div><div class="champ-here"><div data-slot="faces-silver" class="champ-faces-slot"><div class="w-dyn-list"><div class="w-dyn-empty"><div>No items found.</div></div></div></div><span class="champ-here-count"># here now</span></div></div><div role="button" data-lv="gold" tabindex="0" class="champ-wcard is-gold"><div><div class="champ-wcard-n">5</div><h3 class="champ-wcard-title">Gold</h3><div class="champ-wcard-req">5 impacts</div><p class="champ-wcard-p">Five leaders in. The upper ranks are in reach.</p></div><div class="champ-here"><div data-slot="faces-gold" class="champ-faces-slot"><div class="w-dyn-list"><div class="w-dyn-empty"><div>No items found.</div></div></div></div><span class="champ-here-count"># here now</span></div></div><div role="button" data-lv="plat" tabindex="0" class="champ-wcard is-plat"><div><div class="champ-wcard-n">10</div><h3 class="champ-wcard-title">Platinum</h3><div class="champ-wcard-req">10+ impacts</div><p class="champ-wcard-p">Double digits. Hold your rank to the final count.</p></div><div class="champ-here"><div data-slot="faces-plat" class="champ-faces-slot"><div class="w-dyn-list"><div class="w-dyn-empty"><div>No items found.</div></div></div></div><span class="champ-here-count"># here now</span></div></div></div></div></div><div aria-hidden="true" class="champ-rail-arrow">→</div><div class="champ-rgroup is-prize"><div class="champ-rlab is-prize">The reward</div><div class="champ-rail-prize"><a href="#win" data-lv="studio" class="champ-reward is-studio w-inline-block"><span class="champ-reward-tag is-studio">★ Reward</span><h3 class="champ-reward-title is-studio">In the Studio</h3><div class="champ-reward-req">Top ranks at the final count</div><p class="champ-reward-p">Three days live with Darren.</p><span class="champ-reward-count">Earned by rank</span><div class="champ-reward-media"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac888aff143d8ebe31f98f5_champ-dh-room-table.webp" loading="lazy" sizes="100vw" srcset="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac888aff143d8ebe31f98f5_champ-dh-room-table-p-500.webp 500w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac888aff143d8ebe31f98f5_champ-dh-room-table-p-800.webp 800w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac888aff143d8ebe31f98f5_champ-dh-room-table-p-1080.webp 1080w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac888aff143d8ebe31f98f5_champ-dh-room-table-p-1600.webp 1600w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac888aff143d8ebe31f98f5_champ-dh-room-table.webp 1600w" alt="Darren Hardy laughing with a room of leaders" class="champ-reward-bg is-studio"/><div class="champ-reward-shade is-studio"></div></div></a><a href="#win" data-lv="table" class="champ-reward is-table w-inline-block"><span class="champ-reward-tag is-table">★ Reward</span><h3 class="champ-reward-title is-table">Darren&#x27;s Table</h3><div class="champ-reward-req">Top 5 at the final count</div><p class="champ-reward-p">A private dinner with Darren and Georgia.</p><span class="champ-reward-count">5 places</span><div class="champ-reward-media"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad036b918d61312cfdfe595_champ-table-head5.webp" loading="lazy" sizes="100vw" srcset="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad036b918d61312cfdfe595_champ-table-head5-p-500.webp 500w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad036b918d61312cfdfe595_champ-table-head5-p-800.webp 800w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad036b918d61312cfdfe595_champ-table-head5-p-1080.webp 1080w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad036b918d61312cfdfe595_champ-table-head5.webp 1100w" alt="Darren Hardy at the head of a private dinner table with guests" class="champ-reward-bg"/><div class="champ-reward-shade is-table"></div></div></a></div></div></div><p class="champ-lab champ-rail-hint"><span class="champ-hint-desktop">Click</span><span class="champ-hint-touch">Tap</span> any card for tips and who’s there now</p></div></section><section id="studio" class="champ-prize"><div aria-hidden="true" class="champ-prize-photo"></div><div class="champ-container champ-prize-in"><div class="champ-prize-kicker">What every impact is building toward</div><h2 class="champ-display is-prize"><span class="champ-d-s">Three days.</span><span class="champ-d-a">In the Studio.</span><span class="champ-d-a"><em class="champ-d-em is-gold">Live with Darren.</em></span></h2><p class="champ-lede is-dark">Not a seat in an audience. A seat in the studio itself, across the table from Darren, for all three days of the Founders Event. Earned, never sold.</p><div class="champ-perks"><div class="champ-perk"><span class="champ-perk-num">01</span><b class="champ-perk-title champ-perk-title">The Sunday
+reception</b><p class="champ-perk-p">The night before it starts, with Darren and the other leaders who earned it.</p></div><div class="champ-perk"><span class="champ-perk-num">02</span><b class="champ-perk-title champ-perk-title">Three days
+in the studio</b><p class="champ-perk-p">Every session live, in the room where it is filmed, a few feet from Darren.</p></div><div class="champ-perk"><span class="champ-perk-num">03</span><b class="champ-perk-title champ-perk-title">Private Q<!-- -->&amp;<!-- -->A
+every night</b><p class="champ-perk-p">Your questions, your company, answered by Darren himself.</p></div><div class="champ-perk"><span class="champ-perk-num">04</span><b class="champ-perk-title champ-perk-title">Curated
+dinners</b><p class="champ-perk-p">Around the table with the top impact makers of the season.</p></div></div><div class="champ-prize-foot"><div class="champ-pf-table"><span class="champ-lab is-table">Top 5 only</span><b class="champ-pf-table-title champ-pf-table-title">Darren’s Table</b><p class="champ-pf-table-p">A private dinner with Darren and Georgia.</p><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad0410c30da581d3140a690_champ-table-dg3.webp" alt="Darren Hardy at a private dinner table with guests" sizes="(max-width: 1100px) 100vw, 1100px" srcset="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad0410c30da581d3140a690_champ-table-dg3-p-500.webp 500w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad0410c30da581d3140a690_champ-table-dg3-p-800.webp 800w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad0410c30da581d3140a690_champ-table-dg3-p-1080.webp 1080w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad0410c30da581d3140a690_champ-table-dg3.webp 1100w" class="champ-pf-table-img"/><div class="champ-pf-table-fade"></div></div><a href="#stand" data-stand-link="" class="champ-pf-link">Where do I stand? <span class="champ-pf-arw">→</span></a></div></div></section><section data-cut="1" class="champ-band is-flush"><div class="champ-container"><div class="champ-fri"><div class="champ-fri-pic"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ad00d36582b37772eb78828_champ-open-seat.webp" loading="lazy" alt="Open seat" class="champ-fri-img"/></div><div><div class="champ-lab is-gold">Champion Friday</div><div class="champ-fri-quote"><span class="champ-ph">&quot;Why I&#x27;m bringing my team,&quot; in the Champion&#x27;s own words.</span></div> <p class="champ-fri-who"><b class="champ-fri-who-name champ-fri-who-name">Your Name Here</b>Platinum · brought their forum peers and the team</p><div aria-label="Audio clip (sample)" class="champ-aud"><a href="#" aria-label="Play" role="button" class="champ-aud-play w-inline-block"><svg aria-hidden="true" viewBox="0 0 24 24" class="champ-aud-icon champ-aud-icon"><path d="M8 5.5v13l10.5-6.5z"></path></svg></a><div id="wave" aria-hidden="true" class="champ-wave"></div><span class="champ-aud-time">0:42</span></div><p class="champ-aud-note">In the Champion&#x27;s own words <span class="champ-ph">[30-second phone recording from the Champion]</span></p></div></div></div></section><section id="link" class="champ-band is-flush champ-anchor"><div class="champ-container"><h2 class="champ-display is-h2"><span class="champ-d-s">Your next impact</span><span class="champ-d-a">Pick it. <em class="champ-d-em">Send it.</em></span></h2><p class="champ-lede">Choose what to share. Your personal link is built in, so every leader who uses it is credited to you.</p><div class="champ-hub"><div role="tablist" aria-label="What to share" class="champ-hub-opts"><a href="#" data-opt="audio" role="button" class="champ-opt is-on"><span class="champ-opt-text"><span class="champ-lab is-gold">Gift</span><b class="champ-opt-title champ-opt-title">The Compound Effect</b><span class="champ-opt-ed">10th Anniversary Edition</span><span class="champ-opt-desc">The hardcover and the audiobook+eBook, on you. The easiest &#x27;yes&#x27; you can offer. Darren covers the costs for you.</span></span><span class="champ-opt-visual"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6acf12af121afa0c3f99093c_champ-tce-book-audio-520.webp" loading="lazy" sizes="100vw" srcset="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6acf12af121afa0c3f99093c_champ-tce-book-audio-520-p-500.webp 500w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6acf12af121afa0c3f99093c_champ-tce-book-audio-520.webp 520w" alt="The Compound Effect 10th Anniversary Edition hardcover with the audiobook playing on a phone" class="champ-opt-img"/></span></a><a href="#" data-opt="event" role="button" class="champ-opt"><span class="champ-opt-text"><span class="champ-lab is-gold">Endorse</span><b class="champ-opt-title champ-opt-title">The Founders Event</b><span class="champ-opt-desc">Put Darren’s April event in front of a leader you respect. If they take a seat through your link, it’s an impact.</span></span><span class="champ-opt-visual"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aea6296dad7a95366d6a2bd_champ-opt-placeholder.webp" loading="lazy" alt="The Founders Event" class="champ-opt-photo"/></span></a><a href="#" data-opt="leader" role="button" class="champ-opt"><span class="champ-opt-text"><span class="champ-lab is-gold">Enroll</span><b class="champ-opt-title champ-opt-title">Enroll a leader</b><span class="champ-opt-desc">Investing in a seat for one of your leaders? Enroll them here in under a minute and the impact goes on your board.</span></span><span class="champ-opt-visual"><img src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aea39bf04a1bbd8e1a7cec0_champ-opt-founder-tickets.webp" loading="lazy" sizes="100vw" srcset="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aea39bf04a1bbd8e1a7cec0_champ-opt-founder-tickets-p-500.webp 500w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aea39bf04a1bbd8e1a7cec0_champ-opt-founder-tickets-p-800.webp 800w, https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6aea39bf04a1bbd8e1a7cec0_champ-opt-founder-tickets.webp 880w" alt="Three Founders Event tickets, Admit one · Leader, numbered 001 to 003" class="champ-opt-img"/></span></a></div><div id="hubOut" data-slot="hub-panel" class="champ-hub-out"><div class="w-embed"><form class="champ-sign" id="signPane" hidden novalidate>
+          <div class="champ-lab is-black">Your link</div>
+          <h3 class="champ-hub-h">Sign in to get your link.</h3>
+          <p class="champ-sign-p">Enter the email we send your Champion updates to. Your link loads here and every leader who uses it and enrolls after is counted for you.</p>
+          <div class="champ-sign-row"><input class="champ-sign-input" name="email" type="email" required autocomplete="email" placeholder="you@company.com" aria-label="Your email"><button class="champ-btn is-solid is-signin" type="submit">Sign in <span class="champ-arw">&rarr;</span></button></div>
+          <p class="champ-sign-err" id="signErr" hidden>Enter the email you use for the Champion Program.</p>
+          <p class="champ-sign-fine">Not sure which email to use? Try your primary email and we&rsquo;ll check it for you.</p>
+        </form>
+        <div class="champ-share" id="sharePane">
+        <div class="champ-lab is-black">Your link</div>
+        <div class="champ-copyrow"><input class="champ-copy-input" id="refLink" type="text" readonly aria-label="Your personal link"><button class="champ-btn is-solid is-copy" type="button" data-copy="refLink">Copy link</button></div>
+        <div class="champ-lab is-black is-gap22">Ready-to-send message</div>
+        <textarea class="champ-msg" id="refMsg" rows="6" aria-label="Message to send"></textarea>
+        <div class="champ-hub-acts">
+          <button class="champ-btn is-ghost is-small" type="button" data-copy="refMsg">Copy message</button>
+          <a class="champ-btn is-ghost is-small" id="refMail" href="#">Open in email <span class="champ-arw">&rarr;</span></a>
+          <a class="champ-btn is-ghost is-small" id="refSms" href="#">Text it <span class="champ-arw">&rarr;</span></a>
+          <a class="champ-hub-preview" id="refOpen" href="#" target="_blank" rel="noopener">Preview the page &rarr;</a>
+        </div>
+        <p class="champ-hub-id" id="refNote"></p>
+        </div>
+        <form class="champ-enroll" id="enrollPane" hidden novalidate>
+          <div class="champ-lab is-black">Enroll a leader</div>
+          <h3 class="champ-hub-h">Their seat. Your impact.</h3>
+          <div class="champ-en-grid">
+            <label class="champ-en-label">Their First Name<input class="champ-en-field" name="first" type="text" required autocomplete="off" placeholder="First name"></label>
+            <label class="champ-en-label">Their Last Name<input class="champ-en-field" name="last" type="text" required autocomplete="off" placeholder="Last name"></label>
+            <label class="champ-en-label" style="grid-column:1 / -1">Their Email<input class="champ-en-field" name="email" type="email" required autocomplete="off" placeholder="name@company.com"></label>
+          </div>
+          <div class="champ-lab is-black is-gap20">How you're covering their seat</div>
+          <div class="champ-en-pay">
+            <label class="champ-pay is-on"><input class="champ-pay-radio" type="radio" name="pay" value="credit" checked><span><b class="champ-pay-title">Use a seat credit</b><small class="champ-pay-sub">This seat uses <strong class="champ-pay-strong">5,000</strong> credits &middot; $5,000 covered by Rearden Press</small></span></label>
+            <label class="champ-pay"><input class="champ-pay-radio" type="radio" name="pay" value="invest"><span><b class="champ-pay-title">Invest in a new seat</b><small class="champ-pay-sub" style="white-space:nowrap;font-size:clamp(10.5px, 3vw, 13px)">$385/mo &middot; $5,000 covered by Rearden Press</small></span></label>
+          </div>
+          <div class="champ-en-acts"><button class="champ-btn is-solid is-enroll" type="submit" id="enrollGo">Go to the portal to enroll them <span class="champ-arw">&rarr;</span></button><span class="champ-en-note">We&rsquo;ll email you as soon as they&rsquo;re enrolled.</span></div>
+          <p class="champ-en-err" id="enrollErr" hidden>Add their first name, last name and email to continue.</p>
+          <div class="champ-en-done" id="enrollDone" hidden><b class="champ-en-done-b">Done.</b> <span id="enrollWho"></span> is enrolled. We just emailed you a confirmation, and Darren will send them their welcome.</div>
+        </form></div></div></div></div></section><section class="champ-bigq"><div class="champ-container champ-bigq-in"><span aria-hidden="true" class="champ-bq-mark">“</span><blockquote class="champ-display is-quote"><span class="champ-d-s">Winning is not a sometime thing.</span><span class="champ-d-a">Winning is an <em class="champ-d-em is-gold">all the time</em> thing.</span></blockquote><p class="champ-bq-by">Vince Lombardi</p><div class="champ-ctas is-center"><a href="#link" class="champ-btn is-solid">Get my link <span class="champ-arw">→</span></a><a href="#board" class="champ-btn is-ghost is-light">My Champion Board <span class="champ-arw">→</span></a></div></div></section><section class="champ-band is-flush"><div class="champ-container"><div class="champ-faq-wrap"><div class="cb-faq-intro"><h2 class="cb-title"><span class="cb-setup">Questions.</span>Answered<span class="cb-dot">.</span></h2><p class="cb-lede">Still stuck? Your Champion host is a reply away.</p></div><div class="champ-faq"><details class="champ-faq-item champ-faq-item"><summary class="champ-faq-q champ-faq-q">What counts as an impact?</summary><p class="champ-faq-a">Every leader who takes a seat at the Founders Event because of you. They join through your link, they name you at checkout, or you invest in a seat for one of your own leaders and name them. Each one is one impact.</p></details><details class="champ-faq-item champ-faq-item"><summary class="champ-faq-q champ-faq-q">Started late. Can I still make the studio?</summary><p class="champ-faq-a">Yes. Every impact counts the same until the final count. Plenty of the board is still to be decided.</p></details><details class="champ-faq-item champ-faq-item"><summary class="champ-faq-q champ-faq-q">How do I see where I stand?</summary><p class="champ-faq-a">Your Champion Board shows your rank and how far you moved this week. It updates the moment a leader&#x27;s seat is confirmed.</p></details><details class="champ-faq-item champ-faq-item"><summary class="champ-faq-q champ-faq-q">A leader says they joined. Where&#x27;s my credit?</summary><p class="champ-faq-a">They show on your board as pending right away, and the impact locks in once their seat is confirmed. If it hasn&#x27;t shown up, reply to any Champion email with their name and we&#x27;ll sort it out.</p></details><details class="champ-faq-item champ-faq-item"><summary class="champ-faq-q champ-faq-q">Does my own ticket count?</summary><p class="champ-faq-a">Your own seat is your way in. Impacts are the leaders you bring with you. <span class="champ-ph">[confirm the rule]</span></p></details><details class="champ-faq-item champ-faq-item"><summary class="champ-faq-q champ-faq-q">How is In the Studio awarded?</summary><p class="champ-faq-a">By rank at the final count: the top-ranked Champions. Every seat is earned by rank and Darren&#x27;s selection. Nothing is left to chance.</p></details></div></div></div></section><div class="w-embed"><!-- HARDY HARVEST TAKEOVER (opens 3s after load) -->
+<dialog class="champ-hpop" id="hpop" aria-labelledby="hpopTitle">
+  <button class="champ-close is-hp" type="button" id="hpopX" aria-label="Close">&times;</button>
+  <div class="champ-hp-grid">
+    <div class="champ-hp-side">
+      <img class="champ-hp-hero" src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac8a24a2b1827414ffa373a_champ-dh-apron-hd.webp" alt="Darren in the Be The Exception apron" width="856" height="980">
+      <div class="champ-hp-flash"><span class="champ-hp-flash-icon">&#9889;</span> Flash Impact Booster</div>
+      <div class="champ-hp-plus"><span class="champ-hp-plus-n">+1</span><span class="champ-hp-plus-w"><span class="champ-hp-plus-line">Impact <em class="champ-hp-plus-em">+</em></span><span class="champ-hp-plus-line">The Harvest Kit</span></span></div>
+      <div class="champ-hp-sidecd"><i class="champ-dot"></i>Closes in <span class="champ-hp-sidecd-time" data-cd><b class="champ-hp-sidecd-b" data-h>00</b>:<b class="champ-hp-sidecd-b" data-m>00</b>:<b class="champ-hp-sidecd-b" data-s>00</b></span></div>
+    </div>
+    <div class="champ-hp-body">
+      <div class="champ-hp-urgent"><i class="champ-dot is-9 is-urgent"></i>Ends tomorrow at midnight ET &middot; Thurs., Nov 12th</div>
+      <h3 class="champ-display is-hp" id="hpopTitle"><span class="champ-d-a">The Hardy Harvest<em class="champ-d-dot">.</em></span></h3>
+      <p class="champ-hp-lede">Add one more Founders Event seat this week. One more leader, <b class="champ-hp-lede-b">one more impact on the board</b>, one step closer to In the Studio. And Darren sends <b class="champ-hp-lede-b">you</b> the Harvest kit.</p>
+      <div class="champ-hp-cdwrap"><div class="champ-hp-cdk">The Harvest closes in</div><div class="champ-hp-cd" data-cd><div class="champ-hp-cd-unit"><b class="champ-hp-cd-num" data-h>00</b><span class="champ-hp-cd-lab">Hours</span></div><i class="champ-hp-cd-colon">:</i><div class="champ-hp-cd-unit"><b class="champ-hp-cd-num" data-m>00</b><span class="champ-hp-cd-lab">Minutes</span></div><i class="champ-hp-cd-colon">:</i><div class="champ-hp-cd-unit"><b class="champ-hp-cd-num is-sec" data-s>00</b><span class="champ-hp-cd-lab">Seconds</span></div></div><div class="champ-hp-cdk2">When it hits zero, the kit is gone.</div></div>
+      <ul class="champ-hp-kit">
+        <li class="champ-hp-kit-item"><img class="champ-hp-kit-img is-apron" src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac8a24b54fa41f2970c3ffc_champ-apron-zoom-hd.webp" alt="" width="716" height="550"><div class="champ-hp-kit-cap"><span class="champ-hp-kit-lab">To you</span><b class="champ-hp-kit-name is-apron">Be The Exception apron</b></div></li>
+        <li class="champ-hp-kit-item"><img class="champ-hp-kit-img" src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac888af065402326c12ca36_champ-cutco.webp" alt="" width="565" height="420"><div class="champ-hp-kit-cap"><span class="champ-hp-kit-lab">To you</span><b class="champ-hp-kit-name">Cutco carving set</b></div></li>
+        <li class="champ-hp-kit-item"><img class="champ-hp-kit-img" src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/6ac888af8b90b5427f1850f6_champ-turkey.webp" alt="" width="550" height="479"><div class="champ-hp-kit-cap"><span class="champ-hp-kit-lab">To your new leader</span><b class="champ-hp-kit-name">Thanksgiving turkey</b></div></li>
+      </ul>
+      <p class="champ-hp-fine">One seat or ten already, add one more this week and the kit is yours. Name the leader you add by Mon., Nov 16th. Orders go out Nov 17th to land before Thanksgiving.</p>
+      <div class="champ-ctas is-hp"><a class="champ-btn is-solid is-hp" href="#link" id="hpopGo" data-enroll>Add a seat before it closes <span class="champ-arw">&rarr;</span></a><button class="champ-hp-later" type="button" id="hpopLater">Maybe later</button></div>
+    </div>
+  </div>
+</dialog>
+
+<!-- LEVEL POP-UP (content written by the script) -->
+<dialog class="champ-lv" id="lv" aria-labelledby="lvTitle">
+  <div class="champ-lv-top" id="lvTop"><button class="champ-close" type="button" id="lvX" aria-label="Close">&times;</button>
+    <h3 class="champ-lv-title" id="lvTitle"></h3><div class="champ-lv-req" id="lvReq"></div><p class="champ-lv-desc" id="lvDesc"></p></div>
+  <div class="champ-lv-body">
+    <h4 class="champ-lv-h4">How to get here</h4><ol class="champ-lv-tips" id="lvTips"></ol>
+    <div class="champ-lv-who"><h4 class="champ-lv-h4" id="lvWhoH"></h4><div class="champ-lv-grid" id="lvGrid"></div><p class="champ-lv-more" id="lvMore"></p></div>
+    <div class="champ-lv-cta" id="lvCta"><a class="champ-btn is-solid" href="#link">Get my link <span class="champ-arw">&rarr;</span></a><a class="champ-btn is-ghost" href="#tips">The playbook <span class="champ-arw">&rarr;</span></a></div>
+  </div>
+</dialog></div></div><footer class="dh-footer-slim"><div class="dh-container"><div class="dh-footer-slim-bottom"><span class="dh-footer-slim-copy">© Darren Hardy, LLC. All Rights Reserved.</span><div class="dh-footer-legal-links"><a href="https://dh.darrenhardy.com/terms-of-service/" class="dh-footer-legal-link">Terms <!-- -->&amp;<!-- --> Conditions</a><a href="https://dh.darrenhardy.com/privacy" class="dh-footer-legal-link">Privacy Policy</a><a href="#privacy-choices" class="dh-footer-legal-link is-choices">Your Privacy Choices</a></div></div></div></footer><script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6aa109c0730dcec4155908e1" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script><script src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1/js/webflow.751e0867.d0db24568aa817d0.js" type="text/javascript" integrity="sha384-QeibkKgZkEafpSdRRTsjo5vq8X3ff2+ioNIcmY8eM7QzumvdKBE/5s1ow3ZgwZN4" crossorigin="anonymous"></script><!-- Google Tag Manager (noscript). Same container as the head (GTM-N9M56DXM).
+     Only matters for visitors with JavaScript off. Webflow places footer code
+     just before </body>, which is fine for a noscript fallback. -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N9M56DXM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- FOOTER "YOUR PRIVACY CHOICES" LINK, v3 2026-09-30. Same block as darrenhardy.com,
+     hardybmc.com, darrendaily.com, profits.darrenhardy.com and thecompoundeffect.com.
+     Change it on all or none.
+     The exact text "Your Privacy Choices" plus the official CA icon (.is-choices ::before on
+     dh-footer-legal-link) is the CCPA alternative opt-out link (11 CCR 7015). Do not reword it.
+     The footer link MUST use href="#privacy-choices" (or "#do-not-sell") for this to work.
+     A click opens Cookiebot's dialog (Cookiebot.renew). If Cookiebot has not loaded
+     (for example, the domain is missing from the Cookiebot domain groups), a click
+     shows "Please try again in a moment." -->
+<script>
+(function () {
+  var FLAG = 'dhChoicesSaved';
+  function toast(msg) {
+    var t = document.createElement('div');
+    t.textContent = msg;
+    t.setAttribute('role', 'status');
+    t.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483646;background:#141414;color:#fff;border:1px solid rgba(255,255,255,.35);padding:12px 18px;border-radius:6px;font:14px/1.4 Helvetica,Arial,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.35);max-width:90vw;text-align:center';
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, 6000);
+  }
+  try {
+    if (sessionStorage.getItem(FLAG)) {
+      sessionStorage.removeItem(FLAG);
+      toast('Your privacy choices have been saved.');
+    }
+  } catch (e) {}
+  function marketingOn() {
+    var c = window.Cookiebot && window.Cookiebot.consent;
+    return !!(c && c.marketing);
+  }
+  var armed = false, wasOn = false;
+  function onChoice() {
+    if (!armed) return;
+    armed = false;
+    if (!wasOn || marketingOn()) return;
+    try { if (window.fbq) window.fbq('consent', 'revoke'); } catch (err) {}
+    try { sessionStorage.setItem(FLAG, '1'); } catch (err) {}
+    setTimeout(function () { location.reload(); }, 400);
+  }
+  window.addEventListener('CookiebotOnAccept', onChoice, false);
+  window.addEventListener('CookiebotOnDecline', onChoice, false);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href="#privacy-choices"], a[href="#do-not-sell"]');
+    if (!a) return;
+    e.preventDefault();
+    var cb = window.Cookiebot;
+    if (!cb || !cb.renew) {
+      toast('Please try again in a moment.');
+      return;
+    }
+    wasOn = marketingOn();
+    armed = true;
+    cb.renew();
+  });
+})();
+</script>
+
+<!-- TCE INTERACTIONS. Only what the Webflow style engine cannot express.
+     1. Parent hover moving a child: the arrow (.tce-arrow) travels on .tce-button and .tce-chip, the play
+        disc grows on .tce-video. Fills never change on hover.
+     2. The hardcover (.tce-book) drifts a few px with the pointer. Translate only, never rotate.
+     (The old click-to-open video lightbox was removed 2026-10-06: every video poster now plays in place.) -->
+<style>
+.tce-button:hover .tce-arrow{transform:translateX(6px)}
+.tce-chip:hover .tce-arrow{transform:translateX(4px)}
+.tce-video:hover .tce-play{transform:scale(1.04)}
+@media (prefers-reduced-motion:reduce){.tce-button,.tce-chip,.tce-arrow,.tce-play,.tce-card,.tce-book{transition:none!important}.tce-button:hover,.tce-card:hover{transform:none}.tce-button:hover .tce-arrow,.tce-chip:hover .tce-arrow{transform:none}}
+</style>
+<script>
+(function () {
+  var stage = document.querySelector('.tce-stage'), book = stage && stage.querySelector('.tce-book');
+  if (!book || !matchMedia('(hover: hover) and (min-width: 768px)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  stage.addEventListener('mousemove', function (e) {
+    var r = stage.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    book.style.transform = 'translate(calc(-50% + ' + (x * 14).toFixed(1) + 'px), calc(-50% + ' + (y * 10).toFixed(1) + 'px))';
+  });
+  stage.addEventListener('mouseleave', function () { book.style.transform = ''; });
+})();
+</script>
+
+<!-- TCE VIDEO CONFIRMATION ("Video Confirmation Hero" component). A poster (a.tce-video.is-big) plays its Vimeo
+     video IN PLACE, then follows the watch time and adds .is-revealed to every [data-reveal="<seconds>"] element
+     once the visitor passes that second. ?reveal=1 shows them without watching. CSS lives in the site head.
+     No Vimeo bytes load until the click (dnt=1). -->
+<script>
+(function () {
+  var reveals = [].slice.call(document.querySelectorAll('[data-reveal]'));
+  function reveal(sec) {
+    reveals.forEach(function (el) {
+      if (!el.classList.contains('is-revealed') && sec >= +el.getAttribute('data-reveal')) el.classList.add('is-revealed');
+    });
+  }
+  if (/[?&]reveal=1/.test(location.search)) reveal(1e9);
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest && e.target.closest('a.tce-video.is-big');
+    if (!link) return;
+    var m = (link.getAttribute('href') || '').match(/vimeo\.com\/(\d+)/);
+    if (!m) return;
+    e.preventDefault();
+    var box = document.createElement('div');
+    box.className = link.className + ' is-playing';
+    var f = document.createElement('iframe');
+    f.src = 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1&dnt=1&title=0&byline=0&portrait=0';
+    f.allow = 'autoplay; fullscreen; picture-in-picture';
+    f.allowFullscreen = true;
+    f.title = link.getAttribute('aria-label') || 'Video';
+    box.appendChild(f);
+    link.replaceWith(box);
+    if (!reveals.length) return;
+    var s = document.createElement('script');
+    s.src = 'https://player.vimeo.com/api/player.js';
+    s.onload = function () {
+      var p = new Vimeo.Player(f);
+      p.on('timeupdate', function (d) {
+        reveal(d.seconds);
+        if (reveals.every(function (el) { return el.classList.contains('is-revealed'); })) p.off('timeupdate');
+      });
+    };
+    document.head.appendChild(s);
+  });
+})();
+</script>
+
+<!-- TCE SHARED SECTIONS + GLASS (CSS in the site head). Each part exits at once on pages without its section.
+     1. SHELF: the pointer's side decides which book is in front (left third, right third; the middle keeps the
+        current one). Leaving the shelf returns The Compound Effect to the front. A click goes to the book in
+        front; keyboard focus brings that book forward.
+     2. READER WALL PANEL: --z eases 1.6 -> 1 as the panel rises to mid-screen. Reduced motion: no zoom.
+     3. PAGE REVEAL: arms the wall, leaders and shelf sections, plays each once at 85% of the screen, then
+        marks it done so hovers behave normally again. Not on Home (.tce-front-grid), which has its own.
+     4. GLASS: adds the five glass layers to every .tce-form.is-glass order box. -->
+<script>
+(function () {
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var box = document.querySelector('.tce-shelf-books');
+  if (box) {
+    var B = { left: box.querySelector('.is-left'), right: box.querySelector('.is-right'), '': box.querySelector('.is-front') };
+    var set = function (v) { if ((box.getAttribute('data-front') || '') !== v) box.setAttribute('data-front', v); };
+    var zone = function (x) { var r = box.getBoundingClientRect(), c = r.left + r.width / 2, g = r.width / 6; return x < c - g ? 'left' : x > c + g ? 'right' : null; };
+    box.addEventListener('pointermove', function (e) { var z = zone(e.clientX); if (z !== null) set(z); });
+    box.addEventListener('pointerdown', function (e) { var z = zone(e.clientX); set(z || ''); });
+    box.addEventListener('mouseleave', function () { set(''); });
+    Object.keys(B).forEach(function (k) {
+      var a = B[k]; if (!a) return;
+      a.addEventListener('focus', function () { set(k); });
+      a.addEventListener('click', function (e) { var f = B[box.getAttribute('data-front') || '']; if (f && f !== a && f.href) { e.preventDefault(); window.location.href = f.href; } });
+    });
+  }
+
+  var wall = document.querySelector('.tce-sold.is-panel'), img = wall && wall.querySelector('.tce-sold-img');
+  if (img && !reduce) {
+    var ticking = false;
+    var zoom = function () {
+      ticking = false;
+      var r = wall.getBoundingClientRect(), vh = window.innerHeight || 800;
+      var p = Math.min(1, Math.max(0, (vh - r.top) / ((vh + r.height) / 2)));
+      var e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      img.style.setProperty('--z', (1.6 - .6 * e).toFixed(4));
+    };
+    var req = function () { if (!ticking) { ticking = true; requestAnimationFrame(zoom); } };
+    window.addEventListener('scroll', req, { passive: true });
+    window.addEventListener('resize', req);
+    zoom();
+  }
+
+  if (!reduce && !document.querySelector('.tce-front-grid')) {
+    [['.tce-sold.is-panel', 1100], ['.tce-section.is-spaced', 2300], ['.tce-shelf', 1500]].forEach(function (p) {
+      var s = document.querySelector(p[0]);
+      if (!s) return;
+      s.classList.add('is-armed');
+      function off() { window.removeEventListener('scroll', check); window.removeEventListener('resize', check); }
+      function check() {
+        var r = s.getBoundingClientRect();
+        if (r.top < (window.innerHeight || 800) * 0.85 && r.bottom > 0) {
+          off();
+          s.classList.add('is-in');
+          setTimeout(function () { s.classList.add('is-done'); }, p[1]);
+        }
+      }
+      window.addEventListener('scroll', check, { passive: true });
+      window.addEventListener('resize', check);
+      check();
+    });
+  }
+
+  [].forEach.call(document.querySelectorAll('.tce-form.is-glass'), function (card) {
+    if (card.querySelector('.tce-glass')) return;
+    ['frost', 'pool', 'fringe', 'edge', 'spec'].forEach(function (k, i) {
+      var s = document.createElement('span');
+      s.className = 'tce-glass is-' + k;
+      s.setAttribute('aria-hidden', 'true');
+      card.insertBefore(s, card.children[i] || null);
+    });
+  });
+})();
+</script>
+
+<!-- TCE IMAGE SIZES (2026-10-07). Webflow tells the browser each photo is as wide as its file ("880px"), so it
+     downloads a bigger srcset file than the slot shows. Before these lazy images load, this states each one's real
+     slot width so the browser picks the right file. Only the classes named here: never add a cover-cropped image
+     that is wider than its box (the Bio Section wall), or it would come out soft. 1% under the slot lets a 500w
+     file serve a 252px phone slot (2px short, invisible). The shelf books are sized by height and have no width
+     until they load, so theirs is worked out from the height (the covers are about 0.64 as wide as tall).
+     If it fails, images simply load as they did before. -->
+<script>
+(function () {
+  [].forEach.call(document.querySelectorAll('img.tce-voice-photo[srcset], img.tce-shelf-img[srcset], img.tce-creed-dh[srcset]'), function (i) {
+    if (i.complete) return;
+    var w = i.offsetWidth || (i.classList.contains('tce-shelf-img') ? i.offsetHeight * .64 : 0);
+    if (w > 40) i.sizes = Math.floor(w * .99) + 'px';
+  });
+})();
+</script><script>
+/* =============================================================================
+   CHAMPION BOARD (TCEB): Webflow page script
+   -----------------------------------------------------------------------------
+   The board itself (deck cards, podium, tiles, face stacks, walls) is native
+   Webflow CMS lists bound to the Champions collection. This script only adds
+   behaviour, and reads two hidden CMS template pages:
+     /champion-data/<ref>   one Champion's numbers   -> "Where you stand"
+     /champion-board/p1..pN full standings as text  -> searchable full list
+     /champion-key/<hash>   email sign-in key -> referral ID
+   Hooks are ids and data-* attributes only, never style classes.
+
+   Launch switches (search for them):
+     PROMO_LIVE   nav shows the promo clock + "Add a seat"; false = "Get my link"
+     HP_ONCE      takeover once per visit (true for launch; false while testing)
+     REF_IN/OUT   referral param names (waiting on the real HubSpot field name)
+   ============================================================================= */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  // Buttons JUMP to their section, no animated scroll (user call, 2026-10-09: smooth scrolling felt slow, then hyper).
+  // Anchor clicks are taken in the capture phase so Webflow's built-in anchor scroll never runs.
+  function go(el) {
+    if (typeof el === 'string') el = $(el);
+    if (!el) return;
+    scrollTo(0, Math.max(0, el.getBoundingClientRect().top + pageYOffset - (parseFloat(getComputedStyle(el).scrollMarginTop) || 0)));
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('.champ-page a[href^="#"]');
+    if (!a || a.hasAttribute('data-enroll') || a.hasAttribute('data-lv')) return;
+    var id = a.getAttribute('href').slice(1), t = id && $(id);
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); if (e.detail) a.blur();
+    // data-pick="audio|event|leader" also selects that share option in the link hub
+    if (a.hasAttribute('data-pick')) pick(a.getAttribute('data-pick'));
+    go(t);
+  }, true);
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) { return { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]; }); };
+  var NEXT = { Copper: 3, Silver: 5, Gold: 10 }, FIRST = 1;
+  // In the Studio: the top STUDIO Champions at the final count (no minimum impacts since 2026-10-16)
+  var STUDIO = 40;
+
+  // Nav during a promo: ONE button. It becomes the promo action and the clock is info only.
+  // Between promos set PROMO_LIVE = false: the clock hides and the button is Get my link.
+  // Hardy Harvest is parked (2026-10-14): nav clock, Harvest block and season stop are hidden in Webflow, not deleted.
+  // To bring it back: unhide those three elements, then set PROMO_LIVE and HARVEST_LIVE to true.
+  var PROMO_LIVE = false, HARVEST_LIVE = false;
+  (function () {
+    var cta = $('navCta');
+    if (PROMO_LIVE) { cta.innerHTML = 'Add a seat <span class="champ-arw">&rarr;</span>'; cta.setAttribute('data-enroll', ''); }
+    else { document.querySelectorAll('[data-promo]').forEach(function (e) { e.style.display = 'none'; }); }
+  })();
+
+  // Hero deck: on small screens scale the desktop composition to fit
+  function fitDeck() {
+    var fit = $('deckFit'), d = $('deck');
+    if (innerWidth > 991) { d.style.transform = ''; fit.style.height = ''; return; }
+    var w = fit.clientWidth, sc = Math.min(1, w / 620);
+    d.style.transform = 'translateX(' + Math.round((w - 540 * sc) / 2) + 'px) scale(' + sc.toFixed(4) + ')';
+    fit.style.height = Math.round(570 * sc) + 'px';
+  }
+  fitDeck(); addEventListener('resize', fitDeck);
+
+  // FULL STANDINGS: everyone on the board, fetched on first open from the Board Pages
+  // template (/champion-board/p1 ... pN). Line 1 of p1 is "pages=N"; each row is rank|name|coin|impacts.
+  var full = $('full'), fullBtn = $('fullBtn'), list = $('fullList'), search = $('fullSearch'), ALL = null, me = null;
+  function boardPage(n) {
+    return fetch('/champion-board/p' + n, { credentials: 'same-origin' }).then(function (r) { if (!r.ok) throw r.status; return r.text(); }).then(function (h) {
+      var doc = new DOMParser().parseFromString(h, 'text/html'), el = doc.querySelector('[data-board]');
+      return el ? el.innerHTML.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&') : '';
+    });
+  }
+  function parse(txt) { return txt.split('\n').map(function (l) { return l.trim().split('|'); }).filter(function (r) { return r.length === 4; }); }
+  function loadBoard() {
+    if (ALL) return Promise.resolve(ALL);
+    list.innerHTML = '<li class="champ-full-line">Loading the board&hellip;</li>';
+    return boardPage(1).then(function (t) {
+      var m = /pages=(\d+)/.exec(t), n = m ? +m[1] : 1, more = [];
+      for (var i = 2; i <= n; i++) more.push(boardPage(i));
+      return Promise.all(more).then(function (rest) { ALL = parse(t); rest.forEach(function (x) { ALL = ALL.concat(parse(x)); }); return ALL; });
+    }).catch(function () { ALL = []; return ALL; });
+  }
+  function row(r) {
+    var rank = +r[0], coin = r[2];
+    return '<li class="champ-full-row' + (me && rank === me.rank ? ' is-me' : '') + '" data-rank="' + rank + '"><span class="champ-full-rank' + (rank <= 5 ? ' is-top' : '') + '">' + rank + '</span><span class="champ-full-name">' + esc(r[1]) + '</span><span class="champ-full-coin"><i class="champ-chip" data-coin="' + esc(coin) + '"></i>' + esc(coin) + '</span><span class="champ-full-imp">' + esc(r[3]) + '</span></li>';
+  }
+  function render(q) {
+    if (!ALL) return;
+    if (!ALL.length) { list.innerHTML = '<li class="champ-full-line">The full board is updating. Check back shortly.</li>'; return; }
+    q = (q || '').trim().toLowerCase();
+    var rows = q ? ALL.filter(function (r) { return r[1].toLowerCase().indexOf(q) > -1; }) : ALL;
+    if (!rows.length) { list.innerHTML = '<li class="champ-full-line">No Champion by that name yet</li>'; return; }
+    // No Studio Line marker in the list: showing it would reveal the cutoff rank (user, 2026-10-16)
+    list.innerHTML = rows.map(row).join('');
+  }
+  // Center a row inside the list's own scroll box (measured from the boxes, not offsetTop, which is page-relative here)
+  function centerRow(r) { list.scrollTop += r.getBoundingClientRect().top - list.getBoundingClientRect().top - (list.clientHeight - r.offsetHeight) / 2; }
+  function showMe() {
+    if (search) search.value = '';
+    render('');
+    var r = me && list.querySelector('[data-rank="' + me.rank + '"]');
+    if (r) centerRow(r);
+  }
+  function setOpen(open) {
+    if (open) { full.removeAttribute('hidden'); full.classList.add('is-open'); } else { full.setAttribute('hidden', ''); full.classList.remove('is-open'); }
+    fullBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    fullBtn.innerHTML = open ? 'Hide full standings <span class="champ-arw">&uarr;</span>' : 'Full standings <span class="champ-arw">&darr;</span>';
+  }
+  // Signed in, the standings open on your own row
+  // Open/closed lives in aria-expanded, not the hidden attribute (something on the page can clear hidden at load)
+  function isOpen() { return fullBtn.getAttribute('aria-expanded') === 'true'; }
+  function openFull() { setOpen(true); return loadBoard().then(function () { if (me) showMe(); else render(search ? search.value : ''); }); }
+  setOpen(false);
+  fullBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (isOpen()) { setOpen(false); return; }
+    openFull().then(function () { go(full); });
+  });
+  if (search) { var t; search.addEventListener('input', function () { clearTimeout(t); t = setTimeout(function () { render(search.value); }, 120); }); }
+  // Show my spot: open the standings, bring them into view, center your row. Signed out, it goes to sign-in.
+  $('fullMe').addEventListener('click', function (e) {
+    e.preventDefault();
+    if (!me) { go('link'); return; }
+    openFull().then(function () { go(full); });
+  });
+
+  // Champion Friday: a fake waveform (the real clip comes from the Champion's phone recording)
+  (function () {
+    var h = '';
+    for (var i = 0; i < 48; i++) {
+      var a = (0.18 + Math.abs(Math.sin(i * 0.7)) * 0.5).toFixed(2), b = (0.3 + Math.abs(Math.cos(i * 1.3)) * 0.7).toFixed(2);
+      h += '<i class="champ-wave-bar' + (i < 18 ? ' is-played' : '') + '" style="--a:' + a + ';--b:' + b + ';animation-delay:-' + (i * 0.07).toFixed(2) + 's"></i>';
+    }
+    $('wave').innerHTML = h;
+  })();
+
+  // The climb: on small screens scale the whole five-card stack to fit one row (no side scroll)
+  function fitSteps() {
+    var fit = $('stepsFit'), st = $('railSteps');
+    if (!fit) return;
+    if (innerWidth > 1100) { st.style.transform = ''; fit.style.height = ''; return; }
+    var sc = Math.min(1, fit.clientWidth / 768);
+    st.style.transform = 'scale(' + sc.toFixed(4) + ')';
+    fit.style.height = Math.round((st.offsetHeight) * sc) + 'px';
+  }
+  fitSteps(); addEventListener('resize', fitSteps);
+
+  // Level pop-up: more info, tips, and who's there now. People come from the CMS lists already on the page.
+  function people(sel) {
+    var seen = {}, out = [];
+    document.querySelectorAll(sel).forEach(function (im) { var n = im.getAttribute('alt'); if (n && !seen[n]) { seen[n] = 1; out.push([im.currentSrc || im.src, n]); } });
+    return out;
+  }
+  var COIN = { copper: 'Copper', silver: 'Silver', gold: 'Gold' };
+  function who(key) {
+    if (key === 'lead' || key === 'plat') return people('[data-slot="wall-plat"] img');
+    if (COIN[key]) return people('[data-slot="faces-' + key + '"] img, [data-slot="wall-new"] [data-coin="' + COIN[key] + '"] img');
+    return null;
+  }
+  var CARD = {
+    lead: ['Start here', 'Your link', 'Send it to the leader you want next to you in April. Every one who joins compounds your impact.'],
+    copper: ['Copper', '1 impact', 'Your first leader is in. Your name goes on the board.'],
+    silver: ['Silver', '3 impacts', 'Three leaders in April because of you. Keep climbing.'],
+    gold: ['Gold', '5 impacts', 'Five leaders in. The upper ranks are in reach.'],
+    plat: ['Platinum', '10+ impacts', 'Double digits. Hold your rank to the final count.'],
+    studio: ['In the Studio', 'Top ranks', 'Three days live with Darren. Earned at the final count.'],
+    table: ["Darren's Table", 'Top 5', 'A private dinner with Darren and Georgia. Earned at the final count.']
+  };
+  var LV = {
+    lead:   { tips: ['<b>Get your link.</b> It is yours alone, and every leader who joins through it is credited to you.', '<b>Write down three names.</b> Your number two, the leader in your forum, the one you call when something breaks.', '<b>Send one text today.</b> Your kit has it written. Add one line in your own words.'],
+              who: 'Champions on the board', more: 'Every seat on the board is open' },
+    copper: { tips: ['<b>Start with the leader closest to you.</b> Your number two is the easiest first yes on the board.', '<b>Investing for your own team?</b> Enroll each leader and every one shows on your board.', '<b>Your first impact is the hardest one.</b> Your Copper coin follows it.'],
+              who: 'At Copper now', more: 'Copper seats are open' },
+    silver: { tips: ['<b>Bring them as a team.</b> Two leaders from the same company is two impacts in one conversation.', '<b>Use the Challenge.</b> Leaders who spend three days with Darren in December say yes to April.', '<b>Follow up personally.</b> A two-line text a week later turns maybes into yeses.'],
+              who: 'At Silver now', more: 'Silver seats are open' },
+    gold:   { tips: ['<b>Think past your company.</b> A key vendor, a client, a partner. The relationship is already there.', '<b>A spouse or business partner counts.</b> Same language at home and at work.', '<b>Watch for each sprint.</b> Each one brings a new play. Run it the week it opens.'],
+              who: 'At Gold now', more: 'Gold seats are open' },
+    plat:   { tips: ['<b>Your org chart is the fastest path.</b> Every Platinum Champion on the board brought their own leaders.', '<b>Ask to speak.</b> Your association, your mastermind, your forum. One room, several leaders.', '<b>Rank decides the Studio.</b> Hold your rank to the final count to be eligible.'],
+              who: 'At Platinum now', more: 'Platinum seats are open' },
+    studio: { tips: ['<b>Climb into the upper ranks.</b> Every impact moves you up the board.', '<b>Then hold your spot.</b> The top-ranked Champions at the final count become eligible to win three days In the Studio with Darren.', '<b>Ties go to whoever got there first.</b>'],
+              who: 'Awarded at the final count', q: 6, more: 'Seats are earned at the final count. Nothing is left to chance.' },
+    table:  { tips: ['<b>Finish top five.</b> Rank at the final count decides it.', '<b>Bring your whole leadership team.</b> Every Champion at the top so far did.', '<b>Keep going after Platinum.</b> The top five are separated by a handful of leaders.'],
+              who: 'Awarded at the final count', q: 5, more: 'Five places, earned at the final count.' }
+  };
+  var dlg = $('lv'), lvTop = $('lvTop');
+  function openLv(card) {
+    var key = card.getAttribute('data-lv'), d = LV[key], c = CARD[key], ppl = who(key);
+    lvTop.className = 'champ-lv-top is-' + key;
+    $('lvTitle').textContent = c[0];
+    $('lvReq').textContent = c[1];
+    $('lvDesc').innerHTML = c[2];
+    $('lvTips').innerHTML = d.tips.map(function (t) { return '<li class="champ-lv-tip">' + t + '</li>'; }).join('');
+    $('lvWhoH').textContent = d.who;
+    $('lvGrid').innerHTML = ppl ? ppl.map(function (p) { return '<div class="champ-lv-person"><img class="champ-lv-face" src="' + esc(p[0]) + '" alt="' + esc(p[1]) + '" loading="lazy"><span class="champ-lv-name">' + esc(p[1]) + '</span></div>'; }).join('')
+      : new Array(d.q + 1).join('<div class="champ-lv-person"><span class="champ-lv-face is-q">?</span><span class="champ-lv-name">You?</span></div>');
+    $('lvMore').textContent = d.more;
+    var r = card.getBoundingClientRect();
+    dlg.style.setProperty('--from', 'translate(' + Math.round(r.left + r.width / 2 - innerWidth / 2) + 'px,' + Math.round(r.top + r.height / 2 - innerHeight / 2) + 'px)');
+    dlg.classList.remove('is-open');
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+    requestAnimationFrame(function () { requestAnimationFrame(function () { dlg.classList.add('is-open'); }); });
+  }
+  function closeLv() { dlg.classList.remove('is-open'); setTimeout(function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); }, 280); }
+  // Phones have no hover: the stack lifts one card at a time on its own; one tap opens that card
+  var wc = [].slice.call($('railSteps').querySelectorAll('[data-lv]')), li = 0, auto = null;
+  function lift(c) { wc.forEach(function (x) { x.classList.toggle('is-lift', x === c); }); }
+  if (innerWidth <= 1100) auto = setInterval(function () { li = (li + 1) % wc.length; lift(wc[li]); }, 1700);
+  function activate(card) {
+    if (wc.indexOf(card) > -1) { clearInterval(auto); lift(card); }
+    if (card.getAttribute('data-lv') === 'lead') { go('link'); return; }
+    openLv(card);
+  }
+  $('rail').addEventListener('click', function (e) { var card = e.target.closest('[data-lv]'); if (!card) return; e.preventDefault(); activate(card); });
+  $('rail').addEventListener('keydown', function (e) { if (e.key !== 'Enter' && e.key !== ' ') return; var card = e.target.closest('[data-lv]'); if (!card) return; e.preventDefault(); openLv(card); });
+  $('lvX').addEventListener('click', closeLv);
+  dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('#lvCta a')) closeLv(); });
+  dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeLv(); });
+
+  // Hardy Harvest: DEMO clock pretends today is Wed., Nov 11th, mid-promo. Ends Thurs., Nov 12th, 11:59 pm ET.
+  // For the real promo, delete simStart/realStart and count down from Date.now().
+  var hvEnd = new Date('2026-11-13T04:59:00Z'), simStart = new Date('2026-11-11T19:00:00Z'), realStart = Date.now();
+  function tick() {
+    var left = Math.max(0, hvEnd - (simStart.getTime() + (Date.now() - realStart)));
+    var h = Math.floor(left / 36e5), m = Math.floor(left % 36e5 / 6e4), sec = Math.floor(left % 6e4 / 1e3);
+    document.querySelectorAll('[data-h-mini]').forEach(function (e) { e.textContent = h; });
+    document.querySelectorAll('[data-hhms]').forEach(function (e) { e.textContent = h + 'h:' + String(m).padStart(2, '0') + 'm:' + String(sec).padStart(2, '0') + 's'; });
+    document.querySelectorAll('[data-cd]').forEach(function (c) {
+      c.querySelector('[data-h]').textContent = String(h).padStart(2, '0');
+      c.querySelector('[data-m]').textContent = String(m).padStart(2, '0');
+      c.querySelector('[data-s]').textContent = String(sec).padStart(2, '0');
+    });
+  }
+  tick(); setInterval(tick, 1000);
+  var hp = $('hpop');
+  function hpOpen() { if (hp.showModal) hp.showModal(); else hp.setAttribute('open', ''); setTimeout(function () { hp.classList.add('is-open'); }, 30); }
+  function hpClose() { hp.classList.remove('is-open'); setTimeout(function () { if (hp.close) hp.close(); else hp.removeAttribute('open'); }, 320); }
+  // TESTING: show the pop-up 2s after every page load. For launch, set HP_ONCE = true to show it once per visit.
+  var HP_ONCE = false, seen = false;
+  if (HP_ONCE) { try { seen = sessionStorage.getItem('hv-pop') === '1'; } catch (e) {} }
+  if (HARVEST_LIVE && !seen) setTimeout(function () { hpOpen(); if (HP_ONCE) { try { sessionStorage.setItem('hv-pop', '1'); } catch (e) {} } }, 2000);
+  $('hpopX').addEventListener('click', hpClose);
+  $('hpopLater').addEventListener('click', hpClose);
+  $('hpopGo').addEventListener('click', hpClose);
+  hp.addEventListener('click', function (e) { if (e.target === hp) hpClose(); });
+  hp.addEventListener('cancel', function (e) { e.preventDefault(); hpClose(); });
+
+  // WHERE YOU STAND. The Champion's referral ID arrives in the URL from their HubSpot email;
+  // it is also the slug of their Champions item, so /champion-data/<ref> holds their numbers.
+  // TODO: confirm the real HubSpot param name with the team; these are the names it accepts for now.
+  var REF_IN = ['id', 'ID', 'ref', 'rid', 'cid'], REF_OUT = 'ref';
+  var qs = new URLSearchParams(location.search), refId = null;
+  REF_IN.forEach(function (k) { if (!refId && qs.get(k)) refId = qs.get(k).trim(); });
+  var signedIn = false;
+  var standLinks = document.querySelectorAll('[data-stand-link]');
+  function standCopy(inside) { standLinks.forEach(function (a) { a.href = inside ? '#stand' : '#link'; a.firstChild.textContent = inside ? 'Where do I stand? ' : 'Sign in to see where you stand '; }); }
+  function st(k) { return document.querySelector('[data-st="' + k + '"]'); }
+  function setFirstText(el, s) { if (!el) return; for (var n = el.firstChild; n; n = n.nextSibling) if (n.nodeType === 3) { n.nodeValue = s; return; } el.insertBefore(document.createTextNode(s), el.firstChild); }
+  function fillStand(f) {
+    var rank = +f.rank, imp = +f.impacts, coin = f.coin || '', move = +f.move || 0, next = f['next-coin'], togo = +f['to-next-coin'] || 0, spots = +f.spots || 0;
+    me = { rank: rank };
+    var nm = f.name || f['first-name'], chip = $('stChip'), cn = $('stChipName'), ci = $('stChipImg') || $('stchipimg');
+    if (chip) { (cn || chip).textContent = nm || ''; chip.hidden = !nm; }
+    // Chip photo = the Champion's CMS headshot; no headshot, no photo square
+    if (ci) { if (f.photo) { ci.src = f.photo; ci.removeAttribute('srcset'); ci.alt = nm || ''; ci.style.display = ''; } else ci.style.display = 'none'; }
+    if (chip) chip.style.paddingLeft = f.photo ? '' : '40px';
+    st('rank').textContent = '#' + rank;
+    setFirstText(st('move'), move > 0 ? '▲ ' + move : 'Holding');
+    st('say').textContent = f.status || '';
+    st('impacts').textContent = imp;
+    setFirstText(st('coin'), 'Impacts · ' + coin);
+    var chip = st('coin').querySelector('.champ-chip'); if (chip) chip.setAttribute('data-coin', coin);
+    st('next').textContent = next || 'Top coin';
+    st('togo').textContent = next ? togo : '';
+    st('togo').parentNode.lastChild.nodeValue = next ? ' to go' : 'Platinum reached';
+    st('coinbar').style.width = Math.min(100, Math.round(imp / (NEXT[coin] || 10) * 100)) + '%';
+    // Second bar: the race for Darren's Table (Top 5) for everyone. Never show spots back from the Studio cutoff:
+    // the cutoff number stays off the page (user, 2026-10-16).
+    var lab = st('away').parentNode.parentNode.firstElementChild, plural = function (n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }, label, goalTxt, away, tail, pct;
+    var gap = rank - 5; label = 'Darren\'s Table: '; goalTxt = 'Top 5'; away = gap > 0 ? plural(gap, 'spot') : 'At'; tail = gap > 0 ? ' back' : ' the table'; pct = 5 / Math.max(rank, 1);
+    setFirstText(lab, label); lab.querySelector('b').textContent = goalTxt;
+    st('away').textContent = away; st('away').parentNode.lastChild.nodeValue = tail;
+    st('linebar').style.width = Math.min(100, Math.round(pct * 100)) + '%';
+  }
+  function loadStand(ref) {
+    return fetch('/champion-data/' + encodeURIComponent(ref.toLowerCase()), { credentials: 'same-origin' }).then(function (r) { if (!r.ok) throw r.status; return r.text(); }).then(function (h) {
+      var doc = new DOMParser().parseFromString(h, 'text/html'), f = {};
+      doc.querySelectorAll('[data-f]').forEach(function (e) { f[e.getAttribute('data-f')] = e.textContent.trim(); });
+      var ph = doc.querySelector('img[data-f="photo"]'); f.photo = ph && !ph.classList.contains('w-dyn-bind-empty') ? ph.getAttribute('src') : '';
+      if (!f.rank) throw 'empty';
+      return f;
+    });
+  }
+  function setSignedIn(on) {
+    signedIn = on;
+    $('stand').hidden = !on;
+    standCopy(on);
+    refNote();
+    var o = document.querySelector('[data-opt].is-on'); pick(o ? o.getAttribute('data-opt') : 'audio');
+  }
+  // No ID in the URL (or an unknown one) = signed out: hide "Where you stand" and gate the link behind sign-in.
+  $('stand').hidden = true; standCopy(false);
+  // The ID shown and carried on every link is the Champion ID field (backend / mailer ID); the slug matches it
+  if (refId) loadStand(refId).then(function (f) { refId = f['champion-id'] || refId; fillStand(f); setSignedIn(true); }, function () { refId = null; setSignedIn(false); });
+  var linkRef = function () { return refId || 'DEMO123'; };
+  // Spiffy credits referred sales by utm_content = Champion ID (same as Jon's card.darrenhardy.com/r/<id> redirect)
+  function withRef(u) { try { var x = new URL(u, location.href); x.searchParams.set(REF_OUT, linkRef()); x.searchParams.set('utm_content', linkRef()); return x.toString(); } catch (e) { return u; } }
+  function refNote() { $('refNote').innerHTML = 'Your referral ID: <code class="champ-hub-code">' + esc(linkRef()) + '</code>. Every link above carries it.'; }
+
+  // LINK HUB. Endorse (event) shows COMING SOON (see soonPane); its link below is not used until the funnel is ready.
+  var OPTS = {
+    event:  { url: 'https://www.thecompoundeffect.com/founders-event', subject: 'You came to mind for this',
+              msg: function (l) { return "I don't send many of these.\n\nDarren Hardy is holding his Founders Event this April, live, for leaders building their companies with The Compound Effect In Business. I'm going, and you're the first person I thought of.\n\nI've seen what a few days with Darren does for a company. It's the clearest my thinking gets all year, and my team feels it for months.\n\nTake a look: " + l + "\n\nIf it's a fit, I'd love to have you there with me."; } },
+    audio:  { url: 'https://www.thecompoundeffect.com/champion-audiobook', subject: 'A gift: The Compound Effect, 10th Anniversary Edition',
+              msg: function (l) { return "This is the book I tell everyone about. The Compound Effect by Darren Hardy, the 10th Anniversary Edition, the hardcover and the audiobook, on me.\n\nGrab it here: " + l + "\n\nListen to the first chapter tonight."; } },
+    leader: { url: 'https://www.thecompoundeffect.com/founders-event#enroll', subject: 'You are enrolled: the Founders Event',
+              msg: function (l) { return "I've enrolled you in Darren Hardy's Founders Event in April. Here's where to complete your enrollment: " + l + "\n\nSee you there."; } }
+  };
+  var opts = document.querySelectorAll('[data-opt]'), linkEl = $('refLink'), msgEl = $('refMsg');
+  // Endorse (The Founders Event) shows COMING SOON instead of a link until its funnel is ready (user, 2026-11-04)
+  var soonPane = document.createElement('div');
+  soonPane.id = 'soonPane'; soonPane.className = 'champ-share'; soonPane.hidden = true;
+  soonPane.innerHTML = '<span class="champ-lab is-black">The Founders Event</span><p class="champ-hub-h">Coming soon</p>';
+  $('sharePane').parentNode.insertBefore(soonPane, $('sharePane'));
+  function pick(key) {
+    var o = OPTS[key], l = withRef(o.url), m = o.msg(l);
+    opts.forEach(function (b) { b.classList.toggle('is-on', b.getAttribute('data-opt') === key); });
+    var enrolling = key === 'leader', soon = key === 'event';
+    $('sharePane').hidden = soon || enrolling || !signedIn;
+    $('enrollPane').hidden = soon || !enrolling || !signedIn;
+    $('signPane').hidden = soon || signedIn;
+    soonPane.hidden = !soon;
+    linkEl.value = l; msgEl.value = m;
+    $('refOpen').href = l;
+    $('refMail').href = 'mailto:?subject=' + encodeURIComponent(o.subject) + '&body=' + encodeURIComponent(m);
+    $('refSms').href = 'sms:?&body=' + encodeURIComponent(m);
+  }
+  opts.forEach(function (b) { b.addEventListener('click', function (e) { e.preventDefault(); pick(b.getAttribute('data-opt'));
+    // Phones: the options stack above the link, so jump down to it
+    if (innerWidth <= 900) setTimeout(function () { go('hubOut'); }, 60); }); });
+  // "Add a seat" buttons open the Enroll tab with a new seat pre-selected.
+  document.querySelectorAll('[data-enroll]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      pick('leader');
+      var inv = $('enrollPane').querySelector('input[value=invest]'); inv.checked = true; inv.dispatchEvent(new Event('change'));
+      setTimeout(function () { go('link'); }, 340);
+    });
+  });
+  // Enroll a leader: the Champion covers the seat with a credit or a new investment. Mock only; this becomes the real checkout/HubSpot form.
+  // PORTAL_URL: where a credit enrollment happens. Blank until the portal exists (2026-10-16); while blank, the credit
+  // button keeps the mock confirmation. Set it and the credit button opens the portal (carrying the referral ID) instead.
+  var PORTAL_URL = '';
+  var ef = $('enrollPane'), eGo = $('enrollGo'), pays = ef.querySelectorAll('input[name=pay]');
+  pays.forEach(function (r) {
+    r.addEventListener('change', function () {
+      pays.forEach(function (x) { x.parentNode.classList.toggle('is-on', x.checked); });
+      eGo.innerHTML = (r.value === 'credit' && r.checked ? 'Go to the portal to enroll them' : 'Continue to secure checkout') + ' <span class="champ-arw">&rarr;</span>';
+    });
+  });
+  ef.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (ef.elements['pay'].value === 'credit' && PORTAL_URL) { window.open(withRef(PORTAL_URL), '_blank', 'noopener'); return; }
+    var fn1 = ef.elements['first'].value.trim(), ln = ef.elements['last'].value.trim(), n = fn1 + ' ' + ln, em = ef.elements['email'].value.trim(), ok = !!fn1 && !!ln && /\S+@\S+\.\S+/.test(em);
+    $('enrollErr').hidden = ok;
+    if (!ok) return;
+    if (ef.elements['pay'].value === 'invest') { window.open(withRef(OPTS.leader.url), '_blank', 'noopener'); return; }
+    $('enrollWho').textContent = n;
+    $('enrollDone').hidden = false;
+  });
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = $(b.getAttribute('data-copy')), label = b.textContent;
+      function done() { b.classList.add('is-done'); b.textContent = 'Copied'; setTimeout(function () { b.classList.remove('is-done'); b.textContent = label; }, 1600); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(el.value).then(done, function () { el.select(); document.execCommand('copy'); done(); });
+      else { el.select(); document.execCommand('copy'); done(); }
+    });
+  });
+  // SIGN IN BY EMAIL. Each Champion's email is a key in the Champion Logins collection: the item slug is the
+  // first 40 hex of sha256(lowercased email) and its Ref field is their Champion ID. No email is ever on a page.
+  // /champion-key/<hash> -> ref -> /champion-data/<ref> -> the page fills in, same as arriving with ?id=.
+  var signErr = $('signErr'), signBtn = $('signPane').querySelector('button[type=submit]'), signFine = $('signPane').querySelector('.champ-sign-fine');
+  // An error replaces the fine print under the sign-in box
+  function signMsg(html) { signErr.innerHTML = html; signErr.hidden = !html; if (signFine) signFine.hidden = !!html; }
+  function emailKey(em) {
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(em.trim().toLowerCase())).then(function (b) {
+      return Array.prototype.map.call(new Uint8Array(b), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('').slice(0, 40);
+    });
+  }
+  function refFor(em) {
+    return emailKey(em).then(function (k) { return fetch('/champion-key/' + k, { credentials: 'same-origin' }); }).then(function (r) { if (!r.ok) throw r.status; return r.text(); }).then(function (h) {
+      var el = new DOMParser().parseFromString(h, 'text/html').querySelector('[data-f="ref"]'), ref = el && el.textContent.trim();
+      if (!ref) throw 'empty';
+      return ref;
+    });
+  }
+  $('signPane').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var em = this.elements['email'].value.trim();
+    if (!/\S+@\S+\.\S+/.test(em)) { signMsg('Enter the email you use for the Champion Program.'); return; }
+    signMsg(''); signBtn.disabled = true;
+    refFor(em).then(function (ref) { return loadStand(ref).then(function (f) {
+      refId = f['champion-id'] || ref; fillStand(f); setSignedIn(true);
+      // Keep them signed in on refresh
+      try { var u = new URL(location.href); u.searchParams.set('id', ref); history.replaceState(null, '', u); } catch (x) {}
+    }); }).catch(function () {
+      signMsg('Sorry, we couldn\'t find you today. Please contact Member Services to get your unique referral links. <a class="champ-sign-mail" href="mailto:helpme@darrenhardy.com?subject=I%20can%27t%20access%20my%20referral%20link" style="text-decoration:underline;text-underline-offset:3px">Email us directly here.</a>');
+    }).then(function () { signBtn.disabled = false; });
+  });
+  refNote();
+  pick('audio');
+  // Any outbound link marked data-ref carries the ID too.
+  document.querySelectorAll('a[data-ref]').forEach(function (a) { a.href = withRef(a.getAttribute('href')); });
+})();
+</script><script src="https://cdn.prod.website-files.com/6aa109c0730dcec4155908e1%2F689e5ba67671442434f3ca35%2F6aeb6ff8190d432daf63f155%2Fchampboardhelpers-1.1.0.js" type="text/javascript"></script></body></html>

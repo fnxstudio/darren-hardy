@@ -30,5 +30,5 @@ const r = await ev(`(async()=>{
 })()`);
 console.log(r.value);
 if (PRE) { const b = JSON.parse(r.value).box;
-  for (let i = 0; i < 16; i++) { const s = await send('Page.captureScreenshot', { format: 'jpeg', quality: 85, captureBeyondViewport: true, clip: { x: b.x, y: b.y, width: b.w, height: b.h, scale: 1 } }); fs.writeFileSync(`${PRE}-${i}.jpg`, Buffer.from(s.result.data, 'base64')); await sleep(450); } }
+  for (let i = 0; i < 40; i++) { const s = await send('Page.captureScreenshot', { format: 'jpeg', quality: 85, captureBeyondViewport: true, clip: { x: b.x, y: b.y, width: b.w, height: b.h, scale: 1 } }); fs.writeFileSync(`${PRE}-${i}.jpg`, Buffer.from(s.result.data, 'base64')); await sleep(170); } }
 ws.close(); chrome.kill();
