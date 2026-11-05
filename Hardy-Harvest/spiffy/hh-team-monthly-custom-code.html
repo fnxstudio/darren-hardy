@@ -13,6 +13,15 @@
    until Spiffy's app has settled (part 0). If this code doesn't run, the plain dropdowns still show and still work. */
 
 var D = String.fromCharCode(36), NB = String.fromCharCode(160), DOT = String.fromCharCode(183);
+
+/* Every style this code adds is scoped "html body .checkout ...", so it always outranks the custom CSS whatever order
+   Spiffy loads the two in. (On the live carts Spiffy adds the custom CSS after this code's styles, so a style here with
+   the same strength as one in the custom CSS lost: the tab covered the price and "Add VIP to my seat" went dark. 11/05) */
+function hhScope(s) {
+  return s.replace(/(^|[{}])[ ]*([^@{}][^{}]*)[{]/g, function (m, a, sel) {
+    return a + sel.split(',').map(function (x) { return 'html body .checkout ' + x.trim(); }).join(',') + '{';
+  });
+}
 var HH_PLAN = 'PAY' + NB + 'MONTHLY';
 var HH_TEAM = {
   tab: 'Save ' + D + '6,000 per seat',
@@ -100,7 +109,7 @@ function hhSetCount(sel, n) {
     '@media (max-width:520px){.hh-head{padding-right:118px;font-size:24px}.hh-sub{padding-right:0}' +
     '.hh-price b{font-size:14px}.hh-price small{font-size:10px}}' +
     '@media (max-width:340px){.hh-head{padding-right:124px;font-size:20px}.hh-price b{font-size:12px}.hh-price small{font-size:9px}.hh-tab{padding:9px 10px;font-size:11px;letter-spacing:.12em}}';
-  document.head.appendChild(css);
+  css.textContent = hhScope(css.textContent); document.head.appendChild(css);
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
@@ -181,7 +190,7 @@ function hhSetCount(sel, n) {
 (function () {
   var css = document.createElement('style');
   css.textContent = '.hh-inc{font-size:.8em;letter-spacing:.08em}';
-  document.head.appendChild(css);
+  css.textContent = hhScope(css.textContent); document.head.appendChild(css);
   var WANT = [['REARDEN PRESS SPONSORSHIP (' + D + '5,000 value)', '<span class="hh-inc">INCLUDED</span>'],
               ['HARDY HARVEST GIFT SET', '<span class="hh-inc">INCLUDED</span>']];
   var KEY = JSON.stringify(WANT);

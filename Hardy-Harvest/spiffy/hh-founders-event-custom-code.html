@@ -14,6 +14,15 @@ var R = window.HH_SPIFFY_ROOT || document;
 var R_TOP = R === document ? document.documentElement : R;
 var R_HEAD = R === document ? document.head : R;
 
+/* Every style this code adds is scoped "html body .checkout ...", so it always outranks the custom CSS whatever order
+   Spiffy loads the two in. (On the live carts Spiffy adds the custom CSS after this code's styles, so a style here with
+   the same strength as one in the custom CSS lost: the tab covered the price and "Add VIP to my seat" went dark. 11/05) */
+function hhScope(s) {
+  return s.replace(/(^|[{}])[ ]*([^@{}][^{}]*)[{]/g, function (m, a, sel) {
+    return a + sel.split(',').map(function (x) { return 'html body .checkout ' + x.trim(); }).join(',') + '{';
+  });
+}
+
 /* 0. Wait for Spiffy's checkout to settle: page fully loaded AND no changes for half a second (6s cap). Spiffy's hidden
       countdown timer ticks several times a second, so its changes don't count (otherwise it never goes quiet). */
 function hhAfterMount(fn) {
@@ -84,7 +93,7 @@ function hhAfterMount(fn) {
     '@media (max-width:520px){.hh-head{padding-right:118px;font-size:24px}.hh-sub{padding-right:0}' +
     '.hh-price b{font-size:14px}.hh-price small{font-size:10px}}' +
     '@media (max-width:340px){.hh-head{padding-right:124px;font-size:20px}.hh-price b{font-size:12px}.hh-price small{font-size:9px}.hh-tab{padding:9px 10px;font-size:11px;letter-spacing:.12em}}';
-  R_HEAD.appendChild(css);
+  css.textContent = hhScope(css.textContent); R_HEAD.appendChild(css);
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
@@ -180,7 +189,7 @@ function hhAfterMount(fn) {
     '.hh-count button:disabled{color:#D9C8B0;cursor:default}' +
     '.hh-count span{display:inline-flex;align-items:center;justify-content:center;width:36px;border-left:1px solid #D9C8B0;border-right:1px solid #D9C8B0;color:#2E1F1A;font-weight:700}' +
     '.hh-count-label{color:#F6F0E7;font-size:13px;font-weight:700;letter-spacing:.06em;line-height:1.3}';
-  R_HEAD.appendChild(css);
+  css.textContent = hhScope(css.textContent); R_HEAD.appendChild(css);
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
@@ -259,7 +268,7 @@ function hhAfterMount(fn) {
 (function () {
   var css = document.createElement('style');
   css.textContent = '.hh-inc{font-size:.8em;letter-spacing:.08em}';
-  R_HEAD.appendChild(css);
+  css.textContent = hhScope(css.textContent); R_HEAD.appendChild(css);
   var WANT = [['REARDEN PRESS SPONSORSHIP (' + D + '5,000 value)', '<span class="hh-inc">INCLUDED</span>'],
               ['HARDY HARVEST GIFT SET', '<span class="hh-inc">INCLUDED</span>']];
   var KEY = JSON.stringify(WANT);
