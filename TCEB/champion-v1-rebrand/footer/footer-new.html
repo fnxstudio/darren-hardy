@@ -314,13 +314,35 @@
     // Gift + Invite goes through Jon's tracked redirect (2026-11-05): it logs the click, adds the campaign tags and forwards
     // to /champion-invitation with ref + utm_content = the Champion ID. Impacts still come only from paid seats.
     audio:  { url: 'https://www.thecompoundeffect.com/champion-invitation', track: function (id) { return 'https://card.darrenhardy.com/champion-invitation/' + encodeURIComponent(id); }, subject: 'A gift: The Compound Effect, 10th Anniversary Edition',
-              msg: function (l) { return "This is the book I tell everyone about. The Compound Effect by Darren Hardy, the 10th Anniversary Edition, the hardcover and the audiobook, on me.\n\nGrab it here: " + l + "\n\nListen to the first chapter tonight."; } },
+              msg: function (l) { return "This is the book I tell everyone about. The Compound Effect by Darren Hardy, the 10th Anniversary Edition, the hardcover and the audiobook, on me.\n\nGrab it here: " + l + "\n\nListen to the first chapter tonight."; },
+              // Text version (2026-11-06): short for a phone screen
+              sms: function (l) { return "A gift for you: The Compound Effect by Darren Hardy, hardcover and audiobook, on me. Grab it here: " + l; } },
     leader: { url: 'https://www.thecompoundeffect.com/founders-event#enroll', subject: 'You are enrolled: the Founders Event',
               msg: function (l) { return "I've enrolled you in Darren Hardy's Founders Event in April. Here's where to complete your enrollment: " + l + "\n\nSee you there."; } },
     assign: { url: ASSIGN_URL, subject: 'A seat at the Founders Event',
               msg: function (l) { return l; } }
   };
   var opts = document.querySelectorAll('[data-opt]'), linkEl = $('refLink'), msgEl = $('refMsg');
+  // Email | Text switch over the ready-to-send message (2026-11-06): the box and Copy message follow the tab.
+  // Open in email always sends the email version (with subject); Text it always sends the text version.
+  var msgMode = 'email', curKey = 'audio';
+  (function () {
+    var lab = msgEl && msgEl.previousElementSibling; if (!lab) return;
+    var css = document.createElement('style'); css.id = 'champMsgTabsCss';
+    css.textContent = '/* Email | Text as plain text links after the label (user, 2026-11-06): READY-TO-SEND MESSAGE · EMAIL · TEXT */ .champ-page .champ-msg-head { display: flex; flex-wrap: wrap; align-items: baseline; margin-top: 22px; } .champ-page .champ-msg-head .champ-lab { margin-top: 0; } .champ-page .champ-msg-tabs { display: inline-flex; align-items: baseline; } .champ-page .champ-msg-tab { appearance: none; -webkit-appearance: none; margin: 0; padding: 0; border: 0; background: none; font: 700 12px/15.6px var(--body); letter-spacing: 1.2px; text-transform: uppercase; color: var(--fe-grey); cursor: pointer; text-decoration: none; text-underline-offset: 4px; } .champ-page .champ-msg-tab::before { content: "\\00B7"; display: inline-block; margin: 0 10px; color: var(--fe-grey); } .champ-page .champ-msg-tab.is-on { color: #000; text-decoration: underline; text-decoration-thickness: 1.5px; } .champ-page .champ-msg-tab:focus-visible { outline: 2px solid var(--fe-mid2); outline-offset: 2px; } @media (max-width: 767px) { .champ-page .champ-msg-tabs { flex-basis: 100%; margin-top: 8px; } .champ-page .champ-msg-tab:first-child::before { content: none; } }';
+    document.head.appendChild(css);
+    var head = document.createElement('div'); head.className = 'champ-msg-head';
+    lab.parentNode.insertBefore(head, lab); head.appendChild(lab);
+    var tabs = document.createElement('div'); tabs.className = 'champ-msg-tabs'; tabs.setAttribute('role', 'tablist');
+    tabs.innerHTML = '<button type="button" class="champ-msg-tab is-on" data-mode="email" role="tab" aria-selected="true">Email</button><button type="button" class="champ-msg-tab" data-mode="text" role="tab" aria-selected="false">Text</button>';
+    head.appendChild(tabs);
+    tabs.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-mode]'); if (!b) return;
+      msgMode = b.getAttribute('data-mode');
+      tabs.querySelectorAll('[data-mode]').forEach(function (x) { var on = x === b; x.classList.toggle('is-on', on); x.setAttribute('aria-selected', on ? 'true' : 'false'); });
+      pick(curKey);
+    });
+  })();
   var assignPane = document.createElement('div');
   assignPane.id = 'assignPane'; assignPane.className = 'champ-share'; assignPane.hidden = true;
   assignPane.innerHTML = '<div class="champ-lab is-black">Assign your credits</div><h3 class="champ-hub-h">Their seat. Your credits. Your impact.</h3>'
@@ -339,7 +361,8 @@
   }
   function pick(key) {
     if (!OPTS[key]) key = 'audio';
-    var o = OPTS[key], l = o.track ? o.track(linkRef()) : withRef(o.url), m = o.msg(l);
+    curKey = key;
+    var o = OPTS[key], l = o.track ? o.track(linkRef()) : withRef(o.url), m = o.msg(l), sm = o.sms ? o.sms(l) : m;
     opts.forEach(function (b) { b.classList.toggle('is-on', b.getAttribute('data-opt') === key); });
     var assigning = key === 'assign', enrolling = key === 'leader';
     $('sharePane').hidden = assigning || enrolling || !signedIn;
@@ -348,10 +371,10 @@
     $('signPane').hidden = signedIn;
     if (enrolling) setPay('invest');
     $('assignGo').href = withRef(ASSIGN_URL);
-    linkEl.value = l; msgEl.value = m;
+    linkEl.value = l; msgEl.value = msgMode === 'text' ? sm : m;
     $('refOpen').href = l;
     $('refMail').href = 'mailto:?subject=' + encodeURIComponent(o.subject) + '&body=' + encodeURIComponent(m);
-    $('refSms').href = 'sms:?&body=' + encodeURIComponent(m);
+    $('refSms').href = 'sms:?&body=' + encodeURIComponent(sm);
   }
   opts.forEach(function (b) { b.addEventListener('click', function (e) { e.preventDefault(); pick(b.getAttribute('data-opt'));
     // Phones: the options stack above the link, so jump down to it
