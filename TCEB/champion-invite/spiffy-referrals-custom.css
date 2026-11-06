@@ -1,0 +1,96 @@
+/* TCEB Founders Event, REFERRALS cart (the-compound-effect-in-business-founders-event-referrals).
+   Spiffy > this checkout > Design > Custom CSS. Replace everything in the box with this.
+   Matches the mock form designed on /champion-invite: one column, the Pay monthly / Prepay switch first, then
+   the order summary, then the form; light sheet, white boxes, hairline borders, 2px corners, no shadows,
+   steel switch and Join button, Inter with Bebas Neue for the display type. Plain CSS only, so it is safe the
+   moment the checkout loads, and no Spiffy element is moved (the order is set with CSS).
+   No dollar signs and no backslash escapes anywhere in this file (Spiffy's save step mangles dollar signs,
+   and copying through a doc can decode escapes).
+   Layout (also set in the editor): the payment plan block is dragged to the top of the form. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+
+/* Spiffy's Design-tab colours are variables on .checkout: override them */
+.checkout{--brand-main:#0E1626!important;--brand-light:#ECEEF2!important;--brand-dark:#0A0C10!important;--ch-btn-color:#C9CED6!important;--ch-btn-text-color:#0A0C10!important;--ch-btn-hover-color:#C9CED6!important;--option-btn:#0E1626!important;--option-btn-bg-color:#ffffff!important;--option-btn-border-color:rgba(10,12,16,.18)!important;--order-total:#0A0C10!important;--order-total-bg:#ECEEF2!important;--payment-schedule:#6B7280!important;--general-price:#6B7280!important;--general-price-bg:transparent!important;--link:#0A0C10!important;--link-hover:#0A0C10!important;--loader:#0E1626!important;--form-focus:#0E1626!important;--form-control-radius:2px!important;--form-control-border:rgba(10,12,16,.18)!important}
+
+/* sheet, type, boxes */
+body{background:#F5F6F8!important}
+body,.checkout input,.checkout select,.checkout button,.checkout label,.checkout h5,.checkout h6,.checkout p,.checkout span{font-family:'Inter',sans-serif!important}
+.checkout{color:#3A404B}
+.checkout .card,.checkout .section__inner,.checkout .payment-gateway{border-radius:2px!important;box-shadow:none!important}
+.checkout .section__inner.card-body,.checkout .payment-gateway,.checkout .order-summary .card-body{background:#ffffff!important;border:1px solid rgba(10,12,16,.16)!important}
+.checkout h6{font-size:10px!important;font-weight:700!important;letter-spacing:.24em!important;text-transform:uppercase!important;color:#6B7280!important}
+.checkout .form-control,.checkout .custom-select{border-radius:2px!important;color:#0A0C10!important}
+.checkout .form-control:focus,.checkout .custom-select:focus{border-color:#0E1626!important;box-shadow:none!important}
+.checkout label.input-required::after{color:#8A909B!important}
+
+/* one column at every width, in the mock's order: plan switch, order summary, then the form */
+.checkout__inner>.container>.row{flex-direction:column!important;flex-wrap:nowrap!important;margin-left:0!important;margin-right:0!important}
+.checkout__inner>.container>.row>.checkout-form,.checkout__inner>.container>.row>.checkout-form>.step-content--main{display:contents!important}
+.checkout__inner>.container>.row>.checkout-form>.step-content--sidebar{display:none!important}
+.checkout__inner>.container>.row>.content-container{order:2;flex:none!important;width:100%!important;max-width:100%!important;padding:0!important}
+.checkout .step-content--main>div{order:3;width:100%}
+.checkout .step-content--main>div:has(.subscription-layout){order:1}
+.checkout .step-content--main .section>.card,.checkout .content-container .order-summary{margin-bottom:18px!important}
+
+/* plan switch (Pay in installments / Pay in full) as the mock's two-part switch: PAY MONTHLY / PREPAY,
+   the picked one steel. Spiffy's radios stay in place (invisible), so clicks and keys work as before. */
+.checkout .subscription-layout .row{display:grid!important;grid-template-columns:1fr 1fr;gap:4px;margin:0!important;padding:4px;background:#ffffff;border:1px solid rgba(10,12,16,.16);border-radius:2px}
+.checkout .subscription-layout__col{flex:none!important;width:auto!important;max-width:none!important;margin:0!important;padding:0!important}
+.checkout .subscription-layout .option-card-select{display:flex!important;align-items:center;justify-content:center;height:100%;min-height:0!important;margin:0!important;padding:13px!important;border:0!important;border-radius:2px!important;background:none!important;box-shadow:none!important;overflow:hidden;cursor:pointer}
+.checkout .subscription-layout .option-card-select::before,.checkout .subscription-layout .option-card-select::after{display:none!important}
+.checkout .subscription-layout .form-check{position:absolute!important;width:1px;height:1px;margin:0!important;opacity:0;overflow:hidden}
+.checkout .subscription-layout .text-center>*{display:none!important}
+.checkout .subscription-layout .text-center{line-height:1.3}
+.checkout .subscription-layout .text-center::after{content:"Pay monthly";font:600 11px/1 'Inter',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6B7280}
+.checkout .subscription-layout__col+.subscription-layout__col .text-center::after{content:"Prepay"}
+.checkout .subscription-layout .option-card-select--selected{background:linear-gradient(110deg,#9AA1AC 0%,#E9ECF0 22%,#BCC2CB 44%,#F8F9FB 62%,#A3AAB4 100%)!important;box-shadow:inset 0 0 0 1px rgba(10,12,16,.2)!important}
+.checkout .subscription-layout .option-card-select--selected .text-center::after{color:#0A0C10}
+.checkout .subscription-layout .option-card-select:focus-within{outline:2px solid rgba(14,22,38,.35);outline-offset:1px}
+.checkout .subscription-layout .invalid-feedback:empty{display:none!important}
+
+/* order summary: title left with Show Order Details beside it, Due Today on the grey band, big display price */
+.checkout .order-summary{border:0!important;background:none!important;box-shadow:none!important}
+.checkout .order-summary .card-body{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px!important;border-bottom:0!important}
+.checkout .order-summary .card-body>h5{margin:0!important;font-family:'Bebas Neue',sans-serif!important;font-size:26px!important;font-weight:400!important;line-height:1!important;letter-spacing:.02em;text-transform:uppercase;color:#0A0C10!important}
+.checkout .order-summary .order-summary__description:has(p:empty){display:none!important}
+.checkout .order-summary .order-summary__click-open{flex:none;width:auto;margin:0!important}
+/* everything else in the box (the Order Details lines when opened) runs the full width, prices at the right edge */
+.checkout .order-summary .card-body>*:not(h5):not(.order-summary__click-open){flex:1 1 100%;width:100%;min-width:0}
+.checkout .order-summary .order-summary__click-open .col{padding:0!important}
+.checkout .order-summary .rounded-top{border-radius:2px 2px 0 0!important}
+.checkout .order-summary .order-summary__click-open a{font-size:13px!important;font-weight:500;color:#3A404B!important;text-decoration:none!important}
+.checkout .order-summary-mobile .card-body{justify-content:flex-end;padding:14px 20px!important}
+.checkout .order-summary .cost-breakdown,.checkout .order-summary .order-summary__glance{border:1px solid rgba(10,12,16,.16)!important;border-top:0!important;border-radius:0!important}
+.checkout .order-summary .order-summary__due-today{padding:18px 20px!important;border:0!important;border-top:1px dotted rgba(10,12,16,.16)!important;background:#ECEEF2!important;font-size:15px;color:#3A404B}
+.checkout .order-summary .order-summary__due-today .h3{font-family:'Bebas Neue',sans-serif!important;font-size:38px!important;font-weight:400!important;line-height:1!important;color:#0A0C10!important}
+.checkout .order-summary .order-summary__due-today .h3 span{font-family:inherit!important}
+.order-summary-mobile{display:flex!important}
+.checkout .order-summary .line-item__group_name{color:#3A404B!important}
+.checkout .order-summary .line-item__group_price{color:#6B7280!important;white-space:nowrap}
+
+/* payment box: one white box, rows split by hairlines (no dark border on the picked row) */
+.checkout .payment-type{border:0!important;border-radius:0!important;box-shadow:none!important}
+.checkout .payment-type+.payment-type{border-top:1px solid rgba(10,12,16,.16)!important}
+.checkout .payment-type__label{color:#0A0C10!important;font-size:11px!important;letter-spacing:.16em!important}
+
+/* Join button: steel, dark type, the brand arrow, the slow shine of the page's buttons; lifts on hover. The shadow is
+   kept tight so it fades out inside Spiffy's frame (a deeper one gets cut off at the frame's edge as a hard grey line). */
+.checkout button[id^="checkoutButton"]{position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(110deg,#9AA1AC 0%,#E9ECF0 22%,#BCC2CB 44%,#F8F9FB 62%,#A3AAB4 100%)!important;color:#0A0C10!important;border:0!important;border-radius:2px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.75),0 0 0 1px rgba(10,12,16,.22),0 4px 10px rgba(14,22,38,.16)!important;font-size:13px!important;font-weight:600!important;letter-spacing:.16em!important;text-transform:uppercase!important;padding:22px 24px!important;transition:transform .35s ease!important}
+.checkout button[id^="checkoutButton"]:hover{transform:translateY(-2px)}
+/* the arrow sits still after the words: Spiffy's own sliding shimmer lives in this same ::after, so it is switched off */
+.checkout button[id^="checkoutButton"]::after{content:"→"!important;position:static!important;display:inline-block!important;width:auto!important;height:auto!important;margin-left:14px;background:none!important;animation:none!important;opacity:1!important;transform:none;transition:transform .35s ease}
+.checkout button[id^="checkoutButton"]:hover::after{transform:translateX(6px)}
+/* Spiffy's own bold arrow icon in the button would make two arrows; its loading spinner stays */
+.checkout button[id^="checkoutButton"] i.fa:not(.fa-spinner-third){display:none!important}
+.checkout button[id^="checkoutButton"]::before{content:"";position:absolute;z-index:-1;top:-30%;bottom:-30%;left:-50%;width:38%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55) 45%,rgba(255,255,255,.95) 50%,rgba(255,255,255,.55) 55%,transparent);animation:tceb-shine 6.5s ease-in-out infinite;pointer-events:none}
+@keyframes tceb-shine{0%,62%{left:-50%}100%{left:130%}}
+@media (prefers-reduced-motion:reduce){.checkout button[id^="checkoutButton"]::before{animation:none}}
+
+/* VIP section (block 373020): hidden until the custom code has built the VIP box, so the plain checkbox never flashes.
+   If the code ever fails to run, the plain checkbox shows anyway after 8 seconds, so VIP can always be added. */
+.checkout .section:has(#block-373020):not(.tceb-vip){visibility:hidden;animation:tceb-show 0s 8s forwards}
+@keyframes tceb-show{to{visibility:visible}}
+
+/* checkboxes and radios in the Midnight colour */
+.checkout .custom-control-input:checked~.custom-control-label::before{border-color:#0E1626!important;background-color:#0E1626!important}
+.checkout input[type="radio"],.checkout input[type="checkbox"]{accent-color:#0E1626}
