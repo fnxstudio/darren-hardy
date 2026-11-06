@@ -1,0 +1,111 @@
+<script>
+  /* FOUNDER REFERRAL + INTRODUCER NAME (HtmlEmbed right after the h1 on /champion-invite).
+     Merges Fan Bridge's Champion name lookup (card.darrenhardy.com) into this page's own name script. It runs here,
+     before the HubSpot book form and the Spiffy cart load, because both read the referral from the page address.
+     1. REFERRAL CODE. A Champion link (card.darrenhardy.com/r/CODE) arrives with ?ref=CODE and
+        ?dhrp_opt_in_affiliate_id=CODE (plus utm_content=CODE and the campaign). The code counts only from ref or
+        dhrp_opt_in_affiliate_id, never from utm_content alone, so an ordinary campaign tag is never taken for a code.
+        It is saved for 90 days (localStorage + cookie "dh_champion_ref", the same names Fan Bridge uses), with the
+        campaign. The newest Champion link wins, but a code the lookup doesn't know never replaces a good saved one.
+     2. RETURN VISITS. No code in the address but one saved: the code goes back into the address (no reload) as
+        utm_content, ref, dhrp_opt_in_affiliate_id and dhrp_opt_in_campaign, so the book form's hidden fields and the
+        cart credit the Champion exactly as on the first visit. Skipped when the address already carries another
+        campaign's utm_content (that campaign keeps its own tag); a utm_content that IS the saved code is filled out.
+     3. NAME in the headline: "[Name] chose YOU." The page text is the fallback, "A Founder chose YOU.". Sources:
+        ?introducer= / ?introducer_name= / ?ifn=, else the name saved for THIS code ("tce_introducer"), shown at once;
+        then the lookup by code replaces it and saves it, so the confirmation pages can say it too.
+        SPEED: the lookup is usually already running. A tiny starter at the top of the SITE head (above Cookiebot,
+        which holds the page for 2-5s) fires it as soon as the page starts loading and leaves the request in
+        window.__ciName; this script reuses it when the code matches, else asks itself. With no name to show yet, the
+        line is held invisible for up to 1.5s so the fallback doesn't flash and then change; the lookup gets 3s from
+        here. A code the lookup doesn't know shows the fallback. The lookup only answers the live domains; elsewhere
+        the saved or linked name stays.
+     4. "tce_invite_qs": the utm_* of this visit (with a restored code) for the gift pages' "Redeem your gift" link. */
+  (function () {
+    var LOOKUP = 'https://card.darrenhardy.com/api/public/champion-name';
+    var DAYS = 90, WAIT = 3000;
+    var q = new URLSearchParams(location.search);
+    function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+    function put(k, v) { try { if (v) localStorage.setItem(k, v); else localStorage.removeItem(k); } catch (e) {} }
+    function code(v) { v = String(v || '').trim().toUpperCase(); return /^[A-Z0-9]{7}$/.test(v) ? v : ''; }
+    function cookie(n) { var m = document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
+    function clean(raw) {
+      raw = String(raw || '').trim();
+      if (!raw || /^[\[{<%]/.test(raw)) return '';
+      var n = (raw.split(/\s+/)[0] || '').replace(/[^A-Za-zÀ-ɏ'\-]/g, '').slice(0, 24);
+      if (n.length < 2 || /^(name|firstname|introducer|test|null|undefined|none)$/i.test(n)) return '';
+      return n.charAt(0).toUpperCase() + n.slice(1).toLowerCase();
+    }
+
+    // 1. referral code from a Champion link, else the saved one (90 days)
+    var ref = code(q.get('ref')) || code(q.get('dhrp_opt_in_affiliate_id'));
+    var camp = '', prev = null;
+    function setCookie(v) { document.cookie = 'dh_champion_ref=' + encodeURIComponent(v) + '; max-age=' + (v ? DAYS * 86400 : 0) + '; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : ''); }
+    if (ref) {
+      camp = String(q.get('dhrp_opt_in_campaign') || q.get('utm_campaign') || '').slice(0, 60);
+      if (ref !== get('dh_champion_ref')) {
+        prev = { r: get('dh_champion_ref'), c: get('dh_champion_campaign'), a: get('dh_champion_ref_at'), n: get('tce_introducer'), nc: get('tce_introducer_code') };
+        put('tce_introducer', ''); put('tce_introducer_code', '');
+      }
+      put('dh_champion_ref', ref); put('dh_champion_campaign', camp); put('dh_champion_ref_at', String(Date.now()));
+      setCookie(ref);
+      // 1b. a link with only ?ref= (the Champion Board's gift link): add the book form's affiliate field (HubSpot fills
+      //     it from the address) and utm_content for the cart, before either reads the address
+      if (!q.get('dhrp_opt_in_affiliate_id') || !q.get('utm_content')) {
+        if (!q.get('dhrp_opt_in_affiliate_id')) q.set('dhrp_opt_in_affiliate_id', ref);
+        if (camp && !q.get('dhrp_opt_in_campaign')) q.set('dhrp_opt_in_campaign', camp);
+        if (!q.get('utm_content')) q.set('utm_content', ref);
+        try { history.replaceState(history.state, '', location.pathname + '?' + q.toString() + location.hash); } catch (e) {}
+      }
+    } else {
+      var at = +get('dh_champion_ref_at') || 0, saved = code(get('dh_champion_ref'));
+      if (saved && at && Date.now() - at > DAYS * 86400000) saved = '';
+      ref = saved || code(cookie('dh_champion_ref'));
+      camp = ref ? String(get('dh_champion_campaign') || '') : '';
+      // 2. return visit: put the code back into the address before the form and cart read it
+      if (ref && (!q.get('utm_content') || code(q.get('utm_content')) === ref)) {
+        q.set('utm_content', ref); q.set('ref', ref); q.set('dhrp_opt_in_affiliate_id', ref);
+        if (camp) q.set('dhrp_opt_in_campaign', camp);
+        try { history.replaceState(history.state, '', location.pathname + '?' + q.toString() + location.hash); } catch (e) {}
+      }
+    }
+
+    // 4. utm_* for the gift pages' Redeem link
+    try {
+      var utm = new URLSearchParams();
+      q.forEach(function (v, k) { if (/^utm_/.test(k)) utm.set(k, v); });
+      if (utm.toString()) localStorage.setItem('tce_invite_qs', utm.toString());
+    } catch (e) {}
+
+    // 3. the name
+    var el = document.querySelector('[data-ci-introducer]');
+    if (!el) return;
+    var fallback = el.textContent, hold = null;
+    function unhide() { clearTimeout(hold); el.style.opacity = ''; }
+    function show(n) { el.textContent = n ? n + ' chose YOU.' : fallback; unhide(); }
+    var linked = clean(q.get('introducer') || q.get('introducer_name') || q.get('ifn'));
+    var name = linked;
+    if (linked) { put('tce_introducer', linked); put('tce_introducer_code', ref); }
+    else if (!ref || get('tce_introducer_code') === ref || !get('tce_introducer_code')) name = clean(get('tce_introducer'));
+    if (name) show(name);
+    if (!ref || !window.fetch) return;
+    if (!name) { el.style.transition = 'opacity .35s ease'; el.style.opacity = '0'; hold = setTimeout(unhide, 1500); }
+    var early = window.__ciName && window.__ciName.code === ref ? window.__ciName.p : null;
+    var req = early || fetch(LOOKUP + '?code=' + encodeURIComponent(ref), { credentials: 'omit' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      ['catch'](function () { return null; });
+    Promise.race([req, new Promise(function (r) { setTimeout(r, WAIT); })])
+      .then(function (d) {
+        unhide();
+        if (!d) return;
+        var n = clean(d.first_name);
+        if (n) { show(n); put('tce_introducer', n); put('tce_introducer_code', ref); }
+        else if (d.first_name === null) {
+          // unknown code: keep the Champion this visitor had before (or nothing), and the fallback line
+          if (prev) { put('dh_champion_ref', prev.r); put('dh_champion_campaign', prev.c); put('dh_champion_ref_at', prev.a); put('tce_introducer', prev.n); put('tce_introducer_code', prev.nc); setCookie(prev.r || ''); }
+          else if (get('dh_champion_ref') === ref) { put('dh_champion_ref', ''); put('dh_champion_campaign', ''); put('dh_champion_ref_at', ''); setCookie(''); }
+          if (!linked) show('');
+        }
+      });
+  })();
+</script>

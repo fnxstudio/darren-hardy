@@ -1,0 +1,49 @@
+<script>
+/* CONFIRMATION PAGE: order number from the URL (shown under the confirmed line). Spiffy's "send order details
+   through the URL" names it order_id; ?order= / orderId / order_number also work. */
+(function () {
+  var q = new URLSearchParams(location.search);
+  var orderEl = document.querySelector('[data-ei="order"]');
+  var orderId = (q.get('order') || q.get('order_id') || q.get('orderId') || q.get('order_number') || '').replace(/[^A-Za-z0-9-]/g, '').slice(0, 40);
+  if (orderEl && orderId) { orderEl.textContent = 'Order Confirmation #' + orderId; orderEl.classList.add('is-on'); }
+})();
+</script>
+<script>
+/* INTRODUCER NAME in the headline: "[Name] chose you." (all four champion confirmation pages, page footer)
+   The page text is the fallback, "A Founder chose you.", so nobody ever sees a blank or a placeholder.
+   The name comes from an introducer-only link parameter (?introducer= / ?introducer_name= / ?ifn=) or, failing that,
+   from what /champion-invite saved for this visitor (localStorage "tce_introducer"). A generic ?fn= or ?first_name=
+   is ignored on purpose: Spiffy's redirect can carry the BUYER's own name. Only a clean first name is used;
+   placeholder junk ("[name]", "null", "undefined", "test") falls back.
+   If there is no saved name for the visitor's saved Champion code ("dh_champion_ref", from /champion-invite), it asks
+   Fan Bridge's lookup (card.darrenhardy.com, live domains only, 3s limit) and saves the answer. */
+(function () {
+  var el = document.querySelector('[data-ci-introducer]');
+  if (!el) return;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v) localStorage.setItem(k, v); else localStorage.removeItem(k); } catch (e) {} }
+  function clean(raw) {
+    raw = String(raw || '').trim();
+    if (!raw || /^[\[{<%]/.test(raw)) return '';
+    var n = (raw.split(/\s+/)[0] || '').replace(/[^A-Za-zÀ-ɏ'\-]/g, '').slice(0, 24);
+    if (n.length < 2 || /^(name|firstname|introducer|test|null|undefined|none)$/i.test(n)) return '';
+    return n.charAt(0).toUpperCase() + n.slice(1).toLowerCase();
+  }
+  function show(n) { if (n) el.textContent = n + ' chose you.'; }
+  var q = new URLSearchParams(location.search);
+  var name = clean(q.get('introducer') || q.get('introducer_name') || q.get('ifn')) || clean(get('tce_introducer'));
+  show(name);
+  var ref = String(get('dh_champion_ref') || '').toUpperCase();
+  if (!/^[A-Z0-9]{7}$/.test(ref) || (name && get('tce_introducer_code') === ref) || !window.fetch) return;
+  var ctrl = window.AbortController ? new AbortController() : null;
+  var t = setTimeout(function () { if (ctrl) ctrl.abort(); }, 3000);
+  fetch('https://card.darrenhardy.com/api/public/champion-name?code=' + encodeURIComponent(ref), { signal: ctrl ? ctrl.signal : undefined, credentials: 'omit' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      clearTimeout(t);
+      var n = d && clean(d.first_name);
+      if (n) { show(n); put('tce_introducer', n); put('tce_introducer_code', ref); }
+    })
+    ['catch'](function () { clearTimeout(t); });
+})();
+</script>

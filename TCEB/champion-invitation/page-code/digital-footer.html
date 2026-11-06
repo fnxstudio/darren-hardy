@@ -1,0 +1,121 @@
+<script>
+  (function () {
+    var dd = document.querySelector('.tce-dd');
+    if (dd && !dd.id) dd.id = 'darrendaily';
+
+    // Week strip: light Mon to Fri one by one, hold, reset, repeat. Starts when the strip is on screen.
+    var week = document.querySelector('.tce-week');
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (week && !reduce) {
+      var days = week.querySelectorAll('.tce-day'), i = 0, running = false, timer;
+      week.classList.add('is-anim');
+      function step() {
+        if (i < days.length) { days[i++].classList.add('is-lit'); timer = setTimeout(step, 520); }
+        else timer = setTimeout(function () { days.forEach(function (d) { d.classList.remove('is-lit'); }); i = 0; timer = setTimeout(step, 600); }, 2800);
+      }
+      function start() { if (!running) { running = true; step(); } }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) start(); }); }, { threshold: 0.4 }).observe(week);
+        setTimeout(function () { var r = week.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) start(); }, 400);
+      } else start();
+    }
+
+    // The DarrenDaily button opens the DarrenDaily home page video (Vimeo 298902445) in a pop-up.
+    var btn = document.querySelector('[data-dd-video]');
+    if (btn) btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var id = btn.getAttribute('data-dd-video');
+      var pop = document.createElement('div');
+      pop.className = 'tce-vpop';
+      pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-modal', 'true'); pop.setAttribute('aria-label', 'What is DarrenDaily');
+      pop.innerHTML = '<div class="tce-vpop-box"><button class="tce-vpop-x" type="button" aria-label="Close video">×</button>' +
+        '<iframe src="https://player.vimeo.com/video/' + id + '?autoplay=1&loop=1&dnt=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="What is DarrenDaily"></iframe></div>';
+      document.body.appendChild(pop);
+      document.documentElement.style.overflow = 'hidden';
+      requestAnimationFrame(function () { pop.classList.add('is-open'); });
+      var x = pop.querySelector('.tce-vpop-x'); x.focus();
+      function close() { document.removeEventListener('keydown', onKey); pop.remove(); document.documentElement.style.overflow = ''; btn.focus(); }
+      function onKey(ev) { if (ev.key === 'Escape') close(); }
+      x.addEventListener('click', close);
+      pop.addEventListener('click', function (ev) { if (ev.target === pop) close(); });
+      document.addEventListener('keydown', onKey);
+    });
+  })();
+</script>
+<script>
+/* INTRODUCER NAME in the headline: "[Name] chose you." (all four champion confirmation pages, page footer)
+   The page text is the fallback, "A Founder chose you.", so nobody ever sees a blank or a placeholder.
+   The name comes from an introducer-only link parameter (?introducer= / ?introducer_name= / ?ifn=) or, failing that,
+   from what /champion-invite saved for this visitor (localStorage "tce_introducer"). A generic ?fn= or ?first_name=
+   is ignored on purpose: Spiffy's redirect can carry the BUYER's own name. Only a clean first name is used;
+   placeholder junk ("[name]", "null", "undefined", "test") falls back.
+   If there is no saved name for the visitor's saved Champion code ("dh_champion_ref", from /champion-invite), it asks
+   Fan Bridge's lookup (card.darrenhardy.com, live domains only, 3s limit) and saves the answer. */
+(function () {
+  var el = document.querySelector('[data-ci-introducer]');
+  if (!el) return;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v) localStorage.setItem(k, v); else localStorage.removeItem(k); } catch (e) {} }
+  function clean(raw) {
+    raw = String(raw || '').trim();
+    if (!raw || /^[\[{<%]/.test(raw)) return '';
+    var n = (raw.split(/\s+/)[0] || '').replace(/[^A-Za-zÀ-ɏ'\-]/g, '').slice(0, 24);
+    if (n.length < 2 || /^(name|firstname|introducer|test|null|undefined|none)$/i.test(n)) return '';
+    return n.charAt(0).toUpperCase() + n.slice(1).toLowerCase();
+  }
+  function show(n) { if (n) el.textContent = n + ' chose you.'; }
+  var q = new URLSearchParams(location.search);
+  var name = clean(q.get('introducer') || q.get('introducer_name') || q.get('ifn')) || clean(get('tce_introducer'));
+  show(name);
+  var ref = String(get('dh_champion_ref') || '').toUpperCase();
+  if (!/^[A-Z0-9]{7}$/.test(ref) || (name && get('tce_introducer_code') === ref) || !window.fetch) return;
+  var ctrl = window.AbortController ? new AbortController() : null;
+  var t = setTimeout(function () { if (ctrl) ctrl.abort(); }, 3000);
+  fetch('https://card.darrenhardy.com/api/public/champion-name?code=' + encodeURIComponent(ref), { signal: ctrl ? ctrl.signal : undefined, credentials: 'omit' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      clearTimeout(t);
+      var n = d && clean(d.first_name);
+      if (n) { show(n); put('tce_introducer', n); put('tce_introducer_code', ref); }
+    })
+    ['catch'](function () { clearTimeout(t); });
+})();
+</script>
+<script>
+/* REDEEM YOUR GIFT: back to /champion-invitation (the enrollment page) WITH the Champion's referral code, so the Champion
+   still gets the credit. (Both gift confirmation pages, page footer.)
+   1. The Champion code: from this page's URL (ref / dhrp_opt_in_affiliate_id) if the form's redirect carries it, else the
+      one /champion-invite saved for this visitor ("dh_champion_ref", 90 days). When there is one, the link carries the
+      same set a Champion's QR link carries: utm_source=referral, utm_medium=qr, utm_campaign, utm_content=CODE,
+      ref=CODE, dhrp_opt_in_affiliate_id=CODE, dhrp_opt_in_campaign. So the book form's hidden fields and the cart credit
+      the Champion, even if this visitor came through another campaign's link in between.
+   2. No code: the utm_* of this page's URL, else of the last /champion-invite visit ("tce_invite_qs").
+   The introducer's name rides along. Same site as this page, so it works on staging and live. */
+(function () {
+  var a = document.querySelector('[data-cg-redeem]');
+  if (!a) return;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function code(v) { v = String(v || '').trim().toUpperCase(); return /^[A-Z0-9]{7}$/.test(v) ? v : ''; }
+  var here = new URLSearchParams(location.search), out = new URLSearchParams();
+  var ref = code(here.get('ref')) || code(here.get('dhrp_opt_in_affiliate_id')), camp = '';
+  if (ref) camp = here.get('dhrp_opt_in_campaign') || here.get('utm_campaign') || '';
+  else {
+    var at = +get('dh_champion_ref_at') || 0;
+    ref = code(get('dh_champion_ref'));
+    if (ref && at && Date.now() - at > 90 * 86400000) ref = '';
+    camp = ref ? get('dh_champion_campaign') || '' : '';
+  }
+  if (ref) {
+    out.set('utm_source', 'referral'); out.set('utm_medium', 'qr');
+    if (camp) out.set('utm_campaign', camp);
+    out.set('utm_content', ref); out.set('ref', ref); out.set('dhrp_opt_in_affiliate_id', ref);
+    if (camp) out.set('dhrp_opt_in_campaign', camp);
+  } else {
+    here.forEach(function (v, k) { if (/^utm_/.test(k)) out.set(k, v); });
+    if (!out.toString()) { try { new URLSearchParams(get('tce_invite_qs') || '').forEach(function (v, k) { out.set(k, v); }); } catch (e) {} }
+  }
+  here.forEach(function (v, k) { if (/^(introducer|introducer_name|ifn)$/.test(k)) out.set(k, v); });
+  var s = out.toString();
+  a.setAttribute('href', '/champion-invitation' + (s ? '?' + s : ''));
+})();
+</script>

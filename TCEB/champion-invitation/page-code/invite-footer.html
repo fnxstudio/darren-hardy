@@ -13,20 +13,21 @@
                 /champion-invitation-vip-confirmation.
    Everything else on the page reads these. Publish to staging, then test with ?skip=end.
    2026-11-05: new video 1243788282 ("Referral_Champion Pg to FE", 4:10). Darren says "Click the button below" at about
-   3:48 (Vimeo auto-captions), so REVEAL_AT is 227. */
+   3:48 (Vimeo auto-captions), so REVEAL_AT is 227.
+   2026-11-06: cart switched to the evergreen referrals checkout (user). */
 window.CI_SETTINGS = {
   VIMEO_ID:  '1243788282',
   VIDEO_HLS: 'https://player.vimeo.com/external/1243788282.m3u8?s=993016fde8b0351a9b1c54383f7c1d91323edcf3&logging=false',
   VIDEO_MP4: '',
   REVEAL_AT: 227,
-  CART_URL:  'https://secure.darrenhardy.com/checkout/the-compound-effect-in-business-founders-event-referrals'
+  CART_URL:  'https://secure.darrenhardy.com/checkout/the-compound-effect-in-business-founders-event-referrals-evergreen'
 };
 </script>
 <script>
 /* CHAMPION INVITATION (copy of /champion-invite; video + cart settings are in CI_SETTINGS above)
    1. Button + link (data-ci-open): "cart" opens the Founders cart, "gift" opens the HubSpot book + audiobook form
       (its own embed). Opening one closes the other. Webflow's own anchor scroll is stopped so it can't race ours.
-   2. The REAL Spiffy cart (founders-event-referrals) loads into .pp-checkout. MOCK_CART stays false: the mock embed
+   2. The REAL Spiffy cart (founders-event-referrals-evergreen since 2026-11-06) loads into .pp-checkout. MOCK_CART stays false: the mock embed
       and its head rule were removed on 2026-11-02, after Sara installed the cart's custom CSS + code in Spiffy.
       The cart loads AFTER Darren's video starts (see mount below), so it doesn't compete with the video on phones.
    3. Any utm_* on this page's URL (the card QR's referral ID arrives as utm_content) is passed on to the cart.

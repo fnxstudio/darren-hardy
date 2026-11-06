@@ -1,0 +1,137 @@
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://secure.darrenhardy.com" crossorigin>
+<link rel="preconnect" href="https://js.static.spiffy.co" crossorigin>
+<link rel="preconnect" href="https://player.vimeo.com" crossorigin>
+<link rel="preconnect" href="https://i.vimeocdn.com">
+<link rel="preconnect" href="https://f.vimeocdn.com">
+<style>
+/* CHAMPION INVITE (DEMO, staging only). One button and one text link, two panels, both closed until tapped:
+   "Reserve my Founders seat" opens the cart (.ci-cart), the free book link opens the gift form (.ci-gift-panel).
+   Collapsed rather than display:none, so the cart loads in the background at full width and is ready on the tap. */
+html:not(.ci-open-cart) .ci-cart, html:not(.ci-open-gift) .ci-gift-panel { height: 0; margin: 0; overflow: hidden; visibility: hidden; }
+/* The video is the last thing in the hero here, so its 48px bottom margin spilled out of the section as a white band.
+   The gift section's own top padding gives the space instead. */
+.ei-hero .ei-player:last-child { margin-bottom: 0; }
+/* Spiffy's 500px height transition never runs while the form loads out of sight; without this it stays cut off */
+.pp-checkout .form-container--inline { transition: none !important; }
+.pp-checkout.is-ready .pp-loading { opacity: 0; }
+.pp-checkout.is-failed .pp-fallback { display: block; }
+.pp-checkout.is-failed .pp-loading { display: none; }
+.pp-btn:focus-visible { outline: 2px solid #C9CED6; outline-offset: 4px; }
+.pp-btn.is-steel:active { transform: translateY(2px); transition-duration: 60ms; }
+</style>
+<style>
+/* MIDNIGHT: matches the Founders Event page (TCEB/founders-event-page): black and Midnight blue grounds, steel buttons.
+   Section colours are native combo classes (is-midnight, pp-btn.is-steel); this block only holds what Webflow can't.
+   The book form is the exception: it keeps the TCE red brand (the site's liquid glass card, red button)
+   and is only seen after the free book link is clicked. */
+body { background-color: #03050A; }
+/* THE CART'S SHEET: the light sheet, padding and shadow of the mock form, around the real Spiffy cart. Embedded, Spiffy
+   drops its own side margins, so without this its white boxes run right to the frame's edges. */
+.ci-cart .pp-checkout { background-color: #F5F6F8; padding: 32px 28px 36px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255,255,255,.5), 0 40px 90px rgba(0,0,0,.55), 0 0 60px rgba(150,172,210,.12); }
+@media (max-width: 900px) { .ci-cart .pp-checkout { padding: 22px 14px 26px; } }
+/* the steel button's slow shine, as on the Founders Event page */
+.pp-btn.is-steel { position: relative; overflow: hidden; isolation: isolate; }
+.pp-btn.is-steel::after { content: ""; position: absolute; z-index: -1; top: -30%; bottom: -30%; left: -50%; width: 38%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.55) 45%, rgba(255,255,255,.95) 50%, rgba(255,255,255,.55) 55%, transparent); animation: ci-shine 6.5s ease-in-out infinite; pointer-events: none; }
+@keyframes ci-shine { 0%, 62% { left: -50%; } 100% { left: 130%; } }
+/* the brand arrow on the Reserve button, as on the Founders Event page: it slides right on hover */
+.pp-btn.is-steel .pp-btn-label::after { content: "\2192"; display: inline-block; margin-left: 14px; transition: transform .35s ease; }
+.pp-btn.is-steel:hover .pp-btn-label::after { transform: translateX(6px); }
+/* full stop after "click here" / "Get the hardcover" in the gift form headers (inline-block keeps it un-underlined) */
+.ci-swap-link::after { content: "."; display: inline-block; font-weight: 400; color: rgba(255,255,255,.84); }
+/* BIO SECTION (shared component, left as it is): dark on this page only. The credential logos are flat ink with their
+   detail in the alpha channel, so forcing them white loses nothing. */
+html .dh-bio { background-color: #03050A; background-image: radial-gradient(ellipse 50% 60% at 75% 40%, rgba(38,64,112,.22) 0%, rgba(38,64,112,0) 70%), radial-gradient(ellipse 90% 70% at 60% 50%, #0B1526 0%, #03050A 75%); color: #AEBBD0; }
+html .dh-bio-media { background-color: #03050A; }
+html .dh-bio-fade { background-image: linear-gradient(rgba(3,5,10,0) 0%, rgba(3,5,10,.65) 55%, #03050A 100%); }
+html .dh-bio-eyebrow { color: #8090AB; }
+html .dh-bio-h-main { color: #F2F4F8; }
+html .dh-bio-em { color: #8090AB; }
+html .dh-bio-p { color: #AEBBD0; }
+html .dh-bio-stat-n { color: #F2F4F8; }
+html .dh-bio-stat-l { color: #8090AB; }
+html .dh-bio-seal { filter: brightness(0) invert(1); opacity: .85; }
+@media (prefers-reduced-motion: reduce) { .pp-btn.is-steel::after { animation: none; } .pp-btn.is-steel .pp-btn-label::after { transition: none; } }
+</style>
+<style>
+/* VIDEO CONTROLS (script in the footer), so Vimeo's own buttons never show.
+   Before play: the Vimeo thumbnail as a cover with a dark fade in the lower left, and there the big steel play button
+   (pulsing ring) BESIDE the copy "A personal message from Darren Hardy" / "About your invitation", so the centre of
+   the frame stays clear for Darren's face. The running time sits top right until play starts. */
+.ei-player{container-type:inline-size}
+.ei-vc-cover{position:absolute;inset:0;z-index:1;background:#000 center/cover no-repeat;pointer-events:none}
+.ei-vc-cover::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 75% at 0% 100%,rgba(3,5,10,.88) 0%,rgba(3,5,10,.5) 45%,rgba(3,5,10,0) 75%),linear-gradient(0deg,rgba(3,5,10,.55) 0%,rgba(3,5,10,0) 40%)}
+.ei-player:not(.ei-vc-ready) .ei-vc-start{visibility:hidden}
+.ei-player.ei-vc-on .ei-vc-start{display:none}
+.ei-player.ei-vc-live .ei-vc-cover{display:none}
+.ei-vc-start{position:absolute;z-index:1;left:32px;bottom:30px;display:flex;align-items:center;gap:20px;max-width:calc(100% - 64px);text-align:left}
+.ei-vc-play{position:relative;flex:none;display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:linear-gradient(110deg,#9AA1AC 0%,#E9ECF0 22%,#BCC2CB 44%,#F8F9FB 62%,#A3AAB4 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 0 0 1px rgba(230,236,245,.5),0 0 34px rgba(190,205,230,.5),0 16px 32px rgba(0,0,0,.5);transition:transform .35s ease}
+.ei-vc-play svg{width:32px;height:32px;margin-left:5px;fill:#0A0C10}
+.ei-vc-play::before{content:"";position:absolute;inset:-10px;border-radius:50%;border:1.5px solid rgba(226,234,245,.7);animation:ei-vc-ring 2.2s ease-out infinite}
+@keyframes ei-vc-ring{0%{transform:scale(.88);opacity:.95}100%{transform:scale(1.38);opacity:0}}
+.ei-vc-copy{display:grid;gap:8px}
+.ei-vc-eyebrow{font:600 12px/1.3 Inter,Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#D3DBE8;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+.ei-vc-title{font-family:bebas-neue-pro-semiexpanded,bebas-neue-pro,Impact,sans-serif;font-weight:600;font-size:44px;line-height:.92;text-transform:uppercase;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.65)}
+.ei-vc-click .ei-vc-start{pointer-events:auto;cursor:pointer}
+.ei-vc-click .ei-vc-start:hover .ei-vc-play{transform:scale(1.07)}
+@container (max-width:600px){.ei-vc-start{left:14px;bottom:14px;gap:12px;max-width:calc(100% - 28px)}.ei-vc-play{width:52px;height:52px}.ei-vc-play svg{width:20px;height:20px;margin-left:3px}.ei-vc-play::before{inset:-6px}.ei-vc-copy{gap:3px}.ei-vc-eyebrow{font-size:8px;letter-spacing:.16em}.ei-vc-title{font-size:24px}}
+.ei-vc-time{position:absolute;left:4px;bottom:6px;z-index:2;width:64px;height:40px;border-radius:8px;background:#0B1526;color:#F2F4F8;font-size:14px;font-weight:700;letter-spacing:.04em;line-height:40px;text-align:center;font-variant-numeric:tabular-nums;pointer-events:none}
+.ei-player:not(.ei-vc-on) .ei-vc-time{left:auto;bottom:auto;top:10px;right:10px}
+.ei-vc-shield{position:absolute;inset:0;z-index:1;display:none;cursor:pointer}
+.ei-player.ei-vc-on .ei-vc-shield{display:block}
+.ei-vc-pp{position:absolute;right:66px;bottom:4px;z-index:2;display:none;align-items:center;justify-content:center;width:44px;height:44px;margin:0;padding:0;border:0;border-radius:50%;background:linear-gradient(110deg,#9AA1AC 0%,#E9ECF0 22%,#BCC2CB 44%,#F8F9FB 62%,#A3AAB4 100%);cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.ei-vc-pp svg{width:18px;height:18px;fill:#0A0C10}
+.ei-vc-speed{position:absolute;right:4px;bottom:6px;z-index:2;display:none;width:52px;height:40px;margin:0;padding:0;border:0;border-radius:8px;background:#0B1526;color:#F2F4F8;font:inherit;font-size:14px;font-weight:700;letter-spacing:.02em;line-height:40px;text-align:center;font-variant-numeric:tabular-nums;cursor:pointer}
+.ei-player.ei-vc-on .ei-vc-pp{display:flex}
+.ei-player.ei-vc-on .ei-vc-speed{display:block}
+.ei-vc-pp:focus-visible,.ei-vc-speed:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.ei-vc-play::before{animation:none;opacity:.6}.ei-vc-play{transition:none}}
+</style>
+<script>
+/* Hand cursor on the video start button: Chrome / Edge on a computer can start Vimeo with sound from a click on this
+   page, so there the button is a real button. Elsewhere the click must land on Vimeo's own player. */
+(function () {
+  if (!(navigator.userAgentData && matchMedia('(hover:hover) and (pointer:fine)').matches)) return;
+  document.documentElement.classList.add('ei-vc-click');
+  document.addEventListener('pointerdown', function (e) {
+    var b = e.target.closest && e.target.closest('.ei-vc-start'), f = b && document.querySelector('[data-vimeo]');
+    if (f && window.Vimeo) new Vimeo.Player(f).play().catch(function () {});
+  });
+})();
+</script>
+<style>
+/* REVEAL: the Reserve button and the free book link (.ci-choice) stay hidden until 5 seconds before the end of
+   Darren's video, then fade up. The gate class comes from the script below, the reveal from the footer script. */
+html.ci-gate:not(.ci-reveal) .ci-choice { display: none; }
+html.ci-gate.ci-reveal .ci-choice { animation: ci-reveal .8s ease both; }
+@keyframes ci-reveal { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { html.ci-gate.ci-reveal .ci-choice { animation: none; } }
+/* FOLD: the DH bio always starts below the first screen (mostly for phones). The block after the video (button, link,
+   panels) reaches at least the bottom of the first screen; --ci-hero-h is where that block starts, set by the script
+   below. lvh = the screen with the browser's bars hidden (the tallest it gets), so the bio can't peek in when a phone's
+   address bar slides away; the extra only ever falls below what is on screen. */
+.ei-hero + .ei-block { min-height: calc(100vh - var(--ci-hero-h, 0px) + 2px); min-height: calc(100lvh - var(--ci-hero-h, 0px) + 2px); }
+</style>
+<script>
+/* REVEAL GATE. Hides the button + link until the video's last 5 seconds, except:
+   - ?skip=end (team testing): shown at once, and the footer script jumps the video to 5 seconds before the end;
+   - a visitor who already reached that point on an earlier visit (localStorage "ci_revealed"): shown at once;
+   - Darren's video can't connect within 20 seconds (blocked by a browser or cookie setting): shown anyway.
+     (A blocked player script shows them at once; this timer covers a player that loads but never connects.) */
+(function () {
+  var h = document.documentElement, seen = false;
+  try { seen = localStorage.getItem('ci_revealed') === '1'; } catch (e) {}
+  if (/(^|[?&])skip=end(&|$)/.test(location.search) || seen) return;
+  h.classList.add('ci-gate');
+  setTimeout(function () { if (!h.classList.contains('ci-vid-ready')) h.classList.add('ci-reveal'); }, 20000);
+})();
+/* FOLD (style above): where the block after the video starts, kept current if the video section changes height. */
+document.addEventListener('DOMContentLoaded', function () {
+  var hero = document.querySelector('.ei-hero'), block = hero && hero.nextElementSibling;
+  if (!block || !block.classList.contains('ei-block')) return;
+  function set() { document.documentElement.style.setProperty('--ci-hero-h', Math.round(block.getBoundingClientRect().top + window.pageYOffset) + 'px'); }
+  set();
+  if (window.ResizeObserver) new ResizeObserver(set).observe(hero);
+  window.addEventListener('resize', set);
+});
+</script>
