@@ -234,7 +234,12 @@ spiffy.load("darrenhardy", "secure.darrenhardy.com");
       video.addEventListener('loadedmetadata', function again() { video.removeEventListener('loadedmetadata', again); play(); });
     });
   }
-  function toggle() { if (video.paused) play(); else video.pause(); }
+  // At the end (the video holds on Darren's last frame), play starts it over from the beginning.
+  function toggle() {
+    if (!video.paused) { video.pause(); return; }
+    if (video.duration && video.duration - video.currentTime < 1) video.currentTime = 0;
+    play();
+  }
 
   // styles for the native video, the clickable cover and the spinner (the head CSS stays as it was). While waiting for
   // the first frame the start button stays up as a spinner, even though playback has begun.
