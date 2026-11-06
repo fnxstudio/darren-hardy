@@ -311,7 +311,9 @@
   // new investment only; Assign (Hardy Exchange credits) = a button to the credits site, carrying the Champion's ID.
   var ASSIGN_URL = 'https://credits.darrenhardy.com/';
   var OPTS = {
-    audio:  { url: 'https://www.thecompoundeffect.com/champion-invitation', subject: 'A gift: The Compound Effect, 10th Anniversary Edition',
+    // Gift + Invite goes through Jon's tracked redirect (2026-11-05): it logs the click, adds the campaign tags and forwards
+    // to /champion-invitation with ref + utm_content = the Champion ID. Impacts still come only from paid seats.
+    audio:  { url: 'https://www.thecompoundeffect.com/champion-invitation', track: function (id) { return 'https://card.darrenhardy.com/champion-invitation/' + encodeURIComponent(id); }, subject: 'A gift: The Compound Effect, 10th Anniversary Edition',
               msg: function (l) { return "This is the book I tell everyone about. The Compound Effect by Darren Hardy, the 10th Anniversary Edition, the hardcover and the audiobook, on me.\n\nGrab it here: " + l + "\n\nListen to the first chapter tonight."; } },
     leader: { url: 'https://www.thecompoundeffect.com/founders-event#enroll', subject: 'You are enrolled: the Founders Event',
               msg: function (l) { return "I've enrolled you in Darren Hardy's Founders Event in April. Here's where to complete your enrollment: " + l + "\n\nSee you there."; } },
@@ -332,12 +334,12 @@
   function setPay(v) {
     var r = $('enrollPane').querySelector('input[name=pay][value=' + v + ']'); if (!r) return;
     r.checked = true; r.dispatchEvent(new Event('change'));
-    $('enrollGo').innerHTML = (v === 'credit' ? 'Assign my credits' : 'Invest in a team seat') + ' <span class="champ-arw">&rarr;</span>';
+    $('enrollGo').innerHTML = (v === 'credit' ? 'Assign my credits' : 'Invest in a Team Seat') + ' <span class="champ-arw">&rarr;</span>';
     if (enLab) enLab.textContent = v === 'credit' ? 'Assign your credits' : 'Team Seat';
   }
   function pick(key) {
     if (!OPTS[key]) key = 'audio';
-    var o = OPTS[key], l = withRef(o.url), m = o.msg(l);
+    var o = OPTS[key], l = o.track ? o.track(linkRef()) : withRef(o.url), m = o.msg(l);
     opts.forEach(function (b) { b.classList.toggle('is-on', b.getAttribute('data-opt') === key); });
     var assigning = key === 'assign', enrolling = key === 'leader';
     $('sharePane').hidden = assigning || enrolling || !signedIn;
@@ -370,7 +372,7 @@
   pays.forEach(function (r) {
     r.addEventListener('change', function () {
       pays.forEach(function (x) { x.parentNode.classList.toggle('is-on', x.checked); });
-      eGo.innerHTML = (r.value === 'credit' && r.checked ? 'Assign my credits' : 'Invest in a team seat') + ' <span class="champ-arw">&rarr;</span>';
+      eGo.innerHTML = (r.value === 'credit' && r.checked ? 'Assign my credits' : 'Invest in a Team Seat') + ' <span class="champ-arw">&rarr;</span>';
     });
   });
   ef.addEventListener('submit', function (e) {
