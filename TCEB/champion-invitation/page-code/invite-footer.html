@@ -1,0 +1,287 @@
+<script>
+/* ===== CHAMPION INVITATION: SWAP SETTINGS (the only lines to change) =====================================
+   This page (/champion-invitation) is the Champion Board's gift + invite page, a copy of /champion-invite.
+   It launched with /champion-invite's video and cart. When the new ones are ready, change ONLY these values:
+   - VIMEO_ID   the new video's number (vimeo.com/<number>); used for the cover thumbnail.
+   - VIDEO_HLS  Vimeo > the video > Distribution > Video file links > the HLS link (.m3u8, keep its ?s=...).
+   - VIDEO_MP4  same place, the 1080p MP4 link (keep its signature). Used only when HLS can't play; left empty, the
+                button + link simply show if the stream can't play.
+   - REVEAL_AT  second at which the Reserve button + free book link appear: 1 second before Darren says
+                "Click the button below". If it's past the new video's end, it falls back to the last 5 seconds.
+   - CART_URL   the new Spiffy checkout's address (secure.darrenhardy.com/checkout/<cart>). In Spiffy, set that
+                cart's after-purchase redirects to /champion-invitation-confirmation and
+                /champion-invitation-vip-confirmation.
+   Everything else on the page reads these. Publish to staging, then test with ?skip=end.
+   2026-11-05: new video 1243788282 ("Referral_Champion Pg to FE", 4:10). Darren says "Click the button below" at about
+   3:48 (Vimeo auto-captions), so REVEAL_AT is 227. */
+window.CI_SETTINGS = {
+  VIMEO_ID:  '1243788282',
+  VIDEO_HLS: 'https://player.vimeo.com/external/1243788282.m3u8?s=993016fde8b0351a9b1c54383f7c1d91323edcf3&logging=false',
+  VIDEO_MP4: '',
+  REVEAL_AT: 227,
+  CART_URL:  'https://secure.darrenhardy.com/checkout/the-compound-effect-in-business-founders-event-referrals'
+};
+</script>
+<script>
+/* CHAMPION INVITATION (copy of /champion-invite; video + cart settings are in CI_SETTINGS above)
+   1. Button + link (data-ci-open): "cart" opens the Founders cart, "gift" opens the HubSpot book + audiobook form
+      (its own embed). Opening one closes the other. Webflow's own anchor scroll is stopped so it can't race ours.
+   2. The REAL Spiffy cart (founders-event-referrals) loads into .pp-checkout. MOCK_CART stays false: the mock embed
+      and its head rule were removed on 2026-11-02, after Sara installed the cart's custom CSS + code in Spiffy.
+      The cart loads AFTER Darren's video starts (see mount below), so it doesn't compete with the video on phones.
+   3. Any utm_* on this page's URL (the card QR's referral ID arrives as utm_content) is passed on to the cart.
+      The cart URL lives here (CART_URL); a data-url on the .pp-checkout box overrides it.
+   4. VIDEO: Darren's video plays in the page's own <video> element (data-video), from Vimeo's direct file links
+      (Vimeo video CI_SETTINGS.VIMEO_ID, Distribution > Video file links), not in Vimeo's player frame. iPhones can't start a
+      Vimeo frame from the page (Vimeo: "on iOS ... you cannot programmatically trigger play"), so the old frame needed
+      2-3 taps; a native video starts on one tap of our button. Safari / iPhones play the HLS stream natively; other
+      browsers play the same stream through hls.js; if neither works, the MP4. Vimeo's auto-generated captions ride in
+      the stream; they are switched off here (turning them off in Vimeo removes them from the stream altogether). It
+      ends on Darren's final frame. The button + link (.ci-choice) are revealed one second before Darren says "Click
+      the button below" (REVEAL_AT; head CSS + gate script). ?skip=end (team testing) jumps the video to 3 seconds
+      before that point once it plays; the head script already shows the button + link for it. */
+(function () {
+  var MOCK_CART = false;
+  var CART_URL = window.CI_SETTINGS.CART_URL;
+  var VIDEO_HLS = window.CI_SETTINGS.VIDEO_HLS;
+  var VIDEO_MP4 = window.CI_SETTINGS.VIDEO_MP4;
+  var HLS_JS = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.20/hls.min.js';
+  var html = document.documentElement, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var box = document.querySelector('.ci-cart .pp-checkout');
+  var panels = { cart: document.querySelector('.ci-cart'), gift: document.querySelector('.ci-gift-panel') };
+  var video = document.querySelector('[data-video]');
+
+  function scrollToEl(el, offset) {
+    var y = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - (offset || 0));
+    if (reduce) { window.scrollTo(0, y); return; }
+    var y0 = window.pageYOffset, d = y - y0, t0 = null;
+    (function step(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / 400);
+      window.scrollTo(0, y0 + d * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    })(performance.now());
+  }
+
+  // Cart URL plus this page's utm_* params, so the referral reaches Spiffy
+  function cartUrl() {
+    var url = box.getAttribute('data-url') || CART_URL, q = new URLSearchParams(location.search), out = new URLSearchParams();
+    q.forEach(function (v, k) { if (/^utm_/.test(k)) out.set(k, v); });
+    var s = out.toString();
+    return s ? url + (url.indexOf('?') < 0 ? '?' : '&') + s : url;
+  }
+  // The cart is a whole second app, and it stays hidden until the button shows near the end of the video. So it loads
+  // once the video is playing (or can't play), after 15 seconds at the latest, or straight away if Reserve is tapped first.
+  var mounted = false;
+  function mount() {
+    if (mounted || !box || MOCK_CART) return;
+    mounted = true;
+    var url = cartUrl(), ready = false;
+    var fb = box.querySelector('.pp-fallback-link'); if (fb) fb.setAttribute('href', url);
+    var el = document.createElement('spiffy-element');
+    el.setAttribute('type', 'checkout'); el.setAttribute('url', url);
+    box.insertBefore(el, box.querySelector('.pp-fallback'));
+    // Spiffy holds the frame at 500px until the form has rendered
+    var poll = setInterval(function () {
+      var f = box.querySelector('iframe');
+      if (f && f.offsetHeight > 600) { clearInterval(poll); ready = true; box.classList.add('is-ready'); }
+    }, 100);
+    setTimeout(function () { if (!ready) box.classList.add('is-failed'); }, 8000);
+  }
+  setTimeout(mount, 15000);
+
+  document.querySelectorAll('[data-ci-open]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      if (e.detail) a.blur();
+      var which = a.getAttribute('data-ci-open');
+      if (which === 'cart') mount();
+      html.classList.toggle('ci-open-cart', which === 'cart');
+      html.classList.toggle('ci-open-gift', which === 'gift');
+      if (video) video.pause();
+      if (panels[which]) scrollToEl(panels[which], 24);
+    }, true);
+  });
+
+  // 4. Video, and the reveal of the button + link at REVEAL_AT (playing into it, or scrubbing past it).
+  //    Darren says "Click the button below" about one second after REVEAL_AT (see CI_SETTINGS), so the reveal is one
+  //    second before. If the video is ever swapped for a shorter one, the reveal falls back to its last 5 seconds.
+  //    Only reaching that point in the video is remembered for later visits ("ci_revealed"); a fallback reveal
+  //    (video can't play) or a ?skip=end test visit isn't.
+  var REVEAL_AT = window.CI_SETTINGS.REVEAL_AT;
+  var SKIP = /(^|[?&])skip=end(&|$)/.test(location.search);
+  function reveal(watched) {
+    if (watched === true && !SKIP) { try { localStorage.setItem('ci_revealed', '1'); } catch (e) {} }
+    html.classList.add('ci-reveal');
+  }
+  function fallback() { reveal(false); mount(); }
+  function revealPoint(duration) { return Math.min(REVEAL_AT, duration - 5); }
+  function reached() { if (video.duration && video.currentTime >= revealPoint(video.duration)) reveal(true); }
+  if (!video) { fallback(); return; }
+
+  // captions off: every text track the stream brings in, as it arrives and again once playing
+  function captionsOff() { for (var i = 0; i < video.textTracks.length; i++) video.textTracks[i].mode = 'disabled'; }
+  if (video.textTracks) {
+    video.textTracks.addEventListener('addtrack', captionsOff);
+    video.textTracks.addEventListener('change', captionsOff);
+    video.addEventListener('loadedmetadata', captionsOff);
+    video.addEventListener('playing', captionsOff);
+  }
+
+  // the source: Apple's own HLS player on Apple devices (Safari, every iPhone browser), else hls.js, else the MP4.
+  // Chrome now has a built-in HLS player too, but it stalled on seeks (stuck at the ?skip=end jump) and failed starts
+  // in testing, so everything that isn't Apple uses hls.js.
+  function useMp4() { if (VIDEO_MP4) video.src = VIDEO_MP4; else fallback(); }
+  var nativeHls = video.canPlayType('application/vnd.apple.mpegurl');
+  if (nativeHls && /Apple/.test(navigator.vendor || '')) video.src = VIDEO_HLS;
+  else {
+    var s = document.createElement('script');
+    s.src = HLS_JS;
+    s.onload = function () {
+      if (!window.Hls || !Hls.isSupported()) { if (nativeHls) video.src = VIDEO_HLS; else useMp4(); return; }
+      var hls = new Hls({ capLevelToPlayerSize: true, subtitleDisplay: false });
+      hls.on(Hls.Events.ERROR, function (e, d) { if (d.fatal) { hls.destroy(); useMp4(); } });
+      hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, function () { hls.subtitleTrack = -1; captionsOff(); });
+      hls.loadSource(VIDEO_HLS);
+      hls.attachMedia(video);
+    };
+    s.onerror = function () { if (nativeHls) video.src = VIDEO_HLS; else useMp4(); };
+    document.head.appendChild(s);
+  }
+  html.classList.add('ci-vid-ready');
+
+  var skipped = !SKIP;
+  function skipAhead() {
+    if (skipped || !video.duration) return;
+    skipped = true;
+    video.currentTime = Math.max(0, revealPoint(video.duration) - 3);
+  }
+  video.addEventListener('loadedmetadata', skipAhead);
+  video.addEventListener('playing', function () { skipAhead(); mount(); });
+  video.addEventListener('timeupdate', function () {
+    reached();
+    if (video.duration && video.duration - video.currentTime < 0.5) video.pause();
+  });
+  video.addEventListener('seeked', reached);
+  video.addEventListener('ended', function () {
+    reveal(true);
+    video.currentTime = Math.max(0, video.duration - 0.15);
+  });
+  video.addEventListener('error', function () {
+    if (video.src && video.src.indexOf(VIDEO_MP4.slice(0, 60)) !== 0 && !window.Hls) useMp4(); else fallback();
+  });
+})();
+</script>
+<script>
+"use strict";!function(i,t){var f=t.spiffy=t.spiffy||[];if(!f.init){
+if(f.invoked)return void(t.console&&console.error&&console.warn("Spiffy Elements included twice."))
+;f.invoked=!0,f.methods=["identify","config","debug","off","on"],f.factory=function(i){
+return function(){var t=Array.prototype.slice.call(arguments);return t.unshift(i),f.push(t),f}},
+f.methods.forEach(function(i){spiffy[i]=f.factory(i)}),f.load=function(t,f){if(!spiffy.ACCOUNT){
+spiffy.ACCOUNT=t,spiffy.DOMAIN=f;var e=i.createElement("script");e.type="text/javascript",
+e.async=!0,e.crossorigin="anonymous",e.src="https://js.static.spiffy.co/spiffy.js?a="+t
+;var n=i.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)}}}}(document,window),
+spiffy.SNIPPET_VERSION="1.1.0";
+spiffy.config({ hideSidebar: true, hideHeader: true, hideFooter: true, popupEnabled: false });
+spiffy.load("darrenhardy", "secure.darrenhardy.com");
+</script>
+<script>
+/* VIDEO CONTROLS (styles in the head) for the page's own <video>. Before play: the video's Vimeo thumbnail as a cover,
+   with the big steel play button beside two lines of copy. The whole cover is the play button: one tap or click starts
+   the video with sound, on phones too (it is the page's own video, so the tap counts). Until the first frame shows, the
+   play button turns into a spinner. Then our running time, steel play/pause and speed button; no other controls show. */
+(function () {
+  var EYEBROW = 'A personal message from Darren Hardy', TITLE = 'About your invitation', VIMEO_ID = window.CI_SETTINGS.VIMEO_ID;
+  var video = document.querySelector('[data-video]');
+  if (!video || !video.parentNode) return;
+  var wrap = video.parentNode;
+
+  var bits = document.createElement('div');
+  bits.innerHTML = '<div class="ei-vc-cover" role="button" tabindex="0" aria-label="Play the video">' +
+    '<span class="ei-vc-start"><span class="ei-vc-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg></span>' +
+    '<span class="ei-vc-copy"><span class="ei-vc-eyebrow"></span><span class="ei-vc-title"></span></span></span></div>' +
+    '<span class="ei-vc-time" aria-hidden="true"></span>' +
+    '<div class="ei-vc-shield" aria-hidden="true"></div>' +
+    '<button type="button" class="ei-vc-speed" aria-label="Playback speed">1&times;</button>' +
+    '<button type="button" class="ei-vc-pp" aria-label="Pause"><svg viewBox="0 0 24 24" aria-hidden="true"></svg></button>';
+  bits.querySelector('.ei-vc-eyebrow').textContent = EYEBROW;
+  bits.querySelector('.ei-vc-title').textContent = TITLE;
+  while (bits.firstChild) wrap.appendChild(bits.firstChild);
+  var clock = wrap.querySelector('.ei-vc-time'), pp = wrap.querySelector('.ei-vc-pp');
+  var shield = wrap.querySelector('.ei-vc-shield'), speed = wrap.querySelector('.ei-vc-speed');
+  var cover = wrap.querySelector('.ei-vc-cover'), started = false;
+  wrap.classList.add('ei-vc-ready');
+
+  // Vimeo's thumbnail for the cover, and the length for the clock before the video's own data has loaded
+  // (phones load nothing until the tap)
+  fetch('https://vimeo.com/api/oembed.json?width=1920&url=' + encodeURIComponent('https://vimeo.com/' + VIMEO_ID))
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d.thumbnail_url) { cover.style.backgroundImage = 'url("' + d.thumbnail_url + '")'; video.poster = d.thumbnail_url; }
+      if (d.duration && !started && !video.duration) clock.textContent = mmss(d.duration);
+    })
+    ['catch'](function () {});
+
+  function mmss(t) { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
+  var ICON_PLAY = '<path d="M8 5v14l11-7z"/>', ICON_PAUSE = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+  function showPlaying(on) { pp.querySelector('svg').innerHTML = on ? ICON_PAUSE : ICON_PLAY; pp.setAttribute('aria-label', on ? 'Pause' : 'Play'); }
+  // A click in the moment before hls.js has attached the stream finds no source and is refused: then it plays as soon
+  // as the stream is ready instead (the click already gave permission).
+  function play() {
+    var p = video.play();
+    if (p && p['catch']) p['catch'](function () {
+      if (video.currentSrc) { wrap.classList.remove('ei-vc-wait'); return; }
+      video.addEventListener('loadedmetadata', function again() { video.removeEventListener('loadedmetadata', again); play(); });
+    });
+  }
+  function toggle() { if (video.paused) play(); else video.pause(); }
+
+  // styles for the native video, the clickable cover and the spinner (the head CSS stays as it was). While waiting for
+  // the first frame the start button stays up as a spinner, even though playback has begun.
+  var css = document.createElement('style');
+  css.textContent = '.ei-player .ei-vc-cover{pointer-events:auto;cursor:pointer}' +
+    '.ei-player video.ei-vimeo{display:block;object-fit:cover;background:#000}' +
+    '.ei-player video.ei-vimeo::cue{visibility:hidden;opacity:0}' +
+    '.ei-player:hover .ei-vc-play{transform:scale(1.07)}' +
+    '.ei-vc-cover:focus-visible .ei-vc-play{outline:3px solid #fff;outline-offset:6px}' +
+    '.ei-player.ei-vc-wait .ei-vc-start{display:flex;visibility:visible}' +
+    '.ei-vc-wait .ei-vc-play svg{opacity:0}' +
+    '.ei-vc-wait .ei-vc-play::after{content:"";position:absolute;width:42%;height:42%;border-radius:50%;border:3px solid rgba(10,12,16,.18);border-top-color:#0A0C10;animation:ei-vc-spin .8s linear infinite}' +
+    '@keyframes ei-vc-spin{to{transform:rotate(1turn)}}' +
+    '@media (hover:none){.ei-player:hover .ei-vc-play{transform:none}}';
+  document.head.appendChild(css);
+
+  function start(e) {
+    if (e && e.type === 'touchend' && e.cancelable) e.preventDefault();
+    if (started) return;
+    wrap.classList.add('ei-vc-wait');
+    play();
+  }
+  // Starts on the press, not the click: until a visitor answers the cookie banner, Cookiebot's implied consent eats the
+  // first click on the page (the old Vimeo frame never saw that, because its click landed inside Vimeo's frame).
+  cover.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse' && e.button === 0) start(e); });
+  cover.addEventListener('touchend', start);
+  cover.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); start(); } });
+  pp.addEventListener('click', toggle);
+  shield.addEventListener('click', toggle);
+  var RATES = [1, 1.25, 1.5, 1.75, 2], rate = 0;
+  speed.addEventListener('click', function () {
+    rate = (rate + 1) % RATES.length;
+    video.playbackRate = RATES[rate];
+    speed.innerHTML = RATES[rate] + '&times;';
+  });
+
+  video.addEventListener('durationchange', function () { if (!started && video.duration) clock.textContent = mmss(video.duration); });
+  video.addEventListener('play', function () {
+    if (!started) { started = true; wrap.classList.add('ei-vc-on'); }
+    showPlaying(true);
+  });
+  video.addEventListener('pause', function () { if (started) showPlaying(false); });
+  video.addEventListener('ended', function () { showPlaying(false); });
+  video.addEventListener('timeupdate', function () {
+    if (!started) return;
+    if (video.currentTime > 0.1 && !video.paused) { wrap.classList.add('ei-vc-live'); wrap.classList.remove('ei-vc-wait'); }
+    if (video.duration) clock.textContent = mmss(video.duration - video.currentTime);
+  });
+})();
+</script>
