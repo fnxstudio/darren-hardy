@@ -977,6 +977,40 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 .steel-in{box-shadow:0 22px 46px rgba(10,14,24,.2)}
 
 @media (max-width:900px){#darren .dh-photo{margin-top:0}}
+
+/* FOUNDERS EVENT: copy left, two big desk-calendar pages right, floating over a midnight glow */
+.fe-split{display:grid;grid-template-columns:1.05fr 1fr;gap:72px;align-items:center}
+.fe-copy .hl{margin-bottom:36px}
+.fe-copy .tagline{margin-top:28px}
+.fe-cal{position:relative;height:520px}
+.fe-glow{position:absolute;left:50%;top:52%;width:620px;height:460px;translate:-50% -50%;border-radius:50%;background:radial-gradient(closest-side,rgba(40,70,130,.32),rgba(40,70,130,.12) 55%,rgba(40,70,130,0));filter:blur(14px);pointer-events:none}
+.fe-pg{position:absolute;width:250px;display:grid;justify-items:center;background:linear-gradient(180deg,#FFFFFF,#F2F4F7);border-radius:3px;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 0 0 1px rgba(10,12,16,.1),0 40px 70px rgba(14,22,38,.3),0 10px 18px rgba(14,22,38,.16);transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.fe-pg1{left:4%;top:56px;rotate:-6deg;animation:float 8s ease-in-out infinite}
+.fe-pg2{right:4%;top:110px;rotate:5deg;z-index:2;animation:float 8s ease-in-out -4s infinite}
+.fe-cal:hover .fe-pg1{transform:translate(-14px,-10px)}
+.fe-cal:hover .fe-pg2{transform:translate(14px,-6px)}
+.fe-pg .cal-mo{width:100%;padding:24px 0 16px;text-align:center;background:linear-gradient(160deg,#1C2C48,#0B1526);color:#F2F4F8;font:700 14px/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;border-radius:3px 3px 0 0}
+.fe-pg b{font-family:var(--serif);font-weight:600;font-size:150px;line-height:.9;color:#0B1526;margin:26px 0 8px;letter-spacing:-.02em}
+.fe-pg .cal-dy{font:700 13px/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;color:#4A5568;margin-bottom:30px}
+.fe-rings{position:absolute;top:-12px;left:0;right:0;height:26px;background:radial-gradient(circle at 50% 50%,#C9CED6 0 5px,#8E99AE 5.5px 7px,transparent 7.5px) center/38px 26px repeat-x;width:70%;margin:0 auto;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));z-index:2}
+@media (max-width:900px){
+  .fe-split{grid-template-columns:1fr;gap:24px}
+  .fe-cal{height:380px;max-width:420px;width:100%;margin:0 auto}
+  .fe-pg{width:180px}.fe-pg b{font-size:104px}.fe-pg .cal-mo{font-size:12px;padding:18px 0 12px}
+  .fe-pg1{left:2%;top:30px}.fe-pg2{right:2%;top:80px}
+}
+@media (prefers-reduced-motion:reduce){.fe-pg1,.fe-pg2{animation:none}}
+
+.fe-copy .hl{white-space:nowrap;font-size:clamp(40px,4.3vw,66px)}
+.fe-pg{width:280px}.fe-pg b{font-size:168px}
+.fe-cal{height:560px}
+@media (max-width:900px){.fe-copy .hl{white-space:normal}.fe-pg{width:180px}.fe-pg b{font-size:104px}.fe-cal{height:380px}}
+
+.fe-cal{height:620px}
+.fe-pg1{left:-4%;top:30px}
+.fe-pg2{right:-8%;top:190px}
+.fe-glow{top:55%}
+@media (max-width:900px){.fe-cal{height:400px}.fe-pg1{left:0;top:20px}.fe-pg2{right:0;top:130px}}
 </style>
 </head>
 <body>
@@ -1071,17 +1105,19 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 8. THE FOUNDERS EVENT -->
 <section class="s lite">
   <div class="wrap">
-    <div class="tlabel center rv"><span>Nº 03</span>Here's how you start first</div>
-    <h2 class="hl center rv">The <em class="box">FOUNDERS EVENT</em>.</h2>
-    <div class="cal cal-fe rv" aria-label="Monday and Tuesday, April 26 and 27, 2027. Two full days, live with Darren.">
-      <div class="cal-days" aria-hidden="true">
-        <div class="cal-pg"><span class="cal-mo">Apr 2027</span><b>26</b><span class="cal-dy">Monday</span></div>
-        <div class="cal-pg"><span class="cal-mo">Apr 2027</span><b>27</b><span class="cal-dy">Tuesday</span></div>
+    <div class="fe-split">
+      <div class="fe-copy rv">
+        <div class="tlabel"><span>Nº 03</span>Here's how you start first</div>
+        <h2 class="hl">The <em class="box">FOUNDERS EVENT</em>.</h2>
+        <p class="lede">For 2 days, you install the hinges inside your own company, with your leadership team right there beside you. You leave with your first upgrade already started.</p>
+        <p class="tagline">This inaugural FOUNDERS EVENT will only ever happen ONE TIME with ONE group of leaders. Start compounding on purpose before your competitors can even buy the&nbsp;book.</p>
       </div>
-      <p class="cal-cap" aria-hidden="true">Two Full Days · Live with&nbsp;Darren</p>
+      <div class="fe-cal rv" role="img" aria-label="Monday and Tuesday, April 26 and 27, 2027">
+        <div class="fe-glow" aria-hidden="true"></div>
+        <div class="fe-pg fe-pg1" aria-hidden="true"><i class="fe-rings"></i><span class="cal-mo">April 2027</span><b>26</b><span class="cal-dy">Monday</span></div>
+        <div class="fe-pg fe-pg2" aria-hidden="true"><i class="fe-rings"></i><span class="cal-mo">April 2027</span><b>27</b><span class="cal-dy">Tuesday</span></div>
+      </div>
     </div>
-    <p class="lede narrow center rv">For 2 days, you install the hinges inside your own company, with your leadership team right there beside you. You leave with your first upgrade already started.</p>
-    <p class="tagline narrow center rv">This inaugural FOUNDERS EVENT will only ever happen ONE TIME with ONE group of leaders. Start compounding on purpose before your competitors can even buy the&nbsp;book.</p>
     <details class="disclose rv">
       <summary><span>Over those 2 days, you'll discover...</span></summary>
       <ol class="learn">
@@ -1131,30 +1167,6 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
   </div>
 </section>
 
-<!-- 16. MEET DARREN -->
-<section class="s" id="darren">
-  <div class="dh-photo" aria-hidden="true"><span class="dh-frame"><img src="img/dh-author-tceb.webp" width="2000" height="1116" alt="" loading="lazy"><span class="tint"></span></span></div>
-  <div class="wrap meet">
-    
-    <div class="rv">
-      <div class="tlabel"><span>Nº 06</span>Your host</div>
-      <h2 class="hl">Meet <span class="sx shim nb">Darren Hardy</span>.</h2>
-      <p class="lede">I've spent 35 years building, buying and selling companies, and along the way I've mentored more than 12,000 CEOs and founders.</p>
-      <div class="laurels" aria-label="Awards">
-        <img src="img/cred-award-blog-white-400.webp" width="400" height="250" alt="Top 10 Personal Development Blog, DarrenDaily.com" loading="lazy">
-        <img src="img/cred-award-nsa-white-400.webp" width="400" height="250" alt="Master of Influence, National Speakers Association" loading="lazy">
-        <img src="img/cred-award-podcast-white-400.webp" width="400" height="250" alt="Top Rated Apple Podcast, DarrenDaily On Demand" loading="lazy">
-      </div>
-      <div class="badges" aria-label="Bestseller lists">
-        <img src="img/cred-nyt-bestseller-white-280.webp" width="280" height="210" alt="New York Times bestseller" loading="lazy">
-        <img src="img/cred-usa-today-bestseller-white-280.webp" width="280" height="210" alt="USA Today bestseller" loading="lazy">
-        <img src="img/cred-amazon-5-star-reviews-white-280.webp" width="280" height="210" alt="Amazon 5-star reviews" loading="lazy">
-        <img src="img/cred-barnes-noble-bestseller-white-280.webp" width="280" height="210" alt="Barnes &amp; Noble bestseller" loading="lazy">
-        <img src="img/cred-wsj-bestseller-white-280.webp" width="280" height="210" alt="Wall Street Journal bestseller" loading="lazy">
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- 2b. CREDIBILITY: The Compound Effect big with its 2 MILLION seal, the new In Business book just behind; hover turns them -->
 <section class="s author">
@@ -1168,7 +1180,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
       </div>
     </div>
     <div class="rv">
-      <div class="tlabel"><span>Nº 07</span>The author</div>
+      <div class="tlabel"><span>Nº 06</span>The author</div>
       <h2 class="hl">From the author of <span class="sx nb">The Compound Effect</span>.</h2>
       <div class="author-facts">
         <div><b class="metal">2 million+</b><span>books sold worldwide</span></div>
@@ -1193,7 +1205,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 4. BECOME THE COMPANY EVERYONE ELSE CALLS LUCKY -->
 <section class="s lite">
   <div class="wrap">
-    <div class="tlabel rv"><span>Nº 08</span>The confession</div>
+    <div class="tlabel rv"><span>Nº 07</span>The confession</div>
     <h2 class="hl rv">Become the company everyone else calls <span class="sx">lucky</span>.</h2>
     <div class="cols rv">
       <p class="lede">Every industry has one. The company that seems to get every break. I'll confess something: for years I thought the way to become that company was one big move. So I made big moves.</p>
@@ -1210,7 +1222,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="steel" style="--above:#EDEEF0;--below:#EDEEF0">
   <div class="steel-in">
     <div class="wrap">
-      <div class="tlabel dk rv"><span>Nº 09</span>The mechanism</div>
+      <div class="tlabel dk rv"><span>Nº 08</span>The mechanism</div>
       <h2 class="hl dk rv">Little hinges swing <em class="box">big doors</em>.</h2>
       <div class="cols rv">
         <p class="tagline dk"><em>The Compound Effect In Business</em> reduces the complexity of a business down to the half dozen vital factors that determine the fate and future of a company.</p>
@@ -1226,7 +1238,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 6. THE DOORS THEY SWING OPEN -->
 <section class="s halo-r lite">
   <div class="wrap">
-    <div class="tlabel center rv"><span>Nº 10</span>What the hinges open</div>
+    <div class="tlabel center rv"><span>Nº 09</span>What the hinges open</div>
     <h2 class="hl center rv">Picture your company a year from <span class="sx">now</span>.</h2>
     <div class="meta3 rv">
       <div><b>A-players</b>other companies try to recruit, and can't.</div>
@@ -1253,7 +1265,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="s stage-s">
   <div class="halo" aria-hidden="true"></div>
   <div class="wrap center">
-    <div class="tlabel center rv"><span>Nº 11</span>One first</div>
+    <div class="tlabel center rv"><span>Nº 10</span>One first</div>
     <h2 class="hl center rv">Be there when it all <em class="box">begins</em>.</h2>
     <div class="narrow rv">
       <p class="lede">The book is finally written. Before the book is released to the world, I'm putting it to work, live, with one group of leaders.</p>
@@ -1299,7 +1311,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 9. MORE THAN THE BOOK -->
 <section class="s lite paper" id="book">
   <div class="wrap">
-    <div class="tlabel rv"><span>Nº 12</span>More than the book</div>
+    <div class="tlabel rv"><span>Nº 11</span>More than the book</div>
     <h2 class="hl rv">You could read the book. Millions of people <span class="sx">will</span>.</h2>
     <div class="cols rv">
       <div>
@@ -1323,7 +1335,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 10. THE YEAR THAT STARTS TODAY -->
 <section class="s halo-r">
   <div class="wrap">
-    <div class="tlabel center rv"><span>Nº 13</span>Starts the day you join</div>
+    <div class="tlabel center rv"><span>Nº 12</span>Starts the day you join</div>
     <h2 class="hl center rv">You don't wait until April to start <span class="sx">compounding</span>.</h2>
     <p class="lede narrow center rv">Your seat includes one year inside Darren's private leader network, <span class="nb">THE COLLECTIVE</span>, activated the day you join.</p>
     <div class="tgrid three rv">
@@ -1339,7 +1351,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="s team-s lite">
   <div class="wrap team-grid">
     <div class="rv">
-      <div class="tlabel"><span>Nº 14</span>Bring your team</div>
+      <div class="tlabel"><span>Nº 13</span>Bring your team</div>
       <h2 class="hl">They've heard you. They haven't heard <span class="sx">me</span>.</h2>
       <p class="lede">You've said it in the Monday meeting.</p>
       <ul class="perf-list">
@@ -1365,7 +1377,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 13. YOU MIGHT BE THINKING -->
 <section class="s halo-l">
   <div class="wrap">
-    <div class="tlabel rv"><span>Nº 15</span>Questions you might be asking</div>
+    <div class="tlabel rv"><span>Nº 14</span>Questions you might be asking</div>
     <h2 class="hl rv">You might be <span class="sx">thinking</span>...</h2>
     <div class="objs rv">
       <div class="obj"><span class="on">01</span><h3>“I've been to events before, and nothing stuck.”</h3><p>Me too. Knowing isn't installing. The FOUNDERS EVENT is built to install, with your team beside you and a full year inside <span class="nb">THE COLLECTIVE</span> behind it.</p></div>
@@ -1510,13 +1522,13 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 </section>
 
 <!-- 15. THE GUARANTEE: second steel band -->
-<section class="steel" style="--above:#07090f;--below:#EDEEF0;--below:#F7F7F8">
+<section class="steel" style="--above:#07090f;--below:#070B14">
   <div class="steel-in">
     <div class="wrap">
       <div class="guar rv">
         <div class="seal-stage" data-tilt><div class="seal-float"><div class="pfloat seal-tilt"><img class="seal" src="img/founders-guarantee-seal.webp" width="900" height="900" alt="Founders Event guarantee seal: 3X, triple your investment or you pay nothing" loading="lazy"><span class="seal-shine" aria-hidden="true"></span></div></div></div>
         <div>
-          <div class="tlabel dk"><span>Nº 16</span>The guarantee</div>
+          <div class="tlabel dk"><span>Nº 15</span>The guarantee</div>
           <h2 class="hl dk">Triple your investment, or every dollar comes <em class="box">back</em>.</h2>
           <p class="tagline dk">Come to Day 1. If by 5 PM PT you don't see how this returns at least 3X what you put in, return your materials and we'll refund every dollar.</p>
         </div>
@@ -1525,6 +1537,31 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
   </div>
 </section>
 
+
+<!-- 16. MEET DARREN -->
+<section class="s" id="darren">
+  <div class="dh-photo" aria-hidden="true"><span class="dh-frame"><img src="img/dh-author-tceb.webp" width="2000" height="1116" alt="" loading="lazy"><span class="tint"></span></span></div>
+  <div class="wrap meet">
+    
+    <div class="rv">
+      <div class="tlabel"><span>Nº 16</span>Your host</div>
+      <h2 class="hl">Meet <span class="sx shim nb">Darren Hardy</span>.</h2>
+      <p class="lede">I've spent 35 years building, buying and selling companies, and along the way I've mentored more than 12,000 CEOs and founders.</p>
+      <div class="laurels" aria-label="Awards">
+        <img src="img/cred-award-blog-white-400.webp" width="400" height="250" alt="Top 10 Personal Development Blog, DarrenDaily.com" loading="lazy">
+        <img src="img/cred-award-nsa-white-400.webp" width="400" height="250" alt="Master of Influence, National Speakers Association" loading="lazy">
+        <img src="img/cred-award-podcast-white-400.webp" width="400" height="250" alt="Top Rated Apple Podcast, DarrenDaily On Demand" loading="lazy">
+      </div>
+      <div class="badges" aria-label="Bestseller lists">
+        <img src="img/cred-nyt-bestseller-white-280.webp" width="280" height="210" alt="New York Times bestseller" loading="lazy">
+        <img src="img/cred-usa-today-bestseller-white-280.webp" width="280" height="210" alt="USA Today bestseller" loading="lazy">
+        <img src="img/cred-amazon-5-star-reviews-white-280.webp" width="280" height="210" alt="Amazon 5-star reviews" loading="lazy">
+        <img src="img/cred-barnes-noble-bestseller-white-280.webp" width="280" height="210" alt="Barnes &amp; Noble bestseller" loading="lazy">
+        <img src="img/cred-wsj-bestseller-white-280.webp" width="280" height="210" alt="Wall Street Journal bestseller" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- 17. FAQ -->
 <section class="s faq lite paper">
