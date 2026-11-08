@@ -771,7 +771,16 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 #darren .dh-photo{top:-190px}
 /* midnight haze over the black side, behind the photo so it never touches Darren */
 #darren{padding-top:280px;background:radial-gradient(ellipse 70% 75% at 22% 58%,rgba(40,64,112,.55),rgba(24,40,74,.28) 45%,rgba(11,21,38,0) 78%),linear-gradient(180deg,#05070C 0%,#0B1526 55%,#070B14 100%)}
-@media (max-width:900px){#darren .dh-photo{top:auto;margin-top:-90px}#darren{padding-top:0;background:radial-gradient(ellipse 120% 60% at 30% 70%,rgba(40,64,112,.5),rgba(11,21,38,0) 75%),#070B14}}
+/* the image itself starts just under the band edge so his head is never covered */
+#darren .dh-photo img{top:110px;height:calc(100% - 110px)}
+#darren .dh-photo .tint{top:110px}
+/* narrow column: the copy and badges stop short of his jacket */
+#darren{--mw:min(480px,calc(32vw + 20px))}
+#darren .dh-photo img{object-position:50% 18%}
+#darren .meet>div,#darren .laurels,#darren .badges,#darren .tmeta.two{max-width:var(--mw)}
+#darren .hl{font-size:clamp(52px,5.4vw,92px)}
+@media (max-width:900px){#darren{--mw:100%}}
+@media (max-width:900px){#darren .dh-photo{top:auto;margin-top:-30px}#darren .dh-photo img{top:0;height:100%}#darren .dh-photo .tint{top:0}#darren{padding-top:0;background:radial-gradient(ellipse 120% 60% at 30% 70%,rgba(40,64,112,.5),rgba(11,21,38,0) 75%),#070B14}}
 
 /* light sections, like /champion: grey field and near-white, between the midnight and silver */
 .lite{--bright:#0A0C10;--soft:#3A404B;--mute:#6B7280;--line:rgba(10,12,16,.12);--line-2:rgba(10,12,16,.2);background:#EDEEF0;color:var(--soft)}
@@ -795,6 +804,16 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 .lite .mini .mtk{filter:drop-shadow(0 30px 40px rgba(10,14,24,.35))}
 .lite .m1 .mtk{filter:brightness(.6) drop-shadow(0 30px 40px rgba(10,14,24,.35))}
 .lite .m2 .mtk{filter:brightness(.8) drop-shadow(0 30px 40px rgba(10,14,24,.35))}
+
+/* guarantee seal: floats, tilts toward the pointer and catches the same light sweep as the hero ticket */
+.seal-stage{position:relative;width:260px;perspective:1200px}
+.seal-float{animation:float 7s ease-in-out infinite;transform-style:preserve-3d}
+.seal-tilt{position:relative;animation:none;transform:scale(var(--s,1)) rotateX(var(--rx,4deg)) rotateY(var(--ry,-6deg)) rotateZ(-2deg)}
+.seal-tilt .seal{width:100%}
+.seal-shine{position:absolute;inset:0;pointer-events:none;overflow:hidden;-webkit-mask:url(img/founders-guarantee-seal.webp) center/100% 100% no-repeat;mask:url(img/founders-guarantee-seal.webp) center/100% 100% no-repeat}
+.seal-shine::after{content:"";position:absolute;top:-20%;bottom:-20%;width:34%;left:-40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28) 45%,rgba(255,255,255,.5) 50%,rgba(255,255,255,.28) 55%,transparent);animation:shine 6.5s ease-in-out infinite}
+@media (max-width:900px){.seal-stage{width:200px;margin:0 auto}}
+@media (prefers-reduced-motion:reduce){.seal-float,.seal-shine::after{animation:none}}
 </style>
 </head>
 <body>
@@ -1284,7 +1303,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
   <div class="steel-in">
     <div class="wrap">
       <div class="guar rv">
-        <img class="seal" src="img/founders-guarantee-seal.webp" width="900" height="900" alt="Founders Event guarantee seal: 3X, triple your investment or you pay nothing" loading="lazy">
+        <div class="seal-stage" data-tilt><div class="seal-float"><div class="pfloat seal-tilt"><img class="seal" src="img/founders-guarantee-seal.webp" width="900" height="900" alt="Founders Event guarantee seal: 3X, triple your investment or you pay nothing" loading="lazy"><span class="seal-shine" aria-hidden="true"></span></div></div></div>
         <div>
           <div class="tlabel dk"><span>Nº 15</span>The guarantee</div>
           <h2 class="hl dk">Triple your investment, or every dollar comes <em class="box">back</em>.</h2>
