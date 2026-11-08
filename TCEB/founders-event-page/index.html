@@ -871,11 +871,16 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 /* Meet Darren, shorter: the photo keeps its own proportions (about half the old zoom) and the section loses its extra padding */
 @media (min-width:901px){
   #darren{padding-top:170px;padding-bottom:120px}
-  #darren .dh-photo img{top:110px;left:auto;right:0;width:118%;max-width:none;height:auto;object-fit:initial}
-  #darren .dh-photo .tint{top:110px;left:auto;right:0;width:118%;height:auto;aspect-ratio:2000/1116;
+  /* the frame sits on the section floor; its top edge fades into the haze everywhere except around his head */
+  #darren .dh-frame{position:absolute;right:0;bottom:0;width:118%;aspect-ratio:2000/1116;
+    -webkit-mask:linear-gradient(180deg,transparent 0%,#000 24%),radial-gradient(ellipse 15% 34% at 59% 22%,#000 70%,transparent 100%);
+            mask:linear-gradient(180deg,transparent 0%,#000 24%),radial-gradient(ellipse 15% 34% at 59% 22%,#000 70%,transparent 100%)}
+  #darren .dh-frame img,#darren .dh-frame .tint{top:0;left:0;right:auto;bottom:auto;width:100%;height:100%;max-width:none;object-fit:cover}
+  #darren .dh-frame .tint{position:absolute;
     -webkit-mask:linear-gradient(90deg,transparent 0%,#000 42%),linear-gradient(0deg,transparent 0%,#000 22%);-webkit-mask-composite:source-in;
             mask:linear-gradient(90deg,transparent 0%,#000 42%) intersect,linear-gradient(0deg,transparent 0%,#000 22%)}
 }
+@media (max-width:900px){#darren .dh-frame{display:contents}}
 
 /* calendar pages above the band's button */
 .cal{display:grid;justify-items:center;gap:16px;margin-bottom:10px}
@@ -898,6 +903,23 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 .tgrid.three .tcard h3.tc-one{font-size:clamp(72px,6.4vw,104px);min-height:1.9em;display:flex;align-items:center}
 .tgrid.three .tc-sub{font-size:16px!important;line-height:1.4}
 .tgrid.three .tc-main p:last-child{max-width:260px}
+
+/* team video slot (placeholder until Darren's team video is cut) */
+.tvid{display:block;text-decoration:none;color:inherit}
+.tvid-in{position:relative;display:grid;place-items:center;aspect-ratio:1200/563;background:radial-gradient(ellipse 70% 90% at 50% 40%,rgba(60,90,150,.35),transparent 70%),linear-gradient(160deg,#141a26,#06080d)}
+.tvid-lock{width:56%;opacity:.55}
+.tvid .play{position:absolute;left:22px;bottom:20px}
+.tvid .ph-tag{top:14px;right:14px}
+/* the studio photo, now in the FOUNDERS EVENT section */
+.studio{position:relative;max-width:980px;margin:72px auto 8px;padding:10px;background:linear-gradient(160deg,#1b1c1f,#0c0c0d);box-shadow:0 0 0 1px rgba(10,12,16,.2),0 40px 80px rgba(10,14,24,.3)}
+.studio::before{content:"";position:absolute;inset:5px;border:1px solid rgba(220,221,223,.28);pointer-events:none;z-index:2}
+.studio img{display:block;width:100%;height:auto}
+.studio .tint{position:absolute;inset:10px}
+.studio .aud-live{--bright:#F2F4F8}
+/* sponsorship as its own section */
+.sponsor-s{padding:120px 0}
+.sponsor-s .sponsor{margin:0 auto}
+@media (max-width:900px){.sponsor-s{padding:80px 0}.studio{margin-top:48px}}
 </style>
 </head>
 <body>
@@ -1003,6 +1025,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
     </div>
     <p class="lede narrow center rv">For 2 days, you install the hinges inside your own company, with your leadership team right there beside you. You leave with your first upgrade already started.</p>
     <p class="tagline narrow center rv">This inaugural FOUNDERS EVENT will only ever happen ONE TIME with ONE group of leaders. Start compounding on purpose before your competitors can even buy the&nbsp;book.</p>
+    <figure class="studio rv"><img src="img/dh-virtual-audience.webp?v=5" width="1200" height="563" alt="Darren live in the studio, leaders joining on screens" loading="lazy"><span class="tint"></span><span class="aud-live"><i></i>Live · Inside your business</span></figure>
     <details class="disclose rv">
       <summary><span>Over those 2 days, you'll discover...</span></summary>
       <ol class="learn">
@@ -1023,10 +1046,24 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
   </div>
 </section>
 
+<!-- THE PUBLISHER'S SPONSORSHIP, high on the page -->
+<section class="s sponsor-s midnight">
+  <div class="wrap">
+    <div class="sponsor rv">
+      <div class="sponsor-mark" data-tilt><div class="seal-float"><div class="pfloat seal-tilt rp-tilt"><div class="rp-bevel"><div class="rp-metal" role="img" aria-label="Rearden Press"></div></div></div></div></div>
+      <div class="sponsor-copy">
+        <div class="tlabel"><span>Nº 04</span>A gift from the publisher</div>
+        <h2 class="sponsor-hl">A <span class="sx">$5,000</span> Sponsorship From The&nbsp;Publisher</h2>
+        <p>To celebrate this historic launch, the publisher, Rearden Press, is sponsoring the first 500 FOUNDERS seats with $5,000 each. A FOUNDERS seat is $9,995. The publisher covers $5,000 of&nbsp;it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- 2. THE VIDEO: framed like the ticket -->
 <section class="s">
   <div class="wrap">
-    <div class="tlabel center rv"><span>Nº 04</span>A word from Darren</div>
+    <div class="tlabel center rv"><span>Nº 05</span>A word from Darren</div>
     <a class="vframe rv" href="#" aria-label="Play a word from Darren">
       <span class="vframe-in">
         <img src="img/dh-video.webp" width="1600" height="900" alt="Darren Hardy" loading="lazy"><span class="tint"></span>
@@ -1050,7 +1087,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
       </div>
     </div>
     <div class="rv">
-      <div class="tlabel"><span>Nº 05</span>The author</div>
+      <div class="tlabel"><span>Nº 06</span>The author</div>
       <h2 class="hl">From the author of <span class="sx nb">The Compound Effect</span>.</h2>
       <div class="author-facts">
         <div><b class="metal">2 million+</b><span>books sold worldwide</span></div>
@@ -1065,7 +1102,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- RESULTS: a rolling wall of real results from the book and Business Master Class -->
 <section class="s voices">
   <div class="wrap center">
-    <div class="tlabel center rv"><span>Nº 06</span>Results</div>
+    <div class="tlabel center rv"><span>Nº 07</span>Results</div>
     <h2 class="hl center rv">The work is proven. Now it's <span class="sx">your turn</span>.</h2>
     <p class="lede narrow center rv">Results from readers of <em>The Compound Effect</em> and leaders who've worked with Darren at Business Master&nbsp;Class.</p>
   </div>
@@ -1077,7 +1114,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 4. BECOME THE COMPANY EVERYONE ELSE CALLS LUCKY -->
 <section class="s">
   <div class="wrap">
-    <div class="tlabel rv"><span>Nº 07</span>The confession</div>
+    <div class="tlabel rv"><span>Nº 08</span>The confession</div>
     <h2 class="hl rv">Become the company everyone else calls <span class="sx">lucky</span>.</h2>
     <div class="cols rv">
       <p class="lede">Every industry has one. The company that seems to get every break. I'll confess something: for years I thought the way to become that company was one big move. So I made big moves.</p>
@@ -1094,7 +1131,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="steel">
   <div class="steel-in">
     <div class="wrap">
-      <div class="tlabel dk rv"><span>Nº 08</span>The mechanism</div>
+      <div class="tlabel dk rv"><span>Nº 09</span>The mechanism</div>
       <h2 class="hl dk rv">Little hinges swing <em class="box">big doors</em>.</h2>
       <div class="cols rv">
         <p class="tagline dk"><em>The Compound Effect In Business</em> reduces the complexity of a business down to the half dozen vital factors that determine the fate and future of a company.</p>
@@ -1110,7 +1147,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 6. THE DOORS THEY SWING OPEN -->
 <section class="s halo-r">
   <div class="wrap">
-    <div class="tlabel center rv"><span>Nº 09</span>What the hinges open</div>
+    <div class="tlabel center rv"><span>Nº 10</span>What the hinges open</div>
     <h2 class="hl center rv">Picture your company a year from <span class="sx">now</span>.</h2>
     <div class="meta3 rv">
       <div><b>A-players</b>other companies try to recruit, and can't.</div>
@@ -1137,7 +1174,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="s stage-s">
   <div class="halo" aria-hidden="true"></div>
   <div class="wrap center">
-    <div class="tlabel center rv"><span>Nº 10</span>One first</div>
+    <div class="tlabel center rv"><span>Nº 11</span>One first</div>
     <h2 class="hl center rv">There will only ever be <em class="box">one first</em>.</h2>
     <div class="narrow rv">
       <p class="lede">For 16 years, the question I've been asked more than any other is, “Darren, what about my business?” The answer is finally written. Before the book is released to the world, I'm putting it to work, live, with one group of leaders.</p>
@@ -1188,7 +1225,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 9. MORE THAN THE BOOK -->
 <section class="s lite paper" id="book">
   <div class="wrap">
-    <div class="tlabel rv"><span>Nº 11</span>More than the book</div>
+    <div class="tlabel rv"><span>Nº 12</span>More than the book</div>
     <h2 class="hl rv">You could read the book. Millions of people <span class="sx">will</span>.</h2>
     <div class="cols rv">
       <div>
@@ -1214,7 +1251,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 10. THE YEAR THAT STARTS TODAY -->
 <section class="s halo-r">
   <div class="wrap">
-    <div class="tlabel center rv"><span>Nº 12</span>Starts the day you join</div>
+    <div class="tlabel center rv"><span>Nº 13</span>Starts the day you join</div>
     <h2 class="hl center rv">You don't wait until April to start <span class="sx">compounding</span>.</h2>
     <p class="lede narrow center rv">Your seat includes one year inside Darren's private leader network, <span class="nb">THE COLLECTIVE</span>, activated the day you join.</p>
     <div class="tgrid three rv">
@@ -1230,7 +1267,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="s team-s lite">
   <div class="wrap team-grid">
     <div class="rv">
-      <div class="tlabel"><span>Nº 13</span>Bring your team</div>
+      <div class="tlabel"><span>Nº 14</span>Bring your team</div>
       <h2 class="hl">They've heard you. They haven't heard <span class="sx">me</span>.</h2>
       <p class="lede">You've said it in the Monday meeting.</p>
       <ul class="perf-list">
@@ -1243,9 +1280,9 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
       <div class="team-price"><b class="metal">Save an additional $1,000</b><span>per team&nbsp;seat</span></div>
       <a class="btn btn-midnight team-cta" href="#reserve">Bring my team <span class="arr">→</span></a>
     </div>
-    <div class="fan rv" aria-hidden="true">
+    <div class="fan rv">
       <div class="halo sm"></div>
-      <div class="aud"><img src="img/dh-virtual-audience.webp?v=5" width="1200" height="563" alt="" loading="lazy"><span class="tint"></span><span class="aud-live"><i></i>Live · Inside your business</span></div>
+      <a class="aud tvid" href="#" aria-label="Play Darren on bringing your team"><span class="tvid-in"><img class="tvid-lock" src="img/lockup-steel.webp" width="1400" height="375" alt=""><span class="ph-tag">Placeholder · video in production</span><span class="play"><i aria-hidden="true"></i>Darren on bringing your team</span></span></a>
       <div class="mini m1"><div class="mtk"><div class="mtk-main"><span class="mtk-top">Admit one · Leader</span><img src="img/lockup-steel.webp" alt="" width="1400" height="375"></div><div class="mtk-stub"><span>Nº 003</span></div></div></div>
       <div class="mini m2"><div class="mtk"><div class="mtk-main"><span class="mtk-top">Admit one · Leader</span><img src="img/lockup-steel.webp" alt="" width="1400" height="375"></div><div class="mtk-stub"><span>Nº 002</span></div></div></div>
       <div class="mini m3"><div class="mtk"><div class="mtk-main"><span class="mtk-top">Admit one · Leader</span><img src="img/lockup-steel.webp" alt="" width="1400" height="375"></div><div class="mtk-stub"><span>Nº 001</span></div><span class="shine"></span></div></div>
@@ -1256,7 +1293,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 13. YOU MIGHT BE THINKING -->
 <section class="s halo-l">
   <div class="wrap">
-    <div class="tlabel rv"><span>Nº 14</span>Questions you might be asking</div>
+    <div class="tlabel rv"><span>Nº 15</span>Questions you might be asking</div>
     <h2 class="hl rv">You might be <span class="sx">thinking</span>...</h2>
     <div class="objs rv">
       <div class="obj"><span class="on">01</span><h3>“Who is this guy?”</h3><p>Fair question. The short version is at the top of this page. The longer one is <a href="#darren">just below</a>.</p></div>
@@ -1273,14 +1310,6 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="s stage-s midnight" id="reserve">
   <div class="halo" aria-hidden="true"></div>
   <div class="wrap center">
-    <div class="sponsor rv">
-      <div class="sponsor-mark" data-tilt><div class="seal-float"><div class="pfloat seal-tilt rp-tilt"><div class="rp-bevel"><div class="rp-metal" role="img" aria-label="Rearden Press"></div></div></div></div></div>
-      <div class="sponsor-copy">
-        <div class="tlabel"><span>Nº 15</span>A gift from the publisher</div>
-        <h2 class="sponsor-hl">A <span class="sx">$5,000</span> Sponsorship From The&nbsp;Publisher</h2>
-        <p>To celebrate this historic launch, the publisher, Rearden Press, is sponsoring the first 500 FOUNDERS seats with $5,000 each. A FOUNDERS seat is $9,995. The publisher covers $5,000 of&nbsp;it.</p>
-      </div>
-    </div>
     <div class="tlabel center rv" style="margin-top:8px">Reserve your place in history</div>
     <h2 class="hl center rv">Reserve your <span class="sx">FOUNDERS</span> seat.</h2>
     <div class="pstage rv" data-tilt>
@@ -1428,7 +1457,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 
 <!-- 16. MEET DARREN -->
 <section class="s" id="darren">
-  <div class="dh-photo" aria-hidden="true"><img src="img/dh-author-tceb.webp" width="2000" height="1116" alt="" loading="lazy"><span class="tint"></span></div>
+  <div class="dh-photo" aria-hidden="true"><span class="dh-frame"><img src="img/dh-author-tceb.webp" width="2000" height="1116" alt="" loading="lazy"><span class="tint"></span></span></div>
   <div class="wrap meet">
     
     <div class="rv">
@@ -1460,7 +1489,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
   <div class="wrap faq-grid">
     <div class="faq-head rv">
       <div class="tlabel"><span>Nº 18</span>Questions</div>
-      <h2 class="hl"><span class="l1">Before you</span><br>reserve<span class="dot">.</span></h2>
+      <h2 class="hl"><span class="l1">Questions.</span><br>Answered<span class="dot">.</span></h2>
       <p>Everything you need to know before you take your FOUNDERS seat.</p>
     </div>
     <div class="faq-list rv">
