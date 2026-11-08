@@ -1065,6 +1065,36 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 .fan:hover .fan-tix .m1{transform:translate(-50%,-50%) translate(-80px,90px) rotate(-12deg)}
 .fan:hover .fan-tix .m3{transform:translate(-50%,-50%) translate(46px,-66px) rotate(3deg) scale(1.03)}
 @media (max-width:900px){.fan-tix{height:260px;margin-top:28px}}
+
+/* photography inside the sections: bleeds off one edge beside the copy, or opens a section and fades into it */
+.has-bleed{overflow:hidden}
+.has-bleed .wrap{position:relative;z-index:1}
+.has-bleed .wrap>*{max-width:560px}
+.has-bleed .cols{grid-template-columns:1fr;gap:0}
+.has-bleed .objs{grid-template-columns:1fr}
+.bleed{position:absolute;top:0;bottom:0;width:56%;margin:0;z-index:0;pointer-events:none}
+.bleed.r{right:0}
+.bleed img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;
+  -webkit-mask:linear-gradient(90deg,transparent 0%,#000 55%),linear-gradient(180deg,transparent 0%,#000 16%,#000 84%,transparent 100%);-webkit-mask-composite:source-in;
+          mask:linear-gradient(90deg,transparent 0%,#000 55%) intersect,linear-gradient(180deg,transparent 0%,#000 16%,#000 84%,transparent 100%)}
+.bleed .aud-live{--bright:#F2F4F8;left:auto;right:40px;top:auto;bottom:18%}
+.has-top{padding-top:0}
+.topbleed{position:relative;margin:0 0 -220px;height:min(56vw,760px);pointer-events:none}
+.topbleed img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 30%;
+  -webkit-mask:linear-gradient(180deg,#000 55%,transparent 100%);mask:linear-gradient(180deg,#000 55%,transparent 100%)}
+.has-top>.wrap{position:relative;z-index:1}
+@media (max-width:900px){
+  .has-bleed{padding-top:0}
+  .bleed{position:relative;width:100%;height:300px;margin-bottom:8px}
+  .bleed img{-webkit-mask:linear-gradient(0deg,transparent 0%,#000 35%);mask:linear-gradient(0deg,transparent 0%,#000 35%)}
+  .has-bleed .wrap>*{max-width:none}
+  .topbleed{height:62vw;margin-bottom:-60px}
+}
+
+.objs-s .bleed{top:40px;bottom:auto;height:min(760px,56vw)}
+@media (max-width:900px){.objs-s .bleed{top:0;height:300px}}
+
+.tlabel span{white-space:nowrap;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -1141,7 +1171,8 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 </section>
 
 <!-- 3. IN A COMPOUNDING RACE -->
-<section class="s halo-l">
+<section class="s halo-l has-bleed">
+  <figure class="bleed r" aria-hidden="true"><img src="img/dh-stage-alone.webp" width="1920" height="1080" alt="" loading="lazy" style="object-position:56% 50%"></figure>
   <div class="wrap">
     <div class="tlabel rv"><span>Nº 02</span>The race</div>
     <h2 class="hl rv">In a compounding race, whoever starts <em class="box">first</em> <span class="sx">wins</span>.</h2>
@@ -1190,13 +1221,6 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
     </ol>
     </details>
   </div>
-</section>
-
-<!-- DARREN LIVE: full-bleed photo band, no frames -->
-<section class="liveband" aria-label="Darren live">
-  <figure class="lb-main"><img src="img/dh-virtual-audience.webp?v=5" width="1200" height="563" alt="Darren live in the studio, leaders joining on screens" loading="lazy"><span class="aud-live"><i></i>Live · Inside your business</span></figure>
-  <figure class="lb-a"><img src="img/dh-arena-wave.webp" width="1600" height="900" alt="Darren on stage, waving to an arena crowd" loading="lazy"></figure>
-  <figure class="lb-b"><img src="img/dh-teaching-room.webp" width="1600" height="993" alt="Darren teaching a room of leaders" loading="lazy"></figure>
 </section>
 
 <!-- THE PUBLISHER'S SPONSORSHIP, high on the page -->
@@ -1328,13 +1352,14 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 </section>
 
 <!-- 7. ONE FIRST: centerpiece under halo light -->
-<section class="s stage-s">
+<section class="s stage-s has-top">
+  <figure class="topbleed" aria-hidden="true"><img src="img/dh-arena-wave.webp" width="1600" height="900" alt="" loading="lazy"></figure>
   <div class="halo" aria-hidden="true"></div>
   <div class="wrap center">
     <div class="tlabel center rv"><span>Nº 10</span>One first</div>
     <h2 class="hl center rv">Be there when it all <em class="box">begins</em>.</h2>
     <div class="narrow rv">
-      <p class="lede">The book is finally written. Before the book is released to the world, I'm putting it to work, live, with one group of leaders.</p>
+      <p class="lede">The book is finally written. Before it's released to the world, I'm putting it to work, live, with one group of leaders.</p>
       <p>On January 15, 1967, a crowd filed into the LA Coliseum for a football game. Tickets were about $12. It wasn't even called the Super Bowl yet. Nobody in those seats knew what they were part of. They still tell the story today.</p>
     </div>
     <div class="firsts rv" aria-label="January 15, 1967, LA Coliseum, about $12. April 26 &amp; 27, 2027, the FOUNDERS EVENT, Nº 001.">
@@ -1441,7 +1466,8 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 </section>
 
 <!-- 13. YOU MIGHT BE THINKING -->
-<section class="s halo-l">
+<section class="s halo-l has-bleed objs-s">
+  <figure class="bleed r" aria-hidden="true"><img src="img/dh-studio-full.webp" width="1920" height="1080" alt="" loading="lazy" style="object-position:100% 40%"><span class="aud-live"><i></i>Live · Inside your business</span></figure>
   <div class="wrap">
     <div class="tlabel rv"><span>Nº 14</span>Questions you might be asking</div>
     <h2 class="hl rv">You might be <span class="sx">thinking</span>...</h2>
