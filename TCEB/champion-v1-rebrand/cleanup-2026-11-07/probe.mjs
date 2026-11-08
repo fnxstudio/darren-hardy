@@ -1,0 +1,21 @@
+// node probe.mjs "<query>" width "<js expression returning string>"
+import { spawn } from 'node:child_process';
+import fs from 'node:fs';
+const q = process.argv[2] || '', W = +(process.argv[3] || 1440), expr = process.argv[4], port = 9500 + Math.floor(Math.random()*150);
+const prof = fs.mkdtempSync('/private/tmp/claude-502/-Users-maggiescott34-Claude-Folder/80c4b99f-f8bc-464e-a726-c4e5843587a0/scratchpad/prof-');
+const chrome = spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${prof}`, '--hide-scrollbars', 'about:blank'], { stdio: 'ignore' });
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+let tabs;
+for (let i = 0; i < 50; i++) { try { tabs = await (await fetch(`http://127.0.0.1:${port}/json`)).json(); if (tabs.length) break; } catch {} await sleep(200); }
+const ws = new WebSocket(tabs.find(t => t.type === 'page').webSocketDebuggerUrl);
+await new Promise(r => ws.onopen = r);
+let id = 0; const pend = {}; const errs = [];
+ws.onmessage = e => { const m = JSON.parse(e.data); if (m.method === 'Runtime.exceptionThrown') errs.push(m.params.exceptionDetails.exception?.description || m.params.exceptionDetails.text); if (m.id && pend[m.id]) { pend[m.id](m); delete pend[m.id]; } };
+const send = (method, params = {}) => new Promise(r => { const i = ++id; pend[i] = r; ws.send(JSON.stringify({ id: i, method, params })); });
+await send('Page.enable'); await send('Runtime.enable');
+await send('Emulation.setDeviceMetricsOverride', { width: W, height: 1000, deviceScaleFactor: 1, mobile: W < 768 });
+await send('Page.navigate', { url: (process.env.BASE||'https://www.thecompoundeffect.com')+'/champion?cb=' + Date.now() + q });
+await sleep(7000);
+const r = (await send('Runtime.evaluate', { expression: `(async()=>{try{Cookiebot.submitCustomConsent(true,true,true)}catch(e){} await new Promise(r=>setTimeout(r,500)); return (${expr})})()`, awaitPromise: true, returnByValue: true })).result?.result;
+console.log(r?.value ?? JSON.stringify(r)); if (errs.length) console.log('ERRS', errs);
+ws.close(); chrome.kill();

@@ -1,0 +1,455 @@
+<script>
+/* =============================================================================
+   CHAMPION BOARD (TCEB): Webflow page script
+   -----------------------------------------------------------------------------
+   The board itself (deck cards, podium, tiles, face stacks, walls) is native
+   Webflow CMS lists bound to the Champions collection. This script only adds
+   behaviour, and reads two hidden CMS template pages:
+     /champion-data/<ref>   one Champion's numbers   -> "Where you stand"
+     /champion-board/p1..pN full standings as text  -> searchable full list
+     /champion-key/<hash>   email sign-in key -> referral ID
+   Hooks are ids and data-* attributes only, never style classes.
+
+   Launch switches (search for them):
+     PROMO_LIVE   nav shows the promo clock + "Add a seat"; false = "Get my link"
+     HP_ONCE      takeover once per visit (true for launch; false while testing)
+     REF_IN/OUT   referral param names (waiting on the real HubSpot field name)
+   ============================================================================= */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  // Buttons JUMP to their section, no animated scroll (user call, 2026-10-09: smooth scrolling felt slow, then hyper).
+  // Anchor clicks are taken in the capture phase so Webflow's built-in anchor scroll never runs.
+  function go(el) {
+    if (typeof el === 'string') el = $(el);
+    if (!el) return;
+    scrollTo(0, Math.max(0, el.getBoundingClientRect().top + pageYOffset - (parseFloat(getComputedStyle(el).scrollMarginTop) || 0)));
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('.champ-page a[href^="#"]');
+    if (!a || a.hasAttribute('data-enroll') || a.hasAttribute('data-lv')) return;
+    var id = a.getAttribute('href').slice(1), t = id && $(id);
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); if (e.detail) a.blur();
+    // data-pick="audio|leader|assign" also selects that share option in the link hub
+    if (a.hasAttribute('data-pick')) pick(a.getAttribute('data-pick'));
+    go(t);
+  }, true);
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) { return { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]; }); };
+  var NEXT = { Copper: 3, Silver: 5, Gold: 10 }, FIRST = 1;
+  // In the Studio: the top STUDIO Champions at the final count (no minimum impacts since 2026-10-16)
+  var STUDIO = 40;
+
+  // Nav during a promo: ONE button. It becomes the promo action and the clock is info only.
+  // Between promos set PROMO_LIVE = false: the clock hides and the button is Get my link.
+  // Hardy Harvest is parked (2026-10-14): nav clock, Harvest block and season stop are hidden in Webflow, not deleted.
+  // To bring it back: unhide those three elements, then set PROMO_LIVE and HARVEST_LIVE to true.
+  var PROMO_LIVE = false, HARVEST_LIVE = false;
+  (function () {
+    var cta = $('navCta');
+    if (PROMO_LIVE) { cta.innerHTML = 'Add a seat <span class="champ-arw">&rarr;</span>'; cta.setAttribute('data-enroll', ''); }
+    else { document.querySelectorAll('[data-promo]').forEach(function (e) { e.style.display = 'none'; }); }
+  })();
+
+  // Hero deck: on small screens scale the desktop composition to fit
+  function fitDeck() {
+    var fit = $('deckFit'), d = $('deck');
+    if (innerWidth > 991) { d.style.transform = ''; fit.style.height = ''; return; }
+    var w = fit.clientWidth, sc = Math.min(1, w / 620);
+    d.style.transform = 'translateX(' + Math.round((w - 540 * sc) / 2) + 'px) scale(' + sc.toFixed(4) + ')';
+    fit.style.height = Math.round(570 * sc) + 'px';
+  }
+  fitDeck(); addEventListener('resize', fitDeck);
+
+  // FULL STANDINGS: everyone on the board, fetched on first open from the Board Pages
+  // template (/champion-board/p1 ... pN). Line 1 of p1 is "pages=N"; each row is rank|name|coin|impacts.
+  var full = $('full'), fullBtn = $('fullBtn'), list = $('fullList'), search = $('fullSearch'), ALL = null, me = null;
+  function boardPage(n) {
+    return fetch('/champion-board/p' + n, { credentials: 'same-origin' }).then(function (r) { if (!r.ok) throw r.status; return r.text(); }).then(function (h) {
+      var doc = new DOMParser().parseFromString(h, 'text/html'), el = doc.querySelector('[data-board]');
+      return el ? el.innerHTML.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&') : '';
+    });
+  }
+  function parse(txt) { return txt.split('\n').map(function (l) { return l.trim().split('|'); }).filter(function (r) { return r.length === 4; }); }
+  function loadBoard() {
+    if (ALL) return Promise.resolve(ALL);
+    list.innerHTML = '<li class="champ-full-line">Loading the board&hellip;</li>';
+    return boardPage(1).then(function (t) {
+      var m = /pages=(\d+)/.exec(t), n = m ? +m[1] : 1, more = [];
+      for (var i = 2; i <= n; i++) more.push(boardPage(i));
+      return Promise.all(more).then(function (rest) { ALL = parse(t); rest.forEach(function (x) { ALL = ALL.concat(parse(x)); }); return ALL; });
+    }).catch(function () { ALL = []; return ALL; });
+  }
+  function row(r) {
+    var rank = +r[0], coin = r[2];
+    return '<li class="champ-full-row' + (me && rank === me.rank ? ' is-me' : '') + '" data-rank="' + rank + '"><span class="champ-full-rank' + (rank <= 5 ? ' is-top' : '') + '">' + rank + '</span><span class="champ-full-name">' + esc(r[1]) + '</span><span class="champ-full-coin"><i class="champ-chip" data-coin="' + esc(coin) + '"></i>' + esc(coin) + '</span><span class="champ-full-imp">' + esc(r[3]) + '</span></li>';
+  }
+  function render(q) {
+    if (!ALL) return;
+    if (!ALL.length) { list.innerHTML = '<li class="champ-full-line">The full board is updating. Check back shortly.</li>'; return; }
+    q = (q || '').trim().toLowerCase();
+    var rows = q ? ALL.filter(function (r) { return r[1].toLowerCase().indexOf(q) > -1; }) : ALL;
+    if (!rows.length) { list.innerHTML = '<li class="champ-full-line">No Champion by that name yet</li>'; return; }
+    // No Studio Line marker in the list: showing it would reveal the cutoff rank (user, 2026-10-16)
+    list.innerHTML = rows.map(row).join('');
+  }
+  // Center a row inside the list's own scroll box (measured from the boxes, not offsetTop, which is page-relative here)
+  function centerRow(r) { list.scrollTop += r.getBoundingClientRect().top - list.getBoundingClientRect().top - (list.clientHeight - r.offsetHeight) / 2; }
+  function showMe() {
+    if (search) search.value = '';
+    render('');
+    var r = me && list.querySelector('[data-rank="' + me.rank + '"]');
+    if (r) centerRow(r);
+  }
+  function setOpen(open) {
+    if (open) { full.removeAttribute('hidden'); full.classList.add('is-open'); } else { full.setAttribute('hidden', ''); full.classList.remove('is-open'); }
+    fullBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    fullBtn.innerHTML = open ? 'Hide full standings <span class="champ-arw">&uarr;</span>' : 'Full standings <span class="champ-arw">&darr;</span>';
+  }
+  // Signed in, the standings open on your own row
+  // Open/closed lives in aria-expanded, not the hidden attribute (something on the page can clear hidden at load)
+  function isOpen() { return fullBtn.getAttribute('aria-expanded') === 'true'; }
+  function openFull() { setOpen(true); return loadBoard().then(function () { if (me) showMe(); else render(search ? search.value : ''); }); }
+  setOpen(false);
+  fullBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (isOpen()) { setOpen(false); return; }
+    openFull().then(function () { go(full); });
+  });
+  if (search) { var t; search.addEventListener('input', function () { clearTimeout(t); t = setTimeout(function () { render(search.value); }, 120); }); }
+  // Show my spot: open the standings, bring them into view, center your row. Signed out, it goes to sign-in.
+  $('fullMe').addEventListener('click', function (e) {
+    e.preventDefault();
+    if (!me) { go('link'); return; }
+    openFull().then(function () { go(full); });
+  });
+
+  // Champion Friday: a fake waveform (the real clip comes from the Champion's phone recording)
+  (function () {
+    var h = '';
+    for (var i = 0; i < 48; i++) {
+      var a = (0.18 + Math.abs(Math.sin(i * 0.7)) * 0.5).toFixed(2), b = (0.3 + Math.abs(Math.cos(i * 1.3)) * 0.7).toFixed(2);
+      h += '<i class="champ-wave-bar' + (i < 18 ? ' is-played' : '') + '" style="--a:' + a + ';--b:' + b + ';animation-delay:-' + (i * 0.07).toFixed(2) + 's"></i>';
+    }
+    $('wave').innerHTML = h;
+  })();
+
+  // The climb: on small screens scale the whole five-card stack to fit one row (no side scroll)
+  function fitSteps() {
+    var fit = $('stepsFit'), st = $('railSteps');
+    if (!fit) return;
+    if (innerWidth > 1100) { st.style.transform = ''; fit.style.height = ''; return; }
+    var sc = Math.min(1, fit.clientWidth / 768);
+    st.style.transform = 'scale(' + sc.toFixed(4) + ')';
+    fit.style.height = Math.round((st.offsetHeight) * sc) + 'px';
+  }
+  fitSteps(); addEventListener('resize', fitSteps);
+
+  // Level pop-up: more info, tips, and who's there now. People come from the CMS lists already on the page.
+  function people(sel) {
+    var seen = {}, out = [];
+    document.querySelectorAll(sel).forEach(function (im) { var n = im.getAttribute('alt'); if (n && !seen[n]) { seen[n] = 1; out.push([im.currentSrc || im.src, n]); } });
+    return out;
+  }
+  var COIN = { copper: 'Copper', silver: 'Silver', gold: 'Gold' };
+  function who(key) {
+    if (key === 'lead' || key === 'plat') return people('[data-slot="wall-plat"] img');
+    if (COIN[key]) return people('[data-slot="faces-' + key + '"] img, [data-slot="wall-new"] [data-coin="' + COIN[key] + '"] img');
+    return null;
+  }
+  var CARD = {
+    lead: ['Start here', 'Your link', 'Send it to the leader you want next to you in April. Every one who joins compounds your impact.'],
+    copper: ['Copper', '1 impact', 'Your first leader is in. Your name goes on the board.'],
+    silver: ['Silver', '3 Impact Points', 'Three leaders in April because of you. Keep climbing.'],
+    gold: ['Gold', '5 Impact Points', 'Five leaders in. The upper ranks are in reach.'],
+    plat: ['Platinum', '10+ Impact Points', 'Double digits. Hold your rank to the final count.'],
+    studio: ['In the Studio', 'Top ranks', 'Three days live with Darren. Earned at the final count.'],
+    table: ["Darren's Table", 'Top 5', 'A private dinner with Darren and Georgia. Earned at the final count.']
+  };
+  var LV = {
+    lead:   { tips: ['<b>Get your link.</b> It is yours alone, and every leader who joins through it is credited to you.', '<b>Write down three names.</b> Your number two, the leader in your forum, the one you call when something breaks.', '<b>Send one text today.</b> Your kit has it written. Add one line in your own words.'],
+              who: 'Champions on the board', more: 'Every seat on the board is open' },
+    copper: { tips: ['<b>Start with the leader closest to you.</b> Your number two is the easiest first yes on the board.', '<b>Investing for your own team?</b> Enroll each leader and every one shows on your board.', '<b>Your first impact is the hardest one.</b> Your Copper coin follows it.'],
+              who: 'At Copper now', more: 'Copper seats are open' },
+    silver: { tips: ['<b>Bring them as a team.</b> Two leaders from the same company is two impacts in one conversation.', '<b>Use the Challenge.</b> Leaders who spend three days with Darren in December say yes to April.', '<b>Follow up personally.</b> A two-line text a week later turns maybes into yeses.'],
+              who: 'At Silver now', more: 'Silver seats are open' },
+    gold:   { tips: ['<b>Think past your company.</b> A key vendor, a client, a partner. The relationship is already there.', '<b>A spouse or business partner counts.</b> Same language at home and at work.', '<b>Watch for each sprint.</b> Each one brings a new play. Run it the week it opens.'],
+              who: 'At Gold now', more: 'Gold seats are open' },
+    plat:   { tips: ['<b>Your org chart is the fastest path.</b> Every Platinum Champion on the board brought their own leaders.', '<b>Ask to speak.</b> Your association, your mastermind, your forum. One room, several leaders.', '<b>Rank decides the Studio.</b> Hold your rank to the final count to be eligible.'],
+              who: 'At Platinum now', more: 'Platinum seats are open' },
+    studio: { tips: ['<b>Climb into the upper ranks.</b> Every impact moves you up the board.', '<b>Then hold your spot.</b> The top-ranked Champions at the final count become eligible to win three days In the Studio with Darren.', '<b>Ties go to whoever got there first.</b>'],
+              who: 'Awarded at the final count', q: 6, more: 'Seats are earned at the final count. Nothing is left to chance.' },
+    table:  { tips: ['<b>Finish top five.</b> Rank at the final count decides it.', '<b>Bring your whole leadership team.</b> Every Champion at the top so far did.', '<b>Keep going after Platinum.</b> The top five are separated by a handful of leaders.'],
+              who: 'Awarded at the final count', q: 5, more: 'Five places, earned at the final count.' }
+  };
+  var dlg = $('lv'), lvTop = $('lvTop');
+  function openLv(card) {
+    var key = card.getAttribute('data-lv'), d = LV[key], c = CARD[key], ppl = who(key);
+    lvTop.className = 'champ-lv-top is-' + key;
+    $('lvTitle').textContent = c[0];
+    $('lvReq').textContent = c[1];
+    $('lvDesc').innerHTML = c[2];
+    $('lvTips').innerHTML = d.tips.map(function (t) { return '<li class="champ-lv-tip">' + t + '</li>'; }).join('');
+    $('lvWhoH').textContent = d.who;
+    $('lvGrid').innerHTML = ppl ? ppl.map(function (p) { return '<div class="champ-lv-person"><img class="champ-lv-face" src="' + esc(p[0]) + '" alt="' + esc(p[1]) + '" loading="lazy"><span class="champ-lv-name">' + esc(p[1]) + '</span></div>'; }).join('')
+      : new Array(d.q + 1).join('<div class="champ-lv-person"><span class="champ-lv-face is-q">?</span><span class="champ-lv-name">You?</span></div>');
+    $('lvMore').textContent = d.more;
+    var r = card.getBoundingClientRect();
+    dlg.style.setProperty('--from', 'translate(' + Math.round(r.left + r.width / 2 - innerWidth / 2) + 'px,' + Math.round(r.top + r.height / 2 - innerHeight / 2) + 'px)');
+    dlg.classList.remove('is-open');
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+    requestAnimationFrame(function () { requestAnimationFrame(function () { dlg.classList.add('is-open'); }); });
+  }
+  function closeLv() { dlg.classList.remove('is-open'); setTimeout(function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); }, 280); }
+  // Phones have no hover: the stack lifts one card at a time on its own; one tap opens that card
+  var wc = [].slice.call($('railSteps').querySelectorAll('[data-lv]')), li = 0, auto = null;
+  function lift(c) { wc.forEach(function (x) { x.classList.toggle('is-lift', x === c); }); }
+  if (innerWidth <= 1100) auto = setInterval(function () { li = (li + 1) % wc.length; lift(wc[li]); }, 1700);
+  function activate(card) {
+    if (wc.indexOf(card) > -1) { clearInterval(auto); lift(card); }
+    if (card.getAttribute('data-lv') === 'lead') { go('link'); return; }
+    openLv(card);
+  }
+  $('rail').addEventListener('click', function (e) { var card = e.target.closest('[data-lv]'); if (!card) return; e.preventDefault(); activate(card); });
+  $('rail').addEventListener('keydown', function (e) { if (e.key !== 'Enter' && e.key !== ' ') return; var card = e.target.closest('[data-lv]'); if (!card) return; e.preventDefault(); openLv(card); });
+  $('lvX').addEventListener('click', closeLv);
+  dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('#lvCta a')) closeLv(); });
+  dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeLv(); });
+
+  // Hardy Harvest: DEMO clock pretends today is Wed., Nov 11th, mid-promo. Ends Thurs., Nov 12th, 11:59 pm ET.
+  // For the real promo, delete simStart/realStart and count down from Date.now().
+  var hvEnd = new Date('2026-11-13T04:59:00Z'), simStart = new Date('2026-11-11T19:00:00Z'), realStart = Date.now();
+  function tick() {
+    var left = Math.max(0, hvEnd - (simStart.getTime() + (Date.now() - realStart)));
+    var h = Math.floor(left / 36e5), m = Math.floor(left % 36e5 / 6e4), sec = Math.floor(left % 6e4 / 1e3);
+    document.querySelectorAll('[data-h-mini]').forEach(function (e) { e.textContent = h; });
+    document.querySelectorAll('[data-hhms]').forEach(function (e) { e.textContent = h + 'h:' + String(m).padStart(2, '0') + 'm:' + String(sec).padStart(2, '0') + 's'; });
+    document.querySelectorAll('[data-cd]').forEach(function (c) {
+      c.querySelector('[data-h]').textContent = String(h).padStart(2, '0');
+      c.querySelector('[data-m]').textContent = String(m).padStart(2, '0');
+      c.querySelector('[data-s]').textContent = String(sec).padStart(2, '0');
+    });
+  }
+  tick(); setInterval(tick, 1000);
+  var hp = $('hpop');
+  function hpOpen() { if (hp.showModal) hp.showModal(); else hp.setAttribute('open', ''); setTimeout(function () { hp.classList.add('is-open'); }, 30); }
+  function hpClose() { hp.classList.remove('is-open'); setTimeout(function () { if (hp.close) hp.close(); else hp.removeAttribute('open'); }, 320); }
+  // TESTING: show the pop-up 2s after every page load. For launch, set HP_ONCE = true to show it once per visit.
+  var HP_ONCE = false, seen = false;
+  if (HP_ONCE) { try { seen = sessionStorage.getItem('hv-pop') === '1'; } catch (e) {} }
+  if (HARVEST_LIVE && !seen) setTimeout(function () { hpOpen(); if (HP_ONCE) { try { sessionStorage.setItem('hv-pop', '1'); } catch (e) {} } }, 2000);
+  $('hpopX').addEventListener('click', hpClose);
+  $('hpopLater').addEventListener('click', hpClose);
+  $('hpopGo').addEventListener('click', hpClose);
+  hp.addEventListener('click', function (e) { if (e.target === hp) hpClose(); });
+  hp.addEventListener('cancel', function (e) { e.preventDefault(); hpClose(); });
+
+  // WHERE YOU STAND. The Champion's referral ID arrives in the URL from their HubSpot email;
+  // it is also the slug of their Champions item, so /champion-data/<ref> holds their numbers.
+  // TODO: confirm the real HubSpot param name with the team; these are the names it accepts for now.
+  var REF_IN = ['id', 'ID', 'ref', 'rid', 'cid'], REF_OUT = 'ref';
+  var qs = new URLSearchParams(location.search), refId = null;
+  REF_IN.forEach(function (k) { if (!refId && qs.get(k)) refId = qs.get(k).trim(); });
+  var signedIn = false;
+  var standLinks = document.querySelectorAll('[data-stand-link]');
+  function standCopy(inside) { standLinks.forEach(function (a) { a.href = inside ? '#stand' : '#link'; a.firstChild.textContent = inside ? 'Where do I stand? ' : 'Sign in to see where you stand '; }); }
+  function st(k) { return document.querySelector('[data-st="' + k + '"]'); }
+  function setFirstText(el, s) { if (!el) return; for (var n = el.firstChild; n; n = n.nextSibling) if (n.nodeType === 3) { n.nodeValue = s; return; } el.insertBefore(document.createTextNode(s), el.firstChild); }
+  function fillStand(f) {
+    var rank = +f.rank, imp = +f.impacts, coin = f.coin || '', move = +f.move || 0, next = f['next-coin'], togo = +f['to-next-coin'] || 0, spots = +f.spots || 0;
+    me = { rank: rank };
+    var nm = f.name || f['first-name'], chip = $('stChip'), cn = $('stChipName'), ci = $('stChipImg') || $('stchipimg');
+    if (chip) { (cn || chip).textContent = nm || ''; chip.hidden = !nm; }
+    // Chip photo = the Champion's CMS headshot; no headshot, no photo square
+    if (ci) { if (f.photo) { ci.src = f.photo; ci.removeAttribute('srcset'); ci.alt = nm || ''; ci.style.display = ''; } else ci.style.display = 'none'; }
+    if (chip) chip.style.paddingLeft = f.photo ? '' : '40px';
+    st('rank').textContent = '#' + rank;
+    setFirstText(st('move'), move > 0 ? '▲ ' + move : 'Holding');
+    // The sync's "At Darren's Table right now." line is not shown (user, 2026-11-04); other status lines still show
+    var say = /^At Darren.s Table right now\.?$/.test((f.status || '').trim()) ? '' : (f.status || '');
+    st('say').textContent = say; st('say').style.display = say ? '' : 'none';
+    st('impacts').textContent = imp;
+    setFirstText(st('coin'), 'Impact Points · ' + coin);
+    var chip = st('coin').querySelector('.champ-chip'); if (chip) chip.setAttribute('data-coin', coin);
+    st('next').textContent = next || 'Top coin';
+    st('togo').textContent = next ? togo : '';
+    st('togo').parentNode.lastChild.nodeValue = next ? ' to go' : 'Platinum reached';
+    st('coinbar').style.width = Math.min(100, Math.round(imp / (NEXT[coin] || 10) * 100)) + '%';
+    // Second bar: the race for Darren's Table (Top 5) for everyone. Never show spots back from the Studio cutoff:
+    // the cutoff number stays off the page (user, 2026-10-16).
+    var lab = st('away').parentNode.parentNode.firstElementChild, plural = function (n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }, label, goalTxt, away, tail, pct;
+    var gap = rank - 5; label = 'Darren\'s Table: '; goalTxt = 'Top 5'; away = gap > 0 ? plural(gap, 'spot') : 'At'; tail = gap > 0 ? ' back' : ' the table'; pct = 5 / Math.max(rank, 1);
+    setFirstText(lab, label); lab.querySelector('b').textContent = goalTxt;
+    st('away').textContent = away; st('away').parentNode.lastChild.nodeValue = tail;
+    st('linebar').style.width = Math.min(100, Math.round(pct * 100)) + '%';
+  }
+  function loadStand(ref) {
+    return fetch('/champion-data/' + encodeURIComponent(ref.toLowerCase()), { credentials: 'same-origin' }).then(function (r) { if (!r.ok) throw r.status; return r.text(); }).then(function (h) {
+      var doc = new DOMParser().parseFromString(h, 'text/html'), f = {};
+      doc.querySelectorAll('[data-f]').forEach(function (e) { f[e.getAttribute('data-f')] = e.textContent.trim(); });
+      var ph = doc.querySelector('img[data-f="photo"]'); f.photo = ph && !ph.classList.contains('w-dyn-bind-empty') ? ph.getAttribute('src') : '';
+      if (!f.rank) throw 'empty';
+      return f;
+    });
+  }
+  function setSignedIn(on) {
+    signedIn = on;
+    $('stand').hidden = !on;
+    standCopy(on);
+    refNote();
+    var o = document.querySelector('[data-opt].is-on'); pick(o ? o.getAttribute('data-opt') : 'audio');
+  }
+  // No ID in the URL (or an unknown one) = signed out: hide "Where you stand" and gate the link behind sign-in.
+  $('stand').hidden = true; standCopy(false);
+  // The ID shown and carried on every link is the Champion ID field (backend / mailer ID); the slug matches it
+  if (refId) loadStand(refId).then(function (f) { refId = f['champion-id'] || refId; fillStand(f); setSignedIn(true); }, function () { refId = null; setSignedIn(false); });
+  var linkRef = function () { return refId || 'DEMO123'; };
+  // Spiffy credits referred sales by utm_content = Champion ID (same as Jon's card.darrenhardy.com/r/<id> redirect)
+  function withRef(u) { try { var x = new URL(u, location.href); x.searchParams.set(REF_OUT, linkRef()); x.searchParams.set('utm_content', linkRef()); return x.toString(); } catch (e) { return u; } }
+  function refNote() { $('refNote').innerHTML = 'Your referral ID: <code class="champ-hub-code">' + esc(linkRef()) + '</code>. Every link above carries it.'; }
+
+  // LINK HUB (2026-11-04, copy doc): three options. Gift + Invite (audio) = share link; Team Seat (leader) = enroll form,
+  // new investment only; Assign (Hardy Exchange credits) = a button to the credits site, carrying the Champion's ID.
+  var ASSIGN_URL = 'https://credits.darrenhardy.com/';
+  var OPTS = {
+    // Gift + Invite goes through Jon's tracked redirect (2026-11-05): it logs the click, adds the campaign tags and forwards
+    // to /champion-invitation with ref + utm_content = the Champion ID. Impacts still come only from paid seats.
+    audio:  { url: 'https://www.thecompoundeffect.com/champion-invitation', track: function (id) { return 'https://card.darrenhardy.com/champion-invitation/' + encodeURIComponent(id); }, subject: 'A gift: The Compound Effect, 10th Anniversary Edition',
+              msg: function (l) { return "This is the book I tell everyone about. The Compound Effect by Darren Hardy, the 10th Anniversary Edition, the hardcover and the audiobook, on me.\n\nGrab it here: " + l + "\n\nListen to the first chapter tonight."; },
+              // Text version (2026-11-06): short for a phone screen
+              sms: function (l) { return "A gift for you: The Compound Effect by Darren Hardy, hardcover and audiobook, on me. Grab it here: " + l; } },
+    leader: { url: 'https://www.thecompoundeffect.com/founders-event#enroll', subject: 'You are enrolled: the Founders Event',
+              msg: function (l) { return "I've enrolled you in Darren Hardy's Founders Event in April. Here's where to complete your enrollment: " + l + "\n\nSee you there."; } },
+    assign: { url: ASSIGN_URL, subject: 'A seat at the Founders Event',
+              msg: function (l) { return l; } }
+  };
+  var opts = document.querySelectorAll('[data-opt]'), linkEl = $('refLink'), msgEl = $('refMsg');
+  // Email | Text switch over the ready-to-send message (2026-11-06): the box and Copy message follow the tab.
+  // Open in email always sends the email version (with subject); Text it always sends the text version.
+  var msgMode = 'email', curKey = 'audio';
+  (function () {
+    var lab = msgEl && msgEl.previousElementSibling; if (!lab) return;
+    var css = document.createElement('style'); css.id = 'champMsgTabsCss';
+    css.textContent = '/* Email | Text as plain text links after the label (user, 2026-11-06): READY-TO-SEND MESSAGE · EMAIL · TEXT */ .champ-page .champ-msg-head { display: flex; flex-wrap: wrap; align-items: baseline; margin-top: 22px; } .champ-page .champ-msg-head .champ-lab { margin-top: 0; } .champ-page .champ-msg-tabs { display: inline-flex; align-items: baseline; } .champ-page .champ-msg-tab { appearance: none; -webkit-appearance: none; margin: 0; padding: 0; border: 0; background: none; font: 700 12px/15.6px var(--body); letter-spacing: 1.2px; text-transform: uppercase; color: var(--fe-grey); cursor: pointer; text-decoration: none; text-underline-offset: 4px; } .champ-page .champ-msg-tab::before { content: "\\00B7"; display: inline-block; margin: 0 10px; color: var(--fe-grey); } .champ-page .champ-msg-tab.is-on { color: #000; text-decoration: underline; text-decoration-thickness: 1.5px; } .champ-page .champ-msg-tab:focus-visible { outline: 2px solid var(--fe-mid2); outline-offset: 2px; } @media (max-width: 767px) { .champ-page .champ-msg-tabs { flex-basis: 100%; margin-top: 8px; } .champ-page .champ-msg-tab:first-child::before { content: none; } }';
+    document.head.appendChild(css);
+    var head = document.createElement('div'); head.className = 'champ-msg-head';
+    lab.parentNode.insertBefore(head, lab); head.appendChild(lab);
+    var tabs = document.createElement('div'); tabs.className = 'champ-msg-tabs'; tabs.setAttribute('role', 'tablist');
+    tabs.innerHTML = '<button type="button" class="champ-msg-tab is-on" data-mode="email" role="tab" aria-selected="true">Email</button><button type="button" class="champ-msg-tab" data-mode="text" role="tab" aria-selected="false">Text</button>';
+    head.appendChild(tabs);
+    tabs.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-mode]'); if (!b) return;
+      msgMode = b.getAttribute('data-mode');
+      tabs.querySelectorAll('[data-mode]').forEach(function (x) { var on = x === b; x.classList.toggle('is-on', on); x.setAttribute('aria-selected', on ? 'true' : 'false'); });
+      pick(curKey);
+    });
+  })();
+  var assignPane = document.createElement('div');
+  assignPane.id = 'assignPane'; assignPane.className = 'champ-share'; assignPane.hidden = true;
+  assignPane.innerHTML = '<div class="champ-lab is-black">Assign your credits</div><h3 class="champ-hub-h">Their seat. Your credits. Your impact.</h3>'
+    + '<p class="champ-sign-p">Assign your Hardy Exchange credits to a Founders Event seat for the leader you choose. Once their seat is confirmed, the impact is credited to your Champion Board.</p>'
+    + '<div class="champ-en-acts"><a class="champ-btn is-solid is-enroll" id="assignGo" href="#" target="_blank" rel="noopener">Assign my credits <span class="champ-arw">&rarr;</span></a></div>';
+  $('sharePane').parentNode.insertBefore(assignPane, $('sharePane'));
+  // Team Seat is a new investment only (credits go through Assign), so the credit/invest choice is hidden
+  var enPay = $('enrollPane').querySelector('.champ-en-pay'), enPayLab = enPay && enPay.previousElementSibling, enLab = $('enrollPane').querySelector('.champ-lab');
+  if (enPay) enPay.style.display = 'none';
+  if (enPayLab) enPayLab.style.display = 'none';
+  function setPay(v) {
+    var r = $('enrollPane').querySelector('input[name=pay][value=' + v + ']'); if (!r) return;
+    r.checked = true; r.dispatchEvent(new Event('change'));
+    $('enrollGo').innerHTML = (v === 'credit' ? 'Assign my credits' : 'Invest in a Team Seat') + ' <span class="champ-arw">&rarr;</span>';
+    if (enLab) enLab.textContent = v === 'credit' ? 'Assign your credits' : 'Team Seat';
+  }
+  function pick(key) {
+    if (!OPTS[key]) key = 'audio';
+    curKey = key;
+    var o = OPTS[key], l = o.track ? o.track(linkRef()) : withRef(o.url), m = o.msg(l), sm = o.sms ? o.sms(l) : m;
+    opts.forEach(function (b) { b.classList.toggle('is-on', b.getAttribute('data-opt') === key); });
+    var assigning = key === 'assign', enrolling = key === 'leader';
+    $('sharePane').hidden = assigning || enrolling || !signedIn;
+    $('enrollPane').hidden = !enrolling || !signedIn;
+    assignPane.hidden = !assigning || !signedIn;
+    $('signPane').hidden = signedIn;
+    if (enrolling) setPay('invest');
+    $('assignGo').href = withRef(ASSIGN_URL);
+    linkEl.value = l; msgEl.value = msgMode === 'text' ? sm : m;
+    $('refOpen').href = l;
+    $('refMail').href = 'mailto:?subject=' + encodeURIComponent(o.subject) + '&body=' + encodeURIComponent(m);
+    $('refSms').href = 'sms:?&body=' + encodeURIComponent(sm);
+  }
+  opts.forEach(function (b) { b.addEventListener('click', function (e) { e.preventDefault(); pick(b.getAttribute('data-opt'));
+    // Phones: the options stack above the link, so jump down to it
+    if (innerWidth <= 900) setTimeout(function () { go('hubOut'); }, 60); }); });
+  // "Add a seat" buttons open the Enroll tab with a new seat pre-selected.
+  document.querySelectorAll('[data-enroll]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      pick('leader');
+      setTimeout(function () { go('link'); }, 340);
+    });
+  });
+  // Enroll a leader: the Champion covers the seat with a credit or a new investment. Mock only; this becomes the real checkout/HubSpot form.
+  // PORTAL_URL: where a credit enrollment happens. Blank until the portal exists (2026-10-16); while blank, the credit
+  // button keeps the mock confirmation. Set it and the credit button opens the portal (carrying the referral ID) instead.
+  var PORTAL_URL = ASSIGN_URL;
+  var ef = $('enrollPane'), eGo = $('enrollGo'), pays = ef.querySelectorAll('input[name=pay]');
+  pays.forEach(function (r) {
+    r.addEventListener('change', function () {
+      pays.forEach(function (x) { x.parentNode.classList.toggle('is-on', x.checked); });
+      eGo.innerHTML = (r.value === 'credit' && r.checked ? 'Assign my credits' : 'Invest in a Team Seat') + ' <span class="champ-arw">&rarr;</span>';
+    });
+  });
+  ef.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (ef.elements['pay'].value === 'credit' && PORTAL_URL) { window.open(withRef(PORTAL_URL), '_blank', 'noopener'); return; }
+    var fn1 = ef.elements['first'].value.trim(), ln = ef.elements['last'].value.trim(), n = fn1 + ' ' + ln, em = ef.elements['email'].value.trim(), ok = !!fn1 && !!ln && /\S+@\S+\.\S+/.test(em);
+    $('enrollErr').hidden = ok;
+    if (!ok) return;
+    if (ef.elements['pay'].value === 'invest') { window.open(withRef(OPTS.leader.url), '_blank', 'noopener'); return; }
+    $('enrollWho').textContent = n;
+    $('enrollDone').hidden = false;
+  });
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = $(b.getAttribute('data-copy')), label = b.textContent;
+      function done() { b.classList.add('is-done'); b.textContent = 'Copied'; setTimeout(function () { b.classList.remove('is-done'); b.textContent = label; }, 1600); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(el.value).then(done, function () { el.select(); document.execCommand('copy'); done(); });
+      else { el.select(); document.execCommand('copy'); done(); }
+    });
+  });
+  // SIGN IN BY EMAIL. Each Champion's email is a key in the Champion Logins collection: the item slug is the
+  // first 40 hex of sha256(lowercased email) and its Ref field is their Champion ID. No email is ever on a page.
+  // /champion-key/<hash> -> ref -> /champion-data/<ref> -> the page fills in, same as arriving with ?id=.
+  var signErr = $('signErr'), signBtn = $('signPane').querySelector('button[type=submit]'), signFine = $('signPane').querySelector('.champ-sign-fine');
+  // An error replaces the fine print under the sign-in box
+  function signMsg(html) { signErr.innerHTML = html; signErr.hidden = !html; if (signFine) signFine.hidden = !!html; }
+  function emailKey(em) {
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(em.trim().toLowerCase())).then(function (b) {
+      return Array.prototype.map.call(new Uint8Array(b), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('').slice(0, 40);
+    });
+  }
+  function refFor(em) {
+    return emailKey(em).then(function (k) { return fetch('/champion-key/' + k, { credentials: 'same-origin' }); }).then(function (r) { if (!r.ok) throw r.status; return r.text(); }).then(function (h) {
+      var el = new DOMParser().parseFromString(h, 'text/html').querySelector('[data-f="ref"]'), ref = el && el.textContent.trim();
+      if (!ref) throw 'empty';
+      return ref;
+    });
+  }
+  $('signPane').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var em = this.elements['email'].value.trim();
+    if (!/\S+@\S+\.\S+/.test(em)) { signMsg('Enter the email you use for the Champion Program.'); return; }
+    signMsg(''); signBtn.disabled = true;
+    refFor(em).then(function (ref) { return loadStand(ref).then(function (f) {
+      refId = f['champion-id'] || ref; fillStand(f); setSignedIn(true);
+      // Keep them signed in on refresh
+      try { var u = new URL(location.href); u.searchParams.set('id', ref); history.replaceState(null, '', u); } catch (x) {}
+    }); }).catch(function () {
+      signMsg('Sorry, we couldn\'t find you today. Please contact Member Services to get your unique referral links. <a class="champ-sign-mail" href="mailto:helpme@darrenhardy.com?subject=I%20can%27t%20access%20my%20referral%20link" style="text-decoration:underline;text-underline-offset:3px">Email us directly here.</a>');
+    }).then(function () { signBtn.disabled = false; });
+  });
+  refNote();
+  pick('audio');
+  // Any outbound link marked data-ref carries the ID too.
+  document.querySelectorAll('a[data-ref]').forEach(function (a) { a.href = withRef(a.getAttribute('href')); });
+})();
+</script>
