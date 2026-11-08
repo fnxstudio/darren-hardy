@@ -323,9 +323,11 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 
 
 /* price as a floating ticket */
+/* float moves with `translate`, so it stacks with the hover tilt instead of replacing it */
+@keyframes pfloat{0%,100%{translate:0 0}50%{translate:0 -12px}}
 .pstage{position:relative;max-width:1060px;margin:56px auto 0;perspective:1600px}
 .pstage::after,.cstage::after{content:"";position:absolute;left:12%;right:12%;bottom:-40px;height:56px;background:radial-gradient(ellipse at center,rgba(0,0,0,.8),rgba(0,0,0,0) 70%);filter:blur(10px);z-index:-1}
-.pfloat{animation:float 8s ease-in-out infinite;transform:scale(var(--s,1)) rotateX(var(--rx,2deg)) rotateY(var(--ry,-2deg)) rotateZ(-.6deg);transition:transform .8s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.pfloat{animation:pfloat 8s ease-in-out infinite;transform:scale(var(--s,1)) rotateX(var(--rx,2deg)) rotateY(var(--ry,-2deg)) rotateZ(-.6deg);transition:transform .8s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
 .ptk{position:relative;display:grid;grid-template-columns:1fr 340px;text-align:left;
   background:radial-gradient(ellipse 80% 120% at 0% 0%,rgba(255,255,255,.08),transparent 55%),linear-gradient(160deg,#1c1d20 0%,#0c0c0d 60%,#151618 100%);
   -webkit-mask:radial-gradient(circle 16px at calc(100% - 340px) 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 16px at calc(100% - 340px) 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
