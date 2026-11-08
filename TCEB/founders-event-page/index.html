@@ -839,6 +839,25 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 .pbonus{margin-top:22px;padding:18px 20px;border:1px dashed rgba(220,226,236,.32);background:rgba(255,255,255,.03)}
 .pb-tag{display:block;font:700 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
 .pbonus p{margin:0!important;font-size:15px;line-height:1.5;color:var(--bright)!important}
+
+/* results wall: two copies on a max-content track, so the roll never jumps */
+.voices{padding-bottom:160px;overflow:hidden}
+.vroll{position:relative;margin-top:24px;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.vtrack{display:flex;gap:24px;width:max-content;padding:20px 0 40px;animation:vroll 110s linear infinite}
+.vcopy{display:contents}
+.vroll:hover .vtrack{animation-play-state:paused}
+@keyframes vroll{to{transform:translateX(calc(-50% - 12px))}}
+.vc{position:relative;flex:0 0 auto;width:440px;margin:0;display:grid;grid-template-columns:120px 1fr;grid-template-rows:1fr auto;column-gap:26px;padding:22px 28px 22px 22px;background:radial-gradient(ellipse 80% 120% at 0% 0%,rgba(255,255,255,.06),transparent 55%),linear-gradient(160deg,#1b1c1f 0%,#0c0c0d 60%,#141517 100%);box-shadow:0 0 0 1px rgba(220,226,236,.14),0 30px 60px rgba(0,0,0,.45);text-align:left}
+.vc::before{content:"";position:absolute;inset:8px;border:1px solid rgba(220,221,223,.16);pointer-events:none}
+.vc-photo{grid-row:1/3;width:120px;height:150px;object-fit:cover;filter:grayscale(1) contrast(1.06) brightness(.95)}
+.vc-tint{position:absolute;left:22px;top:22px;width:120px;height:150px;background:#2E4C80;mix-blend-mode:color;opacity:.38;pointer-events:none}
+.vc blockquote{margin:0;align-self:center;font-size:15px;line-height:1.55;color:var(--soft)}
+.vc blockquote b{color:var(--bright);font-weight:700}
+.vc figcaption{display:grid;gap:4px;margin-top:14px;padding-top:12px;border-top:1px dotted rgba(220,221,223,.22)}
+.vc figcaption b{font:600 12px/1.2 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--bright)}
+.vc figcaption span{font-size:12px;color:var(--mute)}
+@media (max-width:900px){.vc{width:300px;grid-template-columns:64px 1fr;grid-template-rows:1fr auto;column-gap:16px;padding:22px 20px}.vc blockquote{grid-column:1/3;grid-row:1;align-self:start;font-size:15px}.vc-photo{grid-row:2;width:64px;height:80px;margin-top:16px}.vc-tint{left:20px;top:auto;bottom:22px;width:64px;height:80px}.vc figcaption{grid-row:2;align-self:end;border-top:0;margin-top:16px;padding-top:0}}
+@media (prefers-reduced-motion:reduce){.vtrack{animation:none}.vroll{overflow-x:auto}}
 </style>
 </head>
 <body>
@@ -1002,10 +1021,22 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
   </div>
 </section>
 
+<!-- RESULTS: a rolling wall of real results from the book and Business Master Class -->
+<section class="s voices">
+  <div class="wrap center">
+    <div class="tlabel center rv"><span>Nº 06</span>Results</div>
+    <h2 class="hl center rv">The work is proven. Now it's <span class="sx">your turn</span>.</h2>
+    <p class="lede narrow center rv">Results from readers of <em>The Compound Effect</em> and leaders who've worked with Darren at Business Master&nbsp;Class.</p>
+  </div>
+  <div class="vroll" aria-label="Results from readers and Business Master&nbsp;Class&nbsp;alumni">
+    <div class="vtrack"><figure class="vc"><img class="vc-photo" src="img/voices/rebecca-jones.webp" width="240" height="300" alt="Rebecca Jones" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;$20K goal. <b>$138K in 80 days</b>. All from ONE strategy.&rdquo;</blockquote><figcaption><b>Rebecca Jones</b><span>Business Master&nbsp;Class&nbsp;· 7X&nbsp;alum</span></figcaption></figure><figure class="vc"><img class="vc-photo" src="img/voices/jelani-dorsey.webp" width="240" height="300" alt="Jelani Dorsey" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;This book changed my business endeavors and all habits in my life for the better! I've literally saved my relationship and <b>10X'd my business</b>!!&rdquo;</blockquote><figcaption><b>Jelani Dorsey</b><span>Reader · <i>The Compound Effect</i></span></figcaption></figure><figure class="vc"><img class="vc-photo" src="img/voices/john-bucsek.webp" width="240" height="300" alt="John Bucsek" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;Bringing my team… accomplish in <b>3 days</b> what I was trying to do for the past <b>15 months</b>!&rdquo;</blockquote><figcaption><b>John Bucsek</b><span>Business Master&nbsp;Class&nbsp;alum</span></figcaption></figure><figure class="vc"><img class="vc-photo" src="img/voices/cheryl-landwehr.webp" width="240" height="300" alt="Cheryl Landwehr" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;One new campaign. <b>Over $23,000 in new revenue</b>.&rdquo;</blockquote><figcaption><b>Cheryl Landwehr</b><span>Business Master&nbsp;Class&nbsp;· 14X&nbsp;alum</span></figcaption></figure><figure class="vc"><img class="vc-photo" src="img/voices/ernesto-gutierrez.webp" width="240" height="300" alt="Ernesto Gutierrez" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;By following and applying its simple principles I've come to quickly achieve goals which had eluded me for several years. Today I'm <b>happier, healthier and wealthier</b> in ways I could not have imagined.&rdquo;</blockquote><figcaption><b>Ernesto Gutierrez</b><span>Reader · <i>The Compound Effect</i></span></figcaption></figure><figure class="vc"><img class="vc-photo" src="img/voices/april-roberts.webp" width="240" height="300" alt="April Roberts" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;Another BMC… this time I brought along my Chief Operating Officer… <b>tripling our monthly revenue goal</b>.&rdquo;</blockquote><figcaption><b>April Roberts</b><span>Business Master&nbsp;Class&nbsp;· 7X&nbsp;alum</span></figcaption></figure><figure class="vc"><img class="vc-photo" src="img/voices/dan-mumm.webp" width="240" height="300" alt="Dan Mumm" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;<b>$9,745 in new revenue</b> in the first week of BMA.&rdquo;</blockquote><figcaption><b>Dan Mumm</b><span>Business Master&nbsp;Class&nbsp;· 10X&nbsp;alum</span></figcaption></figure><figure class="vc"><img class="vc-photo" src="img/voices/dawn-neighoff.webp" width="240" height="300" alt="Dawn Neighoff" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;We have <b>doubled our revenue</b>… I bring as many of my decision makers as I can each BMC.&rdquo;</blockquote><figcaption><b>Dawn Neighoff</b><span>Business Master&nbsp;Class&nbsp;· 6X&nbsp;alum</span></figcaption></figure><figure class="vc"><img class="vc-photo" src="img/voices/anna-choi.webp" width="240" height="300" alt="Anna Choi" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;One bold guarantee. <b>BMC investment back in under 30 days</b>.&rdquo;</blockquote><figcaption><b>Anna Choi</b><span>Business Master&nbsp;Class&nbsp;alum</span></figcaption></figure><div class="vcopy" aria-hidden="true"><figure class="vc" aria-hidden="true"><img class="vc-photo" src="img/voices/rebecca-jones.webp" width="240" height="300" alt="" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;$20K goal. <b>$138K in 80 days</b>. All from ONE strategy.&rdquo;</blockquote><figcaption><b>Rebecca Jones</b><span>Business Master&nbsp;Class&nbsp;· 7X&nbsp;alum</span></figcaption></figure><figure class="vc" aria-hidden="true"><img class="vc-photo" src="img/voices/jelani-dorsey.webp" width="240" height="300" alt="" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;This book changed my business endeavors and all habits in my life for the better! I've literally saved my relationship and <b>10X'd my business</b>!!&rdquo;</blockquote><figcaption><b>Jelani Dorsey</b><span>Reader · <i>The Compound Effect</i></span></figcaption></figure><figure class="vc" aria-hidden="true"><img class="vc-photo" src="img/voices/john-bucsek.webp" width="240" height="300" alt="" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;Bringing my team… accomplish in <b>3 days</b> what I was trying to do for the past <b>15 months</b>!&rdquo;</blockquote><figcaption><b>John Bucsek</b><span>Business Master&nbsp;Class&nbsp;alum</span></figcaption></figure><figure class="vc" aria-hidden="true"><img class="vc-photo" src="img/voices/cheryl-landwehr.webp" width="240" height="300" alt="" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;One new campaign. <b>Over $23,000 in new revenue</b>.&rdquo;</blockquote><figcaption><b>Cheryl Landwehr</b><span>Business Master&nbsp;Class&nbsp;· 14X&nbsp;alum</span></figcaption></figure><figure class="vc" aria-hidden="true"><img class="vc-photo" src="img/voices/ernesto-gutierrez.webp" width="240" height="300" alt="" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;By following and applying its simple principles I've come to quickly achieve goals which had eluded me for several years. Today I'm <b>happier, healthier and wealthier</b> in ways I could not have imagined.&rdquo;</blockquote><figcaption><b>Ernesto Gutierrez</b><span>Reader · <i>The Compound Effect</i></span></figcaption></figure><figure class="vc" aria-hidden="true"><img class="vc-photo" src="img/voices/april-roberts.webp" width="240" height="300" alt="" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;Another BMC… this time I brought along my Chief Operating Officer… <b>tripling our monthly revenue goal</b>.&rdquo;</blockquote><figcaption><b>April Roberts</b><span>Business Master&nbsp;Class&nbsp;· 7X&nbsp;alum</span></figcaption></figure><figure class="vc" aria-hidden="true"><img class="vc-photo" src="img/voices/dan-mumm.webp" width="240" height="300" alt="" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;<b>$9,745 in new revenue</b> in the first week of BMA.&rdquo;</blockquote><figcaption><b>Dan Mumm</b><span>Business Master&nbsp;Class&nbsp;· 10X&nbsp;alum</span></figcaption></figure><figure class="vc" aria-hidden="true"><img class="vc-photo" src="img/voices/dawn-neighoff.webp" width="240" height="300" alt="" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;We have <b>doubled our revenue</b>… I bring as many of my decision makers as I can each BMC.&rdquo;</blockquote><figcaption><b>Dawn Neighoff</b><span>Business Master&nbsp;Class&nbsp;· 6X&nbsp;alum</span></figcaption></figure><figure class="vc" aria-hidden="true"><img class="vc-photo" src="img/voices/anna-choi.webp" width="240" height="300" alt="" loading="eager"><span class="vc-tint"></span><blockquote>&ldquo;One bold guarantee. <b>BMC investment back in under 30 days</b>.&rdquo;</blockquote><figcaption><b>Anna Choi</b><span>Business Master&nbsp;Class&nbsp;alum</span></figcaption></figure></div></div>
+  </div>
+</section>
+
 <!-- 4. BECOME THE COMPANY EVERYONE ELSE CALLS LUCKY -->
 <section class="s">
   <div class="wrap">
-    <div class="tlabel rv"><span>Nº 06</span>The confession</div>
+    <div class="tlabel rv"><span>Nº 07</span>The confession</div>
     <h2 class="hl rv">Become the company everyone else calls <span class="sx">lucky</span>.</h2>
     <div class="cols rv">
       <p class="lede">Every industry has one. The company that seems to get every break. I'll confess something: for years I thought the way to become that company was one big move. So I made big moves.</p>
@@ -1022,7 +1053,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="steel">
   <div class="steel-in">
     <div class="wrap">
-      <div class="tlabel dk rv"><span>Nº 07</span>The mechanism</div>
+      <div class="tlabel dk rv"><span>Nº 08</span>The mechanism</div>
       <h2 class="hl dk rv">Little hinges swing <em class="box">big doors</em>.</h2>
       <div class="cols rv">
         <p class="tagline dk"><em>The Compound Effect In Business</em> reduces the complexity of a business down to the half dozen vital factors that determine the fate and future of a company.</p>
@@ -1038,7 +1069,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 6. THE DOORS THEY SWING OPEN -->
 <section class="s halo-r">
   <div class="wrap">
-    <div class="tlabel center rv"><span>Nº 08</span>What the hinges open</div>
+    <div class="tlabel center rv"><span>Nº 09</span>What the hinges open</div>
     <h2 class="hl center rv">Picture your company a year from <span class="sx">now</span>.</h2>
     <div class="meta3 rv">
       <div><b>A-players</b>other companies try to recruit, and can't.</div>
@@ -1065,7 +1096,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="s stage-s">
   <div class="halo" aria-hidden="true"></div>
   <div class="wrap center">
-    <div class="tlabel center rv"><span>Nº 09</span>One first</div>
+    <div class="tlabel center rv"><span>Nº 10</span>One first</div>
     <h2 class="hl center rv">There will only ever be <em class="box">one first</em>.</h2>
     <div class="narrow rv">
       <p class="lede">For 16 years, the question I've been asked more than any other is, “Darren, what about my business?” The answer is finally written. Before the book is released to the world, I'm putting it to work, live, with one group of leaders.</p>
@@ -1116,7 +1147,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 9. MORE THAN THE BOOK -->
 <section class="s lite paper" id="book">
   <div class="wrap">
-    <div class="tlabel rv"><span>Nº 10</span>More than the book</div>
+    <div class="tlabel rv"><span>Nº 11</span>More than the book</div>
     <h2 class="hl rv">You could read the book. Millions of people <span class="sx">will</span>.</h2>
     <div class="cols rv">
       <div>
@@ -1142,7 +1173,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 10. THE YEAR THAT STARTS TODAY -->
 <section class="s halo-r">
   <div class="wrap">
-    <div class="tlabel center rv"><span>Nº 11</span>Starts the day you join</div>
+    <div class="tlabel center rv"><span>Nº 12</span>Starts the day you join</div>
     <h2 class="hl center rv">You don't wait until April to start <span class="sx">compounding</span>.</h2>
     <p class="lede narrow center rv">Your seat includes one year inside Darren's private leader network, <span class="nb">THE COLLECTIVE</span>, activated the day you join.</p>
     <p class="narrow center rv coll-sub">Connect with leaders who've solved what you're facing, join expert office hours, and access 35+ years of Darren's strategies.</p>
@@ -1158,7 +1189,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="s team-s lite">
   <div class="wrap team-grid">
     <div class="rv">
-      <div class="tlabel"><span>Nº 12</span>Bring your team</div>
+      <div class="tlabel"><span>Nº 13</span>Bring your team</div>
       <h2 class="hl">They've heard you. They haven't heard <span class="sx">me</span>.</h2>
       <p class="lede">You've said it in the Monday meeting.</p>
       <ul class="perf-list">
@@ -1184,7 +1215,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <!-- 13. YOU MIGHT BE THINKING -->
 <section class="s halo-l">
   <div class="wrap">
-    <div class="tlabel rv"><span>Nº 13</span>Questions you might be asking</div>
+    <div class="tlabel rv"><span>Nº 14</span>Questions you might be asking</div>
     <h2 class="hl rv">You might be <span class="sx">thinking</span>...</h2>
     <div class="objs rv">
       <div class="obj"><span class="on">01</span><h3>“Who is this guy?”</h3><p>Fair question. The short version is at the top of this page. The longer one is <a href="#darren">just below</a>.</p></div>
@@ -1204,7 +1235,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
     <div class="sponsor rv">
       <div class="sponsor-mark"><img src="img/rearden-press-white.webp" width="240" height="262" alt="Rearden Press"></div>
       <div class="sponsor-copy">
-        <div class="tlabel"><span>Nº 14</span>A gift from the publisher</div>
+        <div class="tlabel"><span>Nº 15</span>A gift from the publisher</div>
         <h2 class="sponsor-hl">A <span class="sx">$5,000</span> Sponsorship From The&nbsp;Publisher</h2>
         <p>To celebrate this historic launch, the publisher, Rearden Press, is sponsoring the first 500 FOUNDERS seats with $5,000 each. A FOUNDERS seat is $9,995. The publisher covers $5,000 of&nbsp;it.</p>
       </div>
@@ -1345,7 +1376,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
       <div class="guar rv">
         <div class="seal-stage" data-tilt><div class="seal-float"><div class="pfloat seal-tilt"><img class="seal" src="img/founders-guarantee-seal.webp" width="900" height="900" alt="Founders Event guarantee seal: 3X, triple your investment or you pay nothing" loading="lazy"><span class="seal-shine" aria-hidden="true"></span></div></div></div>
         <div>
-          <div class="tlabel dk"><span>Nº 15</span>The guarantee</div>
+          <div class="tlabel dk"><span>Nº 16</span>The guarantee</div>
           <h2 class="hl dk">Triple your investment, or every dollar comes <em class="box">back</em>.</h2>
           <p class="tagline dk">Come to Day 1. If by 5 PM PT you don't see how this returns at least 3X what you put in, return your materials and we'll refund every dollar.</p>
         </div>
@@ -1360,7 +1391,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
   <div class="wrap meet">
     
     <div class="rv">
-      <div class="tlabel"><span>Nº 16</span>Your host</div>
+      <div class="tlabel"><span>Nº 17</span>Your host</div>
       <h2 class="hl">Meet <span class="sx shim nb">Darren Hardy</span>.</h2>
       <p class="lede">I've spent 35 years building, buying and selling companies, and along the way I've mentored more than 12,000 CEOs and founders.</p>
       <div class="tmeta two">
@@ -1387,7 +1418,7 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 <section class="s faq lite paper">
   <div class="wrap faq-grid">
     <div class="faq-head rv">
-      <div class="tlabel"><span>Nº 17</span>Questions</div>
+      <div class="tlabel"><span>Nº 18</span>Questions</div>
       <h2 class="hl"><span class="l1">Before you</span><br>reserve<span class="dot">.</span></h2>
       <p>Everything you need to know before you take your FOUNDERS seat.</p>
     </div>
