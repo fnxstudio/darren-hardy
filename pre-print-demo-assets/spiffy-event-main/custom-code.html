@@ -1,11 +1,23 @@
 <script>
+var D = String.fromCharCode(36);
+var WS = new RegExp('[' + String.fromCharCode(32, 9, 10, 13, 160) + ']+', 'g');
+function tcebScope(css) {
+  return css.replace(/(^|[{}])[ ]*([^@{}][^{}]*)[{]/g, function (m, a, sel) {
+    return a + sel.split(',').map(function (x) { return 'html body .checkout ' + x.trim(); }).join(',') + '{';
+  });
+}
+function tcebStore() { try { return window[D + 'nuxt'][D + 'store'].state.checkout; } catch (e) { return null; } }
 function tcebAfterMount(fn) {
   var done = false;
   function go() { if (done) return; done = true; setTimeout(fn, 0); }
   if (!document.getElementById('__nuxt')) { go(); return; }
   function settle() {
     var quiet, cap = setTimeout(finish, 6000);
-    var mo = new MutationObserver(function () { clearTimeout(quiet); quiet = setTimeout(finish, 500); });
+    var mo = new MutationObserver(function (rs) {
+      if (rs.every(tick)) return;
+      clearTimeout(quiet); quiet = setTimeout(finish, 500);
+    });
+    function tick(r) { var t = r.target.nodeType === 1 ? r.target : r.target.parentElement; return !!(t && t.closest && t.closest('.countdown-timer, .exit-discount-banner')); }
     function finish() { clearTimeout(quiet); clearTimeout(cap); mo.disconnect(); go(); }
     mo.observe(document.documentElement, { childList: true, subtree: true });
     quiet = setTimeout(finish, 500);
@@ -14,20 +26,19 @@ function tcebAfterMount(fn) {
 }
 (function () {
   var css = document.createElement('style');
-  css.textContent = '.order-summary-mobile{display:flex!important}' +
+  css.textContent = tcebScope('.order-summary-mobile{display:flex!important}' +
     '.coupon-code,.line--discount{display:none!important}' +
-    '.tceb-line .line-item__group_price{white-space:nowrap}';
+    '.tceb-line .line-item__group_price{white-space:nowrap}');
   document.head.appendChild(css);
   function endsEvent(t) { return String(t).trim().toUpperCase().slice(-14) === 'FOUNDERS EVENT'; }
   function lines() {
-    var ck = null;
-    try { ck = window['\x24nuxt']['\x24store'].state.checkout; } catch (e) {}
+    var ck = tcebStore();
     if (!ck || !ck.summary) return [];
     var out = [], s = ck.summary;
     var rearden = (s.line_items || []).some(function (li) {
       return endsEvent(li.pretty_name || li.name || '') && li.total === 499500;
     });
-    if (rearden) out.push(['REARDEN SPONSORSHIP (first 500 seats)', String.fromCharCode(8722) + '\x245,000']);
+    if (rearden) out.push(['REARDEN SPONSORSHIP (first 500 seats)', String.fromCharCode(8722) + D + '5,000']);
     return out;
   }
   function fullPrice(list, on) {
@@ -70,12 +81,12 @@ function tcebAfterMount(fn) {
 (function () {
   var css = document.createElement('style');
   css.textContent =
-    '.tceb-team-row{display:flex;justify-content:flex-start;align-items:center;gap:14px}' +
+    tcebScope('.tceb-team-row{display:flex;justify-content:flex-start;align-items:center;gap:14px}' +
     '.tceb-team-label{font-weight:700;font-size:17px}' +
     '.tceb-stepper{display:inline-flex;border:1px solid #dedede;border-radius:2px;background:#fff}' +
     '.tceb-stepper button{width:42px;height:44px;border:0;background:#fff;color:#000;font-size:20px;line-height:1;cursor:pointer}' +
     '.tceb-stepper button:disabled{color:#c4c4c4;cursor:default}' +
-    '.tceb-stepper output{display:grid;place-items:center;width:48px;border-left:1px solid #dedede;border-right:1px solid #dedede;font-size:16px;font-weight:700}';
+    '.tceb-stepper output{display:grid;place-items:center;width:48px;border-left:1px solid #dedede;border-right:1px solid #dedede;font-size:16px;font-weight:700}');
   document.head.appendChild(css);
   function findSelect() {
     var blocks = document.querySelectorAll('[id^="block-"]');
@@ -126,11 +137,11 @@ function tcebAfterMount(fn) {
 })();
 (function () {
   function pif() {
-    try { var p = window['\x24nuxt']['\x24store'].state.checkout.summary.paymentplans; return !(p && p.length); } catch (e) { return false; }
+    var ck = tcebStore(), p = ck && ck.summary && ck.summary.paymentplans; return !(p && p.length);
   }
   var PRICE = {
-    vip: { full: ['Only \x241,495', 'One payment, paid in full'], monthly: ['Only \x24115 today', '+\x24115/mo for 12 months'] },
-    team: { full: ['Only \x243,995 each', 'One payment, paid in full'], monthly: ['Only \x24308/ea today', '+\x24308/mo ea for 12 months'] }
+    vip: { full: ['Only ' + D + '1,495', 'One payment, paid in full'], monthly: ['Only ' + D + '115 today', '+' + D + '115/mo for 12 months'] },
+    team: { full: ['Only ' + D + '3,995 each', 'One payment, paid in full'], monthly: ['Only ' + D + '308/ea today', '+' + D + '308/mo ea for 12 months'] }
   };
   var BOX = {
     vip: {
@@ -144,7 +155,7 @@ function tcebAfterMount(fn) {
       video: '1236615000'
     },
     team: {
-      tab: 'Save \x246,000 per seat',
+      tab: 'Save ' + D + '6,000 per seat',
       head: 'YES! I want to bring my leaders',
       sub: 'General Admission seats for your key leaders',
       label: 'Why bring your team',
@@ -162,7 +173,7 @@ function tcebAfterMount(fn) {
   var SILVER = 'linear-gradient(110deg,#9AA1AC 0%,#E9ECF0 22%,#BCC2CB 44%,#F8F9FB 62%,#A3AAB4 100%)';
   var NAVY = 'linear-gradient(160deg,#1C2C48,#0D1626)';
   css.textContent =
-    '.tceb-box .card{position:relative;overflow:hidden;border-radius:0}' +
+    tcebScope('.tceb-box .card{position:relative;overflow:hidden;border-radius:0}' +
     '.tceb-tab{position:absolute;top:0;right:0;z-index:1;background:' + SILVER + ';color:#0A0C10;line-height:1.2}' +
     '.tceb-vip .tceb-tab{padding:10px 16px;font-family:"Bebas Neue",sans-serif;font-size:20px;font-weight:400;letter-spacing:.04em}' +
     '.tceb-team .tceb-tab{padding:12px 18px;font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}' +
@@ -190,14 +201,13 @@ function tcebAfterMount(fn) {
     '.tceb-vip .custom-control{padding-left:0}' +
     '.tceb-vip .custom-control-label{position:relative;display:flex;align-items:center;min-height:44px;padding-left:62px;color:#fff!important;font-size:16px;font-weight:600;cursor:pointer}' +
     '.tceb-vip .custom-control-label::before,.tceb-vip .custom-control-label::after{top:0!important;left:0!important;width:44px!important;height:44px!important;margin-top:0!important}' +
-    '.checkout .tceb-vip .custom-control-label::before{border:1px solid #DCDDDF!important;border-radius:0!important;background:#F4F5F6!important;box-shadow:none!important}' +
-    '.checkout .tceb-vip .custom-control-input:checked~.custom-control-label::before{border-color:#F4F5F6!important;background-color:#F4F5F6!important}' +
-    '.checkout .tceb-vip .custom-control-input:checked~.custom-control-label::after{background-size:22px;filter:invert(1)}' +
+    '.tceb-vip .custom-control-label::before{border:1px solid #DCDDDF!important;border-radius:0!important;background:#F4F5F6!important;box-shadow:none!important}' +
+    '.tceb-vip .custom-control-input:checked~.custom-control-label::before{border-color:#F4F5F6!important;background-color:#F4F5F6!important}' +
+    '.tceb-vip .custom-control-input:checked~.custom-control-label::after{background-size:22px;filter:invert(1)}' +
     '.tceb-vip .option-price{display:none!important}' +
     '.tceb-hide{display:none!important}' +
-    '.tceb-plans{margin:0 0 18px!important;width:100%}' +
     '@media (max-width:600px){.tceb-box .section__inner{padding-top:60px!important}.tceb-head,.tceb-sub{padding-right:0}' +
-    '.tceb-price{position:static;margin:0 0 12px;text-align:left}.tceb-vip .layout-checkboxes1{margin-bottom:13px}}';
+    '.tceb-price{position:static;margin:0 0 12px;text-align:left}.tceb-vip .layout-checkboxes1{margin-bottom:13px}}');
   document.head.appendChild(css);
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
   function priceHTML(kind) {
@@ -234,7 +244,7 @@ function tcebAfterMount(fn) {
         '<iframe src="https://player.vimeo.com/video/' + c.video + '?autoplay=1&title=0&byline=0&portrait=0&color=e02826&colors=000000,e02826,ffffff,000000&cc=0&pip=0&transcript=0&quality_selector=0&airplay=0&chromecast=0&speed=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Darren on the ' + (kind === 'vip' ? 'VIP upgrade' : 'team seats') + '"></iframe>';
       v.querySelector('.tceb-close').addEventListener('click', close);
       box.appendChild(v);
-      more.textContent = 'Close the video \xd7';
+      more.textContent = 'Close the video ' + String.fromCharCode(215);
     });
   }
   function tag(block, kind) {
@@ -262,11 +272,11 @@ function tcebAfterMount(fn) {
         if (!hide.classList.contains('tceb-hide')) hide.classList.add('tceb-hide');
       }
     });
-    var plan = document.querySelector('.option-card-select'), top = document.querySelector('.content-container > .order-summary');
+    var plan = document.querySelector('.option-card-select');
     var psec = plan && plan.closest('.section');
-    if (psec && top && psec.nextElementSibling !== top) { psec.classList.add('tceb-plans'); top.parentNode.insertBefore(psec, top); }
+    if (psec && !psec.classList.contains('tceb-plans')) psec.classList.add('tceb-plans');
     document.querySelectorAll('.option-card-select').forEach(function (card) {
-      var t = card.textContent.replace(/\s+/g, ' ').trim(), want = null;
+      var t = card.textContent.replace(WS, ' ').trim(), want = null;
       if (/single installment|pay in full|paid in full/i.test(t)) want = 'Single Installment';
       else if (/installment|monthly/i.test(t)) want = 'Monthly Installments';
       if (want && t !== want && !card.querySelector('.tceb-plan')) {
