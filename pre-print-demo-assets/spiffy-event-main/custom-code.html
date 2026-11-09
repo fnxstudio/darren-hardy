@@ -24,7 +24,7 @@ function tcebAfterMount(fn) {
     if (!ck || !ck.summary) return [];
     var out = [], s = ck.summary;
     var rearden = (s.line_items || []).some(function (li) {
-      return /rearden/i.test((li.pretty_name || '') + ' ' + (li.name || '')) && !li.total;
+      return /FOUNDERS EVENT\s*$/i.test(li.pretty_name || li.name || '') && li.total === 499500;
     });
     if (rearden) out.push(['REARDEN SPONSORSHIP (first 500 seats)', '\u2212\x245,000']);
     return out;
@@ -266,8 +266,8 @@ function tcebAfterMount(fn) {
     if (psec && top && psec.nextElementSibling !== top) { psec.classList.add('tceb-plans'); top.parentNode.insertBefore(psec, top); }
     document.querySelectorAll('.option-card-select').forEach(function (card) {
       var t = card.textContent.replace(/\s+/g, ' ').trim(), want = null;
-      if (/^Single Installment/i.test(t)) want = 'Single Installment';
-      else if (/Installments/i.test(t)) want = 'Monthly Installments';
+      if (/single installment|pay in full|paid in full/i.test(t)) want = 'Single Installment';
+      else if (/installment|monthly/i.test(t)) want = 'Monthly Installments';
       if (want && t !== want && !card.querySelector('.tceb-plan')) {
         card.setAttribute('data-tceb-orig', t);
         Array.prototype.forEach.call(card.children, function (c) { c.style.display = 'none'; });
@@ -293,6 +293,21 @@ function tcebAfterMount(fn) {
     var tries = 0;
     (function wait() { scan(); if (!document.querySelector('.tceb-vip') && tries++ < 100) setTimeout(wait, 100); })();
     new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  });
+})();
+(function () {
+  tcebAfterMount(function () {
+    var tries = 0;
+    (function tick() {
+      var done = false;
+      document.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+        if (/purchaseTerms/i.test(cb.name || '') || cb.closest('.d-none')) return;
+        var lab = cb.id ? document.querySelector('label[for="' + cb.id + '"]') : null;
+        if (!lab) lab = cb.parentElement && cb.parentElement.querySelector('label');
+        if (lab && /i agree to the/i.test(lab.textContent)) { if (!cb.checked) cb.click(); done = true; }
+      });
+      if (!done && tries++ < 50) setTimeout(tick, 100);
+    })();
   });
 })();
 </script>
