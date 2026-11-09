@@ -70,9 +70,6 @@ Settings on both carts:
 2. Thank-you redirect: darrenhardy.com/harvest-team-seat-confirmation
 3. Reorder (NOTE tab): Select # of Team Seats above Contact Information; order Team seats, Contact, Billing, VIP seats, Payment, Terms.
 
-## Founders Event main page (/event): duplicate carts (2026-11-09)
-Doc (two tabs): "Spiffy - FE Main Page (Monthly+PIF)" 1koYSF6OpZqrZ9mkAhvLH_iVcRlpMDWKMCeEn_mSvW2w = `pre-print-demo-assets/spiffy-3.1-clean/` (custom-code.html + custom.css). Same code on both carts (it detects -pif in the URL).
-Duplicate these two (both live with VIP + Extra Team Seats + Rearden):
-- Monthly: https://secure.darrenhardy.com/checkout/the-compound-effect-in-business-founders-event
-- Pay in full: https://secure.darrenhardy.com/checkout/the-compound-effect-in-business-founders-event-pif
-Redirects on the copies: https://thecompoundeffect.com/event-confirmation, and when VIP is bought https://thecompoundeffect.com/event-vip-confirmation (the originals point to /pre-release-event-confirmation and /pre-release-event-vip-confirmation). Both new pages are still Webflow drafts until launch.
+## Founders Event main page (/event): ONE cart, Monthly + Pay in Full (2026-11-09)
+Doc (two tabs): "Spiffy - FE Main Page (Monthly+PIF)" 1koYSF6OpZqrZ9mkAhvLH_iVcRlpMDWKMCeEn_mSvW2w = `pre-print-demo-assets/spiffy-event-main/` (custom-code.html + custom.css; CSS identical to spiffy-3.1-clean). VIP/Team box prices follow the selected plan (Spiffy summary.paymentplans empty = pay in full), tested 11/09 by switching plans on the live jumpstart-hc cart and on both Founders carts. Book-credit lines removed.
+Sara: duplicate https://secure.darrenhardy.com/checkout/the-compound-effect-in-business-founders-event and add Pay in Full ($4,995) as a second payment option in the same cart. Redirects: https://thecompoundeffect.com/event-confirmation; VIP bought: https://thecompoundeffect.com/event-vip-confirmation (both still Webflow drafts).
