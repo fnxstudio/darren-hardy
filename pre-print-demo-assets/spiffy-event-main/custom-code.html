@@ -16,8 +16,7 @@ function tcebAfterMount(fn) {
   var css = document.createElement('style');
   css.textContent = '.order-summary-mobile{display:flex!important}' +
     '.coupon-code,.line--discount{display:none!important}' +
-    '.tceb-line .line-item__group_price{white-space:nowrap}' +
-    '.tceb-inc{font-size:.8em;letter-spacing:.08em}';
+    '.tceb-line .line-item__group_price{white-space:nowrap}';
   document.head.appendChild(css);
   function lines() {
     var ck = null;
@@ -27,12 +26,23 @@ function tcebAfterMount(fn) {
     var rearden = (s.line_items || []).some(function (li) {
       return /rearden/i.test((li.pretty_name || '') + ' ' + (li.name || '')) && !li.total;
     });
-    if (rearden) out.push(['REARDEN SPONSORSHIP (\x245,000 value)', '<span class="tceb-inc">INCLUDED</span>']);
+    if (rearden) out.push(['REARDEN SPONSORSHIP (first 500 seats)', '\u2212\x245,000']);
     return out;
+  }
+  function fullPrice(list, on) {
+    if (!on) return;
+    list.querySelectorAll('.line-item__group:not(.tceb-line)').forEach(function (g) {
+      var n = g.querySelector('.line-item__group_name'), p = g.querySelector('.line-item__group_price');
+      if (!n || !p || !/FOUNDERS EVENT\s*$/i.test(n.textContent.trim())) return;
+      for (var t = p.firstChild; t; t = t.nextSibling) {
+        if (t.nodeType === 3 && /4,995/.test(t.nodeValue)) t.nodeValue = t.nodeValue.replace('4,995', '9,995');
+      }
+    });
   }
   function draw() {
     var want = lines(), key = JSON.stringify(want);
     document.querySelectorAll('.order-summary__slide').forEach(function (list) {
+      fullPrice(list, want.length > 0);
       var mine = list.querySelectorAll('.tceb-line');
       if (list.getAttribute('data-tceb') === key && mine.length === want.length &&
           (!mine.length || list.lastElementChild === mine[mine.length - 1])) return;
@@ -119,7 +129,7 @@ function tcebAfterMount(fn) {
   }
   var PRICE = {
     vip: { full: ['Only \x241,495', 'One payment, paid in full'], monthly: ['Only \x24115 today', '+\x24115/mo for 12 months'] },
-    team: { full: ['Only \x243,995/ea', 'One payment, paid in full'], monthly: ['Only \x24308/ea today', '+\x24308/mo each for 12 months'] }
+    team: { full: ['Only \x243,995 each', 'One payment, paid in full'], monthly: ['Only \x24308/ea today', '+\x24308/mo ea for 12 months'] }
   };
   var BOX = {
     vip: {
@@ -148,35 +158,44 @@ function tcebAfterMount(fn) {
   font.href = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap';
   document.head.appendChild(font);
   var css = document.createElement('style');
+  var SILVER = 'linear-gradient(110deg,#9AA1AC 0%,#E9ECF0 22%,#BCC2CB 44%,#F8F9FB 62%,#A3AAB4 100%)';
+  var NAVY = 'linear-gradient(160deg,#1C2C48,#0D1626)';
   css.textContent =
-    '.tceb-box .card{position:relative;overflow:hidden}' +
-    '.tceb-tab{position:absolute;top:0;right:0;z-index:1;padding:12px 16px;background:#e1132e;color:#fff;font-size:17px;font-weight:800;letter-spacing:.08em;line-height:1.2;text-transform:uppercase}' +
-    '.tceb-box .section__inner{padding-top:57px!important}' +
-    '.tceb-content{position:relative;color:#000}' +
-    '.tceb-head{margin:0 0 10px;padding-right:170px;font-family:"Bebas Neue",sans-serif;font-size:30px;font-weight:400;line-height:.95;letter-spacing:.02em;text-transform:uppercase}' +
-    '.tceb-sub{margin:0 0 10px;padding-right:170px;color:#7a7a7a;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}' +
-    '.tceb-label{margin:14px 0 6px;color:#e1132e;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}' +
-    '.tceb-list{margin:0;padding-left:18px;font-size:14px;line-height:1.6}' +
-    '.tceb-more{padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}' +
-    '.tceb-price{position:absolute;top:0;right:0;text-align:right}' +
-    '.tceb-price b{display:block;font-size:16px;font-weight:400;line-height:1.25}' +
-    '.tceb-price small{display:block;margin-top:2px;color:#6e6e6e;font-size:12px}' +
+    '.tceb-box .card{position:relative;overflow:hidden;border-radius:0}' +
+    '.tceb-tab{position:absolute;top:0;right:0;z-index:1;background:' + SILVER + ';color:#0A0C10;line-height:1.2}' +
+    '.tceb-vip .tceb-tab{padding:10px 16px;font-family:"Bebas Neue",sans-serif;font-size:20px;font-weight:400;letter-spacing:.04em}' +
+    '.tceb-team .tceb-tab{padding:12px 18px;font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}' +
+    '.tceb-box .section__inner{padding-top:60px!important}' +
+    '.tceb-content{position:relative;color:#0A0C10}' +
+    '.tceb-head{margin:0 0 10px;padding-right:170px;font-family:"Bebas Neue",sans-serif;font-size:30px;font-weight:400;line-height:1;color:#0A0C10}' +
+    '.tceb-sub{margin:0 0 10px;padding-right:170px;color:#5F646D;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}' +
+    '.tceb-label{margin:16px 0 6px;color:#13264A;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}' +
+    '.tceb-list{margin:0;padding-left:18px;font-size:14px;line-height:1.6;color:#0A0C10}' +
+    '.tceb-more{padding:0;border:0;background:none;color:#0A0C10;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}' +
+    '.tceb-price{position:absolute;top:0;right:0;text-align:right;color:#0A0C10}' +
+    '.tceb-price b{display:block;font-size:14px;font-weight:400;line-height:1.3}' +
+    '.tceb-price small{display:block;margin-top:2px;color:#5F646D;font-size:11px}' +
     '.tceb-video{position:relative;margin-top:12px;padding-top:56.25%;background:#000}' +
     '.tceb-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}' +
     '.tceb-close{position:absolute;top:8px;right:8px;z-index:2;display:flex;align-items:center;gap:6px;padding:6px 10px;border:0;border-radius:2px;background:rgba(0,0,0,.75);color:#fff;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}' +
-    '.tceb-vip .layout-checkboxes1,.tceb-team .tceb-team-row{margin-top:16px;padding:14px 16px;border-radius:2px;background:#f5eedf}' +
-    '.tceb-vip .layout-checkboxes1{padding-top:15px;padding-bottom:15px;margin:16px 10px 20px;max-width:calc(100% - 20px)}' +
+    '.tceb-vip .layout-checkboxes1{margin:16px 10px 20px;max-width:calc(100% - 20px);min-height:74px;padding:15px 18px;display:flex;align-items:center;background:' + NAVY + '}' +
+    '.tceb-team .tceb-team-row{margin-top:16px;padding:18px 20px;background:' + NAVY + ';gap:22px}' +
+    '.tceb-team .tceb-team-label{color:#F4F5F6;font-size:18px;font-weight:700}' +
+    '.tceb-team .tceb-stepper{border-color:#DCDDDF;border-radius:0}' +
+    '.tceb-team .tceb-stepper button{width:56px;height:56px;font-size:24px;color:#0A0C10}' +
+    '.tceb-team .tceb-stepper button:disabled{color:#9A9DA3}' +
+    '.tceb-team .tceb-stepper output{width:60px;font-size:20px;color:#0A0C10;border-color:#DCDDDF}' +
     '.tceb-vip .layout-checkboxes1 .form-group,.tceb-vip .layout-checkboxes1 .custom-control{margin-bottom:0!important}' +
     '.tceb-vip .custom-control{padding-left:0}' +
-    '.tceb-vip .custom-control-label{position:relative;display:flex;align-items:center;min-height:44px;padding-left:58px;font-size:17px;font-weight:700;cursor:pointer}' +
+    '.tceb-vip .custom-control-label{position:relative;display:flex;align-items:center;min-height:44px;padding-left:62px;color:#fff!important;font-size:16px;font-weight:600;cursor:pointer}' +
     '.tceb-vip .custom-control-label::before,.tceb-vip .custom-control-label::after{top:0!important;left:0!important;width:44px!important;height:44px!important;margin-top:0!important}' +
-    '.tceb-vip .custom-control-label::before{border:1px solid #dedede;border-radius:2px;background:#fff;box-shadow:none}' +
-    '.tceb-vip .custom-control-input:checked~.custom-control-label::before{border-color:#e1132e!important;background-color:#e1132e!important}' +
-    '.tceb-vip .custom-control-label::after{background-size:22px}' +
+    '.checkout .tceb-vip .custom-control-label::before{border:1px solid #DCDDDF!important;border-radius:0!important;background:#F4F5F6!important;box-shadow:none!important}' +
+    '.checkout .tceb-vip .custom-control-input:checked~.custom-control-label::before{border-color:#F4F5F6!important;background-color:#F4F5F6!important}' +
+    '.checkout .tceb-vip .custom-control-input:checked~.custom-control-label::after{background-size:22px;filter:invert(1)}' +
     '.tceb-vip .option-price{display:none!important}' +
     '.tceb-hide{display:none!important}' +
     '@media (max-width:600px){.tceb-box .section__inner{padding-top:60px!important}.tceb-head,.tceb-sub{padding-right:0}' +
-    '.tceb-price{position:static;margin:0 0 12px}.tceb-vip .layout-checkboxes1{margin-bottom:13px}}';
+    '.tceb-price{position:static;margin:0 0 12px;text-align:left}.tceb-vip .layout-checkboxes1{margin-bottom:13px}}';
   document.head.appendChild(css);
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
   function priceHTML(kind) {
@@ -239,6 +258,21 @@ function tcebAfterMount(fn) {
         var sec = b.closest('.section');
         var hide = sec && sec.querySelectorAll('[id^="block-"]').length === 1 ? sec : b;
         if (!hide.classList.contains('tceb-hide')) hide.classList.add('tceb-hide');
+      }
+    });
+    document.querySelectorAll('.option-card-select').forEach(function (card) {
+      var t = card.textContent.replace(/\s+/g, ' ').trim(), want = null;
+      if (/^Single Installment/i.test(t)) want = 'Single Installment';
+      else if (/Installments/i.test(t)) want = 'Monthly Installments';
+      if (want && t !== want && !card.querySelector('.tceb-plan')) {
+        card.setAttribute('data-tceb-orig', t);
+        Array.prototype.forEach.call(card.children, function (c) { c.style.display = 'none'; });
+        var l = document.createElement('span'); l.className = 'tceb-plan'; l.textContent = want; card.appendChild(l);
+      }
+    });
+    document.querySelectorAll('.payment-schedule__click').forEach(function (el) {
+      for (var n = el.firstChild; n; n = n.nextSibling) {
+        if (n.nodeType === 3 && /monthly payments/i.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/monthly payments/i, 'monthly installments');
       }
     });
     ['vip', 'team'].forEach(function (kind) {
