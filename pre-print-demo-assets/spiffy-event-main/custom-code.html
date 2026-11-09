@@ -194,6 +194,7 @@ function tcebAfterMount(fn) {
     '.checkout .tceb-vip .custom-control-input:checked~.custom-control-label::after{background-size:22px;filter:invert(1)}' +
     '.tceb-vip .option-price{display:none!important}' +
     '.tceb-hide{display:none!important}' +
+    '.tceb-plans{margin:0 0 18px!important;width:100%}' +
     '@media (max-width:600px){.tceb-box .section__inner{padding-top:60px!important}.tceb-head,.tceb-sub{padding-right:0}' +
     '.tceb-price{position:static;margin:0 0 12px;text-align:left}.tceb-vip .layout-checkboxes1{margin-bottom:13px}}';
   document.head.appendChild(css);
@@ -260,6 +261,9 @@ function tcebAfterMount(fn) {
         if (!hide.classList.contains('tceb-hide')) hide.classList.add('tceb-hide');
       }
     });
+    var plan = document.querySelector('.option-card-select'), top = document.querySelector('.content-container > .order-summary');
+    var psec = plan && plan.closest('.section');
+    if (psec && top && psec.nextElementSibling !== top) { psec.classList.add('tceb-plans'); top.parentNode.insertBefore(psec, top); }
     document.querySelectorAll('.option-card-select').forEach(function (card) {
       var t = card.textContent.replace(/\s+/g, ' ').trim(), want = null;
       if (/^Single Installment/i.test(t)) want = 'Single Installment';
