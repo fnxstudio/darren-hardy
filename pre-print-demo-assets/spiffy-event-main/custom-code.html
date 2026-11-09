@@ -18,22 +18,23 @@ function tcebAfterMount(fn) {
     '.coupon-code,.line--discount{display:none!important}' +
     '.tceb-line .line-item__group_price{white-space:nowrap}';
   document.head.appendChild(css);
+  function endsEvent(t) { return String(t).trim().toUpperCase().slice(-14) === 'FOUNDERS EVENT'; }
   function lines() {
     var ck = null;
-    try { ck = window['\x24nuxt'].$store.state.checkout; } catch (e) {}
+    try { ck = window['\x24nuxt']['\x24store'].state.checkout; } catch (e) {}
     if (!ck || !ck.summary) return [];
     var out = [], s = ck.summary;
     var rearden = (s.line_items || []).some(function (li) {
-      return /FOUNDERS EVENT\s*$/i.test(li.pretty_name || li.name || '') && li.total === 499500;
+      return endsEvent(li.pretty_name || li.name || '') && li.total === 499500;
     });
-    if (rearden) out.push(['REARDEN SPONSORSHIP (first 500 seats)', '\u2212\x245,000']);
+    if (rearden) out.push(['REARDEN SPONSORSHIP (first 500 seats)', String.fromCharCode(8722) + '\x245,000']);
     return out;
   }
   function fullPrice(list, on) {
     if (!on) return;
     list.querySelectorAll('.line-item__group:not(.tceb-line)').forEach(function (g) {
       var n = g.querySelector('.line-item__group_name'), p = g.querySelector('.line-item__group_price');
-      if (!n || !p || !/FOUNDERS EVENT\s*$/i.test(n.textContent.trim())) return;
+      if (!n || !p || !endsEvent(n.textContent)) return;
       for (var t = p.firstChild; t; t = t.nextSibling) {
         if (t.nodeType === 3 && /4,995/.test(t.nodeValue)) t.nodeValue = t.nodeValue.replace('4,995', '9,995');
       }
@@ -125,7 +126,7 @@ function tcebAfterMount(fn) {
 })();
 (function () {
   function pif() {
-    try { var p = window['\x24nuxt'].$store.state.checkout.summary.paymentplans; return !(p && p.length); } catch (e) { return false; }
+    try { var p = window['\x24nuxt']['\x24store'].state.checkout.summary.paymentplans; return !(p && p.length); } catch (e) { return false; }
   }
   var PRICE = {
     vip: { full: ['Only \x241,495', 'One payment, paid in full'], monthly: ['Only \x24115 today', '+\x24115/mo for 12 months'] },
