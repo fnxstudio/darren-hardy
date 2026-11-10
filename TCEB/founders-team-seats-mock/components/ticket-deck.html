@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Founder ticket deck (saved 11/09)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bodoni+Moda:opsz,wght@6..96,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- The fanned deck of four Founder tickets (You 001 on top, then 002, 003, 004) the user liked on 2.8 hero option A, 11/09.
+     Drop .deck-demo's contents anywhere positioned; the deck anchors to its box's top-right corner (transform-origin 100% 0).
+     Phone scale: .38 instead of .56 (see heroes.py, option A). -->
+<style>
+:root{
+  --midnight:#0B1526;--midnight-2:#13264A;--midnight-3:#1B3361;--deep:#070D19;
+  --light:#F7F7F8;--field:#EDEEF0;--ink:#0A0C10;--ink-2:#1C2433;--grey:#5F646D;
+  --bright:#F2F4F8;--soft:#AEBBD0;--mute:#8090AB;--live:#E1132E;
+  --steel:linear-gradient(100deg,#8C939E 0%,#E3E6EA 18%,#C3C8CF 40%,#F5F6F8 60%,#A6ACB5 100%);
+  --btn-steel:linear-gradient(110deg,#9AA1AC 0%,#E9ECF0 22%,#BCC2CB 44%,#F8F9FB 62%,#A3AAB4 100%);
+  --sweep:linear-gradient(100deg,#9AA2AE 0%,#C9CED6 20%,#A3AAB5 38%,#E4E8EE 47%,#FFF 50%,#E4E8EE 53%,#A3AAB5 62%,#C9CED6 80%,#9AA2AE 100%);
+  --display:'Bebas Neue','Bebas Neue Pro',Impact,sans-serif;
+  --serif:'Bodoni Moda','Kepler 3 Display',Georgia,serif;
+  --sans:Inter,-apple-system,'Segoe UI',Arial,sans-serif;
+  --gut:48px;
+}
+.hero-media .fan-stack{position:absolute;z-index:1;top:0;left:0;right:0;width:auto;height:260px;margin:0}
+.fan-stack .tpf{left:50%;right:auto;top:0;bottom:auto;margin-left:-130px;transform-origin:50% 0}
+.fan-stack .tpf4{--t:translateX(-172px) translateY(34px) rotate(-13deg) scale(.6)}
+.fan-stack .tpf3{--t:translateX(-58px) translateY(8px) rotate(-4.5deg) scale(.6)}
+.fan-stack .tpf2{--t:translateX(58px) translateY(8px) rotate(4.5deg) scale(.6)}
+.fan-stack .tpf1{--t:translateX(172px) translateY(34px) rotate(13deg) scale(.6)}
+.tpf{position:absolute;left:0;bottom:0;transform-origin:0 100%;animation:deal 1s cubic-bezier(.2,.8,.2,1) both}
+.tpf4{--t:translateX(0) rotate(-9deg) scale(.66);animation-delay:.05s}
+.tpf3{--t:translateX(118px) rotate(-3deg) scale(.66);animation-delay:.18s}
+.tpf2{--t:translateX(236px) rotate(3deg) scale(.66);animation-delay:.31s}
+.tpf1{--t:translateX(354px) rotate(9deg) scale(.66);animation-delay:.44s}
+.tpf{transform:var(--t)}
+.tpf4 .tF{filter:brightness(.78)}
+.tpf3 .tF{filter:brightness(.86)}
+.tpf2 .tF{filter:brightness(.94)}
+.tF{position:relative;width:260px;display:flex;flex-direction:column;border-radius:2px;color:var(--ink);
+background:repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px,rgba(0,0,0,.025) 1px 3px),linear-gradient(160deg,#9AA1AC 0%,#E9ECF0 24%,#BCC2CB 46%,#F8F9FB 64%,#A3AAB4 100%);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.2),0 0 0 1px rgba(40,48,60,.35),0 40px 70px rgba(0,0,0,.6),0 0 90px rgba(150,172,210,.22)}
+.tF::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:2px;background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.34) 45%,transparent 57%)}
+.tF-top{display:grid;grid-template-columns:1fr 1fr 1fr;padding:11px 14px 8px;text-align:center;border-bottom:1px solid rgba(10,12,16,.18)}
+.tF-top b{font:400 27px/1 var(--display);letter-spacing:.01em}
+.tF-top span{font:700 6.5px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#3A3E46;margin-top:4px}
+.tF-art{position:relative;margin:0 10px;padding:22px 16px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;background:radial-gradient(ellipse 80% 55% at 50% 38%,rgba(110,143,194,.42),transparent 72%),linear-gradient(180deg,#13264A,#0B1526 70%,#070B14);box-shadow:inset 0 0 0 1px rgba(220,226,236,.18),inset 0 12px 30px rgba(0,0,0,.35)}
+.tF-art::before{content:"";position:absolute;inset:6px;border:1px solid rgba(220,226,236,.16);pointer-events:none}
+.tF-adm{font:700 7px/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
+.tF-stack{display:block;width:206px;height:auto;margin:2px 0 4px}
+.tF-body{display:flex;flex-direction:column;align-items:center;padding:14px 14px 12px;text-align:center}
+.tF-fe{font:600 21px/1 var(--serif);letter-spacing:.07em;text-transform:uppercase}
+.tF-date{margin:8px 0 2px;font:800 10.5px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.tF-l2{font:600 8px/1.3 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#3A3E46}
+.tF-row{display:block;margin-top:10px;text-align:center;font:600 7.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:#3A3E46}
+.tF-row b{color:var(--ink);font-size:9px}
+.tF-stub{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 12px 13px;border-top:2px dashed rgba(10,12,16,.35);background:linear-gradient(180deg,rgba(11,21,38,.06),rgba(11,21,38,.12));text-align:center}
+.tF-stub::before,.tF-stub::after{content:"";position:absolute;top:-9px;width:16px;height:16px;border-radius:50%;background:#0E1A30}
+.tF-stub::before{left:-8px}
+.tF-stub::after{right:-8px}
+.tF-stub .ft{font:700 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase}
+.tpf1 .tF-stub .ft{color:var(--midnight-2)}
+.tF-stub .no{font:600 18px/1 var(--serif);letter-spacing:.06em}
+.tF-stub .bar{width:150px;height:16px;background:repeating-linear-gradient(90deg,#0A0C10 0 1px,transparent 1px 3px,#0A0C10 3px 5px,transparent 5px 6px,#0A0C10 6px 7px,transparent 7px 10px);opacity:.75}
+.tpf{animation:none}
+.tpf3{--t:translateX(100px) rotate(-3deg) scale(.6)}
+.tpf4{--t:translateX(0) rotate(-9deg) scale(.6)}
+.tpf2{--t:translateX(200px) rotate(3deg) scale(.6)}
+.tpf1{--t:translateX(300px) rotate(9deg) scale(.6)}
+:root{--gut:32px}
+:root{--gut:24px}
+.hero-media .fan-stack{left:0;right:0;width:auto;height:190px;margin:0}
+.fan-stack .tpf4{--t:translateX(-114px) translateY(24px) rotate(-13deg) scale(.42)}
+.fan-stack .tpf3{--t:translateX(-38px) translateY(6px) rotate(-4.5deg) scale(.42)}
+.fan-stack .tpf2{--t:translateX(38px) translateY(6px) rotate(4.5deg) scale(.42)}
+.fan-stack .tpf1{--t:translateX(114px) translateY(24px) rotate(13deg) scale(.42)}
+.tpf4{--t:translateX(0) rotate(-9deg) scale(.43)}
+.tpf3{--t:translateX(66px) rotate(-3deg) scale(.43)}
+.tpf2{--t:translateX(132px) rotate(3deg) scale(.43)}
+.tpf1{--t:translateX(198px) rotate(9deg) scale(.43)}
+.hA .hero-media .fan-stack.hA-deck{z-index:3;top:auto;bottom:-232px;left:auto;right:-78px;width:230px;height:300px}
+.hA-deck .tpf{left:auto;right:0;margin:0;transform-origin:100% 0}
+.hA-deck .tpf4{--t:translateX(-96px) translateY(28px) rotate(-16deg) scale(.56)}
+.hA-deck .tpf3{--t:translateX(-64px) translateY(12px) rotate(-8deg) scale(.56)}
+.hA-deck .tpf2{--t:translateX(-32px) translateY(3px) rotate(0deg) scale(.56)}
+.hA-deck .tpf1{--t:translateX(0) translateY(0) rotate(8deg) scale(.56)}
+.hA .hero-media .fan-stack.hA-deck{bottom:-196px;right:-4px;width:150px;height:210px}
+.hA-deck .tpf4{--t:translateX(-66px) translateY(20px) rotate(-16deg) scale(.38)}
+.hA-deck .tpf3{--t:translateX(-44px) translateY(8px) rotate(-8deg) scale(.38)}
+.hA-deck .tpf2{--t:translateX(-22px) translateY(2px) rotate(0deg) scale(.38)}
+.hA-deck .tpf1{--t:translateX(0) translateY(0) rotate(8deg) scale(.38)}
+@keyframes deal{from{opacity:0;transform:translateX(0) rotate(-12deg) scale(.66) translateY(40px)}to{opacity:1;transform:var(--t)}}
+@keyframes deal{from{opacity:0;transform:translateX(0) rotate(-12deg) scale(.43) translateY(30px)}to{opacity:1;transform:var(--t)}}
+body{margin:0;background:transparent}
+.deck-demo{position:relative;width:420px;height:440px}
+.deck-demo .fan-stack.hA-deck{position:absolute;top:40px;right:80px;width:230px;height:300px;margin:0}
+</style></head><body>
+<div class="deck-demo">
+<div class="fan fan-stack hA-deck" role="img" aria-label="Four Founder tickets: You, Your #2, Sales, Operations">
+      <div class="tpf tpf4"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>004</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">Operations</span><i class="bar"></i><span class="no">Nº 004</span></div></div></div>
+      <div class="tpf tpf3"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>003</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">Sales</span><i class="bar"></i><span class="no">Nº 003</span></div></div></div>
+      <div class="tpf tpf2"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>002</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">Your #2</span><i class="bar"></i><span class="no">Nº 002</span></div></div></div>
+      <div class="tpf tpf1"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>001</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">You</span><i class="bar"></i><span class="no">Nº 001</span></div></div></div>
+    </div>
+</div>
+<!-- book title stack, shared by the four tickets -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="g-silver" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".38" stop-color="#b9bcc0"/><stop offset=".52" stop-color="#f2f3f4"/><stop offset=".8" stop-color="#83878c"/><stop offset="1" stop-color="#d9dbde"/></linearGradient>
+    <g id="stack" fill="url(#g-silver)" style="font-family:'Bebas Neue','Bebas Neue Pro',Impact,sans-serif">
+      <text x="400" y="100" text-anchor="middle" font-size="72">THE</text>
+      <text x="400" y="254" text-anchor="middle" font-size="191.4">COMPOUND</text>
+      <text x="400" y="410" text-anchor="middle" font-size="191.4">EFFECT</text>
+      <text x="400" y="502" text-anchor="middle" font-size="100.7">IN BUSINESS</text>
+    </g>
+  </defs>
+</svg>
+</body></html>
