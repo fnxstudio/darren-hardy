@@ -24,16 +24,19 @@ VIDEO = re.search(r'(<figure class="hero-vid">.*?</figure>)', hero, re.S).group(
 FAN = hero[hero.index('<div class="fan fan-stack"'):hero.index('<figure class="hero-vid">')].strip()
 assert FAN.endswith('</div>')
 BTN = f'<a class="btn btn-silver" href="{CART}">Invest in My Team <span class="arr">→</span></a>'
-SAVE = '<span class="save-tag">Save <span class="nb">$6,000</span> per&nbsp;seat</span>'
+SAVE = '<span class="save-line"><b>Save <span class="nb">$6,000</span></b><span>per seat</span></span>'
 LEDE = '<p class="lede">Two days live with <span class="nb">Darren Hardy</span>, side by side with&nbsp;you.</p>'
 SUB = '<p class="hero-sub">The leaders who run your business hear the standard from the same voice at the same time, and come back ready to run with&nbsp;it.</p>'
 
 COMMON = '''
-.save-tag{display:inline-block;align-self:center;padding:9px 14px;border-radius:2px;background:var(--steel);color:var(--ink);font:800 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;box-shadow:0 1px 0 rgba(255,255,255,.8) inset}
+.save-line{display:inline-flex;align-items:baseline;gap:10px;align-self:center;white-space:nowrap}
+.save-line b{font:400 34px/1 var(--display);letter-spacing:.01em;background:var(--steel);-webkit-background-clip:text;background-clip:text;color:transparent}
+.save-line>span{font:700 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
 .hero .hero-sub{max-width:520px;margin:0 0 40px;font-size:17px;line-height:1.65;color:var(--soft)}
 .hero .lede{margin-bottom:12px}
 '''
 
+DECKA = FAN.replace('class="fan fan-stack"', 'class="fan fan-stack hA-deck"', 1)
 A = {
  'title': '2.8 Hero A · Split, name-led',
  'html': f'''<!-- 1 · HERO · option A -->
@@ -45,20 +48,33 @@ A = {
       {SUB}
       <div class="hero-acts">{BTN}{SAVE}</div>
     </div>
-    <div class="hero-media">
-      {FAN}
+    <div class="hero-media hA-media">
       {VIDEO}
+      {DECKA}
     </div>
   </div>
 </section>
 ''',
  'css': '''
 .hA .h-hero{font-size:94px}
-.hA .hero-acts{gap:22px}
+.hA .hero-acts{gap:26px}
+.hA .hero-media.hA-media{padding-top:0;margin-bottom:150px}
+.hA .hero-media .fan-stack.hA-deck{z-index:3;top:auto;bottom:-232px;left:auto;right:-78px;width:230px;height:300px}
+.hA-deck .tpf{left:auto;right:0;margin:0;transform-origin:100% 0}
+.hA-deck .tpf4{--t:translateX(-96px) translateY(28px) rotate(-16deg) scale(.56)}
+.hA-deck .tpf3{--t:translateX(-64px) translateY(12px) rotate(-8deg) scale(.56)}
+.hA-deck .tpf2{--t:translateX(-32px) translateY(3px) rotate(0deg) scale(.56)}
+.hA-deck .tpf1{--t:translateX(0) translateY(0) rotate(8deg) scale(.56)}
 @media (max-width:1199px){.hA .h-hero{font-size:clamp(70px,7.6vw,94px)}}
-@media (max-width:767px){.hA .h-hero{font-size:56px}.hA .hero-acts{align-items:center}.hA .save-tag{align-self:center}}
+@media (max-width:767px){.hA .h-hero{font-size:56px}.hA .hero-acts{align-items:center}.hA .hero-media.hA-media{margin-bottom:205px}
+.hA .hero-media .fan-stack.hA-deck{bottom:-196px;right:-4px;width:150px;height:210px}
+.hA-deck .tpf4{--t:translateX(-66px) translateY(20px) rotate(-16deg) scale(.38)}
+.hA-deck .tpf3{--t:translateX(-44px) translateY(8px) rotate(-8deg) scale(.38)}
+.hA-deck .tpf2{--t:translateX(-22px) translateY(2px) rotate(0deg) scale(.38)}
+.hA-deck .tpf1{--t:translateX(0) translateY(0) rotate(8deg) scale(.38)}}
 '''}
 
+FANB = FAN.replace('class="fan fan-stack"', 'class="fan hB-fan"', 1)
 B = {
  'title': '2.8 Hero B · Centered stage',
  'html': f'''<!-- 1 · HERO · option B -->
@@ -70,8 +86,8 @@ B = {
       {SUB}
       <div class="hero-acts">{BTN}{SAVE}</div>
     </div>
-    <div class="hero-media">
-      {FAN}
+    <div class="hero-media hB-media">
+      {FANB}
       {VIDEO}
     </div>
   </div>
@@ -82,22 +98,25 @@ B = {
 .hB .wrap{display:block}
 .hB .h-hero{font-size:104px;margin-bottom:30px}
 .hB .lede,.hB .hero-sub{margin-left:auto;margin-right:auto;max-width:640px}
-.hB .hero-acts{justify-content:center;gap:22px}
-.hB .hero-media{max-width:860px;margin:96px auto 0;padding-top:128px}
-.hB .fan-stack .tpf4{--t:translateX(-300px) translateY(40px) rotate(-12deg) scale(.78)}
-.hB .fan-stack .tpf3{--t:translateX(-100px) translateY(8px) rotate(-4deg) scale(.78)}
-.hB .fan-stack .tpf2{--t:translateX(100px) translateY(8px) rotate(4deg) scale(.78)}
-.hB .fan-stack .tpf1{--t:translateX(300px) translateY(40px) rotate(12deg) scale(.78)}
-.hB .vplay{left:34px;bottom:30px}
-.hB .vdisc{width:88px;height:88px}
-.hB .vtxt b{font-size:48px}
+.hB .hero-acts{justify-content:center;gap:26px}
+.hB .hero-media.hB-media{display:grid;grid-template-columns:400px minmax(0,1fr);gap:48px;align-items:center;max-width:1180px;margin:96px auto 0;padding-top:0}
+.hB .hB-fan{position:relative;height:330px;margin:0;align-self:center}
+.hB-fan .tpf{left:-40px;top:0;bottom:auto;transform-origin:50% 0}
+.hB-fan .tpf4{--t:translateX(0) rotate(-12deg) scale(.6)}
+.hB-fan .tpf3{--t:translateX(70px) rotate(-4deg) scale(.6)}
+.hB-fan .tpf2{--t:translateX(140px) rotate(4deg) scale(.6)}
+.hB-fan .tpf1{--t:translateX(210px) rotate(12deg) scale(.6)}
+.hB .vplay{left:30px;bottom:28px}
 @media (max-width:1199px){.hB .h-hero{font-size:clamp(64px,8.4vw,104px)}}
-@media (max-width:767px){.hB{padding:56px 0 96px}.hB .h-hero{font-size:54px}.hB .hero-media{order:0;margin-top:56px;padding-top:72px}
-.hB .fan-stack .tpf4{--t:translateX(-114px) translateY(24px) rotate(-13deg) scale(.42)}
-.hB .fan-stack .tpf3{--t:translateX(-38px) translateY(6px) rotate(-4.5deg) scale(.42)}
-.hB .fan-stack .tpf2{--t:translateX(38px) translateY(6px) rotate(4.5deg) scale(.42)}
-.hB .fan-stack .tpf1{--t:translateX(114px) translateY(24px) rotate(13deg) scale(.42)}
-.hB .vplay{left:16px;bottom:16px}.hB .vdisc{width:56px;height:56px}.hB .vtxt b{font-size:28px}}
+@media (max-width:991px){.hB .hero-media.hB-media{grid-template-columns:1fr}}
+@media (max-width:767px){.hB{padding:56px 0 96px}.hB .h-hero{font-size:54px}.hB .hero-media.hB-media{gap:20px;margin-top:56px}
+.hB .hB-fan{height:230px;width:300px;margin:0 auto}
+.hB-fan .tpf{left:-60px;top:0}
+.hB-fan .tpf4{--t:translateX(0) rotate(-12deg) scale(.42)}
+.hB-fan .tpf3{--t:translateX(50px) rotate(-4deg) scale(.42)}
+.hB-fan .tpf2{--t:translateX(100px) rotate(4deg) scale(.42)}
+.hB-fan .tpf1{--t:translateX(150px) rotate(12deg) scale(.42)}
+.hB .vplay{left:16px;bottom:16px}}
 '''}
 
 # C: a tight deck of tickets on the video's top-right corner; the front stub carries the saving
