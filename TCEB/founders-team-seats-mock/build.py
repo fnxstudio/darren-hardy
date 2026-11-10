@@ -274,11 +274,11 @@ T28 = 'Bring Your Team | Founders Event Team Seats'
 D28 = 'Bring your leadership team to the Founders Event with Darren Hardy, April 26–27, 2027. Each Team Seat includes a full year inside THE COLLECTIVE.'
 OGT28 = 'Bring your team to the Founders Event'
 OGD28 = 'They’ve heard you. They haven’t heard Darren. Team Seats for April 26–27, 2027.'
-U28 = 'https://thecompoundeffect.com/[SLUG TBD]'
+U28 = 'https://thecompoundeffect.com/champion-team-seats'
 STILL = '<b style="font:inherit;color:#9B1C1C;text-transform:none;letter-spacing:0">Still needed.</b>'
 
 seo28 = seo('2.8', 'Team Seats for Champions', 'For the build · slug from Maggie, then update every URL below', U28,
-            [('no', 'Noindex'), ('tbd', 'Slug TBD')],
+            [('no', 'Noindex')],
             [('Title tag', p(T28) + f'<small class="ok">{len(T28)} / 60 characters</small>'),
              ('Meta description', p(D28) + f'<small class="ok">{len(D28)} / 155 characters</small>'),
              ('H1', '<p>Bring your team.</p><small>The hero headline is the one H1. Section headlines are H2; role cards, beats and steps are H3.</small>'),
@@ -293,7 +293,7 @@ seo28 = seo('2.8', 'Team Seats for Champions', 'For the build · slug from Maggi
             T28, D28, OGT28, OGD28, 'Share image 1200 × 630<br>still needed',
             'None. The page is noindex; the Event schema lives on /event (1.1).',
             ['Every button goes to <code>' + CART + '</code> with the same text, “Invest in My Team”. On phones the nav button shortens to “My Team”.',
-             'Once the slug is set, point the Champion Board’s “Enroll · Team Seat” card (/champion link hub) at this page.',
+             'Point the Champion Board’s “Enroll · Team Seat” card (/champion link hub) at /champion-team-seats.',
              'Build natively on the /event class system (<code>fe-</code>): steel bands, midnight block, silver sweep, Founder ticket. Adobe fonts, never a font link. THE COLLECTIVE is always the logo, never typed: white on dark, midnight on light.',
              'Hero video: Darren Hardy, “TCEBFE_Team Seats” (Vimeo 1236615058, 2:34). Poster first, plays on click; never autoplay on load.',
              'Price copy: $308/mo leads; “$3,995 in a single installment”; plan names Monthly Installments and Single Installment; “$308 today plus 12 monthly installments of $308”.',
@@ -303,9 +303,9 @@ seo28 = seo('2.8', 'Team Seats for Champions', 'For the build · slug from Maggi
 
 T29 = 'Your Team Is In | Founders Event Team Seats'
 D29 = 'Your Team Seats for the Founders Event with Darren Hardy are confirmed. April 26–27, 2027.'
-U29 = 'https://thecompoundeffect.com/[SLUG TBD]-confirmation'
+U29 = 'https://thecompoundeffect.com/champion-team-seats-confirmation'
 seo29 = seo('2.9', 'Team Seat Confirmation', 'For the build · slug ends in “confirmation”, never “thank-you”', U29,
-            [('no', 'Noindex'), ('tbd', 'Slug TBD')],
+            [('no', 'Noindex')],
             [('Title tag', p(T29) + f'<small class="ok">{len(T29)} / 60 characters</small>'),
              ('Meta description', p(D29) + f'<small class="ok">{len(D29)} / 155 characters</small>'),
              ('H1', '<p>Your team is in.</p>'),
@@ -319,7 +319,7 @@ seo29 = seo('2.9', 'Team Seat Confirmation', 'For the build · slug ends in “c
              ('og:type', '<code>website</code>')],
             T29, D29, 'Your team is in', 'Team Seats confirmed for the Founders Event, April 26–27, 2027.', 'Reuses the 2.8<br>share image',
             'None.',
-            ['Set as the thank-you page on the <code>founders-event-team</code> Spiffy cart (Sara).',
+            ['Set as the thank-you page on the <code>founders-event-team</code> Spiffy cart (Sara): https://thecompoundeffect.com/champion-team-seats-confirmation',
              'Step 2 is a visible placeholder: how attendees get named and how each receives event and COLLECTIVE access is not confirmed yet. Do not ship it as is.',
              '“See your Champion Board” → https://thecompoundeffect.com/champion. The sync runs hourly, so the page says the board updates every hour.',
              '“Add another Team Seat” → the same cart.',
