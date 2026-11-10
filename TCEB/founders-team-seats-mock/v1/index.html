@@ -49,6 +49,13 @@ p{margin:0 0 1.1em;text-wrap:pretty}
 .link-quiet{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);text-decoration:underline;text-underline-offset:6px}
 
 /* ---------- nav ---------- */
+.cbar{position:sticky;top:0;z-index:20;background:var(--steel);box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 10px 30px rgba(3,5,10,.35);color:var(--ink)}
+.cbar .wrap{display:flex;align-items:center;gap:18px;height:68px;max-width:1320px}
+.cb-pt{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--midnight);color:#F4F5F6;font:400 20px/1 var(--display);letter-spacing:.02em;box-shadow:0 0 0 3px rgba(255,255,255,.55)}
+.cb-msg{flex:1;margin:0;font:500 15px/1.35 var(--sans);color:var(--ink)}
+.cb-msg b{font-weight:700}
+.cb-msg .sm{display:none}
+.cbar .cb-btn{flex:none;padding:14px 20px;font-size:11px}
 .nav{position:sticky;top:0;z-index:20;background:rgba(10,20,36,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(170,190,220,.1)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px;max-width:1320px}
 .nav-brand{font:600 11px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:#DCDDDF;text-decoration:none}
@@ -65,7 +72,7 @@ p{margin:0 0 1.1em;text-wrap:pretty}
 .is-midnight{background:radial-gradient(ellipse 55% 60% at 80% 30%,rgba(60,96,160,.30),transparent 70%),var(--midnight)}
 .is-light{background:var(--light);color:var(--grey)}
 .is-field{background:var(--field);color:var(--grey)}
-.h-hero{font-size:124px;line-height:.9;color:#fff}
+.h-hero{font-size:112px;line-height:.9;color:#fff}
 .h-section{font-size:80px;line-height:.92}
 .h-statement{font-size:64px;line-height:.95}
 .h-card{font-size:32px;line-height:1}
@@ -239,7 +246,7 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
 
 /* ---------- 992-1199 ---------- */
 @media (max-width:1199px){
-  .h-hero{font-size:clamp(84px,9.6vw,124px)}
+  .h-hero{font-size:clamp(80px,8.6vw,112px)}
   .fan{margin-left:10px}
   .tpf3{--t:translateX(100px) rotate(-3deg) scale(.6)}
   .tpf4{--t:translateX(0) rotate(-9deg) scale(.6)}
@@ -276,6 +283,11 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
   .live{font-size:9.5px;letter-spacing:.16em;white-space:nowrap}
   .nav .lg{display:none}.nav .sm{display:inline}
   .nav .btn{padding:13px 16px;font-size:10px;letter-spacing:.12em}
+  .cbar .wrap{height:auto;min-height:58px;padding-top:9px;padding-bottom:9px;gap:12px}
+  .cb-pt{width:34px;height:34px;font-size:17px}
+  .cb-msg{font-size:13.5px}
+  .cb-msg .lg{display:none}.cb-msg .sm{display:inline}
+  .cbar .cb-btn{display:none}
   .s{padding:104px 0}
   .h-hero{font-size:68px}
   .vplay{left:16px;bottom:16px;gap:14px}
@@ -344,13 +356,11 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
 <body>
 
 <!-- one destination for every button -->
-<header class="nav">
+<header class="cbar">
   <div class="wrap">
-    <a class="nav-brand" href="#top">The Compound Effect <i>In Business</i> · <span class="nb">Founders&nbsp;Event</span></a>
-    <div class="nav-r">
-      <span class="live"><i></i>Live · April 26-27, 2027</span>
-      <a class="btn btn-silver" href="https://secure.darrenhardy.com/checkout/founders-event-team"><span class="lg">Invest in My Team</span><span class="sm">My Team</span> <span class="arr">→</span></a>
-    </div>
+    <span class="cb-pt" aria-hidden="true">+1</span>
+    <p class="cb-msg"><span class="lg"><b>Jordan</b>, every Team Seat adds <b>+1&nbsp;Impact&nbsp;Point</b> to your Champion&nbsp;Board.</span><span class="sm"><b>Jordan</b>, each seat is <b>+1&nbsp;Impact&nbsp;Point</b> on your&nbsp;board.</span></p>
+    <a class="btn btn-midnight cb-btn" href="https://secure.darrenhardy.com/checkout/founders-event-team">Invest in My Team <span class="arr">→</span></a>
   </div>
 </header>
 
@@ -360,8 +370,8 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
 <section class="s hero">
   <div class="wrap">
     <div>
-      <h1 class="h-hero">Bring <span class="sweep">your&nbsp;team.</span></h1>
-      <p class="lede"><b>Raise your whole team to your&nbsp;standard.</b> Two days live with <span class="nb">Darren Hardy</span>, side by side with&nbsp;you.</p>
+      <h1 class="h-hero">Raise your<br>team to <span class="sweep">your standard.</span></h1>
+      <p class="lede">Two days live with <span class="nb">Darren Hardy</span>, side by side with&nbsp;you.</p>
       <div class="hero-save"><span class="save-big">Save <span class="nb">$6,000</span></span><span class="save-t">per<br>seat</span></div>
       <div class="hero-acts">
         <a class="btn btn-silver" href="https://secure.darrenhardy.com/checkout/founders-event-team">Invest in My Team <span class="arr">→</span></a>

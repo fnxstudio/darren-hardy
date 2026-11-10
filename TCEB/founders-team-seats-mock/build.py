@@ -23,8 +23,9 @@ css = re.search(r'<style>(.*?)</style>', idx, re.S).group(1)
 fan = open(os.path.join(V1, 'parts-fan.html')).read()  # 2.8 hero now holds the video; the fan lives on in 2.9
 fan = fan.replace('<p class="fan-note">One seat for you. One for every leader who runs a part of the&nbsp;business.</p>', '')
 stackdefs = re.search(r'(<!-- book title stack.*?</svg>)', idx, re.S).group(1)
-nav = re.search(r'(<header class="nav">.*?</header>)', idx, re.S).group(1)
-nav = re.sub(r'\s*<a class="btn btn-silver".*?</a>', '', nav, flags=re.S)
+nav = re.search(r'(<header class="cbar">.*?</header>)', idx, re.S).group(1)
+nav = re.sub(r'\s*<a class="btn btn-midnight cb-btn".*?</a>', '', nav, flags=re.S)
+nav = re.sub(r'<p class="cb-msg">.*?</p>', '<p class="cb-msg"><span class="lg"><b>Jordan</b>, your new Impact Points are on their way to your Champion&nbsp;Board.</span><span class="sm"><b>Jordan</b>, your points are on their way to your&nbsp;board.</span></p>', nav, flags=re.S)
 foot = re.search(r'(<footer class="foot">.*?</footer>)', idx, re.S).group(1)
 
 CHECK = '<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="10" fill="none" stroke="#C3C8CF" stroke-width="1.4"/><path d="M6.5 11.3l3 3 6-6.6" fill="none" stroke="#F2F4F8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -69,7 +70,7 @@ conf_body = f'''
     <div>
       <span class="ok-line">{CHECK}Team Seats&nbsp;confirmed</span>
       <h1 class="h-hero">Your team <span class="sweep">is&nbsp;in.</span></h1>
-      <p class="lede">They won&rsquo;t hear about it from you on Monday. <b>They&rsquo;ll hear it from <span class="nb">Darren Hardy</span>, right beside you, April 26&ndash;27,&nbsp;2027.</b></p>
+      <p class="lede">They won&rsquo;t hear about it from you on Monday. <b>They&rsquo;ll hear it from <span class="nb">Darren Hardy</span>, right beside you, April&nbsp;26&ndash;27,&nbsp;2027.</b></p>
       <p class="hero-sub">Two full days, live and virtual, from anywhere. Every Team Seat includes a full year inside <img class="coll" src="assets/the-collective-white.webp" width="600" height="104" alt="THE COLLECTIVE">, so what your team starts together keeps&nbsp;compounding.</p>
     </div>
     {fan}
@@ -281,7 +282,7 @@ seo28 = seo('2.8', 'Team Seats for Champions', 'For the build · slug from Maggi
             [('no', 'Noindex')],
             [('Title tag', p(T28) + f'<small class="ok">{len(T28)} / 60 characters</small>'),
              ('Meta description', p(D28) + f'<small class="ok">{len(D28)} / 155 characters</small>'),
-             ('H1', '<p>Bring your team.</p><small>The hero headline is the one H1. Section headlines are H2; role cards, beats and steps are H3.</small>'),
+             ('H1', '<p>Raise your team to your standard.</p><small>The hero headline is the one H1. Section headlines are H2; role cards, beats and steps are H3.</small>'),
              ('Canonical', f'<code>{U28}</code>'),
              ('Robots', '<code>noindex, nofollow</code><small>Champion-only page, reached from the Champion Board. Confirm before launch if it should be public.</small>'),
              ('Sitemap', '<p>No</p>'),
@@ -292,7 +293,7 @@ seo28 = seo('2.8', 'Team Seats for Champions', 'For the build · slug from Maggi
              ('og:type', '<code>website</code>')],
             T28, D28, OGT28, OGD28, 'Share image 1200 × 630<br>still needed',
             'None. The page is noindex; the Event schema lives on /event (1.1).',
-            ['Every button goes to <code>' + CART + '</code> with the same text, “Invest in My Team”. On phones the nav button shortens to “My Team”.',
+            ['No site nav (funnel page). The silver Champion bar on top greets them by first name from the Champion Board link (pass <code>?name=</code>; without it the line starts at “Every Team Seat…”). Every button goes to <code>' + CART + '</code> as “Invest in My Team”; the bar button hides on phones.',
              'Point the Champion Board’s “Enroll · Team Seat” card (/champion link hub) at /champion-team-seats.',
              'Build natively on the /event class system (<code>fe-</code>): steel bands, midnight block, silver sweep, Founder ticket. Adobe fonts, never a font link. THE COLLECTIVE is always the logo, never typed: white on dark, midnight on light.',
              'Hero: Darren Hardy video “TCEBFE_Team Seats” (Vimeo 1236615058, 2:34) with the design system play control (silver disc + “A word from Darren Hardy” + title, as on /event Nº 05); click opens the Video Popup player, never autoplay; the four Founder tickets tucked behind it. No price in the hero: SAVE $6,000 PER SEAT leads, pricing lives in Invest in Team Seats.',
@@ -323,7 +324,7 @@ seo29 = seo('2.9', 'Team Seat Confirmation', 'For the build · slug ends in “c
              'Step 2 is a visible placeholder: how attendees get named and how each receives event and COLLECTIVE access is not confirmed yet. Do not ship it as is.',
              '“See your Champion Board” → https://thecompoundeffect.com/champion. The sync runs hourly, so the page says the board updates every hour.',
              '“Add another Team Seat” → the same cart.',
-             'Slim footer, no nav button. Draft + noindex on staging until approved.'],
+             'Silver Champion bar with the first name, no button. Slim footer. Draft + noindex on staging until approved.'],
             1436)
 
 open(os.path.join(OUT, 'SEO-2-8.dc.html'), 'w').write(seo28)
