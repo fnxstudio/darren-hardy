@@ -105,13 +105,19 @@ p{margin:0 0 1.1em;text-wrap:pretty}
 .hero-vid{margin:0}
 .hv-frame{position:relative;display:block;width:100%;padding:0;border:0;background:#000;cursor:pointer;aspect-ratio:16/9;overflow:hidden;box-shadow:0 0 0 1px rgba(230,236,245,.18),0 30px 80px rgba(0,0,0,.5)}
 .hv-frame img,.hv-frame iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
-.hv-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(11,21,38,.55))}
-.hv-play{position:absolute;left:50%;top:50%;z-index:1;display:grid;place-items:center;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:var(--btn-steel);box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 0 40px rgba(200,214,236,.4),0 14px 32px rgba(0,0,0,.45);transition:transform .25s}
-.hv-play svg{margin-left:4px}
-.hv-frame:hover .hv-play{transform:scale(1.06)}
-.hero-vid figcaption{display:flex;justify-content:space-between;gap:16px;margin-top:14px;font:600 12px/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-.hero-vid figcaption b{color:var(--bright);font-weight:600}
-.hero-vid figcaption b,.hero-vid figcaption span{white-space:nowrap}
+.hv-frame img{transition:transform 1.2s ease}
+.hv-frame:hover img{transform:scale(1.03)}
+.hv-shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(3,5,10,.85),rgba(3,5,10,0) 50%)}
+.vplay{position:absolute;z-index:2;left:26px;bottom:24px;display:flex;align-items:center;gap:20px;text-align:left}
+.vdisc{position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFFFFF,#C3C8CF 55%,#8E949C);box-shadow:0 0 0 10px rgba(255,255,255,.08),0 0 0 11px rgba(255,255,255,.18),0 0 36px rgba(190,205,230,.45);transition:transform .4s ease}
+.vdisc svg{margin-left:3px}
+.vdisc::after{content:"";position:absolute;inset:-20px;border-radius:50%;border:1px solid rgba(255,255,255,.25);animation:ring 2.6s ease-out infinite}
+@keyframes ring{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.25);opacity:0}}
+.hv-frame:hover .vdisc{transform:scale(1.06)}
+.vtxt{display:flex;flex-direction:column;gap:4px}
+.vtxt small{font:700 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--bright)}
+.vtxt b{font-family:var(--display);font-weight:400;font-size:38px;line-height:.95;letter-spacing:.01em;text-transform:uppercase;color:#FFFFFF}
+.hv-frame iframe{z-index:3}
 .fan{position:relative;height:440px;margin-left:40px}
 .tpf{position:absolute;left:0;bottom:0;transform-origin:0 100%;animation:deal 1s cubic-bezier(.2,.8,.2,1) both}
 .tpf4{--t:translateX(0) rotate(-9deg) scale(.66);animation-delay:.05s}
@@ -229,7 +235,7 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
 .rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.tpf{animation:none}.sweep,.btn-silver::after,.live i{animation:none}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.tpf{animation:none}.sweep,.btn-silver::after,.live i,.vdisc::after{animation:none}}
 
 /* ---------- 992-1199 ---------- */
 @media (max-width:1199px){
@@ -249,7 +255,6 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
   .hero .wrap{grid-template-columns:1fr;gap:20px}
   .fan{order:-1;height:330px;margin:0 auto;width:470px}
   .hero-media{order:-1}
-  .hero-vid figcaption{font-size:11px;letter-spacing:.1em}
   .fan-note{display:none}
   .why .wrap{grid-template-columns:1fr;gap:64px}
   .why-l{position:static}
@@ -273,6 +278,12 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
   .nav .btn{padding:13px 16px;font-size:10px;letter-spacing:.12em}
   .s{padding:104px 0}
   .h-hero{font-size:68px}
+  .vplay{left:16px;bottom:16px;gap:14px}
+  .vdisc{width:56px;height:56px;box-shadow:0 0 0 8px rgba(255,255,255,.08),0 0 0 9px rgba(255,255,255,.18),0 0 28px rgba(190,205,230,.45)}
+  .vdisc svg{width:18px;height:18px}
+  .vdisc::after{inset:-16px}
+  .vtxt small{font-size:8.5px;letter-spacing:.18em}
+  .vtxt b{font-size:28px}
   .hero .wrap{grid-template-columns:minmax(0,1fr)}
   .hero-save{gap:12px;margin:28px 0 26px}
   .save-big{font-size:64px}
@@ -350,7 +361,7 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
   <div class="wrap">
     <div>
       <h1 class="h-hero">Bring <span class="sweep">your&nbsp;team.</span></h1>
-      <p class="lede"><b>Let <span class="nb">Darren Hardy</span> reset the bar for your&nbsp;team.</b> Speed. Follow&#8209;through. Resiliency. Performance.</p>
+      <p class="lede"><b>Raise your whole team to your&nbsp;standard.</b> Two days live with <span class="nb">Darren Hardy</span>, side by side with&nbsp;you.</p>
       <div class="hero-save"><span class="save-big">Save <span class="nb">$6,000</span></span><span class="save-t">per<br>seat</span></div>
       <div class="hero-acts">
         <a class="btn btn-silver" href="https://secure.darrenhardy.com/checkout/founders-event-team">Invest in My Team <span class="arr">→</span></a>
@@ -365,13 +376,13 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
       <div class="tpf tpf2"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>002</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">Your #2</span><i class="bar"></i><span class="no">Nº 002</span></div></div></div>
       <div class="tpf tpf1"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>001</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">You</span><i class="bar"></i><span class="no">Nº 001</span></div></div></div>
     </div>
-      <figure class="hero-vid" aria-label="Video: Darren Hardy on bringing your team">
-      <button type="button" class="hv-frame" data-vimeo="1236615058" aria-label="Play the video from Darren Hardy">
-        <img src="assets/dh-team-video-poster.webp" width="960" height="540" alt="Darren Hardy">
-        <span class="hv-play" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5.5v13l10.5-6.5z" fill="#0B1526"/></svg></span>
-      </button>
-      <figcaption><b>Why bring your team</b><span>Darren Hardy · 2:34</span></figcaption>
-    </figure>
+      <figure class="hero-vid">
+        <button type="button" class="hv-frame" data-vimeo="1236615058" aria-label="Play: a word from Darren Hardy on bringing your team, 2 minutes">
+          <img src="assets/dh-team-video-poster.webp" width="960" height="540" alt="Darren Hardy">
+          <i class="hv-shade" aria-hidden="true"></i>
+          <span class="vplay"><i class="vdisc" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l11-6.5z" fill="#0A0C10"/></svg></i><span class="vtxt"><small>A word from <span class="nb">Darren&nbsp;Hardy</span> · 2:34</small><b>Why bring your&nbsp;team</b></span></span>
+        </button>
+      </figure>
     </div>
   </div>
 </section>
@@ -382,7 +393,7 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
     <div class="wrap">
       <div class="quote rv">
         <h2>They&rsquo;ve heard you. <span class="block">They haven&rsquo;t heard&nbsp;Darren.</span></h2>
-        <p>You&rsquo;re not a bad leader. You&rsquo;re just familiar. Your voice has become background noise and your standard has become&nbsp;wallpaper.</p>
+        <p>Every great leader runs into this. Your standard is right. They&rsquo;ve just heard it from you a hundred&nbsp;times.</p>
         <p><b>They follow you. They&rsquo;ll&nbsp;listen&nbsp;to&nbsp;Darren.<br>Bring them and this time it&nbsp;lands.</b></p>
       </div>
     </div>
@@ -394,13 +405,13 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
   <div class="wrap">
     <div class="why-l rv">
       <h2 class="h-section">Level up <span class="block">your&nbsp;team.</span></h2>
-      <p class="lede">You hired good people to take things off your plate. Darren restates the standard and resets the bar so they actually&nbsp;do.</p>
+      <p class="lede">Darren restates your standard in a voice they haven&rsquo;t heard a hundred times. Your team comes back running at the level you&rsquo;ve always seen in&nbsp;them.</p>
     </div>
     <ol class="beats">
-      <li class="beat rv"><span class="beat-n">01</span><h3>Your urgent becomes&nbsp;theirs.</h3><p>The 20-minute task is done before the coffee gets cold. The 9 AM client email gets answered at 9:15, not&nbsp;4&nbsp;PM.</p></li>
-      <li class="beat rv"><span class="beat-n">02</span><h3>Work comes back&nbsp;finished.</h3><p>No more &ldquo;I&rsquo;ll circle back.&rdquo; Problems show up with solutions already researched and proposals show up&nbsp;complete.</p></li>
-      <li class="beat rv"><span class="beat-n">03</span><h3>One bad email stays one bad&nbsp;email.</h3><p>An angry customer doesn&rsquo;t wreck anybody&rsquo;s whole day. Your team takes the hit, fixes it and keeps&nbsp;moving.</p></li>
-      <li class="beat rv"><span class="beat-n">04</span><h3>Excellence stops being a&nbsp;speech.</h3><p>The memo is clean from the first line. You stop double-checking everything and stop redoing their work at 10&nbsp;PM.</p></li>
+      <li class="beat rv"><span class="beat-n">01</span><h3>Urgency they&nbsp;own.</h3><p>Priorities move the day they&rsquo;re set. Clients hear back in minutes, not&nbsp;hours.</p></li>
+      <li class="beat rv"><span class="beat-n">02</span><h3>Ownership that&nbsp;sticks.</h3><p>Responsibility you hand over stays handed over. Problems arrive with solutions and work arrives&nbsp;finished.</p></li>
+      <li class="beat rv"><span class="beat-n">03</span><h3>Steady under&nbsp;pressure.</h3><p>A tough client or a hard week doesn&rsquo;t knock them off course. They steady themselves and keep&nbsp;moving.</p></li>
+      <li class="beat rv"><span class="beat-n">04</span><h3>Excellence as the&nbsp;norm.</h3><p>The standard you&rsquo;ve set becomes the way they work. You step back from the details and lead the&nbsp;company.</p></li>
     </ol>
   </div>
 </section>
@@ -471,8 +482,8 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
 <!-- 7 · CLOSE -->
 <section class="close">
   <div class="wrap rv">
-    <h2>Let Darren be the voice <span class="sweep">they finally&nbsp;hear.</span></h2>
-    <p class="lede">You&rsquo;ve said it a hundred times. Bring your team and get back to what you built this company to do. Lead it, not babysit&nbsp;it.</p>
+    <h2>Your team. <span class="sweep">At your&nbsp;level.</span></h2>
+    <p class="lede">Two days with <span class="nb">Darren Hardy</span>, side by side. Then you get back to what you built this company to do. Lead&nbsp;it.</p>
     <a class="btn btn-silver" href="https://secure.darrenhardy.com/checkout/founders-event-team">Invest in My Team <span class="arr">→</span></a>
   </div>
 </section>
