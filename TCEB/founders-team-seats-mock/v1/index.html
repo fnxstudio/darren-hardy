@@ -91,6 +91,17 @@ p{margin:0 0 1.1em;text-wrap:pretty}
 
 /* the team, as Founder tickets (board 1.1T Team popup) */
 .coll{display:inline-block;height:1.2em;width:auto;vertical-align:-.28em;margin:0 .06em}
+.hero-save{display:flex;align-items:flex-end;gap:16px;margin:40px 0 34px}
+.save-big{font-family:var(--display);font-size:96px;line-height:.82;letter-spacing:.005em;white-space:nowrap;background:var(--steel);-webkit-background-clip:text;background-clip:text;color:transparent}
+.save-t{padding-bottom:6px;font:700 13px/1.25 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+.hero-media{position:relative;padding-top:210px}
+.hero-media .hero-vid{position:relative;z-index:2}
+.hero-media .fan-stack{position:absolute;z-index:1;top:0;left:auto;right:24px;width:300px;height:300px;margin:0}
+.fan-stack .tpf{left:auto;right:0;top:0;bottom:auto;transform-origin:50% 0}
+.fan-stack .tpf4{--t:translateX(-150px) translateY(30px) rotate(-10deg) scale(.6)}
+.fan-stack .tpf3{--t:translateX(-100px) translateY(12px) rotate(-4deg) scale(.6)}
+.fan-stack .tpf2{--t:translateX(-50px) translateY(4px) rotate(2deg) scale(.6)}
+.fan-stack .tpf1{--t:translateX(0) translateY(0) rotate(8deg) scale(.6)}
 .hero-vid{margin:0}
 .hv-frame{position:relative;display:block;width:100%;padding:0;border:0;background:#000;cursor:pointer;aspect-ratio:16/9;overflow:hidden;box-shadow:0 0 0 1px rgba(230,236,245,.18),0 30px 80px rgba(0,0,0,.5)}
 .hv-frame img,.hv-frame iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
@@ -237,7 +248,7 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
   .hero{padding:96px 0 120px}
   .hero .wrap{grid-template-columns:1fr;gap:20px}
   .fan{order:-1;height:330px;margin:0 auto;width:470px}
-  .hero-vid{order:-1}
+  .hero-media{order:-1}
   .hero-vid figcaption{font-size:11px;letter-spacing:.1em}
   .fan-note{display:none}
   .why .wrap{grid-template-columns:1fr;gap:64px}
@@ -262,6 +273,16 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
   .nav .btn{padding:13px 16px;font-size:10px;letter-spacing:.12em}
   .s{padding:104px 0}
   .h-hero{font-size:68px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-save{gap:12px;margin:28px 0 26px}
+  .save-big{font-size:64px}
+  .save-t{font-size:11px;padding-bottom:3px}
+  .hero-media{padding-top:150px}
+  .hero-media .fan-stack{left:auto;right:22px;width:220px;height:210px;margin:0}
+  .fan-stack .tpf4{--t:translateX(-72px) translateY(20px) rotate(-10deg) scale(.42)}
+  .fan-stack .tpf3{--t:translateX(-48px) translateY(8px) rotate(-4deg) scale(.42)}
+  .fan-stack .tpf2{--t:translateX(-24px) translateY(3px) rotate(2deg) scale(.42)}
+  .fan-stack .tpf1{--t:translateX(0) translateY(0) rotate(8deg) scale(.42)}
   .h-section{font-size:48px}
   .h-statement{font-size:44px}
   .lede{font-size:18px}
@@ -329,25 +350,29 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
   <div class="wrap">
     <div>
       <h1 class="h-hero">Bring <span class="sweep">your&nbsp;team.</span></h1>
-      <p class="lede">Don&rsquo;t come back with something to teach your team. <b>Bring them, and they hear it from <span class="nb">Darren Hardy</span> the same day you&nbsp;do.</b></p>
-      <p class="hero-sub">Two full days, live and virtual, from anywhere. Same words. Same reasons. Same time. Then a full year inside <img class="coll" src="assets/the-collective-white.webp" width="600" height="104" alt="THE COLLECTIVE"> to keep it&nbsp;compounding.</p>
-      <div class="hero-offer">
-        <div class="price">$308<small>/mo</small></div>
-        <div class="price-t"><b>Per Team Seat</b>in monthly installments, or&nbsp;$3,995&nbsp;in&nbsp;a&nbsp;single&nbsp;installment</div>
-      </div>
+      <p class="lede"><b>Let <span class="nb">Darren Hardy</span> reset the bar for your&nbsp;team.</b> Speed. Follow&#8209;through. Resiliency. Performance.</p>
+      <div class="hero-save"><span class="save-big">Save <span class="nb">$6,000</span></span><span class="save-t">per<br>seat</span></div>
       <div class="hero-acts">
         <a class="btn btn-silver" href="https://secure.darrenhardy.com/checkout/founders-event-team">Invest in My Team <span class="arr">→</span></a>
         <a class="link-quiet" href="#who">Who should be there?</a>
       </div>
     </div>
 
-    <figure class="hero-vid" aria-label="Video: Darren Hardy on bringing your team">
+    <div class="hero-media">
+      <div class="fan fan-stack" role="img" aria-label="Four Founder tickets: You, Your #2, Sales, Operations">
+      <div class="tpf tpf4"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>004</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">Operations</span><i class="bar"></i><span class="no">Nº 004</span></div></div></div>
+      <div class="tpf tpf3"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>003</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">Sales</span><i class="bar"></i><span class="no">Nº 003</span></div></div></div>
+      <div class="tpf tpf2"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>002</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">Your #2</span><i class="bar"></i><span class="no">Nº 002</span></div></div></div>
+      <div class="tpf tpf1"><div class="tF"><div class="tF-top"><b>02</b><b>01</b><b>001</b><span>Live days</span><span>Row</span><span>Founder Nº</span></div><div class="tF-art"><span class="tF-adm">Admit one · Founder</span><svg class="tF-stack" viewBox="40 36 720 482" aria-hidden="true"><use href="#stack"/></svg></div><div class="tF-body"><span class="tF-fe">Founders Event</span><span class="tF-date">April 26-27, 2027</span><span class="tF-l2">Live · Join from anywhere</span><span class="tF-row">Exclusively with<br><b>Darren Hardy</b></span></div><div class="tF-stub"><span class="ft">You</span><i class="bar"></i><span class="no">Nº 001</span></div></div></div>
+    </div>
+      <figure class="hero-vid" aria-label="Video: Darren Hardy on bringing your team">
       <button type="button" class="hv-frame" data-vimeo="1236615058" aria-label="Play the video from Darren Hardy">
         <img src="assets/dh-team-video-poster.webp" width="960" height="540" alt="Darren Hardy">
         <span class="hv-play" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5.5v13l10.5-6.5z" fill="#0B1526"/></svg></span>
       </button>
       <figcaption><b>Why bring your team</b><span>Darren Hardy · 2:34</span></figcaption>
     </figure>
+    </div>
   </div>
 </section>
 
@@ -357,25 +382,25 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
     <div class="wrap">
       <div class="quote rv">
         <h2>They&rsquo;ve heard you. <span class="block">They haven&rsquo;t heard&nbsp;Darren.</span></h2>
-        <p>It&rsquo;s not that you&rsquo;re wrong. It&rsquo;s that you&rsquo;re familiar. You&rsquo;ve said it a hundred times and they&rsquo;ve learned to wait it&nbsp;out.</p>
-        <p><b>They follow you. They&rsquo;ll listen to <span class="nb">Darren Hardy</span>. Bring them, and this time it&nbsp;lands.</b></p>
+        <p>You&rsquo;re not a bad leader. You&rsquo;re just familiar. Your voice has become background noise and your standard has become&nbsp;wallpaper.</p>
+        <p><b>They follow you. They&rsquo;ll&nbsp;listen&nbsp;to&nbsp;Darren.<br>Bring them and this time it&nbsp;lands.</b></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 3 · LIGHT · why together (Context File 7 + rant section 5) -->
+<!-- 3 · LIGHT · the outcomes (DH rant, 11/09: the problems turned around) -->
 <section class="s is-light why">
   <div class="wrap">
     <div class="why-l rv">
-      <h2 class="h-section">Nothing to sell <span class="block">on&nbsp;Monday.</span></h2>
-      <p class="lede">A system lives in the people who run it every Monday morning. If you&rsquo;re the only one who heard it, you come home with one more idea from the boss. Bring them and they were there when it got&nbsp;designed.</p>
+      <h2 class="h-section">Level up <span class="block">your&nbsp;team.</span></h2>
+      <p class="lede">You hired good people to take things off your plate. Darren restates the standard and resets the bar so they actually&nbsp;do.</p>
     </div>
     <ol class="beats">
-      <li class="beat rv"><span class="beat-n">01</span><h3>They hear it from&nbsp;Darren.</h3><p>Not from you on Monday. Not from your notes. Same words, same reasons, same stories, at the same time you do. Nothing gets lost in translation because there&rsquo;s nothing to&nbsp;translate.</p></li>
-      <li class="beat rv"><span class="beat-n">02</span><h3>Darren says it so you don&rsquo;t&nbsp;have&nbsp;to.</h3><p>The hard truths about how your company really runs come from someone with no stake in the politics. You sit beside your team instead of standing in front of them selling&nbsp;it.</p></li>
-      <li class="beat rv"><span class="beat-n">03</span><h3>With your team. Not on&nbsp;them.</h3><p>They help build it so they own it. By Tuesday night you&rsquo;ve picked your first upgrade, put a date on it and mapped your first 30 days together. Not a plan to start. Already&nbsp;started.</p></li>
-      <li class="beat rv"><span class="beat-n">04</span><h3>It keeps&nbsp;compounding.</h3><p>Every Team Seat includes a full year inside <img class="coll" src="assets/the-collective-midnight.webp" width="600" height="104" alt="THE COLLECTIVE">, starting the day they join. The momentum from those 2 days has somewhere to&nbsp;go.</p></li>
+      <li class="beat rv"><span class="beat-n">01</span><h3>Your urgent becomes&nbsp;theirs.</h3><p>The 20-minute task is done before the coffee gets cold. The 9 AM client email gets answered at 9:15, not&nbsp;4&nbsp;PM.</p></li>
+      <li class="beat rv"><span class="beat-n">02</span><h3>Work comes back&nbsp;finished.</h3><p>No more &ldquo;I&rsquo;ll circle back.&rdquo; Problems show up with solutions already researched and proposals show up&nbsp;complete.</p></li>
+      <li class="beat rv"><span class="beat-n">03</span><h3>One bad email stays one bad&nbsp;email.</h3><p>An angry customer doesn&rsquo;t wreck anybody&rsquo;s whole day. Your team takes the hit, fixes it and keeps&nbsp;moving.</p></li>
+      <li class="beat rv"><span class="beat-n">04</span><h3>Excellence stops being a&nbsp;speech.</h3><p>The memo is clean from the first line. You stop double-checking everything and stop redoing their work at 10&nbsp;PM.</p></li>
     </ol>
   </div>
 </section>
@@ -385,7 +410,7 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
   <div class="wrap">
     <div class="who-head rv">
       <h2 class="h-section">Who should be there <span class="sweep">with&nbsp;you?</span></h2>
-      <p class="lede">Whoever owns a key part of the business. That&rsquo;s the answer to &ldquo;how many&nbsp;seats?&rdquo;</p>
+      <p class="lede">Whoever owns a key part of the business.<br>That&rsquo;s the answer to &ldquo;how&nbsp;many&nbsp;seats?&rdquo;</p>
     </div>
     <div class="roles">
       <article class="role rv"><span class="role-tag">Nº 002</span><h3>Your #2</h3><p>The person who runs it when you&rsquo;re not in the building. They should hear every word you&nbsp;hear.</p></article>
@@ -446,8 +471,8 @@ mask:radial-gradient(circle 16px at 59.2% 0,transparent 98%,#000) top/100% 51% n
 <!-- 7 · CLOSE -->
 <section class="close">
   <div class="wrap rv">
-    <h2>There will only ever be <span class="sweep">one&nbsp;first.</span></h2>
-    <p class="lede">Years from now your team will tell the story of the 2 days your company changed direction. Make sure they can say they were&nbsp;there.</p>
+    <h2>Let Darren be the voice <span class="sweep">they finally&nbsp;hear.</span></h2>
+    <p class="lede">You&rsquo;ve said it a hundred times. Bring your team and get back to what you built this company to do. Lead it, not babysit&nbsp;it.</p>
     <a class="btn btn-silver" href="https://secure.darrenhardy.com/checkout/founders-event-team">Invest in My Team <span class="arr">→</span></a>
   </div>
 </section>

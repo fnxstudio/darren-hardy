@@ -295,7 +295,7 @@ seo28 = seo('2.8', 'Team Seats for Champions', 'For the build · slug from Maggi
             ['Every button goes to <code>' + CART + '</code> with the same text, “Invest in My Team”. On phones the nav button shortens to “My Team”.',
              'Point the Champion Board’s “Enroll · Team Seat” card (/champion link hub) at /champion-team-seats.',
              'Build natively on the /event class system (<code>fe-</code>): steel bands, midnight block, silver sweep, Founder ticket. Adobe fonts, never a font link. THE COLLECTIVE is always the logo, never typed: white on dark, midnight on light.',
-             'Hero video: Darren Hardy, “TCEBFE_Team Seats” (Vimeo 1236615058, 2:34). Poster first, plays on click; never autoplay on load.',
+             'Hero: Darren Hardy video “TCEBFE_Team Seats” (Vimeo 1236615058, 2:34), poster first, plays on click, never autoplay; the four Founder tickets tucked behind it. No price in the hero: SAVE $6,000 PER SEAT leads, pricing lives in Invest in Team Seats.',
              'Price copy: $308/mo leads; “$3,995 in a single installment”; plan names Monthly Installments and Single Installment; “$308 today plus 12 monthly installments of $308”.',
              'Board band: “Every seat gets you closer to earning a seat in Studio with Darren.” No “save” wording.',
              'Slim footer. Draft + noindex on staging until approved.'],
